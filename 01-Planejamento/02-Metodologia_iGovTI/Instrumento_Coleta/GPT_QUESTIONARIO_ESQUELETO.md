@@ -292,6 +292,133 @@ Observacao: para fechar o mapeamento com IDs exatos do instrumento municipal RJ,
 
 ---
 
+## 6.3 Mapeamento completo (esqueleto -> questionarios antigos)
+
+Resposta objetiva: nao. O esqueleto NAO contem todas as questoes dos instrumentos antigos; ele consolida um Core comum e separa temas especificos em modulos. Abaixo esta o mapeamento item-a-item do esqueleto para:
+
+- Municipal (RJ municipios): `docs/referencias/tcerj/municipios/CAS-TI - Questionário de Governança e Gestão de TI.pdf`
+- Estadual (exemplo Executivo/SETIC): `docs/referencias/tcerj/setic/01-Questionário de Governança e Gestão de TI.pdf`
+
+Convencao:
+
+- Quando nao houver questao correspondente no instrumento antigo, marcar como `novo`.
+- Itens de cabecalho (ex.: 1120, 1130, 2100 etc.) sao titulos de secao e nao foram tratados como questoes mapeaveis.
+- Para o questionario estadual multi-poder: o mapeamento "SETIC" aplica-se apenas ao arranjo do Executivo/SETIC; para outros Poderes, os itens `EST-A..` devem ser mapeados ao orgao central equivalente (quando houver).
+
+### CXT - Bloco de caracterizacao
+
+| ID | Esqueleto | Municipal (antigo) | Estadual/SETIC (antigo) |
+|---|---|---:|---:|
+| CXT-01 | Esfera/ente | novo | novo |
+| CXT-02 | Poder/estrutura (Estado) | novo | novo |
+| CXT-03 | Existe orgao central de TIC no Poder? | novo | novo |
+| CXT-04 | Prestacao de TIC (interna/compartilhada/terceirizada) | novo | novo |
+| CXT-05 | Servicos consumidos de plataforma central | novo | novo |
+| CXT-06 | Normativos de TIC aplicaveis (lista) | novo | novo |
+
+### CORE - Mapeamento
+
+| ID | Esqueleto | Municipal (antigo) | Estadual/SETIC (antigo) |
+|---|---|---:|---:|
+| GOV-01 | Modelo de gestao de TI | 1111 | 1111 |
+| GOV-02 | Monitoramento do desempenho de TI | 1121 | 1121 |
+| GOV-03 | Auditoria interna (inclui TI/Seg) | 1122 | 1122 |
+| GOV-04 | Servicos digitais com qualidade | 1131 | 1131 |
+| GOV-05 | Participacao do usuario e melhoria | 1132 | 1132 |
+| GOV-06 | Metas de simplificacao/canais | 1133 | 1133 |
+| PLA-01 | Processo de planejamento de TI | 2111 | 2111 |
+| PLA-02 | Plano de TI vigente | 2112 | 2112 |
+| SVC-01 | Catalogo de servicos | 2121 | 2121 |
+| SVC-02 | Gestao de mudancas | 2122 | 2122 |
+| SVC-03 | Configuracao e ativos | 2123 | 2123 |
+| SVC-04 | Gestao de incidentes (servicos) | 2124 | 2124 |
+| SVC-05 | Nivel de servico/ANS | 2131 | 2131 |
+| RCO-01 | Riscos de TI para processos | 2141 | 2141 |
+| RCO-02 | Continuidade de servicos de TI | 2142 | 2142 |
+| RCO-03 | Riscos organizacionais implantados | 2143 | 2143 |
+| RCO-04 | Riscos criticos geridos | 2144 | 2144 |
+| RCO-05 | Continuidade do negocio | 2145 | 2145 |
+| RCO-06 | Estrutura da gestao de riscos | 2146 | 2146 |
+| RCO-07 | Atividades de segunda linha | 2147 | 2147 |
+| SEG-01 | Politica de seguranca (PSI) | 2151 | 2151 |
+| SEG-02 | Comite/instancia de seguranca | 2152 | 2152 |
+| SEG-03 | Gestor institucional de seguranca | 2153 | 2153 |
+| SEG-04 | Responsavel por resposta a incidentes | novo | 2154 |
+| SEG-05 | Riscos de seguranca | 2161 | 2161 |
+| SEG-06 | Controle de acesso | 2162 | 2162 |
+| SEG-07 | Ativos de informacao | 2163 | 2163 |
+| SEG-08 | Classificacao/tratamento | 2164 | 2164 |
+| SEG-09 | Incidentes de seguranca | 2165 | 2165 |
+| SEG-10 | Seguranca de infraestrutura (inclui nuvem) | 2166 | 2166 |
+| SEG-11 | Treinamento/conscientizacao em seguranca | novo | 2167 |
+| SWP-01 | Processo de software | 2171 | 2171 |
+| SWP-02 | Gestao de projetos de TI | 2181 | 2181 |
+| PES-01 | Perfis (gestao) | 2211 | 2211 |
+| PES-02 | Perfis (tecnicos) | 2212 | 2212 |
+| PES-03 | Dimensionamento de pessoal | 2213 | 2213 |
+| PES-04 | Provimento alinhado a perfis | 2221 | 2221 |
+| PES-05 | Lacunas de competencias (identificar e tratar) | 2231 | 2231 + 2232 |
+| CON-01 | Riscos nas contratacoes | 2311 | 2311 |
+| CON-02 | Contratar/gerir com base em desempenho | 2321 | 2321 |
+| CON-03 | Prorrogacoes (necessidade/vantajosidade) | 2322 | 2322 |
+| CON-04 | Planejamento das contratacoes | 2331 | 2331 |
+| CON-05 | Processo de selecao de fornecedores | 2342 | 2342 |
+| CON-06 | Processo de gestao de contratos | 2343 | 2343 |
+| CON-07 | Transparencia do ciclo de contratacao | 2344 | 2344 |
+
+### MODULO MUNICIPAL (Prefeituras) - Mapeamento
+
+| ID | Esqueleto | Municipal (antigo) | Estadual/SETIC (antigo) |
+|---|---|---:|---:|
+| MUN-01 | Lei 14.129/2021 (recepcao + inducao local) | 1141 + 1142 | - |
+| MUN-02 | Carta de Servicos | 1143 | - |
+| MUN-03 | Processo administrativo eletronico/digital | 1144 | - |
+| MUN-04 | SIAFIC (requisitos minimos de TI) | 1145 | - |
+| MUN-05 | Integracao ao PNCP | 1146 | - |
+| MUN-D01 | Estrutura formal de TI (posicionamento/autonomia) | novo | novo |
+| MUN-D02 | Composicao do time e dependencia de terceiros | novo | novo |
+| MUN-D03 | Capacidade do controle interno (TI/contratos) | novo | novo |
+
+### MODULO ESTADUAL (multi-poder) - Mapeamento (exemplo Executivo/SETIC)
+
+| ID | Esqueleto | Municipal (antigo) | Estadual/SETIC (antigo) |
+|---|---|---:|---:|
+| EST-C01 | Setor de TI e gestor responsavel | - | 1011 |
+| EST-C02 | Conhecimento de normativos de TIC aplicaveis | - | 1021 |
+| EST-C03 | Aderencia a normativos de TIC aplicaveis (por tema) | - | 1022 + 1023 + 1024 |
+| EST-A01 | Comunicacao do orgao central (relevancia) | - | 1031 + 1032 |
+| EST-A02 | Auxilio/orientacao do orgao central | - | 1033 + 1034 |
+| EST-A03 | Boas praticas induzidas ajudam? | - | 1035 |
+| EST-A04 | Avaliacao de qualidade/viabilidade dos normativos | - | 1036 |
+| EST-A05 | Orgao central como integrador + atendimento/canais | - | 1037 + 1038 |
+| EST-A06 | Sites/portais e plataformas compartilhadas | - | 1025 |
+
+---
+
+## 6.4 Questoes dos questionarios antigos que NAO ficaram no esqueleto (removidas)
+
+Notas:
+
+- A lista abaixo considera "questao" como itens numerados com ponto (ex.: 2241.). Titulos de secao (ex.: 1120, 2100) nao foram listados aqui.
+- Essas questoes podem voltar como: (a) perguntas diagnosticas sem peso, (b) perguntas opcionais por arranjo, ou (c) itens de analise qualitativa (sem entrar no indice).
+
+### Removidas do questionario Municipal (RJ municipios)
+
+- 2241. A organizacao realiza formalmente a avaliacao de desempenho individual (nota/conceito) com criterio de metas do plano da unidade.
+- 2251. A organizacao possui em sua estrutura cargos especificos para tecnologia da informacao.
+- 2252. A organizacao possui plano de cargos formalizado contendo cargos especificos de TI.
+- 2351. Nas contratacoes de bens e servicos de TI, a organizacao faz uso de Nota Tecnica do TCE-RJ (economicidade e/ou planejamento das contratacoes).
+
+### Removidas do questionario Estadual (Executivo/SETIC)
+
+- 2113. A organizacao recebeu orientacao e/ou interagiu com o Diretor Geral do SETIC (PRODERJ) durante a elaboracao do PEDTIC vigente.
+- 2233. A organizacao utiliza as acoes de capacitacao ofertadas pelo programa Academia PRODERJ.
+- 2351. Nas contratacoes de bens e servicos de TI, a organizacao faz uso da Nota Tecnica do TCE-RJ acerca do Planejamento das Contratacoes de TI (Nota Tecnica no 06/2023).
+- 2361. As contratacoes de TI estao ocorrendo conforme previsto no PEDTIC e no PAC.
+- 2362. Cite as tres principais dificuldades encontradas na realizacao de contratacoes de TI.
+
+---
+
 ## 7) Produto final esperado (artefatos)
 
 - `Questionario_Core.md` (lista de itens Core com IDs, texto padrao, evidencias e qualificadores)
