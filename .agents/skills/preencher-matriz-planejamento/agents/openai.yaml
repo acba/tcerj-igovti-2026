@@ -1,0 +1,4 @@
+interface:
+  display_name: "Preencher Matriz de Planejamento"
+  short_description: "Matriz de planejamento de auditoria"
+  default_prompt: "Use $preencher-matriz-planejamento para preencher ou revisar uma matriz de planejamento de auditoria."
