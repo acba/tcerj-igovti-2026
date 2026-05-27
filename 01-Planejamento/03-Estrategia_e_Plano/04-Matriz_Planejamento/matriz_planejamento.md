@@ -14,40 +14,37 @@ questao_geral: As práticas de governança e gestão de TIC da organização, à
 questao: Q1. A organização possui estrutura organizacional e mecanismos básicos de governança de TIC formalmente estabelecidos, com atribuições definidas, posicionamento compatível e instância colegiada atuante para dirigir, priorizar e controlar a tecnologia da informação?
 
 subquestoes:
-- A organização normatizou formalmente sua área de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente?
+- A organização possui área, unidade, setor ou função de TIC formalmente instituída?
 - A área de TIC possui atribuições formalmente definidas de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC?
 - O posicionamento organizacional da área de TIC é compatível com suas atribuições e permite atuação adequada no planejamento, na priorização, na gestão de riscos, nas contratações e na tomada de decisão institucional?
 - A alta administração estabeleceu modelo básico de governança e gestão de TIC, com papéis, responsabilidades, objetivos, indicadores ou metas para a TIC?
-- O Comitê de TIC ou instância equivalente está formalmente instituído, por meio de ato normativo vigente?
-- O Comitê de TIC ou instância equivalente atua efetivamente, com reuniões periódicas, atas, registros de deliberação ou encaminhamentos formais?
+- O Comitê de TIC ou instância equivalente está formalmente instituído?
+- O Comitê de TIC ou instância equivalente atua de forma efetiva, com reuniões, registros de deliberação ou encaminhamentos formais?
 
 riscos:
-- R1.1: Devido à falta de priorização estratégica da TIC, poderá não haver normatização da área de TIC, o que poderá levar ao desalinhamento do uso dos recursos de TIC com os objetivos da organização.
-- R1.2: Devido à falta de definição formal de competências, poderá não haver atribuições de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC, o que poderá levar à ausência de responsabilização clara e à atuação reativa da área de TIC.
-- R1.3: Devido ao posicionamento organizacional inadequado da área de TIC, poderá haver baixa capacidade de influência institucional, comprometendo a priorização, a gestão de riscos, as contratações e a tomada de decisão em TIC.
-- R1.4: Devido à ausência de modelo básico de governança e gestão de TIC, poderá haver baixa clareza sobre papéis, responsabilidades, objetivos, indicadores e metas da TIC.
-- R1.5: Devido à inexistência ou fragilidade de ato formal de instituição do Comitê de TIC ou instância equivalente, poderá não haver instância de governança claramente definida para deliberação sobre planejamento, priorização e acompanhamento das ações de TIC.
-- R1.6: Devido à inexistência de reuniões periódicas e registros formais de deliberações do Comitê de TIC, poderá haver atuação meramente formal da instância de governança, com baixa influência sobre decisões relevantes de TIC.
+- R1.1: Devido à ausência de formalização da área de TIC, poderá não haver unidade ou função institucionalmente reconhecida para coordenar o uso da tecnologia da informação, prejudicando a responsabilização e o alinhamento da TIC aos objetivos da organização.
+- R1.2: Devido à ausência de atribuições formais da área de TIC, poderá não haver clareza sobre responsabilidades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC, favorecendo atuação reativa e fragmentada.
+- R1.3: Devido ao posicionamento organizacional inadequado da área de TIC, poderá haver baixa capacidade de influência institucional, comprometendo a participação da TIC em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
+- R1.4: Devido à ausência de modelo básico de governança e gestão de TIC, poderá haver baixa clareza sobre papéis, responsabilidades, objetivos, indicadores, metas e acompanhamento do desempenho da TIC.
+- R1.5: Devido à inexistência de Comitê de TIC ou instância equivalente, poderá não haver instância colegiada para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+- R1.6: Devido à atuação apenas formal do Comitê de TIC ou instância equivalente, poderá não haver deliberação efetiva sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 
 fontes_de_informacao:
-- F1: Área de TIC.
-- F2: Alta administração ou instância responsável pela governança de TIC.
-- F3: Comitê de TIC ou instância equivalente.
-- F4: Documentos organizacionais, organograma, regimento interno, portarias, resoluções e atos equivalentes.
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Declaração de existência de área de TIC formalmente instituída; [F1]
-- IR2: Normativo, organograma, regimento ou instrumento equivalente que formalize a área de TIC; [F1, F4]
-- IR3: Declaração das atribuições formalizadas da área de TIC; [F1]
-- IR4: Normativo, regimento, portaria, manual de competências ou instrumento equivalente que defina as atribuições da área de TIC; [F1, F4]
-- IR5: Declaração do posicionamento organizacional da área de TIC; [F1]
-- IR6: Organograma institucional vigente; [F1, F4]
-- IR7: Declaração sobre modelo de governança e gestão de TIC, papéis, responsabilidades, objetivos, indicadores e metas; [F1, F2]
-- IR8: Documentos que formalizem modelo de governança e gestão de TIC, objetivos, indicadores, metas, papéis e responsabilidades; [F1, F2]
-- IR9: Declaração de existência de Comitê de TIC ou instância equivalente formalmente instituída; [F2, F3]
-- IR10: Ato normativo de instituição do Comitê de TIC ou instância equivalente, com composição, competências e periodicidade; [F2, F3]
-- IR11: Declaração de realização de reuniões periódicas e de registros formais das deliberações do Comitê de TIC; [F3]
-- IR12: Atas, pautas, listas de presença, deliberações, encaminhamentos ou registros equivalentes do Comitê de TIC; [F3]
+- IR1: Resposta sobre formalização e modelo de operação predominante da TIC; [F1, q0101]
+- IR2: Evidência anexada que demonstre existência formal da área, unidade, setor ou função de TIC; [F2, q0101evi]
+- IR3: Resposta sobre posicionamento hierárquico da área de TIC; [F1, q0102]
+- IR4: Evidência anexada que demonstre o posicionamento da área de TIC na estrutura organizacional; [F2, q0102evi]
+- IR5: Resposta sobre atribuições e competências formalizadas da área de TIC; [F1, q0103]
+- IR6: Evidência anexada que demonstre as atribuições formais da área de TIC; [F2, q0103evi]
+- IR7: Resposta sobre modelo de gestão de TIC estabelecido pela alta administração; [F1, q1001]
+- IR8: Resposta sobre monitoramento do desempenho da gestão de TIC; [F1, q1002]
+- IR9: Evidências anexadas sobre modelo de governança, papéis, responsabilidades, objetivos, indicadores, metas ou relatórios de acompanhamento da TIC; [F2, q1001evi, q1002evi]
+- IR10: Resposta sobre existência e atuação do Comitê de TIC ou instância equivalente; [F1, q1001ext[E], q1001ext[F]]
+- IR11: Evidências anexadas sobre ato de instituição, composição, competências, atas, deliberações ou registros de atuação do Comitê de TIC; [F2, q1001evi]
 
 criterios:
 - C1: COBIT 2019, APO01.04 - Definir e implementar as estruturas organizacionais.
@@ -59,69 +56,88 @@ criterios:
 - C7: Acórdão TCE-RJ 44.490/2024-PLEN, no que se refere à governança e gestão de TI em jurisdicionados municipais.
 
 procedimentos:
-- P1: Aplicar questionário para verificar a existência de área de TIC formalmente instituída; [IR1, q0101]
-- P2: Analisar documentação enviada para confirmar a normatização da área de TIC, de acordo com C1 e C5; [IR2]
-- P3: Aplicar questionário para verificar as atribuições formalizadas da área de TIC; [IR3, q0103]
-- P4: Analisar documentação enviada para confirmar se as atribuições abrangem planejamento, coordenação, gestão, execução, monitoramento e controle da TIC, de acordo com C2; [IR4]
-- P5: Aplicar questionário para verificar o posicionamento organizacional da área de TIC; [IR5, q0102]
-- P6: Analisar organograma e documentos correlatos para avaliar a compatibilidade do posicionamento da área de TIC com suas atribuições, de acordo com C3; [IR6]
-- P7: Aplicar questionário para verificar a existência de modelo básico de governança e gestão de TIC; [IR7, q1001, q1002]
-- P8: Analisar documentos de governança, indicadores, metas e relatórios de desempenho para confirmar o direcionamento e o acompanhamento da gestão de TIC, de acordo com C4 e C6; [IR8]
-- P9: Aplicar questionário para verificar a existência de Comitê de TIC ou instância equivalente; [IR9, q1001]
-- P10: Analisar ato normativo de instituição do Comitê de TIC ou instância equivalente, de acordo com C4; [IR10]
-- P11: Aplicar questionário para verificar a atuação do Comitê de TIC e a existência de registros formais de deliberação; [IR11, q1001]
-- P12: Analisar atas, pautas, deliberações e encaminhamentos do Comitê de TIC para verificar atuação efetiva, participação de áreas relevantes e registro de decisões; [IR12]
+- P1: Verificar, por meio da resposta à q0101, se a organização possui área, unidade, setor ou função de TIC formalmente instituída; [IR1]
+- P2: Validar, pela evidência anexada à q0101, a formalização da área, unidade, setor ou função de TIC; [IR2]
+- P3: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas; [IR5]
+- P4: Validar, pela evidência anexada à q0103, se as atribuições abrangem planejamento, coordenação, gestão, execução, monitoramento e controle da TIC; [IR6]
+- P5: Verificar, por meio da resposta à q0102, o posicionamento hierárquico da área de TIC; [IR3]
+- P6: Validar, pela evidência anexada à q0102, a compatibilidade do posicionamento da área de TIC com suas atribuições institucionais; [IR4]
+- P7: Verificar, por meio das respostas às q1001 e q1002, se há modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou monitoramento; [IR7, IR8]
+- P8: Validar, pelas evidências anexadas às q1001 e q1002, a existência e suficiência do modelo básico de governança e gestão de TIC; [IR9]
+- P9: Verificar, por meio da q1001ext[E], se há Comitê de TIC ou instância equivalente formalmente instituído; [IR10]
+- P10: Validar, pela evidência anexada à q1001, a instituição formal do Comitê de TIC ou instância equivalente; [IR11]
+- P11: Verificar, por meio da q1001ext[F], se o Comitê de TIC realiza as atividades previstas em ato constitutivo; [IR10]
+- P12: Validar, pela evidência anexada à q1001, a atuação efetiva do Comitê de TIC ou instância equivalente; [IR11]
+
 
 evidencias:
-- E1: Resposta negativa ou insuficiente no item do questionário que verifica a formalização da área de TIC; [P1]
-- E2: Ausência, desatualização ou insuficiência de normativo que discipline a área de TIC; [P2]
-- E3: Resposta negativa ou insuficiente no item do questionário que verifica as atribuições da área de TIC; [P3]
-- E4: Ausência, desatualização ou insuficiência de documento que defina atribuições de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC; [P4]
-- E5: Resposta que indique posicionamento organizacional inadequado ou inexistente da área de TIC; [P5]
-- E6: Organograma ou documento equivalente que evidencie posicionamento incompatível da área de TIC com suas responsabilidades institucionais; [P6]
-- E7: Resposta negativa ou insuficiente sobre modelo de governança e gestão de TIC, objetivos, indicadores, metas, papéis e responsabilidades; [P7]
-- E8: Ausência, desatualização ou insuficiência de documentos de governança, indicadores, metas ou relatórios de desempenho de TIC; [P8]
-- E9: Resposta negativa ou insuficiente sobre a existência de Comitê de TIC ou instância equivalente; [P9]
-- E10: Ausência, desatualização ou insuficiência de ato normativo de instituição do Comitê de TIC ou instância equivalente; [P10]
-- E11: Resposta negativa ou insuficiente sobre reuniões periódicas e registros formais de deliberação; [P11]
-- E12: Ausência de atas, deliberações, registros de presença, encaminhamentos ou evidências de atuação efetiva do Comitê de TIC; [P12]
+- E1: Resposta negativa ou insuficiente sobre formalização da área, unidade, setor ou função de TIC; [P1]
+- E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que formalize a área, unidade, setor ou função de TIC; [P2]
+- E3: Resposta negativa ou insuficiente sobre atribuições formalizadas da área de TIC; [P3]
+- E4: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que defina atribuições de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC; [P4]
+- E5: Resposta que indique posicionamento inexistente ou incompatível da área de TIC; [P5]
+- E6: Evidência anexada inexistente, incompatível ou insuficiente para demonstrar posicionamento adequado da área de TIC; [P6]
+- E7: Resposta negativa ou insuficiente sobre modelo básico de governança e gestão de TIC; [P7]
+- E8: Ausência, desatualização, incompatibilidade ou insuficiência de evidências de papéis, responsabilidades, objetivos, indicadores, metas ou monitoramento da TIC; [P8]
+- E9: Resposta negativa ou insuficiente sobre existência formal do Comitê de TIC ou instância equivalente; [P9]
+- E10: Ausência, desatualização, incompatibilidade ou insuficiência de evidência de instituição formal do Comitê de TIC ou instância equivalente; [P10]
+- E11: Resposta negativa ou insuficiente sobre atuação efetiva do Comitê de TIC ou instância equivalente; [P11]
+- E12: Ausência, desatualização, incompatibilidade ou insuficiência de evidências de reuniões, atas, deliberações, encaminhamentos ou execução das competências do Comitê de TIC; [P12]
 
 possiveis_achados:
 - A1: Estrutura e governança de TIC insuficientes para dirigir, priorizar e controlar a tecnologia da informação
   situacoes_encontradas:
   - S1.1:
-      descricao: Ausência de normatização da área de TIC da organização.
-      itens_questionario: [q0101]
+      descricao: Ausência de formalização da área, unidade, setor ou função de TIC da organização.
+      itens_questionario: [q0101, q0101evi]
+      regra_de_identificacao:
+      - (q0101 == F)
+      - ou q0101evi são inexistentes, incompatíveis ou insuficientes para comprovar formalização da área, unidade, setor ou função de TIC
       referencias_matriz: [R1.1, P1, E1, P2, E2]
       criterios: [C1, C5, C7]
-      encaminhamento: Recomendar que a organização formalize a área ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, compatível com seu porte e com a criticidade dos serviços prestados.
+      encaminhamento: Recomendar que a organização formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, compatível com seu porte, complexidade e dependência tecnológica.
   - S1.2:
-      descricao: Área de TIC sem atribuições formais de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
-      itens_questionario: [q0103]
+      descricao: Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
+      itens_questionario: [q0103, q0103ext[D], q0103ext[G], q0103evi]
+      regra_de_identificacao:
+      - (q0103ext[G] == Sim) | (q0103ext[D] != Sim)
+      - ou q0103evi são inexistentes, incompatíveis ou insuficientes para comprovar atribuições formais de governança, planejamento ou gestão de tecnologia da informação
       referencias_matriz: [R1.2, P3, E3, P4, E4]
       criterios: [C2, C5, C7]
       encaminhamento: Recomendar que a organização defina formalmente as atribuições da área de TIC, contemplando planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
   - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       itens_questionario: [q0102]
+      regra_de_identificacao:
+      - (q0102 == C) | (q0102 == D) | (q0102 == E)
+      - ou q0102evi são inexistentes, incompatíveis ou insuficientes para comprovar posicionamento adequado da área de TIC
       referencias_matriz: [R1.3, P5, E5, P6, E6]
       criterios: [C3, C4, C7]
       encaminhamento: Recomendar que a organização avalie e ajuste o posicionamento organizacional da área de TIC, de modo a permitir participação adequada em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
   - S1.4:
-      descricao: Ausência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores e metas definidos.
-      itens_questionario: [q1001, q1002]
+      descricao: Ausência ou insuficiência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.
+      itens_questionario: [q1001ext[A], q1001ext[B], q1001ext[C], q1001ext[G], q1001ext[H], q1001ext[I], q1002ext[A], q1002ext[B], q1002ext[C], q1002ext[D], q1001evi, q1002evi]
+      regra_de_identificacao:
+      - (q1001ext[A] != Sim) | (q1001ext[B] != Sim) | (q1001ext[C] != Sim) | (q1001ext[G] != Sim) | (q1001ext[H] != Sim) | (q1002ext[A] != Sim) | (q1002ext[B] != Sim) | (q1002ext[C] != Sim) | (q1002ext[D] != Sim)
+      - ou q1001evi/q1002evi são inexistentes, incompatíveis ou insuficientes para comprovar modelo de governança, papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento
       referencias_matriz: [R1.4, P7, E7, P8, E8]
       criterios: [C4, C6]
       encaminhamento: Recomendar que a alta administração estabeleça modelo básico de governança e gestão de TIC, com papéis, responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico.
   - S1.5:
-      descricao: Ausência de instituição formal do Comitê de TIC ou instância equivalente.
-      itens_questionario: [q1001]
+      descricao: Ausência de Comitê de TIC ou instância equivalente formalmente instituído.
+      itens_questionario: [q1001ext[E], q1001evi]
+      regra_de_identificacao:
+      - (q1001ext[E] != Sim)
+      - ou q1001evi são inexistentes, incompatíveis ou insuficientes para comprovar instituição formal do Comitê de TIC ou instância equivalente
       referencias_matriz: [R1.5, P9, E9, P10, E10]
       criterios: [C4, C5, C7]
-      encaminhamento: Recomendar que a organização institua formalmente Comitê de TIC ou instância equivalente, definindo composição, competências, periodicidade mínima de reuniões e forma de registro das deliberações.
+      encaminhamento: Recomendar que a organização institua formalmente Comitê de TIC ou instância equivalente, definindo composição, competências, periodicidade mínima, forma de registro das deliberações e acompanhamento dos encaminhamentos.
   - S1.6:
-      descricao: Atuação meramente formal do Comitê de TIC ou instância equivalente, sem reuniões periódicas, registros formais ou influência sobre decisões relevantes de TIC.
-      itens_questionario: [q1001, q1002]
+      descricao: Comitê de TIC ou instância equivalente formalmente instituído, mas sem evidência de atuação efetiva.
+      itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
+      regra_de_identificacao:
+      - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
+      - ou q1001evi são inexistentes, incompatíveis ou insuficientes para comprovar reuniões, atas, deliberações, encaminhamentos ou execução das competências do Comitê de TIC
       referencias_matriz: [R1.6, P11, E11, P12, E12]
       criterios: [C4, C6, C7]
       encaminhamento: Recomendar que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, com reuniões periódicas, atas, deliberações, encaminhamentos e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
@@ -142,30 +158,27 @@ subquestoes:
 - O plano de TIC é acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes?
 
 riscos:
-- R2.1: Devido à inexistência de processo formal de planejamento de TIC, poderá não haver critérios objetivos para seleção e priorização de iniciativas, levando à atuação reativa e desalinhada das necessidades institucionais.
-- R2.2: Devido à baixa participação das áreas demandantes no planejamento de TIC, poderão ser priorizadas iniciativas sem aderência suficiente às necessidades das áreas finalísticas e administrativas.
-- R2.3: Devido à inexistência, desatualização ou ausência de aprovação do plano de TIC, poderá não haver direcionamento formal para a gestão, os projetos, o orçamento e as contratações de TIC.
-- R2.4: Devido à insuficiência de conteúdo mínimo no plano de TIC, poderá não haver clareza quanto a objetivos, iniciativas, responsáveis, prazos, metas e indicadores.
-- R2.5: Devido à falta de alinhamento do plano de TIC ao planejamento institucional, poderá haver investimentos e ações de TIC com baixo valor público.
-- R2.6: Devido à ausência de integração entre plano de TIC, orçamento e plano de contratações, poderá haver contratações não planejadas, postergação de iniciativas relevantes ou alocação ineficiente de recursos.
-- R2.7: Devido à ausência de acompanhamento e revisão do plano de TIC, poderão permanecer metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
+- R2.1: Devido à inexistência ou fragilidade do processo formal de planejamento de TIC, poderá haver atuação reativa, sem critérios objetivos de seleção e priorização de iniciativas.
+- R2.2: Devido à inexistência, desatualização ou ausência de aprovação do plano de TIC, poderá não haver direcionamento formal para a gestão, os projetos, o orçamento e as contratações de TIC.
+- R2.3: Devido à insuficiência de conteúdo mínimo do plano de TIC, poderá não haver clareza quanto a objetivos, iniciativas, responsáveis, prazos, metas e indicadores.
+- R2.4: Devido à falta de alinhamento do plano de TIC ao planejamento institucional, poderão ser executadas ações de TIC com baixo valor para a organização.
+- R2.5: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas.
+- R2.6: Devido à ausência de acompanhamento e revisão do plano de TIC, poderão permanecer metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
 
 fontes_de_informacao:
-- F1: Área de TIC.
-- F2: Áreas demandantes de soluções de TIC.
-- F3: Área de planejamento, orçamento ou contratações.
-- F4: Alta administração ou instância competente para aprovação do plano de TIC.
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Declaração de existência de processo formal de planejamento de TIC; [F1]
-- IR2: Norma, procedimento, guia ou instrumento similar que discipline o processo de planejamento de TIC; [F1]
-- IR3: Registros de participação das áreas demandantes no processo de planejamento de TIC; [F1, F2]
-- IR4: Declaração de existência de plano de TIC vigente e aprovado; [F1, F4]
-- IR5: Plano de TIC vigente, ato de aprovação e evidência de publicação, quando aplicável; [F1, F4]
-- IR6: Evidências de conteúdo mínimo do plano de TIC, incluindo objetivos, iniciativas, responsáveis, prazos, metas ou indicadores; [F1, F4]
-- IR7: Evidências de alinhamento do plano de TIC ao planejamento institucional e às diretrizes superiores aplicáveis; [F1, F4]
-- IR8: Evidências de integração do plano de TIC com orçamento e plano de contratações; [F1, F3]
-- IR9: Relatórios, atas, indicadores ou registros de acompanhamento, revisão e atualização do plano de TIC; [F1, F4]
+- IR1: Resposta sobre existência de processo formal de planejamento de TIC; [F1, q2101]
+- IR2: Evidência anexada sobre norma, procedimento, guia ou instrumento equivalente que discipline o processo de planejamento de TIC; [F2, q2101evi]
+- IR3: Resposta sobre participação das áreas demandantes no processo de planejamento de TIC; [F1, q2101ext[A]]
+- IR4: Resposta sobre existência, vigência e aprovação do plano de TIC; [F1, q2102]
+- IR5: Evidência anexada do plano de TIC vigente e respectivo ato de aprovação; [F2, q2102evi]
+- IR6: Resposta e evidência sobre conteúdo mínimo do plano de TIC, incluindo objetivos, iniciativas, responsáveis, prazos, metas ou indicadores; [F1, F2, q2102, q2102evi]
+- IR7: Resposta e evidência sobre alinhamento do plano de TIC ao planejamento institucional; [F1, F2, q2102, q2102evi]
+- IR8: Resposta e evidência sobre integração do plano de TIC com orçamento, plano de contratações, projetos ou contratações de TIC; [F1, F2, q2102, q2802, q2804[B]]
+- IR9: Resposta e evidência sobre acompanhamento, revisão ou atualização do plano de TIC; [F1, F2, q2102, q2102evi]
 
 criterios:
 - C1: COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico.
@@ -176,25 +189,25 @@ criterios:
 - C6: Acórdão TCE-RJ 44.490/2024-PLEN, no que se refere à governança e ao planejamento de TI.
 
 procedimentos:
-- P1: Aplicar questionário para verificar a existência de processo formal de planejamento de TIC; [IR1, q2101]
-- P2: Analisar norma, guia ou instrumento equivalente para verificar formalização do processo, responsabilidades e critérios de priorização, de acordo com C1 e C3; [IR2]
-- P3: Verificar registros de participação das áreas demandantes no processo de planejamento de TIC; [IR3, q2101]
-- P4: Aplicar questionário para verificar a existência de plano de TIC vigente e aprovado; [IR4, q2102]
-- P5: Analisar o plano de TIC vigente e respectivo ato de aprovação, de acordo com C1, C2, C5 e C6; [IR5]
-- P6: Analisar o conteúdo mínimo do plano de TIC, verificando objetivos, iniciativas, responsáveis, prazos, metas ou indicadores; [IR6, q2102]
-- P7: Verificar o alinhamento entre iniciativas de TIC, planejamento institucional e diretrizes superiores aplicáveis; [IR7, q2102]
-- P8: Verificar se o plano de TIC fundamenta orçamento e plano de contratações; [IR8, q2102, q2802, q2804.B]
-- P9: Analisar registros de acompanhamento, revisão e atualização do plano de TIC; [IR9, q2102]
+- P1: Verificar, por meio da resposta à q2101, se a organização executa processo formal de planejamento de TIC; [IR1]
+- P2: Validar, pelas evidências anexadas à q2101, a formalização mínima do processo de planejamento de TIC; [IR2]
+- P3: Verificar, por meio da q2101ext[A], se há participação das áreas demandantes no processo de planejamento de TIC; [IR3]
+- P4: Verificar, por meio da resposta à q2102, se a organização possui plano de TIC vigente e aprovado; [IR4]
+- P5: Validar, pelas evidências anexadas à q2102, a existência, vigência e aprovação do plano de TIC; [IR5]
+- P6: Verificar, por meio da resposta e das evidências da q2102, se o plano contém conteúdo mínimo suficiente para orientar a gestão; [IR6]
+- P7: Verificar, por meio da resposta e das evidências da q2102, se o plano está alinhado ao planejamento institucional; [IR7]
+- P8: Verificar, por meio das respostas e evidências das q2102, q2802 e q2804[B], se o plano de TIC se integra a orçamento, plano de contratações, projetos ou contratações; [IR8]
+- P9: Verificar, por meio da resposta e das evidências da q2102, se há acompanhamento, revisão ou atualização periódica do plano de TIC; [IR9]
 
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre a existência de processo de planejamento de TIC; [P1]
-- E2: Ausência, desatualização ou insuficiência de norma, guia ou instrumento que discipline o processo de planejamento de TIC; [P2]
-- E3: Ausência de registros de participação das áreas demandantes; [P3]
-- E4: Resposta negativa ou insuficiente sobre a existência de plano de TIC vigente e aprovado; [P4]
-- E5: Ausência, desatualização, falta de aprovação ou falta de vigência do plano de TIC; [P5]
+- E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que discipline o processo de planejamento de TIC; [P2]
+- E3: Resposta negativa ou insuficiente sobre participação das áreas demandantes; [P3]
+- E4: Resposta negativa ou insuficiente sobre plano de TIC vigente e aprovado; [P4]
+- E5: Ausência, desatualização, falta de vigência ou falta de aprovação do plano de TIC nas evidências anexadas; [P5]
 - E6: Ausência ou insuficiência de objetivos, iniciativas, responsáveis, prazos, metas ou indicadores no plano de TIC; [P6]
 - E7: Inexistência ou insuficiência de alinhamento entre plano de TIC e planejamento institucional; [P7]
-- E8: Inexistência ou insuficiência de vínculo entre plano de TIC, orçamento e plano de contratações; [P8]
+- E8: Inexistência ou insuficiência de vínculo entre plano de TIC, orçamento, plano de contratações, projetos ou contratações de TIC; [P8]
 - E9: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P9]
 
 possiveis_achados:
@@ -202,44 +215,47 @@ possiveis_achados:
   situacoes_encontradas:
   - S2.1:
       descricao: Inexistência ou fragilidade do processo formal de planejamento de TIC.
-      itens_questionario: [q2101]
-      referencias_matriz: [R2.1, P1, E1, P2, E2]
+      itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[C], q2101ext[D], q2101evi]
+      regra_de_identificacao:
+      - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[C] != Sim) | (q2101ext[D] != Sim)
+      - ou q2101evi são inexistentes, incompatíveis ou insuficientes para comprovar processo formal de planejamento de TIC com participação das áreas demandantes, critérios de priorização e análise de benefícios, custos e riscos
+      referencias_matriz: [R2.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C5, C6]
       encaminhamento: Recomendar que a organização institua processo formal de planejamento de TIC, com etapas, responsáveis, participação das áreas demandantes e critérios mínimos de priorização.
   - S2.2:
-      descricao: Planejamento de TIC elaborado sem participação adequada das áreas demandantes.
-      itens_questionario: [q2101]
-      referencias_matriz: [R2.2, P3, E3]
-      criterios: [C1, C3]
-      encaminhamento: Recomendar que a organização inclua as áreas finalísticas e administrativas no processo de levantamento, validação e priorização das demandas de TIC.
-  - S2.3:
       descricao: Inexistência, desatualização, ausência de vigência ou ausência de aprovação formal do plano de TIC.
-      itens_questionario: [q2102]
-      referencias_matriz: [R2.3, P4, E4, P5, E5]
+      itens_questionario: [q2102, q2102ext[A], q2102evi]
+      regra_de_identificacao:
+      - (q2102ext[A] != Sim)
+      - ou q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar plano de TIC vigente e aprovado
+      referencias_matriz: [R2.2, P4, E4, P5, E5]
       criterios: [C1, C2, C5, C6]
       encaminhamento: Recomendar que a organização elabore, aprove e mantenha vigente plano de TIC compatível com seu porte, suas prioridades institucionais e sua capacidade de execução.
   - S2.4:
-      descricao: Plano de TIC sem conteúdo mínimo suficiente para orientar a gestão, incluindo objetivos, iniciativas, responsáveis, prazos, metas ou indicadores.
-      itens_questionario: [q2102]
-      referencias_matriz: [R2.4, P6, E6]
-      criterios: [C1, C2, C3]
-      encaminhamento: Recomendar que o plano de TIC contenha, no mínimo, objetivos, iniciativas priorizadas, responsáveis, prazos, metas ou indicadores de acompanhamento.
-  - S2.5:
-      descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional e às diretrizes superiores aplicáveis.
-      itens_questionario: [q2102]
-      referencias_matriz: [R2.5, P7, E7]
+      descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
+      itens_questionario: [q2102ext[D], q2102evi]
+      regra_de_identificacao:
+      - (q2102ext[D] != Sim)
+      - ou q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar alinhamento entre plano de TIC e planejamento institucional
+      referencias_matriz: [R2.4, P7, E7]
       criterios: [C1, C2]
       encaminhamento: Recomendar que a organização revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas.
-  - S2.6:
+  - S2.5:
       descricao: Plano de TIC sem integração adequada com orçamento, plano de contratações, projetos ou contratações de TIC.
-      itens_questionario: [q2102, q2802, q2804.B]
-      referencias_matriz: [R2.6, P8, E8]
+      itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
+      regra_de_identificacao:
+      - (q2102ext[C] != Sim) | (q2802ext[C] != Sim) | (q2802ext[D] != Sim) | (q2804[B] != Sim)
+      - ou q2102evi/q2802evi são inexistentes, incompatíveis ou insuficientes para comprovar integração entre plano de TIC, orçamento, plano de contratações e contratações de TIC
+      referencias_matriz: [R2.5, P8, E8]
       criterios: [C3, C4]
       encaminhamento: Recomendar que a organização vincule o plano de TIC à proposta orçamentária, ao plano de contratações e às contratações de TIC executadas, priorizando demandas conforme relevância, risco e capacidade de execução.
-  - S2.7:
+  - S2.6:
       descricao: Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.
-      itens_questionario: [q2102]
-      referencias_matriz: [R2.7, P9, E9]
+      itens_questionario: [q2102ext[E], q2102evi]
+      regra_de_identificacao:
+      - (q2102ext[E] != Sim)
+      - ou q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar acompanhamento, revisão ou atualização do plano de TIC
+      referencias_matriz: [R2.6, P9, E9]
       criterios: [C1, C2, C3]
       encaminhamento: Recomendar que a organização estabeleça rotina de acompanhamento, revisão e atualização do plano de TIC, com registro de execução, pendências, reprogramações e deliberações.
 
@@ -252,42 +268,34 @@ questao: Q3. A organização dispõe de capacidade institucional mínima, em ter
 subquestoes:
 - A organização conhece o quantitativo de profissionais que atuam regularmente em TIC e segurança da informação, por área e tipo de vínculo?
 - A organização definiu o quantitativo necessário de pessoal de TIC e segurança da informação?
-- A organização possui cargos, funções ou perfis profissionais específicos para TIC e segurança da informação?
+- A organização possui cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação?
 - A organização definiu perfis profissionais esperados para gestores e colaboradores de TIC e segurança da informação?
-- A escolha dos gestores de TIC e segurança da informação ocorre segundo perfis profissionais previamente definidos?
-- A organização identifica lacunas de competências dos colaboradores e gestores de TIC e segurança da informação?
-- A organização trata as lacunas de competências identificadas por meio de capacitação, realocação, provimento, contratação de apoio especializado ou outras medidas proporcionais?
-- A organização avalia formalmente o desempenho do pessoal de TIC e segurança da informação?
-- A dependência de terceiros é compatível com a capacidade interna de coordenação, fiscalização, sustentação e retenção de conhecimento?
+- A organização identifica e trata lacunas de competências dos colaboradores e gestores de TIC e segurança da informação?
+- A dependência de terceiros é compatível com a capacidade interna de coordenação, fiscalização e retenção de conhecimento?
+
 
 riscos:
-- R3.1: Devido à ausência de conhecimento sobre a força de trabalho de TIC e segurança da informação, poderá não haver base mínima para dimensionamento, alocação e planejamento da capacidade institucional.
+- R3.1: Devido à ausência de informações estruturadas sobre a força de trabalho de TIC e segurança da informação, poderá não haver base mínima para dimensionamento, alocação e planejamento da capacidade institucional.
 - R3.2: Devido à ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação, poderá haver subdimensionamento ou alocação inadequada da equipe.
-- R3.3: Devido à inexistência de cargos, funções ou perfis específicos de TIC e segurança da informação, poderá haver baixa capacidade de atração, alocação, responsabilização e retenção de profissionais.
+- R3.3: Devido à inexistência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação, poderá haver baixa capacidade de atração, alocação, responsabilização e retenção de profissionais.
 - R3.4: Devido à ausência de perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação, poderá haver designação de pessoas sem competências compatíveis com as responsabilidades exercidas.
 - R3.5: Devido à ausência de identificação e tratamento de lacunas de competências, poderá haver incapacidade de executar práticas mínimas de planejamento, gestão, segurança, contratação, fiscalização e sustentação de TIC.
-- R3.6: Devido à ausência de avaliação formal de desempenho, poderá haver baixa capacidade de acompanhar a contribuição do pessoal de TIC e segurança da informação para o alcance de metas institucionais.
-- R3.7: Devido à dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação e fiscalização, poderá haver perda de conhecimento, baixa governabilidade e risco de descontinuidade dos serviços.
+- R3.6: Devido à dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação e fiscalização, poderá haver perda de conhecimento, baixa governabilidade e risco de descontinuidade dos serviços.
 
 fontes_de_informacao:
-- F1: Área de TIC.
-- F2: Área de gestão de pessoas.
-- F3: Gestor institucional de segurança da informação.
-- F4: Alta administração.
-- F5: Área de contratações e fiscalização contratual.
-- F6: Documentos de estrutura organizacional, quadro de pessoal, cargos, funções, contratos, planos de capacitação e avaliações de desempenho.
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, F2]
-- IR2: Estudos, documentos ou registros que indiquem o quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, F4]
-- IR3: Relação de cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação; [F1, F2]
-- IR4: Documentos que definam perfis profissionais desejados para gestores de TIC e segurança da informação; [F1, F2, F4]
-- IR5: Documentos que definam perfis profissionais desejados para colaboradores da área de TIC e segurança da informação; [F1, F2]
-- IR6: Registros de escolha ou designação de gestores de TIC e segurança da informação segundo perfis definidos; [F1, F2, F4]
-- IR7: Registros de identificação de lacunas de competências dos colaboradores e gestores de TIC e segurança da informação; [F1, F2]
-- IR8: Plano de capacitação, registros de treinamento, realocação, provimento, contratação de apoio especializado ou outras medidas para tratamento das lacunas de competências; [F1, F2]
-- IR9: Registros de avaliação formal de desempenho do pessoal de TIC e segurança da informação; [F1, F2]
-- IR10: Relação de atividades críticas de TIC executadas por terceiros e evidências de capacidade interna de coordenação, fiscalização e retenção de conhecimento; [F1, F5, F6]
+- IR1: Resposta sobre quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, q0105]
+- IR2: Resposta e evidência sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, q2703, q2703evi]
+- IR3: Resposta sobre existência de cargos específicos em TIC e segurança da informação; [F1, q2708]
+- IR4: Resposta e evidência sobre perfis profissionais desejados para gestores de TIC e segurança da informação; [F1, F2, q2701, q2701evi]
+- IR5: Resposta e evidência sobre perfis profissionais desejados para colaboradores de TIC e segurança da informação; [F1, F2, q2702, q2702evi]
+- IR6: Resposta e evidência sobre escolha dos gestores de TIC e segurança da informação segundo perfis previamente definidos; [F1, F2, q2704, q2704evi]
+- IR7: Resposta e evidência sobre identificação de lacunas de competências; [F1, F2, q2705, q2705evi]
+- IR8: Resposta e evidência sobre tratamento das lacunas de competências; [F1, F2, q2706, q2706evi]
+- IR9: Respostas e evidências que permitam avaliar dependência de terceiros e capacidade interna de coordenação e fiscalização; [F1, F2, q0101, q0105, q2703, q2801, q2804]
 
 criterios:
 - C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades.
@@ -299,87 +307,82 @@ criterios:
 - C7: Acórdão TCE-RJ 44.490/2024-PLEN, no que se refere à estrutura e capacidade de governança e gestão de TI em jurisdicionados municipais.
 
 procedimentos:
-- P1: Aplicar questionário para levantar o quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1, q0105]
-- P2: Aplicar questionário e analisar documentação para verificar se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2, q2703]
-- P3: Aplicar questionário para verificar se a organização possui cargos específicos em TIC e segurança da informação; [IR3, q2708]
-- P4: Aplicar questionário para verificar se os perfis profissionais desejados para gestores de TIC e segurança da informação estão definidos; [IR4, q2701]
-- P5: Aplicar questionário para verificar se os perfis profissionais desejados para colaboradores da área de TIC e segurança da informação estão definidos; [IR5, q2702]
-- P6: Aplicar questionário e analisar evidências para verificar se a escolha dos gestores de TIC e segurança da informação ocorre segundo perfis definidos; [IR6, q2704]
-- P7: Aplicar questionário para verificar se lacunas de competências dos colaboradores e gestores de TIC e segurança da informação são identificadas; [IR7, q2705]
-- P8: Aplicar questionário e analisar evidências para verificar se lacunas de competências são tratadas por capacitação, realocação, provimento, contratação de apoio especializado ou medidas equivalentes; [IR8, q2706]
-- P9: Aplicar questionário e analisar registros para verificar avaliação formal de desempenho do pessoal de TIC e segurança da informação; [IR9, q2707]
-- P10: Analisar, por cruzamento, o quantitativo e vínculo da força de trabalho, o modelo de operação da TIC e as atividades críticas terceirizadas, para avaliar dependência excessiva de terceiros e capacidade interna de coordenação e fiscalização; [IR1, IR10, q0101, q0105, q2703, q2801, q2804]
+- P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
+- P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
+- P3: Verificar, por meio da q2708, se há cargos específicos em TIC e segurança da informação; [IR3]
+- P4: Verificar, por meio das q2701 e q2702 e respectivas evidências, se há perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação; [IR4, IR5]
+- P5: Verificar, por meio da q2704 e respectiva evidência, se a escolha dos gestores de TIC e segurança da informação ocorre segundo perfis previamente definidos; [IR6]
+- P6: Verificar, por meio das q2705 e q2706 e respectivas evidências, se lacunas de competências são identificadas e tratadas; [IR7, IR8]
+- P7: Verificar, por cruzamento das respostas e evidências das q0101, q0105, q2703, q2801 e q2804, se há dependência excessiva de terceiros para atividades críticas sem capacidade interna suficiente de coordenação e fiscalização; [IR9]
 
 evidencias:
-- E1: Ausência ou insuficiência de informações sobre quantitativo de profissionais de TIC e segurança da informação, por área e vínculo; [P1]
-- E2: Ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação; [P2]
-- E3: Ausência de cargos, funções ou perfis específicos de TIC e segurança da informação; [P3]
-- E4: Ausência de perfis profissionais definidos para gestores de TIC e segurança da informação; [P4]
-- E5: Ausência de perfis profissionais definidos para colaboradores de TIC e segurança da informação; [P5]
-- E6: Ausência de evidência de que gestores de TIC e segurança da informação foram escolhidos segundo perfis profissionais definidos; [P6]
-- E7: Ausência de identificação de lacunas de competências dos colaboradores e gestores de TIC e segurança da informação; [P7]
-- E8: Ausência de tratamento das lacunas de competências identificadas; [P8]
-- E9: Ausência de avaliação formal de desempenho do pessoal de TIC e segurança da informação; [P9]
-- E10: Evidência de dependência excessiva de terceiros em atividades críticas sem capacidade interna suficiente de coordenação, fiscalização ou retenção de conhecimento; [P10]
+- E1: Quantitativo declarado igual a zero para profissionais de TIC ou segurança da informação, ou incompatível com a estrutura de TIC declarada pela organização; [P1]
+- E2: Resposta negativa ou insuficiente sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P2]
+- E3: Resposta negativa sobre existência de cargos específicos em TIC e segurança da informação; [P3]
+- E4: Resposta negativa ou insuficiente sobre perfis profissionais definidos para gestores ou colaboradores de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P4]
+- E5: Resposta negativa ou insuficiente sobre escolha de gestores segundo perfis profissionais definidos, ou evidência inexistente/incompatível/insuficiente; [P5]
+- E6: Resposta negativa ou insuficiente sobre identificação ou tratamento de lacunas de competências, ou evidência inexistente/incompatível/insuficiente; [P6]
+- E7: Evidência, a partir das respostas e anexos do questionário, de dependência excessiva de terceiros em atividades críticas sem capacidade interna suficiente de coordenação, fiscalização ou retenção de conhecimento; [P7]
 
 possiveis_achados:
 - A3: Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
   situacoes_encontradas:
   - S3.1:
-      descricao: A organização não conhece ou não mantém informações estruturadas sobre o quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo.
-      itens_questionario: [q0105]
+    descricao: Ausência de força de trabalho mínima dedicada à TIC ou à segurança da informação.
+    itens_questionario:
+      - [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios], q0105[SI_efetivos], q0105[SI_comissionados], q0105[SI_terceirizados], q0105[SI_cedidos], q0105[SI_temporarios], q0105[SI_estagiarios]]
+    regra_de_identificacao:
+      - total_SI = q0105[SI_efetivos] + q0105[SI_comissionados] + q0105[SI_terceirizados] + q0105[SI_cedidos] + q0105[SI_temporarios] + q0105[SI_estagiarios]
+      - ((q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]) == 0) & (q0101 != F)
       referencias_matriz: [R3.1, P1, E1]
       criterios: [C1, C2, C6, C7]
-      encaminhamento: Recomendar que a organização mantenha levantamento atualizado da força de trabalho de TIC e segurança da informação, por área de atuação, tipo de vínculo, função desempenhada e dedicação às atividades de TIC/SI.
+    encaminhamento: Recomendar que a organização avalie sua força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação da TIC.
   - S3.2:
       descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
-      itens_questionario: [q2703]
+      itens_questionario: [q2703ext[B], q2703ext[C], q2703evi]
+      regra_de_identificacao:
+      - (q2703ext[B] != Sim) | (q2703ext[C] != Sim)
+      - ou q2703evi são inexistentes, incompatíveis ou insuficientes para comprovar definição documentada do quantitativo necessário de pessoal de TIC/SI com base em critérios ou procedimentos técnicos
       referencias_matriz: [R3.2, P2, E2]
       criterios: [C2, C6, C7]
       encaminhamento: Recomendar que a organização estime o quantitativo mínimo necessário de pessoal de TIC e segurança da informação, considerando porte, complexidade, serviços críticos, sistemas mantidos, contratações e riscos relevantes.
   - S3.3:
       descricao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.
-      itens_questionario: [q2708]
+      itens_questionario: [q2708[A], q2708[B], q2708[C], q2708[D]]
+      regra_de_identificacao:
+      - ((q2708[A] != Sim) & (q2708[B] != Sim)) | ((q2708[C] != Sim) & (q2708[D] != Sim))
       referencias_matriz: [R3.3, P3, E3]
       criterios: [C1, C2, C6]
       encaminhamento: Recomendar que a organização avalie a necessidade de instituir cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação, compatíveis com suas necessidades institucionais.
   - S3.4:
       descricao: Ausência de perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação.
-      itens_questionario: [q2701, q2702]
+      itens_questionario: [q2701ext[A], q2701ext[C], q2702ext[A], q2702ext[C],  q2701evi, q2702evi]
+      regra_de_identificacao:
+      - ((q2701ext[A] != Sim) | (q2701ext[C] != Sim)) | ((q2702ext[A] != Sim) ou (q2702ext[C] != Sim))
+      - ou q2701evi/q2702evi são inexistentes, incompatíveis ou insuficientes para comprovar definição e uso de perfis profissionais
       referencias_matriz: [R3.4, P4, E4, P5, E5]
       criterios: [C1, C2, C6]
-      encaminhamento: Recomendar que a organização defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação, incluindo competências técnicas, gerenciais, de segurança, contratação e fiscalização.
+      encaminhamento: Recomendar que a organização defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação e utilize esses perfis como referência para designação de responsáveis.
   - S3.5:
-      descricao: Gestores de TIC e segurança da informação escolhidos sem referência a perfis profissionais previamente definidos.
-      itens_questionario: [q2704]
-      referencias_matriz: [R3.4, P6, E6]
-      criterios: [C1, C2]
-      encaminhamento: Recomendar que a organização utilize perfis profissionais previamente definidos como critério para designação de gestores de TIC e segurança da informação.
-  - S3.6:
-      descricao: Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas.
-      itens_questionario: [q2705]
-      referencias_matriz: [R3.5, P7, E7]
+      descricao: Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.
+      itens_questionario: [q2705ext[C], q2705ext[D], q2706ext[A], q2706ext[B], q2706ext[C], q2705evi, q2706evi]
+      regra_de_identificacao:
+      - (q2705ext[C] != Sim) | (q2705ext[D] != Sim) | (q2706ext[A] != Sim)
+      - ou q2705evi/q2706evi são inexistentes, incompatíveis ou insuficientes para comprovar identificação e tratamento de lacunas de competências em TIC/SI
+      referencias_matriz: [R3.5, P6, E6]
       criterios: [C2, C6]
-      encaminhamento: Recomendar que a organização realize diagnóstico periódico de lacunas de competências dos colaboradores e gestores de TIC e segurança da informação.
-  - S3.7:
-      descricao: Lacunas de competências identificadas não são tratadas por capacitação, realocação, provimento, apoio especializado ou outras medidas proporcionais.
-      itens_questionario: [q2706]
-      referencias_matriz: [R3.5, P8, E8]
-      criterios: [C2, C3, C6]
-      encaminhamento: Recomendar que a organização estabeleça plano de tratamento das lacunas de competências, contemplando capacitação, realocação, provimento, apoio técnico especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento.
-  - S3.8:
-      descricao: Ausência de avaliação formal de desempenho do pessoal de TIC e segurança da informação.
-      itens_questionario: [q2707]
-      referencias_matriz: [R3.6, P9, E9]
-      criterios: [C2]
-      encaminhamento: Recomendar que a organização implemente avaliação formal de desempenho do pessoal de TIC e segurança da informação, vinculada a metas, responsabilidades e resultados esperados.
-  - S3.9:
-      descricao: Dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação, fiscalização ou retenção de conhecimento.
-      itens_questionario: [q0101, q0105, q2703, q2801, q2804]
-      referencias_matriz: [R3.7, P10, E10]
-      criterios: [C2, C3, C4, C5, C7]
-      encaminhamento: Recomendar que a organização avalie a dependência de terceiros em atividades críticas de TIC e adote medidas para garantir capacidade interna mínima de coordenação, fiscalização, tomada de decisão e retenção de conhecimento.
-
+      encaminhamento: Recomendar que a organização realize diagnóstico periódico de lacunas de competências e estabeleça plano de tratamento, contemplando capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento.
+  - S3.6:
+    descricao: Modelo de operação de TIC predominantemente terceirizado ou externo, sem capacidade interna mínima declarada para coordenação, planejamento, aprovação técnica ou fiscalização das atividades críticas de TIC.
+    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_terceirizados], q2703ext[B], q2703ext[C], q2801ext[E], q2801ext[F], q2804[A], q2804[C], q2703evi, q2801evi, q2804eviA]
+    regra_de_identificacao:
+      - (((q0101 == B) | (q0101 == C)) & (((q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]) == 0) | (((q2703ext[B] != Sim) | (q2703ext[C] != Sim)) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim))) | ((q2804[A] != Sim) | (q2804[C] != Sim)))) | ((q0105[TI_terceirizados] > (q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios])) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2804[A] != Sim) | (q2804[C] != Sim)))
+      - ou q2703evi são inexistentes, incompatíveis ou insuficientes para comprovar definição documentada do quantitativo necessário de pessoal de TIC/SI quando q2703ext[B] ou q2703ext[C] estiverem assinalados
+      - ou q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar processo e artefatos de gestão e fiscalização contratual quando q2801ext[E] ou q2801ext[F] estiverem assinalados
+      - ou q2804eviA é inexistente, incompatível ou insuficiente para comprovar aprovação técnica da área de TIC quando q2804[A] estiver assinalado como Sim
+    referencias_matriz: [R3.6, P7, E7]
+    criterios: [C2, C3, C4, C5, C7]
+    encaminhamento: Recomendar que a organização avalie seu modelo de operação de TIC e adote medidas para assegurar capacidade interna mínima de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.
 ---
 
 ## Questão 04 - Gestão de Serviços de TIC
@@ -388,43 +391,37 @@ questao: Q4. A organização adota práticas mínimas de gestão de serviços de
 
 subquestoes:
 - A organização possui catálogo de serviços de TIC formalmente instituído, atualizado e acessível aos usuários e às áreas demandantes?
-- O catálogo de serviços de TIC contém descrição dos serviços, público usuário, responsáveis, canais de atendimento, prazos, metas ou condições de prestação?
-- Existem Acordos de Níveis de Serviço formalmente definidos para os principais serviços de TIC?
-- A área de TIC monitora o cumprimento dos níveis de serviço estabelecidos nos ANS?
-- A organização mantém inventário atualizado dos ativos de TIC, abrangendo hardware, software, licenças, sistemas, serviços em nuvem e componentes de infraestrutura?
-- Há processo formal de gestão de configuração, com definição e atualização de itens de configuração relevantes para os serviços de TIC?
-- A organização identifica os ativos, componentes ou serviços de TIC que sustentam serviços críticos?
-- A organização possui processo formal de gestão de incidentes de TIC, com papéis, responsabilidades, priorização e fluxos claramente definidos?
-- Os incidentes de TIC são registrados em ferramenta, sistema ou base apropriada, garantindo rastreabilidade, histórico, priorização e análise posterior?
+- O catálogo de serviços de TIC contém informações mínimas sobre os serviços efetivamente prestados?
+- Existem Acordos de Níveis de Serviço ou metas mínimas formalmente definidas e monitoradas para os principais serviços de TIC?
+- A organização mantém inventário atualizado dos ativos de TIC?
+- Há processo formal de gestão de configuração, com identificação de itens de configuração relevantes para os serviços de TIC?
+- A organização possui processo formal de gestão de incidentes de TIC?
+- Os incidentes de TIC são registrados de forma sistemática, com rastreabilidade e histórico?
 
 riscos:
 - R4.1: Devido à inexistência ou desatualização do catálogo de serviços de TIC, poderá não haver definição clara e padronizada dos serviços prestados, levando à prestação reativa e pouco transparente de serviços de TIC.
-- R4.2: Devido à inexistência de ANS formalmente definidos ou monitorados, poderá não haver parâmetros objetivos de desempenho e qualidade dos serviços de TIC, dificultando a avaliação e a cobrança de resultados.
-- R4.3: Devido à inexistência ou fragilidade do inventário de ativos de TIC, poderá não haver controle adequado dos recursos tecnológicos disponíveis, prejudicando decisões técnicas, segurança, economicidade e continuidade.
-- R4.4: Devido à ausência de processo formal de gestão de configuração, poderá não haver identificação e controle dos itens de configuração críticos aos serviços de TIC, dificultando a análise de impacto de incidentes e mudanças.
-- R4.5: Devido à inexistência de processo formal de gestão de incidentes de TIC, poderá não haver tratamento padronizado e tempestivo dos incidentes, prejudicando a continuidade dos serviços.
-- R4.6: Devido à ausência de registro sistemático dos incidentes de TIC, poderá não haver rastreabilidade e histórico das ocorrências, favorecendo reincidência de falhas não analisadas.
+- R4.2: Devido à inexistência de níveis de serviço formalmente definidos ou monitorados, poderá não haver parâmetros objetivos de desempenho e qualidade dos serviços de TIC.
+- R4.3: Devido à inexistência ou fragilidade do inventário de ativos e da gestão de configuração, poderá não haver controle adequado dos recursos tecnológicos e suas relações com os serviços prestados.
+- R4.4: Devido à inexistência ou fragilidade do processo de gestão de incidentes de TIC, poderá não haver tratamento padronizado, tempestivo e rastreável dos incidentes.
 
 fontes_de_informacao:
-- F1: Área de TIC.
-- F2: Usuários ou áreas demandantes de serviços de TIC.
-- F3: Ferramentas, sistemas ou bases de atendimento, inventário, configuração e incidentes.
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Declaração de existência e atualização de catálogo de serviços de TIC; [F1]
-- IR2: Catálogo de serviços de TIC vigente, com descrição, público usuário, responsáveis, canais, prazos, metas ou condições de prestação; [F1]
-- IR3: Declaração de existência de ANS formalmente definidos; [F1]
-- IR4: ANS, metas de nível de serviço e registros de monitoramento; [F1, F2]
-- IR5: Declaração de existência e atualização de inventário de ativos de TIC; [F1]
-- IR6: Inventário de ativos de TIC, abrangendo hardware, software, licenças, sistemas, serviços em nuvem e infraestrutura; [F1, F3]
-- IR7: Declaração de existência de processo formal de gestão de configuração; [F1]
-- IR8: Norma, procedimento, CMDB ou base equivalente de gestão de configuração; [F1, F3]
-- IR9: Declaração de identificação dos ativos e componentes que sustentam serviços críticos; [F1]
-- IR10: Relação de serviços críticos e respectivos ativos, sistemas, componentes, dependências ou itens de configuração; [F1, F3]
-- IR11: Declaração de existência de processo formal de gestão de incidentes de TIC; [F1]
-- IR12: Norma, procedimento ou fluxo formal de gestão de incidentes de TIC; [F1]
-- IR13: Declaração de existência de registro sistemático dos incidentes de TIC; [F1]
-- IR14: Registros de incidentes, chamados, tickets, relatórios de atendimento, base de conhecimento ou sistema equivalente; [F1, F3]
+- IR1: Resposta sobre existência, atualização e disponibilidade do catálogo de serviços de TIC; [F1, q2201]
+- IR2: Evidência anexada contendo catálogo de serviços de TIC; [F2, q2201evi]
+- IR3: Resposta sobre existência de ANS ou metas mínimas de nível de serviço; [F1, q2201ext[D]]
+- IR4: Resposta sobre monitoramento de ANS ou metas mínimas; [F1, q2201ext[E]]
+- IR5: Evidência anexada contendo ANS, metas ou registros de monitoramento; [F2, q2201evi]
+- IR6: Resposta sobre existência de inventário de ativos de TIC; [F1, q2203, q2501, q2504]
+- IR7: Evidência anexada contendo inventário de ativos de TIC; [F2, q2203evi, q2501evi, q2504evi]
+- IR8: Resposta sobre existência de processo formal de gestão de configuração; [F1, q2203]
+- IR9: Evidência anexada contendo norma, procedimento, CMDB ou base equivalente de gestão de configuração; [F2, q2203evi]
+- IR10: Resposta sobre existência de processo formal de gestão de incidentes de TIC; [F1, q2204]
+- IR11: Evidência anexada contendo norma, procedimento ou fluxo de gestão de incidentes de TIC; [F2, q2204evi]
+- IR12: Resposta sobre registro sistemático dos incidentes de TIC; [F1, q2204]
+- IR13: Evidência anexada contendo registros de incidentes, chamados, tickets, relatórios de atendimento ou sistema equivalente; [F2, q2204evi]
 
 criterios:
 - C1: ITIL 4, Gerenciamento do catálogo de serviços.
@@ -437,98 +434,81 @@ criterios:
 - C8: COBIT 2019, DSS02 - Requisições de serviço e incidentes gerenciados.
 
 procedimentos:
-- P1: Aplicar questionário para verificar a existência e atualização de catálogo de serviços de TIC; [IR1, q2201]
-- P2: Analisar catálogo de serviços de TIC para verificar atualização, acessibilidade e conteúdo mínimo, de acordo com C1 e C2; [IR2]
-- P3: Aplicar questionário para verificar a existência de ANS formalmente definidos e monitorados; [IR3, q2201]
-- P4: Analisar ANS e registros de monitoramento para verificar metas, acompanhamento e atualização, de acordo com C2 e C3; [IR4]
-- P5: Aplicar questionário para verificar a existência de inventário atualizado de ativos de TIC; [IR5, q2203, q2501, q2504]
-- P6: Analisar inventário de ativos de TIC e verificar abrangência mínima de hardware, software, licenças, sistemas, serviços em nuvem e componentes de infraestrutura, de acordo com C4; [IR6]
-- P7: Aplicar questionário para verificar a existência de processo formal de gestão de configuração; [IR7, q2203]
-- P8: Analisar norma, procedimento, CMDB ou base equivalente de gestão de configuração, de acordo com C5 e C6; [IR8]
-- P9: Aplicar questionário e analisar documentação para verificar se a organização identifica ativos, sistemas e componentes que sustentam serviços críticos; [IR9, IR10, q2203, q2303]
-- P10: Aplicar questionário para verificar a existência de processo formal de gestão de incidentes de TIC; [IR11, q2204]
-- P11: Analisar norma, procedimento ou fluxo de gestão de incidentes para verificar papéis, responsabilidades, priorização, escalamento e tratamento, de acordo com C7 e C8; [IR12]
-- P12: Aplicar questionário para verificar o registro sistemático de incidentes de TIC; [IR13, q2204]
-- P13: Analisar amostra de registros de incidentes, chamados ou tickets para verificar rastreabilidade, histórico, priorização e análise posterior, de acordo com C7 e C8; [IR14]
+- P1: Verificar, por meio da resposta à q2201, a existência, atualização e disponibilidade do catálogo de serviços de TIC; [IR1]
+- P2: Validar, pela evidência anexada à q2201, se o catálogo contém informações mínimas sobre os serviços prestados; [IR2]
+- P3: Verificar, por meio da q2201ext[D] e da q2201ext[E], a existência e monitoramento de ANS ou metas mínimas de nível de serviço; [IR3, IR4]
+- P4: Validar, pela evidência anexada à q2201, a existência de ANS, metas ou registros de monitoramento; [IR5]
+- P5: Verificar, por meio das respostas às q2203, q2501 e q2504, a existência de inventário de ativos de TIC; [IR6]
+- P6: Validar, pelas evidências anexadas às q2203, q2501 e q2504, a existência e suficiência do inventário de ativos de TIC; [IR7]
+- P7: Verificar, por meio da resposta à q2203, a existência de processo formal de gestão de configuração; [IR8]
+- P8: Validar, pela evidência anexada à q2203, a existência de procedimento, base ou mecanismo equivalente de gestão de configuração; [IR9]
+- P9: Verificar, por meio da resposta à q2204, a existência de processo formal de gestão de incidentes de TIC; [IR10]
+- P10: Validar, pela evidência anexada à q2204, a existência de procedimento ou fluxo formal de gestão de incidentes; [IR11]
+- P11: Verificar, por meio da resposta à q2204, se há registro sistemático dos incidentes de TIC; [IR12]
+- P12: Validar, pela evidência anexada à q2204, a existência de registros rastreáveis de incidentes, chamados ou tickets; [IR13]
 
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre catálogo de serviços de TIC; [P1]
 - E2: Ausência, desatualização, inacessibilidade ou insuficiência do catálogo de serviços de TIC; [P2]
-- E3: Resposta negativa ou insuficiente sobre ANS formalmente definidos e monitorados; [P3]
-- E4: Ausência, desatualização ou insuficiência de ANS e de registros de monitoramento dos níveis de serviço; [P4]
-- E5: Resposta negativa ou insuficiente sobre inventário atualizado de ativos de TIC; [P5]
-- E6: Ausência, desatualização ou insuficiência de inventário de ativos de TIC abrangendo hardware, software, licenças, sistemas, serviços em nuvem e infraestrutura; [P6]
+- E3: Resposta negativa ou insuficiente sobre ANS ou metas mínimas de nível de serviço; [P3]
+- E4: Ausência, desatualização ou insuficiência de ANS, metas ou registros de monitoramento; [P4]
+- E5: Resposta negativa ou insuficiente sobre inventário de ativos de TIC; [P5]
+- E6: Ausência, desatualização ou insuficiência de inventário de ativos de TIC; [P6]
 - E7: Resposta negativa ou insuficiente sobre processo formal de gestão de configuração; [P7]
 - E8: Ausência, desatualização ou insuficiência de norma, procedimento, CMDB ou base equivalente de gestão de configuração; [P8]
-- E9: Ausência ou insuficiência de identificação dos ativos, sistemas e componentes que sustentam serviços críticos; [P9]
-- E10: Resposta negativa ou insuficiente sobre processo formal de gestão de incidentes de TIC; [P10]
-- E11: Ausência, desatualização ou insuficiência de norma, procedimento ou fluxo formal de gestão de incidentes; [P11]
-- E12: Resposta negativa ou insuficiente sobre registro sistemático de incidentes de TIC; [P12]
-- E13: Ausência, insuficiência ou baixa rastreabilidade dos registros de incidentes, chamados ou tickets; [P13]
+- E9: Resposta negativa ou insuficiente sobre processo formal de gestão de incidentes de TIC; [P9]
+- E10: Ausência, desatualização ou insuficiência de norma, procedimento ou fluxo formal de gestão de incidentes; [P10]
+- E11: Resposta negativa ou insuficiente sobre registro sistemático de incidentes de TIC; [P11]
+- E12: Ausência, insuficiência ou baixa rastreabilidade dos registros de incidentes, chamados ou tickets; [P12]
 
 possiveis_achados:
 - A4: Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes
   situacoes_encontradas:
   - S4.1:
-      descricao: Inexistência, desatualização ou indisponibilidade do catálogo de serviços de TIC.
-      itens_questionario: [q2201]
+      descricao: Inexistência, desatualização, indisponibilidade ou insuficiência do catálogo de serviços de TIC.
+      itens_questionario: [q2201, q2201ext[A], q2201ext[B], q2201ext[C], q2201evi]
+      regra_de_identificacao:
+      - (q2201ext[A] != Sim) | (q2201ext[B] != Sim) | (q2201ext[C] != Sim)
+      - ou q2201evi são inexistentes, incompatíveis ou insuficientes para comprovar catálogo vigente, atualizado, acessível e aderente aos serviços prestados
       referencias_matriz: [R4.1, P1, E1, P2, E2]
       criterios: [C1, C2]
-      encaminhamento: Recomendar que a organização institua e mantenha atualizado catálogo de serviços de TIC, acessível aos usuários e áreas demandantes.
+      encaminhamento: Recomendar que a organização institua e mantenha atualizado catálogo de serviços de TIC, acessível aos usuários e áreas demandantes, com informações mínimas sobre os serviços efetivamente prestados.
   - S4.2:
-      descricao: Catálogo de serviços de TIC sem descrição suficiente dos serviços, público usuário, responsáveis, canais de atendimento, prazos, metas ou condições de prestação.
-      itens_questionario: [q2201]
-      referencias_matriz: [R4.1, P2, E2]
-      criterios: [C1, C2]
-      encaminhamento: Recomendar que o catálogo contenha informações mínimas para orientar os usuários e permitir o acompanhamento dos serviços prestados.
-  - S4.3:
-      descricao: Inexistência de Acordos de Níveis de Serviço ou metas mínimas formalmente definidas para os principais serviços de TIC.
-      itens_questionario: [q2201]
+      descricao: Inexistência de ANS, metas mínimas ou monitoramento de níveis de serviço para os principais serviços de TIC.
+      itens_questionario: [q2201ext[D], q2201ext[E], q2201evi]
+      regra_de_identificacao:
+      - (q2201ext[D] != Sim) | (q2201ext[E] != Sim)
+      - ou q2201evi são inexistentes, incompatíveis ou insuficientes para comprovar ANS, metas mínimas ou monitoramento de níveis de serviço
       referencias_matriz: [R4.2, P3, E3, P4, E4]
       criterios: [C2, C3]
-      encaminhamento: Recomendar que a organização defina níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes.
+      encaminhamento: Recomendar que a organização defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes.
+  - S4.3:
+      descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
+      itens_questionario: [q2203ext[A], q2501ext[A], q2501ext[B], q2504ext[A], q2504ext[B], q2203evi, q2501evi, q2504evi]
+      regra_de_identificacao:
+      - (q2203ext[A] != Sim) | (q2501ext[A] != Sim) | (q2501ext[B] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
+      - ou q2203evi/q2501evi/q2504evi são inexistentes, incompatíveis ou insuficientes para comprovar inventário atualizado de ativos de TIC
+      referencias_matriz: [R4.3, P5, E5, P6, E6]
+      criterios: [C4]
+      encaminhamento: Recomendar que a organização mantenha inventário atualizado de ativos de TIC, contemplando ao menos equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.
   - S4.4:
-      descricao: Ausência de monitoramento dos níveis de serviço estabelecidos.
-      itens_questionario: [q2201]
+      descricao: Ausência ou fragilidade do processo de gestão de configuração.
+      itens_questionario: [q2203ext[A], q2203ext[B], q2203ext[C], q2203evi]
+      regra_de_identificacao:
+      - (q2203ext[A] != Sim) | (q2203ext[B] != Sim) | (q2203ext[C] != Sim)
+      - ou q2203evi são inexistentes, incompatíveis ou insuficientes para comprovar procedimento, base ou mecanismo equivalente de gestão de configuração
       referencias_matriz: [R4.2, P3, E3, P4, E4]
       criterios: [C2, C3]
       encaminhamento: Recomendar que a organização monitore periodicamente o cumprimento dos níveis de serviço e registre resultados, desvios e medidas corretivas.
   - S4.5:
-      descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
-      itens_questionario: [q2203, q2501, q2504]
-      referencias_matriz: [R4.3, P5, E5, P6, E6]
-      criterios: [C4]
-      encaminhamento: Recomendar que a organização mantenha inventário atualizado de ativos de TIC, contemplando ao menos equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.
-  - S4.6:
-      descricao: Ausência de processo formal de gestão de configuração.
-      itens_questionario: [q2203]
-      referencias_matriz: [R4.4, P7, E7, P8, E8]
-      criterios: [C5, C6]
-      encaminhamento: Recomendar que a organização formalize processo mínimo de gestão de configuração, identificando itens de configuração relevantes, relacionamentos, responsáveis e forma de atualização.
-  - S4.7:
-      descricao: Ausência de identificação dos ativos, componentes ou sistemas que sustentam serviços críticos.
-      itens_questionario: [q2203, q2303]
-      referencias_matriz: [R4.4, P9, E9]
-      criterios: [C5, C6]
-      encaminhamento: Recomendar que a organização identifique os ativos, sistemas, componentes e dependências que sustentam serviços críticos, priorizando aqueles com maior impacto institucional.
-  - S4.8:
-      descricao: Inexistência de processo formal de gestão de incidentes de TIC.
-      itens_questionario: [q2204]
-      referencias_matriz: [R4.5, P10, E10, P11, E11]
+      descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
+      itens_questionario: [q2204ext[A], q2204ext[B], q2204ext[C], q2204ext[D], q2204ext[F], q2204evi]
+      regra_de_identificacao:
+      -(q2204ext[A] != Sim) | (q2204ext[B] != Sim) | (q2204ext[C] != Sim) | (q2204ext[D] != Sim) |  (q2204ext[F] != Sim)
+      - ou q2204evi são inexistentes, incompatíveis ou insuficientes para comprovar procedimento ou fluxo formal de gestão de incidentes
+    referencias_matriz: [R4.4, P9, E9, P10, E10, P11, E11, P12, E12]
       criterios: [C7, C8]
-      encaminhamento: Recomendar que a organização formalize processo mínimo de gestão de incidentes de TIC, com papéis, responsabilidades, critérios de priorização, escalamento e tratamento.
-  - S4.9:
-      descricao: Ausência de registro sistemático dos incidentes de TIC.
-      itens_questionario: [q2204]
-      referencias_matriz: [R4.6, P12, E12, P13, E13]
-      criterios: [C7, C8]
-      encaminhamento: Recomendar que a organização registre incidentes de TIC em ferramenta, sistema, planilha ou base equivalente, contendo serviço afetado, classificação, prioridade, responsável, datas, solução adotada e histórico do atendimento.
-  - S4.10:
-      descricao: Incidentes de TIC sem classificação, priorização, escalonamento, histórico ou análise posterior.
-      itens_questionario: [q2204]
-      referencias_matriz: [R4.5, R4.6, P11, E11, P13, E13]
-      criterios: [C7, C8]
-      encaminhamento: Recomendar que a organização adote critérios mínimos de classificação, priorização, escalonamento e análise posterior de incidentes relevantes ou recorrentes.
+    encaminhamento: Recomendar que a organização formalize e execute processo mínimo de gestão de incidentes de TIC, contemplando papéis, responsabilidades, critérios de priorização, escalamento, tratamento, registro sistemático em ferramenta, sistema, planilha ou base equivalente, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.
 
 ---
 
@@ -538,60 +518,39 @@ questao: Q5. A organização adota práticas mínimas de segurança da informaç
 
 subquestoes:
 - A organização possui política de segurança da informação formalmente instituída, aprovada, vigente e divulgada?
-- A organização designou gestor institucional de segurança da informação com atribuições formais e capacidade de coordenação?
-- A organização possui comitê, responsável ou equipe de tratamento e resposta a incidentes de segurança da informação?
-- A organização executa processo de controle de acesso com regras de concessão, revisão, revogação, privilégio mínimo e rastreabilidade?
-- A organização executa processo de classificação e tratamento de informações, incluindo dados pessoais, informações sigilosas e informações críticas?
-- A organização adota controles técnicos de segurança sobre recursos de processamento da informação, incluindo inventário, correções, configuração segura, logs, proteção contra malware, backup e testes de segurança?
-- A organização executa processo de gestão de riscos de TIC vinculado a processos organizacionais críticos?
-- A organização executa processo de gestão de riscos de segurança da informação?
-- Os riscos de TIC e de segurança da informação possuem planos de tratamento, responsáveis, prazos, status e acompanhamento?
-- A organização identificou formalmente os serviços, sistemas ou processos críticos dependentes de TIC?
-- A organização possui plano de continuidade de serviços de TIC ou plano de recuperação de desastres para serviços críticos?
-- A organização realizou análise de impacto no negócio, definiu RTO/RPO, executa testes e revisa periodicamente os planos de continuidade ou recuperação?
+- A organização designou gestor institucional de segurança da informação com atribuições formais?
+- A organização possui responsável, comitê ou equipe de tratamento e resposta a incidentes de segurança da informação?
+- A organização executa processo de controle de acesso?
+- A organização executa processo de classificação e tratamento de informações?
+- A organização adota controles técnicos mínimos de segurança sobre recursos de processamento da informação?
+- A organização executa processo de gestão de riscos de TIC ou de segurança da informação?
+- A organização possui planos de tratamento para riscos relevantes?
+- A organização possui plano de continuidade de serviços de TIC ou recuperação de desastres para serviços críticos?
+- A organização realiza testes e revisões periódicas de backup, restauração, continuidade ou recuperação?
 
 riscos:
-- R5.1: Devido à inexistência ou fragilidade da política de segurança da informação, poderá não haver diretrizes formais para proteção de informações e gestão de riscos de segurança.
-- R5.2: Devido à ausência de gestor institucional de segurança da informação, poderá não haver coordenação, responsabilização e acompanhamento das ações de segurança.
-- R5.3: Devido à inexistência ou fragilidade de estrutura de resposta a incidentes de segurança da informação, poderá haver resposta reativa, descoordenada ou sem aprendizagem institucional.
-- R5.4: Devido à fragilidade do controle de acesso, poderão ocorrer acessos indevidos, privilégios excessivos, contas não revogadas ou ausência de rastreabilidade.
-- R5.5: Devido à inexistência ou fragilidade do processo de classificação e tratamento de informações, poderão ocorrer tratamento inadequado de dados pessoais, informações sigilosas ou ativos críticos.
-- R5.6: Devido à insuficiência de controles técnicos de segurança, poderá haver maior exposição a vulnerabilidades, indisponibilidade, perda de dados, malware ou acesso indevido a ativos críticos.
-- R5.7: Devido à inexistência ou fragilidade da gestão de riscos de TIC e de segurança da informação, poderão não ser identificados e tratados riscos relevantes à disponibilidade, confidencialidade e integridade de informações e serviços críticos.
-- R5.8: Devido à ausência de planos de tratamento, responsáveis, prazos e acompanhamento, a gestão de riscos poderá ser meramente formal e sem efeito prático.
-- R5.9: Devido à inexistência ou fragilidade de plano de continuidade ou recuperação de desastres, serviços críticos de TIC poderão não ser restabelecidos tempestivamente em caso de interrupção.
-- R5.10: Devido à ausência de análise de impacto, RTO/RPO, testes ou revisões periódicas, os planos de continuidade poderão não refletir necessidades reais e poderão falhar quando acionados.
+- R5.1: Devido à inexistência ou fragilidade da política e da estrutura de segurança da informação, poderá não haver diretrizes, responsáveis e coordenação mínima para proteção de informações.
+- R5.2: Devido à fragilidade do controle de acesso e da classificação da informação, poderão ocorrer acessos indevidos, privilégios excessivos, tratamento inadequado de dados pessoais, informações sigilosas ou informações críticas.
+- R5.3: Devido à insuficiência de controles técnicos de segurança, poderá haver maior exposição a vulnerabilidades, indisponibilidade, perda de dados, malware ou acesso indevido a ativos críticos.
+- R5.4: Devido à inexistência ou fragilidade da gestão de riscos de TIC e de segurança da informação, poderão não ser identificados e tratados riscos relevantes à disponibilidade, confidencialidade e integridade de informações e serviços críticos.
+- R5.5: Devido à inexistência ou fragilidade de plano de continuidade ou recuperação de desastres, serviços críticos de TIC poderão não ser restabelecidos tempestivamente em caso de interrupção.
 
 fontes_de_informacao:
-- F1: Área de TIC.
-- F2: Gestor institucional de segurança da informação.
-- F3: Comitê de segurança da informação, responsável ou equipe de resposta a incidentes.
-- F4: Encarregado pelo tratamento de dados pessoais, quando aplicável.
-- F5: Área de gestão de riscos, controle interno ou planejamento institucional.
-- F6: Áreas responsáveis por processos críticos dependentes de TIC.
-- F7: Ferramentas, sistemas, logs, inventários, matrizes de risco, planos e relatórios técnicos de segurança e continuidade.
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Declaração de existência de política de segurança da informação; [F1, F2]
-- IR2: Política de segurança da informação vigente, aprovada e divulgada; [F1, F2]
-- IR3: Declaração de existência de gestor institucional de segurança da informação; [F1, F2]
-- IR4: Ato de designação do gestor de segurança da informação e descrição de suas atribuições; [F2]
-- IR5: Declaração de existência de comitê, responsável ou equipe de resposta a incidentes de segurança da informação; [F2, F3]
-- IR6: Ato de designação, competências, procedimentos e registros de atuação do comitê, responsável ou equipe de resposta a incidentes; [F3]
-- IR7: Declaração de existência de processo de controle de acesso; [F1, F2]
-- IR8: Política, norma, matriz de perfis, registros de concessão, revisão e revogação de acessos e logs; [F1, F7]
-- IR9: Declaração de existência de processo de classificação e tratamento de informações; [F1, F2, F4]
-- IR10: Norma, inventário, critérios de classificação, rotulagem, registros de tratamento e controles aplicados a informações críticas, pessoais ou sigilosas; [F1, F2, F4]
-- IR11: Declaração de adoção de controles técnicos de segurança sobre recursos de processamento da informação; [F1]
-- IR12: Inventários, relatórios de vulnerabilidade, registros de correção, padrões de configuração segura, logs, antivírus, firewall, backup e testes de recuperação ou segurança; [F1, F7]
-- IR13: Declaração de existência de processo de gestão de riscos de TIC; [F1, F5]
-- IR14: Matriz, inventário ou registro de riscos de TIC vinculados a processos críticos; [F1, F5, F6]
-- IR15: Declaração de existência de processo de gestão de riscos de segurança da informação; [F2, F5]
-- IR16: Matriz, inventário ou registro de riscos de segurança da informação; [F2, F5]
-- IR17: Planos de tratamento de riscos de TIC e de segurança da informação, com responsáveis, prazos, status e acompanhamento; [F1, F2, F5]
-- IR18: Relação formal de serviços, sistemas ou processos críticos dependentes de TIC; [F1, F6]
-- IR19: Declaração de existência de plano de continuidade de serviços de TIC ou plano de recuperação de desastres; [F1]
-- IR20: Plano de continuidade, plano de recuperação de desastres, análise de impacto no negócio, RTO/RPO, testes e revisões; [F1, F6, F7]
+- IR1: Resposta e evidência sobre política de segurança da informação; [F1, F2, q2401, q2401evi]
+- IR2: Resposta e evidência sobre gestor institucional de segurança da informação; [F1, F2, q2403, q2403evi]
+- IR3: Resposta e evidência sobre comitê de segurança da informação; [F1, F2, q2402, q2402evi]
+- IR4: Resposta e evidência sobre responsável pelo tratamento e resposta a incidentes; [F1, F2, q2404, q2404evi]
+- IR5: Resposta e evidência sobre processo de controle de acesso; [F1, F2, q2502, q2502evi]
+- IR6: Resposta e evidência sobre processo de classificação e tratamento de informações; [F1, F2, q2503, q2503evi]
+- IR7: Resposta e evidência sobre controles técnicos de segurança; [F1, F2, q2504, q2504evi]
+- IR8: Resposta e evidência sobre gestão de riscos de TIC; [F1, F2, q2301, q2301evi]
+- IR9: Resposta e evidência sobre gestão de riscos de segurança da informação; [F1, F2, q2302, q2302evi]
+- IR10: Resposta e evidência sobre continuidade de serviços de TIC ou recuperação de desastres; [F1, F2, q2303, q2303evi]
+- IR11: Resposta e evidência sobre backup, testes de recuperação ou testes de segurança; [F1, F2, q2504, q2303, q2504evi, q2303evi]
 
 criterios:
 - C1: COBIT 2019, APO12 - Risco gerenciado.
@@ -603,128 +562,91 @@ criterios:
 - C7: NBR ISO/IEC 27005, no que se refere à gestão de riscos de segurança da informação.
 - C8: NBR ISO 31000, no que se refere à gestão de riscos.
 - C9: NBR ISO 22301, no que se refere à continuidade de negócios.
-- C10: Lei 13.709/2018, Lei Geral de Proteção de Dados Pessoais, no que se refere à proteção de dados pessoais.
-- C11: Lei 12.527/2011, Lei de Acesso à Informação, no que se refere ao tratamento de informações sigilosas.
+- C10: Lei 13.709/2018, Lei Geral de Proteção de Dados Pessoais.
+- C11: Lei 12.527/2011, Lei de Acesso à Informação.
 
 procedimentos:
-- P1: Aplicar questionário para verificar a existência de política de segurança da informação; [IR1, q2401]
-- P2: Analisar política de segurança da informação para verificar aprovação, vigência, divulgação, responsabilidades e diretrizes de gestão de riscos, de acordo com C2 e C6; [IR2]
-- P3: Aplicar questionário para verificar a designação de gestor institucional de segurança da informação; [IR3, q2403]
-- P4: Analisar ato de designação e atribuições do gestor de segurança da informação, de acordo com C2 e C6; [IR4]
-- P5: Aplicar questionário para verificar a existência de comitê, responsável ou equipe de resposta a incidentes de segurança da informação; [IR5, q2402, q2404]
-- P6: Analisar atos, competências, procedimentos e registros de atuação do comitê, responsável ou equipe de resposta a incidentes, de acordo com C2, C4 e C6; [IR6]
-- P7: Aplicar questionário para verificar a existência de processo de controle de acesso; [IR7, q2502]
-- P8: Analisar amostra de concessão, revisão e revogação de acessos, perfis privilegiados e logs, de acordo com C4, C5 e C6; [IR8]
-- P9: Aplicar questionário para verificar a existência de processo de classificação e tratamento de informações; [IR9, q2503]
-- P10: Analisar normas, inventários, critérios e registros de classificação e tratamento de informações, com atenção a dados pessoais e informações sigilosas, de acordo com C6, C10 e C11; [IR10]
-- P11: Aplicar questionário para verificar a adoção de controles técnicos de segurança sobre recursos de processamento da informação; [IR11, q2504]
-- P12: Analisar evidências operacionais de controles técnicos de segurança, incluindo inventário, correções, configurações seguras, logs, proteção contra malware, backup e testes, de acordo com C4 e C6; [IR12]
-- P13: Aplicar questionário para verificar a existência de processo de gestão de riscos de TIC; [IR13, q2301]
-- P14: Analisar matriz, inventário ou registro de riscos de TIC para verificar vínculo com processos críticos, critérios de avaliação e priorização, de acordo com C1 e C8; [IR14]
-- P15: Aplicar questionário para verificar a existência de processo de gestão de riscos de segurança da informação; [IR15, q2302]
-- P16: Analisar matriz, inventário ou registro de riscos de segurança da informação, de acordo com C2 e C7; [IR16]
-- P17: Analisar planos de tratamento de riscos de TIC e segurança da informação para verificar responsáveis, prazos, ações, status e acompanhamento; [IR17, q2301, q2302]
-- P18: Aplicar questionário e analisar documentação para verificar se a organização identificou formalmente serviços, sistemas ou processos críticos dependentes de TIC; [IR18, q2303, q2203]
-- P19: Aplicar questionário para verificar a existência de plano de continuidade de serviços de TIC ou plano de recuperação de desastres; [IR19, q2303]
-- P20: Analisar planos de continuidade e recuperação, BIA/AIN, RTO/RPO, testes e revisões para verificar aderência a serviços críticos, de acordo com C3 e C9; [IR20, q2303, q2504]
+- P1: Verificar, por meio da q2401, a existência, vigência, aprovação e divulgação da política de segurança da informação; [IR1]
+- P2: Verificar, por meio das q2402, q2403 e q2404, a existência de estrutura mínima de segurança da informação e resposta a incidentes; [IR2, IR3, IR4]
+- P3: Verificar, por meio da q2502, a existência de processo de controle de acesso; [IR5]
+- P4: Verificar, por meio da q2503, a existência de processo de classificação e tratamento de informações; [IR6]
+- P5: Verificar, por meio da q2504, a adoção de controles técnicos mínimos de segurança; [IR7]
+- P6: Verificar, por meio das q2301 e q2302, a existência de gestão de riscos de TIC e de segurança da informação; [IR8, IR9]
+- P7: Validar, pelas evidências anexadas às q2301 e q2302, se os riscos relevantes possuem plano de tratamento, responsáveis, prazos ou acompanhamento; [IR8, IR9]
+- P8: Verificar, por meio da q2303, a existência de plano de continuidade de serviços de TIC ou recuperação de desastres; [IR10]
+- P9: Verificar, por meio das q2303 e q2504, a existência de testes e revisões de backup, restauração, continuidade ou recuperação; [IR11]
 
 evidencias:
-- E1: Resposta negativa ou insuficiente sobre política de segurança da informação; [P1]
-- E2: Ausência, desatualização, falta de aprovação ou insuficiência de política de segurança da informação; [P2]
-- E3: Resposta negativa ou insuficiente sobre gestor institucional de segurança da informação; [P3]
-- E4: Ausência, desatualização ou insuficiência de ato de designação e atribuições do gestor de segurança da informação; [P4]
-- E5: Resposta negativa ou insuficiente sobre comitê, responsável ou equipe de resposta a incidentes de segurança da informação; [P5]
-- E6: Ausência, desatualização ou insuficiência de atos, competências, procedimentos ou registros de atuação da estrutura de resposta a incidentes; [P6]
-- E7: Resposta negativa ou insuficiente sobre processo de controle de acesso; [P7]
-- E8: Ausência ou insuficiência de política, matriz de perfis, revisão periódica, revogação de acessos, privilégio mínimo ou logs; [P8]
-- E9: Resposta negativa ou insuficiente sobre processo de classificação e tratamento de informações; [P9]
-- E10: Ausência ou insuficiência de norma, inventário, critérios, rotulagem, registros ou controles aplicáveis a informações críticas, pessoais ou sigilosas; [P10]
-- E11: Resposta negativa ou insuficiente sobre controles técnicos de segurança; [P11]
-- E12: Ausência ou insuficiência de evidências operacionais de inventário, correções, configuração segura, logs, proteção contra malware, backup, testes de recuperação ou testes de segurança; [P12]
-- E13: Resposta negativa ou insuficiente sobre processo de gestão de riscos de TIC; [P13]
-- E14: Ausência ou insuficiência de matriz, inventário ou registro de riscos de TIC vinculados a processos críticos; [P14]
-- E15: Resposta negativa ou insuficiente sobre processo de gestão de riscos de segurança da informação; [P15]
-- E16: Ausência ou insuficiência de matriz, inventário ou registro de riscos de segurança da informação; [P16]
-- E17: Ausência ou insuficiência de planos de tratamento de riscos com responsáveis, prazos, status e acompanhamento; [P17]
-- E18: Ausência ou insuficiência de identificação formal de serviços, sistemas ou processos críticos dependentes de TIC; [P18]
-- E19: Resposta negativa ou insuficiente sobre plano de continuidade de serviços de TIC ou recuperação de desastres; [P19]
-- E20: Ausência ou insuficiência de plano de continuidade, plano de recuperação, BIA/AIN, RTO/RPO, testes ou revisões periódicas; [P20]
+- E1: Resposta negativa ou insuficiente sobre política de segurança da informação ou ausência de evidência suficiente; [P1]
+- E2: Resposta negativa ou insuficiente sobre gestor, comitê ou responsável por tratamento e resposta a incidentes de segurança da informação; [P2]
+- E3: Resposta negativa ou insuficiente sobre controle de acesso ou ausência de evidência suficiente; [P3]
+- E4: Resposta negativa ou insuficiente sobre classificação e tratamento de informações ou ausência de evidência suficiente; [P4]
+- E5: Resposta negativa ou insuficiente sobre controles técnicos mínimos de segurança ou ausência de evidência suficiente; [P5]
+- E6: Resposta negativa ou insuficiente sobre gestão de riscos de TIC ou de segurança da informação; [P6]
+- E7: Ausência ou insuficiência de planos de tratamento de riscos com responsáveis, prazos ou acompanhamento; [P7]
+- E8: Resposta negativa ou insuficiente sobre plano de continuidade de serviços de TIC ou recuperação de desastres; [P8]
+- E9: Ausência ou insuficiência de testes e revisões de backup, restauração, continuidade ou recuperação; [P9]
 
 possiveis_achados:
 - A5: Segurança e continuidade insuficientes para proteger dados e recuperar serviços críticos
   situacoes_encontradas:
   - S5.1:
       descricao: Ausência ou fragilidade da política de segurança da informação.
-      itens_questionario: [q2401]
-      referencias_matriz: [R5.1, P1, E1, P2, E2]
+      itens_questionario: [q2401ext[A], q2401ext[D], q2401ext[E], q2401evi]
+      regra_de_identificacao:
+      - (q2401ext[A] != Sim) | (q2401ext[D] != Sim) | (q2401ext[E] != Sim) |
+      - q2401evi são inexistentes, incompatíveis ou insuficientes para comprovar política de segurança da informação formalmente instituída, vigente, aprovada, divulgada e aplicável à organização
+      referencias_matriz: [R5.1, P1, E1]
       criterios: [C2, C6]
-      encaminhamento: Recomendar que a organização institua, aprove, divulgue e mantenha atualizada política de segurança da informação, com responsabilidades e diretrizes mínimas para proteção de informações.
+      encaminhamento: Recomendar que a organização institua, aprove, divulgue e mantenha atualizada política de segurança da informação, contemplando diretrizes mínimas para proteção das informações, responsabilidades, tratamento de riscos, controle de acesso, classificação da informação, resposta a incidentes e continuidade dos serviços críticos.
   - S5.2:
-      descricao: Ausência de gestor institucional de segurança da informação formalmente designado.
-      itens_questionario: [q2403]
-      referencias_matriz: [R5.2, P3, E3, P4, E4]
-      criterios: [C2, C6]
-      encaminhamento: Recomendar que a organização designe formalmente responsável por segurança da informação, com atribuições mínimas de coordenação, orientação e acompanhamento dos controles essenciais.
+      descricao: Ausência ou fragilidade da estrutura mínima de segurança da informação.
+      itens_questionario:[q2402ext[A], q2402ext[D], q2403ext[A], q2403ext[D], q2404ext[A], q2404ext[E], q2402evi, q2403evi, q2404evi]
+      regra_de_identificacao:
+      - (q2403ext[A] != Sim) | (q2403ext[D] != Sim) | (q2404ext[A] != Sim) | (q2404ext[E] != Sim)
+      - q2402evi são inexistentes, incompatíveis ou insuficientes para comprovar comitê, instância ou estrutura de segurança da informação
+      - q2403evi são inexistentes, incompatíveis ou insuficientes para comprovar designação formal de gestor institucional de segurança da informação e suas atribuições
+      - q2404evi são inexistentes, incompatíveis ou insuficientes para comprovar responsável, equipe, procedimento ou fluxo de tratamento e resposta a incidentes de segurança da informação
+    referencias_matriz: [R5.1, P2, E2]
+    criterios: [C2, C4, C6]
+    encaminhamento: Recomendar que a organização institua estrutura mínima de segurança da informação, com gestor ou responsável formalmente designado, atribuições definidas, instância de coordenação quando aplicável e procedimento ou equipe responsável pelo tratamento e resposta a incidentes de segurança da informação.
   - S5.3:
-      descricao: Ausência ou fragilidade da estrutura de tratamento e resposta a incidentes de segurança da informação.
-      itens_questionario: [q2402, q2404]
-      referencias_matriz: [R5.3, P5, E5, P6, E6]
-      criterios: [C2, C4, C6]
-      encaminhamento: Recomendar que a organização institua responsável, equipe ou instância para tratamento e resposta a incidentes de segurança da informação, com procedimentos mínimos, registros e responsabilidades.
-  - S5.4:
-      descricao: Fragilidade no processo de controle de acesso, incluindo concessão, revisão, revogação, privilégio mínimo, acessos administrativos ou rastreabilidade.
-      itens_questionario: [q2502, q2504]
-      referencias_matriz: [R5.4, P7, E7, P8, E8]
-      criterios: [C4, C5, C6]
-      encaminhamento: Recomendar que a organização estabeleça processo de controle de acesso, com regras de concessão, revisão periódica, revogação tempestiva, privilégio mínimo, controle de acessos administrativos e registros de rastreabilidade.
-  - S5.5:
-      descricao: Ausência ou fragilidade no processo de classificação e tratamento de informações, incluindo dados pessoais, informações sigilosas e informações críticas.
-      itens_questionario: [q2503]
-      referencias_matriz: [R5.5, P9, E9, P10, E10]
-      criterios: [C6, C10, C11]
-      encaminhamento: Recomendar que a organização estabeleça processo de classificação e tratamento de informações, contemplando dados pessoais, informações sigilosas, informações críticas, responsabilidades e controles proporcionais.
-  - S5.6:
-      descricao: Insuficiência de controles técnicos de segurança sobre recursos de processamento da informação.
-      itens_questionario: [q2504]
-      referencias_matriz: [R5.6, P11, E11, P12, E12]
+      descricao: Fragilidade no controle de acesso e na classificação e tratamento de informações.
+      itens_questionario: [q2502ext[A], q2502ext[B], q2502ext[D], q2502ext[E], q2503ext[A], q2503ext[C], q2503ext[D], q2503ext[E], q2503ext[F], q2502evi, q2503evi]
+      regra_de_identificacao:
+      - (q2502ext[A] != Sim) | (q2502ext[B] != Sim) | (q2502ext[D] != Sim) | (q2502ext[E] != Sim) | (q2503ext[A] != Sim) | (q2503ext[C] != Sim) | (q2503ext[D] != Sim) | (q2503ext[E] != Sim) | (q2503ext[F] != Sim)
+      - ou q2502evi/q2503evi são inexistentes, incompatíveis ou insuficientes para comprovar controle de acesso e classificação/tratamento de informações
+      referencias_matriz: [R5.2, P3, E3, P4, E4]
+      criterios: [C4, C5, C6, C10, C11]
+      encaminhamento: Recomendar que a organização estabeleça controles mínimos de acesso e classificação da informação, incluindo concessão, revisão e revogação de acessos, privilégio mínimo, tratamento de dados pessoais, informações sigilosas e informações críticas.
+    - S5.4:
+      descricao: Insuficiência de controles técnicos mínimos de segurança sobre recursos de processamento da informação.
+      itens_questionario: [q2504ext[A], q2504ext[B], q2504ext[C], q2504ext[D], q2504ext[E], q2504ext[F], q2504ext[G], q2504ext[J], q2504evi]
+      regra_de_identificacao:
+      - (q2504ext[A] != Sim) | (q2504ext[B] != Sim) | (q2504ext[C] != Sim) | (q2504ext[D] != Sim) | (q2504ext[E] != Sim) | (q2504ext[F] != Sim) | (q2504ext[G] != Sim) | (q2504ext[J] != Sim)
+      - ou q2504evi são inexistentes, incompatíveis ou insuficientes para comprovar controles técnicos mínimos de segurança
+      referencias_matriz: [R5.3, P5, E5]
       criterios: [C4, C6]
       encaminhamento: Recomendar que a organização implemente controles técnicos mínimos de segurança, priorizando inventário, configuração segura, correções, proteção contra malware, logs, backup e testes de segurança.
-  - S5.7:
-      descricao: Ausência ou fragilidade do processo de gestão de riscos de TIC.
-      itens_questionario: [q2301]
-      referencias_matriz: [R5.7, P13, E13, P14, E14]
-      criterios: [C1, C8]
-      encaminhamento: Recomendar que a organização implemente processo proporcional de gestão de riscos de TIC, com identificação, avaliação, priorização e tratamento dos riscos associados a processos, sistemas e serviços críticos.
-  - S5.8:
-      descricao: Ausência ou fragilidade do processo de gestão de riscos de segurança da informação.
-      itens_questionario: [q2302]
-      referencias_matriz: [R5.7, P15, E15, P16, E16]
-      criterios: [C2, C7]
-      encaminhamento: Recomendar que a organização implemente processo de gestão de riscos de segurança da informação, com critérios, responsáveis, registros e integração com os controles de segurança.
-  - S5.9:
-      descricao: Gestão de riscos de TIC ou de segurança da informação meramente formal ou sem plano de tratamento efetivo, responsáveis, prazos, status ou acompanhamento.
-      itens_questionario: [q2301, q2302]
-      referencias_matriz: [R5.8, P17, E17]
+
+  - S5.5:
+      descricao: Ausência ou fragilidade da gestão de riscos de TIC e de segurança da informação, inclusive sem plano de tratamento efetivo.
+      itens_questionario: [q2301ext[A], q2301ext[B], q2301ext[C], q2302ext[A], q2302ext[B], q2302ext[C], q2302ext[D], q2301evi, q2302evi]
+      regra_de_identificacao:
+      - (q2301ext[A] != Sim) | (q2301ext[B] != Sim) | (q2301ext[C] != Sim) | (q2302ext[A] != Sim) | (q2302ext[B] != Sim) | (q2302ext[C] != Sim) | (q2302ext[D] != Sim)
+      - ou q2301evi/q2302evi são inexistentes, incompatíveis ou insuficientes para comprovar processo de gestão de riscos, matriz de riscos ou plano de tratamento com responsáveis, prazos e acompanhamento
+      referencias_matriz: [R5.4, P6, E6, P7, E7]
       criterios: [C1, C2, C7, C8]
-      encaminhamento: Recomendar que os riscos identificados possuam planos de tratamento com responsáveis, prazos, status de execução e acompanhamento periódico.
-  - S5.10:
-      descricao: Ausência de identificação formal dos serviços, sistemas ou processos críticos dependentes de TIC.
-      itens_questionario: [q2303, q2203]
-      referencias_matriz: [R5.9, P18, E18]
+      encaminhamento: Recomendar que a organização implemente processo proporcional de gestão de riscos de TIC e de segurança da informação, com identificação, avaliação, priorização, responsáveis, prazos, tratamento e acompanhamento dos riscos relevantes.
+  - S5.6:
+      descricao: Ausência ou fragilidade de plano de continuidade de serviços de TIC ou recuperação de desastres, inclusive sem testes e revisões periódicas.
+      itens_questionario: [q2303ext[A], q2303ext[B], q2303ext[C], q2303ext[D], q2504ext[J], q2303evi, q2504evi]
+      regra_de_identificacao:
+      - (q2303ext[A] != Sim) | (q2303ext[B] != Sim) | (q2303ext[C] != Sim) | (q2303ext[D] != Sim) | (q2504ext[J] != Sim)
+      - ou q2303evi/q2504evi são inexistentes, incompatíveis ou insuficientes para comprovar plano de continuidade, recuperação de desastres, backup, testes, revisões ou restauração
+      referencias_matriz: [R5.5, P8, E8, P9, E9]
       criterios: [C3, C9]
-      encaminhamento: Recomendar que a organização identifique formalmente os serviços, sistemas e processos críticos dependentes de TIC, priorizando aqueles que impactam diretamente a continuidade institucional e a prestação de serviços públicos.
-  - S5.11:
-      descricao: Ausência ou fragilidade de plano de continuidade de serviços de TIC ou plano de recuperação de desastres.
-      itens_questionario: [q2303]
-      referencias_matriz: [R5.9, P19, E19]
-      criterios: [C3, C9]
-      encaminhamento: Recomendar que a organização elabore plano de continuidade de serviços de TIC ou plano de recuperação de desastres compatível com os serviços e sistemas críticos identificados.
-  - S5.12:
-      descricao: Plano de continuidade ou recuperação sem análise de impacto, RTO/RPO, testes ou revisão periódica.
-      itens_questionario: [q2303, q2504]
-      referencias_matriz: [R5.10, P20, E20]
-      criterios: [C3, C9]
-      encaminhamento: Recomendar que a organização complemente os planos de continuidade e recuperação com análise de impacto, prioridades de recuperação, RTO/RPO, testes periódicos, registros de resultados e revisão contínua.
+      encaminhamento: Recomendar que a organização identifique serviços críticos e estabeleça medidas mínimas de continuidade e recuperação, incluindo plano de continuidade ou recuperação, backup, testes de restauração, prioridades de recuperação, registros de testes e revisão periódica.
 
 ---
 
@@ -733,53 +655,36 @@ possiveis_achados:
 questao: Q6. A organização adota processo formal e padronizado para planejamento, contratação, fiscalização e gestão de soluções de TIC, com participação técnica da área de TIC, alinhamento ao planejamento, requisitos de segurança e critérios objetivos de entrega e desempenho?
 
 subquestoes:
-- A organização possui fluxo decisório formalizado e padronizado para as contratações de soluções de TIC, contemplando as etapas desde a formalização da demanda até a autorização da contratação?
-- A organização definiu formalmente os papéis e responsabilidades das áreas e agentes envolvidos nas contratações de TIC, incluindo área demandante, área de TIC, área de contratações e instâncias de governança?
-- A organização dispõe de modelos padronizados para elaboração dos artefatos das contratações de TIC, como DFD, ETP, TR, pesquisa de preços, mapa de riscos, plano de fiscalização e instrumentos equivalentes?
-- A organização possui manuais, checklists ou normativos internos orientativos para elaboração dos artefatos das contratações de TIC?
+- A organização possui fluxo formalizado e padronizado para contratações de TIC?
+- A organização definiu papéis e responsabilidades nas contratações de TIC?
+- A organização dispõe de modelos, manuais, checklists ou normativos orientativos para elaboração dos artefatos das contratações de TIC?
 - As contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC?
-- As contratações de TIC executadas estão previstas nos instrumentos de planejamento vigentes, como plano de TIC e PCA?
-- A fase de planejamento de cada contratação de TIC é conduzida por equipe formalmente designada, com participação de integrante requisitante e integrante técnico de TIC?
-- Os artefatos de planejamento demonstram análise de alternativas, requisitos técnicos, riscos, requisitos de segurança da informação, proteção de dados pessoais e critérios objetivos de aceitação da solução?
-- Os termos de referência, projetos básicos ou contratos preveem Níveis Mínimos de Serviço, vinculando pagamento à efetiva entrega de resultados ou níveis de qualidade?
-- A fiscalização dos contratos de TIC utiliza critérios objetivos para verificar entrega, qualidade, disponibilidade, níveis de serviço, segurança, aceite e resultados contratados?
+- As contratações de TIC estão alinhadas ao plano de TIC e ao plano de contratações?
+- A equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC?
+- Os artefatos de planejamento contemplam requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios objetivos de aceite?
+- Os contratos possuem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento?
 
 riscos:
-- R6.1: Devido à inexistência ou fragilidade de fluxo decisório formal e padronizado para contratações de TIC, poderá não haver clareza quanto às etapas, instâncias decisórias e critérios de aprovação, prejudicando a eficiência e o controle.
-- R6.2: Devido à ausência de definição formal dos papéis e responsabilidades nas contratações de TIC, poderá não haver segregação adequada de funções e responsabilização clara ao longo do processo.
-- R6.3: Devido à inexistência de modelos padronizados para os artefatos das contratações de TIC, poderá haver instrução processual incompleta, inconsistente ou tecnicamente frágil.
-- R6.4: Devido à ausência de manuais, checklists ou normativos orientativos, poderá haver heterogeneidade na interpretação e aplicação dos procedimentos de contratação de TIC.
-- R6.5: Devido à ausência de análise técnica prévia pela área de TIC, poderão ser contratadas soluções incompatíveis com a arquitetura, os padrões técnicos, os requisitos de segurança ou as necessidades institucionais.
-- R6.6: Devido à falta de aderência das contratações de TIC aos instrumentos de planejamento, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas ao plano de TIC e ao PCA.
-- R6.7: Devido à ausência de equipe de planejamento formalmente designada e multidisciplinar, poderá haver baixa qualidade na definição da solução, dos requisitos e dos riscos da contratação.
-- R6.8: Devido à ausência de análise suficiente de alternativas, requisitos técnicos, riscos, segurança, proteção de dados e critérios de aceitação, poderão ser contratadas soluções inadequadas ou de difícil fiscalização.
-- R6.9: Devido à ausência de Níveis Mínimos de Serviço nos instrumentos contratuais, poderá haver pagamento desvinculado de resultados, qualidade ou desempenho.
-- R6.10: Devido à fiscalização contratual baseada apenas em aspectos formais, poderá não haver verificação objetiva da entrega, da qualidade, da disponibilidade, da segurança e dos resultados contratados.
+- R6.1: Devido à inexistência ou fragilidade de fluxo formal e padronizado para contratações de TIC, poderá não haver clareza quanto às etapas, instâncias decisórias e critérios de aprovação.
+- R6.2: Devido à ausência de definição formal de papéis, responsabilidades, modelos e orientações, poderá haver instrução processual incompleta, inconsistente ou tecnicamente frágil.
+- R6.3: Devido à ausência de análise técnica prévia da área de TIC e de alinhamento ao planejamento, poderão ser contratadas soluções incompatíveis com padrões técnicos, requisitos institucionais, segurança ou prioridades definidas.
+- R6.4: Devido à baixa qualidade dos artefatos de planejamento, poderão ser contratadas soluções sem requisitos, riscos, critérios de aceite, proteção de dados ou condições suficientes de fiscalização.
+- R6.5: Devido à ausência de níveis mínimos de serviço, métricas de desempenho ou fiscalização objetiva, poderá haver pagamento desvinculado da entrega de resultados, qualidade ou desempenho.
 
 fontes_de_informacao:
-- F1: Área de TIC.
-- F2: Área de contratações.
-- F3: Áreas demandantes.
-- F4: Processos administrativos de contratação e gestão contratual.
-- F5: Portal Nacional de Compras Públicas, portal de transparência ou sistema institucional equivalente.
-- F6: Gestores e fiscais de contratos de TIC.
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Declaração de existência de fluxo decisório formalizado e padronizado para contratações de TIC; [F1, F2]
-- IR2: Fluxo, norma, manual ou procedimento de contratação de TIC; [F1, F2]
-- IR3: Declaração de definição formal de papéis e responsabilidades nas contratações de TIC; [F1, F2, F3]
-- IR4: Documento que defina papéis e responsabilidades das áreas e agentes envolvidos nas contratações de TIC; [F1, F2, F3]
-- IR5: Declaração de existência de modelos padronizados para os artefatos das contratações de TIC; [F1, F2]
-- IR6: Modelos padronizados de DFD, ETP, TR, pesquisa de preços, mapa de riscos, plano de fiscalização e instrumentos equivalentes; [F1, F2]
-- IR7: Declaração de existência de manuais, checklists ou normativos orientativos para contratações de TIC; [F1, F2]
-- IR8: Manuais, checklists, normativos ou orientações internas aplicáveis às contratações de TIC; [F1, F2]
-- IR9: Declaração de submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, F2]
-- IR10: Evidência de norma e caso concreto de aprovação técnica da área de TIC; [F1, F4]
-- IR11: Evidências de vinculação das contratações ao plano de TIC e ao PCA; [F1, F2, F4]
-- IR12: Portarias, despachos ou atos de designação de equipes de planejamento da contratação; [F2, F3, F4]
-- IR13: ETP, TR, mapa de riscos ou documento equivalente com análise de alternativas, requisitos técnicos, requisitos de segurança, proteção de dados e critérios de aceitação; [F1, F2, F4]
-- IR14: Termos de referência, projetos básicos ou contratos com Níveis Mínimos de Serviço; [F2, F4]
-- IR15: Relatórios de fiscalização, termos de recebimento, registros de medição, aceite, glosas, sanções ou evidências de acompanhamento contratual por critérios objetivos; [F4, F6]
+- IR1: Resposta e evidência sobre processos de trabalho relativos às contratações de TIC; [F1, F2, q2801, q2801evi]
+- IR2: Resposta e evidência sobre papéis e responsabilidades nas contratações de TIC; [F1, F2, q2801, q2801evi]
+- IR3: Resposta e evidência sobre modelos, manuais, checklists ou normativos orientativos para contratações de TIC; [F1, F2, q2801, q2801evi]
+- IR4: Resposta sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, q2804[A]]
+- IR5: Evidência específica sobre aprovação técnica da área de TIC em caso concreto; [F2, q2804eviA]
+- IR6: Resposta e evidência sobre aderência das contratações ao plano de TIC e ao plano de contratações; [F1, F2, q2802, q2804[B], q2802evi]
+- IR7: Resposta e evidência sobre equipe de planejamento formalmente designada e multidisciplinar; [F1, F2, q2804[C], q2804evi]
+- IR8: Resposta e evidência sobre requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios de aceite; [F1, F2, q2801, q2804[E], q2801evi, q2804evi]
+- IR9: Resposta e evidência sobre níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [F1, F2, q2804[D], q2801, q2801evi, q2804evi]
 
 criterios:
 - C1: Lei 14.133/2021, no que se refere ao planejamento, governança, transparência, gestão de riscos e fiscalização nas contratações públicas.
@@ -793,99 +698,78 @@ criterios:
 - C9: Notas Técnicas TCE-RJ aplicáveis às contratações de bens e serviços de tecnologia da informação.
 
 procedimentos:
-- P1: Aplicar questionário para verificar a existência de processos de trabalho relativos às contratações de TIC; [IR1, q2801]
-- P2: Analisar fluxo, norma, manual ou procedimento para confirmar etapas, instâncias decisórias e controles, de acordo com C1, C2, C3 e C5; [IR2]
-- P3: Aplicar questionário para verificar a definição formal de papéis e responsabilidades; [IR3, q2801]
-- P4: Analisar documentos que definem papéis e responsabilidades das áreas e agentes envolvidos nas contratações de TIC, de acordo com C4; [IR4]
-- P5: Aplicar questionário para verificar a existência de modelos padronizados de artefatos de contratação; [IR5, q2801]
-- P6: Analisar modelos padronizados de artefatos e verificar aderência às fases de planejamento, seleção, gestão e fiscalização contratual, de acordo com C1 e C5; [IR6]
-- P7: Aplicar questionário para verificar a existência de manuais, checklists ou normativos orientativos; [IR7, q2801]
-- P8: Analisar manuais, checklists, normativos ou orientações internas aplicáveis às contratações de TIC, de acordo com C1, C5 e C9; [IR8]
-- P9: Aplicar questionário para verificar a obrigatoriedade de análise prévia e aprovação técnica da área de TIC; [IR9, q2804.A]
-- P10: Analisar norma e caso concreto de contratação para confirmar aprovação técnica da área de TIC; [IR10, q2804eviA]
-- P11: Aplicar questionário e analisar processos para verificar aderência das contratações de TIC ao plano de TIC e ao PCA; [IR11, q2802, q2804.B]
-- P12: Analisar atos de designação e documentos de planejamento para verificar atuação de equipe formalmente designada e multidisciplinar; [IR12, q2804.C]
-- P13: Analisar documentos de planejamento da contratação para verificar análise de alternativas, requisitos técnicos, riscos, segurança da informação, proteção de dados pessoais e critérios objetivos de aceitação; [IR13, q2801, q2804.E]
-- P14: Analisar TR, projeto básico ou contrato para verificar previsão de Níveis Mínimos de Serviço e vínculo do pagamento a resultados; [IR14, q2804.D]
-- P15: Analisar relatórios de fiscalização, medições, aceites, glosas, sanções ou registros equivalentes para verificar fiscalização objetiva da entrega, qualidade, disponibilidade, segurança e resultados contratados; [IR15, q2801, q2804]
+- P1: Verificar, por meio da q2801, a existência de processo formal e padronizado para contratações de TIC; [IR1]
+- P2: Validar, pelas evidências anexadas à q2801, a existência de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [IR1, IR2, IR3]
+- P3: Verificar, por meio da q2804[A] e da q2804eviA, se as contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC; [IR4, IR5]
+- P4: Verificar, por meio das q2802 e q2804[B], se as contratações de TIC estão aderentes ao plano de TIC e ao plano de contratações; [IR6]
+- P5: Verificar, por meio da q2804[C], se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
+- P6: Verificar, por meio das q2801 e q2804[E], se os artefatos de planejamento contemplam requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios objetivos de aceite; [IR8]
+- P7: Verificar, por meio das q2804[D] e q2801, se os contratos possuem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [IR9]
 
 evidencias:
-- E1: Resposta negativa ou insuficiente sobre processos de trabalho relativos às contratações de TIC; [P1]
-- E2: Ausência, desatualização ou insuficiência de fluxo, norma, manual ou procedimento de contratação de TIC; [P2]
-- E3: Resposta negativa ou insuficiente sobre papéis e responsabilidades nas contratações de TIC; [P3]
-- E4: Ausência, desatualização ou insuficiência de definição formal de papéis e responsabilidades; [P4]
-- E5: Resposta negativa ou insuficiente sobre modelos padronizados de artefatos de contratação; [P5]
-- E6: Ausência, desatualização ou insuficiência de modelos padronizados de artefatos de contratação de TIC; [P6]
-- E7: Resposta negativa ou insuficiente sobre manuais, checklists ou normativos orientativos; [P7]
-- E8: Ausência, desatualização ou insuficiência de manuais, checklists, normativos ou orientações internas aplicáveis; [P8]
-- E9: Resposta negativa sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [P9]
-- E10: Ausência de norma ou de evidência concreta de aprovação técnica da área de TIC; [P10]
-- E11: Ausência de vinculação das contratações ao plano de TIC ou ao PCA; [P11]
-- E12: Ausência de equipe de planejamento formalmente designada ou de participação de integrante técnico de TIC; [P12]
-- E13: Ausência ou insuficiência de análise de alternativas, requisitos técnicos, riscos, requisitos de segurança da informação, proteção de dados pessoais ou critérios objetivos de aceitação; [P13]
-- E14: Ausência de Níveis Mínimos de Serviço ou de vínculo do pagamento a resultados; [P14]
-- E15: Ausência ou insuficiência de evidências de fiscalização contratual objetiva quanto à entrega, qualidade, disponibilidade, segurança, aceite e resultados; [P15]
+- E1: Resposta negativa ou insuficiente sobre processo formal e padronizado para contratações de TIC; [P1]
+- E2: Ausência, desatualização ou insuficiência de evidências de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [P2]
+- E3: Resposta negativa ou insuficiente sobre análise prévia e aprovação técnica da área de TIC; [P3]
+- E4: Ausência de evidência específica de aprovação técnica da área de TIC em caso concreto; [P3]
+- E5: Resposta negativa ou insuficiente sobre aderência das contratações ao plano de TIC ou ao plano de contratações; [P4]
+- E6: Resposta negativa ou insuficiente sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [P5]
+- E7: Ausência ou insuficiência de requisitos técnicos, riscos, segurança da informação, proteção de dados ou critérios objetivos de aceite nos artefatos de planejamento; [P6]
+- E8: Ausência ou insuficiência de níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [P7]
 
 possiveis_achados:
 - A6: Contratações de TIC sem governança técnica e controle de resultados
   situacoes_encontradas:
   - S6.1:
-      descricao: Inexistência ou fragilidade de fluxo decisório formal e padronizado para contratações de TIC.
-      itens_questionario: [q2801]
-      referencias_matriz: [R6.1, P1, E1, P2, E2]
-      criterios: [C1, C2, C3, C5]
-      encaminhamento: Recomendar que a organização formalize fluxo decisório para contratações de TIC, contemplando etapas, responsáveis, instâncias decisórias, controles e critérios de aprovação.
+      descricao: Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.
+      itens_questionario: [q2801ext[A], q2801ext[B], q2801ext[C], q2801ext[D], q2801ext[E], q2801ext[F], q2801ext[G], q2801evi]
+      regra_de_identificacao:
+      - (q2801ext[A] != Sim) | (q2801ext[B] != Sim) | (q2801ext[C] != Sim) | (q2801ext[D] != Sim) | (q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2801ext[G] != Sim)
+      - ou q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar processo formal e padronizado para contratações de TIC
+      referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
+      criterios: [C1, C4, C5, C9]
+      encaminhamento: Recomendar que a organização formalize processo de contratação de TIC, contemplando fluxo, etapas, papéis, responsabilidades, modelos mínimos de artefatos, manuais, checklists ou orientações internas.
   - S6.2:
-      descricao: Ausência de definição formal dos papéis e responsabilidades nas contratações de TIC.
-      itens_questionario: [q2801]
-      referencias_matriz: [R6.2, P3, E3, P4, E4]
-      criterios: [C1, C4]
-      encaminhamento: Recomendar que a organização defina formalmente papéis e responsabilidades da área demandante, área de TIC, área de contratações, jurídico, controle interno, gestores e fiscais de contratos.
+      descricao: Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.
+      itens_questionario: [q2804[A], q2804eviA]
+      regra_de_identificacao:
+      - (q2804[A] == Não)
+      - ou q2804eviA é inexistente, incompatível ou insuficiente para comprovar aprovação técnica da área de TIC em caso concreto
+      referencias_matriz: [R6.3, P3, E3, E4]
+      criterios: [C2, C3, C4]
+      encaminhamento: Recomendar que as contratações de TIC sejam submetidas à análise prévia e aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas da organização.
   - S6.3:
       descricao: Inexistência ou insuficiência de modelos padronizados para elaboração dos artefatos das contratações de TIC.
-      itens_questionario: [q2801]
+      itens_questionario: [q2801ext[B], q2801ext[D], q2801ext[F], q2801ext[G], q2801evi]
+      regra_de_identificacao:
+      - (q2801ext[B] != Sim) | (q2801ext[D] != Sim) | (q2801ext[F] != Sim) | (q2801ext[G] != Sim)
+      - ou q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar processo formal e padronizado para contratações de TIC
       referencias_matriz: [R6.3, P5, E5, P6, E6]
       criterios: [C1, C5]
       encaminhamento: Recomendar que a organização adote modelos padronizados para DFD/DOD, ETP, TR/projeto básico, pesquisa de preços, mapa de riscos, plano de fiscalização e termos de recebimento.
   - S6.4:
-      descricao: Ausência de manuais, checklists ou normativos internos orientativos para contratações de TIC.
-      itens_questionario: [q2801]
-      referencias_matriz: [R6.4, P7, E7, P8, E8]
-      criterios: [C1, C5, C9]
-      encaminhamento: Recomendar que a organização edite orientações internas, manuais ou checklists para padronizar a instrução, análise, aprovação, fiscalização e gestão das contratações de TIC.
-  - S6.5:
-      descricao: Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.
-      itens_questionario: [q2804.A, q2804eviA]
-      referencias_matriz: [R6.5, P9, E9, P10, E10]
-      criterios: [C2, C3, C4]
-      encaminhamento: Recomendar que as contratações de TIC sejam submetidas à análise prévia e aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas da organização.
-  - S6.6:
       descricao: Contratações de TIC sem aderência ao plano de TIC ou ao plano de contratações.
-      itens_questionario: [q2802, q2804.B, q2102]
-      referencias_matriz: [R6.6, P11, E11]
+      itens_questionario: [q2802ext[A], q2802ext[B], q2802ext[C], q2802ext[D], q2804[B], q2102ext[C], q2802evi, q2102evi]
+      regra_de_identificacao:
+      - (q2802ext[A] == Não) | (q2802ext[B] == Não) | (q2802ext[C] == Não) | (q2802ext[D] == Não) | (q2804[B] == Não) | (q2102ext[C] == Não)
+      - ou q2802evi/q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar aderência das contratações ao plano de TIC e ao plano de contratações
+      referencias_matriz: [R6.3, P4, E5]
       criterios: [C1, C6]
       encaminhamento: Recomendar que a organização condicione as contratações de TIC à vinculação com o planejamento de TIC e com o plano de contratações, ressalvadas situações excepcionais devidamente justificadas.
-  - S6.7:
-      descricao: Contratações de TIC sem equipe de planejamento formalmente designada e multidisciplinar.
-      itens_questionario: [q2804.C]
-      referencias_matriz: [R6.7, P12, E12]
+  - S6.5:
+      descricao: Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC.
+      itens_questionario: [q2804[C], q2804evi]
+      regra_de_identificacao:
+      - (q2804[C] == Não)
+      - ou q2804evi são inexistentes, incompatíveis ou insuficientes para comprovar equipe de planejamento formalmente designada e multidisciplinar
+      referencias_matriz: [R6.4, P5, E6]
       criterios: [C1, C4]
       encaminhamento: Recomendar que a organização designe formalmente equipe de planejamento da contratação de TIC, com participação da área requisitante, área técnica de TIC e demais áreas necessárias.
-  - S6.8:
-      descricao: Artefatos de planejamento da contratação sem análise suficiente de alternativas, requisitos técnicos, riscos, segurança da informação, proteção de dados pessoais ou critérios objetivos de aceitação.
-      itens_questionario: [q2801, q2804.E]
-      referencias_matriz: [R6.8, P13, E13]
-      criterios: [C1, C2, C8]
-      encaminhamento: Recomendar que os artefatos de planejamento das contratações de TIC explicitem alternativas avaliadas, requisitos técnicos, riscos, requisitos de segurança da informação, proteção de dados pessoais e critérios objetivos de aceite.
-  - S6.9:
-      descricao: Contratações de TIC sem Níveis Mínimos de Serviço vinculados a resultados, qualidade ou desempenho.
-      itens_questionario: [q2804.D]
-      referencias_matriz: [R6.9, P14, E14]
+  - S6.6:
+      descricao: Contratações de TIC sem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento.
+      itens_questionario: [q2804[D], q2801ext[E], q2801ext[F], q2804evi, q2801evi]
+      regra_de_identificacao:
+      - (q2804[D] == Não) | (q2801ext[E] == Não) | (q2801ext[F] == Não)
+      - ou q2804evi/q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento
+      referencias_matriz: [R6.5, P7, E8]
       criterios: [C1, C6, C7]
-      encaminhamento: Recomendar que os TRs, projetos básicos ou contratos de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.
-  - S6.10:
-      descricao: Fiscalização contratual de TIC sem critérios objetivos de verificação de entrega, qualidade, disponibilidade, segurança, aceite ou resultados contratados.
-      itens_questionario: [q2801, q2804]
-      referencias_matriz: [R6.10, P15, E15]
-      criterios: [C1, C6, C7]
-      encaminhamento: Recomendar que a fiscalização dos contratos de TIC utilize critérios objetivos de medição, aceite, qualidade, disponibilidade, segurança, glosa, sanção e verificação dos resultados contratados.
+      encaminhamento: Recomendar que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.  
