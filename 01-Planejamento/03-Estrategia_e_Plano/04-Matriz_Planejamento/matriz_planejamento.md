@@ -54,7 +54,10 @@ criterios:
 - C4: COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.
 - C5: COBIT 2019, APO01.09 - Definição e comunicação de políticas e procedimentos: estabelecer e comunicar políticas, procedimentos e diretrizes para orientar a gestão de TI.
 - C6: COBIT 2019, MEA01.04 - Analisar e reportar desempenho: analisar resultados e reportar o desempenho da TI às partes interessadas.
-- C7: Acórdão TCE-RJ 44.490/2024-PLEN: entendimento de que a alta administração deve estabelecer estruturas, papéis, responsabilidades e diretrizes adequadas para orientar o funcionamento da área de TIC e o uso estratégico da tecnologia da informação.
+- C7: Decreto nº 9.203/2017, art. 6º, caput e parágrafo único: atribui à alta administração a responsabilidade por implementar e manter mecanismos, instâncias e práticas de governança, incluindo acompanhamento de resultados, melhoria de desempenho e processo decisório fundamentado em evidências.
+- C8: Decreto nº 12.198/2024, art. 5º: prevê Comitê de Governança Digital ou colegiado equivalente para deliberar sobre a implementação de ações de governo digital e o uso de recursos de tecnologia da informação e comunicação.
+- C9: ABNT NBR ISO/IEC 38500:2025, item 5.6.1, Princípio da Responsabilização: requer clareza sobre responsabilidades relacionadas ao uso atual e futuro da TI, com autoridade compatível para seu exercício.
+- C10: Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q0101, se a organização possui área, unidade, setor ou função de TIC formalmente instituída; [IR1]
@@ -63,11 +66,11 @@ procedimentos:
 - P4: Validar, pela evidência anexada à q0103, se as atribuições abrangem funções essenciais de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [IR6]
 - P5: Verificar, por meio da resposta à q0102, o posicionamento hierárquico da área de TIC; [IR3]
 - P6: Validar, pela evidência anexada à q0102, a compatibilidade do posicionamento da área de TIC com suas atribuições institucionais; [IR4]
-- P7: Verificar, por meio das respostas às q1001 e q1002, se há modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou monitoramento; [IR7, IR8]
-- P8: Validar, pelas evidências anexadas às q1001 e q1002, a existência e suficiência do modelo básico de governança e gestão de TIC; [IR9]
-- P9: Verificar, por meio da q1001ext[E], se há Comitê de TIC ou instância equivalente formalmente instituído; [IR10]
+- P7: Verificar, por meio das respostas às q1001 e q1002, se há modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou monitoramento; [IR7]
+- P8: Validar, pelas evidências anexadas às q1001 e q1002, a existência e suficiência do modelo básico de governança e gestão de TIC; [IR8]
+- P9: Verificar, por meio da q1001ext[E], se há Comitê de TIC ou instância equivalente formalmente instituído; [IR9]
 - P10: Validar, pela evidência anexada à q1001, a instituição formal do Comitê de TIC ou instância equivalente, incluindo ato constitutivo, composição ou competências; [IR10]
-- P11: Verificar, por meio da q1001ext[F], se o Comitê de TIC realiza as atividades previstas em ato constitutivo; [IR10]
+- P11: Verificar, por meio da q1001ext[F], se o Comitê de TIC realiza as atividades previstas em ato constitutivo; [IR11]
 - P12: Validar, pela evidência anexada à q1001, a atuação efetiva do Comitê de TIC ou instância equivalente, incluindo atas, reuniões, deliberações, encaminhamentos ou registros de acompanhamento; [IR12]
 
 evidencias:
@@ -82,7 +85,8 @@ evidencias:
 - E9: Resposta negativa ou insuficiente sobre existência formal do Comitê de TIC ou instância equivalente; [P9]
 - E10: Ausência, desatualização, incompatibilidade ou insuficiência de evidência de instituição formal do Comitê de TIC ou instância equivalente; [P10]
 - E11: Resposta negativa ou insuficiente sobre atuação efetiva do Comitê de TIC ou instância equivalente; [P11]
-E12: Ausência, desatualização, incompatibilidade ou insuficiência de evidências de reuniões, atas, deliberações, encaminhamentos, registros de acompanhamento ou execução das competências do Comitê de TIC; [P12]
+- E12: Ausência, desatualização, incompatibilidade ou insuficiência de evidências de reuniões, atas, deliberações, encaminhamentos, registros de acompanhamento ou execução das competências do Comitê de TIC; [P12]
+
 possiveis_achados:
 - A1: Estrutura e governança de TIC insuficientes para avaliar, dirigir e monitorar a tecnologia da informação
   situacoes_encontradas:
@@ -94,7 +98,7 @@ possiveis_achados:
       - (q0101 == F)
       - ou q0101evi são inexistentes, incompatíveis ou insuficientes para comprovar formalização da área, unidade, setor ou função de TIC
       referencias_matriz: [R1.1, P1, E1, P2, E2]
-      criterios: [C1, C5, C7]
+      criterios: [C1, C5, C9]
       encaminhamento: Recomendar que a organização formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, compatível com seu porte, complexidade e dependência tecnológica.
   - S1.2:
       descricao: Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
@@ -104,17 +108,17 @@ possiveis_achados:
       - (q0101 != F) & ((q0103[G] == Sim) | (q0103[D] != Sim))
       - ou q0103evi são inexistentes, incompatíveis ou insuficientes para comprovar atribuições formais de governança, planejamento ou gestão de tecnologia da informação
       referencias_matriz: [R1.2, P3, E3, P4, E4]
-      criterios: [C2, C5, C7]
+      criterios: [C2, C5, C9]
       encaminhamento: Recomendar que a organização defina formalmente as atribuições da área de TIC, contemplando planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
   - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
-      itens_questionario: [q0102, q0102evi]
+      itens_questionario: [q0101, q0102, q0102evi]
       regra_de_identificacao:
       - (q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))
       - ou q0102evi são inexistentes, incompatíveis ou insuficientes para comprovar posicionamento adequado da área de TIC
       referencias_matriz: [R1.3, P5, E5, P6, E6]
-      criterios: [C3, C4, C7]
+      criterios: [C3, C4, C9]
       encaminhamento: Recomendar que a organização avalie e ajuste o posicionamento organizacional da área de TIC, de modo a permitir participação adequada em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
   - S1.4:
       descricao: Ausência ou insuficiência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.
@@ -124,7 +128,7 @@ possiveis_achados:
       - (q1001ext[C] != Sim) | (q1001ext[H] != Sim) | ((q1002ext[A] != Sim) & (q1002ext[C] != Sim))
       - ou q1001evi/q1002evi são inexistentes, incompatíveis ou insuficientes para comprovar modelo de governança, papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento
       referencias_matriz: [R1.4, P7, E7, P8, E8]
-      criterios: [C4, C6]
+      criterios: [C4, C5, C6, C7, C9, C10]
       encaminhamento: Recomendar que a alta administração estabeleça modelo básico de governança e gestão de TIC, com papéis, responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico.
   - S1.5:
       descricao: Ausência de Comitê de TIC ou instância equivalente formalmente instituído.
@@ -134,7 +138,7 @@ possiveis_achados:
       - (q1001ext[E] != Sim)
       - ou q1001evi são inexistentes, incompatíveis ou insuficientes para comprovar instituição formal do Comitê de TIC ou instância equivalente
       referencias_matriz: [R1.5, P9, E9, P10, E10]
-      criterios: [C4, C5, C7]
+      criterios: [C2, C4, C7, C8, C9, C10]
       encaminhamento: Recomendar que a organização institua formalmente Comitê de TIC ou instância equivalente, definindo composição, competências, periodicidade mínima, forma de registro das deliberações e acompanhamento dos encaminhamentos.
   - S1.6:
       descricao: Comitê de TIC ou instância equivalente formalmente instituído, mas sem evidência de atuação efetiva.
@@ -144,7 +148,7 @@ possiveis_achados:
       - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
       - ou q1001evi são inexistentes, incompatíveis ou insuficientes para comprovar reuniões, atas, deliberações, encaminhamentos ou execução das competências do Comitê de TIC
       referencias_matriz: [R1.6, P11, E11, P12, E12]
-      criterios: [C4, C6, C7]
+      criterios: [C4, C6, C7, C8, C10]
       encaminhamento: Recomendar que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, com reuniões periódicas, atas, deliberações, encaminhamentos e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 
 ---
@@ -777,4 +781,4 @@ possiveis_achados:
       - ou q2804evi/q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento
       referencias_matriz: [R6.5, P7, E8]
       criterios: [C1, C6, C7]
-      encaminhamento: Recomendar que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.  
+      encaminhamento: Recomendar que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.
