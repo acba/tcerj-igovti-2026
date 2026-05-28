@@ -162,8 +162,8 @@ subquestoes:
 - As áreas demandantes participam do processo de planejamento de TIC?
 - A organização possui plano de TIC formalmente instituído, vigente e aprovado pela instância competente?
 - O plano de TIC define objetivos, iniciativas, responsáveis, prazos, metas ou indicadores?
-- O plano de TIC está alinhado ao planejamento institucional e às diretrizes superiores aplicáveis?
-- O plano de TIC fundamenta a proposta orçamentária da área de TIC e o plano de contratações?
+- O plano de TIC está alinhado ao planejamento institucional?
+- O plano de TIC está integrado à proposta orçamentária da área de TIC e ao plano de contratações?
 - O plano de TIC é acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes?
 
 riscos:
@@ -190,12 +190,14 @@ informacoes_requeridas:
 - IR9: Resposta e evidência sobre acompanhamento, revisão ou atualização do plano de TIC; [F1, F2, q2102, q2102evi]
 
 criterios:
-- C1: COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico.
-- C2: COBIT 2019, APO02.06 - Comunicar a estratégia e o direcionamento de TI.
-- C3: COBIT 2019, APO05 - Portfólio gerenciado.
-- C4: COBIT 2019, APO06 - Orçamento e custos gerenciados.
-- C5: Acórdão 1.411/2014-TCU-Plenário, no que se refere ao estabelecimento de processo de planejamento de TI e de plano diretor de TI.
-- C6: Acórdão TCE-RJ 44.490/2024-PLEN, no que se refere à governança e ao planejamento de TI.
+- C1: COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.
+- C2: COBIT 2019, APO02.06 - Comunicar a estratégia e o direcionamento de TI: comunicar objetivos, prioridades e direcionamentos de TIC às partes interessadas, de modo a orientar decisões, iniciativas e responsabilidades.
+- C3: COBIT 2019, APO05.03 - Avaliar e selecionar programas a financiar: avaliar, priorizar e selecionar iniciativas de TIC considerando alinhamento estratégico, benefícios, custos, riscos, dependências e disponibilidade de recursos.
+- C4: COBIT 2019, APO05.04 - Monitorar, otimizar e reportar o desempenho do portfólio: acompanhar a execução das iniciativas e reportar desempenho, benefícios, riscos e necessidades de ajuste.
+- C5: COBIT 2019, APO06.02 - Priorizar a alocação de recursos: priorizar recursos de TIC de acordo com objetivos estratégicos, restrições orçamentárias, riscos e benefícios esperados.
+- C6: COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
+- C7: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.5: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão, vinculação das ações priorizadas ao orçamento de TI e quantitativo necessário de força de trabalho de TI.
+- C8: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q2101, se a organização executa processo formal de planejamento de TIC; [IR1]
@@ -220,7 +222,7 @@ evidencias:
 - E9: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P9]
 
 possiveis_achados:
-- A2: Planejamento de TIC inexistente, desatualizado ou desconectado da gestão, do orçamento e das contratações
+- A2: Planejamento de TIC inexistente, insuficiente, desatualizado ou desconectado da gestão, do orçamento e das contratações
   situacoes_encontradas:
   - S2.1:
       descricao: Inexistência ou fragilidade do processo formal de planejamento de TIC.
@@ -240,6 +242,14 @@ possiveis_achados:
       referencias_matriz: [R2.2, P4, E4, P5, E5]
       criterios: [C1, C2, C5, C6]
       encaminhamento: Recomendar que a organização elabore, aprove e mantenha vigente plano de TIC compatível com seu porte, suas prioridades institucionais e sua capacidade de execução.
+  - S2.3:
+    descricao: Plano de TIC sem conteúdo mínimo suficiente para orientar a gestão.
+    itens_questionario: [q2102, q2102evi]
+    regra_de_identificacao:
+    - q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar objetivos, iniciativas, responsáveis, prazos, metas ou indicadores no plano de TIC
+    referencias_matriz: [R2.3, P6, E6]
+    criterios: [C1, C2, C3]
+    encaminhamento: Recomendar que o plano de TIC contenha, no mínimo, objetivos, iniciativas priorizadas, responsáveis, prazos, metas ou indicadores de acompanhamento.
   - S2.4:
       descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
       itens_questionario: [q2102ext[D], q2102evi]
