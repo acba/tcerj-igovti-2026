@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel da Matriz de Planejamento - iGovTI 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #152033;
+      --muted: #667085;
+      --line: #d9e0ea;
+      --paper: #f6f8fb;
+      --panel: #ffffff;
+      --brand: #0f766e;
+      --brand-2: #1d4ed8;
+      --warn: #b45309;
+      --danger: #be123c;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    button, input, select { font: inherit; }
+    .app-shell { min-height: 100vh; }
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(10px);
+    }
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: #fff;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      min-height: 2.25rem;
+      padding: .48rem .75rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: #223047;
+      font-weight: 650;
+      font-size: .86rem;
+      line-height: 1.1;
+      transition: background .15s ease, border-color .15s ease, color .15s ease;
+    }
+    .btn:hover { background: #f4f7fa; border-color: #c7d2df; }
+    .btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .btn-primary:hover { background: #0d665f; border-color: #0d665f; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .16rem .48rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #38465b;
+      font-size: .72rem;
+      font-weight: 700;
+      line-height: 1.35;
+      white-space: nowrap;
+    }
+    .chip-id { border-color: #bfdbfe; background: #eff6ff; color: #1d4ed8; }
+    .chip-ref { border-color: #ccfbf1; background: #f0fdfa; color: #0f766e; }
+    .chip-high { border-color: #fecdd3; background: #fff1f2; color: var(--danger); }
+    .chip-medium { border-color: #fde68a; background: #fffbeb; color: var(--warn); }
+    .chip-low { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+    .nav-item {
+      width: 100%;
+      text-align: left;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: .72rem;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .nav-item:hover { background: #f5f8fb; }
+    .nav-item.active {
+      background: #ecfdf5;
+      border-color: #99f6e4;
+    }
+    .tab-btn {
+      border-bottom: 2px solid transparent;
+      color: #667085;
+      padding: .78rem .25rem;
+      font-weight: 750;
+      font-size: .88rem;
+    }
+    .tab-btn.active { color: var(--brand); border-bottom-color: var(--brand); }
+    .section-title {
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #667085;
+      font-weight: 800;
+    }
+    .item-row {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: .85rem;
+    }
+    .accordion-body { display: none; }
+    .accordion.open .accordion-body { display: block; }
+    .accordion.open .chevron { transform: rotate(180deg); }
+    .chevron { transition: transform .15s ease; }
+    .search-hit mark {
+      background: #fef3c7;
+      padding: 0 .1rem;
+      border-radius: 3px;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    .trace-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: .75rem;
+    }
+    .trace-col {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      min-height: 10rem;
+    }
+    .trace-col header {
+      border-bottom: 1px solid var(--line);
+      padding: .65rem .75rem;
+      font-size: .78rem;
+      font-weight: 800;
+      color: #475467;
+    }
+    .trace-col .trace-item {
+      margin: .6rem;
+      padding: .62rem;
+      border: 1px solid #e8edf3;
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+    .bar-track {
+      height: .55rem;
+      background: #e9eef5;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--brand);
+      border-radius: 999px;
+    }
+    .load-alert {
+      border: 1px solid #fed7aa;
+      background: #fff7ed;
+      color: #9a3412;
+      border-radius: 8px;
+    }
+    @media (max-width: 1100px) {
+      .trace-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .desktop-layout { display: block; }
+      .sidebar {
+        position: static;
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .trace-grid { grid-template-columns: 1fr; }
+      .tab-scroll { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar sticky top-0 z-30">
+      <div class="mx-auto flex max-w-[1600px] flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[.08em] text-teal-700">
+            <span>Fiscalização TCE-RJ nº 18/2026</span>
+            <span class="text-slate-300">/</span>
+            <span>iGovTI 2026</span>
+          </div>
+          <h1 class="mt-1 text-xl font-extrabold leading-tight text-slate-900 md:text-2xl">Painel da Matriz de Planejamento</h1>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <label class="btn cursor-pointer" title="Carregar matriz Markdown manualmente">
+            <i data-lucide="upload" class="h-4 w-4"></i>
+            <span>Carregar .md</span>
+            <input id="fileInput" type="file" accept=".md,.txt,text/markdown,text/plain" class="hidden" />
+          </label>
+          <button id="reloadBtn" class="btn" title="Recarregar matriz pelo caminho relativo">
+            <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+            <span>Recarregar</span>
+          </button>
+          <button id="expandBtn" class="btn" title="Expandir ou recolher detalhes">
+            <i data-lucide="chevrons-down-up" class="h-4 w-4"></i>
+            <span>Expandir</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-[1600px]">
+      <section id="loadStatus" class="mx-4 mt-4 hidden load-alert p-3 text-sm"></section>
+
+      <section class="mx-4 mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5" id="summaryCards"></section>
+
+      <section class="desktop-layout mt-4 grid grid-cols-[340px_minmax(0,1fr)]">
+        <aside class="sidebar sticky top-[77px] h-[calc(100vh-77px)] overflow-auto p-4" id="sidebar">
+          <div class="mb-3">
+            <label class="mb-1 block text-xs font-bold uppercase tracking-[.08em] text-slate-500" for="searchInput">Busca global</label>
+            <div class="relative">
+              <i data-lucide="search" class="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-slate-400"></i>
+              <input id="searchInput" type="search" placeholder="Buscar questão, risco, critério..." class="w-full rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100" />
+            </div>
+          </div>
+          <div class="mb-4 grid grid-cols-2 gap-2">
+            <select id="severityFilter" class="rounded-lg border border-slate-300 bg-white px-2 py-2 text-sm outline-none focus:border-teal-600">
+              <option value="">Todas severidades</option>
+              <option value="alta">Alta</option>
+              <option value="media">Média</option>
+              <option value="baixa">Baixa</option>
+            </select>
+            <select id="typeFilter" class="rounded-lg border border-slate-300 bg-white px-2 py-2 text-sm outline-none focus:border-teal-600">
+              <option value="">Todos tipos</option>
+              <option value="questao">Questões</option>
+              <option value="achado">Achados</option>
+              <option value="situacao">Situações</option>
+              <option value="criterio">Critérios</option>
+              <option value="procedimento">Procedimentos</option>
+            </select>
+          </div>
+          <div id="questionNav" class="space-y-2"></div>
+        </aside>
+
+        <section class="min-w-0 px-4 pb-10">
+          <div id="searchResults" class="mt-4 hidden"></div>
+          <div id="content" class="mt-4"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <template id="emptyTemplate">
+    <div class="panel p-8 text-center">
+      <i data-lucide="file-search" class="mx-auto mb-3 h-10 w-10 text-slate-400"></i>
+      <h2 class="text-lg font-bold text-slate-900">Matriz não carregada</h2>
+      <p class="mx-auto mt-2 max-w-2xl text-sm leading-6 text-slate-600">Use o botão "Carregar .md" ou abra este painel por um servidor local para permitir o carregamento automático de <span class="mono">matriz_planejamento.md</span>.</p>
+    </div>
+  </template>
+
+  <script>
+    const MATRIX_PATH = "./matriz_planejamento.md";
+    const state = {
+      raw: "",
+      data: null,
+      selectedQuestion: 0,
+      activeTab: "overview",
+      allExpanded: false,
+      fuse: null,
+      searchIndex: []
+    };
+
+    const fields = [
+      "questao",
+      "subquestoes",
+      "riscos",
+      "fontes_de_informacao",
+      "informacoes_requeridas",
+      "criterios",
+      "procedimentos",
+      "evidencias",
+      "possiveis_achados"
+    ];
+
+    const el = (id) => document.getElementById(id);
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeText(text) {
+      return String(text || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    }
+
+    function titleCaseSeverity(value) {
+      const normalized = normalizeSeverity(value);
+      if (!normalized) return "Não indicada";
+      return normalized === "media" ? "Média" : normalized.charAt(0).toUpperCase() + normalized.slice(1);
+    }
+
+    function normalizeSeverity(value) {
+      return String(value || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function severityClass(value) {
+      const normalized = normalizeSeverity(value);
+      if (normalized === "alta") return "chip-high";
+      if (normalized === "media") return "chip-medium";
+      if (normalized === "baixa") return "chip-low";
+      return "";
+    }
+
+    function splitCsvList(value) {
+      return String(value || "")
+        .replace(/^\[/, "")
+        .replace(/\]$/, "")
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+    }
+
+    function getSectionBlock(content, fieldName) {
+      const escaped = fieldName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const re = new RegExp(`^${escaped}:\\s*$`, "m");
+      const match = content.match(re);
+      if (!match) return "";
+      const start = match.index + match[0].length;
+      const rest = content.slice(start);
+      const next = rest.search(new RegExp(`\\n(?:${fields.map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")}):\\s*$|\\n---\\s*$`, "m"));
+      return (next >= 0 ? rest.slice(0, next) : rest).trim();
+    }
+
+    function getSingleLine(content, key) {
+      const re = new RegExp(`^${key}:\\s*(.+)$`, "m");
+      const match = content.match(re);
+      return match ? match[1].trim() : "";
+    }
+
+    function parseList(block) {
+      const items = [];
+      let current = null;
+      normalizeText(block).split("\n").forEach((line) => {
+        if (!line.trim()) return;
+        const bullet = line.match(/^\s*-\s+(.+)$/);
+        if (bullet) {
+          if (current) items.push(parseItem(current));
+          current = bullet[1].trim();
+        } else if (current) {
+          current += " " + line.trim();
+        }
+      });
+      if (current) items.push(parseItem(current));
+      return items;
+    }
+
+    function parseItem(text) {
+      const item = { id: "", text: text.trim(), refs: [], raw: text.trim() };
+      const idMatch = item.text.match(/^([A-Z]{1,3}\d+(?:\.\d+)?):\s*(.+)$/);
+      if (idMatch) {
+        item.id = idMatch[1];
+        item.text = idMatch[2].trim();
+      }
+      const refs = item.raw.match(/\[([^\]]+)\]\s*$/);
+      if (refs) item.refs = splitCsvList(refs[1]);
+      return item;
+    }
+
+    function parseMatrix(markdown) {
+      const text = normalizeText(markdown);
+      const title = (text.match(/^title:\s*"([^"]+)"/m) || [])[1] || "Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026";
+      const geral = (text.match(/^questao_geral:\s*(.+)$/m) || [])[1] || "";
+      const questionMatches = [...text.matchAll(/^## Questão\s+(\d+)\s*-\s*(.+)$/gm)];
+      const questions = questionMatches.map((match, index) => {
+        const start = match.index;
+        const end = questionMatches[index + 1] ? questionMatches[index + 1].index : text.length;
+        const content = text.slice(start, end);
+        const number = match[1].padStart(2, "0");
+        const title = match[2].trim();
+        const question = getSingleLine(content, "questao");
+        const parsed = {
+          id: `Q${Number(match[1])}`,
+          number,
+          title,
+          question,
+          subquestoes: parseList(getSectionBlock(content, "subquestoes")),
+          riscos: parseList(getSectionBlock(content, "riscos")),
+          fontes: parseList(getSectionBlock(content, "fontes_de_informacao")),
+          informacoes: parseList(getSectionBlock(content, "informacoes_requeridas")),
+          criterios: parseList(getSectionBlock(content, "criterios")),
+          procedimentos: parseList(getSectionBlock(content, "procedimentos")),
+          evidencias: parseList(getSectionBlock(content, "evidencias")),
+          achados: parseFindings(getSectionBlock(content, "possiveis_achados"))
+        };
+        parsed.situacoes = parsed.achados.flatMap((achado) => achado.situacoes.map((situacao) => ({ ...situacao, achadoId: achado.id, achadoTitle: achado.title })));
+        parsed.questionario = [...new Set(parsed.situacoes.flatMap((s) => s.itensQuestionario || []))].sort();
+        return parsed;
+      });
+      return { title, geral, questions, loadedAt: new Date() };
+    }
+
+    function parseFindings(block) {
+      const lines = normalizeText(block).split("\n");
+      const achados = [];
+      let currentAchado = null;
+      let currentSituacao = null;
+      let currentProp = null;
+
+      function finishSituacao() {
+        if (currentAchado && currentSituacao) {
+          currentAchado.situacoes.push(currentSituacao);
+        }
+        currentSituacao = null;
+        currentProp = null;
+      }
+
+      function finishAchado() {
+        finishSituacao();
+        if (currentAchado) achados.push(currentAchado);
+        currentAchado = null;
+      }
+
+      lines.forEach((line) => {
+        const achado = line.match(/^\s*-\s+(A\d+):\s*(.+)$/);
+        if (achado) {
+          finishAchado();
+          currentAchado = { id: achado[1], title: achado[2].trim(), situacoes: [] };
+          return;
+        }
+
+        const situacao = line.match(/^\s*-\s+(S\d+\.\d+):\s*$/);
+        if (situacao) {
+          finishSituacao();
+          currentSituacao = {
+            id: situacao[1],
+            descricao: "",
+            severidade: "",
+            itensQuestionario: [],
+            regra: [],
+            referencias: [],
+            criterios: [],
+            encaminhamento: ""
+          };
+          return;
+        }
+
+        if (!currentSituacao) return;
+        const prop = line.match(/^\s{4,}([a-zA-Z_]+):\s*(.*)$/);
+        if (prop) {
+          currentProp = prop[1];
+          const value = prop[2].trim();
+          assignSituationProp(currentSituacao, currentProp, value);
+          return;
+        }
+
+        const listItem = line.match(/^\s{4,}-\s+(.+)$/);
+        if (listItem && currentProp === "regra_de_identificacao") {
+          currentSituacao.regra.push(listItem[1].trim());
+          return;
+        }
+
+        if (line.trim() && currentProp === "encaminhamento") {
+          currentSituacao.encaminhamento += " " + line.trim();
+        }
+      });
+
+      finishAchado();
+      return achados;
+    }
+
+    function assignSituationProp(situation, prop, value) {
+      if (prop === "descricao") situation.descricao = value;
+      if (prop === "severidade") situation.severidade = value;
+      if (prop === "itens_questionario") situation.itensQuestionario = splitCsvList(value);
+      if (prop === "referencias_matriz") situation.referencias = splitCsvList(value);
+      if (prop === "criterios") situation.criterios = splitCsvList(value);
+      if (prop === "encaminhamento") situation.encaminhamento = value;
+      if (prop === "regra_de_identificacao") situation.regra = [];
+    }
+
+    function buildSearchIndex(data) {
+      const entries = [];
+      data.questions.forEach((q, qIndex) => {
+        entries.push({ type: "questao", qIndex, id: q.id, title: q.title, text: `${q.question} ${q.title}` });
+        q.achados.forEach((a) => entries.push({ type: "achado", qIndex, id: a.id, title: a.title, text: a.title }));
+        q.situacoes.forEach((s) => entries.push({ type: "situacao", qIndex, id: s.id, title: s.descricao, text: `${s.descricao} ${s.regra.join(" ")} ${s.encaminhamento} ${s.itensQuestionario.join(" ")}`, severity: normalizeSeverity(s.severidade) }));
+        q.criterios.forEach((c) => entries.push({ type: "criterio", qIndex, id: c.id, title: c.text, text: c.raw }));
+        q.procedimentos.forEach((p) => entries.push({ type: "procedimento", qIndex, id: p.id, title: p.text, text: p.raw }));
+      });
+      state.searchIndex = entries;
+      state.fuse = window.Fuse ? new Fuse(entries, { keys: ["id", "title", "text"], threshold: 0.28, ignoreLocation: true }) : null;
+    }
+
+    function render() {
+      renderSummary();
+      renderSidebar();
+      renderSearchResults();
+      renderContent();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderStatus(message, isError = false) {
+      const box = el("loadStatus");
+      if (!message) {
+        box.classList.add("hidden");
+        box.innerHTML = "";
+        return;
+      }
+      box.classList.remove("hidden");
+      box.className = `mx-4 mt-4 p-3 text-sm ${isError ? "load-alert" : "panel text-slate-700"}`;
+      box.innerHTML = message;
+    }
+
+    function renderSummary() {
+      const container = el("summaryCards");
+      if (!state.data) {
+        container.innerHTML = "";
+        return;
+      }
+      const totals = getTotals();
+      const cards = [
+        ["Questões", totals.questions, "circle-help", "#0f766e"],
+        ["Situações", totals.situations, "list-checks", "#be123c"],
+        ["Riscos", totals.risks, "shield-alert", "#b45309"],
+        ["Critérios", totals.criteria, "scale", "#1d4ed8"],
+        ["Itens de questionário", totals.questionItems, "clipboard-list", "#7c3aed"]
+      ];
+      container.innerHTML = cards.map(([label, value, icon, color]) => `
+        <div class="panel p-4">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[.08em] text-slate-500">${label}</p>
+              <p class="mt-1 text-2xl font-extrabold text-slate-900">${value}</p>
+            </div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg" style="background:${color}18;color:${color}">
+              <i data-lucide="${icon}" class="h-5 w-5"></i>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function getTotals() {
+      if (!state.data) return {};
+      const questions = state.data.questions;
+      return {
+        questions: questions.length,
+        situations: questions.reduce((sum, q) => sum + q.situacoes.length, 0),
+        risks: questions.reduce((sum, q) => sum + q.riscos.length, 0),
+        criteria: questions.reduce((sum, q) => sum + q.criterios.length, 0),
+        questionItems: new Set(questions.flatMap((q) => q.questionario)).size
+      };
+    }
+
+    function renderSidebar() {
+      const nav = el("questionNav");
+      if (!state.data) {
+        nav.innerHTML = "";
+        return;
+      }
+      nav.innerHTML = `
+        <div class="mb-2 flex items-center justify-between">
+          <span class="section-title">Questões</span>
+          <button class="text-xs font-bold text-teal-700 hover:text-teal-900" id="clearFiltersBtn">Limpar filtros</button>
+        </div>
+        ${state.data.questions.map((q, index) => {
+          const active = index === state.selectedQuestion ? "active" : "";
+          const count = q.situacoes.length;
+          return `
+            <button class="nav-item ${active}" data-action="select-question" data-index="${index}">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="chip chip-id">${q.id}</span>
+                    <span class="truncate text-sm font-extrabold text-slate-900">${escapeHtml(q.title)}</span>
+                  </div>
+                  <p class="mt-2 line-clamp-2 text-xs leading-5 text-slate-600">${escapeHtml(q.question.replace(/^Q\d+\.\s*/, ""))}</p>
+                </div>
+              </div>
+              <div class="mt-2 flex flex-wrap gap-1.5">
+                <span class="chip">${q.riscos.length} riscos</span>
+                <span class="chip">${q.criterios.length} critérios</span>
+                <span class="chip">${count} situações</span>
+              </div>
+            </button>
+          `;
+        }).join("")}
+      `;
+      const clear = el("clearFiltersBtn");
+      if (clear) clear.addEventListener("click", clearFilters);
+    }
+
+    function renderSearchResults() {
+      const query = el("searchInput").value.trim();
+      const type = el("typeFilter").value;
+      const severity = el("severityFilter").value;
+      const box = el("searchResults");
+      if (!state.data || (!query && !type && !severity)) {
+        box.classList.add("hidden");
+        box.innerHTML = "";
+        return;
+      }
+      const base = query && state.fuse ? state.fuse.search(query).map((r) => r.item) : state.searchIndex;
+      const filtered = base.filter((item) => {
+        if (type && item.type !== type) return false;
+        if (severity && item.type === "situacao" && item.severity !== severity) return false;
+        if (severity && item.type !== "situacao") return false;
+        return true;
+      }).slice(0, 30);
+
+      box.classList.remove("hidden");
+      box.innerHTML = `
+        <div class="panel p-4">
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <p class="section-title">Resultados filtrados</p>
+              <p class="mt-1 text-sm text-slate-600">${filtered.length} item(ns) encontrado(s)</p>
+            </div>
+            <button class="btn" id="hideResultsBtn"><i data-lucide="x" class="h-4 w-4"></i>Fechar</button>
+          </div>
+          <div class="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+            ${filtered.map((item) => `
+              <button class="item-row text-left hover:border-teal-300 hover:bg-teal-50/40" data-action="select-question" data-index="${item.qIndex}">
+                <div class="mb-2 flex flex-wrap items-center gap-1.5">
+                  <span class="chip chip-id">${escapeHtml(item.id)}</span>
+                  <span class="chip">${escapeHtml(typeLabel(item.type))}</span>
+                  ${item.severity ? `<span class="chip ${severityClass(item.severity)}">${titleCaseSeverity(item.severity)}</span>` : ""}
+                </div>
+                <p class="text-sm font-bold leading-5 text-slate-900">${escapeHtml(item.title)}</p>
+                <p class="mt-1 text-xs text-slate-500">${escapeHtml(state.data.questions[item.qIndex].title)}</p>
+              </button>
+            `).join("") || `<p class="text-sm text-slate-600">Nenhum item encontrado para os filtros atuais.</p>`}
+          </div>
+        </div>
+      `;
+      const hide = el("hideResultsBtn");
+      if (hide) hide.addEventListener("click", clearFilters);
+    }
+
+    function typeLabel(type) {
+      return {
+        questao: "Questão",
+        achado: "Achado",
+        situacao: "Situação",
+        criterio: "Critério",
+        procedimento: "Procedimento"
+      }[type] || type;
+    }
+
+    function renderContent() {
+      const container = el("content");
+      if (!state.data) {
+        container.innerHTML = el("emptyTemplate").innerHTML;
+        return;
+      }
+      const q = state.data.questions[state.selectedQuestion] || state.data.questions[0];
+      const tabs = [
+        ["overview", "Visão geral", "layout-dashboard"],
+        ["trace", "Rastreabilidade", "git-branch"],
+        ["findings", "Achados", "list-checks"],
+        ["criteria", "Critérios", "scale"],
+        ["questionnaire", "Questionário", "clipboard-list"]
+      ];
+      container.innerHTML = `
+        <article class="space-y-4">
+          <section class="panel p-5">
+            <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+              <div class="min-w-0">
+                <div class="mb-3 flex flex-wrap items-center gap-2">
+                  <span class="chip chip-id">${q.id}</span>
+                  <span class="chip">${q.situacoes.length} situações</span>
+                  <span class="chip">${q.riscos.length} riscos</span>
+                  <span class="chip">${q.criterios.length} critérios</span>
+                </div>
+                <h2 class="text-2xl font-extrabold leading-tight text-slate-900">${escapeHtml(q.title)}</h2>
+                <p class="mt-3 max-w-5xl text-base leading-7 text-slate-700">${escapeHtml(q.question.replace(/^Q\d+\.\s*/, ""))}</p>
+              </div>
+              <button class="btn" data-copy="${escapeHtml(q.question)}" title="Copiar questão de auditoria">
+                <i data-lucide="copy" class="h-4 w-4"></i>
+                Copiar
+              </button>
+            </div>
+          </section>
+
+          <section class="panel px-4">
+            <div class="tab-scroll flex gap-5">
+              ${tabs.map(([id, label, icon]) => `
+                <button class="tab-btn ${state.activeTab === id ? "active" : ""}" data-action="select-tab" data-tab="${id}">
+                  <span class="inline-flex items-center gap-2 whitespace-nowrap"><i data-lucide="${icon}" class="h-4 w-4"></i>${label}</span>
+                </button>
+              `).join("")}
+            </div>
+          </section>
+
+          <section>${renderTab(q)}</section>
+        </article>
+      `;
+    }
+
+    function renderTab(q) {
+      if (state.activeTab === "trace") return renderTrace(q);
+      if (state.activeTab === "findings") return renderFindings(q);
+      if (state.activeTab === "criteria") return renderCriteria(q);
+      if (state.activeTab === "questionnaire") return renderQuestionnaire(q);
+      return renderOverview(q);
+    }
+
+    function renderOverview(q) {
+      return `
+        <div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
+          <div class="space-y-4">
+            ${renderGeneralQuestion()}
+            <div class="panel p-5">
+              <div class="mb-3 flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="h-5 w-5 text-teal-700"></i>
+                <h3 class="text-lg font-extrabold text-slate-900">Subquestões</h3>
+              </div>
+              <div class="grid gap-2">
+                ${q.subquestoes.map((item, index) => `
+                  <div class="item-row flex gap-3">
+                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-xs font-extrabold text-teal-700">${index + 1}</span>
+                    <p class="text-sm leading-6 text-slate-700">${escapeHtml(item.text)}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+            <div class="panel p-5">
+              <div class="mb-3 flex items-center gap-2">
+                <i data-lucide="activity" class="h-5 w-5 text-blue-700"></i>
+                <h3 class="text-lg font-extrabold text-slate-900">Distribuição da questão</h3>
+              </div>
+              ${renderDistribution(q)}
+            </div>
+          </div>
+          <div class="space-y-4">
+            ${q.achados.map((achado) => `
+              <div class="panel p-5">
+                <p class="section-title">Achado estruturante</p>
+                <h3 class="mt-2 text-lg font-extrabold leading-6 text-slate-900">${escapeHtml(achado.id)}: ${escapeHtml(achado.title)}</h3>
+                <div class="mt-4 grid gap-2">
+                  ${achado.situacoes.map((s) => `
+                    <button class="item-row text-left hover:border-teal-300" data-action="select-tab" data-tab="findings">
+                      <div class="flex flex-wrap items-center gap-2">
+                        <span class="chip chip-id">${escapeHtml(s.id)}</span>
+                        <span class="chip ${severityClass(s.severidade)}">${titleCaseSeverity(s.severidade)}</span>
+                      </div>
+                      <p class="mt-2 text-sm font-semibold leading-6 text-slate-800">${escapeHtml(s.descricao)}</p>
+                    </button>
+                  `).join("")}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderGeneralQuestion() {
+      const geral = state.data?.geral;
+      if (!geral) return "";
+      return `
+        <div class="panel p-5">
+          <div class="mb-2 flex items-center gap-2">
+            <i data-lucide="target" class="h-5 w-5 text-teal-700"></i>
+            <h3 class="text-lg font-extrabold text-slate-900">Questão geral</h3>
+          </div>
+          <p class="text-sm leading-6 text-slate-700">${escapeHtml(geral)}</p>
+        </div>
+      `;
+    }
+
+    function renderDistribution(q) {
+      const items = [
+        ["Riscos", q.riscos.length],
+        ["Informações", q.informacoes.length],
+        ["Critérios", q.criterios.length],
+        ["Procedimentos", q.procedimentos.length],
+        ["Evidências", q.evidencias.length],
+        ["Situações", q.situacoes.length]
+      ];
+      const max = Math.max(...items.map(([, value]) => value), 1);
+      return `
+        <div class="space-y-3">
+          ${items.map(([label, value]) => `
+            <div class="grid grid-cols-[120px_1fr_36px] items-center gap-3 text-sm">
+              <span class="font-bold text-slate-700">${label}</span>
+              <div class="bar-track"><div class="bar-fill" style="width:${(value / max) * 100}%"></div></div>
+              <span class="text-right font-extrabold text-slate-800">${value}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderTrace(q) {
+      return `
+        <div class="space-y-4">
+          <div class="panel p-5">
+            <div class="mb-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p class="section-title">Rastreabilidade</p>
+                <h3 class="mt-1 text-lg font-extrabold text-slate-900">Riscos, procedimentos, evidências e situações encontradas</h3>
+              </div>
+              <button class="btn" data-copy="${escapeHtml(buildTraceText(q))}"><i data-lucide="copy" class="h-4 w-4"></i>Copiar rastreabilidade</button>
+            </div>
+            <div class="trace-grid">
+              ${renderTraceColumn("Riscos", q.riscos)}
+              ${renderTraceColumn("Procedimentos", q.procedimentos)}
+              ${renderTraceColumn("Evidências", q.evidencias)}
+              ${renderTraceColumn("Situações", q.situacoes.map((s) => ({ id: s.id, text: s.descricao, refs: s.referencias })))}
+            </div>
+          </div>
+          <div class="grid gap-4 xl:grid-cols-2">
+            <div class="panel p-5">
+              <h3 class="mb-3 text-lg font-extrabold text-slate-900">Informações requeridas</h3>
+              ${renderItemList(q.informacoes)}
+            </div>
+            <div class="panel p-5">
+              <h3 class="mb-3 text-lg font-extrabold text-slate-900">Fontes de informação</h3>
+              ${renderItemList(q.fontes)}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTraceColumn(title, items) {
+      return `
+        <div class="trace-col">
+          <header>${title}</header>
+          <div>
+            ${items.map((item) => `
+              <div class="trace-item">
+                <div class="mb-2 flex flex-wrap gap-1.5">
+                  ${item.id ? `<span class="chip chip-id">${escapeHtml(item.id)}</span>` : ""}
+                  ${(item.refs || []).map((ref) => `<span class="chip chip-ref">${escapeHtml(ref)}</span>`).join("")}
+                </div>
+                <p class="text-xs leading-5 text-slate-700">${escapeHtml(item.text)}</p>
+              </div>
+            `).join("") || `<p class="p-3 text-sm text-slate-500">Sem itens cadastrados.</p>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFindings(q) {
+      return `
+        <div class="space-y-4">
+          ${q.achados.map((achado) => `
+            <div class="panel p-5">
+              <div class="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                <div>
+                  <p class="section-title">${escapeHtml(achado.id)}</p>
+                  <h3 class="mt-1 text-xl font-extrabold leading-7 text-slate-900">${escapeHtml(achado.title)}</h3>
+                </div>
+                <span class="chip">${achado.situacoes.length} situações</span>
+              </div>
+              <div class="space-y-3">
+                ${achado.situacoes.map((s) => renderSituation(s)).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderSituation(s) {
+      const open = state.allExpanded ? "open" : "";
+      return `
+        <div class="accordion item-row ${open}">
+          <button class="flex w-full items-start justify-between gap-3 text-left" data-action="toggle-accordion">
+            <div class="min-w-0">
+              <div class="mb-2 flex flex-wrap items-center gap-2">
+                <span class="chip chip-id">${escapeHtml(s.id)}</span>
+                <span class="chip ${severityClass(s.severidade)}">${titleCaseSeverity(s.severidade)}</span>
+                ${s.itensQuestionario.slice(0, 4).map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}
+                ${s.itensQuestionario.length > 4 ? `<span class="chip">+${s.itensQuestionario.length - 4}</span>` : ""}
+              </div>
+              <h4 class="text-base font-extrabold leading-6 text-slate-900">${escapeHtml(s.descricao)}</h4>
+            </div>
+            <i data-lucide="chevron-down" class="chevron mt-1 h-5 w-5 shrink-0 text-slate-500"></i>
+          </button>
+          <div class="accordion-body mt-4 border-t border-slate-200 pt-4">
+            <div class="grid gap-4 xl:grid-cols-2">
+              <div>
+                <p class="mb-2 section-title">Regra de identificação</p>
+                <ul class="space-y-2">
+                  ${s.regra.map((rule) => `<li class="rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700 mono">${escapeHtml(rule)}</li>`).join("")}
+                </ul>
+              </div>
+              <div>
+                <p class="mb-2 section-title">Encaminhamento</p>
+                <p class="rounded-lg bg-teal-50 p-3 text-sm leading-6 text-slate-800">${escapeHtml(s.encaminhamento)}</p>
+              </div>
+            </div>
+            <div class="mt-4 grid gap-3 md:grid-cols-3">
+              <div>
+                <p class="mb-2 section-title">Referências</p>
+                <div class="flex flex-wrap gap-1.5">${s.referencias.map((ref) => `<span class="chip chip-ref">${escapeHtml(ref)}</span>`).join("") || `<span class="text-sm text-slate-500">Não indicadas.</span>`}</div>
+              </div>
+              <div>
+                <p class="mb-2 section-title">Critérios</p>
+                <div class="flex flex-wrap gap-1.5">${s.criterios.map((ref) => `<span class="chip chip-id">${escapeHtml(ref)}</span>`).join("") || `<span class="text-sm text-slate-500">Não indicados.</span>`}</div>
+              </div>
+              <div>
+                <p class="mb-2 section-title">Itens do questionário</p>
+                <div class="flex flex-wrap gap-1.5">${s.itensQuestionario.map((ref) => `<span class="chip">${escapeHtml(ref)}</span>`).join("") || `<span class="text-sm text-slate-500">Não indicados.</span>`}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCriteria(q) {
+      return `
+        <div class="grid gap-4 xl:grid-cols-[1fr_.9fr]">
+          <div class="panel p-5">
+            <div class="mb-3 flex items-center gap-2">
+              <i data-lucide="scale" class="h-5 w-5 text-blue-700"></i>
+              <h3 class="text-lg font-extrabold text-slate-900">Critérios da questão</h3>
+            </div>
+            ${renderItemList(q.criterios)}
+          </div>
+          <div class="panel p-5">
+            <div class="mb-3 flex items-center gap-2">
+              <i data-lucide="link" class="h-5 w-5 text-teal-700"></i>
+              <h3 class="text-lg font-extrabold text-slate-900">Uso dos critérios nas situações</h3>
+            </div>
+            <div class="space-y-2">
+              ${q.situacoes.map((s) => `
+                <div class="item-row">
+                  <div class="mb-2 flex flex-wrap items-center gap-1.5">
+                    <span class="chip chip-id">${escapeHtml(s.id)}</span>
+                    ${s.criterios.map((c) => `<span class="chip chip-ref">${escapeHtml(c)}</span>`).join("")}
+                  </div>
+                  <p class="text-sm leading-6 text-slate-700">${escapeHtml(s.descricao)}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderQuestionnaire(q) {
+      return `
+        <div class="grid gap-4 xl:grid-cols-[.8fr_1.2fr]">
+          <div class="panel p-5">
+            <div class="mb-3 flex items-center gap-2">
+              <i data-lucide="clipboard-list" class="h-5 w-5 text-purple-700"></i>
+              <h3 class="text-lg font-extrabold text-slate-900">Itens vinculados</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              ${q.questionario.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("") || `<span class="text-sm text-slate-500">Não há itens associados.</span>`}
+            </div>
+          </div>
+          <div class="panel p-5">
+            <h3 class="mb-3 text-lg font-extrabold text-slate-900">Situações por item do questionário</h3>
+            <div class="space-y-2">
+              ${q.situacoes.map((s) => `
+                <div class="item-row">
+                  <div class="mb-2 flex flex-wrap items-center gap-1.5">
+                    <span class="chip chip-id">${escapeHtml(s.id)}</span>
+                    ${s.itensQuestionario.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join("")}
+                  </div>
+                  <p class="text-sm leading-6 text-slate-700">${escapeHtml(s.descricao)}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderItemList(items) {
+      return `
+        <div class="space-y-2">
+          ${items.map((item) => `
+            <div class="item-row">
+              <div class="mb-2 flex flex-wrap items-center gap-1.5">
+                ${item.id ? `<span class="chip chip-id">${escapeHtml(item.id)}</span>` : ""}
+                ${(item.refs || []).map((ref) => `<span class="chip chip-ref">${escapeHtml(ref)}</span>`).join("")}
+              </div>
+              <p class="text-sm leading-6 text-slate-700">${escapeHtml(item.text)}</p>
+            </div>
+          `).join("") || `<p class="text-sm text-slate-500">Sem itens cadastrados.</p>`}
+        </div>
+      `;
+    }
+
+    function buildTraceText(q) {
+      return [
+        `${q.id} - ${q.title}`,
+        q.question,
+        "",
+        "Riscos:",
+        ...q.riscos.map((i) => `- ${i.raw}`),
+        "",
+        "Procedimentos:",
+        ...q.procedimentos.map((i) => `- ${i.raw}`),
+        "",
+        "Evidências:",
+        ...q.evidencias.map((i) => `- ${i.raw}`),
+        "",
+        "Situações:",
+        ...q.situacoes.map((s) => `- ${s.id}: ${s.descricao}`)
+      ].join("\n");
+    }
+
+    function selectQuestion(index) {
+      state.selectedQuestion = Number(index);
+      state.activeTab = "overview";
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function selectTab(tab) {
+      state.activeTab = tab;
+      render();
+    }
+
+    function clearFilters() {
+      el("searchInput").value = "";
+      el("severityFilter").value = "";
+      el("typeFilter").value = "";
+      render();
+    }
+
+    function copyText(text) {
+      navigator.clipboard?.writeText(text).then(() => {
+        renderStatus("Conteúdo copiado para a área de transferência.");
+        setTimeout(() => renderStatus(), 2200);
+      }).catch(() => renderStatus("Não foi possível copiar automaticamente. Selecione o texto e copie manualmente.", true));
+    }
+
+    function attachEvents() {
+      el("reloadBtn").addEventListener("click", () => loadFromFetch(true));
+      el("fileInput").addEventListener("change", loadFromFile);
+      el("searchInput").addEventListener("input", render);
+      el("severityFilter").addEventListener("change", render);
+      el("typeFilter").addEventListener("change", render);
+      el("expandBtn").addEventListener("click", () => {
+        state.allExpanded = !state.allExpanded;
+        el("expandBtn").querySelector("span").textContent = state.allExpanded ? "Recolher" : "Expandir";
+        render();
+      });
+      document.addEventListener("click", (event) => {
+        const action = event.target.closest("[data-action]");
+        if (action?.dataset.action === "select-question") selectQuestion(action.dataset.index);
+        if (action?.dataset.action === "select-tab") selectTab(action.dataset.tab);
+        if (action?.dataset.action === "toggle-accordion") action.closest(".accordion")?.classList.toggle("open");
+        const copy = event.target.closest("[data-copy]");
+        if (copy) copyText(copy.dataset.copy);
+      });
+    }
+
+    async function loadFromFetch(showMessage = false) {
+      try {
+        const response = await fetch(`${MATRIX_PATH}?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        loadMarkdown(text, MATRIX_PATH);
+        if (showMessage) renderStatus(`Matriz recarregada a partir de <span class="mono">${MATRIX_PATH}</span>.`);
+      } catch (error) {
+        renderStatus(`Não foi possível carregar automaticamente <span class="mono">${MATRIX_PATH}</span>. Abra por servidor local ou use "Carregar .md". Detalhe: ${escapeHtml(error.message)}`, true);
+        render();
+      }
+    }
+
+    function loadFromFile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => loadMarkdown(String(reader.result || ""), file.name);
+      reader.onerror = () => renderStatus("Não foi possível ler o arquivo selecionado.", true);
+      reader.readAsText(file, "UTF-8");
+    }
+
+    function loadMarkdown(markdown, source) {
+      try {
+        state.raw = markdown;
+        state.data = parseMatrix(markdown);
+        state.data.source = source;
+        state.selectedQuestion = 0;
+        state.activeTab = "overview";
+        buildSearchIndex(state.data);
+        render();
+        renderStatus(`Matriz carregada: <span class="mono">${escapeHtml(source)}</span> em ${state.data.loadedAt.toLocaleString("pt-BR")}.`);
+      } catch (error) {
+        state.data = null;
+        renderStatus(`Erro ao interpretar a matriz: ${escapeHtml(error.message)}`, true);
+        render();
+      }
+    }
+
+    attachEvents();
+    render();
+    loadFromFetch();
+  </script>
+</body>
+</html>
