@@ -96,7 +96,7 @@ possiveis_achados:
       itens_questionario: [q0101, q0101evi]
       regra_de_identificacao:
       - (q0101 == F)
-      - ou q0101evi são inexistentes, incompatíveis ou insuficientes para comprovar formalização da área, unidade, setor ou função de TIC
+      - ou avaliacao[Q1-S1.1-q0101evi] == "Não conforme"
       referencias_matriz: [R1.1, P1, E1, P2, E2]
       criterios: [C1, C5, C9]
       encaminhamento: Recomendar que a organização formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, compatível com seu porte, complexidade e dependência tecnológica.
@@ -106,7 +106,7 @@ possiveis_achados:
       itens_questionario: [q0101, q0103, q0103[D], q0103[G], q0103evi]
       regra_de_identificacao:
       - (q0101 != F) & ((q0103[G] == Sim) | (q0103[D] != Sim))
-      - ou q0103evi são inexistentes, incompatíveis ou insuficientes para comprovar atribuições formais de governança, planejamento ou gestão de tecnologia da informação
+      - ou (q0101 != F) & (avaliacao[Q1-S1.2-q0103evi] == "Não conforme")
       referencias_matriz: [R1.2, P3, E3, P4, E4]
       criterios: [C2, C5, C9]
       encaminhamento: Recomendar que a organização defina formalmente as atribuições da área de TIC, contemplando planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
@@ -116,7 +116,7 @@ possiveis_achados:
       itens_questionario: [q0101, q0102, q0102evi]
       regra_de_identificacao:
       - (q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))
-      - ou q0102evi são inexistentes, incompatíveis ou insuficientes para comprovar posicionamento adequado da área de TIC
+      - ou (q0101 != F) & (avaliacao[Q1-S1.3-q0102evi] == "Não conforme")
       referencias_matriz: [R1.3, P5, E5, P6, E6]
       criterios: [C3, C4, C9]
       encaminhamento: Recomendar que a organização avalie e ajuste o posicionamento organizacional da área de TIC, de modo a permitir participação adequada em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
@@ -125,8 +125,9 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q1001ext[C], q1001ext[H], q1002ext[A], q1002ext[C], q1001evi, q1002evi]
       regra_de_identificacao:
-      - (q1001ext[C] != Sim) | (q1001ext[H] != Sim) | ((q1002ext[A] != Sim) & (q1002ext[C] != Sim))
-      - ou q1001evi/q1002evi são inexistentes, incompatíveis ou insuficientes para comprovar modelo de governança, papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento
+      - (q1001ext[C] != Sim) | (q1001ext[H] != Sim) | (q1002ext[A] != Sim) | (q1002ext[C] != Sim)
+      - ou avaliacao[Q1-S1.4-q1001evi] == "Não conforme"
+      - ou avaliacao[Q1-S1.4-q1002evi] == "Não conforme"
       referencias_matriz: [R1.4, P7, E7, P8, E8]
       criterios: [C4, C5, C6, C7, C9, C10]
       encaminhamento: Recomendar que a alta administração estabeleça modelo básico de governança e gestão de TIC, com papéis, responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico.
@@ -136,7 +137,7 @@ possiveis_achados:
       itens_questionario: [q1001ext[E], q1001evi]
       regra_de_identificacao:
       - (q1001ext[E] != Sim)
-      - ou q1001evi são inexistentes, incompatíveis ou insuficientes para comprovar instituição formal do Comitê de TIC ou instância equivalente
+      - ou avaliacao[Q1-S1.5-q1001evi] == "Não conforme"
       referencias_matriz: [R1.5, P9, E9, P10, E10]
       criterios: [C2, C4, C7, C8, C9, C10]
       encaminhamento: Recomendar que a organização institua formalmente Comitê de TIC ou instância equivalente, definindo composição, competências, periodicidade mínima, forma de registro das deliberações e acompanhamento dos encaminhamentos.
@@ -146,7 +147,7 @@ possiveis_achados:
       itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
       regra_de_identificacao:
       - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
-      - ou q1001evi são inexistentes, incompatíveis ou insuficientes para comprovar reuniões, atas, deliberações, encaminhamentos ou execução das competências do Comitê de TIC
+      - ou (q1001ext[E] == Sim) & (avaliacao[Q1-S1.6-q1001evi] == "Não conforme")
       referencias_matriz: [R1.6, P11, E11, P12, E12]
       criterios: [C4, C6, C7, C8, C10]
       encaminhamento: Recomendar que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, com reuniões periódicas, atas, deliberações, encaminhamentos e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
@@ -323,13 +324,16 @@ informacoes_requeridas:
 - IR9: Respostas e evidências que permitam avaliar dependência de terceiros e capacidade interna de coordenação e fiscalização; [F1, F2, q0101, q0105, q2703, q2801, q2804]
 
 criterios:
-- C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades.
-- C2: COBIT 2019, APO07 - Recursos humanos gerenciados.
-- C3: COBIT 2019, APO10 - Fornecedores gerenciados.
-- C4: COBIT 2019, BAI01 e BAI02, no que se refere à gestão de programas, projetos e requisitos de soluções.
-- C5: COBIT 2019, DSS01, DSS02 e DSS05, no que se refere à operação, incidentes e segurança gerenciada.
-- C6: NBR ISO/IEC 27001 e NBR ISO/IEC 27002, no que se refere à definição de responsabilidades e competência para segurança da informação.
-- C7: Acórdão TCE-RJ 44.490/2024-PLEN, no que se refere à estrutura e capacidade de governança e gestão de TI em jurisdicionados municipais.
+- C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.
+- C2: COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.
+- C3: COBIT 2019, APO07.02 - Identificar pessoal-chave de TI: identificar funções e pessoas críticas para reduzir dependência individual, perda de conhecimento e descontinuidade.
+- C4: COBIT 2019, APO07.03 - Manter habilidades e competências do pessoal: identificar, desenvolver e manter competências necessárias à execução das responsabilidades de TIC.
+- C5: COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.
+- C6: COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.
+- C7: COBIT 2019, APO10.04 - Gerenciar risco de fornecedores: identificar e tratar riscos decorrentes de fornecedores, contratos e dependências externas relevantes para TIC.
+- C8: COBIT 2019, DSS01.02 - Gerenciar serviços de TI terceirizados: assegurar que serviços terceirizados sejam supervisionados, medidos e integrados aos controles da organização.
+- C9: ABNT NBR ISO/IEC 27001:2022, cláusulas 5.3 e 7.2: definir responsabilidades e autoridades para segurança da informação e assegurar competências necessárias às funções atribuídas.
+- C10: ABNT NBR ISO/IEC 27002:2022, controles 5.2 e 6.3: definir papéis e responsabilidades de segurança da informação e promover conscientização, educação e treinamento em segurança.
 
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
@@ -354,59 +358,71 @@ possiveis_achados:
   situacoes_encontradas:
   - S3.1:
     descricao: Ausência de força de trabalho mínima dedicada à TIC ou à segurança da informação.
+    severidade: alta
     itens_questionario:
       - [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios], q0105[SI_efetivos], q0105[SI_comissionados], q0105[SI_terceirizados], q0105[SI_cedidos], q0105[SI_temporarios], q0105[SI_estagiarios]]
     regra_de_identificacao:
+      - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
       - total_SI = q0105[SI_efetivos] + q0105[SI_comissionados] + q0105[SI_terceirizados] + q0105[SI_cedidos] + q0105[SI_temporarios] + q0105[SI_estagiarios]
-      - ((q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]) == 0) & (q0101 != F)
+      - ((total_TI == 0) & (q0101 != F)) | (total_SI == 0)
       referencias_matriz: [R3.1, P1, E1]
-      criterios: [C1, C2, C6, C7]
+      criterios: [C1, C2, C5, C9, C10]
     encaminhamento: Recomendar que a organização avalie sua força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação da TIC.
   - S3.2:
       descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
+      severidade: alta
       itens_questionario: [q2703ext[B], q2703ext[C], q2703evi]
       regra_de_identificacao:
       - (q2703ext[B] != Sim) | (q2703ext[C] != Sim)
-      - ou q2703evi são inexistentes, incompatíveis ou insuficientes para comprovar definição documentada do quantitativo necessário de pessoal de TIC/SI com base em critérios ou procedimentos técnicos
+      - ou avaliacao[Q3-S3.2-q2703evi] == "Não conforme"
       referencias_matriz: [R3.2, P2, E2]
-      criterios: [C2, C6, C7]
+      criterios: [C2, C5, C9]
       encaminhamento: Recomendar que a organização estime o quantitativo mínimo necessário de pessoal de TIC e segurança da informação, considerando porte, complexidade, serviços críticos, sistemas mantidos, contratações e riscos relevantes.
   - S3.3:
       descricao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.
+      severidade: media
       itens_questionario: [q2708[A], q2708[B], q2708[C], q2708[D]]
       regra_de_identificacao:
       - ((q2708[A] != Sim) & (q2708[B] != Sim)) | ((q2708[C] != Sim) & (q2708[D] != Sim))
       referencias_matriz: [R3.3, P3, E3]
-      criterios: [C1, C2, C6]
+      criterios: [C1, C2, C3, C9, C10]
       encaminhamento: Recomendar que a organização avalie a necessidade de instituir cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação, compatíveis com suas necessidades institucionais.
   - S3.4:
-      descricao: Ausência de perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação.
-      itens_questionario: [q2701ext[A], q2701ext[C], q2702ext[A], q2702ext[C],  q2701evi, q2702evi]
+      descricao: Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.
+      severidade: media
+      itens_questionario: [q2701ext[A], q2701ext[C], q2702ext[A], q2702ext[C], q2704ext[B], q2701evi, q2702evi, q2704evi]
       regra_de_identificacao:
-      - ((q2701ext[A] != Sim) | (q2701ext[C] != Sim)) | ((q2702ext[A] != Sim) ou (q2702ext[C] != Sim))
-      - ou q2701evi/q2702evi são inexistentes, incompatíveis ou insuficientes para comprovar definição e uso de perfis profissionais
+      - ((q2701ext[A] != Sim) | (q2701ext[C] != Sim)) | ((q2702ext[A] != Sim) | (q2702ext[C] != Sim)) | (q2704ext[B] != Sim)
+      - ou avaliacao[Q3-S3.4-q2701evi] == "Não conforme"
+      - ou avaliacao[Q3-S3.4-q2702evi] == "Não conforme"
+      - ou avaliacao[Q3-S3.4-q2704evi] == "Não conforme"
       referencias_matriz: [R3.4, P4, E4, P5, E5]
-      criterios: [C1, C2, C6]
+      criterios: [C1, C2, C4, C9, C10]
       encaminhamento: Recomendar que a organização defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação e utilize esses perfis como referência para designação de responsáveis.
   - S3.5:
       descricao: Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.
-      itens_questionario: [q2705ext[C], q2705ext[D], q2706ext[A], q2706ext[B], q2706ext[C], q2705evi, q2706evi]
+      severidade: media
+      itens_questionario: [q2705ext[B], q2705ext[C], q2705ext[D], q2706ext[A], q2706ext[B], q2706ext[C], q2705evi, q2706evi]
       regra_de_identificacao:
-      - (q2705ext[C] != Sim) | (q2705ext[D] != Sim) | (q2706ext[A] != Sim)
-      - ou q2705evi/q2706evi são inexistentes, incompatíveis ou insuficientes para comprovar identificação e tratamento de lacunas de competências em TIC/SI
+      - (q2705ext[B] != Sim) | (q2705ext[C] != Sim) | (q2705ext[D] != Sim) | (q2706ext[A] != Sim) | (q2706ext[B] != Sim) | (q2706ext[C] != Sim)
+      - ou avaliacao[Q3-S3.5-q2705evi] == "Não conforme"
+      - ou avaliacao[Q3-S3.5-q2706evi] == "Não conforme"
       referencias_matriz: [R3.5, P6, E6]
-      criterios: [C2, C6]
+      criterios: [C4, C9, C10]
       encaminhamento: Recomendar que a organização realize diagnóstico periódico de lacunas de competências e estabeleça plano de tratamento, contemplando capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento.
   - S3.6:
     descricao: Modelo de operação de TIC predominantemente terceirizado ou externo, sem capacidade interna mínima declarada para coordenação, planejamento, aprovação técnica ou fiscalização das atividades críticas de TIC.
+    severidade: alta
     itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_terceirizados], q2703ext[B], q2703ext[C], q2801ext[E], q2801ext[F], q2804[A], q2804[C], q2703evi, q2801evi, q2804eviA]
     regra_de_identificacao:
-      - (((q0101 == B) | (q0101 == C)) & (((q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]) == 0) | (((q2703ext[B] != Sim) | (q2703ext[C] != Sim)) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim))) | ((q2804[A] != Sim) | (q2804[C] != Sim)))) | ((q0105[TI_terceirizados] > (q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios])) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2804[A] != Sim) | (q2804[C] != Sim)))
-      - ou q2703evi são inexistentes, incompatíveis ou insuficientes para comprovar definição documentada do quantitativo necessário de pessoal de TIC/SI quando q2703ext[B] ou q2703ext[C] estiverem assinalados
-      - ou q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar processo e artefatos de gestão e fiscalização contratual quando q2801ext[E] ou q2801ext[F] estiverem assinalados
-      - ou q2804eviA é inexistente, incompatível ou insuficiente para comprovar aprovação técnica da área de TIC quando q2804[A] estiver assinalado como Sim
+      - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
+      - total_TI_terceiros = q0105[TI_terceirizados]
+      - (((q0101 == B) | (q0101 == C)) & ((total_TI_interno == 0) | (((q2703ext[B] != Sim) | (q2703ext[C] != Sim)) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim))) | ((q2804[A] != Sim) | (q2804[C] != Sim)))) | ((total_TI_terceiros > total_TI_interno) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2804[A] != Sim) | (q2804[C] != Sim)))
+      - ou avaliacao[Q3-S3.6-q2703evi] == "Não conforme" quando q2703ext[B] ou q2703ext[C] estiverem assinalados como Sim
+      - ou avaliacao[Q3-S3.6-q2801evi] == "Não conforme" quando q2801ext[E] ou q2801ext[F] estiverem assinalados como Sim
+      - ou avaliacao[Q3-S3.6-q2804eviA] == "Não conforme" quando q2804[A] estiver assinalado como Sim
     referencias_matriz: [R3.6, P7, E7]
-    criterios: [C2, C3, C4, C5, C7]
+    criterios: [C2, C3, C5, C6, C7, C8]
     encaminhamento: Recomendar que a organização avalie seu modelo de operação de TIC e adote medidas para assegurar capacidade interna mínima de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.
 ---
 
@@ -449,14 +465,14 @@ informacoes_requeridas:
 - IR13: Evidência anexada contendo registros de incidentes, chamados, tickets, relatórios de atendimento ou sistema equivalente; [F2, q2204evi]
 
 criterios:
-- C1: ITIL 4, Gerenciamento do catálogo de serviços.
-- C2: COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI.
-- C3: ITIL 4, Gerenciamento de níveis de serviço.
-- C4: ITIL 4, Gerenciamento de ativos de TI.
-- C5: ITIL 4, Gerenciamento de configurações de serviço.
-- C6: COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração.
-- C7: ITIL 4, Gerenciamento de incidentes.
-- C8: COBIT 2019, DSS02 - Requisições de serviço e incidentes gerenciados.
+- C1: ITIL 4, prática de gerenciamento do catálogo de serviços: manter fonte única de informações consistentes sobre serviços e ofertas de serviço, disponível para usuários e equipes de suporte.
+- C2: COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.
+- C3: ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias.
+- C4: ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
+- C5: ITIL 4, prática de gerenciamento de configuração de serviço: assegurar informações precisas e confiáveis sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura.
+- C6: COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
+- C7: ITIL 4, prática de gerenciamento de incidentes: minimizar o impacto negativo dos incidentes por meio da restauração tempestiva da operação normal dos serviços e do registro rastreável do tratamento realizado.
+- C8: COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q2201, a existência, atualização e disponibilidade do catálogo de serviços de TIC; [IR1]
@@ -491,49 +507,56 @@ possiveis_achados:
   situacoes_encontradas:
   - S4.1:
       descricao: Inexistência, desatualização, indisponibilidade ou insuficiência do catálogo de serviços de TIC.
+      severidade: media
       itens_questionario: [q2201, q2201ext[A], q2201ext[B], q2201ext[C], q2201evi]
       regra_de_identificacao:
       - (q2201ext[A] != Sim) | (q2201ext[B] != Sim) | (q2201ext[C] != Sim)
-      - ou q2201evi são inexistentes, incompatíveis ou insuficientes para comprovar catálogo vigente, atualizado, acessível e aderente aos serviços prestados
+      - ou avaliacao[Q4-S4.1-q2201evi] == "Não conforme"
       referencias_matriz: [R4.1, P1, E1, P2, E2]
       criterios: [C1, C2]
       encaminhamento: Recomendar que a organização institua e mantenha atualizado catálogo de serviços de TIC, acessível aos usuários e áreas demandantes, com informações mínimas sobre os serviços efetivamente prestados.
   - S4.2:
       descricao: Inexistência de ANS, metas mínimas ou monitoramento de níveis de serviço para os principais serviços de TIC.
+      severidade: media
       itens_questionario: [q2201ext[D], q2201ext[E], q2201evi]
       regra_de_identificacao:
       - (q2201ext[D] != Sim) | (q2201ext[E] != Sim)
-      - ou q2201evi são inexistentes, incompatíveis ou insuficientes para comprovar ANS, metas mínimas ou monitoramento de níveis de serviço
+      - ou avaliacao[Q4-S4.2-q2201evi] == "Não conforme"
       referencias_matriz: [R4.2, P3, E3, P4, E4]
       criterios: [C2, C3]
       encaminhamento: Recomendar que a organização defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes.
   - S4.3:
       descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
+      severidade: alta
       itens_questionario: [q2203ext[A], q2501ext[A], q2501ext[B], q2504ext[A], q2504ext[B], q2203evi, q2501evi, q2504evi]
       regra_de_identificacao:
       - (q2203ext[A] != Sim) | (q2501ext[A] != Sim) | (q2501ext[B] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
-      - ou q2203evi/q2501evi/q2504evi são inexistentes, incompatíveis ou insuficientes para comprovar inventário atualizado de ativos de TIC
+      - ou avaliacao[Q4-S4.3-q2203evi] == "Não conforme"
+      - ou avaliacao[Q4-S4.3-q2501evi] == "Não conforme"
+      - ou avaliacao[Q4-S4.3-q2504evi] == "Não conforme"
       referencias_matriz: [R4.3, P5, E5, P6, E6]
-      criterios: [C4]
+      criterios: [C4, C5]
       encaminhamento: Recomendar que a organização mantenha inventário atualizado de ativos de TIC, contemplando ao menos equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.
   - S4.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
+      severidade: media
       itens_questionario: [q2203ext[A], q2203ext[B], q2203ext[C], q2203evi]
       regra_de_identificacao:
       - (q2203ext[A] != Sim) | (q2203ext[B] != Sim) | (q2203ext[C] != Sim)
-      - ou q2203evi são inexistentes, incompatíveis ou insuficientes para comprovar procedimento, base ou mecanismo equivalente de gestão de configuração
-      referencias_matriz: [R4.2, P3, E3, P4, E4]
-      criterios: [C2, C3]
-      encaminhamento: Recomendar que a organização monitore periodicamente o cumprimento dos níveis de serviço e registre resultados, desvios e medidas corretivas.
+      - ou avaliacao[Q4-S4.4-q2203evi] == "Não conforme"
+      referencias_matriz: [R4.3, P7, E7, P8, E8]
+      criterios: [C5, C6]
+      encaminhamento: Recomendar que a organização formalize e execute processo mínimo de gestão de configuração, mantendo base, ferramenta ou registro equivalente com itens de configuração relevantes, relacionamentos entre ativos, sistemas, infraestrutura e serviços, responsáveis, atualização periódica e uso das informações no planejamento e acompanhamento de mudanças.
   - S4.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
-      itens_questionario: [q2204ext[A], q2204ext[B], q2204ext[C], q2204ext[D], q2204ext[F], q2204evi]
+      severidade: alta
+      itens_questionario: [q2204ext[A], q2204ext[B], q2204ext[C], q2204ext[D], q2204ext[E], q2204ext[F], q2204evi]
       regra_de_identificacao:
-      -(q2204ext[A] != Sim) | (q2204ext[B] != Sim) | (q2204ext[C] != Sim) | (q2204ext[D] != Sim) |  (q2204ext[F] != Sim)
-      - ou q2204evi são inexistentes, incompatíveis ou insuficientes para comprovar procedimento ou fluxo formal de gestão de incidentes
-    referencias_matriz: [R4.4, P9, E9, P10, E10, P11, E11, P12, E12]
+      - (q2204ext[A] != Sim) | (q2204ext[B] != Sim) | (q2204ext[C] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim) | (q2204ext[F] != Sim)
+      - ou avaliacao[Q4-S4.5-q2204evi] == "Não conforme"
+      referencias_matriz: [R4.4, P9, E9, P10, E10, P11, E11, P12, E12]
       criterios: [C7, C8]
-    encaminhamento: Recomendar que a organização formalize e execute processo mínimo de gestão de incidentes de TIC, contemplando papéis, responsabilidades, critérios de priorização, escalamento, tratamento, registro sistemático em ferramenta, sistema, planilha ou base equivalente, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.
+      encaminhamento: Recomendar que a organização formalize e execute processo mínimo de gestão de incidentes de TIC, contemplando papéis, responsabilidades, critérios de priorização, escalamento, tratamento de incidentes de serviços e de segurança da informação, registro sistemático em ferramenta, sistema, planilha ou base equivalente, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.
 
 ---
 
