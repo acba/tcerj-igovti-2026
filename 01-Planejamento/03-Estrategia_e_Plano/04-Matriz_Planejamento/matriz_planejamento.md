@@ -196,7 +196,7 @@ criterios:
 - C4: COBIT 2019, APO05.04 - Monitorar, otimizar e reportar o desempenho do portfólio: acompanhar a execução das iniciativas e reportar desempenho, benefícios, riscos e necessidades de ajuste.
 - C5: COBIT 2019, APO06.02 - Priorizar a alocação de recursos: priorizar recursos de TIC de acordo com objetivos estratégicos, restrições orçamentárias, riscos e benefícios esperados.
 - C6: COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
-- C7: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.5: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão, vinculação das ações priorizadas ao orçamento de TI e quantitativo necessário de força de trabalho de TI.
+- C7: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.
 - C8: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.
 
 procedimentos:
@@ -226,56 +226,62 @@ possiveis_achados:
   situacoes_encontradas:
   - S2.1:
       descricao: Inexistência ou fragilidade do processo formal de planejamento de TIC.
+      severidade: alta
       itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[C], q2101ext[D], q2101evi]
       regra_de_identificacao:
       - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[C] != Sim) | (q2101ext[D] != Sim)
-      - ou q2101evi são inexistentes, incompatíveis ou insuficientes para comprovar processo formal de planejamento de TIC com participação das áreas demandantes, critérios de priorização e análise de benefícios, custos e riscos
+      - ou avaliacao[Q2-S2.1-q2101evi] == "Não conforme"
       referencias_matriz: [R2.1, P1, E1, P2, E2, P3, E3]
-      criterios: [C1, C3, C5, C6]
+      criterios: [C1, C3, C5, C6, C7, C8]
       encaminhamento: Recomendar que a organização institua processo formal de planejamento de TIC, com etapas, responsáveis, participação das áreas demandantes e critérios mínimos de priorização.
   - S2.2:
       descricao: Inexistência, desatualização, ausência de vigência ou ausência de aprovação formal do plano de TIC.
+      severidade: alta
       itens_questionario: [q2102, q2102ext[A], q2102evi]
       regra_de_identificacao:
       - (q2102ext[A] != Sim)
-      - ou q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar plano de TIC vigente e aprovado
+      - ou avaliacao[Q2-S2.2-q2102evi] == "Não conforme"
       referencias_matriz: [R2.2, P4, E4, P5, E5]
-      criterios: [C1, C2, C5, C6]
+      criterios: [C1, C2, C5, C6, C7, C8]
       encaminhamento: Recomendar que a organização elabore, aprove e mantenha vigente plano de TIC compatível com seu porte, suas prioridades institucionais e sua capacidade de execução.
   - S2.3:
-    descricao: Plano de TIC sem conteúdo mínimo suficiente para orientar a gestão.
-    itens_questionario: [q2102, q2102evi]
-    regra_de_identificacao:
-    - q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar objetivos, iniciativas, responsáveis, prazos, metas ou indicadores no plano de TIC
-    referencias_matriz: [R2.3, P6, E6]
-    criterios: [C1, C2, C3]
-    encaminhamento: Recomendar que o plano de TIC contenha, no mínimo, objetivos, iniciativas priorizadas, responsáveis, prazos, metas ou indicadores de acompanhamento.
+      descricao: Plano de TIC sem conteúdo mínimo suficiente para orientar a gestão.
+      severidade: media
+      itens_questionario: [q2102, q2102evi]
+      regra_de_identificacao:
+      - avaliacao[Q2-S2.3-q2102evi] == "Não conforme"
+      referencias_matriz: [R2.3, P6, E6]
+      criterios: [C1, C2, C3, C7, C8]
+      encaminhamento: Recomendar que o plano de TIC contenha, no mínimo, objetivos, iniciativas priorizadas, responsáveis, prazos, metas ou indicadores de acompanhamento.
   - S2.4:
       descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
+      severidade: media
       itens_questionario: [q2102ext[D], q2102evi]
       regra_de_identificacao:
       - (q2102ext[D] != Sim)
-      - ou q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar alinhamento entre plano de TIC e planejamento institucional
+      - ou avaliacao[Q2-S2.4-q2102evi] == "Não conforme"
       referencias_matriz: [R2.4, P7, E7]
-      criterios: [C1, C2]
+      criterios: [C1, C2, C7, C8]
       encaminhamento: Recomendar que a organização revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas.
   - S2.5:
       descricao: Plano de TIC sem integração adequada com orçamento, plano de contratações, projetos ou contratações de TIC.
+      severidade: alta
       itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
       regra_de_identificacao:
       - (q2102ext[C] != Sim) | (q2802ext[C] != Sim) | (q2802ext[D] != Sim) | (q2804[B] != Sim)
-      - ou q2102evi/q2802evi são inexistentes, incompatíveis ou insuficientes para comprovar integração entre plano de TIC, orçamento, plano de contratações e contratações de TIC
+      - ou (avaliacao[Q2-S2.5-q2102evi] == "Não conforme") | (avaliacao[Q2-S2.5-q2802evi] == "Não conforme")
       referencias_matriz: [R2.5, P8, E8]
-      criterios: [C3, C4]
+      criterios: [C3, C4, C5, C6, C7, C8]
       encaminhamento: Recomendar que a organização vincule o plano de TIC à proposta orçamentária, ao plano de contratações e às contratações de TIC executadas, priorizando demandas conforme relevância, risco e capacidade de execução.
   - S2.6:
       descricao: Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.
+      severidade: media
       itens_questionario: [q2102ext[E], q2102evi]
       regra_de_identificacao:
       - (q2102ext[E] != Sim)
-      - ou q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar acompanhamento, revisão ou atualização do plano de TIC
+      - ou avaliacao[Q2-S2.6-q2102evi] == "Não conforme"
       referencias_matriz: [R2.6, P9, E9]
-      criterios: [C1, C2, C3]
+      criterios: [C1, C2, C3, C7, C8]
       encaminhamento: Recomendar que a organização estabeleça rotina de acompanhamento, revisão e atualização do plano de TIC, com registro de execução, pendências, reprogramações e deliberações.
 
 ---

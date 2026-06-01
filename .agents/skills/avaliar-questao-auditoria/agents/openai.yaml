@@ -1,0 +1,4 @@
+interface:
+  display_name: "Avaliar Questão de Auditoria"
+  short_description: "Revisão crítica de questão de auditoria"
+  default_prompt: "Use $avaliar-questao-auditoria para revisar criticamente uma questão da matriz de planejamento."
