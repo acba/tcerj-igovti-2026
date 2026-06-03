@@ -242,6 +242,7 @@
             <select id="typeFilter" class="rounded-lg border border-slate-300 bg-white px-2 py-2 text-sm outline-none focus:border-teal-600">
               <option value="">Todos tipos</option>
               <option value="questao">Questões</option>
+              <option value="levantamento">Levantamentos</option>
               <option value="achado">Achados</option>
               <option value="situacao">Situações</option>
               <option value="criterio">Critérios</option>
@@ -280,15 +281,20 @@
     };
 
     const fields = [
+      "natureza",
+      "gera_achado",
       "questao",
       "subquestoes",
       "riscos",
       "fontes_de_informacao",
       "informacoes_requeridas",
       "criterios",
+      "criterios_de_comparabilidade",
       "procedimentos",
       "evidencias",
-      "possiveis_achados"
+      "possiveis_achados",
+      "o_que_a_analise_permite_dizer",
+      "limitacoes_e_cautelas"
     ];
 
     const el = (id) => document.getElementById(id);
@@ -354,6 +360,15 @@
       return match ? match[1].trim() : "";
     }
 
+    function parseBoolean(value) {
+      const normalized = String(value || "").trim().toLowerCase();
+      return ["true", "sim", "yes", "1"].includes(normalized);
+    }
+
+    function isSurveyQuestion(q) {
+      return normalizeText(q.natureza).toLowerCase() === "levantamento" || q.geraAchado === false;
+    }
+
     function parseList(block) {
       const items = [];
       let current = null;
@@ -387,27 +402,36 @@
       const text = normalizeText(markdown);
       const title = (text.match(/^title:\s*"([^"]+)"/m) || [])[1] || "Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026";
       const geral = (text.match(/^questao_geral:\s*(.+)$/m) || [])[1] || "";
-      const questionMatches = [...text.matchAll(/^## Questão\s+(\d+)\s*-\s*(.+)$/gm)];
+      const questionMatches = [...text.matchAll(/^## Questão(?:\s+(\d+)|\s+Transversal)\s*-\s*(.+)$/gm)];
       const questions = questionMatches.map((match, index) => {
         const start = match.index;
         const end = questionMatches[index + 1] ? questionMatches[index + 1].index : text.length;
         const content = text.slice(start, end);
-        const number = match[1].padStart(2, "0");
+        const rawNumber = match[1] || "";
+        const number = rawNumber ? rawNumber.padStart(2, "0") : "T";
         const title = match[2].trim();
         const question = getSingleLine(content, "questao");
+        const natureza = getSingleLine(content, "natureza");
+        const geraAchadoRaw = getSingleLine(content, "gera_achado");
+        const geraAchado = geraAchadoRaw ? parseBoolean(geraAchadoRaw) : true;
         const parsed = {
-          id: `Q${Number(match[1])}`,
+          id: rawNumber ? `Q${Number(rawNumber)}` : "QT",
           number,
           title,
           question,
+          natureza,
+          geraAchado,
           subquestoes: parseList(getSectionBlock(content, "subquestoes")),
           riscos: parseList(getSectionBlock(content, "riscos")),
           fontes: parseList(getSectionBlock(content, "fontes_de_informacao")),
           informacoes: parseList(getSectionBlock(content, "informacoes_requeridas")),
           criterios: parseList(getSectionBlock(content, "criterios")),
+          criteriosComparabilidade: parseList(getSectionBlock(content, "criterios_de_comparabilidade")),
           procedimentos: parseList(getSectionBlock(content, "procedimentos")),
           evidencias: parseList(getSectionBlock(content, "evidencias")),
-          achados: parseFindings(getSectionBlock(content, "possiveis_achados"))
+          achados: geraAchado ? parseFindings(getSectionBlock(content, "possiveis_achados")) : [],
+          analisePermiteDizer: parseList(getSectionBlock(content, "o_que_a_analise_permite_dizer")),
+          limitacoes: parseList(getSectionBlock(content, "limitacoes_e_cautelas"))
         };
         parsed.situacoes = parsed.achados.flatMap((achado) => achado.situacoes.map((situacao) => ({ ...situacao, achadoId: achado.id, achadoTitle: achado.title })));
         parsed.questionario = [...new Set(parsed.situacoes.flatMap((s) => s.itensQuestionario || []))].sort();
@@ -498,10 +522,12 @@
     function buildSearchIndex(data) {
       const entries = [];
       data.questions.forEach((q, qIndex) => {
-        entries.push({ type: "questao", qIndex, id: q.id, title: q.title, text: `${q.question} ${q.title}` });
+        entries.push({ type: "questao", qIndex, id: q.id, title: q.title, text: `${q.question} ${q.title} ${q.natureza}` });
+        if (isSurveyQuestion(q)) entries.push({ type: "levantamento", qIndex, id: q.id, title: q.title, text: `${q.question} ${q.title} ${q.analisePermiteDizer.map((i) => i.raw).join(" ")} ${q.limitacoes.map((i) => i.raw).join(" ")}` });
         q.achados.forEach((a) => entries.push({ type: "achado", qIndex, id: a.id, title: a.title, text: a.title }));
         q.situacoes.forEach((s) => entries.push({ type: "situacao", qIndex, id: s.id, title: s.descricao, text: `${s.descricao} ${s.regra.join(" ")} ${s.encaminhamento} ${s.itensQuestionario.join(" ")}`, severity: normalizeSeverity(s.severidade) }));
         q.criterios.forEach((c) => entries.push({ type: "criterio", qIndex, id: c.id, title: c.text, text: c.raw }));
+        q.criteriosComparabilidade.forEach((c) => entries.push({ type: "criterio", qIndex, id: c.id, title: c.text, text: c.raw }));
         q.procedimentos.forEach((p) => entries.push({ type: "procedimento", qIndex, id: p.id, title: p.text, text: p.raw }));
       });
       state.searchIndex = entries;
@@ -537,10 +563,10 @@
       const totals = getTotals();
       const cards = [
         ["Questões", totals.questions, "circle-help", "#0f766e"],
+        ["Levantamentos", totals.surveys, "bar-chart-3", "#7c3aed"],
         ["Situações", totals.situations, "list-checks", "#be123c"],
         ["Riscos", totals.risks, "shield-alert", "#b45309"],
-        ["Critérios", totals.criteria, "scale", "#1d4ed8"],
-        ["Itens de questionário", totals.questionItems, "clipboard-list", "#7c3aed"]
+        ["Critérios", totals.criteria, "scale", "#1d4ed8"]
       ];
       container.innerHTML = cards.map(([label, value, icon, color]) => `
         <div class="panel p-4">
@@ -562,9 +588,10 @@
       const questions = state.data.questions;
       return {
         questions: questions.length,
+        surveys: questions.filter(isSurveyQuestion).length,
         situations: questions.reduce((sum, q) => sum + q.situacoes.length, 0),
         risks: questions.reduce((sum, q) => sum + q.riscos.length, 0),
-        criteria: questions.reduce((sum, q) => sum + q.criterios.length, 0),
+        criteria: questions.reduce((sum, q) => sum + q.criterios.length + q.criteriosComparabilidade.length, 0),
         questionItems: new Set(questions.flatMap((q) => q.questionario)).size
       };
     }
@@ -583,12 +610,14 @@
         ${state.data.questions.map((q, index) => {
           const active = index === state.selectedQuestion ? "active" : "";
           const count = q.situacoes.length;
+          const survey = isSurveyQuestion(q);
           return `
             <button class="nav-item ${active}" data-action="select-question" data-index="${index}">
               <div class="flex items-start justify-between gap-2">
                 <div class="min-w-0">
                   <div class="flex items-center gap-2">
                     <span class="chip chip-id">${q.id}</span>
+                    ${survey ? `<span class="chip">Levantamento</span>` : ""}
                     <span class="truncate text-sm font-extrabold text-slate-900">${escapeHtml(q.title)}</span>
                   </div>
                   <p class="mt-2 line-clamp-2 text-xs leading-5 text-slate-600">${escapeHtml(q.question.replace(/^Q\d+\.\s*/, ""))}</p>
@@ -596,8 +625,8 @@
               </div>
               <div class="mt-2 flex flex-wrap gap-1.5">
                 <span class="chip">${q.riscos.length} riscos</span>
-                <span class="chip">${q.criterios.length} critérios</span>
-                <span class="chip">${count} situações</span>
+                <span class="chip">${q.criterios.length + q.criteriosComparabilidade.length} critérios</span>
+                ${survey ? `<span class="chip">${q.analisePermiteDizer.length} resultados</span>` : `<span class="chip">${count} situações</span>`}
               </div>
             </button>
           `;
@@ -660,7 +689,8 @@
         achado: "Achado",
         situacao: "Situação",
         criterio: "Critério",
-        procedimento: "Procedimento"
+        procedimento: "Procedimento",
+        levantamento: "Levantamento"
       }[type] || type;
     }
 
@@ -671,10 +701,11 @@
         return;
       }
       const q = state.data.questions[state.selectedQuestion] || state.data.questions[0];
+      const survey = isSurveyQuestion(q);
       const tabs = [
         ["overview", "Visão geral", "layout-dashboard"],
         ["trace", "Rastreabilidade", "git-branch"],
-        ["findings", "Achados", "list-checks"],
+        survey ? ["findings", "Análise", "bar-chart-3"] : ["findings", "Achados", "list-checks"],
         ["criteria", "Critérios", "scale"],
         ["questionnaire", "Questionário", "clipboard-list"]
       ];
@@ -685,9 +716,9 @@
               <div class="min-w-0">
                 <div class="mb-3 flex flex-wrap items-center gap-2">
                   <span class="chip chip-id">${q.id}</span>
-                  <span class="chip">${q.situacoes.length} situações</span>
+                  ${survey ? `<span class="chip">Levantamento</span>` : `<span class="chip">${q.situacoes.length} situações</span>`}
                   <span class="chip">${q.riscos.length} riscos</span>
-                  <span class="chip">${q.criterios.length} critérios</span>
+                  <span class="chip">${q.criterios.length + q.criteriosComparabilidade.length} critérios</span>
                 </div>
                 <h2 class="text-2xl font-extrabold leading-tight text-slate-900">${escapeHtml(q.title)}</h2>
                 <p class="mt-3 max-w-5xl text-base leading-7 text-slate-700">${escapeHtml(q.question.replace(/^Q\d+\.\s*/, ""))}</p>
@@ -727,6 +758,7 @@
         <div class="grid gap-4 xl:grid-cols-[1.1fr_.9fr]">
           <div class="space-y-4">
             ${renderGeneralQuestion()}
+            ${renderSurveyNotice(q)}
             <div class="panel p-5">
               <div class="mb-3 flex items-center gap-2">
                 <i data-lucide="check-circle-2" class="h-5 w-5 text-teal-700"></i>
@@ -750,7 +782,7 @@
             </div>
           </div>
           <div class="space-y-4">
-            ${q.achados.map((achado) => `
+            ${isSurveyQuestion(q) ? renderSurveySummary(q) : q.achados.map((achado) => `
               <div class="panel p-5">
                 <p class="section-title">Achado estruturante</p>
                 <h3 class="mt-2 text-lg font-extrabold leading-6 text-slate-900">${escapeHtml(achado.id)}: ${escapeHtml(achado.title)}</h3>
@@ -768,6 +800,32 @@
               </div>
             `).join("")}
           </div>
+        </div>
+      `;
+    }
+
+    function renderSurveyNotice(q) {
+      if (!isSurveyQuestion(q)) return "";
+      return `
+        <div class="panel p-5">
+          <div class="mb-2 flex items-center gap-2">
+            <i data-lucide="info" class="h-5 w-5 text-blue-700"></i>
+            <h3 class="text-lg font-extrabold text-slate-900">Natureza da questão</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="chip chip-id">Levantamento</span>
+            <span class="chip">Não gera achado</span>
+          </div>
+          <p class="mt-3 text-sm leading-6 text-slate-700">Esta questão organiza análise descritiva, agregada ou comparativa. O painel não espera situações encontradas, severidade, regras de identificação ou encaminhamentos individuais para este tipo de questão.</p>
+        </div>
+      `;
+    }
+
+    function renderSurveySummary(q) {
+      return `
+        <div class="space-y-4">
+          ${renderListPanel("O que a análise permite dizer", "bar-chart-3", q.analisePermiteDizer)}
+          ${renderListPanel("Limitações e cautelas", "alert-triangle", q.limitacoes)}
         </div>
       `;
     }
@@ -791,9 +849,10 @@
         ["Riscos", q.riscos.length],
         ["Informações", q.informacoes.length],
         ["Critérios", q.criterios.length],
+        ["Critérios comparab.", q.criteriosComparabilidade.length],
         ["Procedimentos", q.procedimentos.length],
         ["Evidências", q.evidencias.length],
-        ["Situações", q.situacoes.length]
+        [isSurveyQuestion(q) ? "Resultados" : "Situações", isSurveyQuestion(q) ? q.analisePermiteDizer.length : q.situacoes.length]
       ];
       const max = Math.max(...items.map(([, value]) => value), 1);
       return `
@@ -816,7 +875,7 @@
             <div class="mb-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div>
                 <p class="section-title">Rastreabilidade</p>
-                <h3 class="mt-1 text-lg font-extrabold text-slate-900">Riscos, procedimentos, evidências e situações encontradas</h3>
+                <h3 class="mt-1 text-lg font-extrabold text-slate-900">${isSurveyQuestion(q) ? "Informações, procedimentos, evidências e resultados esperados" : "Riscos, procedimentos, evidências e situações encontradas"}</h3>
               </div>
               <button class="btn" data-copy="${escapeHtml(buildTraceText(q))}"><i data-lucide="copy" class="h-4 w-4"></i>Copiar rastreabilidade</button>
             </div>
@@ -824,7 +883,7 @@
               ${renderTraceColumn("Riscos", q.riscos)}
               ${renderTraceColumn("Procedimentos", q.procedimentos)}
               ${renderTraceColumn("Evidências", q.evidencias)}
-              ${renderTraceColumn("Situações", q.situacoes.map((s) => ({ id: s.id, text: s.descricao, refs: s.referencias })))}
+              ${renderTraceColumn(isSurveyQuestion(q) ? "Resultados esperados" : "Situações", isSurveyQuestion(q) ? q.analisePermiteDizer.map((item, index) => ({ id: `D${index + 1}`, text: item.text, refs: item.refs })) : q.situacoes.map((s) => ({ id: s.id, text: s.descricao, refs: s.referencias })))}
             </div>
           </div>
           <div class="grid gap-4 xl:grid-cols-2">
@@ -861,6 +920,7 @@
     }
 
     function renderFindings(q) {
+      if (isSurveyQuestion(q)) return renderSurveyAnalysis(q);
       return `
         <div class="space-y-4">
           ${q.achados.map((achado) => `
@@ -877,6 +937,29 @@
               </div>
             </div>
           `).join("")}
+        </div>
+      `;
+    }
+
+    function renderSurveyAnalysis(q) {
+      return `
+        <div class="grid gap-4 xl:grid-cols-2">
+          ${renderListPanel("O que a análise permite dizer", "bar-chart-3", q.analisePermiteDizer)}
+          ${renderListPanel("Limitações e cautelas", "alert-triangle", q.limitacoes)}
+          ${renderListPanel("Critérios de comparabilidade", "scale", q.criteriosComparabilidade)}
+          ${renderListPanel("Evidências esperadas", "file-check-2", q.evidencias)}
+        </div>
+      `;
+    }
+
+    function renderListPanel(title, icon, items) {
+      return `
+        <div class="panel p-5">
+          <div class="mb-3 flex items-center gap-2">
+            <i data-lucide="${icon}" class="h-5 w-5 text-teal-700"></i>
+            <h3 class="text-lg font-extrabold text-slate-900">${escapeHtml(title)}</h3>
+          </div>
+          ${renderItemList(items)}
         </div>
       `;
     }
@@ -945,7 +1028,7 @@
               <h3 class="text-lg font-extrabold text-slate-900">Uso dos critérios nas situações</h3>
             </div>
             <div class="space-y-2">
-              ${q.situacoes.map((s) => `
+              ${isSurveyQuestion(q) ? renderItemList(q.criteriosComparabilidade) : q.situacoes.map((s) => `
                 <div class="item-row">
                   <div class="mb-2 flex flex-wrap items-center gap-1.5">
                     <span class="chip chip-id">${escapeHtml(s.id)}</span>
@@ -973,9 +1056,9 @@
             </div>
           </div>
           <div class="panel p-5">
-            <h3 class="mb-3 text-lg font-extrabold text-slate-900">Situações por item do questionário</h3>
+            <h3 class="mb-3 text-lg font-extrabold text-slate-900">${isSurveyQuestion(q) ? "Informações e evidências vinculadas" : "Situações por item do questionário"}</h3>
             <div class="space-y-2">
-              ${q.situacoes.map((s) => `
+              ${isSurveyQuestion(q) ? renderItemList([...q.informacoes, ...q.evidencias]) : q.situacoes.map((s) => `
                 <div class="item-row">
                   <div class="mb-2 flex flex-wrap items-center gap-1.5">
                     <span class="chip chip-id">${escapeHtml(s.id)}</span>
@@ -1020,8 +1103,8 @@
         "Evidências:",
         ...q.evidencias.map((i) => `- ${i.raw}`),
         "",
-        "Situações:",
-        ...q.situacoes.map((s) => `- ${s.id}: ${s.descricao}`)
+        isSurveyQuestion(q) ? "O que a análise permite dizer:" : "Situações:",
+        ...(isSurveyQuestion(q) ? q.analisePermiteDizer.map((i) => `- ${i.raw}`) : q.situacoes.map((s) => `- ${s.id}: ${s.descricao}`))
       ].join("\n");
     }
 

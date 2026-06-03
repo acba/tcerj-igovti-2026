@@ -560,141 +560,86 @@ possiveis_achados:
 
 ---
 
-## Questão 05 - Segurança da Informação, Gestão de Riscos e Continuidade de TIC
+## Questão 05 - Evolução agregada das práticas de Segurança da Informação
 
-questao: Q5. A organização adota práticas mínimas de segurança da informação, gestão de riscos e continuidade de TIC para proteger dados, controlar acessos, tratar riscos relevantes, responder a incidentes e recuperar serviços críticos?
+natureza: levantamento
+gera_achado: false
+questao: Q5. As organizações avaliadas apresentam evolução mensurável, em termos agregados, nas práticas de segurança da informação, gestão de riscos e continuidade de TIC, especialmente em relação às fiscalizações anteriores que induziram a adoção dos Controles CIS?
 
 subquestoes:
-- A organização possui política de segurança da informação formalmente instituída, aprovada, vigente e divulgada?
-- A organização designou gestor institucional de segurança da informação com atribuições formais?
-- A organização possui responsável, comitê ou equipe de tratamento e resposta a incidentes de segurança da informação?
-- A organização executa processo de controle de acesso?
-- A organização executa processo de classificação e tratamento de informações?
-- A organização adota controles técnicos mínimos de segurança sobre recursos de processamento da informação?
-- A organização executa processo de gestão de riscos de TIC ou de segurança da informação?
-- A organização possui planos de tratamento para riscos relevantes?
-- A organização possui plano de continuidade de serviços de TIC ou recuperação de desastres para serviços críticos?
-- A organização realiza testes e revisões periódicas de backup, restauração, continuidade ou recuperação?
-
-riscos:
-- R5.1: Devido à inexistência ou fragilidade da política e da estrutura de segurança da informação, poderá não haver diretrizes, responsáveis e coordenação mínima para proteção de informações.
-- R5.2: Devido à fragilidade do controle de acesso e da classificação da informação, poderão ocorrer acessos indevidos, privilégios excessivos, tratamento inadequado de dados pessoais, informações sigilosas ou informações críticas.
-- R5.3: Devido à insuficiência de controles técnicos de segurança, poderá haver maior exposição a vulnerabilidades, indisponibilidade, perda de dados, malware ou acesso indevido a ativos críticos.
-- R5.4: Devido à inexistência ou fragilidade da gestão de riscos de TIC e de segurança da informação, poderão não ser identificados e tratados riscos relevantes à disponibilidade, confidencialidade e integridade de informações e serviços críticos.
-- R5.5: Devido à inexistência ou fragilidade de plano de continuidade ou recuperação de desastres, serviços críticos de TIC poderão não ser restabelecidos tempestivamente em caso de interrupção.
+- Houve evolução agregada das práticas de segurança da informação, gestão de riscos e continuidade de TIC em relação às fiscalizações anteriores?
+- As organizações estaduais fiscalizadas anteriormente apresentaram avanço agregado na adoção dos Controles CIS v8?
+- As prefeituras municipais fiscalizadas anteriormente apresentaram avanço agregado na adoção dos Controles CIS 1 a 6?
+- Quais práticas de segurança da informação apresentaram maior evolução agregada?
+- Quais práticas permaneceram estáveis, regrediram ou seguem com baixa adoção?
+- O grau de adoção atual sugere atendimento, atendimento parcial ou não atendimento dos encaminhamentos propostos nas fiscalizações anteriores de segurança da informação?
+- As diferenças metodológicas entre os trabalhos anteriores e o iGovTI 2026 limitam a comparação dos resultados?
 
 fontes_de_informacao:
-- F1: Respostas ao questionário eletrônico iGovTI.
-- F2: Evidências anexadas no questionário eletrônico.
+- F1: Respostas e indicadores calculados no iGovTI 2026 para itens relacionados a segurança da informação, gestão de riscos, continuidade de TIC e controles técnicos mínimos.
+- F2: Evidências anexadas ao questionário iGovTI 2026 em itens relacionados a segurança da informação, gestão de riscos, continuidade de TIC e controles técnicos mínimos.
+- F3: Resultados, achados, encaminhamentos, recomendações, determinações, planos de ação ou registros de monitoramento das fiscalizações anteriores de segurança da informação em organizações estaduais.
+- F4: Resultados, achados, encaminhamentos, recomendações, determinações, planos de ação ou registros de monitoramento da fiscalização anterior de segurança da informação em prefeituras municipais.
+- F5: Relação de Controles CIS v8 avaliados ou induzidos nas fiscalizações anteriores de organizações estaduais.
+- F6: Relação dos Controles CIS 1 a 6 avaliados ou induzidos na fiscalização anterior de prefeituras municipais.
+- F7: Metodologias, questionários, matrizes de correspondência e critérios utilizados nas fiscalizações anteriores e no iGovTI 2026.
 
 informacoes_requeridas:
-- IR1: Resposta e evidência sobre política de segurança da informação; [F1, F2, q2401, q2401evi]
-- IR2: Resposta e evidência sobre gestor institucional de segurança da informação; [F1, F2, q2403, q2403evi]
-- IR3: Resposta e evidência sobre comitê de segurança da informação; [F1, F2, q2402, q2402evi]
-- IR4: Resposta e evidência sobre responsável pelo tratamento e resposta a incidentes; [F1, F2, q2404, q2404evi]
-- IR5: Resposta e evidência sobre processo de controle de acesso; [F1, F2, q2502, q2502evi]
-- IR6: Resposta e evidência sobre processo de classificação e tratamento de informações; [F1, F2, q2503, q2503evi]
-- IR7: Resposta e evidência sobre controles técnicos de segurança; [F1, F2, q2504, q2504evi]
-- IR8: Resposta e evidência sobre gestão de riscos de TIC; [F1, F2, q2301, q2301evi]
-- IR9: Resposta e evidência sobre gestão de riscos de segurança da informação; [F1, F2, q2302, q2302evi]
-- IR10: Resposta e evidência sobre continuidade de serviços de TIC ou recuperação de desastres; [F1, F2, q2303, q2303evi]
-- IR11: Resposta e evidência sobre backup, testes de recuperação ou testes de segurança; [F1, F2, q2504, q2303, q2504evi, q2303evi]
+- IR1: Relação das organizações estaduais fiscalizadas anteriormente em segurança da informação que também integram o iGovTI 2026; [F1, F3]
+- IR2: Relação das prefeituras municipais fiscalizadas anteriormente em segurança da informação que também integram o iGovTI 2026; [F1, F4]
+- IR3: Itens, práticas, indicadores ou evidências do iGovTI 2026 relacionados a segurança da informação, riscos, continuidade, controle de acesso, classificação da informação, incidentes, backup, vulnerabilidades e controles técnicos mínimos; [F1, F2]
+- IR4: Tabela de correspondência entre os Controles CIS v8 avaliados ou induzidos nas organizações estaduais e os itens, práticas ou evidências correlatas do iGovTI 2026; [F1, F2, F3, F5, F7]
+- IR5: Tabela de correspondência entre os Controles CIS 1 a 6 avaliados ou induzidos nas prefeituras municipais e os itens, práticas ou evidências correlatas do iGovTI 2026; [F1, F2, F4, F6, F7]
+- IR6: Distribuição agregada dos resultados anteriores e atuais, por controle, prática, dimensão, faixa de adoção ou indicador comparável; [F1, F3, F4, F5, F6]
+- IR7: Variação agregada entre os trabalhos anteriores e o iGovTI 2026, distinguindo evolução, estabilidade e regressão por controle, prática ou dimensão comparável; [F1, F3, F4, F5, F6, F7]
+- IR8: Classificação agregada do atendimento dos encaminhamentos anteriores de segurança da informação, incluindo atendido, parcialmente atendido, não atendido e não avaliável; [F2, F3, F4]
+- IR9: Limitações metodológicas que afetem a comparação entre as fiscalizações anteriores de segurança da informação e o iGovTI 2026, incluindo diferença de escopo, granularidade dos Controles CIS, escala de resposta, evidências disponíveis ou universo de organizações; [F3, F4, F5, F6, F7]
 
-criterios:
-- C1: COBIT 2019, APO12 - Risco gerenciado.
-- C2: COBIT 2019, APO13 - Segurança gerenciada.
-- C3: COBIT 2019, DSS04 - Continuidade gerenciada.
-- C4: COBIT 2019, DSS05 - Serviços de segurança gerenciados.
-- C5: COBIT 2019, DSS06 - Controles de processos de negócio gerenciados.
-- C6: NBR ISO/IEC 27001 e NBR ISO/IEC 27002, no que se refere à gestão de segurança da informação, controle de acesso, classificação da informação e controles operacionais.
-- C7: NBR ISO/IEC 27005, no que se refere à gestão de riscos de segurança da informação.
-- C8: NBR ISO 31000, no que se refere à gestão de riscos.
-- C9: NBR ISO 22301, no que se refere à continuidade de negócios.
-- C10: Lei 13.709/2018, Lei Geral de Proteção de Dados Pessoais.
-- C11: Lei 12.527/2011, Lei de Acesso à Informação.
+criterios_de_comparabilidade:
+- CT1: Comparar apenas organizações presentes tanto nas fiscalizações anteriores de segurança da informação quanto no iGovTI 2026, ou explicitar separadamente o universo comum e o universo total de cada trabalho.
+- CT2: Comparar apenas controles, práticas, dimensões ou indicadores com correspondência metodológica suficiente entre Controles CIS, fiscalizações anteriores e iGovTI 2026.
+- CT3: Quando a correspondência entre Controles CIS e itens do iGovTI 2026 for parcial, registrar a limitação e tratar o resultado como indício agregado, não como comprovação plena de atendimento.
+- CT4: Separar a análise das organizações estaduais submetidas à avaliação de Controles CIS v8 da análise das prefeituras municipais submetidas aos Controles CIS 1 a 6.
+- CT5: Utilizar quantitativos absolutos e percentuais para demonstrar evolução, estabilidade ou regressão agregada.
+- CT6: Distinguir evolução agregada em práticas de segurança da informação de atendimento efetivo de encaminhamentos anteriores; melhoria em resposta ou indicador não implica, isoladamente, cumprimento integral do encaminhamento.
+- CT7: Classificar atendimento dos encaminhamentos anteriores em categorias explícitas, como atendido, parcialmente atendido, não atendido e não avaliável, com base em evidências disponíveis e compatíveis com o escopo de cada encaminhamento.
 
 procedimentos:
-- P1: Verificar, por meio da q2401, a existência, vigência, aprovação e divulgação da política de segurança da informação; [IR1]
-- P2: Verificar, por meio das q2402, q2403 e q2404, a existência de estrutura mínima de segurança da informação e resposta a incidentes; [IR2, IR3, IR4]
-- P3: Verificar, por meio da q2502, a existência de processo de controle de acesso; [IR5]
-- P4: Verificar, por meio da q2503, a existência de processo de classificação e tratamento de informações; [IR6]
-- P5: Verificar, por meio da q2504, a adoção de controles técnicos mínimos de segurança; [IR7]
-- P6: Verificar, por meio das q2301 e q2302, a existência de gestão de riscos de TIC e de segurança da informação; [IR8, IR9]
-- P7: Validar, pelas evidências anexadas às q2301 e q2302, se os riscos relevantes possuem plano de tratamento, responsáveis, prazos ou acompanhamento; [IR8, IR9]
-- P8: Verificar, por meio da q2303, a existência de plano de continuidade de serviços de TIC ou recuperação de desastres; [IR10]
-- P9: Verificar, por meio das q2303 e q2504, a existência de testes e revisões de backup, restauração, continuidade ou recuperação; [IR11]
+- P1: Identificar as organizações estaduais e prefeituras municipais fiscalizadas anteriormente em segurança da informação que também integram o iGovTI 2026; [IR1, IR2]
+- P2: Identificar os itens, práticas, evidências e indicadores do iGovTI 2026 relacionados a segurança da informação, gestão de riscos, continuidade e controles técnicos mínimos; [IR3]
+- P3: Construir tabela de correspondência entre os Controles CIS v8 avaliados ou induzidos nas organizações estaduais e os itens ou evidências correlatas do iGovTI 2026; [IR4]
+- P4: Construir tabela de correspondência entre os Controles CIS 1 a 6 avaliados ou induzidos nas prefeituras municipais e os itens ou evidências correlatas do iGovTI 2026; [IR5]
+- P5: Calcular a distribuição agregada dos resultados anteriores e atuais por controle, prática, dimensão ou indicador comparável, segregando organizações estaduais e prefeituras municipais quando aplicável; [IR6]
+- P6: Calcular a variação agregada entre os trabalhos anteriores e o iGovTI 2026, distinguindo evolução, estabilidade e regressão em quantitativos absolutos e percentuais; [IR7]
+- P7: Classificar, em termos agregados, o atendimento dos encaminhamentos anteriores de segurança da informação, com base nas evidências disponíveis e nos resultados do iGovTI 2026; [IR8]
+- P8: Identificar limitações metodológicas da comparação e indicar quais conclusões podem ou não ser extraídas dos dados disponíveis; [IR9]
 
 evidencias:
-- E1: Resposta negativa ou insuficiente sobre política de segurança da informação ou ausência de evidência suficiente; [P1]
-- E2: Resposta negativa ou insuficiente sobre gestor, comitê ou responsável por tratamento e resposta a incidentes de segurança da informação; [P2]
-- E3: Resposta negativa ou insuficiente sobre controle de acesso ou ausência de evidência suficiente; [P3]
-- E4: Resposta negativa ou insuficiente sobre classificação e tratamento de informações ou ausência de evidência suficiente; [P4]
-- E5: Resposta negativa ou insuficiente sobre controles técnicos mínimos de segurança ou ausência de evidência suficiente; [P5]
-- E6: Resposta negativa ou insuficiente sobre gestão de riscos de TIC ou de segurança da informação; [P6]
-- E7: Ausência ou insuficiência de planos de tratamento de riscos com responsáveis, prazos ou acompanhamento; [P7]
-- E8: Resposta negativa ou insuficiente sobre plano de continuidade de serviços de TIC ou recuperação de desastres; [P8]
-- E9: Ausência ou insuficiência de testes e revisões de backup, restauração, continuidade ou recuperação; [P9]
+- E1: Relação consolidada das organizações estaduais e prefeituras municipais presentes tanto nas fiscalizações anteriores de segurança da informação quanto no iGovTI 2026; [P1]
+- E2: Relação dos itens, práticas, evidências e indicadores do iGovTI 2026 utilizados na análise evolutiva de segurança da informação; [P2]
+- E3: Tabela de correspondência entre Controles CIS v8 e itens, práticas ou evidências correlatas do iGovTI 2026; [P3]
+- E4: Tabela de correspondência entre Controles CIS 1 a 6 e itens, práticas ou evidências correlatas do iGovTI 2026; [P4]
+- E5: Tabelas, gráficos ou painéis com distribuição agregada dos resultados anteriores e atuais por controle, prática, dimensão ou indicador comparável; [P5]
+- E6: Cálculo da variação agregada, em números absolutos e percentuais, indicando evolução, estabilidade ou regressão; [P6]
+- E7: Quadro consolidado de atendimento, atendimento parcial, não atendimento ou impossibilidade de avaliação dos encaminhamentos anteriores de segurança da informação; [P7]
+- E8: Registro das limitações metodológicas e das cautelas necessárias para interpretação dos resultados comparativos; [P8]
 
-possiveis_achados:
-- A5: Segurança e continuidade insuficientes para proteger dados e recuperar serviços críticos
-  situacoes_encontradas:
-  - S5.1:
-      descricao: Ausência ou fragilidade da política de segurança da informação.
-      itens_questionario: [q2401ext[A], q2401ext[D], q2401ext[E], q2401evi]
-      regra_de_identificacao:
-      - (q2401ext[A] != Sim) | (q2401ext[D] != Sim) | (q2401ext[E] != Sim) |
-      - q2401evi são inexistentes, incompatíveis ou insuficientes para comprovar política de segurança da informação formalmente instituída, vigente, aprovada, divulgada e aplicável à organização
-      referencias_matriz: [R5.1, P1, E1]
-      criterios: [C2, C6]
-      encaminhamento: Recomendar que a organização institua, aprove, divulgue e mantenha atualizada política de segurança da informação, contemplando diretrizes mínimas para proteção das informações, responsabilidades, tratamento de riscos, controle de acesso, classificação da informação, resposta a incidentes e continuidade dos serviços críticos.
-  - S5.2:
-      descricao: Ausência ou fragilidade da estrutura mínima de segurança da informação.
-      itens_questionario:[q2402ext[A], q2402ext[D], q2403ext[A], q2403ext[D], q2404ext[A], q2404ext[E], q2402evi, q2403evi, q2404evi]
-      regra_de_identificacao:
-      - (q2403ext[A] != Sim) | (q2403ext[D] != Sim) | (q2404ext[A] != Sim) | (q2404ext[E] != Sim)
-      - q2402evi são inexistentes, incompatíveis ou insuficientes para comprovar comitê, instância ou estrutura de segurança da informação
-      - q2403evi são inexistentes, incompatíveis ou insuficientes para comprovar designação formal de gestor institucional de segurança da informação e suas atribuições
-      - q2404evi são inexistentes, incompatíveis ou insuficientes para comprovar responsável, equipe, procedimento ou fluxo de tratamento e resposta a incidentes de segurança da informação
-    referencias_matriz: [R5.1, P2, E2]
-    criterios: [C2, C4, C6]
-    encaminhamento: Recomendar que a organização institua estrutura mínima de segurança da informação, com gestor ou responsável formalmente designado, atribuições definidas, instância de coordenação quando aplicável e procedimento ou equipe responsável pelo tratamento e resposta a incidentes de segurança da informação.
-  - S5.3:
-      descricao: Fragilidade no controle de acesso e na classificação e tratamento de informações.
-      itens_questionario: [q2502ext[A], q2502ext[B], q2502ext[D], q2502ext[E], q2503ext[A], q2503ext[C], q2503ext[D], q2503ext[E], q2503ext[F], q2502evi, q2503evi]
-      regra_de_identificacao:
-      - (q2502ext[A] != Sim) | (q2502ext[B] != Sim) | (q2502ext[D] != Sim) | (q2502ext[E] != Sim) | (q2503ext[A] != Sim) | (q2503ext[C] != Sim) | (q2503ext[D] != Sim) | (q2503ext[E] != Sim) | (q2503ext[F] != Sim)
-      - ou q2502evi/q2503evi são inexistentes, incompatíveis ou insuficientes para comprovar controle de acesso e classificação/tratamento de informações
-      referencias_matriz: [R5.2, P3, E3, P4, E4]
-      criterios: [C4, C5, C6, C10, C11]
-      encaminhamento: Recomendar que a organização estabeleça controles mínimos de acesso e classificação da informação, incluindo concessão, revisão e revogação de acessos, privilégio mínimo, tratamento de dados pessoais, informações sigilosas e informações críticas.
-    - S5.4:
-      descricao: Insuficiência de controles técnicos mínimos de segurança sobre recursos de processamento da informação.
-      itens_questionario: [q2504ext[A], q2504ext[B], q2504ext[C], q2504ext[D], q2504ext[E], q2504ext[F], q2504ext[G], q2504ext[J], q2504evi]
-      regra_de_identificacao:
-      - (q2504ext[A] != Sim) | (q2504ext[B] != Sim) | (q2504ext[C] != Sim) | (q2504ext[D] != Sim) | (q2504ext[E] != Sim) | (q2504ext[F] != Sim) | (q2504ext[G] != Sim) | (q2504ext[J] != Sim)
-      - ou q2504evi são inexistentes, incompatíveis ou insuficientes para comprovar controles técnicos mínimos de segurança
-      referencias_matriz: [R5.3, P5, E5]
-      criterios: [C4, C6]
-      encaminhamento: Recomendar que a organização implemente controles técnicos mínimos de segurança, priorizando inventário, configuração segura, correções, proteção contra malware, logs, backup e testes de segurança.
+o_que_a_analise_permite_dizer:
+- Se houve evolução, estabilidade ou regressão agregada das práticas de segurança da informação, gestão de riscos e continuidade de TIC em relação às fiscalizações anteriores.
+- Se as organizações estaduais anteriormente fiscalizadas avançaram, em termos agregados, na adoção dos Controles CIS v8 avaliados ou induzidos.
+- Se as prefeituras municipais anteriormente fiscalizadas avançaram, em termos agregados, na adoção dos Controles CIS 1 a 6.
+- Quais controles, práticas ou dimensões de segurança da informação apresentaram maior avanço agregado.
+- Quais controles, práticas ou dimensões permaneceram com baixa adoção, estagnaram ou regrediram em termos agregados.
+- Se os encaminhamentos das fiscalizações anteriores de segurança da informação aparentam ter sido atendidos, parcialmente atendidos, não atendidos ou não avaliáveis em termos agregados.
+- Em que medida diferenças metodológicas entre os trabalhos anteriores e o iGovTI 2026 limitam a força das conclusões comparativas.
 
-  - S5.5:
-      descricao: Ausência ou fragilidade da gestão de riscos de TIC e de segurança da informação, inclusive sem plano de tratamento efetivo.
-      itens_questionario: [q2301ext[A], q2301ext[B], q2301ext[C], q2302ext[A], q2302ext[B], q2302ext[C], q2302ext[D], q2301evi, q2302evi]
-      regra_de_identificacao:
-      - (q2301ext[A] != Sim) | (q2301ext[B] != Sim) | (q2301ext[C] != Sim) | (q2302ext[A] != Sim) | (q2302ext[B] != Sim) | (q2302ext[C] != Sim) | (q2302ext[D] != Sim)
-      - ou q2301evi/q2302evi são inexistentes, incompatíveis ou insuficientes para comprovar processo de gestão de riscos, matriz de riscos ou plano de tratamento com responsáveis, prazos e acompanhamento
-      referencias_matriz: [R5.4, P6, E6, P7, E7]
-      criterios: [C1, C2, C7, C8]
-      encaminhamento: Recomendar que a organização implemente processo proporcional de gestão de riscos de TIC e de segurança da informação, com identificação, avaliação, priorização, responsáveis, prazos, tratamento e acompanhamento dos riscos relevantes.
-  - S5.6:
-      descricao: Ausência ou fragilidade de plano de continuidade de serviços de TIC ou recuperação de desastres, inclusive sem testes e revisões periódicas.
-      itens_questionario: [q2303ext[A], q2303ext[B], q2303ext[C], q2303ext[D], q2504ext[J], q2303evi, q2504evi]
-      regra_de_identificacao:
-      - (q2303ext[A] != Sim) | (q2303ext[B] != Sim) | (q2303ext[C] != Sim) | (q2303ext[D] != Sim) | (q2504ext[J] != Sim)
-      - ou q2303evi/q2504evi são inexistentes, incompatíveis ou insuficientes para comprovar plano de continuidade, recuperação de desastres, backup, testes, revisões ou restauração
-      referencias_matriz: [R5.5, P8, E8, P9, E9]
-      criterios: [C3, C9]
-      encaminhamento: Recomendar que a organização identifique serviços críticos e estabeleça medidas mínimas de continuidade e recuperação, incluindo plano de continuidade ou recuperação, backup, testes de restauração, prioridades de recuperação, registros de testes e revisão periódica.
+limitacoes_e_cautelas:
+- A questão tem caráter de levantamento e análise evolutiva agregada, não gerando achado individual por organização.
+- A comparação não deve ser tratada como nova fiscalização dos Controles CIS, nem como reexecução integral das fiscalizações anteriores de segurança da informação.
+- A correspondência entre Controles CIS e itens do iGovTI 2026 pode ser parcial; nesses casos, a conclusão deve ser apresentada como indício agregado e não como comprovação plena.
+- A evolução agregada não autoriza, isoladamente, concluir que todas as organizações evoluíram individualmente.
+- A ausência de evolução agregada não autoriza, isoladamente, concluir descumprimento individual dos encaminhamentos anteriores.
+- A análise de atendimento dos encaminhamentos anteriores deve observar o conteúdo de cada encaminhamento, as evidências disponíveis, a compatibilidade com o iGovTI 2026 e eventuais registros de monitoramento.
 
 ---
 
@@ -729,30 +674,35 @@ informacoes_requeridas:
 - IR3: Resposta e evidência sobre modelos, manuais, checklists ou normativos orientativos para contratações de TIC; [F1, F2, q2801, q2801evi]
 - IR4: Resposta sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, q2804[A]]
 - IR5: Evidência específica sobre aprovação técnica da área de TIC em caso concreto; [F2, q2804eviA]
-- IR6: Resposta e evidência sobre aderência das contratações ao plano de TIC e ao plano de contratações; [F1, F2, q2802, q2804[B], q2802evi]
-- IR7: Resposta e evidência sobre equipe de planejamento formalmente designada e multidisciplinar; [F1, F2, q2804[C], q2804evi]
-- IR8: Resposta e evidência sobre requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios de aceite; [F1, F2, q2801, q2804[E], q2801evi, q2804evi]
-- IR9: Resposta e evidência sobre níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [F1, F2, q2804[D], q2801, q2801evi, q2804evi]
+- IR6: Resposta e evidência sobre aderência das contratações ao plano de TIC, ao plano de contratações e à proposta orçamentária; [F1, F2, q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
+- IR7: Resposta e evidência sobre equipe de planejamento formalmente designada e multidisciplinar; [F1, F2, q2804[C], q2801evi]
+- IR8: Resposta e evidência sobre requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios de aceite nos artefatos de planejamento; [F1, F2, q2801ext[B], q2804[E], q2801evi]
+- IR9: Resposta e evidência sobre níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [F1, F2, q2804[D], q2801ext[E], q2801ext[F], q2801evi]
 
 criterios:
-- C1: Lei 14.133/2021, no que se refere ao planejamento, governança, transparência, gestão de riscos e fiscalização nas contratações públicas.
-- C2: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução.
-- C3: COBIT 2019, BAI03.04 - Contratação dos componentes da solução.
-- C4: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades.
-- C5: COBIT 2019, APO01.09 - Definição e comunicação de políticas e procedimentos.
-- C6: COBIT 2019, APO10 - Fornecedores gerenciados.
-- C7: COBIT 2019, MEA01 - Desempenho e conformidade monitorados.
-- C8: Lei 13.709/2018, Lei Geral de Proteção de Dados Pessoais, quando houver tratamento de dados pessoais nas soluções contratadas.
-- C9: Notas Técnicas TCE-RJ aplicáveis às contratações de bens e serviços de tecnologia da informação.
+- C1: Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
+- C2: Art. 18, caput e §1º, incisos I, IV, V, VIII, IX, X e XIII, da Lei 14.133/2021: fase preparatória caracterizada pelo planejamento, compatibilização com o plano de contratações anual e elementos mínimos do estudo técnico preliminar.
+- C3: Art. 6º, inciso XXIII, alíneas "d", "e", "f" e "g", da Lei 14.133/2021: termo de referência deve conter requisitos da contratação, modelo de execução, modelo de gestão contratual e critérios de medição e pagamento.
+- C4: Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
+- C5: Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
+- C6: Art. 117, caput, da Lei 14.133/2021: acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados.
+- C7: Art. 140, incisos I e II, da Lei 14.133/2021: recebimento provisório e definitivo de obras, serviços e compras, com verificação da conformidade do objeto.
+- C8: Art. 46, caput e §2º, da Lei 13.709/2018: adoção de medidas de segurança, técnicas e administrativas, desde a concepção do produto ou serviço até sua execução.
+- C9: Art. 50, caput e §2º, inciso I, da Lei 13.709/2018: formulação de regras de boas práticas e governança para tratamento de dados pessoais, considerando riscos, salvaguardas e mecanismos de mitigação.
+- C10: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
+- C11: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir e comunicar papéis e responsabilidades relacionados à informação e à tecnologia.
+- C12: COBIT 2019, APO01.09 - Definir e comunicar políticas e procedimentos: manter políticas, procedimentos e orientações para direcionar processos de gestão de TIC.
+- C13: COBIT 2019, APO10.03 - Gerenciar relacionamentos e contratos com fornecedores: estabelecer e acompanhar contratos, responsabilidades, níveis de serviço e obrigações de fornecedores.
+- C14: COBIT 2019, APO10.05 - Monitorar desempenho e conformidade de fornecedores: acompanhar desempenho, conformidade, qualidade e resultados pactuados com fornecedores.
 
 procedimentos:
 - P1: Verificar, por meio da q2801, a existência de processo formal e padronizado para contratações de TIC; [IR1]
 - P2: Validar, pelas evidências anexadas à q2801, a existência de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [IR1, IR2, IR3]
 - P3: Verificar, por meio da q2804[A] e da q2804eviA, se as contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC; [IR4, IR5]
-- P4: Verificar, por meio das q2802 e q2804[B], se as contratações de TIC estão aderentes ao plano de TIC e ao plano de contratações; [IR6]
-- P5: Verificar, por meio da q2804[C], se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
-- P6: Verificar, por meio das q2801 e q2804[E], se os artefatos de planejamento contemplam requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios objetivos de aceite; [IR8]
-- P7: Verificar, por meio das q2804[D] e q2801, se os contratos possuem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [IR9]
+- P4: Verificar, por meio das q2102ext[C], q2802ext[C], q2802ext[D], q2804[B] e evidências q2102evi/q2802evi, se as contratações de TIC estão aderentes ao plano de TIC, ao plano de contratações e à proposta orçamentária; [IR6]
+- P5: Verificar, por meio da q2804[C] e da q2801evi, se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
+- P6: Verificar, por meio das q2801ext[B], q2804[E] e q2801evi, se os artefatos de planejamento contemplam requisitos técnicos, riscos, segurança da informação, proteção de dados e critérios objetivos de aceite; [IR8]
+- P7: Verificar, por meio das q2804[D], q2801ext[E], q2801ext[F] e q2801evi, se os contratos possuem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [IR9]
 
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre processo formal e padronizado para contratações de TIC; [P1]
@@ -769,55 +719,134 @@ possiveis_achados:
   situacoes_encontradas:
   - S6.1:
       descricao: Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.
-      itens_questionario: [q2801ext[A], q2801ext[B], q2801ext[C], q2801ext[D], q2801ext[E], q2801ext[F], q2801ext[G], q2801evi]
+      severidade: alta
+      itens_questionario: [q2801ext[A], q2801ext[C], q2801ext[D], q2801ext[E], q2801ext[G], q2801evi]
       regra_de_identificacao:
-      - (q2801ext[A] != Sim) | (q2801ext[B] != Sim) | (q2801ext[C] != Sim) | (q2801ext[D] != Sim) | (q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2801ext[G] != Sim)
-      - ou q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar processo formal e padronizado para contratações de TIC
+      - (q2801ext[A] != Sim) | (q2801ext[C] != Sim) | (q2801ext[D] != Sim) | (q2801ext[E] != Sim) | (q2801ext[G] != Sim)
+      - ou avaliacao[Q6-S6.1-q2801evi] == "Não conforme"
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
-      criterios: [C1, C4, C5, C9]
+      criterios: [C1, C4, C11, C12]
       encaminhamento: Recomendar que a organização formalize processo de contratação de TIC, contemplando fluxo, etapas, papéis, responsabilidades, modelos mínimos de artefatos, manuais, checklists ou orientações internas.
   - S6.2:
       descricao: Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.
+      severidade: alta
       itens_questionario: [q2804[A], q2804eviA]
       regra_de_identificacao:
-      - (q2804[A] == Não)
-      - ou q2804eviA é inexistente, incompatível ou insuficiente para comprovar aprovação técnica da área de TIC em caso concreto
+      - (q2804[A] != Sim)
+      - ou avaliacao[Q6-S6.2-q2804eviA] == "Não conforme"
       referencias_matriz: [R6.3, P3, E3, E4]
-      criterios: [C2, C3, C4]
+      criterios: [C1, C10, C11]
       encaminhamento: Recomendar que as contratações de TIC sejam submetidas à análise prévia e aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas da organização.
   - S6.3:
-      descricao: Inexistência ou insuficiência de modelos padronizados para elaboração dos artefatos das contratações de TIC.
-      itens_questionario: [q2801ext[B], q2801ext[D], q2801ext[F], q2801ext[G], q2801evi]
+      descricao: Contratações de TIC sem aderência ao plano de TIC, ao plano de contratações ou à proposta orçamentária.
+      severidade: alta
+      itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
       regra_de_identificacao:
-      - (q2801ext[B] != Sim) | (q2801ext[D] != Sim) | (q2801ext[F] != Sim) | (q2801ext[G] != Sim)
-      - ou q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar processo formal e padronizado para contratações de TIC
-      referencias_matriz: [R6.3, P5, E5, P6, E6]
-      criterios: [C1, C5]
-      encaminhamento: Recomendar que a organização adote modelos padronizados para DFD/DOD, ETP, TR/projeto básico, pesquisa de preços, mapa de riscos, plano de fiscalização e termos de recebimento.
-  - S6.4:
-      descricao: Contratações de TIC sem aderência ao plano de TIC ou ao plano de contratações.
-      itens_questionario: [q2802ext[A], q2802ext[B], q2802ext[C], q2802ext[D], q2804[B], q2102ext[C], q2802evi, q2102evi]
-      regra_de_identificacao:
-      - (q2802ext[A] == Não) | (q2802ext[B] == Não) | (q2802ext[C] == Não) | (q2802ext[D] == Não) | (q2804[B] == Não) | (q2102ext[C] == Não)
-      - ou q2802evi/q2102evi são inexistentes, incompatíveis ou insuficientes para comprovar aderência das contratações ao plano de TIC e ao plano de contratações
+      - (q2102ext[C] != Sim) | (q2802ext[C] != Sim) | (q2802ext[D] != Sim) | (q2804[B] != Sim)
+      - ou (avaliacao[Q6-S6.3-q2102evi] == "Não conforme") | (avaliacao[Q6-S6.3-q2802evi] == "Não conforme")
       referencias_matriz: [R6.3, P4, E5]
-      criterios: [C1, C6]
-      encaminhamento: Recomendar que a organização condicione as contratações de TIC à vinculação com o planejamento de TIC e com o plano de contratações, ressalvadas situações excepcionais devidamente justificadas.
-  - S6.5:
+      criterios: [C1, C2]
+      encaminhamento: Recomendar que a organização condicione as contratações de TIC à vinculação com o planejamento de TIC, com o plano de contratações e com a proposta orçamentária, ressalvadas situações excepcionais devidamente justificadas.
+  - S6.4:
       descricao: Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC.
-      itens_questionario: [q2804[C], q2804evi]
+      severidade: alta
+      itens_questionario: [q2804[C], q2801evi]
       regra_de_identificacao:
-      - (q2804[C] == Não)
-      - ou q2804evi são inexistentes, incompatíveis ou insuficientes para comprovar equipe de planejamento formalmente designada e multidisciplinar
+      - (q2804[C] != Sim)
+      - ou avaliacao[Q6-S6.4-q2801evi] == "Não conforme"
       referencias_matriz: [R6.4, P5, E6]
-      criterios: [C1, C4]
+      criterios: [C1, C5, C11]
       encaminhamento: Recomendar que a organização designe formalmente equipe de planejamento da contratação de TIC, com participação da área requisitante, área técnica de TIC e demais áreas necessárias.
+  - S6.5:
+      descricao: Artefatos de planejamento das contratações de TIC sem requisitos técnicos, análise de riscos, segurança da informação, proteção de dados ou critérios objetivos de aceite.
+      severidade: alta
+      itens_questionario: [q2801ext[B], q2804[E], q2801evi]
+      regra_de_identificacao:
+      - (q2801ext[B] != Sim) | (q2804[E] != Sim)
+      - ou avaliacao[Q6-S6.5-q2801evi] == "Não conforme"
+      referencias_matriz: [R6.4, P6, E7]
+      criterios: [C2, C3, C8, C9, C10]
+      encaminhamento: Recomendar que os artefatos de planejamento das contratações de TIC contemplem requisitos técnicos, análise de riscos, requisitos de segurança da informação, proteção de dados pessoais quando aplicável e critérios objetivos de aceite.
   - S6.6:
       descricao: Contratações de TIC sem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento.
-      itens_questionario: [q2804[D], q2801ext[E], q2801ext[F], q2804evi, q2801evi]
+      severidade: alta
+      itens_questionario: [q2804[D], q2801ext[E], q2801ext[F], q2801evi]
       regra_de_identificacao:
-      - (q2804[D] == Não) | (q2801ext[E] == Não) | (q2801ext[F] == Não)
-      - ou q2804evi/q2801evi são inexistentes, incompatíveis ou insuficientes para comprovar níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento
+      - (q2804[D] != Sim) | (q2801ext[E] != Sim) | (q2801ext[F] != Sim)
+      - ou avaliacao[Q6-S6.6-q2801evi] == "Não conforme"
       referencias_matriz: [R6.5, P7, E8]
-      criterios: [C1, C6, C7]
+      criterios: [C1, C3, C6, C7, C13, C14]
       encaminhamento: Recomendar que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.
+
+---
+
+## Questão Transversal - Evolução agregada em relação à fiscalização anterior
+
+natureza: levantamento
+gera_achado: false
+questao: QT. As organizações anteriormente avaliadas apresentaram evolução mensurável, em termos agregados, em governança e gestão de TIC e no atendimento aos encaminhamentos da fiscalização anterior?
+
+subquestoes:
+- Houve variação agregada positiva, negativa ou estável nos indicadores comparáveis de governança e gestão de TIC?
+- Quais dimensões, práticas ou indicadores agregados apresentaram maior evolução?
+- Quais dimensões, práticas ou indicadores agregados permaneceram estáveis ou regrediram?
+- Qual foi o grau agregado de atendimento aos encaminhamentos propostos na fiscalização anterior?
+- Há diferença relevante entre a evolução agregada dos municípios avaliados em 2023 e a evolução agregada das organizações do Poder Executivo?
+- As diferenças metodológicas entre os ciclos limitam a comparabilidade dos resultados?
+
+fontes_de_informacao:
+- F1: Resultados, respostas e indicadores calculados no iGovTI 2026 para as organizações também avaliadas na fiscalização anterior.
+- F2: Resultados, respostas, indicadores, achados e encaminhamentos da fiscalização anterior de 2023 relativa ao iGovTI em municípios.
+- F3: Resultados, respostas, indicadores, achados e encaminhamentos da fiscalização anterior de 2023 relativa ao iGovTI nas organizações do Poder Executivo estadual.
+- F4: Metodologias de cálculo, dicionários de variáveis, questionários, planilhas de correspondência e demais registros necessários para compatibilizar os ciclos de avaliação.
+- F5: Informações, evidências e registros produzidos no iGovTI 2026 que permitam inferir, em termos agregados, atendimento, não atendimento ou atendimento parcial dos encaminhamentos anteriores.
+
+informacoes_requeridas:
+- IR1: Relação das organizações avaliadas na fiscalização anterior que também integram o iGovTI 2026, segregadas, quando aplicável, entre municípios e organizações do Poder Executivo estadual; [F1, F2, F3]
+- IR2: Indicadores, dimensões, práticas, faixas de maturidade ou métricas da fiscalização anterior que sejam comparáveis com os resultados do iGovTI 2026; [F1, F2, F3, F4]
+- IR3: Tabela de correspondência entre indicadores, práticas, dimensões ou métricas dos ciclos de avaliação, com indicação do grau de comparabilidade; [F4]
+- IR4: Distribuição agregada dos resultados da fiscalização anterior e do iGovTI 2026, incluindo quantitativo e percentual de organizações por nível, faixa, dimensão, prática ou indicador comparável; [F1, F2, F3]
+- IR5: Variação agregada entre os ciclos, incluindo evolução, estabilidade ou regressão por indicador, dimensão, prática ou faixa de maturidade comparável; [F1, F2, F3, F4]
+- IR6: Relação dos encaminhamentos propostos na fiscalização anterior e sua classificação agregada quanto a atendimento, atendimento parcial, não atendimento ou impossibilidade de avaliação; [F2, F3, F5]
+- IR7: Limitações metodológicas que afetem a comparação entre os ciclos, incluindo alteração de questionário, pesos, fórmulas, universo avaliado, escala de resposta ou critérios de classificação; [F1, F2, F3, F4]
+
+criterios_de_comparabilidade:
+- CT1: Comparar apenas organizações presentes nos dois ciclos ou, quando houver alteração de universo, explicitar separadamente o universo comum e o universo total de cada ciclo.
+- CT2: Comparar apenas indicadores, dimensões, práticas ou faixas com correspondência metodológica suficiente; quando a correspondência for parcial, registrar a limitação e evitar conclusão categórica.
+- CT3: Utilizar quantitativos absolutos e percentuais para descrever variações agregadas, distinguindo evolução, estabilidade e regressão.
+- CT4: Distinguir mudança em resultado agregado de atendimento efetivo de encaminhamento; melhoria no indicador não implica, por si só, cumprimento integral da recomendação anterior.
+- CT5: Classificar atendimento dos encaminhamentos anteriores em categorias explícitas, como atendido, parcialmente atendido, não atendido e não avaliável, com base em evidências disponíveis nos autos, registros da fiscalização anterior e informações do iGovTI 2026.
+- CT6: Registrar limitações decorrentes de mudanças metodológicas, de diferenças de escopo, de alteração de pesos, de alteração de itens do questionário ou de indisponibilidade de dados históricos.
+
+procedimentos:
+- P1: Identificar o conjunto de organizações avaliadas na fiscalização anterior e cruzá-lo com o universo de organizações respondentes do iGovTI 2026; [IR1]
+- P2: Construir tabela de correspondência entre indicadores, dimensões, práticas, faixas de maturidade ou métricas comparáveis entre a fiscalização anterior e o iGovTI 2026; [IR2, IR3]
+- P3: Calcular, para o conjunto comum de organizações, a distribuição agregada dos resultados nos dois ciclos, por indicador, dimensão, prática ou faixa de maturidade comparável; [IR4]
+- P4: Calcular a variação agregada entre os ciclos, distinguindo evolução, estabilidade e regressão, em quantitativos absolutos e percentuais; [IR5]
+- P5: Segregar, quando aplicável, os resultados agregados dos municípios avaliados em 2023 e das organizações do Poder Executivo estadual avaliadas em 2023; [IR1, IR4, IR5]
+- P6: Classificar, em termos agregados, o atendimento dos encaminhamentos da fiscalização anterior, com base nos registros disponíveis e nas evidências ou respostas do iGovTI 2026; [IR6]
+- P7: Identificar limitações metodológicas da comparação e indicar quais conclusões podem ou não ser extraídas dos dados disponíveis; [IR7]
+
+evidencias:
+- E1: Relação consolidada das organizações presentes nos dois ciclos de avaliação; [P1]
+- E2: Tabela de correspondência entre itens, indicadores, dimensões, práticas ou faixas comparáveis entre a fiscalização anterior e o iGovTI 2026; [P2]
+- E3: Tabelas, gráficos ou painéis com distribuição agregada dos resultados da fiscalização anterior e do iGovTI 2026; [P3]
+- E4: Cálculo da variação agregada dos resultados, em números absolutos e percentuais, indicando evolução, estabilidade ou regressão; [P4]
+- E5: Comparativo agregado entre municípios avaliados em 2023 e organizações do Poder Executivo estadual avaliadas em 2023, quando os dados permitirem a segregação; [P5]
+- E6: Quadro consolidado de atendimento, atendimento parcial, não atendimento ou impossibilidade de avaliação dos encaminhamentos anteriores; [P6]
+- E7: Registro das limitações metodológicas e das cautelas necessárias para interpretação dos resultados comparativos; [P7]
+
+o_que_a_analise_permite_dizer:
+- Se, no conjunto comum de organizações, houve evolução, estabilidade ou regressão agregada em governança e gestão de TIC entre a fiscalização anterior e o iGovTI 2026.
+- Quais dimensões, práticas ou indicadores comparáveis concentraram os maiores avanços agregados.
+- Quais dimensões, práticas ou indicadores comparáveis permaneceram com baixa evolução, estagnaram ou regrediram em termos agregados.
+- Se os encaminhamentos da fiscalização anterior foram atendidos, parcialmente atendidos, não atendidos ou não puderam ser avaliados, em termos agregados.
+- Se há diferença relevante entre a evolução agregada dos municípios avaliados em 2023 e das organizações do Poder Executivo estadual avaliadas em 2023.
+- Em que medida diferenças metodológicas entre os ciclos limitam a força das conclusões comparativas.
+
+limitacoes_e_cautelas:
+- A questão tem caráter de levantamento e análise longitudinal agregada, não gerando achado individual por organização.
+- A comparação não deve ser feita questão a questão quando não houver equivalência metodológica suficiente entre os instrumentos de avaliação.
+- A evolução agregada não autoriza, isoladamente, concluir que todas as organizações evoluíram individualmente.
+- A regressão agregada não autoriza, isoladamente, concluir descumprimento individual de encaminhamento anterior.
+- O atendimento dos encaminhamentos anteriores deve ser analisado conforme o conteúdo de cada encaminhamento, as evidências disponíveis e a compatibilidade com os dados coletados no iGovTI 2026.

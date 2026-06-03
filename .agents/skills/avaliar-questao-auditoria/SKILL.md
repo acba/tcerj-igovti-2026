@@ -33,6 +33,7 @@ Não avaliar por inferência a partir de nomes de arquivos. Se o usuário colar 
 
 3. Levantar checklists de evidência.
    - Abrir a planilha `.xlsx` com `openpyxl` ou ferramenta equivalente.
+   - Confirmar que a planilha usa uma única aba consolidada chamada `Avaliacoes`; múltiplas abas por questão, como `Q1_Checklists`, devem ser apontadas como desconformidade estrutural.
    - Filtrar as linhas da questão avaliada pelo campo `questao_auditoria` ou pelo prefixo de `id_avaliacao`.
    - Conferir colunas obrigatórias: `id_avaliacao`, `questao_auditoria`, `situacao_encontrada`, `item_evidencia`, `descricao_avaliacao`, `prompt_checklist`.
    - Conferir se o `id_avaliacao` é o target usado nas regras, não apenas o `item_evidencia`.
@@ -45,13 +46,15 @@ Avaliar, no mínimo:
 2. **Cobertura das subquestões:** se cada subquestão tem informação requerida, procedimento e evidência correspondente.
 3. **Critérios:** se cada critério é específico, com artigo, inciso, item, processo, prática, salvaguarda, princípio ou deliberação concreta, seguido de breve descrição.
 4. **Informações requeridas:** se todas foram mencionadas e usadas nos procedimentos.
-5. **Procedimentos:** se todos foram usados nas evidências e situações encontradas.
-6. **Coesão:** se riscos, informações requeridas, critérios, procedimentos, evidências, situações encontradas e encaminhamentos se conectam sem lacunas ou redundâncias relevantes.
-7. **Situações encontradas:** se são coerentes, válidas, essenciais, proporcionais e suficientes para responder à questão e às subquestões.
-8. **Severidade:** se toda situação encontrada possui `severidade` preenchida com `alta`, `media` ou `baixa`, e se o valor é proporcional à criticidade da situação.
-9. **Objetividade das regras:** se cada situação pode ser verificada por respostas do iGovTI, evidências anexadas ou avaliações binárias de evidência.
-10. **Suficiência do achado estruturante:** se o possível achado responde negativamente à questão quando uma ou mais situações ocorrem.
-11. **Prompts de evidência:** se cada evidência que exige análise documental tem avaliação própria na planilha.
+5. **Procedimentos:** se todos foram usados nas evidências e, quando houver achado, nas situações encontradas.
+6. **Coesão:** se riscos ou critérios de comparabilidade, informações requeridas, procedimentos, evidências, situações encontradas ou resultados esperados se conectam sem lacunas ou redundâncias relevantes.
+7. **Natureza da questão:** se a questão gera achado ou possui `natureza: levantamento` e `gera_achado: false`; nesse último caso, não exigir `possiveis_achados`, `situacoes_encontradas`, `severidade`, `regra_de_identificacao` ou encaminhamentos.
+8. **Situações encontradas:** quando a questão gera achado, se são coerentes, válidas, essenciais, proporcionais e suficientes para responder à questão e às subquestões.
+9. **Severidade:** quando a questão gera achado, se toda situação encontrada possui `severidade` preenchida com `alta`, `media` ou `baixa`, e se o valor é proporcional à criticidade da situação.
+10. **Objetividade das regras:** quando a questão gera achado, se cada situação pode ser verificada por respostas do iGovTI, evidências anexadas ou avaliações binárias de evidência.
+11. **Suficiência do achado estruturante:** quando a questão gera achado, se o possível achado responde negativamente à questão quando uma ou mais situações ocorrem.
+12. **Questões de levantamento:** quando `gera_achado: false`, se `o_que_a_analise_permite_dizer`, `limitacoes_e_cautelas`, evidências e procedimentos são suficientes para sustentar conclusões descritivas, agregadas ou comparativas.
+13. **Prompts de evidência:** se cada evidência que exige análise documental tem avaliação própria na planilha; em questões de levantamento sem situações encontradas, registrar que a ausência de prompts é aceitável quando não houver avaliação documental binária por achado.
 
 ## Avaliação Dos Prompts
 
@@ -61,8 +64,10 @@ Para cada linha da planilha associada à questão, verificar:
 - `questao_auditoria` e `situacao_encontrada` correspondem à matriz.
 - `item_evidencia` existe no questionário ou na matriz.
 - `descricao_avaliacao` sintetiza claramente o teste documental.
-- `prompt_checklist` determina análise exclusiva da evidência indicada.
-- O prompt menciona a situação, o item de evidência, a evidência esperada e os critérios aplicáveis.
+- `prompt_checklist` começa com formulação genérica, como "Você é avaliador de evidências de auditoria", sem restringir indevidamente a avaliação a uma fiscalização específica.
+- `prompt_checklist` determina análise exclusiva da evidência fornecida.
+- O prompt menciona a situação e a evidência esperada.
+- O prompt não repete metadados que já estão nas colunas da planilha, especialmente `id_avaliacao`, `item_evidencia` e a relação de critérios da matriz.
 - O checklist é objetivo, verificável e compatível com a situação encontrada.
 - A saída exigida é JSON com `resultado` binário `Conforme` ou `Não conforme`.
 - O prompt veda classificações intermediárias e define quando usar `Não conforme`.
@@ -77,8 +82,8 @@ Estruturar a resposta assim, adaptando ao tamanho da tarefa:
 - **Conclusão Geral:** síntese sobre maturidade da questão e principais fragilidades.
 - **Achados Da Revisão:** problemas, lacunas ou riscos metodológicos, em ordem de relevância.
 - **Avaliação Por Critério:** resposta objetiva para os itens da rubrica.
-- **Avaliação De Severidade:** confirmação de presença do campo `severidade` em todas as situações e crítica sobre a proporcionalidade dos valores.
-- **Avaliação Dos Prompts:** cobertura da planilha, qualidade dos prompts e aderência aos targets da matriz.
+- **Avaliação De Severidade:** quando aplicável, confirmação de presença do campo `severidade` em todas as situações e crítica sobre a proporcionalidade dos valores; quando a questão for de levantamento, registrar que o item não se aplica.
+- **Avaliação Dos Prompts:** quando aplicável, cobertura da planilha, qualidade dos prompts e aderência aos targets da matriz; quando a questão for de levantamento sem avaliação documental binária, registrar que não há prompts esperados.
 - **Propostas De Melhoria:** recomendações concretas de redação, regra, critério, evidência, prompt ou encaminhamento.
 - **Trechos Sugeridos:** quando útil, fornecer blocos YAML/Markdown ou descrições de linhas de planilha.
 

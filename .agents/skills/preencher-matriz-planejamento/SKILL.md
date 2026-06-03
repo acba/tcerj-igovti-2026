@@ -11,27 +11,28 @@ Produzir ou revisar matrizes de planejamento de auditoria governamental com ling
 
 Tratar a matriz como instrumento de planejamento: não concluir achados reais sem evidência de execução. Usar "possíveis achados" apenas como hipóteses de auditoria vinculadas aos riscos e aos procedimentos previstos.
 
-Na Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026, também manter, quando solicitado, a planilha apartada de checklists de verificação de evidências, usada para registrar os prompts que serão enviados à API de modelo de IA para avaliar evidências anexadas ao questionário.
+Quando solicitado, manter planilha apartada de checklists de verificação de evidências, usada para registrar prompts que serão enviados à API de modelo de IA ou aplicados por revisores humanos. A skill deve funcionar para qualquer tema de auditoria, levantamento ou fiscalização, não apenas para governança e gestão de TIC.
 
 ## Fluxo de Trabalho
 
 1. Levantar contexto do trabalho.
    - Ler o arquivo da matriz existente antes de editar.
-   - Para este repositório, a matriz principal fica em `01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md`.
+   - Se o usuário não informar o caminho da matriz, localizar o arquivo provável no repositório por nome, referências recentes ou estrutura do trabalho; confirmar por leitura do conteúdo, não por inferência de nome.
    - Ler documentos de planejamento, análise de riscos, questionário, metodologia, escopo, critérios ou deliberações citadas pelo usuário.
-   - Para regras vinculadas a itens do questionário, conferir o texto dos itens em `01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md` antes de propor ou revisar regras.
+   - Para regras vinculadas a itens de questionário, formulário, base de dados ou sistema, conferir o texto, tipo, escala, opções e evidências previstas no instrumento aplicável antes de propor ou revisar regras.
    - Não inferir escopo apenas por nomes de arquivos.
 
 2. Identificar a estrutura esperada.
    - Preservar o formato existente quando houver matriz prévia.
-   - Na matriz atual, usar seções nesta ordem: `questao`, `subquestoes`, `riscos`, `fontes_de_informacao`, `informacoes_requeridas`, `criterios`, `procedimentos`, `evidencias`, `possiveis_achados`.
+   - Quando criar uma matriz nova sem modelo local, usar seções nesta ordem: `questao`, `subquestoes`, `riscos`, `fontes_de_informacao`, `informacoes_requeridas`, `criterios`, `procedimentos`, `evidencias`, `possiveis_achados`.
    - Manter identificadores rastreáveis, como `Q1`, `R1.1`, `F1`, `IR1`, `C1`, `P1`, `E1`, `A1`, `S1.1`.
-   - Em `possiveis_achados`, preservar o padrão de 1 achado estruturante por questão de auditoria, composto por várias `situacoes_encontradas`.
+   - Em `possiveis_achados`, preferir poucos achados estruturantes por questão, compostos por `situacoes_encontradas`, quando isso reduzir fragmentação sem perder rastreabilidade.
+   - Quando a questão tiver caráter de levantamento, usar `natureza: levantamento` e `gera_achado: false`, substituir `possiveis_achados` por campos como `o_que_a_analise_permite_dizer` e `limitacoes_e_cautelas`, e não criar `situacoes_encontradas`.
 
 3. Definir ou revisar questões de auditoria.
    - Formular a questão como pergunta avaliável, vinculada ao objetivo e ao escopo.
    - Separar temas muito distintos em questões diferentes.
-   - Evitar questão ampla demais que misture governança, segurança, contratações, continuidade e desempenho sem necessidade.
+   - Evitar questão ampla demais que misture objetos, processos, unidades, riscos ou regimes normativos muito diferentes sem necessidade.
    - Quando o usuário excluir um tema do rol de achados, registrar como observação de levantamento, se útil, sem criar possíveis achados para ele.
 
 4. Desdobrar subquestões.
@@ -49,59 +50,83 @@ Na Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026, também manter, quando solic
    - Todo procedimento deve apontar informação requerida e, quando aplicável, questão ou item do instrumento: `P3: ...; [IR3, q2201]`.
    - Toda evidência deve apontar procedimento: `E3: ...; [P3]`.
    - Toda situação encontrada deve apontar, em `referencias_matriz`, risco, procedimento e evidência: `referencias_matriz: [R3.2, P3, E3, P4, E4]`.
-   - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario`, `regra_de_identificacao`, `referencias_matriz`, `criterios` e `encaminhamento`.
+   - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario` ou `fontes_de_verificacao`, `regra_de_identificacao`, `referencias_matriz`, `criterios` e `encaminhamento`.
+   - Questões de levantamento com `gera_achado: false` não devem conter `possiveis_achados`, `situacoes_encontradas`, `severidade`, `regra_de_identificacao` ou encaminhamentos individuais; devem conter procedimentos, evidências e limites suficientes para sustentar análise descritiva, agregada ou comparativa.
 
 7. Manter checklists de verificação de evidências, quando solicitado.
-   - Criar ou atualizar a planilha `matriz_verificaca_evidencias.xlsx` no mesmo diretório de `matriz_planejamento.md`.
+   - Criar ou atualizar a planilha de checklists no caminho solicitado pelo usuário. Se não houver caminho definido, usar o mesmo diretório da matriz e nome descritivo, como `matriz_verificacao_evidencias.xlsx`.
    - Registrar uma linha por avaliação de evidência a ser realizada. Em regra, usar uma linha por par `situação encontrada` + `item de evidência`, pois a mesma evidência pode comprovar finalidades distintas em situações diferentes.
    - Usar as colunas: `id_avaliacao`, `questao_auditoria`, `situacao_encontrada`, `item_evidencia`, `descricao_avaliacao`, `prompt_checklist`.
-   - Montar `id_avaliacao` no padrão `Qn-Sn.n-itemevi`, por exemplo `Q1-S1.6-q1001evi`.
-   - O `prompt_checklist` deve orientar a avaliação exclusiva da evidência anexada, mencionar a questão, a situação encontrada, o item de evidência, a evidência esperada no questionário, os critérios aplicáveis e um checklist objetivo.
+   - Montar `id_avaliacao` em padrão estável, como `Qn-Sn.n-itemevi`, `Qn-Sn.n-documento`, ou outro padrão coerente com o instrumento usado.
+   - O `prompt_checklist` deve orientar a avaliação exclusiva da evidência fornecida, mencionar o contexto da situação encontrada, resumir a evidência esperada no questionário e conter checklist objetivo.
    - O prompt deve solicitar saída estruturada em JSON, com `resultado` binário igual a `Conforme` ou `Não conforme`, além de `justificativa_sintetica`, `elementos_comprovados`, `lacunas` e `inconsistencias`.
    - Usar o `id_avaliacao` como coluna de resultado no processamento posterior, pois o mesmo item de evidência pode ter avaliações distintas para situações encontradas diferentes.
-   - Quando a matriz consumir o resultado de avaliação de evidência, referenciar o alvo no atributo `regra_de_identificacao`, por exemplo: `avaliacao[Q2-S2.3-q2102evi] == "Não conforme"`.
+   - Quando a matriz consumir o resultado de avaliação de evidência, referenciar o alvo no atributo `regra_de_identificacao`, por exemplo: `avaliacao[Q2-S2.3-doc001] == "Não conforme"`.
 
-## Estrutura Atual da Matriz iGovTI 2026
+## Estruturas Recomendadas
 
-A matriz atual da Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026 trabalha com 6 questões de auditoria e 6 achados estruturantes:
+Cada achado estruturante pode ser composto por situações encontradas (`S1.1`, `S1.2` etc.). A ocorrência de uma ou mais situações pode caracterizar o achado estruturante, sem fragmentar o relatório em muitos achados autônomos.
 
-- Q1 - Estrutura e Governança de TIC: A1 - Estrutura e governança de TIC insuficientes para avaliar, dirigir e monitorar a tecnologia da informação.
-- Q2 - Planejamento de TIC: A2 - Planejamento de TIC inexistente, insuficiente, desatualizado ou desconectado da gestão, do orçamento e das contratações.
-- Q3 - Capacidade Institucional de TIC e Segurança da Informação: A3 - Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação.
-- Q4 - Gestão de Serviços de TIC: A4 - Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes.
-- Q5 - Segurança da Informação, Gestão de Riscos e Continuidade de TIC: A5 - Segurança e continuidade insuficientes para proteger dados e recuperar serviços críticos.
-- Q6 - Contratações de TIC: A6 - Contratações de TIC sem governança técnica e controle de resultados.
-
-Cada achado estruturante é composto por situações encontradas (`S1.1`, `S1.2` etc.). A ocorrência de uma ou mais situações pode caracterizar o achado estruturante, sem fragmentar o relatório em muitos achados autônomos.
-
-O padrão atual de uma situação encontrada é:
+Exemplo de situação encontrada:
 
 ```yaml
 - S1.1:
-    descricao: Ausência de formalização da área, unidade, setor ou função de TIC da organização.
+    descricao: Ausência de formalização da unidade, função, processo ou controle avaliado.
     severidade: alta
     itens_questionario: [q0101, q0101evi]
     regra_de_identificacao:
     - (q0101 == F)
-    - ou q0101evi são inexistentes, incompatíveis ou insuficientes para comprovar formalização da área, unidade, setor ou função de TIC
+    - ou q0101evi são inexistentes, incompatíveis ou insuficientes para comprovar a formalização do objeto avaliado
     referencias_matriz: [R1.1, P1, E1, P2, E2]
     criterios: [C1, C5, C9]
-    encaminhamento: Recomendar que a organização formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente.
+    encaminhamento: Recomendar que a organização formalize a unidade, função, processo ou controle avaliado em instrumento normativo, ato administrativo, organograma, manual, procedimento ou documento equivalente.
 ```
 
-## Convenções do Questionário
+Exemplo de questão de levantamento sem achado:
 
-Use as seguintes convenções ao referenciar itens do questionário:
+```yaml
+natureza: levantamento
+gera_achado: false
+questao: QT. O conjunto avaliado apresentou evolução mensurável, em termos agregados, em relação ao ciclo anterior?
+
+subquestoes:
+- Houve evolução, estabilidade ou regressão agregada nos indicadores comparáveis?
+- As diferenças metodológicas limitam a comparação dos resultados?
+
+fontes_de_informacao:
+- F1: Resultados do ciclo atual.
+- F2: Resultados do ciclo anterior.
+
+informacoes_requeridas:
+- IR1: Universo comum de unidades avaliadas nos dois ciclos; [F1, F2]
+- IR2: Indicadores comparáveis e limitações metodológicas; [F1, F2]
+
+procedimentos:
+- P1: Cruzar as unidades avaliadas nos dois ciclos; [IR1]
+- P2: Calcular variação agregada dos indicadores comparáveis; [IR2]
+
+evidencias:
+- E1: Relação das unidades presentes nos dois ciclos; [P1]
+- E2: Tabelas ou painéis com variação agregada e limitações; [P2]
+
+o_que_a_analise_permite_dizer:
+- Se houve evolução, estabilidade ou regressão agregada.
+- Quais limitações reduzem a força das conclusões.
+```
+
+## Convenções de Instrumentos e Questionários
+
+Quando a matriz for vinculada a questionário, formulário ou base estruturada, usar convenções explícitas para referenciar itens. O padrão abaixo é apenas um exemplo e deve ser adaptado ao instrumento do trabalho:
 
 - `qXXXX`: item principal do questionário.
 - `qXXXXext[A]`: subitem A de questão do tipo `adoption`/`detail_options`.
 - `qXXXX[A]`: subitem A de questão do tipo `array`.
 - `qXXXXevi`: evidência anexada à questão `qXXXX`.
-- `q2804eviA`: evidência específica vinculada ao subitem `q2804[A]`.
+- `qXXXXeviA`: evidência específica vinculada ao subitem `qXXXX[A]`.
 
-Para subitens condicionais do tipo `adoption/detail_options`, a matriz pode usar regras como `(qXXXXext[A] != Sim)`. Essa condição abrange tanto o subitem explicitamente não marcado quanto a ausência do subitem porque a resposta principal não habilitou os detalhes, desde que a base de apuração normalize esses casos como valor diferente de `Sim`.
+Para subitens condicionais do tipo `adoption/detail_options`, a matriz pode usar regras como `(qXXXXext[A] != Sim)` apenas quando a metodologia do trabalho definir que subitem não marcado, não habilitado ou não aplicável será normalizado como valor diferente de `Sim`.
 
-Ao criar regras, prefira condições objetivas com códigos ou subitens do questionário. Evite formulações vagas como "q0101 indica inexistência de área formal de TIC" quando for possível escrever `(q0101 == F)`.
+Ao criar regras, prefira condições objetivas com códigos ou subitens do questionário. Evite formulações vagas como "q0101 indica inexistência de formalização" quando for possível escrever `(q0101 == F)`.
 
 ## Campos da Matriz
 
@@ -168,11 +193,11 @@ Incluir tanto respostas declaratórias quanto documentos ou registros:
 
 ### possiveis_achados
 
-Formular como hipótese de deficiência estruturante, com escopo claro e rastreável. Na matriz atual, cada questão possui 1 possível achado principal, e as deficiências específicas ficam em `situacoes_encontradas`.
+Formular como hipótese de deficiência estruturante, com escopo claro e rastreável. Quando houver muitas fragilidades relacionadas, preferir um achado estruturante com situações encontradas em vez de dezenas de achados pequenos.
 
 Bom:
 
-- `A4: Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes`
+- `A4: Processo avaliado incipiente, sem controles mínimos formalizados e executados`
 
 Fraco:
 
@@ -180,13 +205,13 @@ Fraco:
 
 ### situacoes_encontradas
 
-Desdobrar o achado estruturante em situações objetivas, mensuráveis pelo questionário e pelas evidências anexadas.
+Desdobrar o achado estruturante em situações objetivas, mensuráveis por questionário, base de dados, análise documental, entrevista, inspeção, teste de amostra ou outro procedimento previsto.
 
 Cada situação deve conter:
 
 - `descricao`: condição negativa específica, em linguagem de achado potencial.
 - `severidade`: `alta`, `media` ou `baixa`. Campo obrigatório em todas as situações encontradas.
-- `itens_questionario`: itens, subitens e evidências usados na regra.
+- `itens_questionario` ou `fontes_de_verificacao`: itens, subitens, evidências, documentos, bases, amostras ou testes usados na regra.
 - `regra_de_identificacao`: condições objetivas e análise de suficiência das evidências.
 - `referencias_matriz`: riscos, procedimentos e evidências da matriz.
 - `criterios`: critérios específicos aplicáveis à situação.
@@ -196,18 +221,18 @@ Cada situação deve conter:
 
 Quando a equipe precisar avaliar evidências com apoio de IA, manter uma planilha apartada:
 
-- Caminho: `01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_verificaca_evidencias.xlsx`.
-- Aba sugerida: uma aba única por protótipo ou por questão, como `Q1_Checklists`, salvo orientação diferente do usuário.
+- Caminho: definido pelo usuário ou, por padrão, no mesmo diretório da matriz.
+- Aba recomendada: uma única aba consolidada chamada `Avaliacoes`, contendo as avaliações de todas as questões de auditoria. Se o trabalho exigir outro formato, registrar a convenção e manter consistência.
 - Colunas obrigatórias: `id_avaliacao`, `questao_auditoria`, `situacao_encontrada`, `item_evidencia`, `descricao_avaliacao`, `prompt_checklist`.
-- O `id_avaliacao` é o nome da coluna de resultado que será gerada pelo script para cada auditado. Não usar apenas `item_evidencia` como coluna de resultado, pois um mesmo item, como `q2102evi`, pode alimentar avaliações diferentes.
+- O `id_avaliacao` é o nome da coluna de resultado que será gerada pelo script para cada auditado. Não usar apenas `item_evidencia` como coluna de resultado, pois um mesmo item, como `doc001` ou `qXXXXevi`, pode alimentar avaliações diferentes.
 
 O prompt de checklist deve:
 
 - Ser escrito em português do Brasil, com linguagem formal, impessoal e operacional.
-- Determinar que a análise seja feita exclusivamente sobre a evidência do item indicado, sem buscar informações externas.
-- Indicar o contexto da situação encontrada e o item de evidência.
+- Iniciar de forma genérica, por exemplo: "Você é avaliador de evidências de auditoria."
+- Determinar que a análise seja feita exclusivamente sobre a evidência fornecida, sem buscar informações externas.
+- Indicar o contexto da situação encontrada.
 - Reproduzir ou resumir a evidência esperada no questionário.
-- Indicar os critérios aplicáveis da matriz.
 - Usar checklist numerado com verificações objetivas.
 - Pedir resultado binário como `Conforme` ou `Não conforme`.
 - Determinar que `Conforme` só seja usado quando a evidência for existente, compatível e suficiente para todos os elementos essenciais da avaliação.
@@ -215,12 +240,13 @@ O prompt de checklist deve:
 - Pedir justificativa sintética, lacunas e inconsistências.
 - Solicitar saída em JSON quando o prompt for usado por API.
 - Não permitir classificações intermediárias como `parcialmente conforme`, `parcialmente suficiente` ou `inconclusivo`.
+- Não repetir dentro do prompt os metadados que já estão nas colunas da planilha, especialmente `id_avaliacao`, `item_evidencia` e a relação de critérios da matriz.
 
 Exemplo de linha conceitual:
 
 | id_avaliacao | questao_auditoria | situacao_encontrada | item_evidencia | descricao_avaliacao | prompt_checklist |
 | --- | --- | --- | --- | --- | --- |
-| Q1-S1.1-q0101evi | Q1 - Estrutura e Governança de TIC | S1.1 - Ausência de formalização da área, unidade, setor ou função de TIC da organização. | q0101evi | Verificar se a evidência comprova formalização institucional da área, unidade, setor ou função de TIC. | Você é avaliador de evidências... |
+| Q1-S1.1-doc001 | Q1 - Tema Avaliado | S1.1 - Ausência de formalização do controle avaliado. | doc001 | Verificar se a evidência comprova formalização institucional do controle avaliado. | Você é avaliador de evidências... |
 
 ## Regras de Qualidade
 
