@@ -454,10 +454,12 @@ def format_findings_or_analysis(question: Question) -> list[str | CellParagraph]
             lines.append(CellParagraph(f"{finding.id}: {finding.title}", bold=True, left_indent=0, spacing_after=80))
         for situation in finding.situacoes:
             parts = [f"{situation.id}: {situation.descricao}"]
-            if situation.severidade:
-                parts.append(f"Severidade: {situation.severidade}")
+            # if situation.severidade:
+            #     parts.append(f"Severidade: {situation.severidade}")
             if situation.referencias:
                 parts.append(f"Referências: {', '.join(situation.referencias)}")
+            if situation.criterios:
+                parts.append(f"Critérios: {', '.join(situation.criterios)}")
             if situation.encaminhamento:
                 parts.append(f"Encaminhamento: {situation.encaminhamento}")
             lines.append(CellParagraph("- " + "; ".join(parts), left_indent=360, spacing_after=120))
@@ -478,18 +480,34 @@ def format_findings_or_analysis(question: Question) -> list[str | CellParagraph]
     return [MISSING_MARKDOWN_PLACEHOLDER]
 
 
-def build_question_table(template_table: ET.Element, question: Question) -> ET.Element:
+def remove_table_rows(table: ET.Element, row_indexes: Iterable[int]) -> None:
+    rows = table.findall(f"{W}tr")
+    for index in sorted(row_indexes, reverse=True):
+        if 0 <= index < len(rows):
+            table.remove(rows[index])
+
+
+def remove_floating_table_properties(table: ET.Element) -> None:
+    tbl_pr = table.find(f"{W}tblPr")
+    if tbl_pr is None:
+        return
+    for tag in ("tblpPr", "tblOverlap"):
+        element = tbl_pr.find(f"{W}{tag}")
+        if element is not None:
+            tbl_pr.remove(element)
+
+
+def build_question_summary_table(template_table: ET.Element, question: Question) -> ET.Element:
     table = copy.deepcopy(template_table)
+    remove_floating_table_properties(table)
     rows = table.findall(f"{W}tr")
     if len(rows) < 4:
         raise ValueError("A tabela modelo deve possuir pelo menos 4 linhas.")
 
     row0_cell = rows[0].find(f"{W}tc")
     row1_cell = rows[1].find(f"{W}tc")
-    header_cells = rows[2].findall(f"{W}tc")
-    data_cells = rows[3].findall(f"{W}tc")
-    if row0_cell is None or row1_cell is None or len(header_cells) < 6 or len(data_cells) < 6:
-        raise ValueError("A tabela modelo deve possuir a estrutura 6-colunas esperada.")
+    if row0_cell is None or row1_cell is None:
+        raise ValueError("A tabela modelo deve possuir linhas de questão e riscos.")
 
     row0_templates = row0_cell.findall(f"{W}p")
     question_p = row0_templates[0] if row0_templates else ET.Element(f"{W}p")
@@ -502,6 +520,21 @@ def build_question_table(template_table: ET.Element, question: Question) -> ET.E
         row0_cell.append(clone_paragraph(subquestion_p, subquestion.text))
 
     fill_cell(row1_cell, format_risk_or_comparability(question), risk_p)
+    remove_table_rows(table, [2, 3])
+    return table
+
+
+def build_question_details_table(template_table: ET.Element, question: Question) -> ET.Element:
+    table = copy.deepcopy(template_table)
+    remove_floating_table_properties(table)
+    rows = table.findall(f"{W}tr")
+    if len(rows) < 4:
+        raise ValueError("A tabela modelo deve possuir pelo menos 4 linhas.")
+
+    header_cells = rows[2].findall(f"{W}tc")
+    data_cells = rows[3].findall(f"{W}tc")
+    if len(header_cells) < 6 or len(data_cells) < 6:
+        raise ValueError("A tabela modelo deve possuir a estrutura 6-colunas esperada.")
 
     headers = [
         "FONTES DE INFORMAÇÃO",
@@ -525,7 +558,15 @@ def build_question_table(template_table: ET.Element, question: Question) -> ET.E
     for cell, payload in zip(data_cells, cell_payloads):
         fill_cell(cell, payload, first_paragraph(cell))
 
+    remove_table_rows(table, [0, 1])
     return table
+
+
+def build_question_tables(template_table: ET.Element, question: Question) -> list[ET.Element]:
+    return [
+        build_question_summary_table(template_table, question),
+        build_question_details_table(template_table, question),
+    ]
 
 
 def find_template_parts(body: ET.Element) -> tuple[list[ET.Element], ET.Element, list[ET.Element], ET.Element]:
@@ -577,7 +618,10 @@ def generate_docx(template_path: Path, markdown_path: Path, output_path: Path, j
 
         blank_paragraph = ET.Element(f"{W}p")
         for question in matrix.questions:
-            body.append(build_question_table(table_template, question))
+            summary_table, details_table = build_question_tables(table_template, question)
+            body.append(summary_table)
+            body.append(copy.deepcopy(blank_paragraph))
+            body.append(details_table)
             body.append(copy.deepcopy(blank_paragraph))
 
         for part in signature_parts:
