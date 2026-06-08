@@ -1,0 +1,4 @@
+interface:
+  display_name: "Escrever Relatório de Auditoria"
+  short_description: "Redige relatórios de auditoria em Markdown"
+  default_prompt: "Use $escrever-relatorio-auditoria para redigir ou revisar um relatório ou achado de auditoria no padrão Markdown, Pandoc e Jinja do repositório."

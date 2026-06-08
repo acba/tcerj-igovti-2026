@@ -1,0 +1,4 @@
+interface:
+  display_name: "Preencher Matriz de Procedimentos"
+  short_description: "Gera matrizes de procedimentos de auditoria"
+  default_prompt: "Use $preencher-matriz-procedimentos-auditoria para gerar uma matriz de procedimentos de auditoria a partir da matriz de planejamento."
