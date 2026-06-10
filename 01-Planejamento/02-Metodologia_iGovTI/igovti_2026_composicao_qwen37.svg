@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 1060" font-family="'Segoe UI', Calibri, Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-2%" y="-3%" width="104%" height="110%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#00000015"/>
+    </filter>
+    <linearGradient id="gR" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="gG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E40AF"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="gM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#065F46"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="780" height="1060" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="390" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#0F172A">Composição do iGovTI 2026</text>
+  <text x="390" y="42" text-anchor="middle" font-size="9" fill="#64748B">Estrutura de agregação do índice</text>
+
+  <!-- ===== iGovTI ===== -->
+  <rect x="220" y="54" width="340" height="48" rx="10" fill="url(#gR)" filter="url(#sh)"/>
+  <text x="390" y="74" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">iGovTI 2026</text>
+  <text x="390" y="90" text-anchor="middle" font-size="8" fill="#94A3B8">Escala 0 a 1</text>
+
+  <!-- Connectors -->
+  <path d="M 390 102 L 390 118 L 185 118 L 185 136" stroke="#94A3B8" stroke-width="1.5" fill="none"/>
+  <path d="M 390 102 L 390 118 L 560 118 L 560 136" stroke="#94A3B8" stroke-width="1.5" fill="none"/>
+
+  <!-- ===== GovernancaTI ===== -->
+  <rect x="20" y="136" width="330" height="340" rx="8" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="20" y="136" width="330" height="42" rx="8" fill="url(#gG)"/>
+  <rect x="20" y="168" width="330" height="10" fill="url(#gG)"/>
+  <text x="185" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Governança de TIC</text>
+  <text x="185" y="170" text-anchor="middle" font-size="8" fill="#BFDBFE">GovernancaTI · Peso 47,77%</text>
+
+  <!-- q1001 -->
+  <rect x="34" y="188" width="302" height="68" rx="5" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="0.8"/>
+  <text x="48" y="204" font-size="9" font-weight="bold" fill="#1E40AF">q1001</text>
+  <text x="100" y="204" font-size="8" fill="#374151">— Modelo de gestão de TI</text>
+  <text x="48" y="218" font-size="7" fill="#64748B">Peso: 32,74% · 9 itens de detalhamento (A–I)</text>
+  <text x="48" y="230" font-size="7" fill="#64748B">Diretrizes, comitê, papéis, objetivos, indicadores</text>
+  <rect x="260" y="194" width="66" height="16" rx="3" fill="#FEF3C7"/>
+  <text x="293" y="205" text-anchor="middle" font-size="6.5" fill="#92400E">Auditoria Q2</text>
+  <rect x="260" y="214" width="66" height="16" rx="3" fill="#F1F5F9"/>
+  <text x="293" y="225" text-anchor="middle" font-size="6" fill="#64748B">com deflação</text>
+
+  <!-- q1002 -->
+  <rect x="34" y="264" width="302" height="68" rx="5" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="0.8"/>
+  <text x="48" y="280" font-size="9" font-weight="bold" fill="#1E40AF">q1002</text>
+  <text x="100" y="280" font-size="8" fill="#374151">— Monitoramento do desempenho de TI</text>
+  <text x="48" y="294" font-size="7" fill="#64748B">Peso: 27,57% · 4 itens de detalhamento (A–D)</text>
+  <text x="48" y="306" font-size="7" fill="#64748B">Rotinas, metas, indicadores, relatórios</text>
+  <rect x="260" y="270" width="66" height="16" rx="3" fill="#FEF3C7"/>
+  <text x="293" y="281" text-anchor="middle" font-size="6.5" fill="#92400E">Auditoria Q2</text>
+  <rect x="260" y="290" width="66" height="16" rx="3" fill="#F1F5F9"/>
+  <text x="293" y="301" text-anchor="middle" font-size="6" fill="#64748B">com deflação</text>
+
+  <!-- q1003 -->
+  <rect x="34" y="340" width="302" height="60" rx="5" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="0.8"/>
+  <text x="48" y="356" font-size="9" font-weight="bold" fill="#1E40AF">q1003</text>
+  <text x="100" y="356" font-size="8" fill="#374151">— Auditoria interna</text>
+  <text x="48" y="370" font-size="7" fill="#64748B">Peso: 15,36% · 2 itens de detalhamento (A–B)</text>
+  <text x="48" y="382" font-size="7" fill="#64748B">Serviços de auditoria em TI e segurança da informação</text>
+  <rect x="260" y="350" width="66" height="16" rx="3" fill="#F1F5F9"/>
+  <text x="293" y="361" text-anchor="middle" font-size="6" fill="#64748B">com deflação</text>
+
+  <!-- q1004 -->
+  <rect x="34" y="408" width="302" height="60" rx="5" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="0.8"/>
+  <text x="48" y="424" font-size="9" font-weight="bold" fill="#1E40AF">q1004</text>
+  <text x="100" y="424" font-size="8" fill="#374151">— Simplificação de serviços públicos</text>
+  <text x="48" y="438" font-size="7" fill="#64748B">Peso: 24,33% · 7 itens de detalhamento (A–G)</text>
+  <text x="48" y="450" font-size="7" fill="#64748B">Metas de digitalização, interoperabilidade, canais</text>
+  <rect x="260" y="418" width="66" height="16" rx="3" fill="#F1F5F9"/>
+  <text x="293" y="429" text-anchor="middle" font-size="6" fill="#64748B">com deflação</text>
+
+  <!-- ===== iGestTI ===== -->
+  <rect x="370" y="136" width="390" height="340" rx="8" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="370" y="136" width="390" height="42" rx="8" fill="url(#gM)"/>
+  <rect x="370" y="168" width="390" height="10" fill="url(#gM)"/>
+  <text x="565" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Gestão de TIC</text>
+  <text x="565" y="170" text-anchor="middle" font-size="8" fill="#A7F3D0">iGestTI · Peso 52,23%</text>
+
+  <!-- Dimensões do iGestTI em grid 2x3 -->
+  <!-- Row 1 -->
+  <!-- PlanejamentoTI -->
+  <rect x="382" y="188" width="180" height="108" rx="5" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="0.8"/>
+  <rect x="382" y="188" width="180" height="20" rx="5" fill="#059669"/>
+  <rect x="382" y="198" width="180" height="10" fill="#059669"/>
+  <text x="472" y="202" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#FFFFFF">PlanejamentoTI · 15,34%</text>
+  <text x="392" y="224" font-size="7.5" font-weight="bold" fill="#047857">q2101</text>
+  <text x="425" y="224" font-size="7" fill="#374151">Processo de planejamento</text>
+  <text x="392" y="235" font-size="6.5" fill="#64748B">50,22% · 4 itens · deflação</text>
+  <rect x="510" y="216" width="44" height="13" rx="3" fill="#FEF3C7"/>
+  <text x="532" y="225" text-anchor="middle" font-size="5.5" fill="#92400E">Q3</text>
+  <text x="392" y="252" font-size="7.5" font-weight="bold" fill="#047857">q2102</text>
+  <text x="425" y="252" font-size="7" fill="#374151">Plano de TI vigente</text>
+  <text x="392" y="263" font-size="6.5" fill="#64748B">49,78% · 5 itens · deflação</text>
+  <rect x="510" y="244" width="44" height="13" rx="3" fill="#FEF3C7"/>
+  <text x="532" y="253" text-anchor="middle" font-size="5.5" fill="#92400E">Q3</text>
+  <text x="392" y="280" font-size="6.5" fill="#059669">Planejamento, priorização, plano vigente</text>
+
+  <!-- ServicosTI -->
+  <rect x="572" y="188" width="180" height="108" rx="5" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="0.8"/>
+  <rect x="572" y="188" width="180" height="20" rx="5" fill="#059669"/>
+  <rect x="572" y="198" width="180" height="10" fill="#059669"/>
+  <text x="662" y="202" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#FFFFFF">ServicosTI · 18,52%</text>
+  <text x="582" y="224" font-size="7.5" font-weight="bold" fill="#047857">q2201</text>
+  <text x="615" y="224" font-size="7" fill="#374151">Catálogo e níveis de serviço</text>
+  <text x="582" y="234" font-size="6.5" fill="#64748B">24,40% · 5 itens · deflação</text>
+  <rect x="706" y="216" width="38" height="13" rx="3" fill="#FEF3C7"/>
+  <text x="725" y="225" text-anchor="middle" font-size="5.5" fill="#92400E">Q5</text>
+  <text x="582" y="248" font-size="7.5" font-weight="bold" fill="#047857">q2202</text>
+  <text x="615" y="248" font-size="7" fill="#374151">Gestão de mudanças</text>
+  <text x="582" y="258" font-size="6.5" fill="#64748B">24,11% · 6 itens · deflação</text>
+  <text x="582" y="272" font-size="7.5" font-weight="bold" fill="#047857">q2203</text>
+  <text x="615" y="272" font-size="7" fill="#374151">Configuração e ativos</text>
+  <text x="582" y="282" font-size="6.5" fill="#64748B">26,24% · 3 itens · deflação</text>
+  <text x="582" y="292" font-size="6.5" fill="#059669">q2204 Incidentes · 25,25% · 6 itens</text>
+
+  <!-- Row 2 -->
+  <!-- RiscosTISegInfo -->
+  <rect x="382" y="306" width="180" height="108" rx="5" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="0.8"/>
+  <rect x="382" y="306" width="180" height="20" rx="5" fill="#059669"/>
+  <rect x="382" y="316" width="180" height="10" fill="#059669"/>
+  <text x="472" y="320" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#FFFFFF">RiscosTISegInfo · 16,32%</text>
+  <text x="392" y="342" font-size="7.5" font-weight="bold" fill="#047857">q2301</text>
+  <text x="425" y="342" font-size="7" fill="#374151">Riscos de TI</text>
+  <text x="392" y="353" font-size="6.5" fill="#64748B">31,36% · 3 itens · deflação</text>
+  <text x="392" y="367" font-size="7.5" font-weight="bold" fill="#047857">q2302</text>
+  <text x="425" y="367" font-size="7" fill="#374151">Riscos de segurança da informação</text>
+  <text x="392" y="378" font-size="6.5" fill="#64748B">33,49% · 4 itens · deflação</text>
+  <text x="392" y="392" font-size="7.5" font-weight="bold" fill="#047857">q2303</text>
+  <text x="425" y="392" font-size="7" fill="#374151">Continuidade de serviços de TI</text>
+  <text x="392" y="403" font-size="6.5" fill="#64748B">35,16% · 4 itens · deflação</text>
+
+  <!-- EstruturaSegInfo -->
+  <rect x="572" y="306" width="180" height="108" rx="5" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="0.8"/>
+  <rect x="572" y="306" width="180" height="20" rx="5" fill="#059669"/>
+  <rect x="572" y="316" width="180" height="10" fill="#059669"/>
+  <text x="662" y="320" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#FFFFFF">EstruturaSegInfo · 15,78%</text>
+  <text x="582" y="342" font-size="7.5" font-weight="bold" fill="#047857">q2401</text>
+  <text x="615" y="342" font-size="7" fill="#374151">Política de segurança da informação</text>
+  <text x="582" y="353" font-size="6.5" fill="#64748B">35,29% · 5 itens · deflação</text>
+  <text x="582" y="367" font-size="7.5" font-weight="bold" fill="#047857">q2402</text>
+  <text x="615" y="367" font-size="7" fill="#374151">Comitê de segurança da informação</text>
+  <text x="582" y="378" font-size="6.5" fill="#64748B">31,45% · 4 itens · deflação</text>
+  <text x="582" y="392" font-size="7.5" font-weight="bold" fill="#047857">q2403</text>
+  <text x="615" y="392" font-size="7" fill="#374151">Gestor institucional de seg. info.</text>
+  <text x="582" y="403" font-size="6.5" fill="#64748B">33,26% · 6 itens · deflação</text>
+
+  <!-- Row 3 -->
+  <!-- ProcessoSegInfo -->
+  <rect x="382" y="424" width="180" height="120" rx="5" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="0.8"/>
+  <rect x="382" y="424" width="180" height="20" rx="5" fill="#059669"/>
+  <rect x="382" y="434" width="180" height="10" fill="#059669"/>
+  <text x="472" y="438" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#FFFFFF">ProcessoSegInfo · 18,21%</text>
+  <text x="392" y="460" font-size="7.5" font-weight="bold" fill="#047857">q2501+q2502</text>
+  <text x="460" y="460" font-size="7" fill="#374151">Ativos e controle de acesso*</text>
+  <text x="392" y="471" font-size="6.5" fill="#64748B">37,58% · agregado intermediário TCU</text>
+  <text x="392" y="485" font-size="7.5" font-weight="bold" fill="#047857">q2503</text>
+  <text x="425" y="485" font-size="7" fill="#374151">Classificação e tratamento de info.</text>
+  <text x="392" y="496" font-size="6.5" fill="#64748B">30,10% · 6 itens · deflação</text>
+  <text x="392" y="510" font-size="7.5" font-weight="bold" fill="#047857">q2504</text>
+  <text x="425" y="510" font-size="7" fill="#374151">Segurança dos recursos de TI</text>
+  <text x="392" y="521" font-size="6.5" fill="#64748B">32,31% · 11 itens · deflação</text>
+  <text x="392" y="535" font-size="6" fill="#94A3B8">* q2501 (itens A,C) e q2502 combinados via TCU</text>
+
+  <!-- GerirSolucoesTI -->
+  <rect x="572" y="424" width="180" height="120" rx="5" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="0.8"/>
+  <rect x="572" y="424" width="180" height="20" rx="5" fill="#059669"/>
+  <rect x="572" y="434" width="180" height="10" fill="#059669"/>
+  <text x="662" y="438" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#FFFFFF">GerirSolucoesTI · 15,83%</text>
+  <text x="582" y="460" font-size="7.5" font-weight="bold" fill="#047857">q2601</text>
+  <text x="615" y="460" font-size="7" fill="#374151">Processo de software</text>
+  <text x="582" y="471" font-size="6.5" fill="#64748B">50,93% · 6 itens · deflação</text>
+  <text x="582" y="492" font-size="7.5" font-weight="bold" fill="#047857">q2602</text>
+  <text x="615" y="492" font-size="7" fill="#374151">Gestão de projetos de TI</text>
+  <text x="582" y="503" font-size="6.5" fill="#64748B">49,07% · 6 itens · deflação</text>
+  <text x="582" y="524" font-size="6.5" fill="#059669">Desenvolvimento, aquisição, projetos</text>
+
+  <!-- ===== SEPARATOR ===== -->
+  <line x1="20" y1="560" x2="760" y2="560" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- ===== FORMULA ===== -->
+  <rect x="120" y="574" width="540" height="38" rx="8" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="390" y="592" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">iGovTI = 0,4777 × GovernancaTI + 0,5223 × iGestTI</text>
+  <text x="390" y="605" text-anchor="middle" font-size="8" fill="#64748B">Agregados por soma ponderada, limitados a [0, 1]</text>
+
+  <!-- ===== SEPARATOR ===== -->
+  <line x1="20" y1="624" x2="760" y2="624" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- ===== MATURITY ===== -->
+  <text x="390" y="646" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Níveis de Maturidade</text>
+
+  <rect x="30" y="656" width="170" height="32" rx="5" fill="#FEE2E2" stroke="#F87171" stroke-width="0.8"/>
+  <text x="115" y="671" text-anchor="middle" font-size="9" font-weight="bold" fill="#991B1B">Inexpressivo</text>
+  <text x="115" y="682" text-anchor="middle" font-size="8" fill="#7F1D1D">0 ≤ iGovTI &lt; 0,15</text>
+
+  <rect x="215" y="656" width="170" height="32" rx="5" fill="#FEF3C7" stroke="#FBBF24" stroke-width="0.8"/>
+  <text x="300" y="671" text-anchor="middle" font-size="9" font-weight="bold" fill="#92400E">Iniciando</text>
+  <text x="300" y="682" text-anchor="middle" font-size="8" fill="#78350F">0,15 ≤ iGovTI &lt; 0,40</text>
+
+  <rect x="400" y="656" width="170" height="32" rx="5" fill="#DBEAFE" stroke="#60A5FA" stroke-width="0.8"/>
+  <text x="485" y="671" text-anchor="middle" font-size="9" font-weight="bold" fill="#1E40AF">Intermediário</text>
+  <text x="485" y="682" text-anchor="middle" font-size="8" fill="#1E3A5F">0,40 ≤ iGovTI &lt; 0,70</text>
+
+  <rect x="585" y="656" width="170" height="32" rx="5" fill="#D1FAE5" stroke="#34D399" stroke-width="0.8"/>
+  <text x="670" y="671" text-anchor="middle" font-size="9" font-weight="bold" fill="#065F46">Aprimorado</text>
+  <text x="670" y="682" text-anchor="middle" font-size="8" fill="#064E3B">0,70 ≤ iGovTI ≤ 1,00</text>
+
+  <!-- ===== SEPARATOR ===== -->
+  <line x1="20" y1="700" x2="760" y2="700" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- ===== SCALE ===== -->
+  <text x="390" y="722" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F172A">Escala de Conversão das Respostas</text>
+
+  <rect x="30" y="732" width="140" height="30" rx="4" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="0.6"/>
+  <text x="100" y="746" text-anchor="middle" font-size="7" font-weight="bold" fill="#991B1B">Não adota</text>
+  <text x="100" y="757" text-anchor="middle" font-size="9" font-weight="bold" fill="#991B1B">= 0,00</text>
+
+  <rect x="180" y="732" width="140" height="30" rx="4" fill="#FEF3C7" stroke="#FCD34D" stroke-width="0.6"/>
+  <text x="250" y="746" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#92400E">Decisão formal / plano</text>
+  <text x="250" y="757" text-anchor="middle" font-size="9" font-weight="bold" fill="#92400E">= 0,05</text>
+
+  <rect x="330" y="732" width="140" height="30" rx="4" fill="#FEF9C3" stroke="#FDE047" stroke-width="0.6"/>
+  <text x="400" y="746" text-anchor="middle" font-size="7" font-weight="bold" fill="#854D0E">Adota em menor parte</text>
+  <text x="400" y="757" text-anchor="middle" font-size="9" font-weight="bold" fill="#854D0E">= 0,15</text>
+
+  <rect x="480" y="732" width="140" height="30" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="0.6"/>
+  <text x="550" y="746" text-anchor="middle" font-size="7" font-weight="bold" fill="#1E40AF">Adota parcialmente</text>
+  <text x="550" y="757" text-anchor="middle" font-size="9" font-weight="bold" fill="#1E40AF">= 0,50</text>
+
+  <rect x="630" y="732" width="140" height="30" rx="4" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="0.6"/>
+  <text x="700" y="746" text-anchor="middle" font-size="7" font-weight="bold" fill="#065F46">Adota em maior parte</text>
+  <text x="700" y="757" text-anchor="middle" font-size="9" font-weight="bold" fill="#065F46">= 1,00</text>
+
+  <!-- ===== LEGEND ===== -->
+  <line x1="20" y1="776" x2="760" y2="776" stroke="#E2E8F0" stroke-width="1"/>
+
+  <rect x="100" y="790" width="12" height="12" rx="2" fill="url(#gR)"/>
+  <text x="118" y="800" font-size="7.5" fill="#374151">Índice final</text>
+
+  <rect x="190" y="790" width="12" height="12" rx="2" fill="url(#gG)"/>
+  <text x="208" y="800" font-size="7.5" fill="#374151">Governança</text>
+
+  <rect x="290" y="790" width="12" height="12" rx="2" fill="url(#gM)"/>
+  <text x="308" y="800" font-size="7.5" fill="#374151">Gestão</text>
+
+  <rect x="370" y="790" width="12" height="12" rx="2" fill="#059669"/>
+  <text x="388" y="800" font-size="7.5" fill="#374151">Dimensão</text>
+
+  <rect x="460" y="790" width="12" height="12" rx="2" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="0.8"/>
+  <text x="478" y="800" font-size="7.5" fill="#374151">Questão</text>
+
+  <rect x="540" y="790" width="12" height="12" rx="2" fill="#FEF3C7" stroke="#FBBF24" stroke-width="0.8"/>
+  <text x="558" y="800" font-size="7.5" fill="#374151">Questão de auditoria</text>
+
+  <rect x="660" y="790" width="12" height="12" rx="2" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="0.8"/>
+  <text x="678" y="800" font-size="7.5" fill="#374151">Deflação</text>
+
+  <!-- Footnotes -->
+  <text x="390" y="826" text-anchor="middle" font-size="7" fill="#94A3B8">* ProcessoSegInfo utiliza agregado intermediário (TCU) que combina q2501 (itens A e C) e q2502 antes da agregação final com q2503 e q2504.</text>
+  <text x="390" y="838" text-anchor="middle" font-size="7" fill="#94A3B8">Questões com itens de detalhamento podem ter pontuação reduzida por regra de deflação. Percentuais arredondados.</text>
+
+  <!-- Source -->
+  <text x="390" y="858" text-anchor="middle" font-size="8" fill="#94A3B8" font-style="italic">Fonte: elaboração própria — estrutura do iGovTI 2026 (TCE-RJ, Fiscalização 18/2026)</text>
+</svg>
