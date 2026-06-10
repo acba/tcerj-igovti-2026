@@ -50,7 +50,7 @@ Quando solicitado, manter planilha apartada de checklists de verificação de ev
    - Todo procedimento deve apontar informação requerida e, quando aplicável, questão ou item do instrumento: `P3: ...; [IR3, q2201]`.
    - Toda evidência deve apontar procedimento: `E3: ...; [P3]`.
    - Toda situação encontrada deve apontar, em `referencias_matriz`, risco, procedimento e evidência: `referencias_matriz: [R3.2, P3, E3, P4, E4]`.
-   - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario` ou `fontes_de_verificacao`, `regra_de_identificacao`, `referencias_matriz`, `criterios` e `encaminhamento`.
+   - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario` ou `fontes_de_verificacao`, `regra_de_identificacao`, `referencias_matriz`, `criterios`, `tipo_encaminhamento` e `encaminhamento`.
    - Questões de levantamento com `gera_achado: false` não devem conter `possiveis_achados`, `situacoes_encontradas`, `severidade`, `regra_de_identificacao` ou encaminhamentos individuais; devem conter procedimentos, evidências e limites suficientes para sustentar análise descritiva, agregada ou comparativa.
 
 7. Manter checklists de verificação de evidências, quando solicitado.
@@ -79,7 +79,8 @@ Exemplo de situação encontrada:
     - ou q0101evi são inexistentes, incompatíveis ou insuficientes para comprovar a formalização do objeto avaliado
     referencias_matriz: [R1.1, P1, E1, P2, E2]
     criterios: [C1, C5, C9]
-    encaminhamento: Recomendar que a organização formalize a unidade, função, processo ou controle avaliado em instrumento normativo, ato administrativo, organograma, manual, procedimento ou documento equivalente.
+    tipo_encaminhamento: Recomendação
+    encaminhamento: formalize a unidade, função, processo ou controle avaliado em instrumento normativo, ato administrativo, organograma, manual, procedimento ou documento equivalente
 ```
 
 Exemplo de questão de levantamento sem achado:
@@ -215,7 +216,15 @@ Cada situação deve conter:
 - `regra_de_identificacao`: condições objetivas e análise de suficiência das evidências.
 - `referencias_matriz`: riscos, procedimentos e evidências da matriz.
 - `criterios`: critérios específicos aplicáveis à situação.
-- `encaminhamento`: recomendação proporcional e executável.
+- `tipo_encaminhamento`: `Determinação` ou `Recomendação`, conforme a natureza da providência.
+- `encaminhamento`: providência proporcional e executável, iniciada diretamente por verbo no imperativo, sem repetir "Determinar que" ou "Recomendar que".
+
+Na classificação do encaminhamento, observar a Deliberação TCE-RJ nº 346/2024:
+
+- Usar `Determinação` quando a medida tiver natureza mandamental e impuser providência concreta e imediata para prevenir ou corrigir irregularidade, remover seus efeitos ou impedir ato irregular. A proposta deve indicar ação ou abstenção necessária e, quando aplicável, prazo para cumprimento.
+- Usar `Recomendação` quando a medida tiver natureza colaborativa e apresentar oportunidade de melhoria voltada ao aperfeiçoamento da gestão, preservando a avaliação de conveniência e oportunidade pelo destinatário.
+- Não classificar automaticamente pela severidade. Considerar a natureza do critério, a força das evidências, a necessidade de providência imediata e a viabilidade da medida.
+- Quando a verificação se apoiar apenas em resposta declaratória e não demonstrar irregularidade concreta que exija correção imediata, preferir `Recomendação`.
 
 ## Planilha de Checklists de Evidências
 
@@ -255,7 +264,7 @@ Exemplo de linha conceitual:
 - Não criar achados para temas que a equipe definiu como apenas exploratórios.
 - Não usar resposta declaratória como única evidência quando houver previsão de análise documental ou teste de amostra.
 - Garantir que cada possível achado tenha pelo menos um risco e um caminho de evidência associado.
-- Garantir que cada situação encontrada tenha regra objetiva de identificação e encaminhamento próprio.
+- Garantir que cada situação encontrada tenha regra objetiva de identificação, `tipo_encaminhamento` válido e encaminhamento próprio.
 - Garantir que toda situação encontrada contenha `severidade` com valor `alta`, `media` ou `baixa`; ausência desse campo é falha da matriz.
 - Garantir que cada subquestão esteja coberta por informações requeridas e procedimentos.
 - Evitar duplicidade: se dois achados dependem das mesmas evidências, avaliar se devem ser subachados ou um único achado mais bem delimitado.
@@ -326,5 +335,6 @@ possiveis_achados:
       - ou qXXXXevi são inexistentes, incompatíveis ou insuficientes para comprovar [controle]
       referencias_matriz: [R1.1, P1, E1, P2, E2]
       criterios: [C1]
-      encaminhamento: Recomendar que a organização [ação proporcional e executável].
+      tipo_encaminhamento: Recomendação
+      encaminhamento: [ação proporcional e executável iniciada por verbo]
 ```

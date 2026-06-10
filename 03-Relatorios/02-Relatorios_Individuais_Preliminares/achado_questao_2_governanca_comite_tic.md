@@ -105,5 +105,5 @@ Diante das situações apresentadas, será sugerida proposta de encaminhamento �
 * **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
 {% endfor %}
 
-{# Final do Achado - Governança e Comitê de TIC #}
+{## Final do Achado - Governança e Comitê de TIC ##}
 {% endif %}

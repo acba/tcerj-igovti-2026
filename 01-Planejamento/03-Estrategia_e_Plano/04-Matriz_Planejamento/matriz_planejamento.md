@@ -41,6 +41,7 @@ criterios:
 - C3: COBIT 2019, APO01.06 - Aprimorar o posicionamento da função de TI: posicionar a função de tecnologia de modo compatível com sua relevância estratégica, responsabilidades e necessidade de interação com a alta administração.
 - C4: COBIT 2019, APO01.09 - Definição e comunicação de políticas e procedimentos: estabelecer e comunicar políticas e procedimentos de gestão de TI que orientem papéis, responsabilidades e controles.
 - C5: ABNT NBR ISO/IEC 38500:2025, item 5.6.1 - Governança efetiva de TI: responsabilização clara, estrutura adequada de tomada de decisão e direção organizacional compatível com o uso atual e futuro da tecnologia.
+- C6: Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q0101, se a organização possui área, unidade, setor ou função de TIC formalmente instituída; [IR1]
@@ -67,30 +68,30 @@ possiveis_achados:
       itens_questionario: [q0101, q0101evi]
       regra_de_identificacao:
       - (q0101 == F)
-      - ou avaliacao[Q1-S1.1-q0101evi] == "Não conforme"
       referencias_matriz: [R1.1, P1, E1, P2, E2]
       criterios: [C1, C4, C5]
-      encaminhamento: Recomendar que a organização formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, compatível com seu porte, complexidade e dependência tecnológica.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, definindo sua vinculação e suas responsabilidades essenciais de modo compatível com o porte, a complexidade e a dependência tecnológica da organização
     - S1.2:
       descricao: Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
       severidade: alta
-      itens_questionario: [q0103, q0103evi]
+      itens_questionario: [q0101, q0103, q0103[D], q0103[G], q0103evi]
       regra_de_identificacao:
-      - (q0101 != F) & (q0103 == F)
-      - ou (q0101 != F) & (avaliacao[Q1-S1.2-q0103evi] == "Não conforme")
+      - (q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))
       referencias_matriz: [R1.2, P3, E3, P4, E4]
       criterios: [C2, C4, C5]
-      encaminhamento: Recomendar que a organização defina formalmente as atribuições da área de TIC, contemplando planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC
     - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
       itens_questionario: [q0102, q0102evi]
       regra_de_identificacao:
-      - (q0101 != F) & (q0102 == C)
-      - ou (q0101 != F) & (avaliacao[Q1-S1.3-q0102evi] == "Não conforme")
+      - (q0101 != F) & ((q0102 == B) | (q0102 == C) | (q0102 == D) | (q0102 == E))
       referencias_matriz: [R1.3, P5, E5, P6, E6]
-      criterios: [C3, C5]
-      encaminhamento: Recomendar que a organização avalie e ajuste o posicionamento organizacional da área de TIC, de modo a permitir participação adequada em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
+      criterios: [C3, C5, C6]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: avalie e ajuste o posicionamento organizacional da área de TIC, atentando-se, minimamente, em assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação
 
 ## Questão 02 - Governança e Comitê de TIC
 
@@ -147,35 +148,33 @@ possiveis_achados:
     - S2.1:
       descricao: Ausência ou insuficiência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.
       severidade: alta
-      itens_questionario: [q1001, q1002, q1001evi, q1002evi]
+      itens_questionario: [q1001ext[C], q1001ext[H], q1002ext[A], q1002ext[C], q1001evi, q1002evi]
       regra_de_identificacao:
-      - (q1001 == F)
-      - ou (q1002 == F)
-      - ou avaliacao[Q2-S2.1-q1001evi] == "Não conforme"
-      - ou avaliacao[Q2-S2.1-q1002evi] == "Não conforme"
+      - (q1001ext[C] != Sim) | (q1001ext[H] != Sim) | (q1002ext[A] != Sim) | (q1002ext[C] != Sim)
       referencias_matriz: [R2.1, P1, E1, P2, E2]
       criterios: [C1, C2, C4]
-      encaminhamento: Recomendar que a alta administração estabeleça modelo básico de governança e gestão de TIC, com papéis, responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça modelo básico de governança e gestão de TIC, atentando-se, minimamente, em definir papéis e responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração
     - S2.2:
       descricao: Comitê de TIC ou instância equivalente não instituído formalmente.
       severidade: alta
       itens_questionario: [q1001ext[E], q1001evi]
       regra_de_identificacao:
       - (q1001ext[E] != Sim)
-      - ou avaliacao[Q2-S2.2-q1001evi] == "Não conforme"
       referencias_matriz: [R2.2, P3, E3, P4, E4]
       criterios: [C3, C4, C5]
-      encaminhamento: Recomendar que a organização institua formalmente Comitê de TIC ou instância equivalente, definindo composição, competências, periodicidade mínima, forma de registro das deliberações e acompanhamento dos encaminhamentos.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: institua formalmente Comitê de TIC ou instância equivalente, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos
     - S2.3:
       descricao: Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.
       severidade: media
-      itens_questionario: [q1001ext[F], q1001evi]
+      itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
       regra_de_identificacao:
       - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
-      - ou (q1001ext[E] == Sim) & (avaliacao[Q2-S2.3-q1001evi] == "Não conforme")
       referencias_matriz: [R2.3, P5, E5, P6, E6]
       criterios: [C2, C3, C4]
-      encaminhamento: Recomendar que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, com reuniões periódicas, atas, deliberações, encaminhamentos e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, atentando-se, minimamente, em realizar reuniões periódicas, registrar atas, deliberações e encaminhamentos e acompanhar as decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC
 
 ## Questão 03 - Planejamento de TIC
 
@@ -184,16 +183,14 @@ questao: Q3. A organização utiliza o planejamento de TIC como instrumento efet
 subquestoes:
 - A organização executa processo formal de planejamento de TIC?
 - As áreas demandantes participam do processo de planejamento de TIC?
-- A organização possui plano de TIC formalmente instituído, vigente e aprovado pela instância competente?
-- O plano de TIC define objetivos, iniciativas, responsáveis, prazos, metas ou indicadores?
+- O plano de TIC foi formalmente aprovado pela instância competente?
 - O plano de TIC está alinhado ao planejamento institucional?
 - O plano de TIC está integrado à proposta orçamentária da área de TIC e ao plano de contratações?
 - O plano de TIC é acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes?
 
 riscos:
 - R3.1: Devido à inexistência ou fragilidade do processo formal de planejamento de TIC, poderá haver atuação reativa, sem critérios objetivos de seleção e priorização de iniciativas.
-- R3.2: Devido à inexistência, desatualização ou ausência de aprovação do plano de TIC, poderá não haver direcionamento formal para a gestão, os projetos, o orçamento e as contratações de TIC.
-- R3.3: Devido à insuficiência de conteúdo mínimo do plano de TIC, poderá não haver clareza quanto a objetivos, iniciativas, responsáveis, prazos, metas e indicadores.
+- R3.2: Devido à ausência de aprovação formal do plano de TIC pela instância competente, o instrumento poderá não possuir legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações de TIC.
 - R3.4: Devido à falta de alinhamento do plano de TIC ao planejamento institucional, poderão ser executadas ações de TIC com baixo valor para a organização.
 - R3.5: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas.
 - R3.6: Devido à ausência de acompanhamento e revisão do plano de TIC, poderão permanecer metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
@@ -206,9 +203,8 @@ informacoes_requeridas:
 - IR1: Resposta sobre existência de processo formal de planejamento de TIC; [F1, q2101]
 - IR2: Evidência anexada sobre norma, procedimento, guia ou instrumento equivalente que discipline o processo de planejamento de TIC; [F2, q2101evi]
 - IR3: Resposta sobre participação das áreas demandantes no processo de planejamento de TIC; [F1, q2101ext[A]]
-- IR4: Resposta sobre existência, vigência e aprovação do plano de TIC; [F1, q2102]
-- IR5: Evidência anexada do plano de TIC vigente e respectivo ato de aprovação; [F2, q2102evi]
-- IR6: Resposta e evidência sobre conteúdo mínimo do plano de TIC, incluindo objetivos, iniciativas, responsáveis, prazos, metas ou indicadores; [F1, F2, q2102, q2102evi]
+- IR4: Resposta sobre aprovação formal do plano de TIC pela instância competente; [F1, q2102ext[A]]
+- IR5: Evidência anexada do ato de aprovação formal do plano de TIC; [F2, q2102evi]
 - IR7: Resposta e evidência sobre alinhamento do plano de TIC ao planejamento institucional; [F1, F2, q2102, q2102evi]
 - IR8: Resposta e evidência sobre integração do plano de TIC com orçamento, plano de contratações, projetos ou contratações de TIC; [F1, F2, q2102, q2802, q2804[B]]
 - IR9: Resposta e evidência sobre acompanhamento, revisão ou atualização do plano de TIC; [F1, F2, q2102, q2102evi]
@@ -223,9 +219,8 @@ procedimentos:
 - P1: Verificar, por meio da resposta à q2101, se a organização executa processo formal de planejamento de TIC; [IR1]
 - P2: Validar, pelas evidências anexadas à q2101, a formalização mínima do processo de planejamento de TIC; [IR2]
 - P3: Verificar, por meio da q2101ext[A], se há participação das áreas demandantes no processo de planejamento de TIC; [IR3]
-- P4: Verificar, por meio da resposta à q2102, se a organização possui plano de TIC vigente e aprovado; [IR4]
-- P5: Validar, pelas evidências anexadas à q2102, a existência, vigência e aprovação do plano de TIC; [IR5]
-- P6: Verificar, por meio da resposta e das evidências da q2102, se o plano contém conteúdo mínimo suficiente para orientar a gestão; [IR6]
+- P4: Verificar, por meio da resposta à q2102ext[A], se o plano de TIC foi aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado integrante da alta administração; [IR4]
+- P5: Validar, pelas evidências anexadas à q2102, a aprovação formal do plano de TIC pela instância competente; [IR5]
 - P7: Verificar, por meio da resposta e das evidências da q2102, se o plano está alinhado ao planejamento institucional; [IR7]
 - P8: Verificar, por meio das respostas e evidências das q2102, q2802 e q2804[B], se o plano de TIC se integra a orçamento, plano de contratações, projetos ou contratações; [IR8]
 - P9: Verificar, por meio da resposta e das evidências da q2102, se há acompanhamento, revisão ou atualização periódica do plano de TIC; [IR9]
@@ -234,9 +229,8 @@ evidencias:
 - E1: Resposta negativa ou insuficiente sobre a existência de processo de planejamento de TIC; [P1]
 - E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que discipline o processo de planejamento de TIC; [P2]
 - E3: Resposta negativa ou insuficiente sobre participação das áreas demandantes; [P3]
-- E4: Resposta negativa ou insuficiente sobre plano de TIC vigente e aprovado; [P4]
-- E5: Ausência, desatualização, falta de vigência ou falta de aprovação do plano de TIC nas evidências anexadas; [P5]
-- E6: Ausência ou insuficiência de objetivos, iniciativas, responsáveis, prazos, metas ou indicadores no plano de TIC; [P6]
+- E4: Resposta negativa ou insuficiente sobre a aprovação formal do plano de TIC pela instância competente; [P4]
+- E5: Ausência ou insuficiência de evidência do ato de aprovação formal do plano de TIC pela instância competente; [P5]
 - E7: Inexistência ou insuficiência de alinhamento entre plano de TIC e planejamento institucional; [P7]
 - E8: Inexistência ou insuficiência de vínculo entre plano de TIC, orçamento, plano de contratações, projetos ou contratações de TIC; [P8]
 - E9: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P9]
@@ -250,59 +244,50 @@ possiveis_achados:
       itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[C], q2101ext[D], q2101evi]
       regra_de_identificacao:
       - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[C] != Sim) | (q2101ext[D] != Sim)
-      - ou avaliacao[Q3-S3.1-q2101evi] == "Não conforme"
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C4]
-      encaminhamento: Recomendar que a organização institua processo formal de planejamento de TIC, com etapas, responsáveis, participação das áreas demandantes e critérios mínimos de priorização.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: institua processo formal de planejamento de TIC, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
   - S3.2:
-      descricao: Inexistência, desatualização, ausência de vigência ou ausência de aprovação formal do plano de TIC.
+      descricao: Ausência de aprovação formal do plano de TIC.
       severidade: alta
-      itens_questionario: [q2102, q2102ext[A], q2102evi]
+      itens_questionario: [q2102ext[A], q2102evi]
       regra_de_identificacao:
       - (q2102ext[A] != Sim)
-      - ou avaliacao[Q3-S3.2-q2102evi] == "Não conforme"
       referencias_matriz: [R3.2, P4, E4, P5, E5]
       criterios: [C1, C3, C4]
-      encaminhamento: Recomendar que a organização elabore, aprove e mantenha vigente plano de TIC compatível com seu porte, suas prioridades institucionais e sua capacidade de execução.
-  - S3.3:
-      descricao: Plano de TIC sem conteúdo mínimo suficiente para orientar a gestão.
-      severidade: media
-      itens_questionario: [q2102, q2102evi]
-      regra_de_identificacao:
-      - avaliacao[Q3-S3.3-q2102evi] == "Não conforme"
-      referencias_matriz: [R3.3, P6, E6]
-      criterios: [C1, C3, C4]
-      encaminhamento: Recomendar que o plano de TIC contenha, no mínimo, objetivos, iniciativas priorizadas, responsáveis, prazos, metas ou indicadores de acompanhamento.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: submeta o plano de TIC à aprovação formal do dirigente máximo ou de dirigente ou colegiado integrante da alta administração, mantendo registro do respectivo ato de aprovação
   - S3.4:
       descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
       severidade: media
       itens_questionario: [q2102ext[D], q2102evi]
       regra_de_identificacao:
       - (q2102ext[D] != Sim)
-      - ou avaliacao[Q3-S3.4-q2102evi] == "Não conforme"
       referencias_matriz: [R3.4, P7, E7]
       criterios: [C1, C3, C4]
-      encaminhamento: Recomendar que a organização revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
   - S3.5:
       descricao: Plano de TIC sem integração adequada com orçamento, plano de contratações, projetos ou contratações de TIC.
       severidade: alta
       itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
       regra_de_identificacao:
       - (q2102ext[C] != Sim) | (q2802ext[C] != Sim) | (q2802ext[D] != Sim) | (q2804[B] != Sim)
-      - ou (avaliacao[Q3-S3.5-q2102evi] == "Não conforme") | (avaliacao[Q3-S3.5-q2802evi] == "Não conforme")
       referencias_matriz: [R3.5, P8, E8]
       criterios: [C2, C3, C4]
-      encaminhamento: Recomendar que a organização vincule o plano de TIC à proposta orçamentária, ao plano de contratações e às contratações de TIC executadas, priorizando demandas conforme relevância, risco e capacidade de execução.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: integre o plano de TIC à proposta orçamentária, ao plano de contratações e às contratações de TIC, atentando-se, minimamente, em priorizar as demandas conforme sua relevância, seus riscos e a capacidade de execução da organização
   - S3.6:
       descricao: Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.
       severidade: media
       itens_questionario: [q2102ext[E], q2102evi]
       regra_de_identificacao:
       - (q2102ext[E] != Sim)
-      - ou avaliacao[Q3-S3.6-q2102evi] == "Não conforme"
       referencias_matriz: [R3.6, P9, E9]
       criterios: [C1, C3, C4]
-      encaminhamento: Recomendar que a organização estabeleça rotina de acompanhamento, revisão e atualização do plano de TIC, com registro de execução, pendências, reprogramações e deliberações.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça e execute rotina periódica de acompanhamento, revisão e atualização do plano de TIC, atentando-se, minimamente, em registrar a execução das iniciativas, as pendências, as reprogramações e as deliberações adotadas
 
 ---
 
@@ -386,17 +371,18 @@ possiveis_achados:
       - ((total_TI == 0) & (q0101 != F)) | (total_SI == 0)
       referencias_matriz: [R4.1, P1, E1]
       criterios: [C2, C5, C9]
-    encaminhamento: Recomendar que a organização avalie sua força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação da TIC.
+    tipo_encaminhamento: Recomendação
+    encaminhamento: avalie a força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
   - S4.2:
       descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
       severidade: alta
       itens_questionario: [q2703ext[B], q2703ext[C], q2703evi]
       regra_de_identificacao:
       - (q2703ext[B] != Sim) | (q2703ext[C] != Sim)
-      - ou avaliacao[Q4-S4.2-q2703evi] == "Não conforme"
       referencias_matriz: [R4.2, P2, E2]
       criterios: [C2, C5, C9]
-      encaminhamento: Recomendar que a organização estime o quantitativo mínimo necessário de pessoal de TIC e segurança da informação, considerando porte, complexidade, serviços críticos, sistemas mantidos, contratações e riscos relevantes.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes
   - S4.3:
       descricao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.
       severidade: media
@@ -405,30 +391,28 @@ possiveis_achados:
       - ((q2708[A] != Sim) & (q2708[B] != Sim)) | ((q2708[C] != Sim) & (q2708[D] != Sim))
       referencias_matriz: [R4.3, P3, E3]
       criterios: [C1, C2, C3]
-      encaminhamento: Recomendar que a organização avalie a necessidade de instituir cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação, compatíveis com suas necessidades institucionais.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: avalie a necessidade de instituir cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação e adote a solução compatível com as necessidades institucionais e a capacidade administrativa da organização
   - S4.4:
       descricao: Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.
       severidade: media
       itens_questionario: [q2701ext[A], q2701ext[C], q2702ext[A], q2702ext[C], q2704ext[B], q2701evi, q2702evi, q2704evi]
       regra_de_identificacao:
       - ((q2701ext[A] != Sim) | (q2701ext[C] != Sim)) | ((q2702ext[A] != Sim) | (q2702ext[C] != Sim)) | (q2704ext[B] != Sim)
-      - ou avaliacao[Q4-S4.4-q2701evi] == "Não conforme"
-      - ou avaliacao[Q4-S4.4-q2702evi] == "Não conforme"
-      - ou avaliacao[Q4-S4.4-q2704evi] == "Não conforme"
       referencias_matriz: [R4.4, P4, E4, P5, E5]
       criterios: [C1, C4, C9]
-      encaminhamento: Recomendar que a organização defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação e utilize esses perfis como referência para designação de responsáveis.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação, atentando-se, minimamente, em estabelecer conhecimentos, habilidades, experiência e responsabilidades requeridos e utilizar esses perfis na seleção e designação dos responsáveis
   - S4.5:
       descricao: Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.
       severidade: media
       itens_questionario: [q2705ext[B], q2705ext[C], q2705ext[D], q2706ext[A], q2706ext[B], q2706ext[C], q2705evi, q2706evi]
       regra_de_identificacao:
       - (q2705ext[B] != Sim) | (q2705ext[C] != Sim) | (q2705ext[D] != Sim) | (q2706ext[A] != Sim) | (q2706ext[B] != Sim) | (q2706ext[C] != Sim)
-      - ou avaliacao[Q4-S4.5-q2705evi] == "Não conforme"
-      - ou avaliacao[Q4-S4.5-q2706evi] == "Não conforme"
       referencias_matriz: [R4.5, P6, E6]
       criterios: [C4, C9, C10]
-      encaminhamento: Recomendar que a organização realize diagnóstico periódico de lacunas de competências e estabeleça plano de tratamento, contemplando capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: realize diagnóstico periódico das lacunas de competências dos gestores e colaboradores de TIC e segurança da informação e estabeleça plano de tratamento, contemplando, conforme a necessidade, capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento
   - S4.6:
     descricao: Modelo de operação de TIC predominantemente terceirizado ou externo, sem capacidade interna mínima declarada para coordenação, planejamento, aprovação técnica ou fiscalização das atividades críticas de TIC.
     severidade: alta
@@ -436,13 +420,12 @@ possiveis_achados:
     regra_de_identificacao:
       - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
       - total_TI_terceiros = q0105[TI_terceirizados]
-      - (((q0101 == B) | (q0101 == C)) & ((total_TI_interno == 0) | (((q2703ext[B] != Sim) | (q2703ext[C] != Sim)) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim))) | ((q2804[A] != Sim) | (q2804[C] != Sim)))) | ((total_TI_terceiros > total_TI_interno) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2804[A] != Sim) | (q2804[C] != Sim)))
-      - ou avaliacao[Q4-S4.6-q2703evi] == "Não conforme" quando q2703ext[B] ou q2703ext[C] estiverem assinalados como Sim
-      - ou avaliacao[Q4-S4.6-q2801evi] == "Não conforme" quando q2801ext[E] ou q2801ext[F] estiverem assinalados como Sim
-      - ou avaliacao[Q4-S4.6-q2804eviA] == "Não conforme" quando q2804[A] estiver assinalado como Sim
+      - predominio_terceiros = total_TI_terceiros > total_TI_interno
+      - (((q0101 == B) | (q0101 == C)) & ((total_TI_interno == 0) | (((q2703ext[B] != Sim) | (q2703ext[C] != Sim)) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim))) | ((q2804[A] != Sim) | (q2804[C] != Sim)))) | ((predominio_terceiros == True) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2804[A] != Sim) | (q2804[C] != Sim)))
     referencias_matriz: [R4.6, P7, E7]
     criterios: [C6, C7, C8]
-    encaminhamento: Recomendar que a organização avalie seu modelo de operação de TIC e adote medidas para assegurar capacidade interna mínima de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.
+    tipo_encaminhamento: Recomendação
+    encaminhamento: avalie o modelo de operação de TIC e adote medidas para assegurar capacidade interna mínima de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa
 ---
 
 ## Questão 05 - Gestão de Serviços de TIC
@@ -525,57 +508,55 @@ possiveis_achados:
 - A5: Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes
   situacoes_encontradas:
   - S5.1:
-      descricao: Inexistência, desatualização, indisponibilidade ou insuficiência do catálogo de serviços de TIC.
+      descricao: Inexistência ou insuficiência do catálogo de serviços de TIC.
       severidade: media
       itens_questionario: [q2201, q2201ext[A], q2201ext[B], q2201ext[C], q2201evi]
       regra_de_identificacao:
       - (q2201ext[A] != Sim) | (q2201ext[B] != Sim) | (q2201ext[C] != Sim)
-      - ou avaliacao[Q5-S5.1-q2201evi] == "Não conforme"
       referencias_matriz: [R5.1, P1, E1, P2, E2]
       criterios: [C1, C2]
-      encaminhamento: Recomendar que a organização institua e mantenha atualizado catálogo de serviços de TIC, acessível aos usuários e áreas demandantes, com informações mínimas sobre os serviços efetivamente prestados.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes
   - S5.2:
-      descricao: Inexistência de ANS, metas mínimas ou monitoramento de níveis de serviço para os principais serviços de TIC.
+      descricao: Inexistência de ANS, metas mínimas de níveis de serviço para os principais serviços de TIC.
       severidade: media
       itens_questionario: [q2201ext[D], q2201ext[E], q2201evi]
       regra_de_identificacao:
       - (q2201ext[D] != Sim) | (q2201ext[E] != Sim)
-      - ou avaliacao[Q5-S5.2-q2201evi] == "Não conforme"
       referencias_matriz: [R5.2, P3, E3, P4, E4]
       criterios: [C2, C3]
-      encaminhamento: Recomendar que a organização defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: defina, pactue e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados
   - S5.3:
       descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
       severidade: alta
       itens_questionario: [q2203ext[A], q2501ext[A], q2501ext[B], q2504ext[A], q2504ext[B], q2203evi, q2501evi, q2504evi]
       regra_de_identificacao:
       - (q2203ext[A] != Sim) | (q2501ext[A] != Sim) | (q2501ext[B] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
-      - ou avaliacao[Q5-S5.3-q2203evi] == "Não conforme"
-      - ou avaliacao[Q5-S5.3-q2501evi] == "Não conforme"
-      - ou avaliacao[Q5-S5.3-q2504evi] == "Não conforme"
       referencias_matriz: [R5.3, P5, E5, P6, E6]
       criterios: [C4, C5]
-      encaminhamento: Recomendar que a organização mantenha inventário atualizado de ativos de TIC, contemplando ao menos equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, componentes de infraestrutura, responsáveis e informações necessárias ao controle do ciclo de vida dos ativos
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
       itens_questionario: [q2203ext[A], q2203ext[B], q2203ext[C], q2203evi]
       regra_de_identificacao:
       - (q2203ext[A] != Sim) | (q2203ext[B] != Sim) | (q2203ext[C] != Sim)
-      - ou avaliacao[Q5-S5.4-q2203evi] == "Não conforme"
       referencias_matriz: [R5.3, P7, E7, P8, E8]
       criterios: [C5, C6]
-      encaminhamento: Recomendar que a organização formalize e execute processo mínimo de gestão de configuração, mantendo base, ferramenta ou registro equivalente com itens de configuração relevantes, relacionamentos entre ativos, sistemas, infraestrutura e serviços, responsáveis, atualização periódica e uso das informações no planejamento e acompanhamento de mudanças.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos, sistemas, infraestrutura e serviços, com atualização periódica e uso das informações no planejamento e acompanhamento de mudanças
   - S5.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
       severidade: alta
       itens_questionario: [q2204ext[A], q2204ext[B], q2204ext[C], q2204ext[D], q2204ext[E], q2204ext[F], q2204evi]
       regra_de_identificacao:
       - (q2204ext[A] != Sim) | (q2204ext[B] != Sim) | (q2204ext[C] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim) | (q2204ext[F] != Sim)
-      - ou avaliacao[Q5-S5.5-q2204evi] == "Não conforme"
       referencias_matriz: [R5.4, P9, E9, P10, E10, P11, E11, P12, E12]
       criterios: [C7, C8]
-      encaminhamento: Recomendar que a organização formalize e execute processo mínimo de gestão de incidentes de TIC, contemplando papéis, responsabilidades, critérios de priorização, escalamento, tratamento de incidentes de serviços e de segurança da informação, registro sistemático em ferramenta, sistema, planilha ou base equivalente, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, responsabilidades, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação, registro sistemático e rastreável das ocorrências e análise posterior dos incidentes relevantes ou recorrentes
 
 ---
 
@@ -656,60 +637,40 @@ possiveis_achados:
       itens_questionario: [q2801ext[A], q2801ext[C], q2801ext[D], q2801ext[E], q2801ext[G], q2801evi]
       regra_de_identificacao:
       - (q2801ext[A] != Sim) | (q2801ext[C] != Sim) | (q2801ext[D] != Sim) | (q2801ext[E] != Sim) | (q2801ext[G] != Sim)
-      - ou avaliacao[Q6-S6.1-q2801evi] == "Não conforme"
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
       criterios: [C1, C4, C9]
-      encaminhamento: Recomendar que a organização formalize processo de contratação de TIC, contemplando fluxo, etapas, papéis, responsabilidades, modelos mínimos de artefatos, manuais, checklists ou orientações internas.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e padronize o processo de contratação de TIC, atentando-se, minimamente, em definir fluxo, etapas, papéis, responsabilidades, instâncias de aprovação e modelos de artefatos, manuais, listas de verificação ou orientações internas aplicáveis
   - S6.2:
       descricao: Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.
       severidade: alta
       itens_questionario: [q2804[A], q2804eviA]
       regra_de_identificacao:
       - (q2804[A] != Sim)
-      - ou avaliacao[Q6-S6.2-q2804eviA] == "Não conforme"
       referencias_matriz: [R6.3, P3, E3, E4]
       criterios: [C1, C7, C8]
-      encaminhamento: Recomendar que as contratações de TIC sejam submetidas à análise prévia e aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas da organização.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais, a segurança da informação e a arquitetura existente
   - S6.3:
       descricao: Contratações de TIC sem aderência ao plano de TIC, ao plano de contratações ou à proposta orçamentária.
       severidade: alta
       itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
       regra_de_identificacao:
       - (q2102ext[C] != Sim) | (q2802ext[C] != Sim) | (q2802ext[D] != Sim) | (q2804[B] != Sim)
-      - ou (avaliacao[Q6-S6.3-q2102evi] == "Não conforme") | (avaliacao[Q6-S6.3-q2802evi] == "Não conforme")
       referencias_matriz: [R6.3, P4, E5]
       criterios: [C1, C2]
-      encaminhamento: Recomendar que a organização condicione as contratações de TIC à vinculação com o planejamento de TIC, com o plano de contratações e com a proposta orçamentária, ressalvadas situações excepcionais devidamente justificadas.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: integre as contratações de TIC ao planejamento de TIC, ao plano de contratações e à proposta orçamentária, atentando-se, minimamente, em registrar a necessidade atendida, a prioridade, a disponibilidade de recursos e a justificativa das situações excepcionais
   - S6.4:
       descricao: Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC.
       severidade: alta
       itens_questionario: [q2804[C], q2801evi]
       regra_de_identificacao:
       - (q2804[C] != Sim)
-      - ou avaliacao[Q6-S6.4-q2801evi] == "Não conforme"
       referencias_matriz: [R6.4, P5, E6]
       criterios: [C1, C5, C8]
-      encaminhamento: Recomendar que a organização designe formalmente equipe de planejamento da contratação de TIC, com participação da área requisitante, área técnica de TIC e demais áreas necessárias.
-  - S6.5:
-      descricao: Artefatos de planejamento das contratações de TIC sem requisitos técnicos, análise de riscos, segurança da informação, proteção de dados ou critérios objetivos de aceite.
-      severidade: alta
-      itens_questionario: [q2801ext[B], q2804[E], q2801evi]
-      regra_de_identificacao:
-      - (q2801ext[B] != Sim) | (q2804[E] != Sim)
-      - ou avaliacao[Q6-S6.5-q2801evi] == "Não conforme"
-      referencias_matriz: [R6.4, P6, E7]
-      criterios: [C2, C3, C6]
-      encaminhamento: Recomendar que os artefatos de planejamento das contratações de TIC contemplem requisitos técnicos, análise de riscos, requisitos de segurança da informação, proteção de dados pessoais quando aplicável e critérios objetivos de aceite.
-  - S6.6:
-      descricao: Contratações de TIC sem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento.
-      severidade: alta
-      itens_questionario: [q2804[D], q2801ext[E], q2801ext[F], q2801evi]
-      regra_de_identificacao:
-      - (q2804[D] != Sim) | (q2801ext[E] != Sim) | (q2801ext[F] != Sim)
-      - ou avaliacao[Q6-S6.6-q2801evi] == "Não conforme"
-      referencias_matriz: [R6.5, P7, E8]
-      criterios: [C3, C10, C11]
-      encaminhamento: Recomendar que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.
+      tipo_encaminhamento: Recomendação
+      encaminhamento: designe formalmente equipe responsável pelo planejamento das contratações de TIC, atentando-se, minimamente, em assegurar a participação da área requisitante, da área técnica de TIC e das demais áreas necessárias, com definição das responsabilidades de seus integrantes
 
 ---
 

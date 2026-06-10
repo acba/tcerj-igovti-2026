@@ -143,5 +143,5 @@ Diante das situações apresentadas, será sugerida proposta de encaminhamento �
 * **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
 {% endfor %}
 
-{# Final do Achado - Capacidade institucional de TIC e segurança da informação #}
+{## Final do Achado - Capacidade institucional de TIC e segurança da informação ##}
 {% endif %}

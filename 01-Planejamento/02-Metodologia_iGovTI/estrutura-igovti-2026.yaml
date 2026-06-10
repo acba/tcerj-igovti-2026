@@ -1,0 +1,154 @@
+metadata:
+  nome: iGovTI-2026
+  versao: "2026"
+  raiz: iGovTI
+
+preprocessamento:
+  nao_se_aplica: parcial
+
+categorias:
+  # Codigos exportados pelo LimeSurvey para questoes [adoption]
+  naoad: 0
+  adfor: 0.05
+  admen: 0.15
+  adpar: 0.5
+  admai: 1
+  naoap: 0.5
+
+  # Codigos exportados pelas escalas sim/nao
+  sim: 1
+  nao: 0
+
+  # Rotulos mantidos como fallback para planilhas ja decodificadas
+  "Não adota": 0
+  "Não adota.": 0
+  "Há decisão formal ou plano aprovado para adotá-lo": 0.05
+  "Há decisão formal ou plano aprovado para adotá-lo.": 0.05
+  "Adota em menor parte": 0.15
+  "Adota em menor parte.": 0.15
+  "Adota parcialmente": 0.5
+  "Adota parcialmente.": 0.5
+  "Não se aplica": 0.5
+  "Não se aplica.": 0.5
+  "Adota": 1
+  "Adota em maior parte ou totalmente": 1
+  "Adota em maior parte ou totalmente.": 1
+  "Sim": 1
+  "Não": 0
+  "Nao": 0
+  "N/A": 0
+
+niveis_maturidade:
+  - nome: Inexpressivo
+    min: 0
+    max: 0.15
+    inclui_min: true
+    inclui_max: false
+  - nome: Iniciando
+    min: 0.15
+    max: 0.4
+    inclui_min: true
+    inclui_max: false
+  - nome: Intermediário
+    min: 0.4
+    max: 0.7
+    inclui_min: true
+    inclui_max: false
+  - nome: Aprimorado
+    min: 0.7
+    max: 1
+    inclui_min: true
+    inclui_max: true
+
+agregados:
+  GovernancaTI:
+    componentes:
+      - id: q1001
+        peso: 0.327403834851957
+      - id: q1002
+        peso: 0.275682914168293
+      - id: q1003
+        peso: 0.153597864756459
+      - id: q1004
+        peso: 0.243315386223291
+
+  # Gestão
+  PlanejamentoTI:
+    componentes:
+      - id: q2101
+        peso: 0.502245016099551
+      - id: q2102
+        peso: 0.497754983900449
+  ServicosTI:
+    componentes:
+      - id: q2201
+        peso: 0.243988021274905
+      - id: q2202
+        peso: 0.241081341165387
+      - id: q2203
+        peso: 0.262416152533095
+      - id: q2204
+        peso: 0.252514485026613
+  RiscosTISegInfo:
+    componentes:
+      - id: q2301
+        peso: 0.313583824988742
+      - id: q2302
+        peso: 0.334855010417522
+      - id: q2303
+        peso: 0.351561164593736
+  EstruturaSegInfo:
+    componentes:
+      - id: q2401
+        peso: 0.352918884966675
+      - id: q2402
+        peso: 0.314480446156258
+      - id: q2403
+        peso: 0.332600668877067
+  _q4251ext[A](TCU):
+    componentes:
+      - id: q2501ext[A]
+        peso: 0.5
+      - id: q2501ext[C]
+        peso: 0.5
+  _q4251(TCU):
+    componentes:
+      - id: _q4251ext[A](TCU)
+        peso: 0.166666666666667
+      - id: q2502
+        peso: 0.833333333333333
+  ProcessoSegInfo:
+    componentes:
+      - id: _q4251(TCU)
+        peso: 0.375836866199098
+      - id: q2503
+        peso: 0.301047566345608
+      - id: q2504
+        peso: 0.323115567455294
+  GerirSoluçõesTI:
+    componentes:
+      - id: q2601
+        peso: 0.509278560342789
+      - id: q2602
+        peso: 0.490721439657210
+  iGestTI:
+    componentes:
+      - id: PlanejamentoTI
+        peso: 0.153402950545233
+      - id: ServicosTI
+        peso: 0.185165801954126
+      - id: RiscosTISegInfo
+        peso: 0.163182752556826
+      - id: EstruturaSegInfo
+        peso: 0.157769302046022
+      - id: ProcessoSegInfo
+        peso: 0.182134616637340
+      - id: GerirSoluçõesTI
+        peso: 0.158344576260455
+
+  iGovTI:
+    componentes:
+      - id: GovernancaTI
+        peso: 0.477696299232863
+      - id: iGestTI
+        peso: 0.522303700767137

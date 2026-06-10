@@ -144,5 +144,5 @@ Diante das situações apresentadas, será sugerida proposta de encaminhamento �
 * **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
 {% endfor %}
 
-{# Final do Achado - Contratações de TIC #}
+{## Final do Achado - Contratações de TIC ##}
 {% endif %}

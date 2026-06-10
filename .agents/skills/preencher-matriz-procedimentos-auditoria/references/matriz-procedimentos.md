@@ -27,6 +27,20 @@ Cabeçalho na linha 3:
 | `numero_achado` | número sequencial ou planejado do achado |
 | `nome_achado` | nome do possível achado |
 
+### Variáveis Temporárias
+
+Cabeçalho na linha 3:
+
+| coluna | uso |
+|---|---|
+| `id` | identificador `VT01`, `VT02` |
+| `id_fonte_informacao` | fonte cujas colunas alimentam o cálculo |
+| `nome` | nome da coluna temporária criada em memória |
+| `expressao` | expressão calculada com colunas originais ou variáveis definidas anteriormente |
+| `descricao` | significado do valor calculado |
+
+As variáveis são calculadas na ordem das linhas. Uma variável pode utilizar outra definida anteriormente. Elas existem apenas durante o processamento e não alteram o arquivo da fonte de informação.
+
 ### Ações de Verificação
 
 Cabeçalho na linha 3:
@@ -38,7 +52,7 @@ Cabeçalho na linha 3:
 | `acao_exclusiva_auditados` | lista opcional de auditados aos quais a ação se aplica |
 | `auditado_inexistente_e_achado` | `TRUE` se ausência do auditado na fonte configura achado |
 | `descricao_auditado_inexistente` | evidência a registrar quando o auditado não existir na fonte |
-| `informacao_requerida` | coluna/campo/target analisado, como `q1001` ou `Q2-S2.1-q1001evi` |
+| `informacao_requerida` | uma única coluna, campo ou variável analisada, como `q1001ext[A]` ou `total_TI` |
 | `criterio` | critério aplicável, preferencialmente textual e específico |
 | `descricao_evidencia` | evidência que será registrada quando a ação for aplicada |
 | `complemento_evidencia` | complemento opcional |
@@ -46,7 +60,7 @@ Cabeçalho na linha 3:
 | `situacao_inconforme` | valor ou expressão que caracteriza inconformidade |
 | `situacao_encontrada_nan_e_achado` | `TRUE` se célula vazia/NaN configura achado |
 | `decodifica_sit_encontrada` | regra opcional para decodificar valor bruto |
-| `tipo_encaminhamento` | `Recomendação`, `Determinação` ou outro tipo adotado pelo trabalho |
+| `tipo_encaminhamento` | `Recomendação` ou `Determinação`, conforme atributo explícito da situação encontrada |
 | `pre_encaminhamento` | texto opcional antes do encaminhamento |
 | `encaminhamento` | providência proposta quando a ação/situação ocorrer |
 
@@ -57,6 +71,13 @@ Cabeçalho na linha 3:
 - Usar `avaliacao_evidencias` para resultados de prompts de avaliação documental.
 - Usar `questionario_e_avaliacao_evidencias` quando a regra combinar resposta declarada e resultado de avaliação de evidência na mesma expressão.
 - Preferir uma ação por condição operacionalmente testável.
+- Cada ação deve consultar exatamente uma coluna da fonte de informação. Se a regra utilizar N colunas, criar N ações.
+- Repetir nas ações oriundas da mesma situação encontrada a descrição da situação, o tipo de encaminhamento e o encaminhamento.
 - Em regras compostas, preservar a expressão original em `situacao_inconforme` quando não houver decomposição segura.
-- Manter `logica_achado` como expressão com IDs de ações. Use `|` para qualquer ação suficiente para caracterizar o achado e `&` apenas quando o achado depender de composição obrigatória.
+- Manter em `situacao_inconforme` apenas a condição aplicável à coluna da própria ação.
+- Preencher `situacao_inconforme` com os valores literais encontrados na fonte. Em itens-base de escolha única, converter o código da alternativa para seu texto completo, por exemplo `F` para `f) Inexistente / Informal: ...`; para negação, usar `~(<texto completo>)`.
+- Em detalhamentos de itens `adoption`, usar os valores `Sim`, `Não` e `N/A` conforme a regra. Em matrizes `sim_nao`, usar `Sim` ou `Não`.
+- Montar `logica_achado` substituindo cada condição da regra pelos IDs das ações, preservando `&`, `|` e parênteses. Combinar as diferentes situações encontradas do achado com `|`.
+- Preencher `tipo_encaminhamento` exclusivamente com `Determinação` ou `Recomendação`.
+- Redigir `encaminhamento` como providência iniciada diretamente por verbo, sem repetir os prefixos "Determinar que" ou "Recomendar que".
 - Não usar a planilha como relatório final; ela alimenta apuração e revisão humana.

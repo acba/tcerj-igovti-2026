@@ -126,5 +126,5 @@ Diante das situações apresentadas, será sugerida proposta de encaminhamento �
 * **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
 {% endfor %}
 
-{# Final do Achado - Gestão de serviços de TIC #}
+{## Final do Achado - Gestão de serviços de TIC ##}
 {% endif %}
