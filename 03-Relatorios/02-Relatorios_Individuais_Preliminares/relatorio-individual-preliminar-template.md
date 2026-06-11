@@ -19,11 +19,12 @@ O questionário do iGovTI 2026 foi estruturado para coletar informações sobre 
 
 O iGovTI 2026 é um índice composto que consolida resultados de governança e gestão de TIC em escala de 0 a 1. As respostas categóricas ao questionário são inicialmente convertidas em valores numéricos: **Não adota** = 0; **Há decisão formal ou plano aprovado para adotá-lo** = 0,05; **Adota em menor parte** = 0,15; **Adota parcialmente** = 0,50; e **Adota em maior parte ou totalmente** = 1,00.
 
-Quando a questão possui itens de detalhamento, a pontuação da resposta principal pode ser reduzida conforme os itens efetivamente atendidos. Na sequência, os valores são combinados por somas ponderadas em uma árvore de agregação. O componente **GovernancaTI** resulta de quatro práticas diretamente ponderadas; o **iGestTI** reúne seis dimensões: PlanejamentoTI, ServicosTI, RiscosTISegInfo, EstruturaSegInfo, ProcessoSegInfo e GerirSoluçõesTI. O índice final é calculado pela seguinte expressão:
+Quando a questão possui itens de detalhamento, a pontuação da resposta principal pode ser reduzida conforme os itens efetivamente atendidos. Na sequência, os valores são agregados em uma estrutura hierárquica baseada em somas ponderadas. Conforme detalhado na [@fig:composicao_igovti_2026], o índice final é composto pelos blocos de **Governança de TIC** (com peso de 47,8%, formado por 4 questões de agregação direta) e **Gestão de TIC (iGestTI)** (com peso de 52,2%, estruturado em 6 dimensões operacionais que consolidam 20 questões principais ponderadas).
 
-`iGovTI = 0,477696299232863 x GovernancaTI + 0,522303700767137 x iGestTI`
+![Composição do iGovTI 2026](igovti_2026_composicao_infografico_v6.png){#fig:composicao_igovti_2026#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Após o cálculo, a organização é classificada nos níveis de maturidade **Inexpressivo** (`0 <= iGovTI < 0,15`), **Iniciando** (`0,15 <= iGovTI < 0,40`), **Intermediário** (`0,40 <= iGovTI < 0,70`) ou **Aprimorado** (`0,70 <= iGovTI <= 1,00`).
+Após a agregação e o cálculo final do índice, a organização é classificada em um dos quatro níveis de maturidade: **Inexpressivo** (`0 <= iGovTI < 0,15`), **Iniciando** (`0,15 <= iGovTI < 0,40`), **Intermediário** (`0,40 <= iGovTI < 0,70`) ou **Aprimorado** (`0,70 <= iGovTI <= 1,00`), cujas faixas também estão destacadas na parte inferior da [@fig:composicao_igovti_2026].
 
 ## 2.1. Cenário Geral
 
@@ -35,6 +36,11 @@ A distribuição por nível de maturidade, apresentada na [@fig:distribuicao_mat
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 O iGovTI apresentou média de 0,234 e mediana de 0,174. O primeiro quartil foi 0,074 e o terceiro quartil, 0,329, o que significa que metade das organizações se concentrou nesse intervalo e que pelo menos 75% permaneceram abaixo do nível Intermediário. A média superior à mediana, combinada com o valor máximo de 0,843 e com apenas seis organizações no nível Aprimorado, caracteriza uma distribuição assimétrica à direita: um grupo reduzido de resultados elevados desloca a média para cima, sem alterar o quadro predominante de baixa maturidade. Seis organizações apresentaram valor igual a zero no índice calculado.
+
+A distribuição contínua da [@fig:distribuicao_continua_igovti_2026] complementa a classificação por faixas e permite observar a concentração dos resultados, os limites de maturidade e a distância entre a mediana e os valores mais elevados.
+
+![Distribuição contínua dos resultados do iGovTI 2026](igovti_2026_distribuicao_continua.png){#fig:distribuicao_continua_igovti_2026#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 A posição específica do(a) **{{ auditado.sigla }}** nessa distribuição pode ser observada na [@fig:comparativo_distribuicao_iGovTI]. Diferenças pequenas entre organizações próximas devem ser interpretadas com cautela, pois o índice não dispõe de margem de erro estimada e pode ser afetado pela qualidade das respostas e das evidências apresentadas.
 
@@ -56,9 +62,9 @@ A [@fig:componentes_igovti] apresenta a composição do resultado do(a) **{{ aud
 
 | Componente | Peso no iGovTI 2026 | Valor |
 |---|---:|---:|---|
-| **Governança de TIC** | 0,477696299232863 | {{ '%0.2f' | format(GovernancaTI|float) }} |
-| **Gestão de TIC** | 0,522303700767137 | {{ '%0.2f' | format(iGestTI|float) }} |
-| **iGovTI 2026** | 1,000000000000000 | {{ '%0.2f' | format(iGovTI|float) }} |
+| **Governança de TIC** | 0,4777 | {{ '%0.2f' | format(GovernancaTI|float) }} |
+| **Gestão de TIC** | 0,5223 | {{ '%0.2f' | format(iGestTI|float) }} |
+| **iGovTI 2026** | 1,0000 | {{ '%0.2f' | format(iGovTI|float) }} |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
@@ -103,6 +109,11 @@ A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos 
 ![Distribuição do iGovTI 2026 e dos componentes GovernancaTI e iGestTI](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
+A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das organizações nos dois componentes. Pontos abaixo da diagonal representam resultado de gestão superior ao de governança; pontos acima da diagonal representam a situação inversa.
+
+![Relação entre os resultados de governança e gestão de TIC](igovti_2026_governanca_vs_gestao.png){#fig:governanca_vs_gestao_igovti_2026#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
 {% if GovernancaTI|float < iGestTI|float %}
 No caso da organização **{{ auditado.sigla }}**, o componente GovernancaTI ficou abaixo do iGestTI. Esse perfil indica que o principal desequilíbrio relativo se encontra nos mecanismos pelos quais a alta administração direciona, monitora e avalia a TIC, devendo a leitura ser aprofundada à luz das evidências e dos achados relacionados à governança.
 {% elif GovernancaTI|float > iGestTI|float %}
@@ -133,11 +144,51 @@ A distribuição completa das seis dimensões é apresentada na [@fig:distribuic
 ![Distribuição dos resultados das seis dimensões que compõem o iGestTI](igovti_2026_distribuicao_dimensoes_gestao.png){#fig:distribuicao_dimensoes_gestao_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
+A [@fig:maturidade_dimensoes_igovti_2026] explicita a composição de cada dimensão por nível de maturidade e permite verificar em quais capacidades se concentram as organizações nos estágios iniciais.
+
+![Composição dos níveis de maturidade nas dimensões do iGestTI](igovti_2026_maturidade_dimensoes.png){#fig:maturidade_dimensoes_igovti_2026#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
 As maiores fragilidades agregadas concentram-se em **RiscosTISegInfo** e **GerirSoluçõesTI**. As duas dimensões apresentaram as menores médias e registraram valores inferiores a 0,40 em 95 organizações (83,3%). RiscosTISegInfo apareceu entre as dimensões de menor resultado de 50 organizações (43,9%), enquanto GerirSoluçõesTI ocupou essa posição em 44 (38,6%), considerados os empates. O quadro indica que a formalização do planejamento, quando existente, frequentemente não é acompanhada, na mesma intensidade, por gestão de riscos, continuidade, desenvolvimento de software e gestão de projetos.
 
 EstruturaSegInfo apresentou média de 0,274 e mediana de apenas 0,140. Essa diferença, associada à ampla dispersão observada na [@fig:distribuicao_dimensoes_gestao_2026], evidencia heterogeneidade: um grupo de organizações possui estruturas de segurança mais consolidadas, enquanto parcela expressiva permanece próxima dos níveis inferiores. ProcessoSegInfo mostrou mediana superior à de EstruturaSegInfo, mas 76,3% das organizações ainda permaneceram abaixo de 0,40, o que recomenda examinar separadamente a existência da estrutura formal e a execução contínua dos processos de segurança.
 
-## 2.5. Principais alterações em relação ao iGovTI 2023
+## 2.5. Leitura integrada do resultado individual
+
+A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil do(a) **{{ auditado.sigla }}** nas seis dimensões de gestão e o compara com as medianas observadas nas 114 organizações. A comparação linear da [@fig:comparacao_dimensoes_gestao_auditado] permite identificar com maior precisão a distância entre o resultado individual e a mediana geral em cada dimensão.
+
+![Perfil do(a) {{ auditado.sigla }} nas dimensões do iGestTI em comparação com as medianas gerais]({{ auditado.sigla }}_perfil_dimensoes_iGestTI.png){#fig:perfil_dimensoes_gestao_auditado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+![Comparação do resultado individual e da mediana nas dimensões do iGestTI]({{ auditado.sigla }}_comparacao_dimensoes_iGestTI.png){#fig:comparacao_dimensoes_gestao_auditado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+A [@fig:percentis_indicadores_auditado] informa a posição relativa do auditado no conjunto avaliado. O percentil não representa nível de maturidade nem grau de atendimento a critério; indica apenas a proporção de organizações com resultado igual ou inferior ao do(a) **{{ auditado.sigla }}**.
+
+![Posição percentílica do(a) {{ auditado.sigla }} nos indicadores avaliados]({{ auditado.sigla }}_percentis_indicadores.png){#fig:percentis_indicadores_auditado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+A [@fig:diagnostico_questoes_auditoria_auditado] sintetiza a proporção de ações de verificação atômicas conformes em cada questão de auditoria. Essa medida tem finalidade diagnóstica, deriva das regras do mapa de verificação e não integra o cálculo do iGovTI. A [@fig:praticas_criticas_auditado] detalha as práticas inconformes que sustentam esse diagnóstico e deve ser interpretada em conjunto com os achados da Seção 3.
+
+![Diagnóstico das questões de auditoria do(a) {{ auditado.sigla }}]({{ auditado.sigla }}_diagnostico_questoes_auditoria.png){#fig:diagnostico_questoes_auditoria_auditado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+![Práticas críticas identificadas nas respostas do(a) {{ auditado.sigla }}]({{ auditado.sigla }}_praticas_criticas.png){#fig:praticas_criticas_auditado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+A composição declarada da força de trabalho de TIC e de segurança da informação é apresentada na [@fig:forca_trabalho_auditado]. Os quantitativos não compõem o índice e não medem, isoladamente, suficiência de pessoal; sua avaliação depende do porte, da complexidade, da terceirização, dos serviços mantidos e dos riscos da organização.
+
+![Composição declarada da força de trabalho de TIC e segurança da informação]({{ auditado.sigla }}_forca_trabalho_tic_si.png){#fig:forca_trabalho_auditado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+A [@fig:evolucao_individual_igovti_comparavel] apresenta a evolução do auditado quando existe correspondência válida na base harmonizada de 2023 e 2026. Na ausência de par comparável, a própria figura registra a indisponibilidade, sem inferir evolução a partir de índices calculados por metodologias distintas.
+
+![Evolução comparável do(a) {{ auditado.sigla }} entre 2023 e 2026]({{ auditado.sigla }}_evolucao_igovti_2023_2026.png){#fig:evolucao_individual_igovti_comparavel#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+A priorização de melhorias não deve buscar apenas a elevação numérica do índice. Recomenda-se concentrar esforços nas capacidades com menor resultado que, simultaneamente, estejam associadas a riscos relevantes, serviços críticos, obrigações normativas e necessidades institucionais do(a) **{{ auditado.sigla }}**.
+
+## 2.6. Principais alterações em relação ao iGovTI 2023
 
 A estrutura de 2026 preservou a escala de 0 a 1, as categorias de resposta e as quatro faixas de maturidade empregadas em 2023, mas alterou de forma relevante a composição dos agregados e seus pesos. As principais diferenças estão sintetizadas na [@tbl:diferencas_igovti_2023_2026].
 
@@ -145,7 +196,7 @@ A estrutura de 2026 preservou a escala de 0 a 1, as categorias de resposta e as 
 
 | Aspecto | iGovTI 2023 | iGovTI 2026 | Implicação analítica |
 |---|---|---|---|
-| **Composição do índice final** | GovernancaTI e iGestTI com pesos iguais de 0,50. | GovernancaTI com peso 0,477696 e iGestTI com peso 0,522304. | A gestão passou a ter participação ligeiramente superior no índice final. |
+| **Composição do índice final** | GovernancaTI e iGestTI com pesos iguais de 0,50. | GovernancaTI com peso 0,4777 e iGestTI com peso 0,5223. | A gestão passou a ter participação ligeiramente superior no índice final. |
 | **Governança de TIC** | Agregação hierárquica de ModeloTI, MonitorAvaliaTI e ResultadoTI. | Agregação direta de quatro práticas relativas ao modelo de gestão, monitoramento, auditoria interna e simplificação de serviços públicos. | O componente tornou-se mais direto e incorporou práticas com escopo distinto da estrutura anterior. |
 | **Gestão de TIC** | Agregação de PlanejamentoTI, PessoasTI e ProcessosTI; este último reunia serviços, níveis de serviço, riscos, segurança, software, projetos e contratos. | Agregação direta de PlanejamentoTI, ServicosTI, RiscosTISegInfo, EstruturaSegInfo, ProcessoSegInfo e GerirSoluçõesTI. | O índice passou a evidenciar separadamente seis capacidades operacionais e de segurança. |
 | **Pessoas e contratações** | PessoasTI e iGestContratosTI integravam o cálculo do iGestTI. | Não integram a árvore de cálculo do iGovTI 2026, embora continuem relevantes para o diagnóstico e para a auditoria. | Mudanças nessas matérias não explicam diretamente a variação do índice de 2026. |
@@ -156,7 +207,7 @@ A estrutura de 2026 preservou a escala de 0 a 1, as categorias de resposta e as 
 
 Em razão dessas alterações, a diferença entre os valores nominais de 2023 e 2026 não deve ser interpretada automaticamente como evolução ou retrocesso institucional. Uma análise temporal válida exige a harmonização das questões e dos agregados comparáveis, além da consideração de mudanças de escopo, pesos, respondentes e qualidade das evidências.
 
-## 2.6. Questões avaliadas no relatório individual
+## 2.7. Questões avaliadas no relatório individual
 
 Para o iGovTI 2026, a Equipe definiu questões de auditoria voltadas à avaliação da governança e da gestão de TIC. Para fins deste relatório individual preliminar, os possíveis achados decorrem das Questões 1 a 6, que tratam de temas passíveis de responsabilização institucional específica por organização.
 
