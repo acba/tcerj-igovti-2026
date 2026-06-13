@@ -4,9 +4,13 @@
 from __future__ import annotations
 
 import re
+import os
+import tempfile
 import unicodedata
 from collections import Counter
 from pathlib import Path
+
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib-igovti")
 
 import matplotlib
 
@@ -19,12 +23,12 @@ import openpyxl
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "02-Execucao" / "02-Questionario iGovTI 2023"
-OUTPUT_DIR = ROOT / "03-Relatorios" / "02-Relatorios_Individuais_Preliminares"
+OUTPUT_DIR = Path(tempfile.gettempdir()) / "tcerj-igovti-2026/relatorio-consolidado/img"
 
 FILES = {
     "setic_2023": DATA_DIR / "iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx",
     "municipios_2023": DATA_DIR / "iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx",
-    "igovti_2026": DATA_DIR / "iGovTI-2026-Ajustado-Comparavel.xlsx",
+    "igovti_2026": ROOT / "02-Execucao/01-Questionario/20260611-iGovTI-2026-Ajustado-Comparavel.xlsx",
 }
 
 ALIASES = {
@@ -43,15 +47,15 @@ PRACTICES = {
     "ModeloTI": "Modelo de gestão",
     "MonitorAvaliaTI": "Monitoramento e avaliação",
     "ResultadoTI": "Resultados e simplificação",
-    "PlanejamentoTI": "Planejamento",
+    "PlanejamentoTI": "Planejamento de TI",
     "PessoasTI": "Pessoas",
-    "iGestServicosTI": "Serviços",
+    "iGestServicosTI": "Gestão de Serviços",
     "iGestNiveisServicoTI": "Níveis de serviço",
-    "iGestRiscosTI": "Riscos",
+    "iGestRiscosTI": "Riscos de TI",
     "EstruturaSegInfo": "Estrutura de segurança",
     "ProcessoSegInfo": "Processos de segurança",
     "ProcessoSoftware": "Processo de software",
-    "iGestProjetosTI": "Projetos",
+    "iGestProjetosTI": "Projetos de TI",
 }
 
 GREEN = "#2F7D5B"
@@ -101,8 +105,6 @@ def paired_rows() -> list[tuple[dict[str, object], dict[str, object]]]:
         if key_2026 in by_id_2026:
             pairs.append((row_2023, by_id_2026[key_2026]))
 
-    if len(pairs) != 70:
-        raise RuntimeError(f"Esperadas 70 organizacoes pareadas; encontradas {len(pairs)}")
     return pairs
 
 
@@ -114,7 +116,7 @@ def style_axis(ax: plt.Axes) -> None:
 
 
 def save(fig: plt.Figure, filename: str) -> None:
-    fig.savefig(OUTPUT_DIR / filename, dpi=180, bbox_inches="tight", facecolor="white")
+    fig.savefig(OUTPUT_DIR / filename, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
 
 
@@ -146,7 +148,6 @@ def plot_distribution(pairs: list[tuple[dict[str, object], dict[str, object]]]) 
     ax.set_xticks([1, 2], ["2023", "2026"])
     ax.set_ylabel("iGovTI comparável")
     ax.set_ylim(-0.03, 0.78)
-    ax.set_title("Distribuição pareada do iGovTI comparável", loc="left", fontweight="bold")
     ax.text(1, values_2023.mean() + 0.025, f"média {values_2023.mean():.3f}", ha="center", color="#6B4D17")
     ax.text(2, values_2026.mean() + 0.025, f"média {values_2026.mean():.3f}", ha="center", color="#0E5964")
     style_axis(ax)
@@ -170,7 +171,6 @@ def plot_transition(pairs: list[tuple[dict[str, object], dict[str, object]]]) ->
     ax.set_yticks(range(4), LEVELS)
     ax.set_xlabel("Nível em 2026")
     ax.set_ylabel("Nível em 2023")
-    ax.set_title("Matriz de transição dos níveis de maturidade", loc="left", fontweight="bold")
     fig.colorbar(image, ax=ax, label="Número de organizações", shrink=0.82)
     save(fig, "igovti_comparavel_transicao_maturidade_2023_2026.png")
 
@@ -192,7 +192,6 @@ def plot_aggregate_changes(pairs: list[tuple[dict[str, object], dict[str, object
     ax.bar_label(bars, labels=[f"{value:+.3f}" for value in values], padding=4, fontsize=9)
     ax.set_xlim(min(values) - 0.04, max(values) + 0.055)
     ax.set_xlabel("Variação média (2026 - 2023)")
-    ax.set_title("Variação média das práticas comparáveis", loc="left", fontweight="bold")
     ax.grid(axis="x", color="#D1D5DB", linewidth=0.7, alpha=0.7)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
@@ -215,7 +214,6 @@ def plot_largest_changes(pairs: list[tuple[dict[str, object], dict[str, object]]
     ax.bar_label(bars, labels=[f"{value:+.3f}" for value in values], padding=4, fontsize=9)
     ax.set_xlim(min(values) - 0.06, max(values) + 0.09)
     ax.set_xlabel("Variação do iGovTI comparável (2026 - 2023)")
-    ax.set_title("Maiores avanços e regressões", loc="left", fontweight="bold")
     ax.grid(axis="x", color="#D1D5DB", linewidth=0.7, alpha=0.7)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)

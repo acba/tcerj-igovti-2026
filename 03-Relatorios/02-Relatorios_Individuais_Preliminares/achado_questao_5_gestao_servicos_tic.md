@@ -22,24 +22,34 @@
 {% endfor %}
 
 ### Situação encontrada
+
+A gestão de serviços de TIC organiza a forma como as soluções e o suporte tecnológico são entregues aos usuários e às áreas demandantes do órgão. Catálogo de serviços, Acordos de Nível de Serviço (ANS), inventário de ativos, gestão de configuração e gestão de incidentes constituem práticas básicas e integradas necessárias para assegurar a transparência operacional, continuidade do negócio, governabilidade financeira, controle de ativos e qualidade de suporte técnico.
+
+Os critérios de boas práticas baseados na ITIL 4 e no COBIT 2019 indicam que a organização deve manter fonte unificada e consistente de informações sobre seu catálogo, estabelecer metas mensuráveis de atendimento, administrar ativamente o ciclo de vida dos ativos tecnológicos, rastrear os relacionamentos lógicos de configuração e registrar de forma sistemática e auditável todas as ocorrências operacionais e incidentes de segurança[^explica_gestao_servicos_tic].
+
+Com base na análise das respostas aos itens q2201, q2203, q2204, q2501 e q2504 do questionário aplicado e da avaliação das evidências documentais anexadas, constatou-se que a organização apresenta lacunas operacionais nessas práticas mínimas. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
+
 {% set situacao_catalogo = 'Inexistência, desatualização, indisponibilidade ou insuficiência do catálogo de serviços de TIC.' %}
 {% set situacao_ans = 'Inexistência de ANS, metas mínimas ou monitoramento de níveis de serviço para os principais serviços de TIC.' %}
 {% set situacao_inventario = 'Inexistência ou fragilidade do inventário de ativos de TIC.' %}
 {% set situacao_configuracao = 'Ausência ou fragilidade do processo de gestão de configuração.' %}
 {% set situacao_incidentes = 'Inexistência ou fragilidade do processo de gestão de incidentes de TIC.' %}
-A partir da análise das informações fornecidas, verificou-se que a organização não demonstrou adotar práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, continuidade, rastreabilidade e qualidade dos serviços prestados, pois a Equipe de Auditoria identificou fragilidades nos seguintes aspectos:{% if situacao_catalogo in achado.situacoes_encontradas %} catálogo de serviços de TIC;{% endif %}{% if situacao_ans in achado.situacoes_encontradas %} ANS, metas mínimas ou monitoramento de níveis de serviço;{% endif %}{% if situacao_inventario in achado.situacoes_encontradas %} inventário de ativos de TIC;{% endif %}{% if situacao_configuracao in achado.situacoes_encontradas %} gestão de configuração;{% endif %}{% if situacao_incidentes in achado.situacoes_encontradas %} gestão de incidentes de TIC;{% endif %}.{% if situacao_catalogo in achado.situacoes_encontradas %} A fragilidade no catálogo de serviços contraria a ITIL 4 e o COBIT 2019, APO09.02, podendo gerar prestação reativa e pouco transparente de serviços de TIC.{% endif %}{% if situacao_ans in achado.situacoes_encontradas %} A ausência de ANS, metas mínimas ou monitoramento de níveis de serviço contraria os critérios de catálogo e gerenciamento de nível de serviço, podendo impedir avaliação objetiva de desempenho e qualidade dos serviços.{% endif %}{% if situacao_inventario in achado.situacoes_encontradas %} A inexistência ou fragilidade do inventário de ativos contraria a ITIL 4, prática de gerenciamento de ativos de TI, e a prática de gerenciamento de configuração, podendo reduzir o controle sobre recursos tecnológicos, custos, riscos e tomada de decisão.{% endif %}{% if situacao_configuracao in achado.situacoes_encontradas %} A ausência ou fragilidade da gestão de configuração contraria a ITIL 4 e o COBIT 2019, BAI10.01, podendo prejudicar a confiabilidade das informações sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura.{% endif %}{% if situacao_incidentes in achado.situacoes_encontradas %} A inexistência ou fragilidade da gestão de incidentes contraria a ITIL 4 e o COBIT 2019, DSS02.02, DSS02.04 e DSS02.07, podendo comprometer o tratamento padronizado, tempestivo e rastreável dos incidentes de TIC.{% endif %}
 
-A gestão de serviços de TIC organiza a forma como a tecnologia é entregue aos usuários e às áreas demandantes. Catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e gestão de incidentes constituem práticas mínimas para assegurar transparência, continuidade, qualidade, rastreabilidade e controle operacional.
-
-A organização deve manter catálogo de serviços formalmente instituído, atualizado e acessível, definir e monitorar níveis de serviço, manter inventário de ativos de TIC, possuir processo de gestão de configuração e tratar incidentes de forma sistemática e rastreável.
-
-Os critérios adotados indicam que a organização deve manter fonte única e consistente de informações sobre serviços, definir níveis de serviço, gerenciar ativos e configurações e registrar, classificar, priorizar, resolver, acompanhar e reportar incidentes e requisições de serviço[^explica_gestao_servicos_tic].
-
-Com base na análise das respostas aos itens q2201, q2203, q2204, q2501 e q2504 do questionário aplicado e da avaliação das evidências anexadas, conforme apontado na seção de Evidências, a Equipe de Auditoria constatou as seguintes deficiências na gestão de serviços de TIC:
-
-{% for situacao in achado.situacoes_encontradas %}
-* **{{ situacao }}**
-{% endfor %}
+{% if situacao_catalogo in achado.situacoes_encontradas %}
+* **Catálogo de serviços de TIC**: a fragilidade ou ausência do catálogo contraria a ITIL 4 e o COBIT 2019 (APO09.02), resultando em prestação reativa, sem transparência ou definição clara das entregas técnicas disponíveis.
+{% endif %}
+{% if situacao_ans in achado.situacoes_encontradas %}
+* **Níveis mínimos de serviço (ANS)**: a ausência de parâmetros ou acompanhamento contraria os critérios de catálogo e gerenciamento de nível de serviço (ITIL 4 e COBIT 2019, APO09.02), impedindo a avaliação objetiva da qualidade e tempestividade dos serviços prestados.
+{% endif %}
+{% if situacao_inventario in achado.situacoes_encontradas %}
+* **Inventário de ativos de TIC**: a fragilidade ou inexistência de inventário contraria a prática de gerenciamento de ativos de TI (ITIL 4), reduzindo substancialmente o controle sobre recursos tecnológicos, licenciamentos de software, custos e riscos associados.
+{% endif %}
+{% if situacao_configuracao in achado.situacoes_encontradas %}
+* **Gestão de configuração**: a ausência de mapeamento lógico contraria a ITIL 4 e o COBIT 2019 (BAI10.01), prejudicando a confiabilidade das dependências operacionais entre infraestrutura, sistemas e serviços críticos.
+{% endif %}
+{% if situacao_incidentes in achado.situacoes_encontradas %}
+* **Gestão de incidentes de TIC**: a inexecução ou informalidade no processo de atendimento contraria a ITIL 4 e o COBIT 2019 (DSS02.02, DSS02.04 e DSS02.07), inviabilizando o tratamento padronizado, célere e rastreável de falhas tecnológicas.
+{% endif %}
 
 Essas situações ensejaram o presente achado e serão detalhadas nas seções subsequentes.
 
@@ -53,7 +63,7 @@ O catálogo de serviços de TIC deve constituir fonte única de informações co
 
 A ITIL 4, na prática de gerenciamento do catálogo de serviços, orienta a manutenção de informações consistentes e disponíveis sobre serviços e ofertas de serviço. O COBIT 2019, APO09.02, exige a definição, manutenção e comunicação do catálogo de serviços facilitados por TI.
 
-A inexistência, desatualização, indisponibilidade ou insuficiência do catálogo pode gerar prestação reativa, pouco transparente e sem definição clara dos serviços de TIC disponíveis.
+A inexistência, desatualização ou falta de divulgação do catálogo de serviços inviabiliza que os usuários conheçam o portfólio de entregas e os canais corretos de atendimento, gerando um modelo reativo e informal de prestação de suporte.
 
 Diante disso, __será proposta recomendação para que a organização institua e mantenha atualizado catálogo de serviços de TIC, acessível aos usuários e áreas demandantes, com informações mínimas sobre os serviços efetivamente prestados.__
 
@@ -67,7 +77,7 @@ A definição de Acordos de Níveis de Serviço, metas mínimas ou parâmetros e
 
 A ITIL 4, na prática de gerenciamento de nível de serviço, orienta a definição, monitoramento, avaliação e reporte de metas e níveis de serviço alinhados às necessidades das áreas usuárias. O COBIT 2019, APO09.02, também relaciona o catálogo à comunicação de requisitos e níveis de serviço esperados.
 
-Sem ANS, metas mínimas ou monitoramento, a organização não dispõe de parâmetros objetivos para avaliar desempenho, tempestividade e qualidade dos serviços prestados.
+A ausência de Acordos de Nível de Serviço (ANS) e de metas estruturadas priva a administração de bases quantitativas para monitorar e auditar a qualidade, o tempo de resposta e a eficiência dos serviços prestados.
 
 Diante disso, __será proposta recomendação para que a organização defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes.__
 
@@ -81,7 +91,7 @@ O inventário de ativos de TIC deve permitir conhecer e controlar equipamentos, 
 
 A ITIL 4, na prática de gerenciamento de ativos de TI, orienta o gerenciamento do ciclo de vida dos ativos, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
 
-A inexistência ou fragilidade do inventário reduz a visibilidade sobre os recursos tecnológicos e compromete controles de segurança, gestão de custos, planejamento de capacidade, gestão de configuração e resposta a incidentes.
+A falta de controle efetivo sobre os ativos de hardware e software expõe a organização a custos imprevistos, riscos de desconformidade de licenças, falhas de segurança cibernética e dificuldades operacionais no planejamento de capacidade.
 
 Diante disso, __será proposta recomendação para que a organização mantenha inventário atualizado de ativos de TIC, contemplando ao menos equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.__
 
@@ -95,7 +105,7 @@ A gestão de configuração deve manter informações precisas e confiáveis sob
 
 A ITIL 4, na prática de gerenciamento de configuração de serviço, orienta assegurar informações confiáveis sobre itens de configuração e seus relacionamentos. O COBIT 2019, BAI10.01, exige a definição de escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
 
-Sem processo mínimo de gestão de configuração, a organização perde capacidade de compreender dependências entre ativos e serviços, planejar mudanças, avaliar impactos e manter registros atualizados.
+A ausência de registros de configuração impede o mapeamento lógico das dependências entre servidores, bancos de dados, aplicações e serviços finalísticos, inviabilizando a análise de risco em mudanças operacionais e a mitigação de falhas sistêmicas.
 
 Diante disso, __será proposta recomendação para que a organização formalize e execute processo mínimo de gestão de configuração, mantendo base, ferramenta ou registro equivalente com itens de configuração relevantes, relacionamentos entre ativos, sistemas, infraestrutura e serviços, responsáveis, atualização periódica e uso das informações no planejamento e acompanhamento de mudanças.__
 
@@ -109,7 +119,7 @@ A gestão de incidentes de TIC deve definir papéis, responsabilidades, critéri
 
 A ITIL 4, na prática de gerenciamento de incidentes, orienta minimizar impactos negativos por meio da restauração tempestiva da operação normal e do registro rastreável do tratamento realizado. O COBIT 2019, DSS02.02, DSS02.04 e DSS02.07, exige registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
 
-Quando o processo de gestão de incidentes é inexistente ou frágil, incidentes podem ser tratados de forma improvisada, sem rastreabilidade, histórico, priorização, escalamento ou análise de recorrência.
+O tratamento assistemático e sem registro centralizado das falhas tecnológicas impede o acompanhamento do histórico de incidentes, inviabilizando a identificação de causas raiz e prolongando o período de indisponibilidade dos sistemas corporativos.
 
 Diante disso, __será proposta recomendação para que a organização formalize e execute processo mínimo de gestão de incidentes de TIC, contemplando papéis, responsabilidades, critérios de priorização, escalamento, tratamento de incidentes de serviços e de segurança da informação, registro sistemático em ferramenta, sistema, planilha ou base equivalente, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.__
 
@@ -119,7 +129,7 @@ Diante disso, __será proposta recomendação para que a organização formalize
 
 As fragilidades identificadas na gestão de serviços de TIC comprometem a eficiência, a continuidade, a rastreabilidade e a qualidade dos serviços prestados, além de reduzirem o controle da organização sobre seus ativos, configurações e incidentes.
 
-Diante das situações apresentadas, será sugerida proposta de encaminhamento à organização para que promova a adequação de suas práticas mínimas de gestão de serviços de TIC, alinhando-as aos critérios de ITIL 4 e COBIT 2019.
+Diante do cenário exposto, formula-se proposta de encaminhamento com vistas a recomendar à organização que estruture e promova a adequação de suas práticas mínimas de gestão de serviços de TIC, em alinhamento às boas práticas da ITIL 4 e do COBIT 2019.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}

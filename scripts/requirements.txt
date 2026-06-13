@@ -1,0 +1,10 @@
+openpyxl
+python-docx
+PyYAML
+pypdf
+json-repair
+google-genai
+pandas
+xlsxwriter
+jinja2
+pydantic

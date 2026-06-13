@@ -448,20 +448,24 @@ def _extrair_texto_pdf_bytes(name: str, data: bytes, *, max_chars: int) -> tuple
         return [], f"erro ao extrair texto de PDF: {exc}"
 
 
-def _extrair_texto_docx(path: Path, *, max_chars: int) -> tuple[str, str]:
+def _extrair_texto_com_markitdown(path: Path) -> tuple[str, str]:
     try:
-        from docx import Document
+        from markitdown import MarkItDown
     except ModuleNotFoundError:
-        return "", "python-docx nao instalado para extrair texto de DOCX"
+        return "", "markitdown nao instalado no ambiente virtual"
     try:
-        document = Document(path)
-        parts = [paragraph.text for paragraph in document.paragraphs if paragraph.text]
-        for table in document.tables:
-            for row in table.rows:
-                parts.append("\t".join(cell.text for cell in row.cells))
-        return _truncate("\n".join(parts), max_chars), ""
+        md = MarkItDown()
+        result = md.convert(str(path))
+        return result.text_content, ""
     except Exception as exc:
-        return "", f"erro ao extrair texto de DOCX: {exc}"
+        return "", f"erro ao extrair texto com markitdown: {exc}"
+
+
+def _extrair_texto_bytes_com_markitdown(nome: str, data: bytes, sufixo: str) -> tuple[str, str]:
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        temp_file = Path(tmp_dir) / f"temp_{_slug_ascii(Path(nome).stem)}{sufixo}"
+        temp_file.write_bytes(data)
+        return _extrair_texto_com_markitdown(temp_file)
 
 
 def normalizar_arquivo(path: Path, *, max_chars: int) -> tuple[list[dict[str, Any]], list[str], list[str]]:
@@ -476,28 +480,49 @@ def normalizar_arquivo(path: Path, *, max_chars: int) -> tuple[list[dict[str, An
         documentos, error = _extrair_texto_pdf(path, max_chars=max_chars)
         return documentos, [path.name], [error] if error else []
 
-    if suffix == ".docx":
-        text, error = _extrair_texto_docx(path, max_chars=max_chars)
+    if suffix in {".docx", ".xlsx"}:
+        text, error = _extrair_texto_com_markitdown(path)
         if error:
             return [], [path.name], [error]
-        return [{"nome": path.name, "texto": text}], [path.name], []
+        return [{"nome": path.name, "texto": _truncate(text, max_chars)}], [path.name], []
 
-    if suffix == ".xlsx":
-        workbook = load_workbook(path, read_only=True, data_only=True)
+    if suffix == ".zip":
+        documentos: list[dict[str, Any]] = []
+        inventario: list[str] = []
+        erros: list[str] = []
         try:
-            documentos = []
-            inventario = []
-            for sheet in workbook.worksheets:
-                inventario.append(sheet.title)
-                linhas = []
-                for row in sheet.iter_rows(values_only=True):
-                    values = ["" if value is None else str(value) for value in row]
-                    if any(values):
-                        linhas.append("\t".join(values))
-                documentos.append({"nome": f"{path.name}:{sheet.title}", "texto": _truncate("\n".join(linhas), max_chars)})
-            return documentos, inventario, []
-        finally:
-            workbook.close()
+            with zipfile.ZipFile(path) as archive:
+                for name in archive.namelist():
+                    inventario.append(name)
+                    if name.endswith("/"):
+                        continue
+                    if not _zip_member_safe(name):
+                        erros.append(f"zip contem caminho inseguro: {name}")
+                        continue
+                    inner_suffix = Path(name).suffix.casefold()
+                    data = archive.read(name)
+                    if inner_suffix in {".txt", ".md", ".csv"}:
+                        try:
+                            text = data.decode("utf-8")
+                        except UnicodeDecodeError:
+                            text = data.decode("latin-1", errors="replace")
+                        documentos.append({"nome": name, "texto": _truncate(text, max_chars)})
+                    elif inner_suffix == ".pdf":
+                        pdf_docs, error = _extrair_texto_pdf_bytes(name, data, max_chars=max_chars)
+                        documentos.extend(pdf_docs)
+                        if error:
+                            erros.append(f"{name}: {error}")
+                    elif inner_suffix in {".docx", ".xlsx"}:
+                        text, error = _extrair_texto_bytes_com_markitdown(name, data, inner_suffix)
+                        if error:
+                            erros.append(f"{name}: {error}")
+                        else:
+                            documentos.append({"nome": name, "texto": _truncate(text, max_chars)})
+                    else:
+                        documentos.append({"nome": name, "tipo_nao_extraido": inner_suffix.lstrip(".") or "desconhecido"})
+            return documentos, inventario, erros
+        except zipfile.BadZipFile:
+            return [], [path.name], ["zip invalido"]
 
     if suffix == ".zip":
         documentos: list[dict[str, Any]] = []
@@ -855,14 +880,14 @@ def _write_text_for_upload(target_dir: Path, name_hint: str, text: str) -> Path:
 
 
 def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
-    uploadable = {".pdf", ".txt", ".md", ".csv", ".xlsx", ".png", ".jpg", ".jpeg", ".webp"}
+    uploadable = {".pdf", ".txt", ".md", ".csv", ".png", ".jpg", ".jpeg", ".webp"}
     prepared: list[str] = []
     for path in paths:
         suffix = path.suffix.casefold()
         if suffix in uploadable:
             prepared.append(str(_copy_for_upload(path, target_dir)))
-        elif suffix == ".docx":
-            text, error = _extrair_texto_docx(path, max_chars=300_000)
+        elif suffix in {".docx", ".xlsx"}:
+            text, error = _extrair_texto_com_markitdown(path)
             if not error:
                 prepared.append(str(_write_text_for_upload(target_dir, path.name, text)))
         elif suffix == ".zip":
@@ -871,11 +896,15 @@ def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
                     if name.endswith("/") or not _zip_member_safe(name):
                         continue
                     member_suffix = Path(name).suffix.casefold()
-                    if member_suffix not in uploadable:
-                        continue
-                    target = _unique_path(target_dir, f"{_slug_ascii(Path(name).stem)}{member_suffix}")
-                    target.write_bytes(archive.read(name))
-                    prepared.append(str(target))
+                    if member_suffix in uploadable:
+                        target = _unique_path(target_dir, f"{_slug_ascii(Path(name).stem)}{member_suffix}")
+                        target.write_bytes(archive.read(name))
+                        prepared.append(str(target))
+                    elif member_suffix in {".docx", ".xlsx"}:
+                        data = archive.read(name)
+                        text, error = _extrair_texto_bytes_com_markitdown(name, data, member_suffix)
+                        if not error:
+                            prepared.append(str(_write_text_for_upload(target_dir, name, text)))
     return prepared
 
 

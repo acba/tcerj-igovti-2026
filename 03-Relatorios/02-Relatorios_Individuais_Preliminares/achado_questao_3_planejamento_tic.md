@@ -18,24 +18,34 @@
 {% endfor %}
 
 ### Situação encontrada
+
+O planejamento de TIC é instrumento fundamental para traduzir diretrizes institucionais in iniciativas, prioridades, recursos, prazos, responsáveis e resultados esperados. Sob a perspectiva de governança pública, a administração deve executar processo formal de planejamento, contar com plano de TIC formalmente aprovado, assegurar participação das áreas finalísticas, alinhar o plano ao planejamento institucional, integrá-lo ao orçamento e às contratações e acompanhá-lo periodicamente.
+
+Os critérios de boas práticas indicam que o planejamento de TIC deve estabelecer plano e roteiro estratégico, manter orçamento alinhado ao portfólio e às prioridades aprovadas, vincular ações de TIC a indicadores, metas e orçamento de TI, e contemplar processo estruturado de elaboração, manutenção e revisão periódica do PDTI[^explica_planejamento_tic].
+
+Com base na análise das respostas aos itens 2101, 2102, 2802 e 2804 do questionário aplicado e da avaliação das evidências documentais anexadas, constatou-se que a organização não atende integralmente a esses requisitos de planejamento. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
+
 {% set situacao_processo = 'Inexistência ou fragilidade do processo formal de planejamento de TIC.' %}
 {% set situacao_plano = 'Ausência de aprovação formal do plano de TIC.' %}
 {% set situacao_alinhamento = 'Plano de TIC sem alinhamento adequado ao planejamento institucional.' %}
 {% set situacao_integracao = 'Plano de TIC sem integração adequada com orçamento, plano de contratações, projetos ou contratações de TIC.' %}
 {% set situacao_acompanhamento = 'Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.' %}
-A partir da análise das informações fornecidas, verificou-se que a organização não demonstrou utilizar o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico, pois a Equipe de Auditoria identificou fragilidades nos seguintes aspectos:{% if situacao_processo in achado.situacoes_encontradas %} processo formal de planejamento de TIC;{% endif %}{% if situacao_plano in achado.situacoes_encontradas %} aprovação formal do plano de TIC;{% endif %}{% if situacao_alinhamento in achado.situacoes_encontradas %} alinhamento do plano ao planejamento institucional;{% endif %}{% if situacao_integracao in achado.situacoes_encontradas %} integração com orçamento, plano de contratações, projetos ou contratações de TIC;{% endif %}{% if situacao_acompanhamento in achado.situacoes_encontradas %} acompanhamento, revisão ou atualização periódica do plano de TIC;{% endif %}.{% if situacao_processo in achado.situacoes_encontradas %} A inexistência ou fragilidade do processo formal contraria os critérios de planejamento estratégico de TIC previstos no COBIT 2019, APO02.05, no Acórdão 1.411/2014-TCU-Plenário e no Acórdão TCE-RJ 44.490/2024-PLEN, podendo levar à atuação reativa e sem critérios objetivos de seleção e priorização de iniciativas.{% endif %}{% if situacao_plano in achado.situacoes_encontradas %} A ausência de aprovação formal do plano de TIC contraria os critérios de formalização e aprovação do planejamento de TIC e reduz sua legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações.{% endif %}{% if situacao_alinhamento in achado.situacoes_encontradas %} A falta de alinhamento ao planejamento institucional contraria os critérios que exigem desdobramento de diretrizes estratégicas e vinculação das ações de TIC aos objetivos de negócio, podendo resultar em iniciativas de baixo valor para a organização.{% endif %}{% if situacao_integracao in achado.situacoes_encontradas %} A ausência de integração com orçamento, plano de contratações, projetos ou contratações contraria o COBIT 2019, APO06.03, o Acórdão 1.411/2014-TCU-Plenário e o Acórdão TCE-RJ 44.490/2024-PLEN, podendo gerar aquisições reativas, não priorizadas ou desalinhadas.{% endif %}{% if situacao_acompanhamento in achado.situacoes_encontradas %} A ausência de acompanhamento, revisão ou atualização periódica contraria os critérios de manutenção e monitoramento do PDTI, podendo manter metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.{% endif %}
 
-O planejamento de TIC é instrumento fundamental para traduzir diretrizes institucionais em iniciativas, prioridades, recursos, prazos, responsáveis e resultados esperados. Sua ausência ou fragilidade reduz a capacidade da organização de direcionar investimentos, selecionar demandas, coordenar projetos e alinhar contratações às necessidades institucionais.
-
-A organização deve executar processo formal de planejamento, contar com plano de TIC formalmente aprovado, assegurar participação das áreas demandantes, alinhar o plano ao planejamento institucional, integrá-lo ao orçamento e às contratações e acompanhá-lo periodicamente.
-
-Os critérios adotados indicam que o planejamento de TIC deve estabelecer plano e roteiro estratégico, manter orçamento alinhado ao portfólio e às prioridades aprovadas, vincular ações de TIC a indicadores, metas e orçamento e contemplar processo estruturado de elaboração, manutenção e revisão periódica do PDTI[^explica_planejamento_tic].
-
-Com base na análise das respostas aos itens 2101, 2102, 2802 e 2804 do questionário aplicado e da avaliação das evidências anexadas, conforme apontado na seção de Evidências, a Equipe de Auditoria constatou as seguintes deficiências no planejamento de TIC da organização:
-
-{% for situacao in achado.situacoes_encontradas %}
-* **{{ situacao }}**
-{% endfor %}
+{% if situacao_processo in achado.situacoes_encontradas %}
+* **Processo formal de planejamento**: a fragilidade no processo de elaboração contraria os critérios do COBIT 2019 (APO02.05), do Acórdão 1.411/2014-TCU-Plenário e do Acórdão TCE-RJ 44.490/2024-PLEN, o que favorece uma atuação reativa e sem critérios objetivos de seleção e priorização de iniciativas.
+{% endif %}
+{% if situacao_plano in achado.situacoes_encontradas %}
+* **Aprovação formal do plano**: a ausência de aprovação formal contraria os critérios de formalização do planejamento de TIC, reduzindo sua legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações da organização.
+{% endif %}
+{% if situacao_alinhamento in achado.situacoes_encontradas %}
+* **Alinhamento estratégico**: a falta de alinhamento ao planejamento institucional contraria o princípio de vinculação da TIC aos objetivos de negócio, o que pode resultar em investimentos e iniciativas de baixo valor final para o órgão.
+{% endif %}
+{% if situacao_integracao in achado.situacoes_encontradas %}
+* **Integração orçamentária e operacional**: a ausência de integração contraria o COBIT 2019 (APO06.03), o Acórdão 1.411/2014-TCU-Plenário e o Acórdão TCE-RJ 44.490/2024-PLEN, favorecendo aquisições reativas, não priorizadas e desalinhadas das metas de TIC.
+{% endif %}
+{% if situacao_acompanhamento in achado.situacoes_encontradas %}
+* **Acompanhamento e revisão**: a ausência de acompanhamento ou atualização periódica contraria os critérios de manutenção e monitoramento do PDTI, mantendo metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
+{% endif %}
 
 Essas situações ensejaram o presente achado e serão detalhadas nas seções subsequentes.
 
@@ -51,7 +61,7 @@ O COBIT 2019, no objetivo APO02.05, orienta a definição de plano e roteiro est
 
 O processo deve ser demonstrado por norma, procedimento, guia ou instrumento equivalente que discipline a elaboração, revisão, aprovação e acompanhamento do planejamento de TIC.
 
-A inexistência ou fragilidade desse processo expõe a organização à atuação reativa, sem critérios objetivos de seleção e priorização de iniciativas.
+A inexistência ou fragilidade desse processo expõe a organização a uma atuação reativa e à alocação de recursos em iniciativas de tecnologia sem critérios claros de priorização.
 
 Diante disso, __será proposta recomendação para que a organização institua processo formal de planejamento de TIC, com etapas, responsáveis, participação das áreas demandantes e critérios mínimos de priorização.__
 
@@ -67,7 +77,7 @@ O Acórdão 1.411/2014-TCU-Plenário e o Acórdão TCE-RJ 44.490/2024-PLEN refor
 
 A aprovação deve ser demonstrada por ato formal da instância competente ou por registro equivalente que identifique o plano aprovado, a autoridade responsável e a data da deliberação.
 
-Sem aprovação formal, o plano pode não representar decisão institucional válida nem possuir autoridade suficiente para orientar a gestão, os projetos, o orçamento e as contratações de TIC.
+A ausência de aprovação formal desprovê o plano de legitimidade institucional, retirando-lhe a autoridade regulatória necessária para orientar a gestão, os projetos, o orçamento e as contratações de tecnologia da informação.
 
 Diante disso, __será proposta recomendação para que a organização submeta o plano de TIC à aprovação formal do dirigente máximo ou de dirigente ou colegiado integrante da alta administração, mantendo registro do respectivo ato de aprovação.__
 
@@ -81,7 +91,7 @@ O plano de TIC deve demonstrar como suas iniciativas apoiam os objetivos institu
 
 O Acórdão 1.411/2014-TCU-Plenário exige o desdobramento de diretrizes estratégicas e a vinculação das ações de TI a indicadores e metas de negócio. O Acórdão TCE-RJ 44.490/2024-PLEN também prevê objetivos, indicadores e metas de TI alinhados aos objetivos de negócio.
 
-Quando o plano de TIC não explicita esse alinhamento, há risco de execução de iniciativas tecnológicas com baixo valor institucional, desconectadas das prioridades da organização e das necessidades dos usuários internos e externos.
+A ausência de demonstração explícita desse alinhamento eleva o risco de execução de iniciativas tecnológicas com baixo valor agregado para a Administração Pública, desalinhadas das prioridades do órgão e das demandas dos usuários internos e da sociedade.
 
 Diante disso, __será proposta recomendação para que a organização revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas.__
 
@@ -95,7 +105,7 @@ O planejamento de TIC deve ser integrado à proposta orçamentária, ao plano de
 
 O COBIT 2019, APO06.03, orienta a criação e manutenção de orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas. O Acórdão 1.411/2014-TCU-Plenário também exige vinculação das ações priorizadas ao orçamento de TI, e o Acórdão TCE-RJ 44.490/2024-PLEN prevê projetos, aquisições, ações necessárias e alocação de recursos no PDTI.
 
-A ausência de integração entre planejamento, orçamento e contratações aumenta o risco de aquisições reativas, não priorizadas ou desalinhadas às necessidades institucionais.
+A falta de integração entre o planejamento de tecnologia, as previsões orçamentárias globais e as contratações executadas resulta em aquisições isoladas, reativas e desprovidas de priorização técnica.
 
 Diante disso, __será proposta recomendação para que a organização vincule o plano de TIC à proposta orçamentária, ao plano de contratações e às contratações de TIC executadas, priorizando demandas conforme relevância, risco e capacidade de execução.__
 
@@ -109,7 +119,7 @@ O plano de TIC deve ser acompanhado, revisto e atualizado periodicamente ou dian
 
 O Acórdão TCE-RJ 44.490/2024-PLEN prevê a manutenção e revisão periódica do PDTI, bem como ações de divulgação e monitoramento após sua aprovação pela autoridade máxima.
 
-Quando não há acompanhamento, revisão ou atualização periódica, metas e iniciativas podem permanecer desatualizadas, inviáveis ou incompatíveis com as necessidades atuais da organização.
+A ausência de uma rotina sistemática de monitoramento e atualização impede a adaptação do planejamento estratégico a mudanças no contexto institucional, orçamentário ou tecnológico, mantendo iniciativas que podem não mais refletir o interesse público ou a viabilidade operacional.
 
 Diante disso, __será proposta recomendação para que a organização estabeleça rotina de acompanhamento, revisão e atualização do plano de TIC, com registro de execução, pendências, reprogramações e deliberações.__
 
@@ -119,7 +129,7 @@ Diante disso, __será proposta recomendação para que a organização estabele�
 
 As fragilidades identificadas no planejamento de TIC comprometem a capacidade da organização de direcionar iniciativas, priorizar recursos, alinhar projetos às necessidades institucionais e integrar orçamento e contratações à estratégia de tecnologia.
 
-Diante das situações apresentadas, será sugerida proposta de encaminhamento à organização para que promova a adequação de seu processo e de seu plano de TIC, alinhando-os aos critérios previstos no COBIT 2019, no Acórdão 1.411/2014-TCU-Plenário e no Acórdão TCE-RJ 44.490/2024-PLEN.
+Diante do cenário exposto, formula-se proposta de encaminhamento com vistas a recomendar à organização que promova a adequação de seu processo de planejamento e do respectivo plano de TIC, em alinhamento aos critérios previstos no COBIT 2019, nas orientações do Acórdão 1.411/2014-TCU-Plenário e nas deliberações do Acórdão TCE-RJ 44.490/2024-PLEN.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}

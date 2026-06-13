@@ -608,6 +608,7 @@ criterios:
 - C9: COBIT 2019, APO01.09 - Definir e comunicar políticas e procedimentos: manter políticas, procedimentos e orientações para direcionar processos de gestão de TIC.
 - C10: COBIT 2019, APO10.03 - Gerenciar relacionamentos e contratos com fornecedores: estabelecer e acompanhar contratos, responsabilidades, níveis de serviço e obrigações de fornecedores.
 - C11: COBIT 2019, APO10.05 - Monitorar desempenho e conformidade de fornecedores: acompanhar desempenho, conformidade, qualidade e resultados pactuados com fornecedores.
+- C12: Instrução Normativa SGD/ME nº 94, de 23 de dezembro de 2022, art. 1º, § 1º: como referência de boa prática, a aplicação de ritos formais de contratação de TIC pode ser facultada para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando a possibilidade de fluxos simplificados para aquisições de baixa complexidade ou valor.
 
 procedimentos:
 - P1: Verificar, por meio da q2801, a existência de processo formal e padronizado para contratações de TIC; [IR1]
@@ -648,9 +649,9 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2804[A] != Sim)
       referencias_matriz: [R6.3, P3, E3, E4]
-      criterios: [C1, C7, C8]
+      criterios: [C1, C7, C8, C12]
       tipo_encaminhamento: Recomendação
-      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais, a segurança da informação e a arquitetura existente
+      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais, a segurança da informação e a arquitetura existente, facultando a adoção de fluxos simplificados ou a dispensa de parecer detalhado para contratações diretas por dispensa em razão do valor (baixo valor) ou de baixa complexidade técnica, mediante critérios objetivos ou catálogos de soluções padronizadas
   - S6.3:
       descricao: Contratações de TIC sem aderência ao plano de TIC, ao plano de contratações ou à proposta orçamentária.
       severidade: alta

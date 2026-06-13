@@ -18,9 +18,9 @@ from xml.etree import ElementTree as ET
 from zipfile import ZIP_DEFLATED, ZipFile
 
 
-BASE_DIR = Path(__file__).resolve().parent
-DEFAULT_TEMPLATE = BASE_DIR / "02-Matriz de Planejamento Pós Revisão da Sub.docx"
-DEFAULT_OUTPUT = BASE_DIR / "matriz_planejamento_gerada.docx"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_TEMPLATE = REPO_ROOT / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/02-Matriz de Planejamento Pós Revisão da Sub.docx"
+DEFAULT_OUTPUT = REPO_ROOT / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento_gerada.docx"
 MISSING_MARKDOWN_PLACEHOLDER = "[NÃO LOCALIZADO NO MARKDOWN]"
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"

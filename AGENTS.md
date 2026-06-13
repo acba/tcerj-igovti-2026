@@ -12,7 +12,7 @@ This repository stores digital workpapers for TCE-RJ Fiscalization 18/2026, focu
 - `04-Portal_iGovTI/`: portal requirements, currently `PRD.md`.
 - `scripts/`: local automation, including generation of consolidated and individual iGovTI charts.
 
-## Build, Test, and Development Commands
+## Build, Test, and Development Commands / Local Automation
 
 No build system or test runner is currently defined. Useful inspection commands:
 
@@ -21,6 +21,28 @@ rg --files -g '!**/.git/**'
 find . -maxdepth 3 -type d | sort
 rg -n "^## Grupo:|^### q|evidence_text:" 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md
 ```
+
+### Automation Scripts
+
+Utility scripts are stored under `scripts/`. Always run them using the workspace virtual environment:
+
+*   **`coletar_anexos.py`:** Downloads all evidence attachments from LimeSurvey using the session cookies in the script.
+    ```bash
+    python3 scripts/coletar_anexos.py
+    ```
+*   **`extrair_evidencias.py`:** Unpacks evidence ZIPs to `/tmp/tcerj-igovti-2026/evidencias_extraidas`.
+    ```bash
+    python3 scripts/extrair_evidencias.py
+    ```
+*   **`gerar_matriz_planejamento_docx.py`:** Converts the matrix markdown template into DOCX.
+    ```bash
+    python3 scripts/gerar_matriz_planejamento_docx.py 01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+    ```
+*   **`gerar_matriz_achados.py`:** Generates the findings matrix Word document.
+    ```bash
+    python3 scripts/gerar_matriz_achados.py
+    ```
+*   **`avaliar_evidencias_questionario.py` / `avaliacao_evidencias`:** Runs the AI evidence evaluation pipeline. See [scripts/avaliacao_evidencias/README.md](file:///home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/scripts/avaliacao_evidencias/README.md) for full commands.
 
 Do not add invented `npm`, `make`, or `pytest` commands unless the required project files are introduced.
 
@@ -34,7 +56,7 @@ cd /home/acba/workspace/webapp-streamlit-argos
 .venv/bin/python cli/run_audit.py \
   --auditados /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
   --mapa /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx \
-  --fontes /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/01-Questionario/20260607-respostas-questionario.xlsx \
+  --fontes /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/01-Questionario/20260611-respostas-questionario.xlsx \
   --output-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
   --output-xlsx /tmp/tcerj-igovti-2026/auditoria/tabelas_consolidadas_auditoria.xlsx
 ```
@@ -42,6 +64,17 @@ cd /home/acba/workspace/webapp-streamlit-argos
 The audit inputs are the audited-organizations database, the verification/findings map, and every source workbook required by the `Fontes de Informação` sheet. When that sheet declares more than one source file, pass all of them after `--fontes`. Confirm that the CLI finishes without missing-source errors before using the JSON to generate reports.
 
 ## Generating an Individual Preliminary Report
+
+Recalculate the statistical context and consolidate the longitudinal comparison whenever the questionnaire responses or either comparable index changes:
+
+```bash
+cd /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026
+
+python3 scripts/consolidar_dados_comparativos_igovti.py
+python3 scripts/calcular_contexto_relatorios_igovti.py
+```
+
+The first command generates the auditable workbook `02-Execucao/02-Questionario iGovTI 2023/20260611-comparacao-iGovTI-2023-2026.xlsx`. The second generates the report context workbook and a JSON calculation record in `02-Execucao/01-Questionario/`. Pass alternative source and output paths through the scripts' command-line arguments when processing a later data version.
 
 First generate the common charts and the charts for the selected organizations. `--auditados` accepts one or more organization identifiers; when omitted, charts are generated for all organizations. Common charts are always regenerated.
 
@@ -53,19 +86,7 @@ python3 scripts/gerar_graficos_relatorios_igovti.py \
   --output-root /tmp/tcerj-igovti-2026
 ```
 
-The Markdown template references images only by filename. Before invoking Argos, prepare a flat resource directory containing both common and organization-specific charts, because Pandoc does not recursively search `img/<SIGLA>/`.
-
-```bash
-mkdir -p /tmp/tcerj-igovti-2026/relatorios-individuais/FTM-recursos
-
-cp /tmp/tcerj-igovti-2026/relatorios-individuais/img/*.png \
-  /tmp/tcerj-igovti-2026/relatorios-individuais/FTM-recursos/
-
-cp /tmp/tcerj-igovti-2026/relatorios-individuais/img/FTM/*.png \
-  /tmp/tcerj-igovti-2026/relatorios-individuais/FTM-recursos/
-```
-
-Then generate the report with the Argos CLI:
+The Markdown template references images only by filename. The Argos CLI automatically resolves wildcards and flattens all resource files into a temporary directory internally. Reference the resource files directly, including glob patterns:
 
 ```bash
 cd /home/acba/workspace/webapp-streamlit-argos
@@ -73,14 +94,14 @@ cd /home/acba/workspace/webapp-streamlit-argos
 .venv/bin/python cli/generate_reports.py \
   --auditados /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
   --templates /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md \
-  --context-files /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/01-Questionario/iGovTI-2026.xlsx \
-  --resource-files /tmp/tcerj-igovti-2026/relatorios-individuais/FTM-recursos \
+  --context-files /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/01-Questionario/20260611-contexto-relatorios-igovti-2026.xlsx \
+  --resource-files "/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" "/home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png" \
   --auditados-select FTM \
   --output-dir /tmp/tcerj-igovti-2026/relatorios-individuais/FTM \
   --reference-docx /home/acba/workspace/webapp-streamlit-argos/docs/template-base-estilos-sigiloso.docx
 ```
 
-If the audit was not rerun, the current repository result may be used instead of the temporary JSON: `02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json`. Replace `FTM` consistently in the chart command, resource directory, `--auditados-select`, and output directory for another organization. Validate that the final DOCX contains embedded media and that the Argos output has no `Could not fetch resource` warnings.
+If the audit was not rerun, the current repository result may be used instead of the temporary JSON: `02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json`. Replace `FTM` consistently in the `--auditados-select` and output directory for another organization. Validate that the final DOCX contains embedded media and that the Argos output has no `Could not fetch resource` warnings.
 
 ## Coding Style & Naming Conventions
 

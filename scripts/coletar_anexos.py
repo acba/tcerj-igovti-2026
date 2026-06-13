@@ -4,8 +4,9 @@ import re
 import requests
 import pandas as pd
 
-PLANILHA = "urls_anexos_limesurvey_consolidado.xlsx"
-PASTA_RAIZ = Path("evidencias")
+repo_root = Path(__file__).resolve().parent.parent
+PLANILHA = repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx"
+PASTA_RAIZ = repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias"
 
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",

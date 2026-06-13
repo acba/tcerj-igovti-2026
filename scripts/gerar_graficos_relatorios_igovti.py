@@ -26,13 +26,22 @@ import numpy as np
 import pandas as pd
 import yaml
 
+from igovti_dados import (
+    COMPARAVEL_2023_MUNICIPIOS,
+    COMPARAVEL_2023_SETIC,
+    COMPARAVEL_2026,
+    RESULTADOS_2026,
+    RESPOSTAS_2026,
+    carregar_resultados_2026,
+    consolidar_pareamentos,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_FILE = ROOT / "02-Execucao/01-Questionario/iGovTI-2026.xlsx"
-RAW_FILE = ROOT / "02-Execucao/01-Questionario/20260607-respostas-questionario.xlsx"
+RESULTS_FILE = RESULTADOS_2026
+RAW_FILE = RESPOSTAS_2026
 METHODOLOGY_FILE = ROOT / "01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml"
 PROCEDURES_FILE = ROOT / "02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx"
-COMPARABLE_DIR = ROOT / "02-Execucao/02-Questionario iGovTI 2023"
 DEFAULT_OUTPUT_ROOT = Path(tempfile.gettempdir()) / "tcerj-igovti-2026"
 CONSOLIDATED_IMG = DEFAULT_OUTPUT_ROOT / "relatorio-consolidado/img"
 INDIVIDUAL_IMG = DEFAULT_OUTPUT_ROOT / "relatorios-individuais/img"
@@ -53,8 +62,8 @@ COMPONENTS = {
     "iGestTI": "Gestão de TIC",
 }
 DIMENSIONS = {
-    "PlanejamentoTI": "Planejamento",
-    "ServicosTI": "Serviços",
+    "PlanejamentoTI": "Planejamento de TI",
+    "ServicosTI": "Gestão de Serviços",
     "RiscosTISegInfo": "Riscos e segurança",
     "EstruturaSegInfo": "Estrutura de segurança",
     "ProcessoSegInfo": "Processos de segurança",
@@ -105,17 +114,6 @@ RESPONSE_COLORS = {
     "Adota em maior parte ou totalmente": LEVEL_COLORS["Aprimorado"],
     "Não se aplica": "#9CA3AF",
 }
-ALIASES = {
-    "FIARJ": "FIA",
-    "FTMRJ": "FTM",
-    "IO": "IOERJ",
-    "IPEMRJ": "IPEM",
-    "RIOPREVI": "RIOPREVIDENCIA",
-    "RIOTRILH": "RIOTRILHOS",
-    "SEDSODH": "SEDSDH",
-}
-
-
 def configure_style() -> None:
     plt.rcParams.update(
         {
@@ -181,32 +179,31 @@ def safe_float(value: object, default: float = 0.0) -> float:
         return default
 
 
-def completeness(row: pd.Series, ignored: set[str]) -> int:
-    return int(sum(not pd.isna(value) and value not in {"", 0, 0.0} for key, value in row.items() if key not in ignored))
-
-
-def deduplicate(df: pd.DataFrame, key: str, ignored: set[str]) -> pd.DataFrame:
-    selected = []
-    for _, group in df[df[key].notna()].groupby(key, sort=False):
-        scores = group.apply(lambda row: completeness(row, ignored), axis=1)
-        selected.append(group.loc[scores.idxmax()])
-    return pd.DataFrame(selected).reset_index(drop=True)
-
-
-def load_data() -> tuple[pd.DataFrame, pd.DataFrame, dict[str, float]]:
-    results = pd.read_excel(RESULTS_FILE, sheet_name="resultados")
-    results = deduplicate(results, "sigla", {"sigla", "iGovTI_maturidade"})
-    raw = pd.read_excel(RAW_FILE)
-    raw = deduplicate(raw, "firstname", {"firstname", "lastname", "email", "token"})
+def load_data(results_file: Path = RESULTS_FILE, raw_file: Path = RAW_FILE) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, float]]:
+    results = carregar_resultados_2026(results_file)
+    raw = pd.read_excel(raw_file)
+    if "firstname" not in raw.columns:
+        raise ValueError(f"A planilha de respostas nao possui a coluna firstname: {raw_file}")
+    if raw["firstname"].isna().any() or raw["firstname"].duplicated().any():
+        repetidas = raw.loc[raw["firstname"].duplicated(False), "firstname"].astype(str).tolist()
+        raise ValueError(f"A base de respostas deve conter uma linha unica por organizacao. Duplicadas: {repetidas}")
     with METHODOLOGY_FILE.open(encoding="utf-8") as stream:
         methodology = yaml.safe_load(stream)
     category_scores = {str(key): float(value) for key, value in methodology["categorias"].items()}
 
-    if len(results) != 114 or len(raw) != 114:
-        raise RuntimeError(f"Esperadas 114 organizações únicas; resultados={len(results)}, respostas={len(raw)}")
-
-    results["_key"] = results["sigla"].map(normalize_id)
-    raw["_key"] = raw["firstname"].map(normalize_id)
+    raw = pd.concat(
+        [raw, raw["firstname"].map(normalize_id).rename("_key")],
+        axis=1,
+    )
+    chaves_resultados = set(results["_key"])
+    chaves_respostas = set(raw["_key"])
+    if chaves_resultados != chaves_respostas:
+        sem_resposta = sorted(chaves_resultados - chaves_respostas)
+        sem_resultado = sorted(chaves_respostas - chaves_resultados)
+        raise ValueError(
+            "As bases de resultados e respostas nao possuem as mesmas organizacoes. "
+            f"Sem resposta: {sem_resposta}; sem resultado: {sem_resultado}"
+        )
     return results, raw, category_scores
 
 
@@ -284,25 +281,22 @@ def evaluate_condition(expression: str, actual: object) -> bool:
         return actual_text == expression
 
 
-def load_pairs() -> list[dict[str, object]]:
-    files = [
-        ("Estaduais", COMPARABLE_DIR / "iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx"),
-        ("Municípios", COMPARABLE_DIR / "iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx"),
-    ]
-    current = pd.read_excel(COMPARABLE_DIR / "iGovTI-2026-Ajustado-Comparavel.xlsx", sheet_name="resultados")
-    current = deduplicate(current, "id", {"id", "nivel_maturidade"})
-    current["_key"] = current["id"].map(normalize_id)
-    by_key = current.set_index("_key").to_dict("index")
+def load_pairs(
+    comparable_2026: Path = COMPARAVEL_2026,
+    setic_2023: Path = COMPARAVEL_2023_SETIC,
+    municipios_2023: Path = COMPARAVEL_2023_MUNICIPIOS,
+) -> list[dict[str, object]]:
+    _, pareados, _ = consolidar_pareamentos(comparable_2026, setic_2023, municipios_2023)
     pairs = []
-    for group_name, path in files:
-        old = pd.read_excel(path, sheet_name="resultados")
-        for _, row in old.iterrows():
-            key = normalize_id(row["id"])
-            target_key = key if key in by_key else ALIASES.get(key)
-            if target_key in by_key:
-                pairs.append({"grupo": group_name, "key": target_key, "old": row.to_dict(), "new": by_key[target_key]})
-    if len(pairs) != 70:
-        raise RuntimeError(f"Esperadas 70 organizações pareadas; encontradas {len(pairs)}")
+    for _, row in pareados.iterrows():
+        old = {"id": row["sigla_2023"], "nivel_maturidade": row["nivel_maturidade_2023"]}
+        new = {"id": row["sigla_2026"], "nivel_maturidade": row["nivel_maturidade_2026"]}
+        for column in row.index:
+            if column.endswith("_2023"):
+                old[column[:-5]] = row[column]
+            elif column.endswith("_2026") and column not in {"sigla_2026", "chave_2026", "nivel_maturidade_2026"}:
+                new[column[:-5]] = row[column]
+        pairs.append({"grupo": row["grupo"], "key": row["chave_2026"], "old": old, "new": new})
     return pairs
 
 
@@ -718,31 +712,17 @@ def plot_individual_percentiles(results: pd.DataFrame, record: pd.Series) -> Non
     save(fig, individual_output(record["sigla"], f"{record['sigla']}_percentis_indicadores.png"))
 
 
-def plot_individual_questions(profile: pd.Series, sigla: str) -> None:
-    values = [safe_float(profile[key], np.nan) for key in QUESTION_LABELS]
-    fig, ax = plt.subplots(figsize=(10.2, 6.2))
-    bars = ax.barh(list(QUESTION_LABELS.values()), values, color=[LEVEL_COLORS[maturity(value)] if not np.isnan(value) else "#9CA3AF" for value in values])
-    ax.bar_label(bars, labels=[f"{value:.1%}" if not np.isnan(value) else "N/D" for value in values], padding=4, fontweight="bold")
-    add_maturity_background(ax, alpha=0.055)
-    ax.set_xlim(0, 1); ax.set_xlabel("Proporção de verificações conformes")
-    clean_axis(ax, grid_axis="x")
-    save(fig, individual_output(sigla, f"{sigla}_diagnostico_questoes_auditoria.png"))
-
-
 def plot_individual_evolution(record: pd.Series, pair: dict[str, object] | None) -> None:
+    if not pair:
+        return
     fig, ax = plt.subplots(figsize=(8.8, 5.2))
-    if pair:
-        metrics = [("iGovTI", "iGovTI"), ("GovernancaTI", "Governança"), ("iGestTI", "Gestão")]
-        for key, label in metrics:
-            old = safe_float(pair["old"].get(key)); new = safe_float(pair["new"].get(key))
-            ax.plot([0, 1], [old, new], marker="o", linewidth=2, label=f"{label}: {new-old:+.3f}")
-        ax.set_xticks([0, 1], ["2023", "2026"]); ax.set_xlim(-0.12, 1.12); ax.set_ylim(0, 1)
-        ax.set_ylabel("Resultado comparável"); ax.legend(frameon=False)
-    else:
-        ax.axis("off")
-        ax.text(0.5, 0.56, "Organização sem série comparável entre 2023 e 2026", ha="center", va="center", fontsize=15, fontweight="bold")
-        ax.text(0.5, 0.43, "A comparação longitudinal não foi calculada para este auditado.", ha="center", va="center", fontsize=11, color="#4B5563")
-    if pair: clean_axis(ax)
+    metrics = [("iGovTI", "iGovTI"), ("GovernancaTI", "Governança"), ("iGestTI", "Gestão")]
+    for key, label in metrics:
+        old = safe_float(pair["old"].get(key)); new = safe_float(pair["new"].get(key))
+        ax.plot([0, 1], [old, new], marker="o", linewidth=2, label=f"{label}: {new-old:+.3f}")
+    ax.set_xticks([0, 1], ["2023", "2026"]); ax.set_xlim(-0.12, 1.12); ax.set_ylim(0, 1)
+    ax.set_ylabel("Resultado comparável"); ax.legend(frameon=False)
+    clean_axis(ax)
     save(fig, individual_output(record["sigla"], f"{record['sigla']}_evolucao_igovti_2023_2026.png"))
 
 
@@ -768,21 +748,6 @@ def plot_workforce(raw_record: pd.Series, sigla: str) -> None:
 def base_question_score(value: object, category_scores: dict[str, float]) -> float:
     text = clean_response(value)
     return category_scores.get(text, category_scores.get(str(value), np.nan))
-
-
-def plot_critical_practices(raw_record: pd.Series, sigla: str, category_scores: dict[str, float]) -> None:
-    values = [(base_question_score(raw_record.get(question), category_scores), question) for question in BASE_QUESTIONS]
-    values = [(value, question) for value, question in values if not np.isnan(value)]
-    values = sorted(values, key=lambda item: (item[0], item[1]))[:10]
-    fig, ax = plt.subplots(figsize=(9.6, 6.2))
-    bars = ax.barh([question for _, question in values], [value for value, _ in values],
-                   color=[LEVEL_COLORS[maturity(value)] for value, _ in values])
-    ax.bar_label(bars, labels=[f"{value:.2f}" for value, _ in values], padding=4, fontweight="bold")
-    add_maturity_background(ax, alpha=0.055)
-    ax.set_xlim(0, 1); ax.set_xlabel("Pontuação da resposta-base")
-    maturity_legend(ax)
-    clean_axis(ax, grid_axis="x")
-    save(fig, individual_output(sigla, f"{sigla}_praticas_criticas.png"))
 
 
 def generate_consolidated(results: pd.DataFrame, raw: pd.DataFrame, profiles: pd.DataFrame, pairs: list[dict[str, object]]) -> None:
@@ -838,11 +803,12 @@ def generate_individual(results: pd.DataFrame, raw: pd.DataFrame, profiles: pd.D
         plot_individual_radar(results, record)
         plot_individual_bullets(results, record)
         plot_individual_percentiles(results, record)
-        plot_individual_questions(profile, sigla)
-        plot_individual_evolution(record, pairs_by_key.get(key))
+        pair = pairs_by_key.get(key)
+        plot_individual_evolution(record, pair)
         plot_workforce(raw_record, sigla)
-        plot_critical_practices(raw_record, sigla, category_scores)
-        print(f"[{index}/{len(records)}] {sigla}: 11 gráficos individuais")
+        (raw_record, sigla, category_scores)
+        quantidade = 11 if pair else 10
+        print(f"[{index}/{len(records)}] {sigla}: {quantidade} gráficos individuais")
     return len(records)
 
 
@@ -861,6 +827,11 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_OUTPUT_ROOT,
         help=f"Raiz dos artefatos gerados (padrão: {DEFAULT_OUTPUT_ROOT}).",
     )
+    parser.add_argument("--resultados-2026", type=Path, default=RESULTS_FILE)
+    parser.add_argument("--respostas-2026", type=Path, default=RAW_FILE)
+    parser.add_argument("--comparavel-2026", type=Path, default=COMPARAVEL_2026)
+    parser.add_argument("--setic-2023", type=Path, default=COMPARAVEL_2023_SETIC)
+    parser.add_argument("--municipios-2023", type=Path, default=COMPARAVEL_2023_MUNICIPIOS)
     return parser.parse_args()
 
 
@@ -873,14 +844,14 @@ def main() -> None:
     configure_style()
     CONSOLIDATED_IMG.mkdir(parents=True, exist_ok=True)
     INDIVIDUAL_IMG.mkdir(parents=True, exist_ok=True)
-    results, raw, category_scores = load_data()
+    results, raw, category_scores = load_data(args.resultados_2026, args.respostas_2026)
     profiles = load_procedure_profiles(raw)
-    pairs = load_pairs()
+    pairs = load_pairs(args.comparavel_2026, args.setic_2023, args.municipios_2023)
     generate_consolidated(results, raw, profiles, pairs)
     individual_count = 0
     if not args.somente_consolidados:
         individual_count = generate_individual(results, raw, profiles, pairs, category_scores, args.auditados)
-    print(f"OK: 17 gráficos consolidados e {11 * individual_count} gráficos individuais gerados em 300 dpi.")
+    print(f"OK: 17 gráficos consolidados e gráficos para {individual_count} organizações gerados em 300 dpi.")
     print(f"Gráficos consolidados: {CONSOLIDATED_IMG}")
     print(f"Gráficos individuais: {INDIVIDUAL_IMG}")
 

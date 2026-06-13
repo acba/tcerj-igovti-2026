@@ -86,7 +86,7 @@ def carregar_achados(repo: Path):
 
 
 def carregar_acoes(repo: Path):
-    path = repo / "02-Execucao/02-Testes_Auditoria/mapa-verificacao-achados.xlsx"
+    path = repo / "02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx"
     workbook = load_workbook(path, read_only=False, data_only=False)
     try:
         ws_acoes = workbook["Ações de Verificação"]
@@ -428,10 +428,11 @@ def gerar(modelo: Path, saida: Path, repo: Path):
 
 
 def parse_args():
+    repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--modelo", type=Path, default=Path.home() / "Downloads/01-Matriz de Achados.docx")
-    parser.add_argument("--saida", type=Path, default=Path("02-Execucao/04-Matriz_Achados/01-Matriz de Achados.docx"))
-    parser.add_argument("--repo", type=Path, default=Path.cwd())
+    parser.add_argument("--saida", type=Path, default=repo_root / "02-Execucao/04-Matriz_Achados/01-Matriz de Achados.docx")
+    parser.add_argument("--repo", type=Path, default=repo_root)
     return parser.parse_args()
 
 

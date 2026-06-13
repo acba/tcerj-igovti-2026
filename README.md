@@ -67,6 +67,56 @@ Este projeto foi estruturado para garantir aderência às Normas Internacionais 
 *   **Análise de Dados:** Scripts de validação e cruzamento de dados localizados na pasta `scripts/`.
 *   **Portal iGovTI:** Ferramenta web para dar publicidade aos resultados (especificações em `04-Portal_iGovTI/`).
 
+## 🐍 Scripts de Automação
+
+O repositório conta com scripts utilitários na pasta `scripts/` para automatizar etapas essenciais da fiscalização:
+
+### 📋 Instalação de Dependências
+Para rodar os scripts, instale as dependências declaradas no arquivo [requirements.txt](file:///home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/scripts/requirements.txt):
+```bash
+pip install -r scripts/requirements.txt
+```
+
+### 1. Geração de Matrizes
+*   **Matriz de Planejamento (`gerar_matriz_planejamento_docx.py`):** Lê o arquivo Markdown e preenche um template do Word (`.docx`).
+    *   *Como executar:*
+        ```bash
+        python scripts/gerar_matriz_planejamento_docx.py 01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+        ```
+*   **Matriz de Achados (`gerar_matriz_achados.py`):** Preenche o modelo formal Word da Matriz de Achados cruzando a matriz de planejamento e o mapa de verificação.
+    *   *Como executar:*
+        ```bash
+        python scripts/gerar_matriz_achados.py
+        ```
+
+### 2. Coleta e Avaliação de Evidências (IA)
+*   **Coletar Anexos (`coletar_anexos.py`):** Baixa de forma automatizada todas as evidências submetidas pelas organizações no LimeSurvey.
+    *   *Como executar:*
+        ```bash
+        python scripts/coletar_anexos.py
+        ```
+        *(Nota: Caso a sessão expire, atualize os cookies nas linhas 19 a 23 do script).*
+*   **Extração de Evidências (`extrair_evidencias.py`):** Extrai de forma estruturada e plana todos os arquivos ZIP baixados para a pasta temporária de trabalho `/tmp/tcerj-igovti-2026/evidencias_extraidas`.
+    *   *Como executar:*
+        ```bash
+        python scripts/extrair_evidencias.py
+        ```
+*   **Avaliação de Evidências (`avaliacao_evidencias`):** Executa o pipeline de avaliação de evidências por IA.
+    *   *Como executar (exemplo via OpenRouter):*
+        ```bash
+        export OPENROUTER_API_KEY="sua_chave_aqui"
+        python -m scripts.avaliacao_evidencias \
+          02-Execucao/01-Questionario/20260611-respostas-questionario.xlsx \
+          /tmp/tcerj-igovti-2026/evidencias_extraidas \
+          --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_conservador_v2 \
+          --prompt-version v2 \
+          --provider openrouter \
+          --model google/gemini-2.5-flash \
+          --rpm 12 \
+          --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/saida_openrouter
+        ```
+
 ## 👥 Equipe Técnica
 
 *   **Unidade Técnica:** Coordenadoria de Auditoria de Tecnologia da Informação (CAD-TI/TCE-RJ).
