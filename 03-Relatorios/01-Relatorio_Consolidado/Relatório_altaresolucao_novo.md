@@ -1,4 +1,10 @@
-**RELATÓRIO DE AUDITORIA GOVERNAMENTAL**
+---
+title: "RELATÓRIO DE AUDITORIA GOVERNAMENTAL"
+lang: pt-BR
+figure-caption-position: above
+---
+
+\newpage
 
 **DADOS DA FISCALIZAÇÃO**
 
@@ -16,42 +22,44 @@
 | Equipe: | Augusto César Benvenuto de Almeida, mat. 02/4823  João Paulo de Freitas Ramirez, mat. 02/4820 |
 | Supervisão: | Bruno Mattos Souza de Souza Melo, mat. 02/4258 |
 
+\newpage
+
 # 1. RESUMO
 
-**O que o TCE-RJ fiscalizou?**
+#### O que o TCE-RJ fiscalizou?
 
-O Tribunal de Contas do Estado do Rio de Janeiro realizou auditoria de conformidade, com contornos operacionais, para avaliar o grau de adoção das boas práticas de governança e gestão de tecnologia da informação e comunicação (TIC) nas organizações públicas sob sua jurisdição. O trabalho objetivou traçar o panorama de maturidade tecnológica dos órgãos e prefeituras do estado, bem como analisar a evolução temporal em relação ao ciclo anterior.
+O TCE-RJ realizou auditoria de conformidade, com contornos operacionais, para avaliar a adoção de boas práticas de governança e gestão de TIC nas organizações públicas sob sua jurisdição, traçando o panorama de maturidade e a evolução temporal em relação a 2023.
 
-A fiscalização abrangeu 112 organizações da Administração Pública Estadual e Municipal do Estado do Rio de Janeiro, contemplando entidades dos poderes Executivo, Legislativo e Judiciário, Ministério Público, Defensoria Pública e Tribunal de Contas. O objeto de avaliação englobou seis grandes temas estruturais de TIC: formalização e posicionamento organizacional da área de TI; modelo de governança e atuação de comitês gestores; planejamento estratégico de TI (PDTI) e sua integração orçamentária; capacidade institucional e força de trabalho técnica; gestão de ativos, incidentes e serviços de TIC; e a governança técnica e controle das contratações de TIC.
+A fiscalização abrangeu 112 organizações estaduais e municipais de todos os poderes e esferas. A avaliação cobriu seis temas: formalização da área de TI, governança e comitês, planejamento (PDTI), força de trabalho, gestão de serviços e controle de contratações. As respostas ao questionário eletrônico de autoavaliação foram validadas por análise documental, servindo de base para o cálculo do Índice de Governança e Gestão de TI (iGovTI 2026) e classificação em quatro níveis de maturidade (Inexpressivo, Iniciando, Intermediário e Aprimorado). Realizou-se ainda comparação longitudinal para 69 entidades pareadas com 2023.
 
-A metodologia baseou-se na aplicação de questionário eletrônico de autoavaliação, cujas respostas foram validadas mediante rigorosa análise do suporte documental apresentado pelas entidades. Com base nessa avaliação, calculou-se o Índice de Governança e Gestão de TI (iGovTI 2026) para cada jurisdicionado, permitindo classificá-los em quatro níveis de maturidade: Inexpressivo (menor que 0,15), Iniciando (de 0,15 a 0,40), Intermediário (de 0,40 a 0,70) e Aprimorado (de 0,70 a 1,00). Adicionalmente, realizou-se uma comparação longitudinal ajustada para o subgrupo de 69 organizações que participaram das mensurações de 2023 e 2026.
+#### O que o TCE-RJ encontrou?
 
-**O que o TCE-RJ encontrou?**
+A fiscalização constatou baixa maturidade e severas fragilidades estruturais na governança e gestão de TIC fluminense. A média consolidada do iGovTI 2026 foi de 0,238 (mediana de 0,178), com 81,3% (91 de 112) das entidades nos níveis mais baixos (44,6% Inexpressivo e 36,6% Iniciando). Apenas 15 atingiram o nível Intermediário e 6 o Aprimorado. Na análise longitudinal (69 organizações), 52,2% mantiveram o mesmo nível de 2023, com destaque negativo para a **Gestão de Pessoas de TIC** (redução média de -0,067), gargalo transversal gerado pelo deficit de pessoal técnico próprio.
 
-A fiscalização constatou um cenário geral de baixa maturidade e severas fragilidades estruturais na governança e na gestão de TIC da Administração Pública fluminense. O iGovTI 2026 consolidado registrou média geral de 0,238 e mediana de 0,178, evidenciando uma forte concentração das notas nas faixas inferiores: das 112 organizações avaliadas, 91 (81,3%) encontram-se nos patamares de maturidade mais baixos — 50 (44,6%) no nível Inexpressivo e 41 (36,6%) no nível Iniciando. Apenas 15 organizações (13,4%) atingiram o nível Intermediário e somente 6 (5,4%) alcançaram o nível Aprimorado.
+Foram consolidados seis achados principais de desconformidade técnica:
 
-A análise longitudinal do grupo comparável de 69 entidades indicou que, embora 44 delas (63,8%) tenham apresentado evolução na nota ajustada, a inércia qualitativa predomina: 52,2% dos jurisdicionados permaneceram estagnados no mesmo nível de maturidade de 2023. O principal entrave identificado foi um retrocesso sistemático na dimensão de **Gestão de Pessoas de TIC** (-0,067 na média ajustada, com regressão em 58% dos entes pareados). Esse "apagão" de recursos humanos qualificados e próprios atua como gargalo transversal, limitando a eficácia e a sustentabilidade das melhorias planejadas nas demais dimensões técnicas.
+* **Achado 1 (Estrutura):** 83,3% têm fragilidades na formalização e posicionamento hierárquico da área de TIC.
+* **Achado 2 (Governança):** 92,1% carecem de modelo básico de governança ou comitês ativos.
+* **Achado 3 (Planejamento):** 88,6% operam sem PDTI atualizado ou integrado ao orçamento anual.
+* **Achado 4 (Pessoal):** 98,2% têm deficit crítico de força de trabalho própria em TIC, gerando dependência externa.
+* **Achado 5 (Serviços):** 99,1% operam sem controles básicos de catálogo, níveis de serviço ou incidentes de TIC.
+* **Achado 6 (Contratações):** 90,4% realizam aquisições de TIC sem fluxo padronizado ou anuência prévia da área técnica.
 
-Foram consolidados 6 achados de auditoria refletindo altos níveis de desconformidade técnica:
-* **Achado 1 (Estrutura de TIC):** 83,3% das organizações apresentam fragilidades na formalização, nas competências ou no posicionamento hierárquico da área de TIC;
-* **Achado 2 (Governança de TIC):** 92,1% das entidades carecem de um modelo básico de governança ou possuem comitês gestores inativos ou ineficazes;
-* **Achado 3 (Planejamento de TIC):** 88,6% dos órgãos operam sem processos definidos de planejamento ou com planos estratégicos (PDTIs) desatualizados e desintegrados do orçamento anual;
-* **Achado 4 (Capacidade de Recursos Humanos):** 98,2% dos jurisdicionados possuem insuficiência crítica de força de trabalho própria em TIC e segurança da informação, acarretando dependência excessiva e sem supervisão de prestadores externos;
-* **Achado 5 (Gestão de Serviços):** 99,1% dos órgãos operam sem controles básicos de serviços de TIC, carecendo de catálogo de serviços, acordos de níveis de serviço (ANS), inventário de ativos e de configuração atualizados ou fluxos formais de tratamento de incidentes;
-* **Achado 6 (Contratações de TIC):** 90,4% das entidades realizam aquisições tecnológicas sem processos padronizados de governança de compras, sem a participação formal de equipes de planejamento ou sem a aprovação técnica prévia e obrigatória da área de TIC.
+#### Qual é a proposta de encaminhamento?
 
-**Qual é a proposta de encaminhamento?**
+Propõem-se recomendações transversais direcionadas aos gestores, fundamentadas nas melhores práticas (COBIT 2019 e ITIL 4), organizadas em cinco eixos:
 
-A equipe de auditoria propõe um conjunto de recomendações transversais direcionadas aos gestores das organizações jurisdicionadas, alinhadas aos achados e fundamentadas nas melhores práticas internacionais (COBIT 2019 e ITIL 4) e nos normativos de controle:
-* **Estrutura e Governança:** recomendação para formalização das áreas de TIC, posicionamento adequado junto à alta administração e instituição ativa de Comitês de TIC multidisciplinares;
-* **Planejamento e Integração:** recomendação para estruturação de processos estáveis de elaboração e revisão do PDTI, vinculando-o diretamente às propostas orçamentárias e aos planos anuais de contratação;
-* **Recursos Humanos:** recomendação para realização de dimensionamentos quantitativos das equipes, instituição de cargos ou gratificações de TIC e diagnósticos de lacunas de competência para reduzir a dependência externa crítica;
-* **Gestão de Serviços e Ativos:** recomendação para instituição de catálogo de serviços com metas mínimas de atendimento, manutenção de inventário automatizado de ativos e base de configuração, e estruturação de processos de gestão de incidentes;
-* **Contratações de TIC:** recomendação para formalização e padronização do fluxo de compras de TI, obrigatoriedade de parecer e anuência técnica da área de TIC para toda contratação de tecnologia e designação de equipes multidisciplinares na fase preparatória das licitações.
+* **Estrutura e Governança:** formalização da TI e instituição ativa de comitês gestores multidisciplinares.
+* **Planejamento:** elaboração e revisão do PDTI com vinculação direta ao orçamento anual.
+* **Recursos Humanos:** dimensionamento de equipes e planos para reduzir a dependência crítica de terceirizados.
+* **Serviços e Ativos:** instituição de catálogo de serviços, inventário de ativos e gestão de incidentes.
+* **Contratações:** padronização do fluxo de compras e obrigatoriedade de anuência técnica prévia da área de TIC.
 
-**Quais os próximos passos?**
+#### Quais os próximos passos?
 
-Após o encerramento da fase de contraditório preliminar e a análise das manifestações dos jurisdicionados, este relatório consolidado e as propostas de encaminhamento serão submetidos à apreciação e deliberação do Plenário do Tribunal de Contas do Estado do Rio de Janeiro. Uma vez aprovado, as recomendações transversais serão notificadas aos responsáveis e os relatórios individuais detalhados serão formalmente encaminhados a cada uma das 112 entidades auditadas, as quais deverão apresentar Planos de Ação estruturados para o saneamento das inconformidades reportadas, cuja implementação será monitorada em ciclos de fiscalização subsequentes pelo Tribunal.
+Após o contraditório, o relatório e os encaminhamentos serão submetidos à deliberação do Plenário do TCE-RJ. Com a aprovação, as recomendações transversais serão notificadas e os relatórios individuais com planos de ação serão enviados às 112 entidades, sob monitoramento posterior do Tribunal.
+
+\newpage
 
 # 2. INTRODUÇÃO
 
@@ -76,6 +84,7 @@ Em virtude de a temática de Segurança da Informação (SI) e Segurança Cibern
 O objeto do presente trabalho consiste nas práticas de governança e gestão de TI de 126 jurisdicionados estaduais e municipais do Estado do Rio de Janeiro. 
 
 Os objetivos específicos da fiscalização compreendem:
+
 * Mensurar o índice de maturidade de governança e gestão de TI (iGovTI) de todos os jurisdicionados no exercício de 2026;
 * Analisar a evolução temporal das capacidades de TIC por meio da comparação dos resultados de 2026 com os levantados em 2023;
 * Propor recomendações de melhoria de controles internos de governança e gestão nos auditados.
@@ -100,7 +109,7 @@ A metodologia envolveu a elaboração e aplicação de questionário estruturado
 
 A apuração do iGovTI permite mensurar a adoção e o grau de conformidade de práticas essenciais, viabilizando a comparabilidade entre as organizações. A ferramenta de coleta empregada foi o sistema *LimeSurvey*.
 
-Ao final da fase de execução, e com vistas a fortalecer o caráter dialógico e garantir o contraditório, encaminhou-se um relatório individual preliminar[[2]](#footnote-3) a cada jurisdicionado contendo os achados mapeados, as situações encontradas específicas, as propostas de encaminhamento e o ajuste de respostas decorrente da análise documental. As considerações e manifestações dos gestores foram apreciadas pela Equipe de Auditoria para consolidação das notas e dos dados globais apresentados neste relatório.
+Ao final da fase de execução, e com vistas a fortalecer o caráter dialógico e garantir o contraditório, encaminhou-se um relatório individual preliminar a cada jurisdicionado contendo os achados mapeados, as situações encontradas específicas, as propostas de encaminhamento e o ajuste de respostas decorrente da análise documental. As considerações e manifestações dos gestores foram apreciadas pela Equipe de Auditoria para consolidação das notas e dos dados globais apresentados neste relatório.
 
 Na fase de elaboração do relatório, a Equipe de Auditoria produziu o presente relatório consolidado, além de 120 relatórios individuais contendo a visão de iGovTI correspondente a cada entidade, com as situações identificadas e seu respectivo plano de ação.
 
@@ -113,6 +122,7 @@ Além disso, a auditoria desempenha um papel fundamental na promoção de uma cu
 ## 2.7 Organização do Relatório
 
 O presente relatório de auditoria consolidado está organizado da seguinte forma:
+
 * **Capítulo 1 (Resumo):** apresenta uma síntese da fiscalização, incluindo os objetivos, a relevância do tema, os principais resultados obtidos e as conclusões gerais do trabalho;
 * **Capítulo 2 (Introdução):** descreve a contextualização da auditoria, os objetivos, a delimitação do escopo, as diretrizes de fiscalização, a metodologia adotada e a estrutura do relatório;
 * **Capítulo 3 (Visão Geral do Objeto):** detalha os conceitos de governança e gestão de TI, o modelo de governança, seus princípios e responsabilidades no setor público, bem como as mensurações anteriores do iGovTI;
@@ -121,6 +131,7 @@ O presente relatório de auditoria consolidado está organizado da seguinte form
 * **Capítulo 6 (Considerações Finais):** expõe as conclusões gerais obtidas ao término da fiscalização, destacando o diagnóstico consolidado da maturidade em governança e gestão tecnológica;
 * **Capítulo 7 (Proposta de Encaminhamento):** apresenta o conjunto de propostas de encaminhamento geral e recomendações transversais formuladas para orientar as melhorias no setor público.
 
+\newpage
 
 # 3. VISÃO GERAL DO OBJETO
 
@@ -140,11 +151,9 @@ Figura 1 - Modelo de Governança de TI
 
 A governança no setor público baseia-se na teoria da agência, visando reduzir a assimetria de informação entre a sociedade (o principal) e os gestores públicos (os agentes). Ela opera através de três mecanismos fundamentais:
 
-• Liderança: Compreende práticas de integridade, competência, responsabilidade e motivação exercidas pela alta administração para assegurar a boa governança;
-
-• Estratégia: Envolve a definição de objetivos, diretrizes e planos, além do alinhamento entre as partes interessadas para o alcance dos resultados;
-
-• Controle: Consiste em processos estruturados para gerenciar riscos e garantir a execução eficiente, eficaz e ética das atividades.
+* Liderança: Compreende práticas de integridade, competência, responsabilidade e motivação exercidas pela alta administração para assegurar a boa governança;
+* Estratégia: Envolve a definição de objetivos, diretrizes e planos, além do alinhamento entre as partes interessadas para o alcance dos resultados;
+* Controle: Consiste em processos estruturados para gerenciar riscos e garantir a execução eficiente, eficaz e ética das atividades.
 
 A alta administração é a principal responsável pela governança, cabendo a ela estabelecer políticas, objetivos e conduzir a estratégia institucional. Na área de TI, o estabelecimento de um Comitê Gestor Multidisciplinar é uma prática essencial para priorizar investimentos e garantir que a TI suporte efetivamente os objetivos de negócio.
 
@@ -152,19 +161,13 @@ A alta administração é a principal responsável pela governança, cabendo a e
 
 Para assegurar a legitimidade e a eficácia, a governança deve pautar-se por princípios fundamentais, conforme estabelecido pelo Decreto Federal nº 9.203/2017 e referendado pelo Tribunal de Contas da União (TCU):
 
-• Capacidade de resposta: Responder de forma tempestiva e inovadora às demandas da sociedade;
-
-• Integridade: Priorizar o interesse público sobre os privados, sustentando padrões éticos;
-
-• Confiabilidade: Minimizar incertezas e manter consistência com a missão institucional;
-
-• Melhoria regulatória: Elaborar políticas baseadas em evidências e consultas públicas;
-
-• Prestação de contas e responsabilidade (*Accountability*): Agentes públicos devem responder por seus atos e omissões de forma clara e transparente;
-
-• Transparência: Disponibilizar informações sobre decisões e desempenho além do que exige a lei;
-
-• Equidade e participação: Tratar todas as partes interessadas de forma justa e participativa.
+* Capacidade de resposta: Responder de forma tempestiva e inovadora às demandas da sociedade;
+* Integridade: Priorizar o interesse público sobre os privados, sustentando padrões éticos;
+* Confiabilidade: Minimizar incertezas e manter consistência com a missão institucional;
+* Melhoria regulatória: Elaborar políticas baseadas em evidências e consultas públicas;
+* Prestação de contas e responsabilidade (*Accountability*): Agentes públicos devem responder por seus atos e omissões de forma clara e transparente;
+* Transparência: Disponibilizar informações sobre decisões e desempenho além do que exige a lei;
+* Equidade e participação: Tratar todas as partes interessadas de forma justa e participativa.
 
 ## 3.3. Gestão de TI
 
@@ -204,11 +207,13 @@ No Tribunal de Contas do Rio de Janeiro, as últimas mensurações do iGovTI for
 
 No contexto do Índice de Efetividade dea Gestão Municipal (IEGM) também existe um índice chamado iGovTI. O IEGM foi concebido em 2015 pelo Tribunal de Contas do Estado de São Paulo e disponibilizado aos demais Tribunais de Contas através do Instituto Rui Barbosa (IRB). O iGovTI do IEGM é baseado em um questionário que não se confunde com aquele aplicado nos demais trabalhos supracitados.
 
+\newpage
+
 # 4. RESULTADOS DA AUDITORIA
 
 Esta seção apresenta os resultados consolidados obtidos na avaliação do Índice de Governança e Gestão de TI (iGovTI 2026) junto às organizações jurisdicionadas do Estado do Rio de Janeiro. 
 
-Inicialmente, são expostos os resultados gerais do levantamento de 2026 (subseção 4.1), detalhando o panorama atual da maturidade de TIC e as assimetrias identificadas entre as capacidades de governança e gestão. Em seguida, apresenta-se a comparação longitudinal entre os ciclos de 2023 e 2026 (subseção 4.2), evidenciando a evolução temporal das práticas avaliadas e os principais gargalos transversais persistentes. Por fim, a subseção 4.3 consolida os achados de auditoria resultantes da validação das informações autodeclaradas e dos documentos comprobatórios enviados pelas entidades.
+Inicialmente, são expostos os resultados gerais de 2026 (subseção 4.1), detalhando o panorama atual da maturidade de TIC e as assimetrias identificadas entre as capacidades de governança e gestão. Em seguida, apresenta-se a comparação longitudinal entre os ciclos de 2023 e 2026 (subseção 4.2), evidenciando a evolução temporal das práticas avaliadas e os principais gargalos transversais persistentes. Por fim, a subseção 4.3 consolida os achados de auditoria resultantes da validação das informações autodeclaradas e dos documentos comprobatórios enviados pelas entidades.
 
 
 ## 4.1. Resultados Gerais do iGovTI 2026
@@ -282,10 +287,6 @@ A dimensão **Planejamento de TIC** apresentou a maior média (0,385) e a maior 
 
 As menores médias e os maiores índices de inexpressividade concentram-se nas dimensões **Riscos de TI e de Segurança da Informação** (média de 0,191) e **Gestão de Soluções de TIC** (média de 0,213). A dimensão de Riscos registrou pontuação abaixo de 0,40 em 93 organizações (83,0%) e pontuação igual a zero em 29 (25,9%), evidenciando que a gestão de riscos e o tratamento de ameaças tecnológicas são praticamente inexistentes na Administração Pública. Para a Gestão de Soluções (desenvolvimento de *software* e modelagem de processos), os quantitativos de inconformidade foram idênticos (83,0% abaixo de 0,40 e 23,2% de zeros), indicando baixa maturidade em engenharia de *software* e na qualidade dos processos de aquisição ou desenvolvimento de sistemas.
 
-
-
-/newpage
-
 ## 4.2. Comparação Longitudinal (2023 vs 2026)
 
 A análise da evolução temporal baseia-se exclusivamente no conjunto de 69 organizações que possuem correspondência institucional validada entre as bases de dados de 2023 e 2026, abrangendo entidades da esfera estadual (Poderes Executivo, Legislativo e Judiciário, Ministério Público, Defensoria e Tribunal de Contas) e municipal (Prefeituras). 
@@ -347,15 +348,13 @@ A regressão em Gestão de Pessoas reflete a incapacidade das organizações pú
 
 Conclui-se, portanto, pela **manutenção do perfil de baixa maturidade geral**, com melhorias operacionais pontuais em planejamento e infraestrutura básica, paralisadas pela ausência de governança corporativa ativa e estranguladas pela carência severa de recursos humanos em tecnologia.
 
-
-
-/newpage
-
 ## 4.3. Achados de Auditoria
 
 Os exames e procedimentos de auditoria aplicados sobre as informações autodeclaradas pelas 114 organizações jurisdicionadas e a respectiva validação do conjunto probatório documental permitiram constatar fragilidades graves e sistemáticas nos controles de governança, gestão de ativos, infraestrutura e contratações de tecnologia da informação.
 
 Para cada uma das questões de auditoria avaliadas, apresenta-se a consolidação das inconformidades identificadas, os critérios violados, as evidências coligidas, as causas, os efeitos esperados e as propostas de encaminhamento correspondentes.
+
+\newpage
 
 ### 4.3.1. Achado 1 – Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação
 
@@ -429,7 +428,7 @@ Ressalta-se que as propostas de encaminhamento individualizadas para cada organi
 
 
 
-/newpage
+\newpage
 
 ### 4.3.2. Achado 2 – Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação
 
@@ -500,7 +499,7 @@ Ressalta-se que as propostas de encaminhamento individualizadas para cada organi
 * **Comunicação com Recomendação** para que institua formalmente Comitê de TIC ou instância equivalente, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos;
 * **Comunicação com Recomendação** para que assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, atentando-se, minimamente, em realizar reuniões periódicas, registrar atas, deliberações e encaminhamentos e acompanhar as decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 
-/newpage
+\newpage
 
 ### 4.3.3. Achado 3 – Planejamento de TIC inexistente, insuficiente, desatualizado ou desconectado da gestão, do orçamento e das contratações
 
@@ -580,7 +579,7 @@ Ressalta-se que as propostas de encaminhamento individualizadas para cada organi
 
 
 
-/newpage
+\newpage
 
 ### 4.3.4. Achado 4 – Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
 
@@ -669,7 +668,7 @@ Ressalta-se que as propostas de encaminhamento individualizadas para cada organi
 
 
 
-/newpage
+\newpage
 
 ### 4.3.5. Achado 5 – Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes
 
@@ -751,7 +750,7 @@ Ressalta-se que as propostas de encaminhamento individualizados para cada organi
 
 
 
-/newpage
+\newpage
 
 ### 4.3.6. Contratações de TIC sem governança técnica e controle de resultados
 
