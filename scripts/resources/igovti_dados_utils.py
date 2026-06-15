@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import unicodedata
 from pathlib import Path
@@ -11,7 +12,17 @@ import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def to_relative(path: str | Path) -> str:
+    """Retorna o caminho de um arquivo relativo ao ROOT do projeto se possivel."""
+    try:
+        p = Path(path).resolve()
+        r = ROOT.resolve()
+        return os.path.relpath(p, start=r)
+    except Exception:
+        return str(path)
 
 RESULTADOS_2026 = ROOT / "02-Execucao/01-Questionario/20260611-iGovTI-2026.xlsx"
 RESPOSTAS_2026 = ROOT / "02-Execucao/01-Questionario/20260611-respostas-questionario.xlsx"

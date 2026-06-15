@@ -34,13 +34,22 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
-from scripts.utils import (
-    filter_survey_by_target as filter_target_survey,
-    split_frontmatter,
-    survey_targets,
-    target_output_path,
-    validate_target_config,
-)
+try:
+    from utils import (
+        filter_survey_by_target as filter_target_survey,
+        split_frontmatter,
+        survey_targets,
+        target_output_path,
+        validate_target_config,
+    )
+except ImportError:
+    from scripts.resources.utils import (
+        filter_survey_by_target as filter_target_survey,
+        split_frontmatter,
+        survey_targets,
+        target_output_path,
+        validate_target_config,
+    )
 
 
 TYPE_MAP = {

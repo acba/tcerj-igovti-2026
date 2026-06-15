@@ -20,7 +20,6 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 xlsx_path = ROOT / "02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx"
 json_path = ROOT / "02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json"
-output_dir = ROOT / "03-Relatorios/01-Relatorio_Consolidado"
 
 # Cores institucionais do TCE-RJ/CIS do iGovTI 2026
 COLOR_ESTADUAL = "#3B6EA8"   # Steel Blue
@@ -101,7 +100,17 @@ def parse_excel_spheres(path: Path) -> dict[str, str]:
                         sigla_to_esfera[sig.strip().upper()] = esf.strip().upper()
     return sigla_to_esfera
 
-def main():
+def main(argv: list[str] | None = None):
+    import argparse
+    parser = argparse.ArgumentParser(description="Gera gráficos consolidados por esfera.")
+    parser.add_argument(
+        "--output-dir",
+        default=str(ROOT / "03-Relatorios/01-Relatorio_Consolidado"),
+        help="Diretório de saída para os gráficos gerados."
+    )
+    args = parser.parse_args(argv)
+    output_dir = Path(args.output_dir)
+
     print("Iniciando geração de gráficos dos achados...")
     
     # 1. Carrega mapeamento de esferas

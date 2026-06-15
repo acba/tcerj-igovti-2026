@@ -8,7 +8,11 @@ from pathlib import Path
 
 import pandas as pd
 
-from igovti_dados import (
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "resources"))
+
+from igovti_dados_utils import (
     AGREGADOS_COMPARAVEIS,
     COMPARAVEL_2023_MUNICIPIOS,
     COMPARAVEL_2023_SETIC,
@@ -18,6 +22,7 @@ from igovti_dados import (
     ROOT,
     consolidar_pareamentos,
     direcao_variacao,
+    to_relative,
 )
 
 
@@ -126,7 +131,7 @@ def main() -> None:
         pareamentos.to_excel(writer, sheet_name="Pareamentos", index=False)
         pareamentos.loc[~pareamentos["pareado"]].to_excel(writer, sheet_name="Sem par em 2026", index=False)
         nao_pareados_2026.to_excel(writer, sheet_name="Sem histórico em 2023", index=False)
-    print(f"Consolidação gerada: {args.saida}")
+    print(f"Consolidação gerada: {to_relative(args.saida)}")
     print(f"Organizações pareadas: {len(pareados)}")
 
 

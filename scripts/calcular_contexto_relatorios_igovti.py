@@ -10,7 +10,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from igovti_dados import (
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "resources"))
+
+from igovti_dados_utils import (
     COMPARAVEL_2023_MUNICIPIOS,
     COMPARAVEL_2023_SETIC,
     COMPARAVEL_2026,
@@ -22,6 +26,7 @@ from igovti_dados import (
     direcao_variacao,
     estatisticas_serie,
     formatar_lista_variacoes,
+    to_relative,
 )
 
 
@@ -214,20 +219,20 @@ def main() -> None:
     )
     args.saida_contexto.parent.mkdir(parents=True, exist_ok=True)
     contexto.to_excel(args.saida_contexto, index=False)
-    args.saida_estatisticas.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "fontes": {
-            "resultados_2026": str(args.resultados_2026),
-            "comparavel_2026": str(args.comparavel_2026),
-            "setic_2023": str(args.setic_2023),
-            "municipios_2023": str(args.municipios_2023),
+            "resultados_2026": to_relative(args.resultados_2026),
+            "comparavel_2026": to_relative(args.comparavel_2026),
+            "setic_2023": to_relative(args.setic_2023),
+            "municipios_2023": to_relative(args.municipios_2023),
         },
         "estatisticas_2026": estatisticas,
         "organizacoes_pareadas": len(pareados),
     }
+    args.saida_estatisticas.parent.mkdir(parents=True, exist_ok=True)
     args.saida_estatisticas.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Contexto dos relatórios: {args.saida_contexto}")
-    print(f"Memória de cálculo: {args.saida_estatisticas}")
+    print(f"Contexto dos relatórios: {to_relative(args.saida_contexto)}")
+    print(f"Memória de cálculo: {to_relative(args.saida_estatisticas)}")
     print(f"Organizações em 2026: {len(contexto)}; pareadas com 2023: {len(pareados)}")
 
 

@@ -26,7 +26,10 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from igovti_dados import (
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "resources"))
+
+from igovti_dados_utils import (
     COMPARAVEL_2023_MUNICIPIOS,
     COMPARAVEL_2023_SETIC,
     COMPARAVEL_2026,
@@ -627,8 +630,12 @@ def plot_group_comparison(pairs: list[dict[str, object]]) -> None:
     groups = ["Estaduais", "Municípios"]
     deltas = [[safe_float(pair["new"]["iGovTI"]) - safe_float(pair["old"]["iGovTI"]) for pair in pairs if pair["grupo"] == group] for group in groups]
     fig, ax = plt.subplots(figsize=(8.8, 5.8))
-    box = ax.boxplot(deltas, labels=[f"{group}\n(n={len(values)})" for group, values in zip(groups, deltas)],
-                     patch_artist=True, showfliers=False, medianprops={"color": "#111827", "linewidth": 1.7})
+    try:
+        box = ax.boxplot(deltas, tick_labels=[f"{group}\n(n={len(values)})" for group, values in zip(groups, deltas)],
+                         patch_artist=True, showfliers=False, medianprops={"color": "#111827", "linewidth": 1.7})
+    except TypeError:
+        box = ax.boxplot(deltas, labels=[f"{group}\n(n={len(values)})" for group, values in zip(groups, deltas)],
+                         patch_artist=True, showfliers=False, medianprops={"color": "#111827", "linewidth": 1.7})
     for patch, color in zip(box["boxes"], ["#167D8D", "#D59A2F"]):
         patch.set_facecolor(color); patch.set_alpha(0.72)
     rng = np.random.default_rng(2026)

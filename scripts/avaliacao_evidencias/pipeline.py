@@ -90,7 +90,7 @@ class PacoteEvidencia:
     erro: str = ""
 
 
-REMOTE_PROVIDERS = {"gemini", "openrouter"}
+REMOTE_PROVIDERS = {"gemini", "openrouter", "opencodego"}
 
 
 def log_event(event: str, message: str, *, quiet: bool = False, level: str = "info", **fields: Any) -> None:
@@ -861,13 +861,61 @@ def gerar_relatorio_conformidade(checkpoint: str | Path, destino: str | Path) ->
     return total_linhas
 
 
+def testar_conexao_provider(provider: str, model: str, api_key: str) -> bool:
+    print(f"=== Testando conexao com provider: {provider} | modelo: {model} ===")
+    env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(provider, "")
+    if provider in REMOTE_PROVIDERS and not api_key:
+        print(f"[ERRO] A chave de API ({env_key}) nao esta configurada no ambiente!")
+        return False
+
+    prompt = "Teste de conexao de IA. Valide que voce recebeu esta mensagem."
+    itens = [
+        {
+            "codigo": "test_01",
+            "texto": "Teste de conexao",
+            "afirmacao": "Mensagem de teste de conexao",
+        }
+    ]
+    pacote = {
+        "documentos": [],
+        "inventario": [],
+        "erro": "",
+        "arquivos_upload": [],
+    }
+    
+    try:
+        resultado = executar_provider(
+            provider=provider,
+            model=model,
+            api_key=api_key,
+            prompt=prompt,
+            auditado="TESTE",
+            questao_base="qtest",
+            coluna_evidencia="qtestevi",
+            itens_afirmados=itens,
+            pacote=pacote,
+        )
+        print("Resultado da chamada:")
+        print(json.dumps(resultado, ensure_ascii=False, indent=2))
+        if isinstance(resultado, dict) and resultado.get("status") == "completed":
+            print("\n[OK] Conexao e comunicacao com o modelo funcionando com sucesso!")
+            return True
+        else:
+            print("\n[ERRO] O provider retornou um status inesperado ou erro.")
+            return False
+    except Exception as exc:
+        print(f"\n[FALHA] Erro ao tentar se comunicar com o provider: {exc}")
+        return False
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Pre-analisa evidencias enviadas por auditados.")
-    parser.add_argument("respostas")
-    parser.add_argument("evidencias")
-    parser.add_argument("--questionario", required=True)
+    parser.add_argument("respostas", nargs="?", default=None)
+    parser.add_argument("evidencias", nargs="?", default=None)
+    parser.add_argument("--questionario", default=None)
     parser.add_argument("--provider", default="fake")
     parser.add_argument("--model", default="fake")
+    parser.add_argument("--test-connection", action="store_true", help="Testa a conexao com o provider e modelo configurados e encerra.")
     parser.add_argument("--prompts-dir", default=None, help="Diretorio com Prompts de analise por questao.")
     parser.add_argument("--checklists-dir", default=None, help="Alias legado para --prompts-dir.")
     parser.add_argument("--out-dir", default=".saida_analise")
@@ -893,6 +941,15 @@ def main(argv: list[str] | None = None) -> int:
         help="Nomes de auditados (firstname) específicos para avaliar.",
     )
     args = parser.parse_args(argv)
+    if args.test_connection:
+        env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(args.provider, "")
+        api_key = os.environ.get(env_key, "") if env_key else ""
+        sucesso = testar_conexao_provider(args.provider, args.model, api_key)
+        return 0 if sucesso else 1
+
+    if not args.respostas or not args.evidencias or not args.questionario:
+        parser.error("Os argumentos respostas, evidencias e --questionario sao obrigatorios quando nao for --test-connection")
+
     prompts_dir = args.prompts_dir or args.checklists_dir or "checklists"
     rate_limiter = RequestsPerMinuteLimiter(args.rpm)
     log_event(
@@ -1160,7 +1217,7 @@ def main(argv: list[str] | None = None) -> int:
             error=pacote.erro,
             **base_log,
         )
-        env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY"}.get(args.provider, "")
+        env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(args.provider, "")
         api_key = os.environ.get(env_key, "") if env_key else ""
         with tempfile.TemporaryDirectory() as upload_tmp:
             arquivos_upload = arquivos_compativeis_upload(resolucao.caminho, upload_tmp)
