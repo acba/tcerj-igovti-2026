@@ -6,7 +6,7 @@ from pathlib import Path
 repo_root = Path(__file__).resolve().parent.parent
 
 src_dir = repo_root / "02-Execucao" / "01-Questionario" / "Evidencias_Coletadas" / "evidencias"
-dest_dir = Path("/tmp/tcerj-igovti-2026/evidencias_extraidas")
+dest_dir = repo_root / "02-Execucao" / "01-Questionario" / "Evidencias_Coletadas" / "evidencias_extraidas"
 
 if not src_dir.exists():
     print(f"Diretório de origem de evidências não encontrado: {src_dir}")

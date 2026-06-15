@@ -43,6 +43,18 @@ Utility scripts are stored under `scripts/`. Always run them using the workspace
     python3 scripts/gerar_matriz_achados.py
     ```
 *   **`avaliar_evidencias_matriz_planejamento.py` / `avaliacao_evidencias`:** Runs the AI evidence evaluation pipeline. See [scripts/avaliacao_evidencias/README.md](file:///home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/scripts/avaliacao_evidencias/README.md) for full commands.
+*   **`agregar_analyses_por_item.py`:** Consolidates the conclusions stored in one or more `analyses.jsonl` files by questionnaire item (`q0101`, `q2101`, etc.). It counts `conforme`, `nao_conforme`, `inconclusivo`, and `erro`, selects up to two representative evaluations with their justifications, and creates an XLSX with summary, traceability, and metadata sheets. Use `--referencia` to include only records produced by a specific model; the option may be repeated to combine models.
+    ```powershell
+    $analyses = Get-ChildItem `
+      "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias" `
+      -Recurse -Filter analyses.jsonl -File |
+      Select-Object -ExpandProperty FullName
+
+    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
+      @analyses `
+      --referencia "gemini-3.1-flash-lite" `
+      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_avaliacoes_por_item_gemini-3.1-flash-lite.xlsx"
+    ```
 
 Do not add invented `npm`, `make`, or `pytest` commands unless the required project files are introduced.
 

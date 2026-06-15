@@ -117,6 +117,48 @@ pip install -r scripts/requirements.txt
           --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/saida_openrouter
         ```
 
+*   **Agregação das Avaliações (`agregar_analyses_por_item.py`):** Consolida os resultados de um ou mais arquivos `analyses.jsonl` por item do questionário, como `q0101`, `q1001` ou `q2101`. Para cada item, calcula o total de avaliações e os quantitativos de `conforme`, `nao_conforme`, `inconclusivo` e `erro`. A planilha também apresenta até dois exemplos de avaliações, com auditado, modelo, evidência, afirmação avaliada e justificativa.
+
+    A saída possui três abas:
+
+    - `Resumo por item`: uma linha por item, com quantitativos, percentuais e exemplos;
+    - `Rastreabilidade`: todas as conclusões individuais usadas na agregação;
+    - `Metadados`: arquivos processados, referência aplicada e totais da execução.
+
+    O parâmetro `--referencia` filtra os registros pelo valor do campo `model` do `analyses.jsonl`. Ele pode ser repetido quando for necessário combinar mais de um modelo. Sem esse parâmetro, todos os modelos encontrados serão agregados.
+
+    *Como executar no Windows PowerShell, considerando somente o modelo `gemini-3.1-flash-lite`:*
+
+    ```powershell
+    $analyses = Get-ChildItem `
+      "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias" `
+      -Recurse -Filter analyses.jsonl -File |
+      Select-Object -ExpandProperty FullName
+
+    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
+      @analyses `
+      --referencia "gemini-3.1-flash-lite" `
+      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_avaliacoes_por_item_gemini-3.1-flash-lite.xlsx"
+    ```
+
+    *Como agregar todos os modelos:*
+
+    ```powershell
+    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
+      @analyses `
+      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_avaliacoes_por_item.xlsx"
+    ```
+
+    *Como combinar duas referências:*
+
+    ```powershell
+    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
+      @analyses `
+      --referencia "gemini-3.1-flash-lite" `
+      --referencia "mimo-v2.5-pro" `
+      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_modelos_selecionados.xlsx"
+    ```
+
 ### 3. Geração de Relatórios
 *   **Geração do Relatório Consolidado (`gerar_relatorio_consolidado.py`):** Converte o Markdown do Relatório Consolidado para Word (`.docx`) aplicando referências cruzadas, quebras de página, sublinhados do Pandoc e estilos de tabela. O script automaticamente gera os gráficos e planifica todas as imagens em uma pasta temporária (sem poluir a pasta do relatório). Aceita o arquivo Markdown como parâmetro posicional, gera a saída com o mesmo nome `.docx` por padrão, e suporta recursos adicionais e wildcards via `--resource-files`.
     *   *Como executar:*
