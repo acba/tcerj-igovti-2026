@@ -178,6 +178,8 @@ def executar_provider(
         return {"status": "error", "error": "OPENROUTER_API_KEY nao configurada para provider openrouter"}
     if provider == "gemini" and not api_key:
         return {"status": "error", "error": "GEMINI_API_KEY nao configurada para provider gemini"}
+    if provider == "opencodego" and not api_key:
+        return {"status": "error", "error": "OPENCODEGO_API_KEY nao configurada para provider opencodego"}
     if provider == "openrouter":
         return executar_julgamento_openrouter(
             api_key=api_key,
@@ -200,6 +202,17 @@ def executar_provider(
             itens_afirmados=itens_afirmados,
             pacote=pacote,
         )
+    if provider == "opencodego":
+        return executar_julgamento_opencodego(
+            api_key=api_key,
+            model=model,
+            prompt=prompt,
+            auditado=auditado,
+            questao_base=questao_base,
+            coluna_evidencia=coluna_evidencia,
+            itens_afirmados=itens_afirmados,
+            pacote=pacote,
+        )
     return {"status": "error", "error": f"provider nao suportado: {provider}/{model}"}
 
 
@@ -213,6 +226,7 @@ def _conteudo_provider_textual(
     pacote: dict[str, Any],
 ) -> str:
     payload = {
+        "formato_requerido": "JSON",
         "prompt_de_analise": prompt,
         "auditado": auditado,
         "questao_base": questao_base,
@@ -316,18 +330,102 @@ def executar_com_retry_transiente(
     fallback_delays: tuple[float, ...] = DEFAULT_TRANSIENT_RETRY_DELAYS,
     sleeper: Callable[[float], None] | None = None,
 ) -> Any:
+    import os
+    import sys
+
+    # Obter configuracoes por variaveis de ambiente
+    env_max = os.environ.get("AI_MAX_RETRIES")
+    if env_max is not None:
+        try:
+            actual_max = int(env_max)
+        except ValueError:
+            actual_max = max_retries
+    else:
+        actual_max = max_retries
+
+    env_delays = os.environ.get("AI_RETRY_DELAYS")
+    if env_delays is not None:
+        try:
+            actual_delays = tuple(float(d.strip()) for d in env_delays.split(","))
+        except ValueError:
+            actual_delays = fallback_delays
+    else:
+        actual_delays = fallback_delays
+
     sleep = sleeper or time.sleep
     tentativa = 0
     while True:
         try:
             return func()
         except Exception as exc:
-            if not _is_retryable_provider_error(exc) or tentativa >= max_retries:
+            if not _is_retryable_provider_error(exc) or tentativa >= actual_max:
                 raise
             retry_after = _retry_after_from_exception(exc)
-            delay = retry_after if retry_after is not None else fallback_delays[min(tentativa, len(fallback_delays) - 1)]
+            delay = retry_after if retry_after is not None else actual_delays[min(tentativa, len(actual_delays) - 1)]
+            
+            status_code = _status_from_exception(exc)
+            sys.stderr.write(
+                f"\n[AVISO] Provedor retornou erro temporario {status_code}. "
+                f"Aguardando {delay:.1f}s antes da tentativa {tentativa + 1}/{actual_max}...\n"
+            )
+            sys.stderr.flush()
+            
             sleep(delay)
             tentativa += 1
+
+
+def executar_julgamento_opencodego(
+    *,
+    api_key: str,
+    model: str,
+    prompt: str,
+    auditado: str,
+    questao_base: str,
+    coluna_evidencia: str,
+    itens_afirmados: list[Any],
+    pacote: dict[str, Any],
+) -> dict[str, Any]:
+    body = {
+        "model": model,
+        "messages": [
+            {
+                "role": "user",
+                "content": _conteudo_provider_textual(
+                    prompt=prompt,
+                    auditado=auditado,
+                    questao_base=questao_base,
+                    coluna_evidencia=coluna_evidencia,
+                    itens_afirmados=itens_afirmados,
+                    pacote=pacote,
+                ),
+            }
+        ],
+        "response_format": _json_schema_response_format(),
+    }
+    request = urllib.request.Request(
+        "https://opencode.ai/zen/go/v1/chat/completions",
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        },
+        method="POST",
+    )
+    content = ""
+    try:
+        def call_opencodego() -> dict[str, Any]:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return json.loads(response.read().decode("utf-8"))
+
+        payload = executar_com_retry_transiente(call_opencodego)
+        content = payload["choices"][0]["message"]["content"]
+        return validar_resultado_ia(carregar_json_modelo(content))
+    except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
+        result = {"status": "error", "error": f"erro ao chamar OpencodeGo: {exc}"}
+        if content:
+            result["raw_response_excerpt"] = content[:2000]
+        return result
 
 
 def executar_julgamento_openrouter(
@@ -361,7 +459,11 @@ def executar_julgamento_openrouter(
     request = urllib.request.Request(
         "https://openrouter.ai/api/v1/chat/completions",
         data=json.dumps(body).encode("utf-8"),
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        },
         method="POST",
     )
     content = ""

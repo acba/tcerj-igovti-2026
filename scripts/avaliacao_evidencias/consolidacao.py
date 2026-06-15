@@ -46,6 +46,7 @@ Regras:
 - Se a opiniao da equipe de auditoria divergir dos modelos, explique criticamente o motivo da conclusao adotada.
 - Fundamente cada conclusao com elementos da evidencia e/ou com a avaliacao critica das opinioes recebidas.
 - Declare lacunas quando a evidencia ou as opinioes nao forem suficientes.
+- Na justificativa de cada conclusao, declare explicitamente quais modelos (provedor/modelo) foram a base para a avaliacao.
 - Retorne somente JSON no schema solicitado.
 """
 
@@ -95,12 +96,6 @@ def chave_evidencia(registro: dict[str, Any]) -> ChaveEvidencia:
 def agrupar_opinioes_por_evidencia(registros: Iterable[dict[str, Any]]) -> list[GrupoEvidencia]:
     grupos: dict[ChaveEvidencia, list[dict[str, Any]]] = {}
     for registro in registros:
-        result = registro.get("result") if isinstance(registro.get("result"), dict) else {}
-        if registro.get("status") != "completed" or result.get("status") != "completed":
-            continue
-        conclusoes = result.get("conclusoes")
-        if not isinstance(conclusoes, list):
-            continue
         chave = chave_evidencia(registro)
         grupos.setdefault(chave, []).append(registro)
     return [
@@ -117,9 +112,9 @@ def agrupar_opinioes_por_evidencia(registros: Iterable[dict[str, Any]]) -> list[
     ]
 
 
-def itens_afirmados_do_grupo(grupo: GrupoEvidencia) -> list[ItemAfirmado]:
+def itens_afirmados_do_grupo(opinioes: list[dict[str, Any]]) -> list[ItemAfirmado]:
     por_codigo: dict[str, ItemAfirmado] = {}
-    for opiniao in grupo.opinioes:
+    for opiniao in opinioes:
         result = opiniao.get("result") if isinstance(opiniao.get("result"), dict) else {}
         for conclusao in result.get("conclusoes") or []:
             if not isinstance(conclusao, dict):
@@ -147,8 +142,8 @@ def _opiniao_modelo(registro: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def opinioes_modelos_do_grupo(grupo: GrupoEvidencia) -> list[dict[str, Any]]:
-    return [_opiniao_modelo(registro) for registro in grupo.opinioes]
+def opinioes_modelos_do_grupo(opinioes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [_opiniao_modelo(registro) for registro in opinioes]
 
 
 def _hash_json(payload: Any) -> str:
@@ -158,7 +153,8 @@ def _hash_json(payload: Any) -> str:
 
 def calcular_identidade_parecer(
     *,
-    grupo: GrupoEvidencia,
+    chave: ChaveEvidencia,
+    opinioes: list[dict[str, Any]],
     judge_provider: str,
     judge_model: str,
     prompt_hash: str,
@@ -173,13 +169,13 @@ def calcular_identidade_parecer(
             "model": registro.get("model", ""),
             "result": registro.get("result", {}),
         }
-        for registro in grupo.opinioes
+        for registro in opinioes
     ]
     payload = {
-        "auditado": grupo.chave.auditado,
-        "questao": grupo.chave.questao,
-        "coluna_evidencia": grupo.chave.coluna_evidencia,
-        "evidencia": grupo.chave.evidencia,
+        "auditado": chave.auditado,
+        "questao": chave.questao,
+        "coluna_evidencia": chave.coluna_evidencia,
+        "evidencia": chave.evidencia,
         "opinioes_hash": _hash_json(opinioes_para_identidade),
         "opiniao_auditoria_hash": hashlib.sha256(opiniao_auditoria.encode("utf-8")).hexdigest(),
         "evidence_hash": evidence_hash,
@@ -196,9 +192,9 @@ def _normalizar_nome(valor: str) -> str:
     return "".join(ch.lower() if ch.isalnum() else "-" for ch in sem_acentos).strip("-")
 
 
-def referencias_arquivos_do_grupo(grupo: GrupoEvidencia) -> list[str]:
+def referencias_arquivos_do_grupo(opinioes: list[dict[str, Any]]) -> list[str]:
     referencias: list[str] = []
-    for opiniao in grupo.opinioes:
+    for opiniao in opinioes:
         result = opiniao.get("result") if isinstance(opiniao.get("result"), dict) else {}
         for conclusao in result.get("conclusoes") or []:
             if not isinstance(conclusao, dict):
@@ -302,11 +298,11 @@ def opiniao_auditoria_para_grupo(
     return ""
 
 
-def executar_juiz_fake(grupo: GrupoEvidencia, itens: list[ItemAfirmado]) -> dict[str, Any]:
+def executar_juiz_fake(chave: ChaveEvidencia, opinioes: list[dict[str, Any]], itens: list[ItemAfirmado]) -> dict[str, Any]:
     modelos = sorted(
         {
             f"{opiniao.get('provider', '')}/{opiniao.get('model', '')}".strip("/")
-            for opiniao in grupo.opinioes
+            for opiniao in opinioes
         }
     )
     return {
@@ -319,7 +315,7 @@ def executar_juiz_fake(grupo: GrupoEvidencia, itens: list[ItemAfirmado]) -> dict
                 "estado": "inconclusivo",
                 "justificativa": "Juiz fake nao emite parecer substantivo.",
                 "lacunas": ["Parecer consolidado real de IA nao executado."],
-                "arquivos_referenciados": [grupo.chave.evidencia],
+                "arquivos_referenciados": [chave.evidencia],
                 "trechos_ou_elementos": modelos,
                 "paginas_ou_localizacao": [],
             }
@@ -465,20 +461,54 @@ def main(argv: list[str] | None = None) -> int:
 
     for index, grupo in enumerate(grupos, start=1):
         chave = grupo.chave
-        itens = itens_afirmados_do_grupo(grupo)
+        
+        # Filtrar opinioes validas e identificar erros
+        opinioes_validas = []
+        opinioes_erro = []
+        for opiniao in grupo.opinioes:
+            result_op = opiniao.get("result") if isinstance(opiniao.get("result"), dict) else {}
+            if opiniao.get("status") != "completed" or result_op.get("status") != "completed":
+                opinioes_erro.append(opiniao)
+            else:
+                conclusoes = result_op.get("conclusoes")
+                if not isinstance(conclusoes, list):
+                    opinioes_erro.append(opiniao)
+                else:
+                    opinioes_validas.append(opiniao)
+
+        if opinioes_erro and opinioes_validas:
+            erros_desc = []
+            for op in opinioes_erro:
+                res_op = op.get("result") if isinstance(op.get("result"), dict) else {}
+                msg = op.get("error") or res_op.get("error") or "erro desconhecido"
+                erros_desc.append(f"{op.get('provider')}/{op.get('model')}: {msg}")
+            log_event(
+                "consolidation_partial_errors",
+                "Algumas avaliacoes de modelos falharam. Procedendo apenas com as validas.",
+                level="warning",
+                quiet=args.quiet,
+                erros="; ".join(erros_desc),
+                auditado=chave.auditado,
+                questao=chave.questao,
+                coluna_evidencia=chave.coluna_evidencia,
+                evidencia=chave.evidencia,
+            )
+
+        itens = itens_afirmados_do_grupo(opinioes_validas)
         opiniao_auditoria = opiniao_auditoria_para_grupo(opinioes_auditoria, grupo)
         caminho_evidencia = (
             localizar_evidencia(
                 args.evidencias_root,
                 chave,
-                referencias_arquivos=referencias_arquivos_do_grupo(grupo),
+                referencias_arquivos=referencias_arquivos_do_grupo(opinioes_validas),
             )
             if args.evidencias_root
             else None
         )
         evidence_hash = hash_arquivo(caminho_evidencia) if caminho_evidencia else ""
         identity = calcular_identidade_parecer(
-            grupo=grupo,
+            chave=chave,
+            opinioes=opinioes_validas,
             judge_provider=args.judge_provider,
             judge_model=args.judge_model,
             prompt_hash=prompt_hash,
@@ -494,7 +524,7 @@ def main(argv: list[str] | None = None) -> int:
             "questao": chave.questao,
             "coluna_evidencia": chave.coluna_evidencia,
             "evidencia": chave.evidencia,
-            "opinioes": len(grupo.opinioes),
+            "opinioes": len(opinioes_validas),
         }
         if not deve_processar_identidade(registros_checkpoint, identity, skip_errors=args.skip_errors):
             total_pulados += 1
@@ -522,14 +552,39 @@ def main(argv: list[str] | None = None) -> int:
 
             payload_pacote = {
                 **pacote_evidencia,
-                "opinioes_modelos": opinioes_modelos_do_grupo(grupo),
+                "opinioes_modelos": opinioes_modelos_do_grupo(opinioes_validas),
                 "opiniao_auditoria": opiniao_auditoria,
                 "papel_do_resultado": "parecer consolidado revisavel pela equipe de auditoria",
             }
-            if args.judge_provider == "fake":
-                result = executar_juiz_fake(grupo, itens)
+            erro_ativo = None
+            if not opinioes_validas:
+                erros_desc = []
+                for op in opinioes_erro:
+                    res_op = op.get("result") if isinstance(op.get("result"), dict) else {}
+                    msg = op.get("error") or res_op.get("error") or "erro desconhecido"
+                    erros_desc.append(f"{op.get('provider')}/{op.get('model')}: {msg}")
+                erro_ativo = "nenhuma avaliacao valida disponivel para o juiz. erros: " + "; ".join(erros_desc)
+                log_event(
+                    "consolidation_no_valid_opinions",
+                    f"Erro de consolidacao: {erro_ativo}",
+                    level="error",
+                    quiet=args.quiet,
+                    **base_log,
+                )
+            elif args.evidencias_root:
+                erro_atual = pacote_evidencia.get("erro")
+                if erro_atual and erro_atual != "evidencia nao informada para o juiz":
+                    erro_ativo = erro_atual
+
+            if erro_ativo:
+                result = {
+                    "status": "error",
+                    "error": erro_ativo,
+                }
+            elif args.judge_provider == "fake":
+                result = executar_juiz_fake(chave, opinioes_validas, itens)
             else:
-                env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY"}.get(args.judge_provider, "")
+                env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(args.judge_provider, "")
                 api_key = os.environ.get(env_key, "") if env_key else ""
                 if args.judge_provider in REMOTE_PROVIDERS and api_key:
                     wait_seconds = rate_limiter.wait_seconds()
@@ -555,6 +610,7 @@ def main(argv: list[str] | None = None) -> int:
                     pacote=payload_pacote,
                 )
 
+
         status = result.get("status", "error") if isinstance(result, dict) else "error"
         registro = {
             "identity": identity,
@@ -565,7 +621,7 @@ def main(argv: list[str] | None = None) -> int:
             "evidencia": chave.evidencia,
             "judge_provider": args.judge_provider,
             "judge_model": args.judge_model,
-            "opinion_count": len(grupo.opinioes),
+            "opinion_count": len(opinioes_validas),
             "opinion_sources": [
                 {
                     "identity": opiniao.get("identity", ""),
@@ -573,7 +629,7 @@ def main(argv: list[str] | None = None) -> int:
                     "model": opiniao.get("model", ""),
                     "source": opiniao.get("_source", ""),
                 }
-                for opiniao in grupo.opinioes
+                for opiniao in opinioes_validas
             ],
             "opiniao_auditoria": opiniao_auditoria,
             "evidence_path": str(caminho_evidencia) if caminho_evidencia else "",
