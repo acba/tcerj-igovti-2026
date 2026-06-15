@@ -21,3 +21,12 @@ C:\Users\augustocba\.gemini\tmp/
 .venv-relatorio/
 __pycache__/
 02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias/
+scripts/.venv/
+.venv/
+scripts/benchmark_results.json
+scripts/.tmp_tests/
+.pytest_cache/
+.coverage
+htmlcov/
+.saida_analise/
+

@@ -78,10 +78,10 @@ pip install -r scripts/requirements.txt
 ```
 
 ### 1. Geração de Matrizes
-*   **Matriz de Planejamento (`gerar_matriz_planejamento_docx.py`):** Lê o arquivo Markdown e preenche um template do Word (`.docx`).
+*   **Matriz de Planejamento (`gerar_matriz_planejamento.py`):** Lê o arquivo Markdown e preenche um template do Word (`.docx`).
     *   *Como executar:*
         ```bash
-        python scripts/gerar_matriz_planejamento_docx.py 01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+        python scripts/gerar_matriz_planejamento.py 01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
         ```
 *   **Matriz de Achados (`gerar_matriz_achados.py`):** Preenche o modelo formal Word da Matriz de Achados cruzando a matriz de planejamento e o mapa de verificação.
     *   *Como executar:*
@@ -90,10 +90,10 @@ pip install -r scripts/requirements.txt
         ```
 
 ### 2. Coleta e Avaliação de Evidências (IA)
-*   **Coletar Anexos (`coletar_anexos.py`):** Baixa de forma automatizada todas as evidências submetidas pelas organizações no LimeSurvey.
+*   **Coletar Anexos (`coletar_anexos_limesurvey.py`):** Baixa de forma automatizada todas as evidências submetidas pelas organizações no LimeSurvey.
     *   *Como executar:*
         ```bash
-        python scripts/coletar_anexos.py
+        python scripts/coletar_anexos_limesurvey.py
         ```
         *(Nota: Caso a sessão expire, atualize os cookies nas linhas 19 a 23 do script).*
 *   **Extração de Evidências (`extrair_evidencias.py`):** Extrai de forma estruturada e plana todos os arquivos ZIP baixados para a pasta temporária de trabalho `/tmp/tcerj-igovti-2026/evidencias_extraidas`.
@@ -116,6 +116,16 @@ pip install -r scripts/requirements.txt
           --rpm 12 \
           --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/saida_openrouter
         ```
+
+### 3. Geração de Relatórios
+*   **Geração do Relatório Consolidado (`gerar_relatorio_consolidado.py`):** Converte o Markdown do Relatório Consolidado para Word (`.docx`) aplicando referências cruzadas, quebras de página, sublinhados do Pandoc e estilos de tabela. O script automaticamente gera os gráficos e planifica todas as imagens em uma pasta temporária (sem poluir a pasta do relatório). Aceita o arquivo Markdown como parâmetro posicional, gera a saída com o mesmo nome `.docx` por padrão, e suporta recursos adicionais e wildcards via `--resource-files`.
+    *   *Como executar:*
+        ```bash
+        scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py
+        ```
+
+
+
 
 ## 👥 Equipe Técnica
 
