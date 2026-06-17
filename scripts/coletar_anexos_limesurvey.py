@@ -5,8 +5,6 @@ import requests
 import pandas as pd
 
 repo_root = Path(__file__).resolve().parent.parent
-PLANILHA = repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx"
-PASTA_RAIZ = repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias"
 
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -19,8 +17,8 @@ HEADERS = {
 
 COOKIES = {
     "cookieconsent_status": "allow",
-    "PHPSESSID": "jkvnhn5e3uge0ficdakbimh2g8",
-    "YII_CSRF_TOKEN": "bTdPdXhRdTNRa2Z5R0hmQnRHczBwOEcwM3ZoRjN4V3HWX2dIjdVvEm08dsQMiwao4xz6iKJ5ti8UPSXgOG1DxQ==",
+    "PHPSESSID": "b6clbglald2dru1r8dht1f52aq",
+    "YII_CSRF_TOKEN": "WnRyaVhVbGhwOWZSVXp4cFY5aTM4RkhNNGc4akhsbXil6seQmZe43CRbHR39XHzh9Ju-k-_Kbt-FPdvF1bG30A%3D%3D",
 }
 
 def limpar_texto(texto: str) -> str:
@@ -37,12 +35,12 @@ def limpar_datestamp(datestamp: str) -> str:
     datestamp = re.sub(r'[\\/:*?"<>|]', "_", datestamp)
     return datestamp or "SEM_DATA"
 
-def nome_destino(orgao, datestamp, id_resposta) -> Path:
+def nome_destino(orgao, datestamp, id_resposta, pasta_raiz: Path) -> Path:
     orgao_limpo = limpar_texto(orgao)
     data_limpa = limpar_datestamp(datestamp)
     id_limpo = limpar_texto(id_resposta)
 
-    return PASTA_RAIZ / f"{orgao_limpo}_{data_limpa}_id{id_limpo}.zip"
+    return pasta_raiz / f"{orgao_limpo}_{data_limpa}_id{id_limpo}.zip"
 
 def baixar_arquivo(session, url, destino):
     with session.get(url, stream=True, timeout=180, allow_redirects=True) as resp:
@@ -51,28 +49,58 @@ def baixar_arquivo(session, url, destino):
         content_type = resp.headers.get("Content-Type", "").lower()
 
         if "text/html" in content_type:
-            texto = resp.text[:5000].lower()
+            # Pegamos o texto completo para buscar indicadores de expiração de sessão
+            texto = resp.text.lower()
 
-            if "login" in texto or "username" in texto or "password" in texto:
-                raise RuntimeError("Sessão expirada. Atualize PHPSESSID/YII_CSRF_TOKEN.")
+            if "login" in texto or "username" in texto or "password" in texto or "loginform" in texto:
+                raise RuntimeError("Sessão expirada (LimeSurvey redirecionou para tela de login). Atualize PHPSESSID/YII_CSRF_TOKEN no script.")
 
-            raise RuntimeError("Resposta HTML recebida em vez de arquivo ZIP.")
+            # Tenta capturar o título da página HTML para melhor debug
+            title_match = re.search(r"<title>(.*?)</title>", resp.text, re.IGNORECASE | re.DOTALL)
+            title = title_match.group(1).strip() if title_match else "Sem título"
+            snippet = resp.text[:150].replace('\n', ' ').strip()
+            raise RuntimeError(
+                f"Resposta HTML recebida (HTTP {resp.status_code}, Content-Type: '{content_type}'). "
+                f"Título: '{title}'. Início: '{snippet}...'"
+            )
 
         with open(destino, "wb") as f:
             for chunk in resp.iter_content(chunk_size=1024 * 1024):
                 if chunk:
                     f.write(chunk)
 
-def main():
-    PASTA_RAIZ.mkdir(exist_ok=True)
+def main(argv: list[str] | None = None):
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Baixa anexos de evidencias do LimeSurvey.")
+    parser.add_argument(
+        "--planilha", "-p",
+        default=str(repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx"),
+        help="Caminho da planilha Excel de entrada com as URLs."
+    )
+    parser.add_argument(
+        "--output-dir", "-o",
+        default=str(repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias"),
+        help="Diretorio de destino para os downloads."
+    )
+    args = parser.parse_args(argv)
 
-    df = pd.read_excel(PLANILHA)
+    planilha_path = Path(args.planilha)
+    pasta_destino = Path(args.output_dir)
+    pasta_destino.mkdir(parents=True, exist_ok=True)
 
-    colunas_obrigatorias = {"id", "orgao", "datestamp", "url"}
+    df = pd.read_excel(planilha_path)
+
+    colunas_obrigatorias = {"id", "orgao", "datestamp", "url", "completed"}
     faltantes = colunas_obrigatorias - set(df.columns)
 
     if faltantes:
         raise ValueError(f"Colunas ausentes na planilha: {faltantes}")
+
+    # Identificar o envio mais recente de cada órgão
+    df["parsed_date"] = pd.to_datetime(df["datestamp"], format="%d.%m.%Y %H:%M:%S", errors="coerce")
+    latest_idx_by_orgao = df.groupby("orgao")["parsed_date"].idxmax()
+    latest_indices_set = set(latest_idx_by_orgao.values)
 
     session = requests.Session()
     session.headers.update(HEADERS)
@@ -84,11 +112,24 @@ def main():
         id_resposta = row["id"]
         orgao = row["orgao"]
         datestamp = row["datestamp"]
+        completed = str(row["completed"]).strip().lower()
         url = str(row["url"]).strip()
 
-        destino = nome_destino(orgao, datestamp, id_resposta)
+        destino = nome_destino(orgao, datestamp, id_resposta, pasta_destino)
 
         print(f"[{i + 1}/{total}] {orgao} -> {destino.name}")
+
+        # 1. Verificar se é o envio mais recente do órgão
+        if i not in latest_indices_set:
+            latest_idx = latest_idx_by_orgao[orgao]
+            latest_row = df.loc[latest_idx]
+            print(f"  PULANDO -> há um envio mais recente em {latest_row['datestamp']} (ID {latest_row['id']})")
+            continue
+
+        # 2. Verificar se o questionário está concluído
+        if completed != "sim":
+            print(f"  PULANDO -> questionário não concluído (completed = '{row['completed']}')")
+            continue
 
         if destino.exists() and destino.stat().st_size > 0:
             print("  PULANDO -> arquivo já existe")
@@ -102,6 +143,6 @@ def main():
             print(f"  ERRO -> {e}")
 
     print("\nConcluído.")
-
+ 
 if __name__ == "__main__":
     main()
