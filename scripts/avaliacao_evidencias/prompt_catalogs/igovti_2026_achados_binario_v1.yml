@@ -14,6 +14,8 @@ regra_comum:
 prompts:
 - arquivo: q0101.md
   coluna_evidencia: q0101evi
+  excluir_regra_comum_conformidade:
+  - A evidência sustenta diretamente o item afirmado.
   itens_avaliaveis:
   - "q0101[A]"
   - "q0101[B]"
@@ -42,6 +44,8 @@ prompts:
     # - Comprova que áreas de negócio possuem equipes, contratos ou estruturas próprias para sustentar sistemas ou serviços específicos.
 - arquivo: q0102.md
   coluna_evidencia: q0102evi
+  excluir_regra_comum_conformidade:
+  - A evidência sustenta diretamente o item afirmado.
   itens_avaliaveis:
   - "q0102[A]"
   - "q0102[B]"

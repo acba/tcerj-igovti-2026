@@ -17,8 +17,8 @@ HEADERS = {
 
 COOKIES = {
     "cookieconsent_status": "allow",
-    "PHPSESSID": "b6clbglald2dru1r8dht1f52aq",
-    "YII_CSRF_TOKEN": "WnRyaVhVbGhwOWZSVXp4cFY5aTM4RkhNNGc4akhsbXil6seQmZe43CRbHR39XHzh9Ju-k-_Kbt-FPdvF1bG30A%3D%3D",
+    "PHPSESSID": "u989ege647fglr3k6010tckuen",
+    "YII_CSRF_TOKEN": "TFZGVUdFSG5RfjFvZ2xBRFBvOW80a3RVSEpmeFhTMzE0BUaazFJ-E4_WVbUgjjZtfW2CjCSchEva2PcIQDMSnA%3D%3D",
 }
 
 def limpar_texto(texto: str) -> str:
@@ -71,7 +71,7 @@ def baixar_arquivo(session, url, destino):
 
 def main(argv: list[str] | None = None):
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Baixa anexos de evidencias do LimeSurvey.")
     parser.add_argument(
         "--planilha", "-p",
@@ -143,6 +143,6 @@ def main(argv: list[str] | None = None):
             print(f"  ERRO -> {e}")
 
     print("\nConcluído.")
- 
+
 if __name__ == "__main__":
     main()

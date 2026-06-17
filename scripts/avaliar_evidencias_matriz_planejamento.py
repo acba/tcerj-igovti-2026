@@ -992,7 +992,7 @@ def _write_text_for_upload(target_dir: Path, name_hint: str, text: str) -> Path:
 def _convert_word_to_pdf_for_upload(source: Path, target_dir: Path, name_hint: str | None = None) -> tuple[Path | None, str]:
     converter = shutil.which("soffice") or shutil.which("libreoffice")
     if not converter:
-        return None, "LibreOffice/soffice nao encontrado para converter documento Word em PDF"
+        return _convert_word_to_pdf_with_microsoft_word(source, target_dir, name_hint)
     target_dir.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
@@ -1013,23 +1013,120 @@ def _convert_word_to_pdf_for_upload(source: Path, target_dir: Path, name_hint: s
                 timeout=120,
             )
         except subprocess.TimeoutExpired:
-            return None, "timeout ao converter documento Word em PDF"
+            converted, word_error = _convert_word_to_pdf_with_microsoft_word(source, target_dir, name_hint)
+            if converted:
+                return converted, ""
+            return None, f"timeout ao converter documento Word em PDF; fallback Microsoft Word: {word_error}"
         except OSError as exc:
-            return None, f"erro ao executar conversor de documento Word para PDF: {exc}"
+            converted, word_error = _convert_word_to_pdf_with_microsoft_word(source, target_dir, name_hint)
+            if converted:
+                return converted, ""
+            return None, f"erro ao executar conversor de documento Word para PDF: {exc}; fallback Microsoft Word: {word_error}"
         if result.returncode != 0:
             detail = (result.stderr or result.stdout or "").strip()
-            return None, f"erro ao converter documento Word em PDF: {detail or result.returncode}"
+            converted, word_error = _convert_word_to_pdf_with_microsoft_word(source, target_dir, name_hint)
+            if converted:
+                return converted, ""
+            return None, f"erro ao converter documento Word em PDF: {detail or result.returncode}; fallback Microsoft Word: {word_error}"
         converted = tmp_dir / f"{source.stem}.pdf"
         if not converted.is_file():
             candidates = sorted(tmp_dir.glob("*.pdf"))
             if not candidates:
-                return None, "conversor de documento Word para PDF nao gerou arquivo PDF"
+                converted_word, word_error = _convert_word_to_pdf_with_microsoft_word(source, target_dir, name_hint)
+                if converted_word:
+                    return converted_word, ""
+                return None, f"conversor de documento Word para PDF nao gerou arquivo PDF; fallback Microsoft Word: {word_error}"
             converted = candidates[0]
         original = name_hint or source.name
         digest = hashlib.sha256(original.encode("utf-8", errors="ignore")).hexdigest()[:10]
         target = _unique_path(target_dir, f"{_slug_ascii(Path(original).stem)}-{digest}.pdf")
         shutil.copyfile(converted, target)
         return target, ""
+
+
+def _convert_word_to_pdf_with_microsoft_word(
+    source: Path,
+    target_dir: Path,
+    name_hint: str | None = None,
+) -> tuple[Path | None, str]:
+    if os.name != "nt":
+        return None, "Microsoft Word COM disponivel apenas no Windows"
+    if not shutil.which("powershell.exe"):
+        return None, "powershell.exe nao encontrado para acionar Microsoft Word"
+    target_dir.mkdir(parents=True, exist_ok=True)
+    original = name_hint or source.name
+    digest = hashlib.sha256(original.encode("utf-8", errors="ignore")).hexdigest()[:10]
+    target = _unique_path(target_dir, f"{_slug_ascii(Path(original).stem)}-{digest}.pdf")
+    script = r"""
+param([string]$Source, [string]$Target)
+$ErrorActionPreference = 'Stop'
+$word = $null
+$doc = $null
+try {
+    $word = New-Object -ComObject Word.Application
+    $word.Visible = $false
+    $word.DisplayAlerts = 0
+    $sourcePath = (Resolve-Path -LiteralPath $Source).Path
+    $doc = $word.Documents.Open([ref]$sourcePath, [ref]$false, [ref]$true, [ref]$false)
+    if ($null -eq $doc) {
+        $doc = $word.ActiveDocument
+    }
+    if ($null -eq $doc) {
+        throw 'Microsoft Word nao abriu o documento'
+    }
+    $doc.ExportAsFixedFormat($Target, 17)
+} finally {
+    if ($null -ne $doc) {
+        $doc.Close($false) | Out-Null
+        [System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($doc) | Out-Null
+    }
+    if ($null -ne $word) {
+        $word.Quit() | Out-Null
+        [System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($word) | Out-Null
+    }
+    [GC]::Collect()
+    [GC]::WaitForPendingFinalizers()
+}
+"""
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            local_source = tmp_dir / f"source{source.suffix.lower()}"
+            local_target = tmp_dir / "converted.pdf"
+            script_path = tmp_dir / "convert-word-to-pdf.ps1"
+            shutil.copyfile(source, local_source)
+            script_path.write_text(script, encoding="utf-8")
+            result = subprocess.run(
+                [
+                    "powershell.exe",
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    str(script_path),
+                    "-Source",
+                    str(local_source),
+                    "-Target",
+                    str(local_target),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=180,
+            )
+            if result.returncode != 0:
+                detail = (result.stderr or result.stdout or "").strip()
+                return None, f"erro ao converter documento Word em PDF com Microsoft Word: {detail or result.returncode}"
+            if not local_target.is_file():
+                return None, "Microsoft Word nao gerou arquivo PDF"
+            shutil.copyfile(local_target, target)
+    except subprocess.TimeoutExpired:
+        return None, "timeout ao converter documento Word em PDF com Microsoft Word"
+    except OSError as exc:
+        return None, f"erro ao acionar Microsoft Word para converter documento Word em PDF: {exc}"
+    if not target.is_file():
+        return None, "Microsoft Word nao gerou arquivo PDF"
+    return target, ""
 
 
 def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
@@ -1078,9 +1175,17 @@ def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
     return prepared
 
 
-def chamar_gemini(*, api_key: str, model: str, prompt_payload: str, upload_files: list[str]) -> tuple[dict[str, Any], str]:
+def chamar_gemini(
+    *,
+    api_key: str,
+    model: str,
+    prompt_payload: str,
+    upload_files: list[str],
+    reasoning_effort: str = "",
+) -> tuple[dict[str, Any], str]:
     try:
         from google import genai
+        from google.genai import types
     except Exception as exc:
         raise RuntimeError(f"google-genai nao disponivel: {exc}") from exc
 
@@ -1089,11 +1194,15 @@ def chamar_gemini(*, api_key: str, model: str, prompt_payload: str, upload_files
     for file_path in upload_files:
         uploaded.append(executar_com_retry_transiente(lambda file_path=file_path: client.files.upload(file=file_path)))
 
+    config = types.GenerateContentConfig(response_mime_type="application/json", temperature=0)
+    if reasoning_effort:
+        config.thinking_config = types.ThinkingConfig(thinking_level=reasoning_effort)
+
     response = executar_com_retry_transiente(
         lambda: client.models.generate_content(
             model=model,
             contents=[prompt_payload, *uploaded],
-            config={"response_mime_type": "application/json", "temperature": 0},
+            config=config,
         )
     )
     raw_text = response.text
@@ -1140,6 +1249,7 @@ def executar_provider(
                     model=model,
                     prompt_payload=prompt_payload,
                     upload_files=upload_files,
+                    reasoning_effort=reasoning_effort,
                 )
             return {"status": "completed", "result": result, "raw_response_excerpt": raw[:2000]}
         except Exception as exc:

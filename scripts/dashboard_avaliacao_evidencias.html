@@ -60,8 +60,8 @@
       <div class="flex flex-wrap items-center gap-2">
         <label class="btn cursor-pointer">
           <i data-lucide="upload" class="h-4 w-4"></i>
-          Carregar JSONL
-          <input id="fileInput" type="file" accept=".jsonl,.txt,.json" class="hidden" />
+          Carregar JSONL(s)
+          <input id="fileInput" type="file" accept=".jsonl,.txt,.json" class="hidden" multiple />
         </label>
       </div>
     </header>
@@ -74,7 +74,7 @@
           <label class="mb-1 block text-xs font-medium text-slate-500">Busca</label>
           <div class="relative">
             <i data-lucide="search" class="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-slate-400"></i>
-            <input id="searchInput" class="input w-full pl-9" placeholder="Item, justificativa, lacuna, evidência..." />
+            <input id="searchInput" class="input w-full pl-9" placeholder="Item, modelo, justificativa, lacuna, evidência..." />
           </div>
         </div>
         <div>
@@ -91,7 +91,24 @@
             <option value="">Todos</option>
             <option value="nao_conforme">Não conforme</option>
             <option value="conforme">Conforme</option>
+            <option value="inconclusivo">Inconclusivo</option>
             <option value="erro">Erro</option>
+          </select>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-medium text-slate-500">Modelo</label>
+          <select id="modeloFilter" class="input w-full"></select>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-medium text-slate-500">Consenso</label>
+          <select id="consensoFilter" class="input w-full">
+            <option value="">Todos</option>
+            <option value="divergente">Divergente</option>
+            <option value="consenso_conforme">Consenso conforme</option>
+            <option value="consenso_nao_conforme">Consenso não conforme</option>
+            <option value="consenso_inconclusivo">Consenso inconclusivo</option>
+            <option value="modelo_unico">Modelo único</option>
+            <option value="com_erro">Com erro</option>
           </select>
         </div>
         <div class="flex items-end">
@@ -112,8 +129,8 @@
           </div>
           <div class="card p-4 lg:col-span-2">
             <div class="mb-3 flex items-center justify-between">
-              <h2 class="text-sm font-semibold">Questões com mais não conformidades</h2>
-              <span class="text-xs text-slate-500">ranking por questão</span>
+              <h2 class="text-sm font-semibold">Questões com mais divergências</h2>
+              <span class="text-xs text-slate-500">comparativo por questão</span>
             </div>
             <div class="h-56"><canvas id="questaoChart"></canvas></div>
           </div>
@@ -122,8 +139,8 @@
         <section class="grid gap-4 lg:grid-cols-2">
           <div class="card p-4">
             <div class="mb-3 flex items-center justify-between">
-              <h2 class="text-sm font-semibold">Auditados por não conformidade</h2>
-              <span class="text-xs text-slate-500">triagem</span>
+              <h2 class="text-sm font-semibold">Auditados por divergência</h2>
+              <span class="text-xs text-slate-500">triagem comparativa</span>
             </div>
             <div id="auditadoRanking" class="space-y-2"></div>
           </div>
@@ -139,22 +156,24 @@
         <section class="card overflow-hidden">
           <div class="flex flex-col gap-2 border-b border-slate-200 p-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 class="text-sm font-semibold">Conclusões de evidência</h2>
+              <h2 class="text-sm font-semibold">Comparativo de modelos por item</h2>
               <p id="tableCount" class="text-xs text-slate-500"></p>
             </div>
             <div class="flex gap-2">
+              <button id="onlyDivergentBtn" class="btn" type="button"><i data-lucide="git-compare-arrows" class="h-4 w-4"></i>Divergentes</button>
               <button id="onlyNonConformBtn" class="btn" type="button"><i data-lucide="circle-alert" class="h-4 w-4"></i>Não conformes</button>
             </div>
           </div>
           <div class="scrollbar-thin overflow-auto">
-            <table class="w-full min-w-[980px] text-left text-sm">
+            <table class="w-full min-w-[1180px] text-left text-sm">
               <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
-                  <th class="px-4 py-3">Estado</th>
+                  <th class="px-4 py-3">Consenso</th>
                   <th class="px-4 py-3">Auditado</th>
                   <th class="px-4 py-3">Questão</th>
                   <th class="px-4 py-3">Afirmação avaliada</th>
-                  <th class="px-4 py-3">Evidência</th>
+                  <th class="px-4 py-3">Modelos</th>
+                  <th class="px-4 py-3">Estados por modelo</th>
                   <th class="px-4 py-3">Lacunas</th>
                 </tr>
               </thead>
@@ -167,7 +186,7 @@
       <aside class="card sticky top-4 h-fit overflow-hidden">
         <div class="border-b border-slate-200 p-4">
           <div class="flex items-center justify-between gap-3">
-            <h2 class="text-sm font-semibold">Detalhe da avaliação</h2>
+            <h2 class="text-sm font-semibold">Detalhe comparativo</h2>
             <span id="detailState"></span>
           </div>
           <p id="detailSubtitle" class="mt-1 text-xs text-slate-500">Selecione uma conclusão na tabela.</p>
@@ -505,6 +524,415 @@
       if (!file) return;
       initDataset(await file.text(), file.name);
       event.target.value = "";
+    });
+
+    populateFilters();
+    render();
+  </script>
+  <script>
+    var comparisonGroups = [];
+    var comparisonFilteredGroups = [];
+    var comparisonSelectedId = null;
+
+    const comparisonStateConfig = {
+      conforme: { label: "Conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", color: "#059669" },
+      nao_conforme: { label: "Não conforme", cls: "bg-rose-50 text-rose-700 ring-1 ring-rose-200", color: "#e11d48" },
+      inconclusivo: { label: "Inconclusivo", cls: "bg-sky-50 text-sky-700 ring-1 ring-sky-200", color: "#0284c7" },
+      erro: { label: "Erro", cls: "bg-amber-50 text-amber-800 ring-1 ring-amber-200", color: "#d97706" },
+    };
+
+    const comparisonConsensusConfig = {
+      consenso_conforme: { label: "Consenso conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", icon: "badge-check" },
+      consenso_nao_conforme: { label: "Consenso não conforme", cls: "bg-rose-50 text-rose-700 ring-1 ring-rose-200", icon: "circle-alert" },
+      consenso_inconclusivo: { label: "Consenso inconclusivo", cls: "bg-sky-50 text-sky-700 ring-1 ring-sky-200", icon: "help-circle" },
+      divergente: { label: "Divergente", cls: "bg-violet-50 text-violet-700 ring-1 ring-violet-200", icon: "git-compare-arrows" },
+      modelo_unico: { label: "Modelo único", cls: "bg-slate-100 text-slate-700 ring-1 ring-slate-200", icon: "user-round-check" },
+      com_erro: { label: "Com erro", cls: "bg-amber-50 text-amber-800 ring-1 ring-amber-200", icon: "triangle-alert" },
+    };
+
+    const comparisonModelLabel = (row) => [row.provider, row.model].filter(Boolean).join(" / ") || row.source_file || "Modelo não informado";
+
+    parseJsonl = function parseJsonl(text, sourceFile = "") {
+      return text.split(/\r?\n/).map((line, index) => {
+        if (!line.trim()) return null;
+        try {
+          const record = JSON.parse(line);
+          record.source_file = sourceFile;
+          return record;
+        } catch (error) {
+          return {
+            status: "error",
+            source_file: sourceFile,
+            auditado: "Linha " + (index + 1),
+            error: String(error),
+            result: { conclusoes: [] },
+          };
+        }
+      }).filter(Boolean);
+    };
+
+    normalState = function normalState(value) {
+      return ["conforme", "nao_conforme", "inconclusivo", "erro"].includes(value) ? value : "erro";
+    };
+
+    flattenRecords = function flattenRecords(records) {
+      const flattened = [];
+      records.forEach((record, recordIndex) => {
+        const conclusoes = record?.result?.conclusoes || [];
+        if (record.status === "error" || record.result?.status === "error") {
+          flattened.push(comparisonRowFromRecord(record, `${recordIndex}-erro`, {
+            estado: "erro",
+            item_codigo: "",
+            item_texto: "Erro no processamento",
+            justificativa: record.error || record.result?.error || "Erro sem mensagem registrada.",
+          }));
+        }
+        conclusoes.forEach((conclusao, conclusionIndex) => {
+          flattened.push(comparisonRowFromRecord(record, `${recordIndex}-${conclusionIndex}`, conclusao));
+        });
+      });
+      return flattened;
+    };
+
+    function comparisonRowFromRecord(record, idPart, conclusao) {
+      return {
+        id: `${record.source_file || "fonte"}-${idPart}`,
+        auditado: record.auditado || "Sem auditado",
+        questao: record.questao || extractQuestao(conclusao.item_codigo) || extractQuestao(record.coluna_evidencia) || "sem_questao",
+        coluna_evidencia: record.coluna_evidencia || "",
+        evidencia: decodeName(record.evidencia || ""),
+        provider: record.provider || "",
+        model: record.model || "",
+        source_file: record.source_file || "",
+        finished_at: record.finished_at || "",
+        estado: normalState(conclusao.estado),
+        item_codigo: conclusao.item_codigo || "",
+        item_texto: conclusao.item_texto || "",
+        afirmacao_auditado: conclusao.afirmacao_auditado || "",
+        justificativa: conclusao.justificativa || "",
+        lacunas: asArray(conclusao.lacunas),
+        arquivos_referenciados: asArray(conclusao.arquivos_referenciados),
+        trechos_ou_elementos: asArray(conclusao.trechos_ou_elementos),
+        paginas_ou_localizacao: asArray(conclusao.paginas_ou_localizacao),
+      };
+    }
+
+    function comparisonBuildGroups(items) {
+      const map = new Map();
+      items.forEach(row => {
+        const key = [
+          row.auditado,
+          row.questao,
+          row.coluna_evidencia,
+          row.item_codigo || row.item_texto || "erro",
+          row.evidencia || "sem_evidencia",
+        ].join("||");
+        if (!map.has(key)) {
+          map.set(key, {
+            id: `g-${map.size}`,
+            auditado: row.auditado,
+            questao: row.questao,
+            coluna_evidencia: row.coluna_evidencia,
+            item_codigo: row.item_codigo,
+            item_texto: row.item_texto,
+            afirmacao_auditado: row.afirmacao_auditado,
+            evidencia: row.evidencia,
+            evaluations: [],
+          });
+        }
+        map.get(key).evaluations.push(row);
+      });
+      return [...map.values()].map(comparisonEnrichGroup).sort((a, b) =>
+        a.auditado.localeCompare(b.auditado, "pt-BR") ||
+        a.questao.localeCompare(b.questao, "pt-BR") ||
+        a.item_codigo.localeCompare(b.item_codigo, "pt-BR")
+      );
+    }
+
+    function comparisonEnrichGroup(group) {
+      const states = group.evaluations.map(item => item.estado);
+      const substantive = [...new Set(states.filter(state => state !== "erro"))];
+      const errors = states.filter(state => state === "erro").length;
+      const models = unique(group.evaluations.map(comparisonModelLabel));
+      const counts = countBy(group.evaluations, "estado");
+      let consensus = "modelo_unico";
+      if (models.length > 1) {
+        if (substantive.length > 1) consensus = "divergente";
+        else if (errors > 0) consensus = "com_erro";
+        else if (substantive[0]) consensus = `consenso_${substantive[0]}`;
+        else consensus = "com_erro";
+      } else if (errors > 0 && !substantive.length) {
+        consensus = "com_erro";
+      }
+      return { ...group, models, counts, consensus, errors };
+    }
+
+    async function comparisonInitDatasetFromFiles(files) {
+      sourceName = files.map(file => file.name).join(" · ");
+      const loaded = await Promise.all(files.map(async file => parseJsonl(await file.text(), file.name)));
+      rawRecords = loaded.flat();
+      rows = flattenRecords(rawRecords);
+      comparisonGroups = comparisonBuildGroups(rows);
+      comparisonSelectedId = comparisonGroups[0]?.id || null;
+      populateFilters();
+      render();
+    }
+
+    populateFilters = function populateFilters() {
+      setOptions("auditadoFilter", ["", ...unique(comparisonGroups.map(r => r.auditado))], "Todos");
+      setOptions("questaoFilter", ["", ...unique(comparisonGroups.map(r => r.questao))], "Todas");
+      setOptions("modeloFilter", ["", ...unique(rows.map(comparisonModelLabel))], "Todos");
+    };
+
+    applyFilters = function applyFilters() {
+      const search = norm($("searchInput").value);
+      const auditado = $("auditadoFilter").value;
+      const questao = $("questaoFilter").value;
+      const estado = $("estadoFilter").value;
+      const modelo = $("modeloFilter").value;
+      const consenso = $("consensoFilter").value;
+      comparisonFilteredGroups = comparisonGroups.filter(group => {
+        if (auditado && group.auditado !== auditado) return false;
+        if (questao && group.questao !== questao) return false;
+        if (estado && !group.evaluations.some(row => row.estado === estado)) return false;
+        if (modelo && !group.evaluations.some(row => comparisonModelLabel(row) === modelo)) return false;
+        if (consenso && group.consensus !== consenso) return false;
+        if (!search) return true;
+        return norm([
+          group.auditado,
+          group.questao,
+          group.item_codigo,
+          group.item_texto,
+          group.afirmacao_auditado,
+          group.evidencia,
+          group.models.join(" "),
+          group.evaluations.map(row => [row.justificativa, row.lacunas.join(" "), row.trechos_ou_elementos.join(" ")].join(" ")).join(" "),
+        ].join(" ")).includes(search);
+      });
+      if (!comparisonFilteredGroups.some(group => group.id === comparisonSelectedId)) comparisonSelectedId = comparisonFilteredGroups[0]?.id || null;
+    };
+
+    renderMeta = function renderMeta() {
+      if (!sourceName) {
+        $("datasetMeta").textContent = "Carregue um ou mais arquivos analyses.jsonl para iniciar a análise comparativa.";
+        return;
+      }
+      const dates = rows.map(r => r.finished_at).filter(Boolean).sort();
+      $("datasetMeta").textContent = `${sourceName} · ${rawRecords.length} registros · ${rows.length} conclusões · ${comparisonGroups.length} grupos · ${dates[0] ? formatDate(dates[0]) : "sem data"}`;
+    };
+
+    renderKpis = function renderKpis() {
+      const evals = comparisonFilteredGroups.flatMap(group => group.evaluations);
+      const consensus = countBy(comparisonFilteredGroups, "consensus");
+      const distinctModels = unique(evals.map(comparisonModelLabel)).length;
+      const nao = evals.filter(row => row.estado === "nao_conforme").length;
+      const cards = [
+        ["Grupos", comparisonFilteredGroups.length, "itens comparáveis", "rows-3"],
+        ["Divergências", consensus.divergente || 0, "revisão prioritária", "git-compare-arrows"],
+        ["Consensos", (consensus.consenso_conforme || 0) + (consensus.consenso_nao_conforme || 0) + (consensus.consenso_inconclusivo || 0), "entre dois ou mais modelos", "badge-check"],
+        ["Modelo único", consensus.modelo_unico || 0, "sem comparação possível", "user-round-check"],
+        ["Não conformes", nao, "conclusões individuais", "circle-alert"],
+        ["Modelos", distinctModels, "fontes de avaliação", "bot"],
+      ];
+      $("kpiGrid").innerHTML = cards.map(([title, value, hint, icon]) => `
+        <div class="card p-4">
+          <div class="flex items-center justify-between text-slate-500">
+            <span class="text-xs font-medium uppercase tracking-wide">${title}</span>
+            <i data-lucide="${icon}" class="h-4 w-4"></i>
+          </div>
+          <div class="mt-2 text-2xl font-semibold tracking-tight">${value}</div>
+          <div class="mt-1 text-xs text-slate-500">${hint}</div>
+        </div>
+      `).join("");
+    };
+
+    renderCharts = function renderCharts() {
+      const evals = comparisonFilteredGroups.flatMap(group => group.evaluations);
+      const states = countBy(evals, "estado");
+      drawDoughnut(
+        "estadoChart",
+        ["Conforme", "Não conforme", "Inconclusivo", "Erro"],
+        [states.conforme || 0, states.nao_conforme || 0, states.inconclusivo || 0, states.erro || 0],
+        ["#059669", "#e11d48", "#0284c7", "#d97706"]
+      );
+      const issueRows = Object.entries(groupBy(comparisonFilteredGroups, "questao")).map(([questao, items]) => ({
+        questao,
+        divergentes: items.filter(i => i.consensus === "divergente").length,
+        total: items.length,
+      })).sort((a, b) => b.divergentes - a.divergentes || b.total - a.total).slice(0, 8);
+      drawBar("questaoChart", issueRows.map(i => i.questao), issueRows.map(i => i.divergentes), "#7c3aed");
+    };
+
+    renderRankings = function renderRankings() {
+      const auditadoRows = Object.entries(groupBy(comparisonFilteredGroups, "auditado")).map(([auditado, items]) => ({
+        label: auditado,
+        value: items.filter(i => i.consensus === "divergente").length,
+        total: items.length,
+      })).sort((a,b) => b.value - a.value || b.total - a.total).slice(0, 8);
+      $("auditadoRanking").innerHTML = rankingHtml(auditadoRows, "divergências");
+
+      const lacunas = new Map();
+      comparisonFilteredGroups.flatMap(group => group.evaluations).forEach(row => row.lacunas.forEach(lacuna => lacunas.set(lacuna, (lacunas.get(lacuna) || 0) + 1)));
+      const lacunaRows = [...lacunas.entries()].map(([label, total]) => ({ label, value: total, total })).sort((a,b) => b.total - a.total).slice(0, 8);
+      $("lacunasRanking").innerHTML = lacunaRows.length ? rankingHtml(lacunaRows, "ocorrências") : `<p class="text-sm text-slate-500">Nenhuma lacuna nos filtros atuais.</p>`;
+    };
+
+    rankingHtml = function rankingHtml(items, suffix) {
+      if (!items.length) return `<p class="text-sm text-slate-500">Sem dados nos filtros atuais.</p>`;
+      const max = Math.max(...items.map(i => i.value || i.total), 1);
+      return items.map(item => {
+        const value = item.value ?? item.total;
+        return `<button class="w-full rounded-md border border-slate-200 p-3 text-left hover:bg-slate-50" type="button" data-rank-filter="${escapeHtml(item.label)}">
+          <div class="flex items-start justify-between gap-3">
+            <span class="line-clamp-2 text-sm font-medium">${escapeHtml(item.label)}</span>
+            <span class="text-sm font-semibold">${value}</span>
+          </div>
+          <div class="mt-2 h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-violet-500" style="width:${Math.max(6, (value / max) * 100)}%"></div></div>
+          <div class="mt-1 text-xs text-slate-500">${suffix}${item.total ? ` · ${item.total} total` : ""}</div>
+        </button>`;
+      }).join("");
+    };
+
+    renderTable = function renderTable() {
+      $("tableCount").textContent = `${comparisonFilteredGroups.length} de ${comparisonGroups.length} grupos · ${comparisonFilteredGroups.flatMap(group => group.evaluations).length} conclusões`;
+      if (!comparisonGroups.length) {
+        $("conclusoesTable").innerHTML = `
+          <tr>
+            <td colspan="7" class="px-4 py-12 text-center">
+              <div class="mx-auto max-w-md rounded-md border border-dashed border-slate-300 bg-slate-50 p-6">
+                <div class="flex justify-center"><i data-lucide="file-up" class="h-8 w-8 text-slate-400"></i></div>
+                <p class="mt-3 text-sm font-medium text-slate-700">Nenhum processamento carregado</p>
+                <p class="mt-1 text-xs text-slate-500">Use o botão “Carregar JSONL(s)” para selecionar um ou mais arquivos analyses.jsonl gerados por modelos diferentes.</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      $("conclusoesTable").innerHTML = comparisonFilteredGroups.map(group => `
+        <tr class="${group.id === comparisonSelectedId ? "bg-slate-50" : "bg-white"} cursor-pointer hover:bg-slate-50" data-group-id="${group.id}">
+          <td class="px-4 py-3 align-top">${comparisonConsensusBadge(group.consensus)}</td>
+          <td class="px-4 py-3 align-top font-medium">${escapeHtml(group.auditado)}</td>
+          <td class="px-4 py-3 align-top"><span class="font-mono text-xs">${escapeHtml(group.questao)}</span><div class="mt-1 text-xs text-slate-500">${escapeHtml(group.coluna_evidencia)}</div></td>
+          <td class="px-4 py-3 align-top">
+            <div class="font-medium">${escapeHtml(group.item_codigo || "Sem item")}</div>
+            <div class="mt-1 line-clamp-2 text-xs text-slate-500">${escapeHtml(group.item_texto || group.afirmacao_auditado)}</div>
+          </td>
+          <td class="px-4 py-3 align-top">${comparisonModelList(group)}</td>
+          <td class="px-4 py-3 align-top">${comparisonStateMatrix(group)}</td>
+          <td class="px-4 py-3 align-top">${comparisonLacunaSummary(group)}</td>
+        </tr>
+      `).join("");
+    };
+
+    renderDetail = function renderDetail() {
+      const group = comparisonFilteredGroups.find(item => item.id === comparisonSelectedId);
+      $("detailState").innerHTML = group ? comparisonConsensusBadge(group.consensus) : "";
+      $("detailSubtitle").textContent = group ? `${group.auditado} · ${group.questao} · ${group.item_codigo || "erro"}` : "Selecione um grupo na tabela.";
+      if (!group) {
+        $("detailPanel").innerHTML = `<div class="rounded-md border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">Nenhum grupo selecionado.</div>`;
+        return;
+      }
+      $("detailPanel").innerHTML = `
+        ${section("Afirmação avaliada", `<div class="rounded-md bg-slate-50 p-3"><div class="text-xs font-medium text-slate-500">Resposta</div><div class="mt-1 font-medium">${escapeHtml(group.afirmacao_auditado || "Não registrada")}</div><div class="mt-2 text-xs text-slate-600">${escapeHtml(group.item_texto)}</div></div>`)}
+        ${section("Síntese do consenso", comparisonSummaryHtml(group))}
+        ${section("Avaliações por modelo", comparisonModelDetails(group))}
+        ${section("Rastreabilidade comum", `
+          <dl class="grid grid-cols-1 gap-2 text-xs">
+            ${detailRow("Evidência enviada", group.evidencia || "Sem arquivo")}
+            ${detailRow("Coluna de evidência", group.coluna_evidencia || "Não informada")}
+            ${detailRow("Modelos", group.models.join(" · ") || "Não informado")}
+          </dl>
+        `)}
+      `;
+    };
+
+    function comparisonModelDetails(group) {
+      return `<div class="space-y-3">${group.evaluations.map(row => `
+        <article class="rounded-md border border-slate-200 p-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="text-sm font-semibold">${escapeHtml(comparisonModelLabel(row))}</div>
+            ${stateBadge(row.estado)}
+          </div>
+          <p class="mt-3 leading-6 text-slate-700">${escapeHtml(row.justificativa || "Sem justificativa.")}</p>
+          <div class="mt-3 grid gap-2 text-xs">
+            ${detailRow("Lacunas", row.lacunas.join(" · ") || "Nenhuma lacuna registrada")}
+            ${detailRow("Trechos ou elementos", row.trechos_ou_elementos.join(" · ") || "Não informado")}
+            ${detailRow("Páginas ou localização", row.paginas_ou_localizacao.join(" · ") || "Não informado")}
+            ${detailRow("Arquivo JSONL", row.source_file || "Não informado")}
+          </div>
+        </article>
+      `).join("")}</div>`;
+    }
+
+    function comparisonSummaryHtml(group) {
+      const parts = ["conforme", "nao_conforme", "inconclusivo", "erro"]
+        .filter(state => group.counts[state])
+        .map(state => `${comparisonStateConfig[state].label}: ${group.counts[state]}`)
+        .join(" · ");
+      return `<div class="rounded-md border border-slate-200 p-3">
+        <div class="flex flex-wrap items-center gap-2">${comparisonConsensusBadge(group.consensus)}<span class="text-xs text-slate-500">${escapeHtml(parts || "Sem conclusões")}</span></div>
+        <p class="mt-2 text-sm text-slate-600">${comparisonConsensusText(group)}</p>
+      </div>`;
+    }
+
+    function comparisonConsensusText(group) {
+      if (group.consensus === "divergente") return "Os modelos chegaram a estados substantivos diferentes para o mesmo item e evidência. Priorize a revisão da justificativa e das lacunas.";
+      if (group.consensus === "modelo_unico") return "Há apenas um modelo avaliando este item; use a conclusão como pré-análise sem comparação independente.";
+      if (group.consensus === "com_erro") return "Há erro técnico em ao menos uma avaliação; verifique se o item precisa ser reprocessado.";
+      return "Dois ou mais modelos chegaram ao mesmo estado substantivo para este item e evidência.";
+    }
+
+    function comparisonModelList(group) {
+      return `<div class="flex max-w-[260px] flex-wrap gap-1">${group.models.map(model => `<span class="badge bg-slate-100 text-slate-700 ring-1 ring-slate-200">${escapeHtml(model)}</span>`).join("")}</div>`;
+    }
+
+    function comparisonStateMatrix(group) {
+      return `<div class="space-y-1">${group.evaluations.map(row => `
+        <div class="flex items-center justify-between gap-2 rounded-md bg-slate-50 px-2 py-1">
+          <span class="max-w-[180px] truncate text-xs text-slate-600" title="${escapeHtml(comparisonModelLabel(row))}">${escapeHtml(comparisonModelLabel(row))}</span>
+          ${stateBadge(row.estado)}
+        </div>
+      `).join("")}</div>`;
+    }
+
+    function comparisonLacunaSummary(group) {
+      const total = group.evaluations.reduce((sum, row) => sum + row.lacunas.length, 0);
+      if (!total) return `<span class="text-xs text-slate-400">Sem lacuna</span>`;
+      const uniqueLacunas = unique(group.evaluations.flatMap(row => row.lacunas));
+      return `<div class="space-y-1"><span class="badge bg-rose-50 text-rose-700 ring-1 ring-rose-200">${total} lacuna(s)</span><div class="line-clamp-2 text-xs text-slate-500">${escapeHtml(uniqueLacunas.join(" · "))}</div></div>`;
+    }
+
+    stateBadge = function stateBadge(state) {
+      const cfg = comparisonStateConfig[state] || comparisonStateConfig.erro;
+      return `<span class="badge ${cfg.cls}">${cfg.label}</span>`;
+    };
+
+    function comparisonConsensusBadge(consensus) {
+      const cfg = comparisonConsensusConfig[consensus] || comparisonConsensusConfig.modelo_unico;
+      return `<span class="badge ${cfg.cls}"><i data-lucide="${cfg.icon}" class="h-3 w-3"></i>${cfg.label}</span>`;
+    }
+
+    const originalFileInput = $("fileInput");
+    const cleanFileInput = originalFileInput.cloneNode(true);
+    originalFileInput.replaceWith(cleanFileInput);
+    cleanFileInput.addEventListener("change", async (event) => {
+      const files = [...(event.target.files || [])];
+      if (!files.length) return;
+      await comparisonInitDatasetFromFiles(files);
+      event.target.value = "";
+    });
+
+    ["modeloFilter", "consensoFilter"].forEach(id => $(id).addEventListener("input", render));
+    $("clearFiltersBtn").addEventListener("click", () => {
+      $("modeloFilter").value = "";
+      $("consensoFilter").value = "";
+      render();
+    });
+    $("onlyDivergentBtn").addEventListener("click", () => { $("consensoFilter").value = "divergente"; render(); });
+    document.addEventListener("click", (event) => {
+      const row = event.target.closest("[data-group-id]");
+      if (row) { comparisonSelectedId = row.dataset.groupId; renderTable(); renderDetail(); if (window.lucide) lucide.createIcons(); }
     });
 
     populateFilters();

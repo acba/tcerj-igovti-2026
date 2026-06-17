@@ -87,6 +87,11 @@ def validate_catalog(catalogo: dict[str, Any], questionario: str | Path) -> list
         criterios = entrada.get("criterios_por_item")
         if criterios is not None and not isinstance(criterios, dict):
             erros.append(f"{arquivo} criterios_por_item deve ser objeto")
+        excluir_regra = entrada.get("excluir_regra_comum_conformidade")
+        if excluir_regra is not None and (
+            not isinstance(excluir_regra, list) or not all(isinstance(item, str) and item.strip() for item in excluir_regra)
+        ):
+            erros.append(f"{arquivo} excluir_regra_comum_conformidade deve ser lista de textos")
         pratica = entrada.get("criterios_pratica_principal")
         if pratica is not None and (not isinstance(pratica, list) or not all(isinstance(item, str) and item.strip() for item in pratica)):
             erros.append(f"{arquivo} criterios_pratica_principal deve ser lista de textos")
@@ -99,6 +104,12 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
     titulo = entrada.get("titulo") or f"{contexto.arquivo[:-3]} - {contexto.texto_questao}"
     itens_avaliaveis = [str(item) for item in entrada["itens_avaliaveis"]]
     criterios_por_item = entrada.get("criterios_por_item", {}) if isinstance(entrada.get("criterios_por_item"), dict) else {}
+    excluir_conformidade = set(entrada.get("excluir_regra_comum_conformidade") or [])
+    regra_conformidade = [
+        item
+        for item in regra.get("conformidade", [])
+        if item not in excluir_conformidade
+    ]
     linhas: list[str] = [
         f"# {titulo}",
         "",
@@ -121,7 +132,7 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
         "",
         "## Regra comum de conformidade",
     ]
-    linhas.extend(_bullet_list(regra.get("conformidade", [])))
+    linhas.extend(_bullet_list(regra_conformidade))
     linhas.extend(["", "## Regra comum de nao conformidade"])
     linhas.extend(_bullet_list(regra.get("nao_conformidade", [])))
 

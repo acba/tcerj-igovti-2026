@@ -780,7 +780,7 @@ def _extrair_texto_bytes_com_markitdown(nome: str, data: bytes, sufixo: str) -> 
 def _converter_word_para_pdf(origem: Path, destino: Path, nome_original: str | None = None) -> tuple[Path | None, str]:
     conversor = shutil.which("soffice") or shutil.which("libreoffice")
     if not conversor:
-        return None, "LibreOffice/soffice nao encontrado para converter documento Word em PDF"
+        return _converter_word_para_pdf_com_microsoft_word(origem, destino, nome_original)
     destino.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_path = Path(tmp_dir)
@@ -801,22 +801,118 @@ def _converter_word_para_pdf(origem: Path, destino: Path, nome_original: str | N
                 timeout=120,
             )
         except subprocess.TimeoutExpired:
-            return None, "timeout ao converter documento Word em PDF"
+            convertido, erro_word = _converter_word_para_pdf_com_microsoft_word(origem, destino, nome_original)
+            if convertido:
+                return convertido, ""
+            return None, f"timeout ao converter documento Word em PDF; fallback Microsoft Word: {erro_word}"
         except OSError as exc:
-            return None, f"erro ao executar conversor de documento Word para PDF: {exc}"
+            convertido, erro_word = _converter_word_para_pdf_com_microsoft_word(origem, destino, nome_original)
+            if convertido:
+                return convertido, ""
+            return None, f"erro ao executar conversor de documento Word para PDF: {exc}; fallback Microsoft Word: {erro_word}"
         if result.returncode != 0:
             detalhe = (result.stderr or result.stdout or "").strip()
-            return None, f"erro ao converter documento Word em PDF: {detalhe or result.returncode}"
+            convertido, erro_word = _converter_word_para_pdf_com_microsoft_word(origem, destino, nome_original)
+            if convertido:
+                return convertido, ""
+            return None, f"erro ao converter documento Word em PDF: {detalhe or result.returncode}; fallback Microsoft Word: {erro_word}"
         pdf_convertido = tmp_path / f"{origem.stem}.pdf"
         if not pdf_convertido.is_file():
             candidatos = sorted(tmp_path.glob("*.pdf"))
             if not candidatos:
-                return None, "conversor de documento Word para PDF nao gerou arquivo PDF"
+                convertido, erro_word = _converter_word_para_pdf_com_microsoft_word(origem, destino, nome_original)
+                if convertido:
+                    return convertido, ""
+                return None, f"conversor de documento Word para PDF nao gerou arquivo PDF; fallback Microsoft Word: {erro_word}"
             pdf_convertido = candidatos[0]
         nome_pdf = _nome_upload_seguro(nome_original or origem.name, ".pdf")
         target = _caminho_unico(destino, nome_pdf)
         shutil.copyfile(pdf_convertido, target)
         return target, ""
+
+
+def _converter_word_para_pdf_com_microsoft_word(
+    origem: Path,
+    destino: Path,
+    nome_original: str | None = None,
+) -> tuple[Path | None, str]:
+    if os.name != "nt":
+        return None, "Microsoft Word COM disponivel apenas no Windows"
+    if not shutil.which("powershell.exe"):
+        return None, "powershell.exe nao encontrado para acionar Microsoft Word"
+    destino.mkdir(parents=True, exist_ok=True)
+    nome_pdf = _nome_upload_seguro(nome_original or origem.name, ".pdf")
+    target = _caminho_unico(destino, nome_pdf)
+    script = r"""
+param([string]$Source, [string]$Target)
+$ErrorActionPreference = 'Stop'
+$word = $null
+$doc = $null
+try {
+    $word = New-Object -ComObject Word.Application
+    $word.Visible = $false
+    $word.DisplayAlerts = 0
+    $sourcePath = (Resolve-Path -LiteralPath $Source).Path
+    $doc = $word.Documents.Open([ref]$sourcePath, [ref]$false, [ref]$true, [ref]$false)
+    if ($null -eq $doc) {
+        $doc = $word.ActiveDocument
+    }
+    if ($null -eq $doc) {
+        throw 'Microsoft Word nao abriu o documento'
+    }
+    $doc.ExportAsFixedFormat($Target, 17)
+} finally {
+    if ($null -ne $doc) {
+        $doc.Close($false) | Out-Null
+        [System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($doc) | Out-Null
+    }
+    if ($null -ne $word) {
+        $word.Quit() | Out-Null
+        [System.Runtime.InteropServices.Marshal]::FinalReleaseComObject($word) | Out-Null
+    }
+    [GC]::Collect()
+    [GC]::WaitForPendingFinalizers()
+}
+"""
+    try:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = Path(tmp_dir)
+            local_source = tmp_path / f"source{origem.suffix.lower()}"
+            local_target = tmp_path / "converted.pdf"
+            script_path = tmp_path / "convert-word-to-pdf.ps1"
+            shutil.copyfile(origem, local_source)
+            script_path.write_text(script, encoding="utf-8")
+            result = subprocess.run(
+                [
+                    "powershell.exe",
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    str(script_path),
+                    "-Source",
+                    str(local_source),
+                    "-Target",
+                    str(local_target),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=180,
+            )
+            if result.returncode != 0:
+                detalhe = (result.stderr or result.stdout or "").strip()
+                return None, f"erro ao converter documento Word em PDF com Microsoft Word: {detalhe or result.returncode}"
+            if not local_target.is_file():
+                return None, "Microsoft Word nao gerou arquivo PDF"
+            shutil.copyfile(local_target, target)
+    except subprocess.TimeoutExpired:
+        return None, "timeout ao converter documento Word em PDF com Microsoft Word"
+    except OSError as exc:
+        return None, f"erro ao acionar Microsoft Word para converter documento Word em PDF: {exc}"
+    if not target.is_file():
+        return None, "Microsoft Word nao gerou arquivo PDF"
+    return target, ""
 
 
 def _extrair_texto_pdf_reader(nome: str, reader: Any) -> tuple[list[dict[str, Any]], str]:

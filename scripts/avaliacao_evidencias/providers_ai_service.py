@@ -205,6 +205,7 @@ def executar_provider(
             coluna_evidencia=coluna_evidencia,
             itens_afirmados=itens_afirmados,
             pacote=pacote,
+            reasoning_effort=reasoning_effort,
         )
     if provider == "opencodego":
         return executar_julgamento_opencodego(
@@ -557,9 +558,11 @@ def executar_julgamento_gemini_genai(
     coluna_evidencia: str,
     itens_afirmados: list[Any],
     pacote: dict[str, Any],
+    reasoning_effort: str = "",
 ) -> dict[str, Any]:
     try:
         from google import genai
+        from google.genai import types
     except Exception as exc:
         return {"status": "error", "error": f"google-genai nao disponivel: {exc}"}
     import random
@@ -585,13 +588,16 @@ def executar_julgamento_gemini_genai(
         )
     ]
     contents.extend(uploaded)
+    config = types.GenerateContentConfig(response_mime_type="application/json")
+    if reasoning_effort:
+        config.thinking_config = types.ThinkingConfig(thinking_level=reasoning_effort)
     raw_text = ""
     try:
         response = executar_com_retry_transiente(
             lambda: client.models.generate_content(
                 model=model,
                 contents=contents,
-                config={"response_mime_type": "application/json"},
+                config=config,
             )
         )
         raw_text = response.text

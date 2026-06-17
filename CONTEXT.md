@@ -88,6 +88,14 @@ _Avoid_: item ignorado, sem escopo
 Artefato estático de visualização usado para explorar conclusões de evidência, estados de conformidade, auditados, questões, colunas de evidência e justificativas produzidas pelo pipeline.
 _Avoid_: sistema de auditoria, fonte de verdade
 
+**Grupo de comparação de modelos**:
+Conjunto de conclusões de evidência referentes ao mesmo auditado, item afirmado e evidência, produzido por um ou mais modelos de avaliação para apoiar a revisão comparativa pelo analista.
+_Avoid_: linha do JSONL, média dos modelos
+
+**Consenso entre modelos**:
+Situação em que dois ou mais modelos atribuem o mesmo estado substantivo a um grupo de comparação de modelos. Divergência ocorre quando há estados substantivos diferentes para o mesmo grupo.
+_Avoid_: conclusão final de auditoria, decisão automática
+
 **Arquivo estático de dashboard**:
 Dashboard de avaliação de evidências distribuído como um único HTML, com dados iniciais embutidos e possibilidade de carregar outro `analyses.jsonl` local para exploração.
 _Avoid_: aplicação web, backend
