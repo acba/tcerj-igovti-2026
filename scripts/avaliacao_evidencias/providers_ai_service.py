@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import dataclasses
 import datetime as dt
 import json
@@ -8,6 +9,7 @@ import time
 import urllib.error
 import urllib.request
 from email.utils import parsedate_to_datetime
+from pathlib import Path
 from typing import Any, Callable, Mapping
 
 
@@ -162,6 +164,7 @@ def executar_provider(
     coluna_evidencia: str,
     itens_afirmados: list[Any],
     pacote: dict[str, Any],
+    reasoning_effort: str = "",
 ) -> dict[str, Any]:
     if provider == "fake":
         return validar_resultado_ia(
@@ -190,6 +193,7 @@ def executar_provider(
             coluna_evidencia=coluna_evidencia,
             itens_afirmados=itens_afirmados,
             pacote=pacote,
+            reasoning_effort=reasoning_effort,
         )
     if provider == "gemini":
         return executar_julgamento_gemini_genai(
@@ -248,6 +252,7 @@ def _conteudo_provider_textual(
                     "paginas_ou_localizacao": [],
                 }
             ],
+            "error": "",
         },
     }
     return json.dumps(payload, ensure_ascii=False, indent=2)
@@ -286,7 +291,7 @@ def _json_schema_response_format() -> dict[str, Any]:
                     },
                     "error": {"type": "string"},
                 },
-                "required": ["status"],
+                "required": ["status", "conclusoes", "error"],
             },
         },
     }
@@ -438,24 +443,39 @@ def executar_julgamento_openrouter(
     coluna_evidencia: str,
     itens_afirmados: list[Any],
     pacote: dict[str, Any],
+    reasoning_effort: str = "",
 ) -> dict[str, Any]:
+    pacote_textual = {k: v for k, v in pacote.items() if k != "arquivos_upload"}
+    prompt_textual = _conteudo_provider_textual(
+        prompt=prompt,
+        auditado=auditado,
+        questao_base=questao_base,
+        coluna_evidencia=coluna_evidencia,
+        itens_afirmados=itens_afirmados,
+        pacote=pacote_textual,
+    )
+    arquivos_pdf = _arquivos_pdf_openrouter(pacote)
+    usar_pdf_nativo = bool(arquivos_pdf) and _modelo_openrouter_suporta_pdf_nativo(model)
+    message_content: str | list[dict[str, Any]]
+    if usar_pdf_nativo:
+        message_content = [{"type": "text", "text": prompt_textual}]
+        message_content.extend(_arquivo_pdf_para_openrouter(path) for path in arquivos_pdf)
+    else:
+        message_content = prompt_textual
     body = {
         "model": model,
         "messages": [
             {
                 "role": "user",
-                "content": _conteudo_provider_textual(
-                    prompt=prompt,
-                    auditado=auditado,
-                    questao_base=questao_base,
-                    coluna_evidencia=coluna_evidencia,
-                    itens_afirmados=itens_afirmados,
-                    pacote=pacote,
-                ),
+                "content": message_content,
             }
         ],
         "response_format": _json_schema_response_format(),
     }
+    if reasoning_effort:
+        body["reasoning"] = {"effort": reasoning_effort}
+    if usar_pdf_nativo:
+        body["plugins"] = [{"id": "file-parser", "pdf": {"engine": "native"}}]
     request = urllib.request.Request(
         "https://openrouter.ai/api/v1/chat/completions",
         data=json.dumps(body).encode("utf-8"),
@@ -466,20 +486,65 @@ def executar_julgamento_openrouter(
         },
         method="POST",
     )
-    content = ""
+    raw_content = ""
     try:
         def call_openrouter() -> dict[str, Any]:
             with urllib.request.urlopen(request, timeout=120) as response:
                 return json.loads(response.read().decode("utf-8"))
 
         payload = executar_com_retry_transiente(call_openrouter)
-        content = payload["choices"][0]["message"]["content"]
-        return validar_resultado_ia(carregar_json_modelo(content))
+        raw_content = payload["choices"][0]["message"]["content"]
+        return validar_resultado_ia(carregar_json_modelo(raw_content))
     except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
-        result = {"status": "error", "error": f"erro ao chamar OpenRouter: {exc}"}
-        if content:
-            result["raw_response_excerpt"] = content[:2000]
+        result = {"status": "error", "error": f"erro ao chamar OpenRouter: {_formatar_erro_http(exc)}"}
+        if raw_content:
+            result["raw_response_excerpt"] = raw_content[:2000]
         return result
+
+
+def _formatar_erro_http(exc: BaseException) -> str:
+    if isinstance(exc, urllib.error.HTTPError):
+        detalhe = ""
+        try:
+            detalhe = exc.read().decode("utf-8", errors="replace").strip()
+        except Exception:
+            detalhe = ""
+        if detalhe:
+            return f"HTTP Error {exc.code}: {exc.reason}; body: {detalhe[:2000]}"
+    return str(exc)
+
+
+def _modelo_openrouter_suporta_pdf_nativo(model: str) -> bool:
+    normalizado = model.strip().casefold()
+    return (
+        normalizado.startswith("google/")
+        or "gemini" in normalizado
+        or normalizado.startswith("openai/")
+        or "chatgpt" in normalizado
+        or "/gpt-" in normalizado
+        or normalizado.startswith("gpt-")
+        or re.search(r"(^|/|:)o[134](?:-|$)", normalizado) is not None
+    )
+
+
+def _arquivos_pdf_openrouter(pacote: dict[str, Any]) -> list[Path]:
+    arquivos = []
+    for valor in pacote.get("arquivos_upload", []) if isinstance(pacote, dict) else []:
+        path = Path(str(valor))
+        if path.suffix.casefold() == ".pdf" and path.is_file():
+            arquivos.append(path)
+    return arquivos
+
+
+def _arquivo_pdf_para_openrouter(path: Path) -> dict[str, Any]:
+    data_url = "data:application/pdf;base64," + base64.b64encode(path.read_bytes()).decode("ascii")
+    return {
+        "type": "file",
+        "file": {
+            "filename": path.name,
+            "file_data": data_url,
+        },
+    }
 
 
 def executar_julgamento_gemini_genai(

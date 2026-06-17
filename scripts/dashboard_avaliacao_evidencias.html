@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard de Avaliação de Evidências</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            border: "hsl(214.3 31.8% 91.4%)",
+            input: "hsl(214.3 31.8% 91.4%)",
+            ring: "hsl(222.2 84% 4.9%)",
+            background: "hsl(0 0% 100%)",
+            foreground: "hsl(222.2 84% 4.9%)",
+            muted: "hsl(210 40% 96.1%)",
+            "muted-foreground": "hsl(215.4 16.3% 46.9%)",
+            card: "hsl(0 0% 100%)",
+            "card-foreground": "hsl(222.2 84% 4.9%)",
+            primary: "hsl(222.2 47.4% 11.2%)",
+            "primary-foreground": "hsl(210 40% 98%)",
+            destructive: "hsl(0 84.2% 60.2%)",
+            "destructive-foreground": "hsl(210 40% 98%)",
+          },
+          boxShadow: {
+            soft: "0 1px 2px rgba(15, 23, 42, .06), 0 8px 24px rgba(15, 23, 42, .06)",
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-feature-settings: "cv02", "cv03", "cv04", "cv11"; }
+    .card { border: 1px solid hsl(214.3 31.8% 91.4%); background: white; border-radius: 8px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; height: 2.25rem; border-radius: 6px; border: 1px solid hsl(214.3 31.8% 91.4%); padding: 0 .75rem; font-size: .875rem; font-weight: 500; background: white; }
+    .btn:hover { background: hsl(210 40% 96.1%); }
+    .input { height: 2.25rem; border: 1px solid hsl(214.3 31.8% 91.4%); border-radius: 6px; padding: 0 .75rem; font-size: .875rem; background: white; outline: none; }
+    .input:focus { box-shadow: 0 0 0 2px rgba(15,23,42,.12); }
+    .badge { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; padding: .125rem .5rem; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+    .scrollbar-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-950">
+
+  <div class="mx-auto flex min-h-screen w-full max-w-[1760px] flex-col gap-4 p-4 lg:p-6">
+    <header class="flex flex-col gap-3 border-b border-slate-200 pb-4 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <div class="flex items-center gap-2 text-sm font-medium text-slate-500">
+          <i data-lucide="shield-check" class="h-4 w-4"></i>
+          iGovTI 2026 · Avaliação de evidências
+        </div>
+        <h1 class="mt-1 text-2xl font-semibold tracking-tight text-slate-950 lg:text-3xl">Dashboard de conformidade das evidências</h1>
+        <p id="datasetMeta" class="mt-1 text-sm text-slate-500"></p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <label class="btn cursor-pointer">
+          <i data-lucide="upload" class="h-4 w-4"></i>
+          Carregar JSONL
+          <input id="fileInput" type="file" accept=".jsonl,.txt,.json" class="hidden" />
+        </label>
+      </div>
+    </header>
+
+    <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-6" id="kpiGrid"></section>
+
+    <section class="card p-3">
+      <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
+        <div class="xl:col-span-2">
+          <label class="mb-1 block text-xs font-medium text-slate-500">Busca</label>
+          <div class="relative">
+            <i data-lucide="search" class="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-slate-400"></i>
+            <input id="searchInput" class="input w-full pl-9" placeholder="Item, justificativa, lacuna, evidência..." />
+          </div>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-medium text-slate-500">Auditado</label>
+          <select id="auditadoFilter" class="input w-full"></select>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-medium text-slate-500">Questão</label>
+          <select id="questaoFilter" class="input w-full"></select>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-medium text-slate-500">Estado</label>
+          <select id="estadoFilter" class="input w-full">
+            <option value="">Todos</option>
+            <option value="nao_conforme">Não conforme</option>
+            <option value="conforme">Conforme</option>
+            <option value="erro">Erro</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button id="clearFiltersBtn" class="btn w-full" type="button"><i data-lucide="filter-x" class="h-4 w-4"></i>Limpar</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_420px]">
+      <div class="flex min-w-0 flex-col gap-4">
+        <section class="grid gap-4 lg:grid-cols-3">
+          <div class="card p-4">
+            <div class="mb-3 flex items-center justify-between">
+              <h2 class="text-sm font-semibold">Estados das avaliações</h2>
+              <span class="text-xs text-slate-500">conclusões</span>
+            </div>
+            <div class="h-56"><canvas id="estadoChart"></canvas></div>
+          </div>
+          <div class="card p-4 lg:col-span-2">
+            <div class="mb-3 flex items-center justify-between">
+              <h2 class="text-sm font-semibold">Questões com mais não conformidades</h2>
+              <span class="text-xs text-slate-500">ranking por questão</span>
+            </div>
+            <div class="h-56"><canvas id="questaoChart"></canvas></div>
+          </div>
+        </section>
+
+        <section class="grid gap-4 lg:grid-cols-2">
+          <div class="card p-4">
+            <div class="mb-3 flex items-center justify-between">
+              <h2 class="text-sm font-semibold">Auditados por não conformidade</h2>
+              <span class="text-xs text-slate-500">triagem</span>
+            </div>
+            <div id="auditadoRanking" class="space-y-2"></div>
+          </div>
+          <div class="card p-4">
+            <div class="mb-3 flex items-center justify-between">
+              <h2 class="text-sm font-semibold">Lacunas mais recorrentes</h2>
+              <span class="text-xs text-slate-500">evidências</span>
+            </div>
+            <div id="lacunasRanking" class="space-y-2"></div>
+          </div>
+        </section>
+
+        <section class="card overflow-hidden">
+          <div class="flex flex-col gap-2 border-b border-slate-200 p-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 class="text-sm font-semibold">Conclusões de evidência</h2>
+              <p id="tableCount" class="text-xs text-slate-500"></p>
+            </div>
+            <div class="flex gap-2">
+              <button id="onlyNonConformBtn" class="btn" type="button"><i data-lucide="circle-alert" class="h-4 w-4"></i>Não conformes</button>
+            </div>
+          </div>
+          <div class="scrollbar-thin overflow-auto">
+            <table class="w-full min-w-[980px] text-left text-sm">
+              <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th class="px-4 py-3">Estado</th>
+                  <th class="px-4 py-3">Auditado</th>
+                  <th class="px-4 py-3">Questão</th>
+                  <th class="px-4 py-3">Afirmação avaliada</th>
+                  <th class="px-4 py-3">Evidência</th>
+                  <th class="px-4 py-3">Lacunas</th>
+                </tr>
+              </thead>
+              <tbody id="conclusoesTable" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="card sticky top-4 h-fit overflow-hidden">
+        <div class="border-b border-slate-200 p-4">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="text-sm font-semibold">Detalhe da avaliação</h2>
+            <span id="detailState"></span>
+          </div>
+          <p id="detailSubtitle" class="mt-1 text-xs text-slate-500">Selecione uma conclusão na tabela.</p>
+        </div>
+        <div id="detailPanel" class="max-h-[calc(100vh-170px)] space-y-4 overflow-auto p-4 scrollbar-thin text-sm"></div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    let sourceName = "";
+    let rawRecords = [];
+    let rows = [];
+    let filteredRows = [];
+    let selectedId = null;
+    let charts = {};
+
+    const stateConfig = {
+      conforme: { label: "Conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", color: "#059669" },
+      nao_conforme: { label: "Não conforme", cls: "bg-rose-50 text-rose-700 ring-1 ring-rose-200", color: "#e11d48" },
+      erro: { label: "Erro", cls: "bg-amber-50 text-amber-800 ring-1 ring-amber-200", color: "#d97706" },
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const norm = (value) => String(value ?? "").toLocaleLowerCase("pt-BR");
+    const decodeName = (value) => {
+      try { return decodeURIComponent(String(value || "")); } catch { return String(value || ""); }
+    };
+    const pct = (part, total) => total ? `${Math.round((part / total) * 100)}%` : "0%";
+
+    function parseJsonl(text) {
+      return text.split(/\r?\n/).map((line, index) => {
+        if (!line.trim()) return null;
+        try { return JSON.parse(line); }
+        catch (error) { return { status: "error", auditado: "Linha " + (index + 1), error: String(error), result: { conclusoes: [] } }; }
+      }).filter(Boolean);
+    }
+
+    function flattenRecords(records) {
+      const flattened = [];
+      records.forEach((record, recordIndex) => {
+        const conclusoes = record?.result?.conclusoes || [];
+        if (record.status === "error" || record.result?.status === "error") {
+          flattened.push({
+            id: `${recordIndex}-erro`,
+            auditado: record.auditado || "Sem auditado",
+            questao: record.questao || extractQuestao(record.coluna_evidencia) || "sem_questao",
+            coluna_evidencia: record.coluna_evidencia || "",
+            evidencia: decodeName(record.evidencia || ""),
+            provider: record.provider || "",
+            model: record.model || "",
+            finished_at: record.finished_at || "",
+            estado: "erro",
+            item_codigo: "",
+            item_texto: "Erro no processamento",
+            afirmacao_auditado: "",
+            justificativa: record.error || record.result?.error || "Erro sem mensagem registrada.",
+            lacunas: [],
+            arquivos_referenciados: [],
+            trechos_ou_elementos: [],
+            paginas_ou_localizacao: [],
+          });
+        }
+        conclusoes.forEach((conclusao, conclusionIndex) => {
+          flattened.push({
+            id: `${recordIndex}-${conclusionIndex}`,
+            auditado: record.auditado || "Sem auditado",
+            questao: record.questao || extractQuestao(conclusao.item_codigo) || extractQuestao(record.coluna_evidencia) || "sem_questao",
+            coluna_evidencia: record.coluna_evidencia || "",
+            evidencia: decodeName(record.evidencia || ""),
+            provider: record.provider || "",
+            model: record.model || "",
+            finished_at: record.finished_at || "",
+            estado: normalState(conclusao.estado),
+            item_codigo: conclusao.item_codigo || "",
+            item_texto: conclusao.item_texto || "",
+            afirmacao_auditado: conclusao.afirmacao_auditado || "",
+            justificativa: conclusao.justificativa || "",
+            lacunas: asArray(conclusao.lacunas),
+            arquivos_referenciados: asArray(conclusao.arquivos_referenciados),
+            trechos_ou_elementos: asArray(conclusao.trechos_ou_elementos),
+            paginas_ou_localizacao: asArray(conclusao.paginas_ou_localizacao),
+          });
+        });
+      });
+      return flattened;
+    }
+
+    function asArray(value) { return Array.isArray(value) ? value.filter(Boolean) : value ? [String(value)] : []; }
+    function extractQuestao(value) { return String(value || "").match(/q\d{4}/i)?.[0]?.toLowerCase(); }
+    function normalState(value) { return value === "conforme" || value === "nao_conforme" || value === "erro" ? value : "erro"; }
+
+    function initDataset(text, name) {
+      sourceName = name;
+      rawRecords = parseJsonl(text);
+      rows = flattenRecords(rawRecords);
+      selectedId = rows[0]?.id || null;
+      populateFilters();
+      render();
+    }
+
+    function populateFilters() {
+      setOptions("auditadoFilter", ["", ...unique(rows.map(r => r.auditado))], "Todos");
+      setOptions("questaoFilter", ["", ...unique(rows.map(r => r.questao))], "Todas");
+    }
+    function unique(values) { return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR")); }
+    function setOptions(id, values, emptyLabel) {
+      const current = $(id).value;
+      $(id).innerHTML = values.map(value => `<option value="${escapeHtml(value)}">${value ? escapeHtml(value) : emptyLabel}</option>`).join("");
+      if (values.includes(current)) $(id).value = current;
+    }
+
+    function applyFilters() {
+      const search = norm($("searchInput").value);
+      const auditado = $("auditadoFilter").value;
+      const questao = $("questaoFilter").value;
+      const estado = $("estadoFilter").value;
+      filteredRows = rows.filter(row => {
+        if (auditado && row.auditado !== auditado) return false;
+        if (questao && row.questao !== questao) return false;
+        if (estado && row.estado !== estado) return false;
+        if (!search) return true;
+        return norm([row.auditado, row.questao, row.item_codigo, row.item_texto, row.afirmacao_auditado, row.justificativa, row.evidencia, row.lacunas.join(" "), row.trechos_ou_elementos.join(" ")].join(" ")).includes(search);
+      });
+      if (!filteredRows.some(row => row.id === selectedId)) selectedId = filteredRows[0]?.id || null;
+    }
+
+    function render() {
+      applyFilters();
+      renderMeta();
+      renderKpis();
+      renderCharts();
+      renderRankings();
+      renderTable();
+      renderDetail();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderMeta() {
+      if (!sourceName) {
+        $("datasetMeta").textContent = "Carregue um arquivo analyses.jsonl para iniciar a análise.";
+        return;
+      }
+      const dates = rows.map(r => r.finished_at).filter(Boolean).sort();
+      $("datasetMeta").textContent = `${sourceName} · ${rawRecords.length} registros · ${rows.length} conclusões · ${dates[0] ? formatDate(dates[0]) : "sem data"}`;
+    }
+
+    function renderKpis() {
+      const total = filteredRows.length;
+      const conformes = countBy(filteredRows, "estado").conforme || 0;
+      const nao = countBy(filteredRows, "estado").nao_conforme || 0;
+      const erros = countBy(filteredRows, "estado").erro || 0;
+      const auditados = unique(filteredRows.map(r => r.auditado)).length;
+      const questoes = unique(filteredRows.map(r => r.questao)).length;
+      const cards = [
+        ["Conclusões", total, "itens avaliados", "list-check"],
+        ["Conformidade", pct(conformes, total), `${conformes} conforme`, "badge-check"],
+        ["Não conformes", nao, "prioridade de revisão", "circle-alert"],
+        ["Auditados", auditados, "com conclusões filtradas", "building-2"],
+        ["Questões", questoes, "questões avaliadas", "layers-3"],
+        ["Erros", erros, "falhas técnicas", "triangle-alert"],
+      ];
+      $("kpiGrid").innerHTML = cards.map(([title, value, hint, icon]) => `
+        <div class="card p-4">
+          <div class="flex items-center justify-between text-slate-500">
+            <span class="text-xs font-medium uppercase tracking-wide">${title}</span>
+            <i data-lucide="${icon}" class="h-4 w-4"></i>
+          </div>
+          <div class="mt-2 text-2xl font-semibold tracking-tight">${value}</div>
+          <div class="mt-1 text-xs text-slate-500">${hint}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderCharts() {
+      const states = countBy(filteredRows, "estado");
+      drawDoughnut("estadoChart", ["Conforme", "Não conforme", "Erro"], [states.conforme || 0, states.nao_conforme || 0, states.erro || 0], ["#059669", "#e11d48", "#d97706"]);
+      const issueRows = Object.entries(groupBy(filteredRows, "questao")).map(([questao, items]) => ({
+        questao,
+        nao: items.filter(i => i.estado === "nao_conforme").length,
+        total: items.length,
+      })).sort((a, b) => b.nao - a.nao || b.total - a.total).slice(0, 8);
+      drawBar("questaoChart", issueRows.map(i => i.questao), issueRows.map(i => i.nao), "#e11d48");
+    }
+
+    function drawDoughnut(id, labels, data, colors) {
+      charts[id]?.destroy();
+      charts[id] = new Chart($(id), {
+        type: "doughnut",
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: "68%", plugins: { legend: { position: "bottom", labels: { boxWidth: 10, usePointStyle: true } } } }
+      });
+    }
+
+    function drawBar(id, labels, data, color) {
+      charts[id]?.destroy();
+      charts[id] = new Chart($(id), {
+        type: "bar",
+        data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 5, maxBarThickness: 42 }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+      });
+    }
+
+    function renderRankings() {
+      const auditadoRows = Object.entries(groupBy(filteredRows, "auditado")).map(([auditado, items]) => ({
+        label: auditado,
+        nao: items.filter(i => i.estado === "nao_conforme").length,
+        total: items.length
+      })).sort((a,b) => b.nao - a.nao || b.total - a.total).slice(0, 8);
+      $("auditadoRanking").innerHTML = rankingHtml(auditadoRows, "não conformes");
+
+      const lacunas = new Map();
+      filteredRows.forEach(row => row.lacunas.forEach(lacuna => lacunas.set(lacuna, (lacunas.get(lacuna) || 0) + 1)));
+      const lacunaRows = [...lacunas.entries()].map(([label, total]) => ({ label, total, nao: total })).sort((a,b) => b.total - a.total).slice(0, 8);
+      $("lacunasRanking").innerHTML = lacunaRows.length ? rankingHtml(lacunaRows, "ocorrências") : `<p class="text-sm text-slate-500">Nenhuma lacuna nos filtros atuais.</p>`;
+    }
+
+    function rankingHtml(items, suffix) {
+      if (!items.length) return `<p class="text-sm text-slate-500">Sem dados nos filtros atuais.</p>`;
+      const max = Math.max(...items.map(i => i.nao || i.total), 1);
+      return items.map(item => {
+        const value = item.nao ?? item.total;
+        return `<button class="w-full rounded-md border border-slate-200 p-3 text-left hover:bg-slate-50" type="button" data-rank-filter="${escapeHtml(item.label)}">
+          <div class="flex items-start justify-between gap-3">
+            <span class="line-clamp-2 text-sm font-medium">${escapeHtml(item.label)}</span>
+            <span class="text-sm font-semibold">${value}</span>
+          </div>
+          <div class="mt-2 h-2 rounded-full bg-slate-100"><div class="h-2 rounded-full bg-rose-500" style="width:${Math.max(6, (value / max) * 100)}%"></div></div>
+          <div class="mt-1 text-xs text-slate-500">${suffix}${item.total && item.nao !== undefined ? ` · ${item.total} total` : ""}</div>
+        </button>`;
+      }).join("");
+    }
+
+    function renderTable() {
+      $("tableCount").textContent = `${filteredRows.length} de ${rows.length} conclusões`;
+      if (!rows.length) {
+        $("conclusoesTable").innerHTML = `
+          <tr>
+            <td colspan="6" class="px-4 py-12 text-center">
+              <div class="mx-auto max-w-md rounded-md border border-dashed border-slate-300 bg-slate-50 p-6">
+                <div class="flex justify-center"><i data-lucide="file-up" class="h-8 w-8 text-slate-400"></i></div>
+                <p class="mt-3 text-sm font-medium text-slate-700">Nenhum processamento carregado</p>
+                <p class="mt-1 text-xs text-slate-500">Use o botão “Carregar JSONL” para selecionar um arquivo analyses.jsonl gerado pelo pipeline.</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      $("conclusoesTable").innerHTML = filteredRows.map(row => `
+        <tr class="${row.id === selectedId ? "bg-slate-50" : "bg-white"} cursor-pointer hover:bg-slate-50" data-row-id="${row.id}">
+          <td class="px-4 py-3 align-top">${stateBadge(row.estado)}</td>
+          <td class="px-4 py-3 align-top font-medium">${escapeHtml(row.auditado)}</td>
+          <td class="px-4 py-3 align-top"><span class="font-mono text-xs">${escapeHtml(row.questao)}</span><div class="mt-1 text-xs text-slate-500">${escapeHtml(row.coluna_evidencia)}</div></td>
+          <td class="px-4 py-3 align-top">
+            <div class="font-medium">${escapeHtml(row.item_codigo || "Sem item")}</div>
+            <div class="mt-1 line-clamp-2 text-xs text-slate-500">${escapeHtml(row.item_texto)}</div>
+          </td>
+          <td class="px-4 py-3 align-top"><div class="max-w-[220px] truncate text-xs text-slate-600" title="${escapeHtml(row.evidencia)}">${escapeHtml(row.evidencia || "Sem arquivo")}</div></td>
+          <td class="px-4 py-3 align-top">${row.lacunas.length ? `<span class="badge bg-rose-50 text-rose-700 ring-1 ring-rose-200">${row.lacunas.length} lacuna(s)</span>` : `<span class="text-xs text-slate-400">Sem lacuna</span>`}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderDetail() {
+      const row = filteredRows.find(item => item.id === selectedId);
+      $("detailState").innerHTML = row ? stateBadge(row.estado) : "";
+      $("detailSubtitle").textContent = row ? `${row.auditado} · ${row.questao} · ${row.item_codigo || "erro"}` : "Selecione uma conclusão na tabela.";
+      if (!row) {
+        $("detailPanel").innerHTML = `<div class="rounded-md border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">Nenhuma conclusão selecionada.</div>`;
+        return;
+      }
+      $("detailPanel").innerHTML = `
+        ${section("Afirmação do auditado", `<div class="rounded-md bg-slate-50 p-3"><div class="text-xs font-medium text-slate-500">Resposta</div><div class="mt-1 font-medium">${escapeHtml(row.afirmacao_auditado || "Não registrada")}</div><div class="mt-2 text-xs text-slate-600">${escapeHtml(row.item_texto)}</div></div>`)}
+        ${section("Justificativa", `<p class="leading-6 text-slate-700">${escapeHtml(row.justificativa || "Sem justificativa.")}</p>`)}
+        ${section("Lacunas apontadas", chips(row.lacunas, "rose"))}
+        ${section("Rastreabilidade", `
+          <dl class="grid grid-cols-1 gap-2 text-xs">
+            ${detailRow("Evidência enviada", row.evidencia || "Sem arquivo")}
+            ${detailRow("Arquivos referenciados", row.arquivos_referenciados.join(" · ") || "Não informado")}
+            ${detailRow("Trechos ou elementos", row.trechos_ou_elementos.join(" · ") || "Não informado")}
+            ${detailRow("Páginas ou localização", row.paginas_ou_localizacao.join(" · ") || "Não informado")}
+            ${detailRow("Modelo", `${row.provider} / ${row.model}`)}
+            ${detailRow("Finalizado em", formatDate(row.finished_at))}
+          </dl>
+        `)}
+      `;
+    }
+
+    function section(title, body) { return `<section><h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">${title}</h3>${body}</section>`; }
+    function detailRow(label, value) { return `<div class="rounded-md border border-slate-200 p-2"><dt class="text-slate-500">${label}</dt><dd class="mt-1 break-words font-medium text-slate-800">${escapeHtml(value)}</dd></div>`; }
+    function chips(items, color) {
+      if (!items.length) return `<p class="text-sm text-slate-500">Nenhuma lacuna registrada.</p>`;
+      return `<div class="space-y-2">${items.map(item => `<div class="rounded-md border border-${color}-200 bg-${color}-50 p-3 text-sm text-${color}-800">${escapeHtml(item)}</div>`).join("")}</div>`;
+    }
+    function stateBadge(state) {
+      const cfg = stateConfig[state] || stateConfig.erro;
+      return `<span class="badge ${cfg.cls}">${cfg.label}</span>`;
+    }
+    function countBy(items, key) { return items.reduce((acc, item) => (acc[item[key]] = (acc[item[key]] || 0) + 1, acc), {}); }
+    function groupBy(items, key) { return items.reduce((acc, item) => ((acc[item[key]] ||= []).push(item), acc), {}); }
+    function formatDate(value) {
+      if (!value) return "Sem data";
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? value : date.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+    }
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+    }
+
+    document.addEventListener("click", (event) => {
+      const row = event.target.closest("[data-row-id]");
+      if (row) { selectedId = row.dataset.rowId; renderTable(); renderDetail(); if (window.lucide) lucide.createIcons(); }
+      const rank = event.target.closest("[data-rank-filter]");
+      if (rank) {
+        const value = rank.dataset.rankFilter;
+        if (unique(rows.map(r => r.auditado)).includes(value)) $("auditadoFilter").value = value;
+        else $("searchInput").value = value;
+        render();
+      }
+    });
+
+    ["searchInput", "auditadoFilter", "questaoFilter", "estadoFilter"].forEach(id => $(id).addEventListener("input", render));
+    $("clearFiltersBtn").addEventListener("click", () => {
+      $("searchInput").value = ""; $("auditadoFilter").value = ""; $("questaoFilter").value = ""; $("estadoFilter").value = ""; render();
+    });
+    $("onlyNonConformBtn").addEventListener("click", () => { $("estadoFilter").value = "nao_conforme"; render(); });
+    $("fileInput").addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      initDataset(await file.text(), file.name);
+      event.target.value = "";
+    });
+
+    populateFilters();
+    render();
+  </script>
+</body>
+</html>

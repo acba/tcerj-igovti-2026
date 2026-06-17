@@ -9,6 +9,7 @@ import datetime as dt
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import time
@@ -34,6 +35,7 @@ class AnaliseCandidata:
     resposta_id: Any = None
     evidence_index: int | None = None
     erro: str = ""
+    evidencia_ausente: bool = False
 
 
 @dataclass(frozen=True)
@@ -183,21 +185,39 @@ def inventariar_analises(
     caminho_questionario: str | Path,
     *,
     include_unsubmitted: bool = False,
+    colunas_evidencia_permitidas: set[str] | None = None,
+    include_missing_evidence: bool = False,
 ) -> list[AnaliseCandidata]:
     del raiz_evidencias, caminho_questionario
     linhas = list(_rows_from_xlsx(Path(caminho_xlsx)))
     if not linhas:
         return []
     colunas = list(linhas[0].keys())
-    colunas_evidencia = [col for col in colunas if coluna_evidencia(col)]
+    colunas_evidencia = [
+        (evidence_index, col)
+        for evidence_index, col in enumerate((col for col in colunas if coluna_evidencia(col)), start=1)
+        if colunas_evidencia_permitidas is None or col in colunas_evidencia_permitidas
+    ]
     analises: list[AnaliseCandidata] = []
     for linha in linhas:
         if not include_unsubmitted and not linha.get("submitdate"):
             continue
         auditado = str(linha.get("firstname") or "").strip()
-        for evidence_index, coluna in enumerate(colunas_evidencia, start=1):
+        for evidence_index, coluna in colunas_evidencia:
             upload, erro = _parse_upload(linha.get(coluna))
             if upload is None and not erro:
+                if include_missing_evidence:
+                    analises.append(
+                        AnaliseCandidata(
+                            auditado=auditado,
+                            coluna_evidencia=coluna,
+                            nome_original_evidencia="",
+                            upload={},
+                            resposta_id=linha.get("id"),
+                            evidence_index=evidence_index,
+                            evidencia_ausente=True,
+                        )
+                    )
                 continue
             analises.append(
                 AnaliseCandidata(
@@ -339,6 +359,45 @@ def _valor_afirmativo(valor: Any) -> bool:
 
 
 ADOPTION_VALUES = {"naoad", "adfor", "admen", "adpar", "admai", "naoap"}
+ADOPTION_VALUE_ALIASES = {
+    "nao adota.": "naoad",
+    "adota em menor parte.": "admen",
+    "adota parcialmente.": "adpar",
+    "adota em maior parte ou totalmente.": "admai",
+    "nao se aplica.": "naoap",
+}
+
+
+def _normalizar_texto_resposta(valor: Any) -> str:
+    if valor is None:
+        return ""
+    texto = unicodedata.normalize("NFKD", str(valor).strip().casefold())
+    texto = "".join(char for char in texto if not unicodedata.combining(char))
+    texto = re.sub(r"\s+", " ", texto)
+    return texto
+
+
+def _codigo_resposta_unica(questao: QuestaoContexto, valor: Any) -> str:
+    raw = str(valor or "").strip()
+    if not raw:
+        return ""
+    if raw in questao.itens:
+        return raw
+    normalizado = _normalizar_texto_resposta(raw)
+    for codigo, texto in questao.itens.items():
+        if normalizado == _normalizar_texto_resposta(texto):
+            return codigo
+    match = re.match(r"^([A-Za-z])\)", raw.strip())
+    if match and match.group(1).upper() in questao.itens:
+        return match.group(1).upper()
+    return raw
+
+
+def _valor_adocao(valor: Any) -> str:
+    raw = str(valor or "").strip()
+    if raw in ADOPTION_VALUES:
+        return raw
+    return ADOPTION_VALUE_ALIASES.get(_normalizar_texto_resposta(raw), raw)
 
 
 def selecionar_itens_afirmados(
@@ -364,12 +423,13 @@ def selecionar_itens_afirmados(
         return []
 
     valor_base = resposta.get(base)
-    if questao.tipo in {"single", "adoption"} and valor_base in {"adpar", "admai"}:
+    valor_adocao = _valor_adocao(valor_base)
+    if questao.tipo in {"single", "adoption"} and valor_adocao in {"adpar", "admai"}:
         itens = [ItemAfirmado(codigo=base, texto=questao.texto, afirmacao=str(valor_base))]
         prefixo_ext = f"{base}ext["
         detalhe = contexto.questoes.get(f"{base}ext")
         for chave, valor in resposta.items():
-            if chave.startswith(prefixo_ext) and chave.endswith("]") and valor == "Y":
+            if chave.startswith(prefixo_ext) and chave.endswith("]") and _valor_afirmativo(valor):
                 codigo_item = chave[len(prefixo_ext) : -1]
                 itens.append(
                     ItemAfirmado(
@@ -380,11 +440,11 @@ def selecionar_itens_afirmados(
                 )
         return itens
 
-    if questao.tipo == "single" and valor_base in ADOPTION_VALUES:
+    if questao.tipo == "single" and valor_adocao in ADOPTION_VALUES:
         return []
 
     if questao.tipo == "single" and valor_base not in (None, ""):
-        valor_codigo = str(valor_base)
+        valor_codigo = _codigo_resposta_unica(questao, valor_base)
         return [
             ItemAfirmado(
                 codigo=f"{base}[{valor_codigo}]",
@@ -454,6 +514,51 @@ def resolver_prompt(prompts_dir: str | Path, coluna_evidencia: str) -> PromptRes
     )
 
 
+def colunas_com_prompt(prompts_dir: str | Path, caminho_questionario: str | Path) -> set[str]:
+    survey = md2lss.parse_markdown(Path(caminho_questionario))
+    colunas: set[str] = set()
+    for group in survey.groups:
+        for question in group.questions:
+            if question.type == "upload" and coluna_evidencia(question.code):
+                if resolver_prompt(prompts_dir, question.code).caminho is not None:
+                    colunas.add(question.code)
+    return colunas
+
+
+def itens_avaliaveis_prompt(conteudo: str) -> set[str]:
+    match = re.search(r"<!--\s*itens_avaliaveis:\s*(.*?)\s*-->", conteudo)
+    if not match:
+        return set()
+    return {item.strip() for item in match.group(1).split(",") if item.strip()}
+
+
+def filtrar_itens_por_prompt(itens: list[ItemAfirmado], prompt: PromptResolvido) -> list[ItemAfirmado]:
+    permitidos = itens_avaliaveis_prompt(prompt.conteudo)
+    if not permitidos:
+        return itens
+    return [item for item in itens if item.codigo in permitidos]
+
+
+def resultado_evidencia_ausente(itens: list[ItemAfirmado]) -> dict[str, Any]:
+    return {
+        "status": "completed",
+        "conclusoes": [
+            {
+                "item_codigo": item.codigo,
+                "item_texto": item.texto,
+                "afirmacao_auditado": item.afirmacao,
+                "estado": "nao_conforme",
+                "justificativa": "O auditado afirmou o item, mas nao enviou evidencia para sustentar a afirmacao.",
+                "lacunas": ["Evidencia nao enviada."],
+                "arquivos_referenciados": [],
+                "trechos_ou_elementos": [],
+                "paginas_ou_localizacao": [],
+            }
+            for item in itens
+        ],
+    }
+
+
 def hash_arquivo(caminho: str | Path) -> str:
     digest = hashlib.sha256()
     with Path(caminho).open("rb") as file:
@@ -512,13 +617,21 @@ def normalizar_evidencia(caminho: str | Path) -> PacoteEvidencia:
                             documentos.extend(pdf_docs)
                         else:
                             documentos.append({"nome": name, "erro": erro_pdf})
-                    elif suffix_interno in {".docx", ".xlsx"}:
+                    elif suffix_interno == ".xlsx":
                         data = archive.read(name)
                         texto, erro_md = _extrair_texto_bytes_com_markitdown(name, data, suffix_interno)
                         if erro_md:
                             documentos.append({"nome": name, "erro": erro_md})
                         else:
                             documentos.append({"nome": name, "texto": texto})
+                    elif suffix_interno in EXTENSOES_WORD_PARA_PDF:
+                        documentos.append(
+                            {
+                                "nome": name,
+                                "tipo_convertido": "pdf",
+                                "observacao": "Documento Word preservado para avaliacao visual por conversao para PDF no upload.",
+                            }
+                        )
                     else:
                         documentos.append({"nome": name, "nao_suportado": True})
                 return PacoteEvidencia(caminho=path, tipo="zip", documentos=documentos, inventario=names)
@@ -549,20 +662,17 @@ def normalizar_evidencia(caminho: str | Path) -> PacoteEvidencia:
             documentos=[{"nome": path.name, "texto": texto}],
             inventario=[path.name],
         )
-    if suffix == ".docx":
-        texto, erro = _extrair_texto_com_markitdown(path)
-        if erro:
-            return PacoteEvidencia(
-                caminho=path,
-                tipo="docx",
-                documentos=[],
-                inventario=[path.name],
-                erro=erro,
-            )
+    if suffix in EXTENSOES_WORD_PARA_PDF:
         return PacoteEvidencia(
             caminho=path,
-            tipo="docx",
-            documentos=[{"nome": path.name, "texto": texto}],
+            tipo=suffix.lstrip("."),
+            documentos=[
+                {
+                    "nome": path.name,
+                    "tipo_convertido": "pdf",
+                    "observacao": "Documento Word preservado para avaliacao visual por conversao para PDF no upload.",
+                }
+            ],
             inventario=[path.name],
         )
     return PacoteEvidencia(
@@ -574,8 +684,77 @@ def normalizar_evidencia(caminho: str | Path) -> PacoteEvidencia:
     )
 
 
+def _erros_documentos(pacote: PacoteEvidencia) -> list[str]:
+    erros = []
+    for documento in pacote.documentos:
+        erro = documento.get("erro") if isinstance(documento, dict) else None
+        nome = documento.get("nome") if isinstance(documento, dict) else ""
+        if erro:
+            erros.append(f"{nome}: {erro}" if nome else str(erro))
+    return erros
+
+
+def _erro_pdf_mitigado_por_upload(erro: str, arquivos_upload: list[str]) -> bool:
+    texto = erro.casefold()
+    return bool(arquivos_upload) and "pdf" in texto and (
+        "sem texto extraivel" in texto
+        or "normalizar pdf" in texto
+        or "extrair texto" in texto
+    )
+
+
+def erro_tecnico_bloqueante_pacote(pacote: PacoteEvidencia, arquivos_upload: list[str]) -> str:
+    if pacote.erro and not _erro_pdf_mitigado_por_upload(pacote.erro, arquivos_upload):
+        return pacote.erro
+
+    erros_bloqueantes = [
+        erro for erro in _erros_documentos(pacote) if not _erro_pdf_mitigado_por_upload(erro, arquivos_upload)
+    ]
+    if erros_bloqueantes:
+        return "; ".join(erros_bloqueantes)
+
+    if not pacote.documentos and not arquivos_upload:
+        return "evidencia sem conteudo processavel para avaliacao"
+
+    if all(documento.get("nao_suportado") for documento in pacote.documentos) and not arquivos_upload:
+        return "evidencia contem apenas arquivos de tipo nao suportado"
+
+    return ""
+
+
+def resultado_indica_erro_tecnico(resultado: dict[str, Any]) -> str:
+    if resultado.get("status") != "completed":
+        return ""
+    termos = [
+        "markitdown",
+        "erro tecnico",
+        "erro técnico",
+        "nao possui acesso ao conteudo",
+        "não possui acesso ao conteúdo",
+        "conteudo do arquivo inacessivel",
+        "conteúdo do arquivo inacessível",
+    ]
+    conclusoes = resultado.get("conclusoes")
+    if not isinstance(conclusoes, list):
+        return ""
+    for conclusao in conclusoes:
+        if not isinstance(conclusao, dict):
+            continue
+        campos = [
+            conclusao.get("justificativa", ""),
+            " ".join(str(valor) for valor in conclusao.get("lacunas", []) if valor is not None)
+            if isinstance(conclusao.get("lacunas"), list)
+            else str(conclusao.get("lacunas", "")),
+        ]
+        texto = " ".join(campos).casefold()
+        if any(termo in texto for termo in termos):
+            return "modelo indicou erro tecnico de acesso/processamento da evidencia"
+    return ""
+
+
 EXTENSOES_UPLOAD_DIRETO = {".pdf", ".txt", ".md", ".csv", ".png", ".jpg", ".jpeg"}
-EXTENSOES_UPLOAD_PREPARAVEIS = EXTENSOES_UPLOAD_DIRETO | {".docx", ".xlsx"}
+EXTENSOES_WORD_PARA_PDF = {".doc", ".docx"}
+EXTENSOES_UPLOAD_PREPARAVEIS = EXTENSOES_UPLOAD_DIRETO | EXTENSOES_WORD_PARA_PDF | {".xlsx"}
 
 
 def _extrair_texto_com_markitdown(caminho: Path) -> tuple[str, str]:
@@ -596,6 +775,48 @@ def _extrair_texto_bytes_com_markitdown(nome: str, data: bytes, sufixo: str) -> 
         temp_file = Path(tmp_dir) / f"temp_{_nome_upload_seguro(nome, sufixo)}"
         temp_file.write_bytes(data)
         return _extrair_texto_com_markitdown(temp_file)
+
+
+def _converter_word_para_pdf(origem: Path, destino: Path, nome_original: str | None = None) -> tuple[Path | None, str]:
+    conversor = shutil.which("soffice") or shutil.which("libreoffice")
+    if not conversor:
+        return None, "LibreOffice/soffice nao encontrado para converter documento Word em PDF"
+    destino.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_path = Path(tmp_dir)
+        try:
+            result = subprocess.run(
+                [
+                    conversor,
+                    "--headless",
+                    "--convert-to",
+                    "pdf",
+                    "--outdir",
+                    str(tmp_path),
+                    str(origem),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+        except subprocess.TimeoutExpired:
+            return None, "timeout ao converter documento Word em PDF"
+        except OSError as exc:
+            return None, f"erro ao executar conversor de documento Word para PDF: {exc}"
+        if result.returncode != 0:
+            detalhe = (result.stderr or result.stdout or "").strip()
+            return None, f"erro ao converter documento Word em PDF: {detalhe or result.returncode}"
+        pdf_convertido = tmp_path / f"{origem.stem}.pdf"
+        if not pdf_convertido.is_file():
+            candidatos = sorted(tmp_path.glob("*.pdf"))
+            if not candidatos:
+                return None, "conversor de documento Word para PDF nao gerou arquivo PDF"
+            pdf_convertido = candidatos[0]
+        nome_pdf = _nome_upload_seguro(nome_original or origem.name, ".pdf")
+        target = _caminho_unico(destino, nome_pdf)
+        shutil.copyfile(pdf_convertido, target)
+        return target, ""
 
 
 def _extrair_texto_pdf_reader(nome: str, reader: Any) -> tuple[list[dict[str, Any]], str]:
@@ -693,7 +914,12 @@ def arquivos_compativeis_upload(caminho: str | Path, destino_zip: str | Path | N
         if destino_zip is None:
             return [str(path)] if path.suffix.lower() in EXTENSOES_UPLOAD_DIRETO else []
         destino = Path(destino_zip)
-        if path.suffix.lower() in {".docx", ".xlsx"}:
+        if path.suffix.lower() in EXTENSOES_WORD_PARA_PDF:
+            preparado, erro = _converter_word_para_pdf(path, destino)
+            if erro:
+                raise RuntimeError(erro)
+            return [str(preparado)] if preparado else []
+        if path.suffix.lower() == ".xlsx":
             preparado = _preparar_documento_para_upload(path, destino)
             return [str(preparado)] if preparado else []
         return [str(_copiar_upload_seguro(path, destino))]
@@ -709,7 +935,18 @@ def arquivos_compativeis_upload(caminho: str | Path, destino_zip: str | Path | N
                 suffix = member.suffix.lower()
                 if suffix not in EXTENSOES_UPLOAD_PREPARAVEIS:
                     continue
-                if suffix in {".docx", ".xlsx"}:
+                if suffix in EXTENSOES_WORD_PARA_PDF:
+                    staging_dir = destino / "_word_sources"
+                    staging_dir.mkdir(parents=True, exist_ok=True)
+                    staging = _caminho_unico(staging_dir, _nome_upload_seguro(name, suffix))
+                    staging.write_bytes(archive.read(name))
+                    preparado, erro = _converter_word_para_pdf(staging, destino, name)
+                    if erro:
+                        raise RuntimeError(f"{name}: {erro}")
+                    if preparado:
+                        arquivos.append(str(preparado))
+                    continue
+                if suffix == ".xlsx":
                     staging_dir = destino / f"_{suffix[1:]}_sources"
                     staging_dir.mkdir(parents=True, exist_ok=True)
                     staging = _caminho_unico(staging_dir, _nome_upload_seguro(name, suffix))
@@ -736,6 +973,7 @@ def calcular_identidade_analise(
     prompt_hash: str = "",
     checklist_hash: str = "",
     prompt_version: str,
+    reasoning_effort: str = "",
 ) -> str:
     artifact_hash = prompt_hash or checklist_hash
     payload = {
@@ -747,6 +985,7 @@ def calcular_identidade_analise(
         "model": model,
         "prompt_hash": artifact_hash,
         "prompt_version": prompt_version,
+        "reasoning_effort": reasoning_effort,
     }
     encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
@@ -861,7 +1100,7 @@ def gerar_relatorio_conformidade(checkpoint: str | Path, destino: str | Path) ->
     return total_linhas
 
 
-def testar_conexao_provider(provider: str, model: str, api_key: str) -> bool:
+def testar_conexao_provider(provider: str, model: str, api_key: str, reasoning_effort: str = "") -> bool:
     print(f"=== Testando conexao com provider: {provider} | modelo: {model} ===")
     env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(provider, "")
     if provider in REMOTE_PROVIDERS and not api_key:
@@ -894,6 +1133,7 @@ def testar_conexao_provider(provider: str, model: str, api_key: str) -> bool:
             coluna_evidencia="qtestevi",
             itens_afirmados=itens,
             pacote=pacote,
+            reasoning_effort=reasoning_effort,
         )
         print("Resultado da chamada:")
         print(json.dumps(resultado, ensure_ascii=False, indent=2))
@@ -915,11 +1155,24 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--questionario", default=None)
     parser.add_argument("--provider", default="fake")
     parser.add_argument("--model", default="fake")
+    parser.add_argument(
+        "--reasoning",
+        "--reasoning-effort",
+        dest="reasoning_effort",
+        choices=["low", "medium", "high"],
+        default="",
+        help="Nivel de reasoning a solicitar ao provider quando suportado: low, medium ou high.",
+    )
     parser.add_argument("--test-connection", action="store_true", help="Testa a conexao com o provider e modelo configurados e encerra.")
     parser.add_argument("--prompts-dir", default=None, help="Diretorio com Prompts de analise por questao.")
     parser.add_argument("--checklists-dir", default=None, help="Alias legado para --prompts-dir.")
     parser.add_argument("--out-dir", default=".saida_analise")
     parser.add_argument("--prompt-version", default="v1")
+    parser.add_argument(
+        "--only-prompts-present",
+        action="store_true",
+        help="Processa somente colunas de evidencia com prompt existente e registra item afirmado sem anexo como nao_conforme.",
+    )
     parser.add_argument(
         "--rpm",
         type=validar_rpm,
@@ -944,13 +1197,14 @@ def main(argv: list[str] | None = None) -> int:
     if args.test_connection:
         env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(args.provider, "")
         api_key = os.environ.get(env_key, "") if env_key else ""
-        sucesso = testar_conexao_provider(args.provider, args.model, api_key)
+        sucesso = testar_conexao_provider(args.provider, args.model, api_key, args.reasoning_effort)
         return 0 if sucesso else 1
 
     if not args.respostas or not args.evidencias or not args.questionario:
         parser.error("Os argumentos respostas, evidencias e --questionario sao obrigatorios quando nao for --test-connection")
 
     prompts_dir = args.prompts_dir or args.checklists_dir or "checklists"
+    colunas_permitidas = colunas_com_prompt(prompts_dir, args.questionario) if args.only_prompts_present else None
     rate_limiter = RequestsPerMinuteLimiter(args.rpm)
     log_event(
         "pipeline_started",
@@ -962,6 +1216,7 @@ def main(argv: list[str] | None = None) -> int:
         prompts_dir=prompts_dir,
         provider=args.provider,
         model=args.model,
+        reasoning_effort=args.reasoning_effort,
         out_dir=args.out_dir,
         prompt_version=args.prompt_version,
         rpm=args.rpm,
@@ -969,12 +1224,16 @@ def main(argv: list[str] | None = None) -> int:
         skip_errors=args.skip_errors,
         list_only=args.list_only,
         auditados=args.auditados,
+        only_prompts_present=args.only_prompts_present,
+        colunas_com_prompt=sorted(colunas_permitidas or []),
     )
     analises = inventariar_analises(
         args.respostas,
         args.evidencias,
         args.questionario,
         include_unsubmitted=args.include_unsubmitted,
+        colunas_evidencia_permitidas=colunas_permitidas,
+        include_missing_evidence=args.only_prompts_present,
     )
     if args.auditados:
         auditados_selecionados = {str(a).strip().upper() for a in args.auditados}
@@ -1077,23 +1336,6 @@ def main(argv: list[str] | None = None) -> int:
                     **base_log,
                 )
             continue
-        resolucao = resolver_evidencia(
-            analise.auditado,
-            args.evidencias,
-            analise.upload,
-            resposta_id=analise.resposta_id,
-            evidence_index=analise.evidence_index,
-        )
-        log_event(
-            "evidence_resolved",
-            "Resolucao do arquivo de evidencia concluida.",
-            quiet=args.quiet,
-            level="error" if resolucao.erro else "info",
-            caminho=str(resolucao.caminho) if resolucao.caminho else "",
-            nome_decodificado=resolucao.nome_decodificado,
-            error=resolucao.erro,
-            **base_log,
-        )
         prompt = resolver_prompt(prompts_dir, analise.coluna_evidencia)
         log_event(
             "prompt_resolved",
@@ -1105,19 +1347,37 @@ def main(argv: list[str] | None = None) -> int:
             error=prompt.erro,
             **base_log,
         )
-        if resolucao.erro:
-            hash_conteudo = ""
-        else:
-            hash_conteudo = hash_arquivo(resolucao.caminho)
+        hash_conteudo = "" if analise.evidencia_ausente else None
+        resolucao: ResolucaoEvidencia | None = None
+        if hash_conteudo is None and not prompt.erro:
+            resolucao = resolver_evidencia(
+                analise.auditado,
+                args.evidencias,
+                analise.upload,
+                resposta_id=analise.resposta_id,
+                evidence_index=analise.evidence_index,
+            )
+            log_event(
+                "evidence_resolved",
+                "Resolucao do arquivo de evidencia concluida.",
+                quiet=args.quiet,
+                level="error" if resolucao.erro else "info",
+                caminho=str(resolucao.caminho) if resolucao.caminho else "",
+                nome_decodificado=resolucao.nome_decodificado,
+                error=resolucao.erro,
+                **base_log,
+            )
+            hash_conteudo = "" if resolucao.erro else hash_arquivo(resolucao.caminho)
         identity = calcular_identidade_analise(
             auditado=analise.auditado,
             coluna_evidencia=analise.coluna_evidencia,
             nome_original_evidencia=analise.nome_original_evidencia,
-            hash_conteudo=hash_conteudo,
+            hash_conteudo=hash_conteudo or "",
             provider=args.provider,
             model=args.model,
             prompt_hash=prompt.hash_conteudo,
             prompt_version=args.prompt_version,
+            reasoning_effort=args.reasoning_effort,
         )
         if not deve_processar_identidade(registros, identity, skip_errors=args.skip_errors):
             total_puladas += 1
@@ -1130,7 +1390,7 @@ def main(argv: list[str] | None = None) -> int:
                 **base_log,
             )
             continue
-        erro = resolucao.erro or prompt.erro
+        erro = prompt.erro or (resolucao.erro if resolucao else "")
         if erro:
             gravar_registro_analise(
                 checkpoint,
@@ -1161,6 +1421,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             continue
         itens = selecionar_itens_afirmados(contexto, analise.coluna_evidencia, _linha_por_id(args.respostas, analise.resposta_id))
+        itens = filtrar_itens_por_prompt(itens, prompt)
         log_event(
             "items_selected",
             "Itens afirmados pelo auditado selecionados para avaliacao.",
@@ -1168,8 +1429,19 @@ def main(argv: list[str] | None = None) -> int:
             identity=identity,
             total_itens=len(itens),
             itens=[item.codigo for item in itens],
+            evidencia_ausente=analise.evidencia_ausente,
             **base_log,
         )
+        if analise.evidencia_ausente and not itens:
+            total_puladas += 1
+            log_event(
+                "analysis_skipped_missing_evidence_not_applicable",
+                "Analise sem anexo ignorada porque nenhum item avaliavel foi afirmado.",
+                quiet=args.quiet,
+                identity=identity,
+                **base_log,
+            )
+            continue
         if not itens:
             result = {
                 "status": "completed",
@@ -1204,6 +1476,39 @@ def main(argv: list[str] | None = None) -> int:
                 **base_log,
             )
             continue
+        if analise.evidencia_ausente:
+            result = resultado_evidencia_ausente(itens)
+            gravar_registro_analise(
+                checkpoint,
+                {
+                    "identity": identity,
+                    "status": result["status"],
+                    "auditado": analise.auditado,
+                    "questao": questao_base,
+                    "coluna_evidencia": analise.coluna_evidencia,
+                    "evidencia": analise.nome_original_evidencia,
+                    "provider": args.provider,
+                    "model": args.model,
+                    "result": result,
+                    "error": "",
+                    "finished_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                },
+            )
+            registros[identity] = {"identity": identity, "status": result["status"]}
+            total_processadas += 1
+            total_concluidas += 1
+            log_event(
+                "analysis_recorded_missing_evidence",
+                "Item afirmado sem evidencia registrado como nao_conforme.",
+                quiet=args.quiet,
+                identity=identity,
+                checkpoint=str(checkpoint),
+                conclusoes=len(result["conclusoes"]),
+                **base_log,
+            )
+            continue
+        if resolucao is None or resolucao.caminho is None:
+            raise RuntimeError("resolucao de evidencia ausente em analise com anexo")
         pacote = normalizar_evidencia(resolucao.caminho)
         log_event(
             "evidence_normalized",
@@ -1220,7 +1525,39 @@ def main(argv: list[str] | None = None) -> int:
         env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(args.provider, "")
         api_key = os.environ.get(env_key, "") if env_key else ""
         with tempfile.TemporaryDirectory() as upload_tmp:
-            arquivos_upload = arquivos_compativeis_upload(resolucao.caminho, upload_tmp)
+            try:
+                arquivos_upload = arquivos_compativeis_upload(resolucao.caminho, upload_tmp)
+            except RuntimeError as exc:
+                result = {"status": "error", "error": f"erro ao preparar evidencia para upload: {exc}"}
+                gravar_registro_analise(
+                    checkpoint,
+                    {
+                        "identity": identity,
+                        "status": result["status"],
+                        "auditado": analise.auditado,
+                        "questao": questao_base,
+                        "coluna_evidencia": analise.coluna_evidencia,
+                        "evidencia": analise.nome_original_evidencia,
+                        "provider": args.provider,
+                        "model": args.model,
+                        "result": result,
+                        "error": result["error"],
+                        "finished_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                    },
+                )
+                registros[identity] = {"identity": identity, "status": result["status"]}
+                total_processadas += 1
+                total_erros += 1
+                log_event(
+                    "upload_prepare_error",
+                    "Erro ao preparar evidencia para upload ao provider.",
+                    quiet=args.quiet,
+                    level="error",
+                    identity=identity,
+                    error=result["error"],
+                    **base_log,
+                )
+                continue
             log_event(
                 "upload_prepared",
                 "Arquivos preparados para upload ao provider.",
@@ -1230,6 +1567,38 @@ def main(argv: list[str] | None = None) -> int:
                 arquivos=[Path(arquivo).name for arquivo in arquivos_upload],
                 **base_log,
             )
+            erro_tecnico = erro_tecnico_bloqueante_pacote(pacote, arquivos_upload)
+            if erro_tecnico:
+                result = {"status": "error", "error": f"erro tecnico ao processar evidencia: {erro_tecnico}"}
+                gravar_registro_analise(
+                    checkpoint,
+                    {
+                        "identity": identity,
+                        "status": result["status"],
+                        "auditado": analise.auditado,
+                        "questao": questao_base,
+                        "coluna_evidencia": analise.coluna_evidencia,
+                        "evidencia": analise.nome_original_evidencia,
+                        "provider": args.provider,
+                        "model": args.model,
+                        "result": result,
+                        "error": result["error"],
+                        "finished_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                    },
+                )
+                registros[identity] = {"identity": identity, "status": result["status"]}
+                total_processadas += 1
+                total_erros += 1
+                log_event(
+                    "evidence_processing_error",
+                    "Erro tecnico de processamento da evidencia registrado antes da chamada ao provider.",
+                    quiet=args.quiet,
+                    level="error",
+                    identity=identity,
+                    error=result["error"],
+                    **base_log,
+                )
+                continue
             if args.provider in REMOTE_PROVIDERS and api_key:
                 wait_seconds = rate_limiter.wait_seconds()
                 if wait_seconds > 0:
@@ -1271,7 +1640,15 @@ def main(argv: list[str] | None = None) -> int:
                     "erro": pacote.erro,
                     "arquivos_upload": arquivos_upload,
                 },
+                reasoning_effort=args.reasoning_effort,
             )
+            erro_tecnico_resultado = resultado_indica_erro_tecnico(result)
+            if erro_tecnico_resultado:
+                result = {
+                    "status": "error",
+                    "error": erro_tecnico_resultado,
+                    "raw_completed_result": result,
+                }
         conclusoes = result.get("conclusoes") if isinstance(result, dict) else None
         log_event(
             "provider_finished",

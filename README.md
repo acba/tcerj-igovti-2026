@@ -102,20 +102,61 @@ pip install -r scripts/requirements.txt
         python scripts/extrair_evidencias.py
         ```
 *   **Avaliação de Evidências (`avaliacao_evidencias`):** Executa o pipeline de avaliação de evidências por IA.
-    *   *Como executar (exemplo via OpenRouter):*
+    *   *Como adicionar ou alterar um prompt:*
+        1.  Edite o catálogo YAML, não os arquivos Markdown gerados:
+            - catálogo conservador completo: `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_conservador_v2.yml`;
+            - catálogo binário para achados: `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml`.
+        2.  No catálogo binário, cada entrada deve indicar `arquivo`, `coluna_evidencia`, `itens_avaliaveis` e, se aplicável, `criterios_pratica_principal` ou `criterios_por_item`.
+        3.  Não inclua itens que não exigem evidência no questionário, como `q0101[F]`, `q0102[E]` e `q0103[G]`.
+        4.  Regenere os prompts Markdown após qualquer alteração no YAML.
+
+    *   *Regenerar prompts conservadores:*
         ```bash
-        export OPENROUTER_API_KEY="sua_chave_aqui"
-        python -m scripts.avaliacao_evidencias \
+        scripts/.venv/bin/python -m scripts.avaliacao_evidencias.prompt_catalog build \
+          scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_conservador_v2.yml \
+          01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+          scripts/avaliacao_evidencias/prompts/igovti_2026_conservador_v2
+        ```
+
+    *   *Regenerar prompts binários para achados:*
+        ```bash
+        scripts/.venv/bin/python -m scripts.avaliacao_evidencias.prompt_catalog_achados build \
+          scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
+          01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+          scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1
+        ```
+
+    *   *Validar sem chamar IA remota (provider fake):*
+        ```bash
+        scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
           02-Execucao/01-Questionario/20260611-respostas-questionario.xlsx \
           /tmp/tcerj-igovti-2026/evidencias_extraidas \
           --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_conservador_v2 \
-          --prompt-version v2 \
+          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+          --prompt-version igovti_2026_achados_binario_v1 \
+          --only-prompts-present \
+          --provider fake \
+          --model fake \
+          --out-dir /tmp/tcerj-igovti-2026/avaliacao_evidencias/teste-achados-binario
+        ```
+
+    *   *Como executar a avaliação binária de achados via OpenRouter:*
+        ```bash
+        export OPENROUTER_API_KEY="sua_chave_aqui"
+        scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+          02-Execucao/01-Questionario/20260611-respostas-questionario.xlsx \
+          /tmp/tcerj-igovti-2026/evidencias_extraidas \
+          --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+          --prompt-version igovti_2026_achados_binario_v1 \
+          --only-prompts-present \
           --provider openrouter \
           --model google/gemini-2.5-flash \
           --rpm 12 \
-          --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/saida_openrouter
+          --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/achados_binario_openrouter
         ```
+
+        Use `--auditados SIGLA` para processar apenas organizações específicas. Use `--list-only` para conferir as análises candidatas sem chamar o provedor. O parâmetro `--only-prompts-present` é obrigatório para conjuntos parciais de prompts, como `igovti_2026_achados_binario_v1`.
 
 *   **Agregação das Avaliações (`agregar_analyses_por_item.py`):** Consolida os resultados de um ou mais arquivos `analyses.jsonl` por item do questionário, como `q0101`, `q1001` ou `q2101`. Para cada item, calcula o total de avaliações e os quantitativos de `conforme`, `nao_conforme`, `inconclusivo` e `erro`. A planilha também apresenta até dois exemplos de avaliações, com auditado, modelo, evidência, afirmação avaliada e justificativa.
 

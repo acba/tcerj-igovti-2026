@@ -19,6 +19,7 @@ para erros transientes e saida JSON validada.
 from __future__ import annotations
 
 import argparse
+import base64
 import dataclasses
 import datetime as dt
 import difflib
@@ -28,6 +29,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import time
@@ -64,6 +66,7 @@ REMOTE_PROVIDERS = {"openrouter", "gemini"}
 RETRYABLE_PROVIDER_STATUSES = {429, 500, 502, 503, 504}
 DEFAULT_TRANSIENT_RETRY_DELAYS = (30.0, 60.0, 120.0)
 SOURCE_COLUMNS = ["id", "token", "submitdate", "firstname", "lastname", "email"]
+WORD_EXTENSIONS_TO_PDF = {".doc", ".docx"}
 
 
 @dataclass(frozen=True)
@@ -480,11 +483,19 @@ def normalizar_arquivo(path: Path, *, max_chars: int) -> tuple[list[dict[str, An
         documentos, error = _extrair_texto_pdf(path, max_chars=max_chars)
         return documentos, [path.name], [error] if error else []
 
-    if suffix in {".docx", ".xlsx"}:
+    if suffix == ".xlsx":
         text, error = _extrair_texto_com_markitdown(path)
         if error:
             return [], [path.name], [error]
         return [{"nome": path.name, "texto": _truncate(text, max_chars)}], [path.name], []
+    if suffix in WORD_EXTENSIONS_TO_PDF:
+        return [
+            {
+                "nome": path.name,
+                "tipo_convertido": "pdf",
+                "observacao": "Documento Word preservado para avaliacao visual por conversao para PDF no upload.",
+            }
+        ], [path.name], []
 
     if suffix == ".zip":
         documentos: list[dict[str, Any]] = []
@@ -512,12 +523,20 @@ def normalizar_arquivo(path: Path, *, max_chars: int) -> tuple[list[dict[str, An
                         documentos.extend(pdf_docs)
                         if error:
                             erros.append(f"{name}: {error}")
-                    elif inner_suffix in {".docx", ".xlsx"}:
+                    elif inner_suffix == ".xlsx":
                         text, error = _extrair_texto_bytes_com_markitdown(name, data, inner_suffix)
                         if error:
                             erros.append(f"{name}: {error}")
                         else:
                             documentos.append({"nome": name, "texto": _truncate(text, max_chars)})
+                    elif inner_suffix in WORD_EXTENSIONS_TO_PDF:
+                        documentos.append(
+                            {
+                                "nome": name,
+                                "tipo_convertido": "pdf",
+                                "observacao": "Documento Word preservado para avaliacao visual por conversao para PDF no upload.",
+                            }
+                        )
                     else:
                         documentos.append({"nome": name, "tipo_nao_extraido": inner_suffix.lstrip(".") or "desconhecido"})
             return documentos, inventario, erros
@@ -722,6 +741,33 @@ def validar_resultado_modelo(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def resultado_legado_indica_erro_tecnico(resultado: dict[str, Any] | None) -> str:
+    if not isinstance(resultado, dict):
+        return ""
+    termos = [
+        "markitdown",
+        "erro tecnico",
+        "erro técnico",
+        "nao possui acesso ao conteudo",
+        "não possui acesso ao conteúdo",
+        "conteudo do arquivo inacessivel",
+        "conteúdo do arquivo inacessível",
+    ]
+    campos = [
+        resultado.get("justificativa_sintetica", ""),
+        " ".join(str(valor) for valor in resultado.get("lacunas", []) if valor is not None)
+        if isinstance(resultado.get("lacunas"), list)
+        else str(resultado.get("lacunas", "")),
+        " ".join(str(valor) for valor in resultado.get("inconsistencias", []) if valor is not None)
+        if isinstance(resultado.get("inconsistencias"), list)
+        else str(resultado.get("inconsistencias", "")),
+    ]
+    texto = " ".join(campos).casefold()
+    if any(termo in texto for termo in termos):
+        return "modelo indicou erro tecnico de acesso/processamento da evidencia"
+    return ""
+
+
 def parse_retry_after(value: str | None, *, now: Callable[[], float] = time.time) -> float | None:
     if not value:
         return None
@@ -814,13 +860,65 @@ def json_schema_response_format() -> dict[str, Any]:
     }
 
 
-def chamar_openrouter(*, api_key: str, model: str, prompt_payload: str) -> tuple[dict[str, Any], str]:
+def modelo_openrouter_suporta_pdf_nativo(model: str) -> bool:
+    normalizado = model.strip().casefold()
+    return (
+        normalizado.startswith("google/")
+        or "gemini" in normalizado
+        or normalizado.startswith("openai/")
+        or "chatgpt" in normalizado
+        or "/gpt-" in normalizado
+        or normalizado.startswith("gpt-")
+        or re.search(r"(^|/|:)o[134](?:-|$)", normalizado) is not None
+    )
+
+
+def arquivos_pdf_openrouter(upload_files: list[str]) -> list[Path]:
+    arquivos = []
+    for value in upload_files:
+        path = Path(value)
+        if path.suffix.casefold() == ".pdf" and path.is_file():
+            arquivos.append(path)
+    return arquivos
+
+
+def arquivo_pdf_para_openrouter(path: Path) -> dict[str, Any]:
+    data_url = "data:application/pdf;base64," + base64.b64encode(path.read_bytes()).decode("ascii")
+    return {
+        "type": "file",
+        "file": {
+            "filename": path.name,
+            "file_data": data_url,
+        },
+    }
+
+
+def chamar_openrouter(
+    *,
+    api_key: str,
+    model: str,
+    prompt_payload: str,
+    upload_files: list[str] | None = None,
+    reasoning_effort: str = "",
+) -> tuple[dict[str, Any], str]:
+    pdf_files = arquivos_pdf_openrouter(upload_files or [])
+    usar_pdf_nativo = bool(pdf_files) and modelo_openrouter_suporta_pdf_nativo(model)
+    content: str | list[dict[str, Any]]
+    if usar_pdf_nativo:
+        content = [{"type": "text", "text": prompt_payload}]
+        content.extend(arquivo_pdf_para_openrouter(path) for path in pdf_files)
+    else:
+        content = prompt_payload
     body = {
         "model": model,
-        "messages": [{"role": "user", "content": prompt_payload}],
+        "messages": [{"role": "user", "content": content}],
         "temperature": 0,
         "response_format": json_schema_response_format(),
     }
+    if reasoning_effort:
+        body["reasoning"] = {"effort": reasoning_effort}
+    if usar_pdf_nativo:
+        body["plugins"] = [{"id": "file-parser", "pdf": {"engine": "native"}}]
 
     def call() -> dict[str, Any]:
         request = urllib.request.Request(
@@ -835,6 +933,18 @@ def chamar_openrouter(*, api_key: str, model: str, prompt_payload: str) -> tuple
     payload = executar_com_retry_transiente(call)
     content = payload["choices"][0]["message"]["content"]
     return validar_resultado_modelo(carregar_json_modelo(content)), content
+
+
+def formatar_erro_http(exc: BaseException) -> str:
+    if isinstance(exc, urllib.error.HTTPError):
+        detail = ""
+        try:
+            detail = exc.read().decode("utf-8", errors="replace").strip()
+        except Exception:
+            detail = ""
+        if detail:
+            return f"HTTP Error {exc.code}: {exc.reason}; body: {detail[:2000]}"
+    return str(exc)
 
 
 def _slug_ascii(value: str, *, fallback: str = "evidencia", max_len: int = 80) -> str:
@@ -879,6 +989,49 @@ def _write_text_for_upload(target_dir: Path, name_hint: str, text: str) -> Path:
     return target
 
 
+def _convert_word_to_pdf_for_upload(source: Path, target_dir: Path, name_hint: str | None = None) -> tuple[Path | None, str]:
+    converter = shutil.which("soffice") or shutil.which("libreoffice")
+    if not converter:
+        return None, "LibreOffice/soffice nao encontrado para converter documento Word em PDF"
+    target_dir.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_dir = Path(tmp)
+        try:
+            result = subprocess.run(
+                [
+                    converter,
+                    "--headless",
+                    "--convert-to",
+                    "pdf",
+                    "--outdir",
+                    str(tmp_dir),
+                    str(source),
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+        except subprocess.TimeoutExpired:
+            return None, "timeout ao converter documento Word em PDF"
+        except OSError as exc:
+            return None, f"erro ao executar conversor de documento Word para PDF: {exc}"
+        if result.returncode != 0:
+            detail = (result.stderr or result.stdout or "").strip()
+            return None, f"erro ao converter documento Word em PDF: {detail or result.returncode}"
+        converted = tmp_dir / f"{source.stem}.pdf"
+        if not converted.is_file():
+            candidates = sorted(tmp_dir.glob("*.pdf"))
+            if not candidates:
+                return None, "conversor de documento Word para PDF nao gerou arquivo PDF"
+            converted = candidates[0]
+        original = name_hint or source.name
+        digest = hashlib.sha256(original.encode("utf-8", errors="ignore")).hexdigest()[:10]
+        target = _unique_path(target_dir, f"{_slug_ascii(Path(original).stem)}-{digest}.pdf")
+        shutil.copyfile(converted, target)
+        return target, ""
+
+
 def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
     uploadable = {".pdf", ".txt", ".md", ".csv", ".png", ".jpg", ".jpeg", ".webp"}
     prepared: list[str] = []
@@ -886,7 +1039,13 @@ def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
         suffix = path.suffix.casefold()
         if suffix in uploadable:
             prepared.append(str(_copy_for_upload(path, target_dir)))
-        elif suffix in {".docx", ".xlsx"}:
+        elif suffix in WORD_EXTENSIONS_TO_PDF:
+            converted, error = _convert_word_to_pdf_for_upload(path, target_dir)
+            if error:
+                raise RuntimeError(error)
+            if converted:
+                prepared.append(str(converted))
+        elif suffix == ".xlsx":
             text, error = _extrair_texto_com_markitdown(path)
             if not error:
                 prepared.append(str(_write_text_for_upload(target_dir, path.name, text)))
@@ -900,7 +1059,18 @@ def preparar_uploads_gemini(paths: list[Path], target_dir: Path) -> list[str]:
                         target = _unique_path(target_dir, f"{_slug_ascii(Path(name).stem)}{member_suffix}")
                         target.write_bytes(archive.read(name))
                         prepared.append(str(target))
-                    elif member_suffix in {".docx", ".xlsx"}:
+                    elif member_suffix in WORD_EXTENSIONS_TO_PDF:
+                        staging_dir = target_dir / "_word_sources"
+                        staging_dir.mkdir(parents=True, exist_ok=True)
+                        data = archive.read(name)
+                        staging = _unique_path(staging_dir, f"{_slug_ascii(Path(name).stem)}{member_suffix}")
+                        staging.write_bytes(data)
+                        converted, error = _convert_word_to_pdf_for_upload(staging, target_dir, name)
+                        if error:
+                            raise RuntimeError(f"{name}: {error}")
+                        if converted:
+                            prepared.append(str(converted))
+                    elif member_suffix == ".xlsx":
                         data = archive.read(name)
                         text, error = _extrair_texto_bytes_com_markitdown(name, data, member_suffix)
                         if not error:
@@ -937,6 +1107,7 @@ def executar_provider(
     api_key: str,
     prompt_payload: str,
     evidence_paths: list[Path],
+    reasoning_effort: str = "",
 ) -> dict[str, Any]:
     if provider == "dry-run":
         return {"status": "dry_run", "result": None, "prompt_payload": prompt_payload}
@@ -946,10 +1117,18 @@ def executar_provider(
         if not api_key:
             return {"status": "error", "error": "OPENROUTER_API_KEY nao configurada"}
         try:
-            result, raw = chamar_openrouter(api_key=api_key, model=model, prompt_payload=prompt_payload)
+            with tempfile.TemporaryDirectory() as tmp:
+                upload_files = preparar_uploads_gemini(evidence_paths, Path(tmp))
+                result, raw = chamar_openrouter(
+                    api_key=api_key,
+                    model=model,
+                    prompt_payload=prompt_payload,
+                    upload_files=upload_files,
+                    reasoning_effort=reasoning_effort,
+                )
             return {"status": "completed", "result": result, "raw_response_excerpt": raw[:2000]}
         except Exception as exc:
-            return {"status": "error", "error": f"erro ao chamar OpenRouter: {exc}"}
+            return {"status": "error", "error": f"erro ao chamar OpenRouter: {formatar_erro_http(exc)}"}
     if provider == "gemini":
         if not api_key:
             return {"status": "error", "error": "GEMINI_API_KEY nao configurada"}
@@ -976,6 +1155,7 @@ def calcular_identidade(
     evidence_hashes: list[str],
     provider: str,
     model: str,
+    reasoning_effort: str = "",
 ) -> str:
     payload = {
         "resposta_id": row.get("id"),
@@ -987,6 +1167,7 @@ def calcular_identidade(
         "prompt_hash": avaliacao.prompt_hash,
         "provider": provider,
         "model": model,
+        "reasoning_effort": reasoning_effort,
     }
     return hashlib.sha256(dumps_json(payload).encode("utf-8")).hexdigest()
 
@@ -1270,6 +1451,7 @@ def processar(
                 evidence_hashes=evidence_hashes,
                 provider=args.provider,
                 model=args.model,
+                reasoning_effort=args.reasoning_effort,
             )
             if identity in existing_records and existing_records[identity].get("status") in {"completed", "dry_run"}:
                 skipped += 1
@@ -1331,6 +1513,19 @@ def processar(
                     result=result,
                     evidencias=[str(resolved.caminho) for resolved in resolvidas if resolved.caminho],
                 )
+            elif pacote.erros:
+                record = build_record(
+                    identity=identity,
+                    row=row,
+                    auditado=auditado,
+                    avaliacao=avaliacao,
+                    provider=args.provider,
+                    model=args.model,
+                    status="error",
+                    result=None,
+                    error=f"erro tecnico ao processar evidencia: {'; '.join(pacote.erros)}",
+                    evidencias=[str(resolved.caminho) for resolved in resolvidas if resolved.caminho],
+                )
             else:
                 prompt_payload = montar_payload_prompt(avaliacao, row, auditado, pacote)
                 evidence_paths = [resolved.caminho for resolved in resolvidas if resolved.caminho]
@@ -1343,14 +1538,23 @@ def processar(
                             quiet=args.quiet,
                             wait_seconds=round(wait_seconds, 3),
                             rpm=args.rpm,
-                        )
+                    )
                 provider_result = executar_provider(
                     provider=args.provider,
                     model=args.model,
                     api_key=api_key,
                     prompt_payload=prompt_payload,
                     evidence_paths=evidence_paths,
+                    reasoning_effort=args.reasoning_effort,
                 )
+                erro_tecnico_resultado = resultado_legado_indica_erro_tecnico(provider_result.get("result"))
+                if provider_result.get("status") == "completed" and erro_tecnico_resultado:
+                    provider_result = {
+                        "status": "error",
+                        "error": erro_tecnico_resultado,
+                        "result": None,
+                        "raw_response_excerpt": provider_result.get("raw_response_excerpt", ""),
+                    }
                 record = build_record(
                     identity=identity,
                     row=row,
@@ -1437,6 +1641,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--provider", choices=["dry-run", "fake", "openrouter", "gemini"], default="dry-run")
     parser.add_argument("--dry-run", action="store_true", help="Monta prompts e saidas sem chamar provider remoto.")
     parser.add_argument("--model", default="", help="Modelo do provider. Padrao depende do provider.")
+    parser.add_argument(
+        "--reasoning",
+        "--reasoning-effort",
+        dest="reasoning_effort",
+        choices=["low", "medium", "high"],
+        default="",
+        help="Nivel de reasoning a solicitar ao provider quando suportado: low, medium ou high.",
+    )
     parser.add_argument("--api-key", default="", help="Chave de API. Se omitida, usa OPENROUTER_API_KEY ou GEMINI_API_KEY.")
     parser.add_argument("--rpm", type=validar_rpm, default=12, help="Limite de requests por minuto; use 0 para desativar.")
     parser.add_argument("--include-unsubmitted", action="store_true", help="Inclui respostas sem submitdate.")

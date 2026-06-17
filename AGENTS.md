@@ -58,6 +58,44 @@ Utility scripts are stored under `scripts/`. Always run them using the workspace
 
 Do not add invented `npm`, `make`, or `pytest` commands unless the required project files are introduced.
 
+## Evidence Evaluation Prompts
+
+Prompt Markdown files under `scripts/avaliacao_evidencias/prompts/` are generated artifacts. Do not edit them directly. Add or change evidence-evaluation prompts in the YAML catalog, then regenerate the Markdown prompt directory.
+
+There are two prompt catalog formats:
+
+- Full conservative catalog: `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_conservador_v2.yml`, generated with `scripts.avaliacao_evidencias.prompt_catalog`.
+- Binary findings catalog: `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml`, generated with `scripts.avaliacao_evidencias.prompt_catalog_achados`.
+
+To add or alter a prompt in the binary findings set:
+
+1. Edit `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml`.
+2. Add the entry under `prompts` with `arquivo`, `coluna_evidencia`, `itens_avaliaveis`, and, when needed, `criterios_pratica_principal` or `criterios_por_item`.
+3. Keep only items that can be evaluated by evidence. Do not add negative/no-upload items such as `q0101[F]`, `q0102[E]`, or `q0103[G]`.
+4. Regenerate the Markdown prompts:
+   ```bash
+   scripts/.venv/bin/python -m scripts.avaliacao_evidencias.prompt_catalog_achados build \
+     scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
+     01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+     scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1
+   ```
+5. Validate with `provider fake` before remote IA execution.
+
+For the binary findings set, run the pipeline with `--only-prompts-present`. This processes only columns covered by the prompt directory and records `nao_conforme` when an evaluable affirmed item has no attached evidence.
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+  02-Execucao/01-Questionario/20260611-respostas-questionario.xlsx \
+  /tmp/tcerj-igovti-2026/evidencias_extraidas \
+  --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_achados_binario_v1 \
+  --only-prompts-present \
+  --provider fake \
+  --model fake \
+  --out-dir /tmp/tcerj-igovti-2026/avaliacao_evidencias/teste-achados-binario
+```
+
 ## Running the Audit by CLI
 
 Use the local virtual environment and CLI. Write generated artifacts to `/tmp` unless the user explicitly requests a repository destination.

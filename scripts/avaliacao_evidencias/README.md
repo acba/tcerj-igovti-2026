@@ -107,6 +107,31 @@ Para regenerar:
 
 Edite o YAML, nao os Markdown gerados. O gerador e deterministico: se o YAML e o questionario nao mudarem, os Markdown gerados devem ser identicos.
 
+### Gerar prompts binarios para achados
+
+O conjunto `igovti_2026_achados_binario_v1` cobre somente colunas de evidencia associadas a situacoes encontradas e achados na matriz de procedimentos. Ele usa julgamento substantivo binario: `conforme` ou `nao_conforme`.
+
+Fonte de verdade:
+
+```text
+avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml
+```
+
+Prompts gerados:
+
+```text
+avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1/
+```
+
+Para regenerar:
+
+```bash
+.venv/bin/python -m avaliacao_evidencias.prompt_catalog_achados build \
+  avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
+  igovti_2026.md \
+  avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1
+```
+
 ## Validar sem chamar IA
 
 Use o provider `fake` para validar inventario, resolucao de arquivos, prompts, checkpoint e relatorio:
@@ -163,7 +188,9 @@ Execute:
   --out-dir .saida_analise
 ```
 
-O Gemini usa `google-genai`. Arquivos compativeis sao enviados pela Files API com nomes temporarios seguros em ASCII, para evitar falhas de upload por caracteres especiais no caminho/nome do arquivo. Evidencias ZIP sao validadas contra path traversal e arquivos internos compativeis sao extraidos temporariamente para upload. Arquivos `.docx` nao sao enviados diretamente ao Gemini: o pipeline extrai o texto com `python-docx`, gera um `.txt` temporario com nome seguro e envia esse texto para a API.
+O Gemini usa `google-genai`. Arquivos compativeis sao enviados pela Files API com nomes temporarios seguros em ASCII, para evitar falhas de upload por caracteres especiais no caminho/nome do arquivo. Evidencias ZIP sao validadas contra path traversal e arquivos internos compativeis sao extraidos temporariamente para upload. Arquivos `.xlsx` nao sao enviados diretamente ao Gemini: o pipeline extrai o texto com `markitdown`, gera um `.txt` temporario com nome seguro e envia esse texto para a API. Arquivos `.doc` e `.docx` tambem nao sao enviados diretamente: o pipeline converte o documento para PDF com LibreOffice/`soffice` em modo headless e envia o PDF ao modelo, preservando imagens e layout. Se o conversor nao estiver instalado ou falhar, a analise da evidencia e registrada como erro tecnico.
+
+Erros tecnicos de processamento da evidencia, como `markitdown` ausente para `.xlsx`, falha na conversao de `.doc`/`.docx` para PDF ou evidencia sem conteudo processavel, sao registrados com `status: error`. Esses casos nao devem ser convertidos pelo modelo em `nao_conforme`, pois nao representam juizo substantivo sobre a evidencia apresentada.
 
 ## Executar com OpenRouter
 
@@ -187,6 +214,10 @@ Execute:
 
 O OpenRouter recebe o prompt e o pacote de evidencia normalizado em texto pela API de Chat Completions. O request inclui `response_format` com JSON schema quando suportado pelo modelo. Para PDFs, o pipeline extrai texto com `pypdf` e envia o conteudo textual normalizado; PDFs sem texto extraivel ficam registrados como lacuna tecnica no pacote.
 
+Quando o provider `openrouter` usa modelos Google/Gemini ou OpenAI/ChatGPT, o pipeline tambem anexa os arquivos `.pdf` preparados em `messages[].content` como `type: "file"` com `file_data` em base64 e configura o plugin `file-parser` com engine `native`. Isso permite que modelos com suporte nativo a arquivos analisem o PDF diretamente. Para os demais modelos, o comportamento permanece textual: o OpenRouter recebe apenas o pacote normalizado de evidencia.
+
+Para modelos OpenRouter com suporte a raciocinio controlavel, use `--reasoning low`, `--reasoning medium` ou `--reasoning high`. O valor e enviado como `reasoning.effort` e tambem entra na identidade do checkpoint, permitindo comparar execucoes com niveis diferentes sem reaproveitar indevidamente resultados anteriores. O alias `--reasoning-effort` e equivalente.
+
 ## Controlar requests por minuto
 
 Use `--rpm N` para limitar a taxa de chamadas aos providers remotos. Por exemplo, `--rpm 30` limita a execucao a no maximo 30 chamadas por minuto para `gemini` ou `openrouter`.
@@ -203,6 +234,17 @@ Para conferir quais evidencias seriam processadas:
 .venv/bin/python -m avaliacao_evidencias respostas.xlsx evidencias/ \
   --questionario igovti_2026.md \
   --prompts-dir avaliacao_evidencias/prompts/igovti_2026_conservador_v2 \
+  --list-only
+```
+
+Para um conjunto parcial de prompts, como `igovti_2026_achados_binario_v1`, use `--only-prompts-present`. Essa opcao processa somente colunas com prompt existente no diretorio informado. Quando houver item afirmado avaliavel e o anexo correspondente estiver ausente, o pipeline registra conclusao `nao_conforme` sem chamar o provider.
+
+```bash
+.venv/bin/python -m avaliacao_evidencias respostas.xlsx evidencias/ \
+  --questionario igovti_2026.md \
+  --prompts-dir avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_achados_binario_v1 \
+  --only-prompts-present \
   --list-only
 ```
 
