@@ -26,7 +26,7 @@ from igovti_dados_utils import (
 )
 
 
-SAIDA_PADRAO = ROOT / "02-Execucao/02-Questionario iGovTI 2023/20260611-comparacao-iGovTI-2023-2026.xlsx"
+SAIDA_PADRAO = ROOT / "02-Execucao/02-Questionario iGovTI 2023/20260621-comparacao-iGovTI-2023-2026.xlsx"
 
 
 def gerar_estatisticas(pareados: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:

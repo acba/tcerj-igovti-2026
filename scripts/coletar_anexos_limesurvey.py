@@ -17,8 +17,8 @@ HEADERS = {
 
 COOKIES = {
     "cookieconsent_status": "allow",
-    "PHPSESSID": "u989ege647fglr3k6010tckuen",
-    "YII_CSRF_TOKEN": "TFZGVUdFSG5RfjFvZ2xBRFBvOW80a3RVSEpmeFhTMzE0BUaazFJ-E4_WVbUgjjZtfW2CjCSchEva2PcIQDMSnA%3D%3D",
+    "PHPSESSID": "72r0i1r4ovnh3cdm8erc0312jm",
+    "YII_CSRF_TOKEN": "eH5QNzRqVVAzN1lYUzMybTZRQk9lcXNGM1Uyb0tWdVi_xsYNYL63LJCGG40kUb0JpO7KhItdPxusdLlaHRrZKA%3D%3D",
 }
 
 def limpar_texto(texto: str) -> str:

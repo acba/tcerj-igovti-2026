@@ -13,6 +13,7 @@ regra_comum:
   - Evidência de outra organização.
 prompts:
 - arquivo: q0101.md
+  gera_achado: true
   coluna_evidencia: q0101evi
   excluir_regra_comum_conformidade:
   - A evidência sustenta diretamente o item afirmado.
@@ -22,27 +23,21 @@ prompts:
   - "q0101[C]"
   - "q0101[D]"
   - "q0101[E]"
+  exibir_texto_itens: false
+  criterios_comuns_itens:
+  - Comprova área, unidade, setor ou função de TI formalmente instituída na organização.
+  excluir_criterios_comuns_itens:
+  - "q0101[D]"
+  - "q0101[E]"
   criterios_por_item:
-    q0101[A]:
-    - Comprova área, unidade, setor ou função de TI formalmente instituída na organização.
-    # - Comprova que essa estrutura atende a organização de forma centralizada.
-    # - Comprova que a equipe técnica própria é predominante na execução dos serviços de TI.
-    q0101[B]:
-    - Comprova área, unidade, setor ou função de TI formalmente instituída na organização.
-    # - Comprova que essa estrutura central faz a gestão dos serviços de TI.
-    # - Comprova que a execução operacional ou técnica é predominantemente terceirizada.
     q0101[C]:
-    - Comprova área, unidade, setor ou função de TI formalmente instituída na organização.
     - Comprova que os serviços de TI são prestados predominantemente por órgão, entidade ou estrutura central externa à organização.
-    # - Comprova o vínculo formal entre a organização auditada e a estrutura externa prestadora dos serviços de TI.
     q0101[D]:
     - Comprova áreas, unidades, setores ou funções de TI formalmente instituídas no ente/organização.
-    # - Comprova que diferentes secretarias, unidades ou setores possuem autonomia para manter equipes, contratos ou infraestruturas de TI.
-    # - Comprova que esse modelo descentralizado é predominante na organização.
     q0101[E]:
     - Comprova a existência de TI central formal para diretrizes ou infraestrutura corporativa.
-    # - Comprova que áreas de negócio possuem equipes, contratos ou estruturas próprias para sustentar sistemas ou serviços específicos.
 - arquivo: q0102.md
+  gera_achado: true
   coluna_evidencia: q0102evi
   excluir_regra_comum_conformidade:
   - A evidência sustenta diretamente o item afirmado.
@@ -64,6 +59,7 @@ prompts:
     - Comprova que a área de TI se reporta diretamente ao dirigente máximo da organização (Secretário, Prefeito, Presidente, Diretor-Presidente, Conselheiro-Presidente etc).
     # - Comprova que a área de TI está subordinada a unidade operacional ou setorial sem atuação corporativa relevante.
 - arquivo: q0103.md
+  gera_achado: true
   coluna_evidencia: q0103evi
   itens_avaliaveis:
   - "q0103[A]"
@@ -72,7 +68,21 @@ prompts:
   - "q0103[D]"
   - "q0103[E]"
   - "q0103[F]"
+  criterios_por_item:
+    q0103[A]:
+    - Comprova que a área de TI possui atribuições formalizadas relativas à sustentação de infraestrutura ou serviços tecnológicos.
+    q0103[B]:
+    - Comprova que a área de TI possui atribuições formalizadas relativas ao desenvolvimento, manutenção ou integração de sistemas.
+    q0103[C]:
+    - Comprova que a área de TI possui atribuições formalizadas relativas à segurança da informação ou segurança cibernética.
+    q0103[D]:
+    - Comprova que a área de TI possui atribuições formalizadas relativas à governança, planejamento ou gestão de tecnologia da informação.
+    q0103[E]:
+    - Comprova que a área de TI possui atribuições formalizadas relativas à gestão de contratos ou fornecedores de tecnologia da informação.
+    q0103[F]:
+    - Comprova que a área de TI possui atribuições formalizadas relativas à gestão de dados, análise de dados, automação ou inteligência artificial.
 - arquivo: q1001.md
+  gera_achado: true
   coluna_evidencia: q1001evi
   itens_avaliaveis:
   - "q1001"
@@ -89,6 +99,7 @@ prompts:
   - Comprova modelo formal de gestão de TI instituído, aprovado ou adotado pela alta administração.
   - Comprova mecanismos de direção, coordenação ou controle da gestão de TI, como papéis, responsabilidades, diretrizes, instâncias, objetivos, indicadores ou metas.
 - arquivo: q1002.md
+  gera_achado: true
   coluna_evidencia: q1002evi
   itens_avaliaveis:
   - "q1002"
@@ -100,6 +111,7 @@ prompts:
   - Comprova rotina ou mecanismo de monitoramento do desempenho da gestão de TI pela alta administração ou instância responsável.
   - Comprova uso de indicadores, metas, relatórios, painéis, reuniões, atas ou registros equivalentes para acompanhar desempenho.
 - arquivo: q2101.md
+  gera_achado: true
   coluna_evidencia: q2101evi
   itens_avaliaveis:
   - "q2101"
@@ -111,6 +123,7 @@ prompts:
   - Comprova processo de planejamento de TI executado pela organização.
   - Comprova que o processo orienta seleção, priorização, revisão ou acompanhamento de iniciativas de TI.
 - arquivo: q2102.md
+  gera_achado: true
   coluna_evidencia: q2102evi
   itens_avaliaveis:
   - "q2102"
@@ -123,6 +136,7 @@ prompts:
   - Comprova existência de plano de TI vigente aplicável à organização.
   - Comprova que o plano contém iniciativas, ações, objetivos, metas, orçamento, contratações ou mecanismos de acompanhamento de TI.
 - arquivo: q2201.md
+  gera_achado: true
   coluna_evidencia: q2201evi
   itens_avaliaveis:
   - "q2201"
@@ -135,6 +149,7 @@ prompts:
   - Comprova catálogo de serviços de TI e gestão ou monitoramento de níveis de serviço.
   - Comprova que os serviços, metas, canais, acordos ou relatórios se aplicam aos usuários ou áreas atendidas pela organização.
 - arquivo: q2203.md
+  gera_achado: true
   coluna_evidencia: q2203evi
   itens_avaliaveis:
   - "q2203"
@@ -145,6 +160,7 @@ prompts:
   - Comprova processo de gestão de configuração e ativos de serviços de TI.
   - Comprova inventário, base de configuração, relacionamento entre ativos e serviços, uso em mudanças ou procedimento formal aplicável.
 - arquivo: q2204.md
+  gera_achado: true
   coluna_evidencia: q2204evi
   itens_avaliaveis:
   - "q2204"
@@ -158,6 +174,7 @@ prompts:
   - Comprova processo de gestão de incidentes de serviços de TI ou de segurança da informação.
   - Comprova regras, registros, base de conhecimento, tratamento, comunicação, análise de causa ou ações corretivas relacionadas a incidentes.
 - arquivo: q2501.md
+  gera_achado: true
   coluna_evidencia: q2501evi
   itens_avaliaveis:
   - "q2501"
@@ -171,6 +188,7 @@ prompts:
   - Comprova processo de gestão de ativos associados à informação.
   - Comprova inventário, responsabilidades, informações críticas, controles de proteção, ações mitigatórias ou formalização do processo.
 - arquivo: q2504.md
+  gera_achado: true
   coluna_evidencia: q2504evi
   itens_avaliaveis:
   - "q2504"
@@ -189,6 +207,7 @@ prompts:
   - Comprova atividades de gestão da segurança dos recursos de processamento da informação.
   - Comprova controles, registros ou procedimentos aplicáveis a dispositivos, softwares, vulnerabilidades, configurações, logs, privilégios, malware, rede, backup ou testes de segurança.
 - arquivo: q2701.md
+  gera_achado: true
   coluna_evidencia: q2701evi
   itens_avaliaveis:
   - "q2701"
@@ -200,6 +219,7 @@ prompts:
   - Comprova perfis profissionais definidos e documentados para ocupações ou grupos de ocupações de gestão de TI.
   - Comprova responsabilidades, atribuições, competências, habilidades, revisão ou publicação dos perfis.
 - arquivo: q2702.md
+  gera_achado: true
   coluna_evidencia: q2702evi
   itens_avaliaveis:
   - "q2702"
@@ -211,6 +231,7 @@ prompts:
   - Comprova perfis profissionais definidos e documentados para ocupações ou grupos de colaboradores da área de TI.
   - Comprova responsabilidades, atribuições, competências, habilidades, revisão ou publicação dos perfis.
 - arquivo: q2703.md
+  gera_achado: true
   coluna_evidencia: q2703evi
   itens_avaliaveis:
   - "q2703"
@@ -222,6 +243,7 @@ prompts:
   - Comprova definição do quantitativo necessário de pessoal de TI e segurança da informação.
   - Comprova critério técnico, procedimento, estudo, relatório, política ou revisão periódica do dimensionamento.
 - arquivo: q2704.md
+  gera_achado: true
   coluna_evidencia: q2704evi
   itens_avaliaveis:
   - "q2704"
@@ -233,6 +255,7 @@ prompts:
   - Comprova que a escolha de gestores de TI ou segurança da informação segue perfis profissionais previamente definidos.
   - Comprova critérios, avaliação prévia, ferramentas estruturadas, currículo ou transparência do processo de escolha.
 - arquivo: q2705.md
+  gera_achado: true
   coluna_evidencia: q2705evi
   itens_avaliaveis:
   - "q2705"
@@ -244,6 +267,7 @@ prompts:
   - Comprova identificação e documentação de lacunas de competências de colaboradores ou gestores de TI e segurança da informação.
   - Comprova diagnóstico, matriz, levantamento, avaliação de perfil, relatório ou registro documentado das lacunas.
 - arquivo: q2706.md
+  gera_achado: true
   coluna_evidencia: q2706evi
   itens_avaliaveis:
   - "q2706"
@@ -255,13 +279,24 @@ prompts:
   - Comprova tratamento de lacunas de competências de colaboradores ou gestores de TI e segurança da informação.
   - Comprova plano de capacitação, incentivo, participação, monitoramento, avaliação ou revisão das ações de capacitação.
 - arquivo: q2708.md
+  gera_achado: true
   coluna_evidencia: q2708evi
   itens_avaliaveis:
   - "q2708[A]"
   - "q2708[B]"
   - "q2708[C]"
   - "q2708[D]"
+  criterios_por_item:
+    q2708[A]:
+    - Comprova cargo efetivo de tecnologia da informação formalmente criado ou previsto na estrutura, carreira, quadro de pessoal, lei, norma, edital ou documento equivalente.
+    q2708[B]:
+    - Comprova cargo ou função formalmente atribuída à área de tecnologia da informação na estrutura, norma, organograma, ato de designação, quadro de pessoal ou documento equivalente.
+    q2708[C]:
+    - Comprova cargo efetivo de segurança da informação formalmente criado ou previsto na estrutura, carreira, quadro de pessoal, lei, norma, edital ou documento equivalente.
+    q2708[D]:
+    - Comprova cargo ou função formalmente atribuída à área de segurança da informação na estrutura, norma, organograma, ato de designação, quadro de pessoal ou documento equivalente.
 - arquivo: q2801.md
+  gera_achado: true
   coluna_evidencia: q2801evi
   itens_avaliaveis:
   - "q2801"
@@ -276,6 +311,7 @@ prompts:
   - Comprova processos de trabalho definidos para contratações de TI.
   - Comprova etapas, responsabilidades, artefatos, modelos, checklists, fluxos ou aderência normativa para planejamento, seleção ou gestão contratual.
 - arquivo: q2802.md
+  gera_achado: true
   coluna_evidencia: q2802evi
   itens_avaliaveis:
   - "q2802"
@@ -288,6 +324,7 @@ prompts:
   - Comprova processo de planejamento anual das contratações.
   - Comprova PCA, aprovação, participação de setores, integração com planejamento ou orçamento, publicação ou atualização.
 - arquivo: q2804_A.md
+  gera_achado: true
   coluna_evidencia: q2804eviA
   itens_avaliaveis:
   - "q2804[A]"

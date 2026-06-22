@@ -18,36 +18,52 @@ from openpyxl import Workbook
 from .pipeline import (
     REMOTE_PROVIDERS,
     ItemAfirmado,
+    PacoteEvidencia,
     RequestsPerMinuteLimiter,
     _resolver_evidencia_exportada_limesurvey,
     arquivos_compativeis_upload,
+    carregar_achados_set,
     carregar_registros_analise,
     deve_processar_identidade,
+    erro_tecnico_bloqueante_pacote,
     gravar_registro_analise,
     hash_arquivo,
     log_event,
     normalizar_evidencia,
     validar_rpm,
 )
-from .providers_ai_service import executar_provider
+from .providers_ai_service import executar_provider, estimar_tokens_payload
 
-
-PROMPT_JUIZ_PADRAO = """Voce e um juiz avaliador de evidencias de auditoria.
+PROMPT_JUIZ_PADRAO = """Voce atua como equipe de auditoria governamental revisando avaliacoes preliminares de evidencias.
 
 Sua tarefa e produzir um parecer consolidado de evidencia, revisavel pela equipe de auditoria, a partir de:
 - a evidencia enviada pelo auditado, quando disponivel;
-- as opinioes ja emitidas por diferentes provedores/modelos;
+- avaliacoes preliminares;
 - a opiniao da equipe de auditoria, quando fornecida.
 
-Regras:
+Postura e linguagem:
+- Use linguagem impessoal, imparcial, objetiva e simples.
 - Nao trate o parecer consolidado como decisao final de auditoria.
 - Nao use conhecimento externo para preencher lacunas da evidencia.
-- Analise convergencias, divergencias, fragilidades e excesso de inferencia nas opinioes dos modelos.
-- Se a opiniao da equipe de auditoria divergir dos modelos, explique criticamente o motivo da conclusao adotada.
+- Nao cite nomes de provedores ou modelos de IA, mesmo que aparecam nos dados recebidos.
+- Nao escreva frases como "o modelo X avaliou", "todos os modelos analisados" ou equivalentes.
+- Ao se referir a avaliacoes anteriores, use formulacoes institucionais e trate elas no singular: "A Equipe de Auditoria avalia que...", "A avaliacao da Equipe de Auditoria indica que..." ou "A avaliação realizada indica que...".
+
+Regras de analise:
+- Consolide a opinião majoritária apresentada nas avaliacoes recebidas.
+- Se a opiniao da equipe de auditoria divergir das avaliacoes recebidas, explique criticamente o motivo da conclusao adotada.
 - Fundamente cada conclusao com elementos da evidencia e/ou com a avaliacao critica das opinioes recebidas.
-- Declare lacunas quando a evidencia ou as opinioes nao forem suficientes.
-- Na justificativa de cada conclusao, declare explicitamente quais modelos (provedor/modelo) foram a base para a avaliacao.
-- Retorne somente JSON no schema solicitado.
+- Declare lacunas quando a evidencia ou as avaliacoes recebidas nao forem suficientes.
+
+Padrao da justificativa:
+- Escreva a justificativa como um paragrafo curto, preferencialmente com 3 a 5 frases.
+- Siga esta ordem: conclusao objetiva; elementos da evidencia que sustentam a conclusao; análise crítica da suficiência da evidência; lacuna ou limitacao relevante, quando existir.
+- Quando a evidencia for suficiente, indique o elemento verificavel utilizado, como trecho, pagina, tabela, ato, registro, imagem ou documento.
+- Quando a evidencia for insuficiente, indique exatamente o elemento faltante.
+- Nao inclua listas longas, digressoes, linguagem opinativa ou mencao a nomes de modelos.
+- Não mencione avaliações recebidas, modelos, provedores, pluralidade de análises ou processo de consolidação.
+
+Retorne somente JSON no schema solicitado.
 """
 
 
@@ -144,6 +160,20 @@ def _opiniao_modelo(registro: dict[str, Any]) -> dict[str, Any]:
 
 def opinioes_modelos_do_grupo(opinioes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [_opiniao_modelo(registro) for registro in opinioes]
+
+
+def avaliacoes_preliminares_para_juiz(opinioes: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    avaliacoes: list[dict[str, Any]] = []
+    for index, registro in enumerate(opinioes, start=1):
+        result = registro.get("result") if isinstance(registro.get("result"), dict) else {}
+        avaliacoes.append(
+            {
+                "avaliacao_id": f"avaliacao_{index}",
+                "finished_at": registro.get("finished_at", ""),
+                "conclusoes": result.get("conclusoes", []),
+            }
+        )
+    return avaliacoes
 
 
 def _hash_json(payload: Any) -> str:
@@ -401,6 +431,43 @@ def gerar_relatorio_pareceres(checkpoint: str | Path, destino: str | Path) -> in
     return total
 
 
+def questoes_achado_de_prompts_dir(
+    prompts_dir: str | Path | None = None,
+    catalog: str | Path | None = None,
+) -> set[str]:
+    return carregar_achados_set(prompts_dir, catalog)
+
+
+def questoes_achado_de_registros(registros: Iterable[dict[str, Any]]) -> set[str]:
+    questoes: set[str] = set()
+    for registro in registros:
+        if registro.get("gera_achado") and registro.get("questao"):
+            questoes.add(str(registro["questao"]))
+    return questoes
+
+
+def _chave_logica_parecer(registro: dict[str, Any]) -> tuple[str, str, str, str, str]:
+    """Chave logica de um parecer: (auditado, coluna, evidencia, judge_provider, judge_model)."""
+    return (
+        str(registro.get("auditado") or ""),
+        str(registro.get("coluna_evidencia") or ""),
+        str(registro.get("evidencia") or ""),
+        str(registro.get("judge_provider") or ""),
+        str(registro.get("judge_model") or ""),
+    )
+
+
+def _indices_chaves_logicas(registros: dict[str, dict[str, Any]]) -> dict[tuple[str, str, str, str, str], str]:
+    """Mapeia chave logica -> identity do registro mais recente."""
+    resultado: dict[tuple[str, str, str, str, str], str] = {}
+    for identity, registro in registros.items():
+        chave = _chave_logica_parecer(registro)
+        atual = resultado.get(chave)
+        if atual is None or str(registro.get("finished_at") or "") >= str(registros[atual].get("finished_at") or ""):
+            resultado[chave] = identity
+    return resultado
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Consolida opinioes de modelos em um parecer por evidencia.")
     parser.add_argument("analyses", nargs="+", help="Arquivos analyses.jsonl gerados pelo processamento de evidencias.")
@@ -409,11 +476,43 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--judge-provider", default="fake")
     parser.add_argument("--judge-model", default="fake")
     parser.add_argument("--out-dir", default=".saida_analise")
-    parser.add_argument("--prompt-version", default="juiz-v1")
+    parser.add_argument("--prompt-version", default="juiz-v2")
     parser.add_argument("--rpm", type=validar_rpm, default=0)
     parser.add_argument("--skip-errors", action="store_true")
     parser.add_argument("--list-only", action="store_true")
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument(
+        "--reasoning",
+        "--reasoning-effort",
+        dest="reasoning_effort",
+        choices=["low", "medium", "high"],
+        default="",
+        help="Nivel de reasoning a solicitar ao juiz quando suportado: low, medium ou high.",
+    )
+    parser.add_argument(
+        "--store-prompts",
+        action="store_true",
+        help="Armazena o payload textual completo enviado ao juiz em cada registro JSONL.",
+    )
+    parser.add_argument(
+        "--only-achados",
+        action="store_true",
+        help="Consolida somente grupos cuja questao-raiz enseja achado no mapa de verificacao. "
+        "O conjunto de questoes-achado e obtido de --prompts-dir (marcadores gera_achado) ou, "
+        "na ausencia deste, do campo gera_achado dos registros analyses.",
+    )
+    parser.add_argument(
+        "--prompts-dir",
+        default=None,
+        help="Diretorio com prompts markdown usado para derivar o conjunto de questoes-achado "
+        "quando --only-achados estiver ativo (fallback via marcadores no markdown).",
+    )
+    parser.add_argument(
+        "--catalog",
+        default=None,
+        help="Caminho do catalogo YAML de prompts. Fonte primaria do conjunto de questoes-achado "
+        "quando --only-achados esta ativo (le o atributo gera_achado do YAML).",
+    )
     args = parser.parse_args(argv)
 
     log_event(
@@ -425,9 +524,35 @@ def main(argv: list[str] | None = None) -> int:
         judge_provider=args.judge_provider,
         judge_model=args.judge_model,
         out_dir=args.out_dir,
+        only_achados=args.only_achados,
+        catalog=args.catalog or "",
+        prompts_dir=args.prompts_dir or "",
     )
     registros_origem = carregar_registros_processamento(args.analyses)
     grupos = agrupar_opinioes_por_evidencia(registros_origem)
+    if args.only_achados:
+        if args.catalog or args.prompts_dir:
+            achados_set = questoes_achado_de_prompts_dir(args.prompts_dir, args.catalog)
+        else:
+            achados_set = questoes_achado_de_registros(registros_origem)
+        if not achados_set:
+            parser.error(
+                "--only-achados ativo, mas nenhum gera_achado encontrado no catalogo YAML "
+                "(--catalog), nos marcadores dos prompts (--prompts-dir) ou nos registros analyses."
+            )
+        total_grupos_antes = len(grupos)
+        grupos = [g for g in grupos if g.chave.questao in achados_set]
+        log_event(
+            "consolidation_filtered_achados",
+            "Grupos filtrados para questoes que ensejam achado.",
+            quiet=args.quiet,
+            only_achados=True,
+            catalog=args.catalog or "",
+            prompts_dir=args.prompts_dir or "",
+            questoes_achado=sorted(achados_set),
+            total_grupos_antes=total_grupos_antes,
+            total_grupos_depois=len(grupos),
+        )
     if args.list_only:
         for grupo in grupos:
             print(
@@ -461,6 +586,7 @@ def main(argv: list[str] | None = None) -> int:
 
     for index, grupo in enumerate(grupos, start=1):
         chave = grupo.chave
+        consolidation_started_at = dt.datetime.now(dt.timezone.utc)
         
         # Filtrar opinioes validas e identificar erros
         opinioes_validas = []
@@ -526,11 +652,15 @@ def main(argv: list[str] | None = None) -> int:
             "evidencia": chave.evidencia,
             "opinioes": len(opinioes_validas),
         }
-        if not deve_processar_identidade(registros_checkpoint, identity, skip_errors=args.skip_errors):
+        # Dedup por chave logica (auditado, coluna, evidencia, juiz) em vez de identity
+        chave_logica = (chave.auditado, chave.coluna_evidencia, chave.evidencia, args.judge_provider, args.judge_model)
+        indices_logicos = _indices_chaves_logicas(registros_checkpoint)
+        identity_existente = indices_logicos.get(chave_logica)
+        if identity_existente and registros_checkpoint[identity_existente].get("status") == "completed":
             total_pulados += 1
             log_event(
                 "consolidation_skipped",
-                "Parecer consolidado ignorado por checkpoint.",
+                "Parecer consolidado ignorado por checkpoint (chave logica).",
                 quiet=args.quiet,
                 **base_log,
             )
@@ -552,7 +682,7 @@ def main(argv: list[str] | None = None) -> int:
 
             payload_pacote = {
                 **pacote_evidencia,
-                "opinioes_modelos": opinioes_modelos_do_grupo(opinioes_validas),
+                "avaliacoes_preliminares": avaliacoes_preliminares_para_juiz(opinioes_validas),
                 "opiniao_auditoria": opiniao_auditoria,
                 "papel_do_resultado": "parecer consolidado revisavel pela equipe de auditoria",
             }
@@ -572,7 +702,14 @@ def main(argv: list[str] | None = None) -> int:
                     **base_log,
                 )
             elif args.evidencias_root:
-                erro_atual = pacote_evidencia.get("erro")
+                pacote_obj = PacoteEvidencia(
+                    caminho=caminho_evidencia or Path("."),
+                    tipo=caminho_evidencia.suffix.lstrip(".") if caminho_evidencia else "",
+                    documentos=pacote_evidencia.get("documentos", []),
+                    inventario=pacote_evidencia.get("inventario", []),
+                    erro=pacote_evidencia.get("erro", ""),
+                )
+                erro_atual = erro_tecnico_bloqueante_pacote(pacote_obj, arquivos_upload)
                 if erro_atual and erro_atual != "evidencia nao informada para o juiz":
                     erro_ativo = erro_atual
 
@@ -584,9 +721,9 @@ def main(argv: list[str] | None = None) -> int:
             elif args.judge_provider == "fake":
                 result = executar_juiz_fake(chave, opinioes_validas, itens)
             else:
-                env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY"}.get(args.judge_provider, "")
+                env_key = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY", "opencodego": "OPENCODEGO_API_KEY", "openai": "OPENAI_API_KEY"}.get(args.judge_provider, "")
                 api_key = os.environ.get(env_key, "") if env_key else ""
-                if args.judge_provider in REMOTE_PROVIDERS and api_key:
+                if args.judge_provider in REMOTE_PROVIDERS and (api_key or args.judge_provider == "openai"):
                     wait_seconds = rate_limiter.wait_seconds()
                     if wait_seconds > 0:
                         log_event(
@@ -598,20 +735,86 @@ def main(argv: list[str] | None = None) -> int:
                             **base_log,
                         )
                     rate_limiter.wait_and_mark(wait_seconds)
-                result = executar_provider(
-                    provider=args.judge_provider,
-                    model=args.judge_model,
-                    api_key=api_key,
+
+                def on_judge_event(event: str, fields: dict[str, Any]) -> None:
+                    log_event(
+                        event,
+                        "Evento do juiz durante a chamada.",
+                        quiet=args.quiet,
+                        level="warning",
+                        provider=args.judge_provider,
+                        model=args.judge_model,
+                        **base_log,
+                        **fields,
+                    )
+
+                # Bloquear payload que excede limite de tokens do juiz
+                from .pipeline import _limite_tokens_provider
+
+                tokens_info = estimar_tokens_payload(
                     prompt=PROMPT_JUIZ_PADRAO,
                     auditado=chave.auditado,
                     questao_base=chave.questao,
                     coluna_evidencia=chave.coluna_evidencia,
                     itens_afirmados=itens,
                     pacote=payload_pacote,
+                    provider=args.judge_provider,
                 )
+                limite_tokens = _limite_tokens_provider(args.judge_provider, args.judge_model)
+                if limite_tokens and tokens_info["tokens_total"] > limite_tokens:
+                    result = {
+                        "status": "error",
+                        "error": (
+                            f"payload excede limite de tokens do juiz: "
+                            f"{tokens_info['tokens_total']:,} > {limite_tokens:,}"
+                        ),
+                    }
+                    log_event(
+                        "payload_tokens_exceeded",
+                        "Payload bloqueado por exceder limite de tokens do juiz.",
+                        quiet=args.quiet,
+                        level="warning",
+                        tokens_total=tokens_info["tokens_total"],
+                        limite=limite_tokens,
+                        provider=args.judge_provider,
+                        model=args.judge_model,
+                        **base_log,
+                    )
+                else:
+                    result = executar_provider(
+                        provider=args.judge_provider,
+                        model=args.judge_model,
+                        api_key=api_key,
+                        prompt=PROMPT_JUIZ_PADRAO,
+                        auditado=chave.auditado,
+                        questao_base=chave.questao,
+                        coluna_evidencia=chave.coluna_evidencia,
+                        itens_afirmados=itens,
+                        pacote=payload_pacote,
+                        reasoning_effort=args.reasoning_effort,
+                        on_event=on_judge_event,
+                    )
+            # Rotação: todas as chaves exauridas - registrar erro e passar para o proximo grupo
+            if isinstance(result, dict) and result.get("all_keys_exhausted"):
+                wait_secs = float(result.get("retry_after_seconds", 60))
+                log_event(
+                    "all_keys_exhausted",
+                    f"Todas as chaves {args.judge_provider} exauridas. Registrando erro e passando para o proximo grupo.",
+                    quiet=args.quiet,
+                    level="warning",
+                    provider=args.judge_provider,
+                    model=args.judge_model,
+                    retry_after_seconds=round(wait_secs, 1),
+                    **base_log,
+                )
+                result = {
+                    "status": "error",
+                    "error": f"todas as chaves {args.judge_provider} exauridas (retry_after {wait_secs:.0f}s)",
+                }
 
 
         status = result.get("status", "error") if isinstance(result, dict) else "error"
+        finished_at = dt.datetime.now(dt.timezone.utc)
         registro = {
             "identity": identity,
             "status": status,
@@ -634,10 +837,24 @@ def main(argv: list[str] | None = None) -> int:
             "opiniao_auditoria": opiniao_auditoria,
             "evidence_path": str(caminho_evidencia) if caminho_evidencia else "",
             "evidence_hash": evidence_hash,
+            "gera_achado": any(op.get("gera_achado") for op in grupo.opinioes),
             "result": result,
             "error": result.get("error", "") if isinstance(result, dict) else "resultado invalido",
-            "finished_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "started_at": consolidation_started_at.isoformat(),
+            "finished_at": finished_at.isoformat(),
+            "duration_seconds": round((finished_at - consolidation_started_at).total_seconds(), 3),
+            "reasoning_effort": args.reasoning_effort,
         }
+        if args.store_prompts:
+            from .providers_ai_service import _conteudo_provider_textual
+            registro["prompt_payload"] = _conteudo_provider_textual(
+                prompt=PROMPT_JUIZ_PADRAO,
+                auditado=chave.auditado,
+                questao_base=chave.questao,
+                coluna_evidencia=chave.coluna_evidencia,
+                itens_afirmados=itens,
+                pacote={k: v for k, v in payload_pacote.items() if k != "arquivos_upload"},
+            )
         gravar_registro_analise(checkpoint, registro)
         registros_checkpoint[identity] = registro
         total_processados += 1
@@ -657,6 +874,15 @@ def main(argv: list[str] | None = None) -> int:
 
     relatorio = out_dir / "pareceres_consolidados.xlsx"
     linhas = gerar_relatorio_pareceres(checkpoint, relatorio)
+    checkpoint_limpo = out_dir / "consolidated_clean.jsonl"
+    registros_limpos = _gerar_checkpoint_limpo(checkpoint, checkpoint_limpo)
+    log_event(
+        "clean_checkpoint_generated",
+        "Checkpoint limpo (somente completed) gerado.",
+        quiet=args.quiet,
+        checkpoint_limpo=str(checkpoint_limpo),
+        registros=registros_limpos,
+    )
     log_event(
         "consolidation_finished",
         "Consolidacao de pareceres finalizada.",
@@ -667,10 +893,30 @@ def main(argv: list[str] | None = None) -> int:
         concluidos=total_concluidos,
         erros=total_erros,
         checkpoint=str(checkpoint),
+        checkpoint_limpo=str(checkpoint_limpo),
         relatorio=str(relatorio),
         linhas=linhas,
     )
     return 0
+
+
+def _gerar_checkpoint_limpo(checkpoint: str | Path, destino: str | Path) -> int:
+    """Copia para ``destino`` apenas os registros ``completed`` do checkpoint."""
+    path = Path(checkpoint)
+    if not path.is_file():
+        return 0
+    destino_path = Path(destino)
+    destino_path.parent.mkdir(parents=True, exist_ok=True)
+    total = 0
+    with path.open(encoding="utf-8") as f_in, destino_path.open("w", encoding="utf-8") as f_out:
+        for linha in f_in:
+            if not linha.strip():
+                continue
+            registro = json.loads(linha)
+            if registro.get("status") == "completed":
+                f_out.write(json.dumps(registro, ensure_ascii=False) + "\n")
+                total += 1
+    return total
 
 
 if __name__ == "__main__":

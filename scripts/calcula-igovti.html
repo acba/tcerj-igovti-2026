@@ -1,0 +1,3400 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora iGovTI</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-statistics@7.8.8/dist/simple-statistics.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsne-js@1.0.3/build/tsne.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/umap-js@1.3.3/lib/umap-js.min.js"></script>
+  <script id="igovti-core">
+    (function (root) {
+      function parseQuestionReference(value) {
+        const referenceId = String(value ?? '').trim();
+        if (!/[{}]/.test(referenceId)) {
+          return { referenceId, questionId: referenceId, detailCodes: null, error: null };
+        }
+
+        const match = referenceId.match(/^(q\d{4})\s*\{([^{}]*)\}$/i);
+        if (!match) {
+          return {
+            referenceId,
+            questionId: null,
+            detailCodes: null,
+            error: 'use o formato qNNNN{A, C, D}'
+          };
+        }
+
+        const detailCodes = match[2].split(',').map((code) => code.trim());
+        if (!detailCodes.length || detailCodes.some((code) => !code)) {
+          return {
+            referenceId,
+            questionId: `q${match[1].slice(1)}`,
+            detailCodes: null,
+            error: 'informe ao menos um item de detalhamento e não deixe itens vazios'
+          };
+        }
+        const invalidCode = detailCodes.find((code) => !/^[A-Za-z0-9_-]+$/.test(code));
+        if (invalidCode) {
+          return {
+            referenceId,
+            questionId: `q${match[1].slice(1)}`,
+            detailCodes: null,
+            error: `item de detalhamento inválido "${invalidCode}"`
+          };
+        }
+        const duplicates = detailCodes.filter((code, index) => detailCodes.indexOf(code) !== index);
+        if (duplicates.length) {
+          return {
+            referenceId,
+            questionId: `q${match[1].slice(1)}`,
+            detailCodes: null,
+            error: `item de detalhamento duplicado "${duplicates[0]}"`
+          };
+        }
+
+        return {
+          referenceId,
+          questionId: `q${match[1].slice(1)}`,
+          detailCodes,
+          error: null
+        };
+      }
+
+      function detailCodeFromQuestionId(questionId, detailId) {
+        const base = String(questionId).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const value = String(detailId);
+        const patterns = [
+          new RegExp(`^${base}ext\\[([^\\]]+)\\]$`),
+          new RegExp(`^${base}\\[([^\\]]+)\\]$`),
+          new RegExp(`^${base}([A-Za-z0-9_-]+)$`)
+        ];
+        for (const pattern of patterns) {
+          const match = value.match(pattern);
+          if (match) return match[1];
+        }
+        return null;
+      }
+
+      function findDetailQuestionId(questionId, detailCode, detailIds) {
+        const ids = Array.from(detailIds || []);
+        const preferred = [
+          `${questionId}ext[${detailCode}]`,
+          `${questionId}[${detailCode}]`,
+          `${questionId}${detailCode}`
+        ];
+        for (const candidate of preferred) {
+          if (ids.includes(candidate)) return candidate;
+        }
+        return ids.find((id) => detailCodeFromQuestionId(questionId, id) === detailCode) || null;
+      }
+
+      function calculateQuestion(baseText, baseValue, details) {
+        const numeric = Number(String(baseValue).replace(',', '.'));
+        const baseNumeric = Number.isFinite(numeric) ? numeric : 0;
+        const adoptionFull = ['admai', 'Adota em maior parte ou totalmente', 'Adota em maior parte ou totalmente.', 'Adota'].includes(baseText);
+        const adoptionPartial = ['adpar', 'Adota parcialmente', 'Adota parcialmente.'].includes(baseText);
+        if (!details.length || (!adoptionFull && !adoptionPartial)) return baseNumeric;
+        const discountMax = adoptionFull ? 0.85 : 0.35;
+        const missing = details.reduce((sum, value) => {
+          const detailNumeric = Number(String(value).replace(',', '.'));
+          return sum + (1 - (Number.isFinite(detailNumeric) ? detailNumeric : 0));
+        }, 0);
+        return Math.min(1, Math.max(0, baseNumeric - ((missing * discountMax) / details.length)));
+      }
+
+      function chooseIdColumn(columns, requestedColumn = '') {
+        const available = Array.from(columns || []).map((column) => String(column));
+        if (requestedColumn && available.includes(requestedColumn)) return requestedColumn;
+
+        const candidates = ['firstname', 'attribute_1', 'orgao', 'órgão', 'entidade', 'auditado', 'name', 'id'];
+        const lower = new Map(available.map((column) => [column.toLowerCase(), column]));
+        for (const candidate of candidates) {
+          if (lower.has(candidate)) return lower.get(candidate);
+        }
+        return available[0] || null;
+      }
+
+      function sanitizeExportBaseName(value, fallback = 'resultado-igovti') {
+        const sanitized = String(value ?? '')
+          .replace(/[<>:"/\\|?*\u0000-\u001f]/g, '-')
+          .replace(/\s+/g, ' ')
+          .replace(/[. ]+$/g, '')
+          .trim();
+        return (sanitized || fallback).slice(0, 180);
+      }
+
+      function buildSequentialFilename(baseName, extension, sequence) {
+        const cleanBase = sanitizeExportBaseName(baseName);
+        const cleanExtension = String(extension || '').replace(/^\.+/, '').toLowerCase() || 'xlsx';
+        const number = Math.max(1, Math.trunc(Number(sequence)) || 1);
+        return `${cleanBase}${number > 1 ? `_${number}` : ''}.${cleanExtension}`;
+      }
+
+      root.IGOVTI_CORE = Object.freeze({
+        parseQuestionReference,
+        detailCodeFromQuestionId,
+        findDetailQuestionId,
+        calculateQuestion,
+        chooseIdColumn,
+        sanitizeExportBaseName,
+        buildSequentialFilename
+      });
+    })(typeof globalThis !== 'undefined' ? globalThis : window);
+  </script>
+  <style>
+    :root {
+      --ink: #152033;
+      --muted: #5f6b7a;
+      --line: #d9e0e8;
+      --surface: #f6f8fb;
+      --panel: #ffffff;
+      --accent: #087c8f;
+      --accent-2: #6d8f21;
+      --danger: #b42318;
+      --warn: #a15c07;
+      --ok: #147a3d;
+      --shadow: 0 1px 2px rgba(20, 32, 51, 0.08), 0 8px 24px rgba(20, 32, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--surface);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      color: #fff;
+      background: #183247;
+      border-bottom: 4px solid var(--accent);
+    }
+
+    h1, h2, h3 { margin: 0; line-height: 1.2; }
+    h1 { font-size: 20px; font-weight: 720; }
+    h2 { font-size: 15px; font-weight: 700; }
+    h3 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+
+    button, input[type="file"], select {
+      font: inherit;
+    }
+
+    button {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 7px 11px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    button.primary {
+      color: #fff;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.35fr) minmax(300px, 0.85fr);
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .panel {
+      min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-body { padding: 14px; }
+
+    .stack { display: grid; gap: 12px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+    textarea {
+      width: 100%;
+      min-height: 640px;
+      resize: vertical;
+      padding: 12px;
+      color: #0f172a;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px;
+      background: #fbfcfe;
+    }
+
+    .metric b { display: block; font-size: 20px; }
+    .metric span { color: var(--muted); font-size: 12px; }
+
+    .notice {
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent);
+      background: #eef8fa;
+      border-radius: 6px;
+      color: #174454;
+    }
+
+    .issue {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .issue.error { border-color: #f1b8b4; background: #fff5f4; color: var(--danger); }
+    .issue.warn { border-color: #f1d4a6; background: #fff8eb; color: var(--warn); }
+    .issue.ok { border-color: #b8dfc8; background: #f0fbf4; color: var(--ok); }
+
+    .tree {
+      overflow: auto;
+      max-height: 680px;
+      padding-right: 4px;
+    }
+
+    .diagram-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-field {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .diagram-stage {
+      min-height: 460px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(#f7fafc 1px, transparent 1px),
+        linear-gradient(90deg, #f7fafc 1px, transparent 1px),
+        #ffffff;
+      background-size: 24px 24px;
+    }
+
+    .diagram-svg {
+      display: block;
+      min-width: 100%;
+    }
+
+    .diagram-link {
+      fill: none;
+      stroke: #c7d3de;
+      stroke-width: 2;
+    }
+
+    .diagram-link.active {
+      stroke: var(--accent);
+      stroke-width: 3;
+    }
+
+    .diagram-node {
+      cursor: pointer;
+    }
+
+    .diagram-node rect {
+      fill: #fff;
+      stroke: #cbd6e2;
+      stroke-width: 1.2;
+      rx: 8;
+    }
+
+    .diagram-node.aggregate rect { fill: #f8fbfd; }
+    .diagram-node.question rect { fill: #fffdf7; stroke: #e8d49b; }
+    .diagram-node.invalid rect { fill: #fff8eb; stroke: #d39128; }
+    .diagram-node.selected rect { stroke: var(--accent); stroke-width: 2.5; }
+    .diagram-node.path rect { stroke: #72a5b0; }
+
+    .diagram-title {
+      font-size: 12px;
+      font-weight: 700;
+      fill: var(--ink);
+    }
+
+    .diagram-subtitle {
+      font-size: 10.5px;
+      fill: var(--muted);
+    }
+
+    .diagram-value {
+      font-size: 12px;
+      font-weight: 700;
+      fill: var(--accent);
+    }
+
+    .diagram-toggle {
+      fill: #eaf4f6;
+      stroke: var(--accent);
+      stroke-width: 1;
+    }
+
+    .diagram-toggle-label {
+      pointer-events: none;
+    }
+
+    .diagram-empty {
+      display: grid;
+      place-items: center;
+      min-height: 420px;
+      color: var(--muted);
+    }
+
+    .node-detail {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fbfcfe;
+    }
+
+    .detail-item {
+      min-width: 0;
+    }
+
+    .detail-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .detail-item b {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .tree-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .node {
+      margin: 8px 0 8px 18px;
+      border-left: 2px solid #d7e2ea;
+      padding-left: 10px;
+    }
+
+    .node.root { margin-left: 0; border-left-color: var(--accent); }
+
+    .node-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .node.invalid > .node-line {
+      border-color: #f1d4a6;
+      background: #fff8eb;
+    }
+
+    .validation-note {
+      color: var(--warn);
+      font-size: 12px;
+      margin: 5px 0 0 8px;
+    }
+
+    .node-id { font-weight: 700; }
+    .node-kind { color: var(--muted); font-size: 12px; }
+    .node-value { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+    .formula {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 5px 0 0 8px;
+      overflow-wrap: anywhere;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      padding: 8px 9px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #edf3f7;
+      font-size: 12px;
+      color: #32445a;
+    }
+
+    .table-wrap {
+      max-height: 420px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .full {
+      padding: 0 14px 14px;
+    }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .hidden { display: none; }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tab-btn {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      background: #eef3f7;
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-panel.active.shell { display: grid; }
+
+    .analytics-shell {
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .analytics-controls {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(150px, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .field input, .field select {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 7px 9px;
+      background: #fff;
+    }
+
+    .field select[multiple] {
+      min-height: 96px;
+      padding: 5px;
+    }
+
+    .id-column-field {
+      flex: 1 1 260px;
+      max-width: 420px;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .analytics-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .analytics-card.span-3 { grid-column: span 3; }
+    .analytics-card.span-4 { grid-column: span 4; }
+    .analytics-card.span-5 { grid-column: span 5; }
+    .analytics-card.span-6 { grid-column: span 6; }
+    .analytics-card.span-7 { grid-column: span 7; }
+    .analytics-card.span-8 { grid-column: span 8; }
+    .analytics-card.span-12 { grid-column: span 12; }
+
+    .analytics-card .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .analytics-card .card-body {
+      min-width: 0;
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    .card-help {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .chart {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      min-height: 340px;
+      overflow: hidden;
+    }
+
+    .chart.small-chart { min-height: 260px; }
+
+    .chart .js-plotly-plot,
+    .chart .plot-container,
+    .chart .svg-container,
+    .chart .main-svg {
+      max-width: 100% !important;
+    }
+
+    .insight-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .insight {
+      padding: 9px 10px;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      background: #f4fafb;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .mini-metric {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px;
+      background: #fbfcfe;
+    }
+
+    .mini-metric b {
+      display: block;
+      font-size: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+      color: var(--muted);
+      background: #fff;
+      font-size: 12px;
+    }
+
+    @media (max-width: 1150px) {
+      .shell { grid-template-columns: 1fr; }
+      textarea { min-height: 420px; }
+      .tree { max-height: none; }
+      .node-detail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analytics-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analytics-card.span-3,
+      .analytics-card.span-4,
+      .analytics-card.span-5,
+      .analytics-card.span-6,
+      .analytics-card.span-7,
+      .analytics-card.span-8 { grid-column: span 12; }
+    }
+
+    @media (max-width: 680px) {
+      .tabs { overflow-x: auto; }
+      .analytics-controls { grid-template-columns: 1fr; }
+      .meta-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Calculadora iGovTI</h1>
+      <div class="small">Pré-processamento categórico, cálculo ponderado e visualização da árvore do índice.</div>
+    </div>
+    <div class="actions">
+      <button id="downloadYamlBtn">Exportar YAML</button>
+      <button id="downloadJsonBtn" disabled>Exportar resultados JSON</button>
+      <button id="downloadCsvBtn" disabled>Exportar resultados CSV</button>
+      <button id="downloadXlsxBtn" disabled>Exportar resultados XLSX</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Navegação principal">
+    <button class="tab-btn active" type="button" data-tab="calculatorTab">Calculadora</button>
+    <button class="tab-btn" type="button" data-tab="resultsTab">Resultados</button>
+    <button class="tab-btn" type="button" data-tab="analyticsTab">Análises Estatísticas</button>
+  </nav>
+
+  <main id="calculatorTab" class="tab-panel active shell">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Estrutura YAML</h2>
+        <div class="actions">
+          <input id="yamlInput" type="file" accept=".yaml,.yml,text/yaml">
+          <button id="applyYamlBtn" class="primary">Aplicar</button>
+        </div>
+      </div>
+      <div class="panel-body stack">
+        <div class="notice small">O YAML define categorias, níveis de maturidade, raiz do índice, agregados, componentes e pesos. IDs iniciados por <b>q</b> são tratados como questões.</div>
+        <textarea id="yamlEditor" spellcheck="false"></textarea>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Árvore e cálculo</h2>
+        <div class="actions">
+          <select id="entitySelect" disabled></select>
+          <button id="calculateBtn" class="primary" disabled>Calcular</button>
+        </div>
+      </div>
+      <div class="panel-body stack">
+        <div class="meta-grid">
+          <div class="metric"><b id="rootValue">-</b><span>Índice raiz</span></div>
+          <div class="metric"><b id="maturityValue">-</b><span>Nível de maturidade</span></div>
+          <div class="metric"><b id="entitiesValue">0</b><span>Registros importados</span></div>
+        </div>
+        <div class="diagram-toolbar">
+          <h3>Diagrama do índice</h3>
+          <div class="actions">
+            <label class="toggle-field"><input id="showDetachedAggregates" type="checkbox"> Agregados avulsos</label>
+            <button id="expandDiagramBtn" type="button">Expandir</button>
+            <button id="collapseDiagramBtn" type="button">Recolher</button>
+            <button id="fitDiagramBtn" type="button">Centralizar</button>
+            <button id="downloadSvgBtn" type="button">Exportar SVG</button>
+            <button id="downloadPngBtn" type="button">Exportar PNG</button>
+          </div>
+        </div>
+        <div id="diagramStage" class="diagram-stage"></div>
+        <div id="nodeDetail" class="node-detail"></div>
+        <div class="tree-title">
+          <h3>Memória de cálculo</h3>
+          <span class="small muted" id="treeSummary"></span>
+        </div>
+        <div id="tree" class="tree"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Dados e validações</h2>
+      </div>
+      <div class="panel-body stack">
+        <div class="actions">
+          <input id="xlsxInput" type="file" accept=".xlsx,.xls">
+          <div class="field id-column-field">
+            <label for="idColumnSelect">ID do auditado</label>
+            <select id="idColumnSelect" disabled>
+              <option value="">Importe uma planilha</option>
+            </select>
+          </div>
+        </div>
+        <div id="status" class="notice small">Importe a planilha XLSX de respostas e aplique a estrutura YAML.</div>
+        <div>
+          <h3>Validações</h3>
+          <div id="issues" class="stack"></div>
+        </div>
+        <div>
+          <h3>Pré-processamento</h3>
+          <div id="preprocessInfo" class="small muted">Aguardando planilha.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section id="resultsTab" class="tab-panel full">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Resultados</h2>
+        <span class="small muted">Valores por registro, incluindo questões calculadas, agregados e nível de maturidade.</span>
+      </div>
+      <div class="panel-body">
+        <div id="resultsTable" class="table-wrap"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="analyticsTab" class="tab-panel">
+    <div class="analytics-shell">
+      <div id="analyticsEmpty" class="notice">Calcule os resultados antes de acessar as análises estatísticas.</div>
+      <div id="analyticsContent" class="stack hidden">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Análises Estatísticas</h2>
+            <div class="actions">
+              <button id="downloadAnalyticsCsvBtn" type="button">Exportar análise CSV</button>
+              <button id="downloadAnalyticsXlsxBtn" type="button">Exportar análise XLSX</button>
+              <button id="downloadAnalyticsJsonBtn" type="button">Exportar análise JSON</button>
+            </div>
+          </div>
+          <div class="panel-body analytics-controls">
+            <div class="field">
+              <label for="analyticsVariableScope">Variáveis</label>
+              <select id="analyticsVariableScope">
+                <option value="aggregates">Agregados</option>
+                <option value="all">Tudo numérico</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="analyticsVariableSelect">Seleção de variáveis</label>
+              <select id="analyticsVariableSelect" multiple></select>
+            </div>
+            <div class="field">
+              <label for="analyticsClusterCount">Clusters</label>
+              <input id="analyticsClusterCount" type="number" min="2" max="10" value="4">
+            </div>
+            <div class="field">
+              <label for="analyticsClusterMethod">Método de cluster</label>
+              <select id="analyticsClusterMethod">
+                <option value="kmeans">K-Means</option>
+                <option value="dbscan">DBSCAN</option>
+                <option value="hierarchical">Hierárquico</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="analyticsDbscanEps">DBSCAN eps</label>
+              <input id="analyticsDbscanEps" type="number" min="0.01" max="2" step="0.01" value="0.35">
+            </div>
+            <div class="field">
+              <label for="analyticsDbscanMinPts">DBSCAN minPts</label>
+              <input id="analyticsDbscanMinPts" type="number" min="2" max="20" value="4">
+            </div>
+            <div class="field">
+              <label for="analyticsEmbeddingMethod">Projeção</label>
+              <select id="analyticsEmbeddingMethod">
+                <option value="tsne">t-SNE</option>
+                <option value="umap">UMAP</option>
+                <option value="pca">PCA 2D</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="analyticsCorrelationMode">Dependência</label>
+              <select id="analyticsCorrelationMode">
+                <option value="pearson">Pearson</option>
+                <option value="spearman">Spearman</option>
+                <option value="mi">Mutual Information</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="analyticsMaturityFilter">Maturidade</label>
+              <select id="analyticsMaturityFilter">
+                <option value="">Todos</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="analyticsClusterFilter">Cluster</label>
+              <select id="analyticsClusterFilter">
+                <option value="">Todos</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="analyticsEntitySelect">Organização</label>
+              <select id="analyticsEntitySelect"></select>
+            </div>
+            <div class="field">
+              <label for="analyticsCompareSelect">Comparar com</label>
+              <select id="analyticsCompareSelect"></select>
+            </div>
+            <div class="field">
+              <label for="analyticsSearch">Busca</label>
+              <input id="analyticsSearch" type="search" placeholder="Filtrar organização">
+            </div>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="analytics-card span-3"><div class="card-head"><h3>Organizações</h3></div><div class="card-body metric"><b id="anOrgCount">-</b><span>registros analisados</span></div></div>
+          <div class="analytics-card span-3"><div class="card-head"><h3>Média iGovTI</h3></div><div class="card-body metric"><b id="anMeanRoot">-</b><span>índice raiz médio</span></div></div>
+          <div class="analytics-card span-3"><div class="card-head"><h3>Mediana</h3></div><div class="card-body metric"><b id="anMedianRoot">-</b><span>índice raiz mediano</span></div></div>
+          <div class="analytics-card span-3"><div class="card-head"><h3>Desvio padrão</h3></div><div class="card-body metric"><b id="anStdRoot">-</b><span>dispersão geral</span></div></div>
+
+          <div class="analytics-card span-4"><div class="card-head"><h3>Níveis de maturidade</h3></div><div class="card-body"><div id="maturityChart" class="chart small-chart"></div></div></div>
+          <div class="analytics-card span-4"><div class="card-head"><h3>Ranking geral</h3></div><div class="card-body"><div id="rankingTable" class="table-wrap"></div></div></div>
+          <div class="analytics-card span-4"><div class="card-head"><h3>Insights automáticos</h3></div><div class="card-body"><div id="insightsList" class="insight-list"></div></div></div>
+
+          <div class="analytics-card span-6"><div class="card-head"><h3>Correlação Pearson</h3><span id="correlationSummary" class="pill"></span></div><div class="card-body"><div id="pearsonHeatmap" class="chart"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Rede de dependências</h3></div><div class="card-body"><div id="correlationNetwork" class="chart"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Dependência não linear</h3><span id="miSummary" class="pill"></span></div><div class="card-body"><div id="miHeatmap" class="chart"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Variáveis estruturantes</h3></div><div class="card-body"><div id="structuralVariablesTable" class="table-wrap"></div></div></div>
+          <div class="analytics-card span-12"><div class="card-head"><h3>Ranking de correlações e dependências</h3></div><div class="card-body"><div id="correlationTable" class="table-wrap"></div></div></div>
+
+          <div class="analytics-card span-6"><div class="card-head"><h3>Clusters PCA</h3></div><div class="card-body"><div id="pcaScatter" class="chart"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Clusters t-SNE / projeção 2D</h3></div><div class="card-body"><div id="embeddingScatter" class="chart"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Qualidade dos clusters</h3></div><div class="card-body"><div id="clusterQualityPanel"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Dendrograma hierárquico</h3></div><div class="card-body"><div id="dendrogramChart" class="chart"></div></div></div>
+
+          <div class="analytics-card span-6"><div class="card-head"><h3>Benchmarking</h3></div><div class="card-body"><div id="benchmarkTable" class="table-wrap"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>Fragilidades sistêmicas</h3></div><div class="card-body"><div id="weaknessChart" class="chart"></div></div></div>
+          <div class="analytics-card span-12"><div class="card-head"><h3>Outliers e desequilíbrios</h3></div><div class="card-body"><div id="outlierTable" class="table-wrap"></div></div></div>
+
+          <div class="analytics-card span-7"><div class="card-head"><h3>Exploração individual</h3><span id="selectedOrgBadge" class="pill"></span></div><div class="card-body"><div id="individualRadar" class="chart"></div></div></div>
+          <div class="analytics-card span-5"><div class="card-head"><h3>Perfil e gaps</h3></div><div class="card-body"><div id="individualProfile" class="table-wrap"></div></div></div>
+
+          <div class="analytics-card span-6"><div class="card-head"><h3>Distribuições</h3></div><div class="card-body"><div id="distributionChart" class="chart"></div></div></div>
+          <div class="analytics-card span-6"><div class="card-head"><h3>PCA e explicabilidade</h3></div><div class="card-body"><div id="pcaExplainChart" class="chart"></div></div></div>
+          <div class="analytics-card span-12"><div class="card-head"><h3>Análise temporal</h3></div><div class="card-body"><div id="temporalPanel"></div></div></div>
+          <div class="analytics-card span-12"><div class="card-head"><h3>Estatística descritiva</h3></div><div class="card-body"><div id="descriptiveTable" class="table-wrap"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const DEFAULT_YAML = `metadata:
+  nome: iGovTI
+  versao: "2026"
+  raiz: iGovTI
+
+preprocessamento:
+  nao_se_aplica: parcial
+
+categorias:
+  # Codigos exportados pelo LimeSurvey para questoes [adoption]
+  naoad: 0
+  adfor: 0.05
+  admen: 0.15
+  adpar: 0.5
+  admai: 1
+  naoap: 0.5
+
+  # Codigos exportados pelas escalas sim/nao
+  sim: 1
+  nao: 0
+
+  # Rotulos mantidos como fallback para planilhas ja decodificadas
+  "Não adota": 0
+  "Não adota.": 0
+  "Há decisão formal ou plano aprovado para adotá-lo": 0.05
+  "Há decisão formal ou plano aprovado para adotá-lo.": 0.05
+  "Adota em menor parte": 0.15
+  "Adota em menor parte.": 0.15
+  "Adota parcialmente": 0.5
+  "Adota parcialmente.": 0.5
+  "Não se aplica": 0.5
+  "Não se aplica.": 0.5
+  "Adota": 1
+  "Adota em maior parte ou totalmente": 1
+  "Adota em maior parte ou totalmente.": 1
+  "Sim": 1
+  "Não": 0
+  "Nao": 0
+  "N/A": 0
+
+niveis_maturidade:
+  - nome: Inexpressivo
+    min: 0
+    max: 0.15
+    inclui_min: true
+    inclui_max: false
+  - nome: Iniciando
+    min: 0.15
+    max: 0.4
+    inclui_min: true
+    inclui_max: false
+  - nome: Intermediário
+    min: 0.4
+    max: 0.7
+    inclui_min: true
+    inclui_max: false
+  - nome: Aprimorado
+    min: 0.7
+    max: 1
+    inclui_min: true
+    inclui_max: true
+
+agregados:
+  ResultadoTI:
+    componentes:
+      - id: q1133
+        peso: 0.327394510063567
+      - id: q1131
+        peso: 0.309912761764135
+      - id: q1132
+        peso: 0.362692728172297
+  ModeloTI:
+    componentes:
+      - id: q1111
+        peso: 1
+  MonitorAvaliaTI:
+    componentes:
+      - id: q1121
+        peso: 0.239954113847665
+      - id: q1122D
+        peso: 0.380399470228791
+      - id: q1122E
+        peso: 0.379646415923544
+  PessoasTI:
+    componentes:
+      - id: q2211
+        peso: 0.200015591427986
+      - id: q2212
+        peso: 0.189707149747752
+      - id: q2213
+        peso: 0.138620127809127
+      - id: q2221
+        peso: 0.17980424931722
+      - id: q2231
+        peso: 0.167513819607624
+      - id: q2241
+        peso: 0.124339062090292
+  PlanejamentoTI:
+    componentes:
+      - id: q2111
+        peso: 0.5
+      - id: q2112
+        peso: 0.5
+  iGestServicosTI:
+    componentes:
+      - id: q2121
+        peso: 0.236308617074049
+      - id: q2122
+        peso: 0.262957173833819
+      - id: q2123
+        peso: 0.235636430094488
+      - id: q2124
+        peso: 0.265097778997645
+  iGestNiveisServicoTI:
+    componentes:
+      - id: q2131
+        peso: 1
+  iGestRiscosTI:
+    componentes:
+      - id: q2141
+        peso: 0.135195390704305
+      - id: q2142
+        peso: 0.114370438771681
+      - id: q2146
+        peso: 0.160657263976458
+      - id: q2147
+        peso: 0.154558443847086
+      - id: q2143
+        peso: 0.172921049657911
+      - id: q2144
+        peso: 0.165393181316535
+      - id: q2145
+        peso: 0.0969042317260227
+  EstruturaSegInfo:
+    componentes:
+      - id: q2151
+        peso: 0.337225127598945
+      - id: q2152
+        peso: 0.328584171771053
+      - id: q2153
+        peso: 0.334190700630002
+  ProcessoSegInfo:
+    componentes:
+      - id: q2161
+        peso: 0.169100077513301
+      - id: q2162
+        peso: 0.181906589345358
+      - id: q2163
+        peso: 0.168444883055573
+      - id: q2164
+        peso: 0.146840126078019
+      - id: q2165
+        peso: 0.180269707258143
+      - id: q2166
+        peso: 0.153438616749606
+  ProcessoSoftware:
+    componentes:
+      - id: q2171
+        peso: 1
+  iGestProjetosTI:
+    componentes:
+      - id: q2181
+        peso: 1
+  iGestContratosTI:
+    componentes:
+      - id: q2311
+        peso: 0.308686396585945
+      - id: q2321A
+        peso: 0.358650374345277
+      - id: q2322A
+        peso: 0.332663229068778
+  GovernancaTI:
+    componentes:
+      - id: ModeloTI
+        peso: 0.34248477689372
+      - id: MonitorAvaliaTI
+        peso: 0.344356081316603
+      - id: ResultadoTI
+        peso: 0.313159141789676
+  iGestSegInfo:
+    componentes:
+      - id: EstruturaSegInfo
+        peso: 0.185207883709867
+      - id: ProcessoSegInfo
+        peso: 0.219713326377589
+      - id: q2145
+        peso: 0.143292869064277
+      - id: q2142
+        peso: 0.198007190889671
+      - id: q2171F
+        peso: 0.133404667143688
+      - id: q1122E
+        peso: 0.120374062814908
+  ProcessosTI:
+    componentes:
+      - id: iGestServicosTI
+        peso: 0.167073137421224
+      - id: iGestNiveisServicoTI
+        peso: 0.134705191897048
+      - id: iGestRiscosTI
+        peso: 0.137263981410149
+      - id: iGestSegInfo
+        peso: 0.170654806089732
+      - id: ProcessoSoftware
+        peso: 0.138678880790189
+      - id: iGestProjetosTI
+        peso: 0.148415256905944
+      - id: iGestContratosTI
+        peso: 0.103208745485713
+  iGestTI:
+    componentes:
+      - id: PlanejamentoTI
+        peso: 0.330476319864886
+      - id: PessoasTI
+        peso: 0.301194908895905
+      - id: ProcessosTI
+        peso: 0.368328771239209
+  iGovTI:
+    componentes:
+      - id: GovernancaTI
+        peso: 0.5
+      - id: iGestTI
+        peso: 0.5
+  ProcessosContratacao:
+    componentes:
+      - id: q2331
+        peso: 0.167173482808753
+      - id: q2341
+        peso: 0.288160971623168
+      - id: q2342
+        peso: 0.272246466624149
+      - id: q2343
+        peso: 0.272419078943929
+`;
+
+    const state = {
+      config: null,
+      rawRows: [],
+      processedRows: [],
+      results: [],
+      idColumn: null,
+      idColumnOverride: '',
+      availableQuestions: new Set(),
+      availableQuestionColumns: new Set(),
+      validationIssues: [],
+      selectedEntity: null,
+      selectedNodeId: null,
+      collapsedNodes: new Set(),
+      aggregateValidation: new Map(),
+      showDetachedAggregates: false,
+      activeTab: 'calculatorTab',
+      analytics: null,
+      analyticsVariableScope: 'aggregates',
+      selectedAnalyticsVariables: [],
+      clusterCount: 4,
+      clusterMethod: 'kmeans',
+      dbscanEps: 0.35,
+      dbscanMinPts: 4,
+      embeddingMethod: 'tsne',
+      correlationMode: 'pearson',
+      maturityFilter: '',
+      clusterFilter: '',
+      selectedAnalyticsEntity: null,
+      selectedCompareEntity: null,
+      analyticsSearch: ''
+    };
+
+    const RESULT_EXPORT_SEQUENCE_KEY = 'calcula-igovti.result-export-sequences.v1';
+    const fallbackExportSequences = new Map();
+
+    const {
+      parseQuestionReference,
+      findDetailQuestionId,
+      calculateQuestion,
+      chooseIdColumn,
+      sanitizeExportBaseName,
+      buildSequentialFilename
+    } = window.IGOVTI_CORE;
+
+    const $ = (id) => document.getElementById(id);
+
+    const ANALYTICS_CARD_HELP = {
+      'Organizações': 'Quantidade de organizações consideradas na base analítica atual, após filtros de maturidade, cluster e variáveis. Use este número para saber o tamanho da amostra que sustenta as demais estatísticas.',
+      'Média iGovTI': 'Média do índice raiz entre as organizações analisadas. Valores mais altos indicam maior maturidade média; compare com mediana e dispersão para evitar conclusões enviesadas por poucos casos extremos.',
+      'Mediana': 'Valor central do índice raiz. Metade das organizações está acima e metade abaixo. Quando a mediana fica bem abaixo da média, há provável concentração em notas baixas com poucos desempenhos altos puxando a média.',
+      'Desvio padrão': 'Mede a dispersão do índice raiz. Quanto maior, mais heterogêneo é o conjunto de organizações; valores baixos indicam desempenho mais uniforme.',
+      'Níveis de maturidade': 'Distribuição das organizações por faixa de maturidade configurada no YAML. Ajuda a perceber se o ecossistema está concentrado em estágios iniciais ou avançados.',
+      'Ranking geral': 'Ordena as organizações pelo índice raiz, do maior para o menor. Clique em uma linha para atualizar a exploração individual e comparar a organização com médias e benchmarks.',
+      'Insights automáticos': 'Resumo textual calculado a partir das estatísticas. Use como ponto de partida: ele destaca dimensões críticas, correlações, clusters frágeis e organizações atípicas que merecem investigação.',
+      'Correlação Pearson': 'Heatmap de correlação linear entre variáveis. Valores próximos de 1 indicam que crescem juntas; próximos de -1 indicam relação inversa; próximos de 0 indicam pouca relação linear.',
+      'Rede de dependências': 'Grafo das relações mais fortes segundo o modo selecionado em Dependência. Nós conectados indicam dimensões que se comportam de forma parecida ou dependente.',
+      'Dependência não linear': 'Heatmap de Mutual Information. Detecta dependências que podem não aparecer na correlação linear; valores maiores sugerem associação informativa entre variáveis.',
+      'Variáveis estruturantes': 'Ranking composto que combina correlação com o índice raiz, correlação média com outras dimensões, Mutual Information e importância na PCA. As primeiras tendem a explicar mais a estrutura geral dos dados.',
+      'Ranking de correlações e dependências': 'Tabela dos pares de variáveis mais associados. Pearson mostra relação linear, Spearman relação monotônica e MI dependência geral por discretização.',
+      'Clusters PCA': 'Projeção em duas dimensões usando PCA, colorida por cluster. Pontos próximos representam organizações com perfis semelhantes nas variáveis selecionadas.',
+      'Clusters t-SNE / projeção 2D': 'Projeção alternativa para explorar agrupamentos visuais. t-SNE e UMAP priorizam vizinhanças locais; PCA 2D é mais estável e explicável.',
+      'Qualidade dos clusters': 'Resumo do método de clusterização. Silhouette perto de 1 indica clusters bem separados; perto de 0 indica fronteiras pouco claras; negativo sugere agrupamento ruim.',
+      'Dendrograma hierárquico': 'Mostra as últimas fusões do agrupamento hierárquico. Barras mais altas indicam junções entre grupos mais distantes; útil para avaliar quantos grupos naturais existem.',
+      'Benchmarking': 'Compara melhores, piores, organizações equilibradas, desbalanceadas e médias por cluster. Use para identificar referências, casos críticos e perfis de maturidade.',
+      'Fragilidades sistêmicas': 'Dimensões com menor média entre as organizações. Barras mais baixas indicam gargalos coletivos e temas prioritários para atuação transversal.',
+      'Outliers e desequilíbrios': 'Lista organizações atípicas por nota, distância ao cluster, desbalanceamento interno ou muitas fragilidades, além de valores extremos por variável. Esses casos pedem revisão qualitativa.',
+      'Exploração individual': 'Radar da organização selecionada contra média geral, média do cluster, top quartil e organização de comparação. Valores perto do centro indicam fragilidade relativa.',
+      'Perfil e gaps': 'Tabela da organização selecionada por variável. Gap negativo significa desempenho abaixo da média geral; gap positivo indica ponto forte relativo.',
+      'Distribuições': 'Histograma, boxplot, violin e densidade do índice raiz. Use para observar concentração, assimetria, dispersão e presença de extremos.',
+      'PCA e explicabilidade': 'Mostra variância explicada e variáveis com maior peso nas componentes principais. Ajuda a entender quais dimensões mais estruturam as diferenças entre organizações.',
+      'Análise temporal': 'Quando há coluna de ciclo ou ano, mostra evolução média ao longo do tempo. Sem múltiplos ciclos, o painel informa que a análise temporal não está disponível.',
+      'Estatística descritiva': 'Tabela completa por variável: média, mediana, quartis, mínimo, máximo, variância, desvio padrão e coeficiente de variação. Use para comparar nível e dispersão das dimensões.'
+    };
+
+    $('yamlEditor').value = DEFAULT_YAML;
+    $('applyYamlBtn').addEventListener('click', applyYaml);
+    $('yamlInput').addEventListener('change', readYamlFile);
+    $('xlsxInput').addEventListener('change', readXlsxFile);
+    $('idColumnSelect').addEventListener('change', changeIdColumn);
+    $('calculateBtn').addEventListener('click', calculateAll);
+    $('expandDiagramBtn').addEventListener('click', () => {
+      state.collapsedNodes.clear();
+      renderSelectedEntity();
+    });
+    $('collapseDiagramBtn').addEventListener('click', () => {
+      collapseDiagramToFirstLevel();
+      renderSelectedEntity();
+    });
+    $('fitDiagramBtn').addEventListener('click', centerDiagram);
+    $('downloadSvgBtn').addEventListener('click', downloadDiagramSvg);
+    $('downloadPngBtn').addEventListener('click', downloadDiagramPng);
+    $('showDetachedAggregates').addEventListener('change', () => {
+      state.showDetachedAggregates = $('showDetachedAggregates').checked;
+      renderSelectedEntity();
+    });
+    $('entitySelect').addEventListener('change', () => {
+      state.selectedEntity = $('entitySelect').value;
+      renderSelectedEntity();
+    });
+    $('downloadYamlBtn').addEventListener('click', () => downloadText('estrutura-igovti.yaml', $('yamlEditor').value, 'text/yaml'));
+    $('downloadJsonBtn').addEventListener('click', () => downloadText(nextResultExportFilename('json'), JSON.stringify(state.results, null, 2), 'application/json'));
+    $('downloadCsvBtn').addEventListener('click', () => downloadText(nextResultExportFilename('csv'), toCsv(state.results), 'text/csv'));
+    $('downloadXlsxBtn').addEventListener('click', () => downloadResultsXlsx(state.results));
+    document.querySelectorAll('.tab-btn').forEach((button) => {
+      button.addEventListener('click', () => setActiveTab(button.dataset.tab));
+    });
+    $('analyticsVariableScope').addEventListener('change', () => {
+      state.analyticsVariableScope = $('analyticsVariableScope').value;
+      state.selectedAnalyticsVariables = [];
+      refreshAnalytics();
+    });
+    $('analyticsVariableSelect').addEventListener('change', () => {
+      state.selectedAnalyticsVariables = Array.from($('analyticsVariableSelect').selectedOptions).map((option) => option.value);
+      refreshAnalytics();
+    });
+    $('analyticsClusterCount').addEventListener('change', () => {
+      state.clusterCount = clamp(Math.round(toNumber($('analyticsClusterCount').value, 4)), 2, 10);
+      $('analyticsClusterCount').value = String(state.clusterCount);
+      refreshAnalytics();
+    });
+    $('analyticsClusterMethod').addEventListener('change', () => {
+      state.clusterMethod = $('analyticsClusterMethod').value;
+      refreshAnalytics();
+    });
+    $('analyticsDbscanEps').addEventListener('change', () => {
+      state.dbscanEps = clamp(toNumber($('analyticsDbscanEps').value, 0.35), 0.01, 2);
+      $('analyticsDbscanEps').value = String(state.dbscanEps);
+      refreshAnalytics();
+    });
+    $('analyticsDbscanMinPts').addEventListener('change', () => {
+      state.dbscanMinPts = clamp(Math.round(toNumber($('analyticsDbscanMinPts').value, 4)), 2, 20);
+      $('analyticsDbscanMinPts').value = String(state.dbscanMinPts);
+      refreshAnalytics();
+    });
+    $('analyticsEmbeddingMethod').addEventListener('change', () => {
+      state.embeddingMethod = $('analyticsEmbeddingMethod').value;
+      refreshAnalytics();
+    });
+    $('analyticsCorrelationMode').addEventListener('change', () => {
+      state.correlationMode = $('analyticsCorrelationMode').value;
+      renderAnalytics();
+    });
+    $('analyticsMaturityFilter').addEventListener('change', () => {
+      state.maturityFilter = $('analyticsMaturityFilter').value;
+      refreshAnalytics();
+    });
+    $('analyticsClusterFilter').addEventListener('change', () => {
+      state.clusterFilter = $('analyticsClusterFilter').value;
+      renderAnalytics();
+    });
+    $('analyticsEntitySelect').addEventListener('change', () => {
+      state.selectedAnalyticsEntity = $('analyticsEntitySelect').value;
+      renderAnalytics();
+    });
+    $('analyticsCompareSelect').addEventListener('change', () => {
+      state.selectedCompareEntity = $('analyticsCompareSelect').value;
+      renderAnalytics();
+    });
+    $('analyticsSearch').addEventListener('input', () => {
+      state.analyticsSearch = $('analyticsSearch').value.trim().toLowerCase();
+      renderAnalytics();
+    });
+    $('downloadAnalyticsCsvBtn').addEventListener('click', () => {
+      if (state.analytics) downloadText('analise-estatistica-igovti.csv', analyticsToCsv(state.analytics), 'text/csv');
+    });
+    $('downloadAnalyticsXlsxBtn').addEventListener('click', () => {
+      if (state.analytics) downloadAnalyticsXlsx(state.analytics);
+    });
+    $('downloadAnalyticsJsonBtn').addEventListener('click', () => {
+      if (state.analytics) downloadText('analise-estatistica-igovti.json', JSON.stringify(state.analytics, analyticsJsonReplacer, 2), 'application/json');
+    });
+
+    applyYaml();
+    injectAnalyticsHelp();
+
+    function readYamlFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        $('yamlEditor').value = reader.result;
+        applyYaml();
+      };
+      reader.readAsText(file);
+    }
+
+    function injectAnalyticsHelp() {
+      document.querySelectorAll('#analyticsTab .analytics-card').forEach((card) => {
+        const title = card.querySelector('.card-head h3')?.textContent?.trim();
+        const body = card.querySelector('.card-body');
+        if (!title || !body || !ANALYTICS_CARD_HELP[title] || body.querySelector('.card-help')) return;
+        const help = document.createElement('p');
+        help.className = 'card-help';
+        help.textContent = ANALYTICS_CARD_HELP[title];
+        body.prepend(help);
+      });
+    }
+
+    function readXlsxFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        state.rawRows = XLSX.utils.sheet_to_json(firstSheet, { defval: null });
+        fillIdColumnSelect(Object.keys(state.rawRows[0] || {}));
+        processRows();
+        renderStatus(`Planilha importada: ${state.rawRows.length} registros da aba "${workbook.SheetNames[0]}".`);
+        validateAndRender();
+        toggleCalculate();
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function changeIdColumn() {
+      state.idColumnOverride = $('idColumnSelect').value;
+      processRows();
+      validateAndRender();
+      toggleCalculate();
+      renderTree();
+      renderStatus(`Coluna identificadora selecionada: "${state.idColumn || 'nenhuma'}". Recalcule os resultados.`);
+    }
+
+    function applyYaml() {
+      resetCalculatedState();
+      try {
+        state.config = jsyaml.load($('yamlEditor').value);
+        validateConfigShape(state.config);
+        collapseDiagramToFirstLevel();
+        renderStatus('Estrutura YAML aplicada.');
+        if (state.rawRows.length) processRows();
+      } catch (error) {
+        state.config = null;
+        renderStatus(`Erro no YAML: ${error.message}`, true);
+      }
+      validateAndRender();
+      toggleCalculate();
+      renderTree();
+    }
+
+    function validateConfigShape(config) {
+      if (!config || typeof config !== 'object') throw new Error('documento vazio');
+      if (!config.metadata || !config.metadata.raiz) throw new Error('metadata.raiz é obrigatório');
+      if (!config.categorias || typeof config.categorias !== 'object') throw new Error('categorias é obrigatório');
+      if (!Array.isArray(config.niveis_maturidade)) throw new Error('niveis_maturidade deve ser uma lista');
+      if (!config.agregados || typeof config.agregados !== 'object') throw new Error('agregados é obrigatório');
+    }
+
+    function processRows() {
+      const config = state.config;
+      resetCalculatedState();
+      state.processedRows = [];
+      state.idColumn = null;
+      state.availableQuestions = new Set();
+      state.availableQuestionColumns = new Set();
+      if (!config || !state.rawRows.length) {
+        $('entitiesValue').textContent = '0';
+        $('preprocessInfo').textContent = 'A planilha não possui registros para processar.';
+        fillEntitySelect();
+        return;
+      }
+
+      const columns = Object.keys(state.rawRows[0] || {});
+      state.idColumn = chooseIdColumn(columns, state.idColumnOverride);
+      const configuredSelectors = getConfiguredQuestionSelectors(config);
+      state.processedRows = state.rawRows.map((row, index) => {
+        const normalized = {};
+        const rawAnswers = {};
+        for (const [key, value] of Object.entries(row)) {
+          const clean = normalizeColumnName(key);
+          if (!isQuestionColumn(clean)) continue;
+          const questionId = normalizeQuestionId(clean);
+          normalized[questionId] = normalizeAnswer(value, config);
+          rawAnswers[questionId] = normalizeTextAnswer(value);
+        }
+
+        const questionScores = Object.fromEntries(
+          Object.entries(normalized).map(([id, value]) => [id, toNumber(value, 0)])
+        );
+        const baseQuestions = Object.keys(normalized).filter((id) => /^q\d{4}$/i.test(id));
+        for (const base of baseQuestions) {
+          const detailCols = Object.keys(normalized).filter((col) => col !== base && col.startsWith(base));
+          questionScores[base] = calculateQuestion(rawAnswers[base], normalized[base], detailCols.map((col) => normalized[col]));
+        }
+        for (const selector of configuredSelectors) {
+          if (!Object.prototype.hasOwnProperty.call(normalized, selector.questionId)) continue;
+          const detailIds = Object.keys(normalized).filter((id) => id !== selector.questionId && id.startsWith(selector.questionId));
+          const selectedIds = selector.detailCodes.map((code) => findDetailQuestionId(selector.questionId, code, detailIds));
+          if (selectedIds.some((id) => !id)) continue;
+          questionScores[selector.referenceId] = calculateQuestion(
+            rawAnswers[selector.questionId],
+            normalized[selector.questionId],
+            selectedIds.map((id) => normalized[id])
+          );
+        }
+        for (const [id, value] of Object.entries(normalized)) {
+          for (const alias of questionIdAliases(id)) {
+            if (!Object.prototype.hasOwnProperty.call(questionScores, alias)) {
+              questionScores[alias] = toNumber(value, 0);
+            }
+          }
+        }
+
+        return {
+          __id: String(row[state.idColumn] ?? `Registro ${index + 1}`),
+          __raw: row,
+          __normalized: normalized,
+          __questions: questionScores
+        };
+      });
+      state.availableQuestions = new Set(state.processedRows.flatMap((row) => Object.keys(row.__questions)));
+      state.availableQuestionColumns = new Set(state.processedRows.flatMap((row) => Object.keys(row.__normalized)));
+      $('entitiesValue').textContent = String(state.processedRows.length);
+      $('preprocessInfo').textContent = `${state.processedRows.length} registros processados; ${state.availableQuestions.size} questões calculáveis identificadas; coluna identificadora: ${state.idColumn || 'primeira coluna'}.`;
+      fillEntitySelect();
+    }
+
+    function getConfiguredQuestionSelectors(config) {
+      const selectors = new Map();
+      for (const spec of Object.values(config.agregados || {})) {
+        for (const component of spec.componentes || []) {
+          const parsed = parseQuestionReference(component.id);
+          if (parsed.detailCodes && !parsed.error) selectors.set(parsed.referenceId, parsed);
+        }
+      }
+      return [...selectors.values()];
+    }
+
+    function fillIdColumnSelect(columns) {
+      const select = $('idColumnSelect');
+      const available = Array.from(columns || []).map((column) => String(column));
+      if (!available.includes(state.idColumnOverride)) state.idColumnOverride = '';
+
+      const automatic = chooseIdColumn(available);
+      if (!available.length) {
+        select.innerHTML = '<option value="">Importe uma planilha</option>';
+        select.disabled = true;
+        return;
+      }
+
+      const options = available.map((column) => (
+        `<option value="${escapeHtml(column)}">${escapeHtml(column)}</option>`
+      )).join('');
+      select.innerHTML = `<option value="">Automática: ${escapeHtml(automatic)}</option>${options}`;
+      select.value = state.idColumnOverride;
+      select.disabled = false;
+    }
+
+    function normalizeColumnName(name) {
+      return String(name)
+        .replace(/\./g, '')
+        .trim();
+    }
+
+    function isQuestionColumn(name) {
+      if (!/\d{4}/.test(name)) return false;
+      if (/lei|est|evi|nsa|raz|SQ/i.test(name)) return false;
+      return true;
+    }
+
+    function getQuestionBase(name) {
+      const match = String(name).match(/^q?\d{4}/i);
+      return match ? `q${match[0].replace(/^q/i, '')}` : name;
+    }
+
+    function normalizeQuestionId(name) {
+      const clean = String(name).trim();
+      return clean.startsWith('q') || clean.startsWith('Q') ? `q${clean.slice(1)}` : `q${clean}`;
+    }
+
+    function questionIdAliases(id) {
+      const value = normalizeQuestionId(id);
+      const aliases = [value];
+      const extMatch = value.match(/^q(\d{4})ext\[([^\]]+)\]$/i);
+      if (extMatch) aliases.push(`q${extMatch[1]}${extMatch[2]}`);
+      const bracketMatch = value.match(/^q(\d{4})\[([^\]]+)\]$/i);
+      if (bracketMatch) aliases.push(`q${bracketMatch[1]}${bracketMatch[2]}`);
+      const compactMatch = value.match(/^q(\d{4})([A-Za-z])$/);
+      if (compactMatch) {
+        aliases.push(`q${compactMatch[1]}[${compactMatch[2]}]`);
+        aliases.push(`q${compactMatch[1]}ext[${compactMatch[2]}]`);
+      }
+      return [...new Set(aliases)];
+    }
+
+    function questionColumnSort(a, b) {
+      const abase = /^q?\d{4}$/i.test(a) ? 0 : 1;
+      const bbase = /^q?\d{4}$/i.test(b) ? 0 : 1;
+      if (abase !== bbase) return abase - bbase;
+      return a.localeCompare(b);
+    }
+
+    function normalizeTextAnswer(value) {
+      if (value === null || value === undefined || value === '') return '';
+      const raw = String(value).trim();
+      return raw.endsWith('.') ? raw.slice(0, -1) : raw;
+    }
+
+    function normalizeAnswer(value, config) {
+      if (value === null || value === undefined || value === '') return 0;
+      if (typeof value === 'number') return value;
+      const raw = String(value).trim();
+      const clean = raw.endsWith('.') ? raw.slice(0, -1) : raw;
+      if (Object.prototype.hasOwnProperty.call(config.categorias, raw)) return config.categorias[raw];
+      if (Object.prototype.hasOwnProperty.call(config.categorias, clean)) return config.categorias[clean];
+      const numeric = Number(String(raw).replace(',', '.'));
+      return Number.isFinite(numeric) ? numeric : raw;
+    }
+
+    function calculateAll() {
+      if (!state.config || !state.processedRows.length) return;
+      const root = state.config.metadata.raiz;
+      state.results = state.processedRows.map((row) => {
+        const values = { ...row.__questions };
+        const trace = {};
+        const visiting = new Set();
+        const visit = (id) => {
+          if (id.startsWith('q')) return toNumber(values[id], 0);
+          if (Object.prototype.hasOwnProperty.call(values, id)) return values[id];
+          if (visiting.has(id)) throw new Error(`ciclo detectado em ${id}`);
+          const spec = state.config.agregados[id];
+          if (!spec) return 0;
+          visiting.add(id);
+          const components = normalizeComponents(spec);
+          const parts = components.map((component) => {
+            const value = visit(component.id);
+            return { ...component, value, contribution: value * component.peso };
+          });
+          visiting.delete(id);
+          const total = parts.reduce((sum, part) => sum + part.contribution, 0);
+          values[id] = clamp(total, 0, 1);
+          trace[id] = parts;
+          return values[id];
+        };
+        visit(root);
+        for (const aggregateId of Object.keys(state.config.agregados)) {
+          visit(aggregateId);
+        }
+        return {
+          id: row.__id,
+          indice: root,
+          valor: values[root],
+          nivel_maturidade: classifyMaturity(values[root], state.config),
+          valores: values,
+          memoria: trace,
+          raw: row.__raw
+        };
+      });
+      $('downloadJsonBtn').disabled = false;
+      $('downloadCsvBtn').disabled = false;
+      $('downloadXlsxBtn').disabled = false;
+      renderResultsTable();
+      fillEntitySelect();
+      renderSelectedEntity();
+      refreshAnalytics();
+    }
+
+    function normalizeComponents(spec) {
+      return (spec.componentes || []).map((component) => ({
+        id: String(component.id).trim(),
+        peso: Number(component.peso)
+      }));
+    }
+
+    function classifyMaturity(value, config) {
+      for (const level of config.niveis_maturidade || []) {
+        const minOk = level.inclui_min === false ? value > Number(level.min) : value >= Number(level.min);
+        const maxOk = level.inclui_max === true ? value <= Number(level.max) : value < Number(level.max);
+        if (minOk && maxOk) return level.nome;
+      }
+      return 'Sem classificação';
+    }
+
+    function validateAndRender() {
+      const issues = [];
+      if (!state.config) {
+        issues.push({ type: 'error', message: 'YAML inválido ou não aplicado.' });
+        state.validationIssues = issues;
+        renderIssues(issues);
+        return;
+      }
+      const config = state.config;
+      const root = config.metadata.raiz;
+      state.aggregateValidation = aggregateValidationMap(config);
+      if (!config.agregados[root]) issues.push({ type: 'error', message: `Raiz "${root}" não existe em agregados.` });
+
+      for (const [id, spec] of Object.entries(config.agregados)) {
+        const components = normalizeComponents(spec);
+        if (!components.length) issues.push({ type: 'error', message: `Agregado "${id}" não possui componentes.` });
+        const validation = state.aggregateValidation.get(id);
+        if (validation && !validation.ok) issues.push({ type: 'error', message: validation.message });
+        for (const component of components) {
+          if (!Number.isFinite(component.peso)) issues.push({ type: 'error', message: `Peso inválido em "${id}" -> "${component.id}".` });
+          const questionReference = component.id.startsWith('q') ? parseQuestionReference(component.id) : null;
+          if (questionReference && questionReference.error) {
+            issues.push({ type: 'error', message: `Seletor inválido em "${id}" -> "${component.id}": ${questionReference.error}.` });
+            continue;
+          }
+          if (!component.id.startsWith('q') && !config.agregados[component.id]) {
+            issues.push({ type: 'error', message: `Agregado "${id}" referencia subagregado inexistente "${component.id}".` });
+          }
+          if (questionReference && questionReference.detailCodes) {
+            if (state.availableQuestionColumns.size) {
+              if (!state.availableQuestionColumns.has(questionReference.questionId)) {
+                issues.push({ type: 'error', message: `Questão base "${questionReference.questionId}" do seletor "${component.id}" não foi encontrada na planilha.` });
+                continue;
+              }
+              for (const detailCode of questionReference.detailCodes) {
+                const detailId = findDetailQuestionId(questionReference.questionId, detailCode, state.availableQuestionColumns);
+                if (!detailId) {
+                  issues.push({ type: 'error', message: `Detalhamento "${detailCode}" do seletor "${component.id}" não foi encontrado na planilha.` });
+                }
+              }
+            }
+          } else if (questionReference && state.availableQuestions.size && !state.availableQuestions.has(component.id)) {
+            issues.push({ type: 'warn', message: `Questão "${component.id}" referenciada por "${id}" não foi encontrada na planilha.` });
+          }
+        }
+      }
+      for (const cycle of findCycles(config.agregados)) {
+        issues.push({ type: 'error', message: `Ciclo detectado: ${cycle.join(' -> ')}.` });
+      }
+      for (const issue of validateMaturityLevels(config.niveis_maturidade)) issues.push(issue);
+      if (!issues.length) issues.push({ type: 'ok', message: 'Estrutura válida para cálculo.' });
+      state.validationIssues = issues;
+      renderIssues(issues);
+    }
+
+    function aggregateValidationMap(config) {
+      const validations = new Map();
+      for (const [id, spec] of Object.entries(config.agregados || {})) {
+        const components = normalizeComponents(spec);
+        const sum = components.reduce((acc, component) => acc + component.peso, 0);
+        const ok = components.length > 0 && Math.abs(sum - 1) <= 0.000001;
+        validations.set(id, {
+          ok,
+          sum,
+          message: `Pesos de "${id}" somam ${sum.toFixed(6)}, não 1.`
+        });
+      }
+      return validations;
+    }
+
+    function findCycles(aggregates) {
+      const cycles = [];
+      const visited = new Set();
+      const stack = [];
+      const inStack = new Set();
+      const visit = (id) => {
+        if (inStack.has(id)) {
+          cycles.push(stack.slice(stack.indexOf(id)).concat(id));
+          return;
+        }
+        if (visited.has(id) || !aggregates[id]) return;
+        visited.add(id);
+        inStack.add(id);
+        stack.push(id);
+        for (const component of normalizeComponents(aggregates[id])) {
+          if (!component.id.startsWith('q')) visit(component.id);
+        }
+        stack.pop();
+        inStack.delete(id);
+      };
+      Object.keys(aggregates || {}).forEach(visit);
+      return cycles;
+    }
+
+    function validateMaturityLevels(levels) {
+      const issues = [];
+      const sorted = [...(levels || [])].sort((a, b) => Number(a.min) - Number(b.min));
+      let cursor = 0;
+      for (const level of sorted) {
+        const min = Number(level.min);
+        const max = Number(level.max);
+        if (!level.nome || !Number.isFinite(min) || !Number.isFinite(max) || min >= max) {
+          issues.push({ type: 'error', message: `Nível de maturidade inválido: ${level.nome || '(sem nome)'}.` });
+          continue;
+        }
+        if (Math.abs(min - cursor) > 0.000001) issues.push({ type: 'warn', message: `Lacuna ou sobreposição nos níveis perto de ${cursor.toFixed(2)}.` });
+        cursor = max;
+      }
+      if (sorted.length && Math.abs(cursor - 1) > 0.000001) issues.push({ type: 'warn', message: `Níveis de maturidade terminam em ${cursor}, não em 1.` });
+      return issues;
+    }
+
+    function renderIssues(issues) {
+      $('issues').innerHTML = issues.map((issue) => `<div class="issue ${issue.type}">${escapeHtml(issue.message)}</div>`).join('');
+    }
+
+    function renderDiagram(values = null, trace = null) {
+      if (!state.config) {
+        $('diagramStage').innerHTML = '<div class="diagram-empty">Sem estrutura aplicada.</div>';
+        $('nodeDetail').innerHTML = '';
+        $('treeSummary').textContent = '';
+        return;
+      }
+      const root = state.config.metadata.raiz;
+      const tree = buildDiagramTree(root, values, trace, null, 0, null);
+      const detachedIds = state.showDetachedAggregates ? detachedAggregateRootIds(root) : [];
+      const detachedTrees = detachedIds.map((id) => buildDiagramTree(id, values, trace, null, 0, null));
+      const trees = [tree, ...detachedTrees];
+      const stats = trees.map(structureStats).reduce((total, item) => ({
+        aggregates: total.aggregates + item.aggregates,
+        questions: total.questions + item.questions
+      }), { aggregates: 0, questions: 0 });
+      const detachedLabel = detachedIds.length ? `; ${detachedIds.length} avulso${detachedIds.length === 1 ? '' : 's'}` : '';
+      $('treeSummary').textContent = `${stats.aggregates} agregados, ${stats.questions} questões`;
+
+      const visibleNodes = [];
+      const links = [];
+      assignDiagramForestLayout(trees, visibleNodes, links);
+      const selectedPath = new Set(findDiagramPathInForest(trees, state.selectedNodeId || root) || [root]);
+      let selectedNode = visibleNodes.find((node) => node.id === state.selectedNodeId);
+      if (!selectedNode) {
+        selectedNode = visibleNodes[0] || tree;
+        state.selectedNodeId = selectedNode.id;
+      }
+      $('treeSummary').textContent += detachedLabel;
+
+      const nodeWidth = 190;
+      const nodeHeight = 54;
+      const width = Math.max(680, Math.max(...visibleNodes.map((node) => node.x + nodeWidth + 40), 680));
+      const height = Math.max(420, Math.max(...visibleNodes.map((node) => node.y + nodeHeight + 40), 420));
+      const linkMarkup = links.map((link) => renderDiagramLink(link, nodeWidth, nodeHeight, selectedPath)).join('');
+      const nodeMarkup = visibleNodes.map((node) => renderDiagramNode(node, nodeWidth, nodeHeight, selectedPath)).join('');
+
+      $('diagramStage').innerHTML = `<svg class="diagram-svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Diagrama da estrutura do índice">${linkMarkup}${nodeMarkup}</svg>`;
+      $('diagramStage').querySelectorAll('.diagram-node').forEach((element) => {
+        element.addEventListener('click', (event) => {
+          const id = element.getAttribute('data-id');
+          if (!id) return;
+          if (event.target.closest('.diagram-toggle-hit')) {
+            toggleDiagramNode(id);
+          } else {
+            state.selectedNodeId = id;
+          }
+          renderSelectedEntity();
+        });
+      });
+      renderNodeDetail(selectedNode);
+      focusDiagramNode(selectedNode);
+    }
+
+    function buildDiagramTree(id, values, trace, parentId, depth, incoming) {
+      const isQuestion = id.startsWith('q');
+      const spec = state.config.agregados[id];
+      const parts = !isQuestion && spec
+        ? (trace && trace[id] ? trace[id] : normalizeComponents(spec))
+        : [];
+      const collapsed = state.collapsedNodes.has(id);
+      const children = collapsed ? [] : parts.map((part) => buildDiagramTree(part.id, values, trace, id, depth + 1, part));
+      return {
+        id,
+        parentId,
+        depth,
+        isQuestion,
+        collapsed,
+        children,
+        childCount: parts.length,
+        peso: incoming ? incoming.peso : null,
+        contribution: incoming && incoming.contribution !== undefined ? incoming.contribution : null,
+        validation: state.aggregateValidation.get(id) || null,
+        value: values && Object.prototype.hasOwnProperty.call(values, id) ? values[id] : incoming && incoming.value !== undefined ? incoming.value : null
+      };
+    }
+
+    function structureStats(node) {
+      const here = node.isQuestion ? { aggregates: 0, questions: 1 } : { aggregates: 1, questions: 0 };
+      for (const child of node.children) {
+        const childStats = structureStats(child);
+        here.aggregates += childStats.aggregates;
+        here.questions += childStats.questions;
+      }
+      if (node.collapsed) {
+        const hidden = hiddenChildStats(node.id);
+        here.aggregates += hidden.aggregates;
+        here.questions += hidden.questions;
+      }
+      return here;
+    }
+
+    function hiddenChildStats(id, seen = new Set()) {
+      if (seen.has(id)) return { aggregates: 0, questions: 0 };
+      seen.add(id);
+      const spec = state.config.agregados[id];
+      const totals = { aggregates: 0, questions: 0 };
+      for (const component of normalizeComponents(spec || {})) {
+        if (component.id.startsWith('q')) {
+          totals.questions += 1;
+        } else {
+          totals.aggregates += 1;
+          const nested = hiddenChildStats(component.id, seen);
+          totals.aggregates += nested.aggregates;
+          totals.questions += nested.questions;
+        }
+      }
+      return totals;
+    }
+
+    function reachableAggregatesFromRoot(root) {
+      const reachable = new Set();
+      const visit = (id) => {
+        if (reachable.has(id) || !state.config.agregados[id]) return;
+        reachable.add(id);
+        for (const component of normalizeComponents(state.config.agregados[id])) {
+          if (!component.id.startsWith('q')) visit(component.id);
+        }
+      };
+      visit(root);
+      return reachable;
+    }
+
+    function detachedAggregateRootIds(root) {
+      const aggregates = state.config.agregados || {};
+      const reachable = reachableAggregatesFromRoot(root);
+      const detached = new Set(Object.keys(aggregates).filter((id) => !reachable.has(id)));
+      const referencedByDetached = new Set();
+      for (const id of detached) {
+        for (const component of normalizeComponents(aggregates[id])) {
+          if (detached.has(component.id)) referencedByDetached.add(component.id);
+        }
+      }
+      return [...detached].filter((id) => !referencedByDetached.has(id)).sort((a, b) => a.localeCompare(b));
+    }
+
+    function assignDiagramForestLayout(trees, visibleNodes, links) {
+      let offsetY = 0;
+      for (const tree of trees) {
+        const before = visibleNodes.length;
+        assignDiagramLayout(tree, visibleNodes, links, offsetY);
+        const added = visibleNodes.slice(before);
+        const maxY = added.length ? Math.max(...added.map((node) => node.y)) : offsetY;
+        offsetY = maxY + 130;
+      }
+      visibleNodes.sort((a, b) => a.depth - b.depth || a.y - b.y);
+    }
+
+    function assignDiagramLayout(root, visibleNodes, links, offsetY = 0) {
+      const gapX = 245;
+      const gapY = 72;
+      let leafIndex = 0;
+      const walk = (node) => {
+        node.x = 32 + node.depth * gapX;
+        if (!node.children.length) {
+          node.y = offsetY + 34 + leafIndex * gapY;
+          leafIndex += 1;
+        } else {
+          node.children.forEach((child) => {
+            walk(child);
+            links.push({ from: node, to: child });
+          });
+          node.y = node.children.reduce((sum, child) => sum + child.y, 0) / node.children.length;
+        }
+        visibleNodes.push(node);
+      };
+      walk(root);
+      visibleNodes.sort((a, b) => a.depth - b.depth || a.y - b.y);
+    }
+
+    function renderDiagramLink(link, nodeWidth, nodeHeight, selectedPath) {
+      const x1 = link.from.x + nodeWidth;
+      const y1 = link.from.y + nodeHeight / 2;
+      const x2 = link.to.x;
+      const y2 = link.to.y + nodeHeight / 2;
+      const mid = x1 + Math.max(40, (x2 - x1) / 2);
+      const active = selectedPath.has(link.from.id) && selectedPath.has(link.to.id);
+      return `<path class="diagram-link ${active ? 'active' : ''}" d="M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}"></path>`;
+    }
+
+    function renderDiagramNode(node, nodeWidth, nodeHeight, selectedPath) {
+      const selected = node.id === state.selectedNodeId;
+      const kind = node.isQuestion ? 'question' : 'aggregate';
+      const invalid = !node.isQuestion && node.validation && !node.validation.ok;
+      const subtitle = node.isQuestion ? 'questão' : `${node.childCount} componente${node.childCount === 1 ? '' : 's'}`;
+      const sumLabel = invalid ? `soma ${formatNumber(node.validation.sum)}` : '';
+      const weight = node.peso === null ? sumLabel : `peso ${formatPercent(node.peso)}${sumLabel ? ` · ${sumLabel}` : ''}`;
+      const value = node.value === null ? '-' : formatNumber(toNumber(node.value, NaN));
+      const collapsedLabel = node.collapsed ? '+' : '-';
+      const toggle = !node.isQuestion && node.childCount
+        ? `<circle class="diagram-toggle" cx="${nodeWidth - 17}" cy="17" r="10"></circle>
+           <text x="${nodeWidth - 17}" y="21" text-anchor="middle" class="diagram-subtitle diagram-toggle-label">${collapsedLabel}</text>
+           <circle class="diagram-toggle-hit" cx="${nodeWidth - 17}" cy="17" r="16" fill="transparent"></circle>`
+        : '';
+      return `<g class="diagram-node ${kind} ${invalid ? 'invalid' : ''} ${selected ? 'selected' : ''} ${selectedPath.has(node.id) ? 'path' : ''}" data-id="${escapeHtml(node.id)}" transform="translate(${node.x}, ${node.y})">
+        <rect width="${nodeWidth}" height="${nodeHeight}"></rect>
+        <text x="12" y="20" class="diagram-title">${escapeSvgText(shortenLabel(node.id, 22))}</text>
+        <text x="12" y="39" class="diagram-subtitle">${escapeSvgText(subtitle)}${weight ? ` · ${escapeSvgText(weight)}` : ''}</text>
+        <text x="${nodeWidth - 14}" y="41" text-anchor="end" class="diagram-value">${escapeSvgText(value)}</text>
+        ${toggle}
+      </g>`;
+    }
+
+    function renderNodeDetail(node) {
+      const type = node.isQuestion ? 'Questão' : 'Agregado';
+      const value = node.value === null ? '-' : formatNumber(toNumber(node.value, NaN));
+      const weight = node.peso === null ? '-' : formatPercent(node.peso);
+      const contribution = node.contribution === null ? '-' : formatNumber(node.contribution);
+      const validation = node.validation && !node.validation.ok ? node.validation.message : 'Pesos somam 1';
+      $('nodeDetail').innerHTML = [
+        detailItem('Nó', node.id),
+        detailItem('Tipo', type),
+        detailItem('Valor', value),
+        detailItem('Peso no pai', weight),
+        detailItem('Contribuição', contribution),
+        detailItem('Componentes', node.isQuestion ? '-' : String(node.childCount)),
+        detailItem('Profundidade', String(node.depth)),
+        detailItem('Estado', node.collapsed ? 'Recolhido' : 'Visível'),
+        detailItem('Validação', node.isQuestion ? '-' : validation)
+      ].join('');
+    }
+
+    function detailItem(label, value) {
+      return `<div class="detail-item"><span>${escapeHtml(label)}</span><b title="${escapeHtml(value)}">${escapeHtml(value)}</b></div>`;
+    }
+
+    function toggleDiagramNode(id) {
+      if (state.collapsedNodes.has(id)) {
+        state.collapsedNodes.delete(id);
+      } else {
+        state.collapsedNodes.add(id);
+      }
+      state.selectedNodeId = id;
+    }
+
+    function collapseDiagramToFirstLevel() {
+      state.collapsedNodes.clear();
+      const root = state.config && state.config.metadata.raiz;
+      if (!root) return;
+      for (const id of Object.keys(state.config.agregados || {})) {
+        if (id !== root) state.collapsedNodes.add(id);
+      }
+      state.selectedNodeId = root;
+    }
+
+    function centerDiagram() {
+      const selected = $('diagramStage').querySelector('.diagram-node.selected');
+      if (selected) {
+        const transform = selected.getAttribute('transform') || '';
+        const match = transform.match(/translate\(([-\d.]+),\s*([-\d.]+)\)/);
+        if (match) {
+          focusDiagramNode({ x: Number(match[1]), y: Number(match[2]) });
+          return;
+        }
+      }
+      const stage = $('diagramStage');
+      stage.scrollLeft = Math.max(0, (stage.scrollWidth - stage.clientWidth) / 2);
+      stage.scrollTop = Math.max(0, (stage.scrollHeight - stage.clientHeight) / 2);
+    }
+
+    function focusDiagramNode(node) {
+      const stage = $('diagramStage');
+      if (!stage || !node) return;
+      const nodeWidth = 190;
+      const nodeHeight = 54;
+      stage.scrollLeft = Math.max(0, node.x - Math.max(24, (stage.clientWidth - nodeWidth) * 0.25));
+      stage.scrollTop = Math.max(0, node.y - Math.max(24, (stage.clientHeight - nodeHeight) * 0.5));
+    }
+
+    function findDiagramPathInForest(trees, targetId) {
+      for (const tree of trees) {
+        const path = findDiagramPath(tree, targetId);
+        if (path) return path;
+      }
+      return null;
+    }
+
+    function findDiagramPath(node, targetId) {
+      if (node.id === targetId) return [node.id];
+      if (node.collapsed && node.childCount) {
+        const hidden = findHiddenPath(node.id, targetId);
+        if (hidden) return [node.id, ...hidden.slice(1)];
+      }
+      for (const child of node.children) {
+        const path = findDiagramPath(child, targetId);
+        if (path) return [node.id, ...path];
+      }
+      return null;
+    }
+
+    function findHiddenPath(currentId, targetId, seen = new Set()) {
+      if (currentId === targetId) return [currentId];
+      if (seen.has(currentId)) return null;
+      seen.add(currentId);
+      const spec = state.config.agregados[currentId];
+      for (const component of normalizeComponents(spec || {})) {
+        if (component.id === targetId) return [currentId, component.id];
+        if (!component.id.startsWith('q')) {
+          const nested = findHiddenPath(component.id, targetId, seen);
+          if (nested) return [currentId, ...nested];
+        }
+      }
+      return null;
+    }
+
+    function renderTree(values = null, trace = null) {
+      if (!state.config) {
+        $('tree').innerHTML = '';
+        renderDiagram();
+        return;
+      }
+      const root = state.config.metadata.raiz;
+      $('tree').innerHTML = renderNode(root, values, trace, true);
+      renderDiagram(values, trace);
+    }
+
+    function renderNode(id, values, trace, isRoot = false) {
+      const isQuestion = id.startsWith('q');
+      const value = values && Object.prototype.hasOwnProperty.call(values, id) ? values[id] : null;
+      const spec = state.config.agregados[id];
+      const parts = trace && trace[id] ? trace[id] : normalizeComponents(spec || {});
+      const validation = !isQuestion ? state.aggregateValidation.get(id) : null;
+      const invalid = validation && !validation.ok;
+      const formula = !isQuestion && parts.length
+        ? parts.map((part) => `${part.peso.toFixed(4)} x ${part.id}${part.value !== undefined ? ` (${formatNumber(part.value)})` : ''}`).join(' + ')
+        : '';
+      const children = !isQuestion && spec
+        ? parts.map((part) => renderNode(part.id, values, trace, false)).join('')
+        : '';
+      return `<div class="node ${isRoot ? 'root' : ''} ${invalid ? 'invalid' : ''}">
+        <div class="node-line">
+          <div><span class="node-id">${escapeHtml(id)}</span> <span class="node-kind">${isQuestion ? 'questão' : 'agregado'}</span></div>
+          <div class="node-value">${value === null ? '-' : formatNumber(value)}</div>
+        </div>
+        ${invalid ? `<div class="validation-note">${escapeHtml(validation.message)}</div>` : ''}
+        ${formula ? `<div class="formula">${escapeHtml(formula)}</div>` : ''}
+        ${children}
+      </div>`;
+    }
+
+    function renderResultsTable() {
+      if (!state.results.length) {
+        $('resultsTable').innerHTML = '';
+        return;
+      }
+      const root = state.config.metadata.raiz;
+      const aggregateIds = Object.keys(state.config.agregados);
+      const columns = ['id', root, 'nivel_maturidade', ...aggregateIds.filter((id) => id !== root)];
+      const rows = state.results.map((result) => {
+        return `<tr>${columns.map((col) => {
+          const value = col === 'id' ? result.id : col === 'nivel_maturidade' ? result.nivel_maturidade : result.valores[col];
+          return `<td>${escapeHtml(formatCell(value))}</td>`;
+        }).join('')}</tr>`;
+      }).join('');
+      $('resultsTable').innerHTML = `<table><thead><tr>${columns.map((col) => `<th>${escapeHtml(col)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function renderSelectedEntity() {
+      const selected = state.results.find((result) => result.id === state.selectedEntity) || state.results[0];
+      if (!selected) {
+        $('rootValue').textContent = '-';
+        $('maturityValue').textContent = '-';
+        renderTree();
+        return;
+      }
+      state.selectedEntity = selected.id;
+      $('entitySelect').value = selected.id;
+      $('rootValue').textContent = formatNumber(selected.valor);
+      $('maturityValue').textContent = selected.nivel_maturidade;
+      renderTree(selected.valores, selected.memoria);
+    }
+
+    function fillEntitySelect() {
+      const source = state.results.length ? state.results.map((r) => r.id) : state.processedRows.map((r) => r.__id);
+      $('entitySelect').innerHTML = source.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(id)}</option>`).join('');
+      $('entitySelect').disabled = !source.length;
+      if (source.length && !source.includes(state.selectedEntity)) state.selectedEntity = source[0];
+    }
+
+    function toggleCalculate() {
+      const hasErrors = state.validationIssues.some((issue) => issue.type === 'error');
+      $('calculateBtn').disabled = !(state.config && state.processedRows.length) || hasErrors;
+    }
+
+    function resetCalculatedState() {
+      state.results = [];
+      state.analytics = null;
+      state.selectedEntity = null;
+      state.selectedAnalyticsEntity = null;
+      state.selectedCompareEntity = null;
+      $('downloadJsonBtn').disabled = true;
+      $('downloadCsvBtn').disabled = true;
+      $('downloadXlsxBtn').disabled = true;
+      $('resultsTable').innerHTML = '';
+      $('rootValue').textContent = '-';
+      $('maturityValue').textContent = '-';
+      $('analyticsEmpty').textContent = 'Calcule os resultados antes de acessar as análises estatísticas.';
+      renderAnalytics();
+    }
+
+    function renderStatus(message, isError = false) {
+      $('status').textContent = message;
+      $('status').style.borderLeftColor = isError ? 'var(--danger)' : 'var(--accent)';
+      $('status').style.background = isError ? '#fff5f4' : '#eef8fa';
+    }
+
+    function toNumber(value, fallback = 0) {
+      const number = typeof value === 'number' ? value : Number(String(value).replace(',', '.'));
+      return Number.isFinite(number) ? number : fallback;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function formatNumber(value) {
+      return Number.isFinite(value) ? value.toFixed(4) : '-';
+    }
+
+    function formatPercent(value) {
+      return Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : '-';
+    }
+
+    function formatCell(value) {
+      return typeof value === 'number' ? formatNumber(value) : value ?? '';
+    }
+
+    function shortenLabel(value, maxLength) {
+      const text = String(value);
+      return text.length > maxLength ? `${text.slice(0, maxLength - 1)}…` : text;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeSvgText(value) {
+      return escapeHtml(value);
+    }
+
+    function currentDiagramFilename(extension) {
+      const root = state.config && state.config.metadata ? state.config.metadata.raiz : 'indice';
+      const entity = state.selectedEntity ? `-${state.selectedEntity}` : '';
+      return `arvore-${slugify(root)}${entity ? `-${slugify(entity)}` : ''}.${extension}`;
+    }
+
+    function getDiagramSvgElement() {
+      return $('diagramStage').querySelector('svg.diagram-svg');
+    }
+
+    function getDiagramSvgString() {
+      const svg = getDiagramSvgElement();
+      if (!svg) return '';
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.setAttribute('version', '1.1');
+      const width = Number(clone.getAttribute('width')) || 1200;
+      const height = Number(clone.getAttribute('height')) || 800;
+      const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      background.setAttribute('width', String(width));
+      background.setAttribute('height', String(height));
+      background.setAttribute('fill', '#ffffff');
+      clone.insertBefore(background, clone.firstChild);
+      const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+      style.textContent = `
+        .diagram-link { fill: none; stroke: #c7d3de; stroke-width: 2; }
+        .diagram-link.active { stroke: #087c8f; stroke-width: 3; }
+        .diagram-node rect { fill: #fff; stroke: #cbd6e2; stroke-width: 1.2; rx: 8; }
+        .diagram-node.aggregate rect { fill: #f8fbfd; }
+        .diagram-node.question rect { fill: #fffdf7; stroke: #e8d49b; }
+        .diagram-node.invalid rect { fill: #fff8eb; stroke: #d39128; }
+        .diagram-node.selected rect { stroke: #087c8f; stroke-width: 2.5; }
+        .diagram-node.path rect { stroke: #72a5b0; }
+        .diagram-title { font: 700 12px Inter, Arial, sans-serif; fill: #152033; }
+        .diagram-subtitle { font: 10.5px Inter, Arial, sans-serif; fill: #5f6b7a; }
+        .diagram-value { font: 700 12px Inter, Arial, sans-serif; fill: #087c8f; }
+        .diagram-toggle { fill: #eaf4f6; stroke: #087c8f; stroke-width: 1; }
+        .diagram-toggle-hit { display: none; }
+      `;
+      clone.insertBefore(style, clone.firstChild);
+      return `<?xml version="1.0" encoding="UTF-8"?>\n${new XMLSerializer().serializeToString(clone)}`;
+    }
+
+    function downloadDiagramSvg() {
+      const svgText = getDiagramSvgString();
+      if (!svgText) return;
+      downloadText(currentDiagramFilename('svg'), svgText, 'image/svg+xml;charset=utf-8');
+    }
+
+    function downloadDiagramPng() {
+      const svgText = getDiagramSvgString();
+      const svg = getDiagramSvgElement();
+      if (!svgText || !svg) return;
+      const width = Number(svg.getAttribute('width')) || 1200;
+      const height = Number(svg.getAttribute('height')) || 800;
+      const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, width, height);
+        context.drawImage(image, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        canvas.toBlob((pngBlob) => {
+          if (!pngBlob) return;
+          downloadBlob(currentDiagramFilename('png'), pngBlob);
+        }, 'image/png');
+      };
+      image.onerror = () => URL.revokeObjectURL(url);
+      image.src = url;
+    }
+
+    function downloadText(filename, content, type) {
+      const blob = new Blob([content], { type });
+      downloadBlob(filename, blob);
+    }
+
+    function downloadBlob(filename, blob) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function slugify(value) {
+      const ascii = String(value)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9._-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .toLowerCase();
+      return ascii || 'indice';
+    }
+
+    function resultExportBaseName() {
+      return sanitizeExportBaseName(state.config?.metadata?.nome, 'resultado-igovti');
+    }
+
+    function readResultExportSequences() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(RESULT_EXPORT_SEQUENCE_KEY) || '{}');
+        return stored && typeof stored === 'object' && !Array.isArray(stored) ? stored : {};
+      } catch (error) {
+        return Object.fromEntries(fallbackExportSequences);
+      }
+    }
+
+    function writeResultExportSequences(sequences) {
+      fallbackExportSequences.clear();
+      for (const [key, value] of Object.entries(sequences)) fallbackExportSequences.set(key, value);
+      try {
+        localStorage.setItem(RESULT_EXPORT_SEQUENCE_KEY, JSON.stringify(sequences));
+      } catch (error) {
+        // Em file:// alguns navegadores bloqueiam localStorage; o mapa mantém a sessão atual.
+      }
+    }
+
+    function nextResultExportFilename(extension) {
+      const baseName = resultExportBaseName();
+      const cleanExtension = String(extension).replace(/^\.+/, '').toLowerCase();
+      const key = `${baseName}.${cleanExtension}`;
+      const sequences = readResultExportSequences();
+      const sequence = Math.max(0, Math.trunc(Number(sequences[key])) || 0) + 1;
+      sequences[key] = sequence;
+      writeResultExportSequences(sequences);
+      return buildSequentialFilename(baseName, cleanExtension, sequence);
+    }
+
+    function setActiveTab(tabId) {
+      state.activeTab = tabId;
+      document.querySelectorAll('.tab-btn').forEach((button) => button.classList.toggle('active', button.dataset.tab === tabId));
+      document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.toggle('active', panel.id === tabId));
+      if (tabId === 'analyticsTab') renderAnalytics();
+    }
+
+    function refreshAnalytics() {
+      if (!state.results.length) {
+        state.analytics = null;
+        renderAnalytics();
+        return;
+      }
+      const dataset = buildAnalyticsDataset();
+      if (!dataset.variables.length || !dataset.rows.length) {
+        state.analytics = { dataset, error: 'Nao ha variaveis numericas suficientes para analise.' };
+        renderAnalytics();
+        return;
+      }
+      const stats = computeDescriptiveStats(dataset);
+      const pearson = computeCorrelationMatrix(dataset, 'pearson');
+      const spearman = computeCorrelationMatrix(dataset, 'spearman');
+      const mutualInformation = computeMutualInformationMatrix(dataset);
+      const pca = computePca(dataset.matrix, dataset.variables);
+      const clusters = computeClusters(dataset.matrix);
+      const embedding = computeEmbedding(dataset.matrix, pca);
+      const outliers = computeOutliers(dataset, clusters);
+      const variableOutliers = computeVariableOutliers(dataset, stats);
+      const benchmarks = computeBenchmarks(dataset, clusters, stats);
+      const clusterQuality = computeClusterQuality(dataset.matrix, clusters);
+      const temporal = computeTemporalAnalysis(dataset);
+      const structuralVariables = computeStructuralVariables(dataset, stats, pearson, mutualInformation, pca);
+      const insights = generateInsights(dataset, stats, pearson, mutualInformation, clusters, outliers, benchmarks, structuralVariables, clusterQuality);
+      state.analytics = { dataset, stats, pearson, spearman, mutualInformation, pca, clusters, embedding, outliers, variableOutliers, benchmarks, clusterQuality, temporal, structuralVariables, insights };
+      if (!state.selectedAnalyticsEntity || !dataset.ids.includes(state.selectedAnalyticsEntity)) state.selectedAnalyticsEntity = dataset.ids[0];
+      if (!state.selectedCompareEntity || !dataset.ids.includes(state.selectedCompareEntity)) state.selectedCompareEntity = dataset.ids[1] || dataset.ids[0];
+      fillAnalyticsEntitySelect(dataset);
+      renderAnalytics();
+    }
+
+    function buildAnalyticsDataset() {
+      const root = state.config.metadata.raiz;
+      const aggregateIds = Object.keys(state.config.agregados || {});
+      const preferred = [root, ...aggregateIds.filter((id) => id !== root)];
+      const allIds = [...new Set(state.results.flatMap((result) => Object.keys(result.valores || {})))];
+      const candidates = state.analyticsVariableScope === 'all' ? allIds : preferred;
+      const validVariables = candidates.filter((id) => {
+        const values = state.results.map((result) => result.valores[id]);
+        const numeric = values.filter((value) => Number.isFinite(value) && value >= 0 && value <= 1);
+        return numeric.length >= Math.max(2, Math.ceil(values.length * 0.75));
+      });
+      fillVariableSelect(validVariables);
+      const requested = state.selectedAnalyticsVariables.filter((id) => validVariables.includes(id));
+      const variables = requested.length ? requested : validVariables;
+      const means = {};
+      for (const variable of variables) {
+        const values = state.results.map((result) => result.valores[variable]).filter(Number.isFinite);
+        means[variable] = mean(values);
+      }
+      const sourceResults = state.results.filter((result) => !state.maturityFilter || result.nivel_maturidade === state.maturityFilter);
+      const rows = sourceResults.map((result) => ({
+        id: result.id,
+        valor: result.valor,
+        nivel_maturidade: result.nivel_maturidade,
+        raw: result,
+        values: variables.map((variable) => {
+          const value = result.valores[variable];
+          return Number.isFinite(value) && value >= 0 && value <= 1 ? value : means[variable];
+        })
+      }));
+      return {
+        root,
+        variables,
+        ids: rows.map((row) => row.id),
+        rows,
+        matrix: rows.map((row) => row.values),
+        maturity: rows.map((row) => row.nivel_maturidade),
+        allMaturity: [...new Set(state.results.map((result) => result.nivel_maturidade))].filter(Boolean)
+      };
+    }
+
+    function fillVariableSelect(validVariables) {
+      const select = $('analyticsVariableSelect');
+      const current = new Set(state.selectedAnalyticsVariables);
+      select.innerHTML = validVariables.map((id) => `<option value="${escapeHtml(id)}" ${current.has(id) ? 'selected' : ''}>${escapeHtml(id)}</option>`).join('');
+    }
+
+    function computeDescriptiveStats(dataset) {
+      return dataset.variables.map((variable, index) => {
+        const values = dataset.matrix.map((row) => row[index]).filter(Number.isFinite).sort((a, b) => a - b);
+        const avg = mean(values);
+        const sd = stddev(values);
+        return {
+          variable,
+          n: values.length,
+          mean: avg,
+          median: quantile(values, 0.5),
+          q1: quantile(values, 0.25),
+          q3: quantile(values, 0.75),
+          min: values[0],
+          max: values[values.length - 1],
+          variance: variance(values),
+          stddev: sd,
+          cv: avg ? sd / avg : 0
+        };
+      });
+    }
+
+    function computeCorrelationMatrix(dataset, method) {
+      const matrix = [];
+      for (let i = 0; i < dataset.variables.length; i++) {
+        const row = [];
+        for (let j = 0; j < dataset.variables.length; j++) {
+          const a = dataset.matrix.map((item) => item[i]);
+          const b = dataset.matrix.map((item) => item[j]);
+          row.push(method === 'spearman' ? pearson(rankValues(a), rankValues(b)) : pearson(a, b));
+        }
+        matrix.push(row);
+      }
+      return { variables: dataset.variables, matrix };
+    }
+
+    function computeMutualInformationMatrix(dataset) {
+      const matrix = [];
+      for (let i = 0; i < dataset.variables.length; i++) {
+        const row = [];
+        for (let j = 0; j < dataset.variables.length; j++) {
+          row.push(mutualInformation(dataset.matrix.map((item) => item[i]), dataset.matrix.map((item) => item[j]), 5));
+        }
+        matrix.push(row);
+      }
+      return { variables: dataset.variables, matrix };
+    }
+
+    function computePca(matrix, variables) {
+      if (!matrix.length || !variables.length) return { scores: [], loadings: [], variance: [], cumulative: [] };
+      const centered = centerColumns(matrix);
+      const cov = covarianceMatrix(centered);
+      const components = [];
+      const varianceValues = [];
+      let working = cov.map((row) => row.slice());
+      const componentCount = Math.min(3, variables.length);
+      const totalVariance = cov.reduce((sum, row, index) => sum + row[index], 0) || 1;
+      for (let component = 0; component < componentCount; component++) {
+        const eigen = powerIteration(working);
+        components.push(eigen.vector);
+        varianceValues.push(Math.max(0, eigen.value));
+        working = deflateMatrix(working, eigen.vector, eigen.value);
+      }
+      const total = totalVariance;
+      const varianceExplained = varianceValues.map((value) => value / total);
+      const cumulative = varianceExplained.map((_, index) => varianceExplained.slice(0, index + 1).reduce((sum, value) => sum + value, 0));
+      const scores = centered.map((row) => components.map((component) => dot(row, component)));
+      const loadings = variables.map((variable, index) => ({
+        variable,
+        pc1: components[0] ? components[0][index] : 0,
+        pc2: components[1] ? components[1][index] : 0,
+        importance: Math.abs(components[0] ? components[0][index] : 0) + Math.abs(components[1] ? components[1][index] : 0)
+      })).sort((a, b) => b.importance - a.importance);
+      return { scores, loadings, variance: varianceExplained, cumulative };
+    }
+
+    function computeClusters(matrix) {
+      if (state.clusterMethod === 'dbscan') return computeDbscan(matrix, state.dbscanEps, state.dbscanMinPts);
+      if (state.clusterMethod === 'hierarchical') return computeHierarchicalClustering(matrix, state.clusterCount);
+      return computeKMeans(matrix, state.clusterCount);
+    }
+
+    function computeKMeans(matrix, requestedK) {
+      const n = matrix.length;
+      const k = Math.max(1, Math.min(requestedK, n));
+      const centroids = [];
+      for (let i = 0; i < k; i++) centroids.push(matrix[Math.floor((i * n) / k)].slice());
+      let assignments = new Array(n).fill(0);
+      for (let iter = 0; iter < 60; iter++) {
+        let changed = false;
+        assignments = matrix.map((row, rowIndex) => {
+          let best = 0;
+          let bestDistance = Infinity;
+          centroids.forEach((centroid, index) => {
+            const distance = euclidean(row, centroid);
+            if (distance < bestDistance) {
+              best = index;
+              bestDistance = distance;
+            }
+          });
+          if (best !== assignments[rowIndex]) changed = true;
+          return best;
+        });
+        const next = centroids.map((centroid, index) => {
+          const members = matrix.filter((_, rowIndex) => assignments[rowIndex] === index);
+          return members.length ? columnMeans(members) : centroid;
+        });
+        centroids.splice(0, centroids.length, ...next);
+        if (!changed) break;
+      }
+      const distances = matrix.map((row, index) => euclidean(row, centroids[assignments[index]]));
+      return { method: 'K-Means', k, assignments, centroids, distances, noiseCount: 0, dendrogram: [] };
+    }
+
+    function computeDbscan(matrix, eps, minPts) {
+      const n = matrix.length;
+      const assignments = new Array(n).fill(undefined);
+      let cluster = 0;
+      const neighbors = (index) => matrix.map((row, rowIndex) => euclidean(matrix[index], row) <= eps ? rowIndex : -1).filter((idx) => idx >= 0);
+      for (let i = 0; i < n; i++) {
+        if (assignments[i] !== undefined) continue;
+        const seeds = neighbors(i);
+        if (seeds.length < minPts) {
+          assignments[i] = -1;
+          continue;
+        }
+        assignments[i] = cluster;
+        const queue = seeds.filter((idx) => idx !== i);
+        while (queue.length) {
+          const current = queue.shift();
+          if (assignments[current] === -1) assignments[current] = cluster;
+          if (assignments[current] !== undefined) continue;
+          assignments[current] = cluster;
+          const currentNeighbors = neighbors(current);
+          if (currentNeighbors.length >= minPts) {
+            for (const candidate of currentNeighbors) {
+              if (!queue.includes(candidate)) queue.push(candidate);
+            }
+          }
+        }
+        cluster += 1;
+      }
+      const k = Math.max(1, cluster);
+      const centroids = Array.from({ length: k }, (_, label) => {
+        const members = matrix.filter((_, index) => assignments[index] === label);
+        return members.length ? columnMeans(members) : Array(matrix[0]?.length || 0).fill(0);
+      });
+      const distances = matrix.map((row, index) => assignments[index] < 0 ? Infinity : euclidean(row, centroids[assignments[index]]));
+      return { method: 'DBSCAN', k, assignments, centroids, distances, noiseCount: assignments.filter((item) => item === -1).length, dendrogram: [] };
+    }
+
+    function computeHierarchicalClustering(matrix, requestedK) {
+      const n = matrix.length;
+      let clusters = matrix.map((row, index) => ({ id: index, members: [index], centroid: row.slice() }));
+      const merges = [];
+      let nextId = n;
+      while (clusters.length > 1) {
+        let best = [0, 1, Infinity];
+        for (let i = 0; i < clusters.length; i++) {
+          for (let j = i + 1; j < clusters.length; j++) {
+            const distance = euclidean(clusters[i].centroid, clusters[j].centroid);
+            if (distance < best[2]) best = [i, j, distance];
+          }
+        }
+        const [aIndex, bIndex, distance] = best;
+        const a = clusters[aIndex];
+        const b = clusters[bIndex];
+        const members = [...a.members, ...b.members];
+        merges.push({ left: a.id, right: b.id, distance, size: members.length, id: nextId });
+        const merged = { id: nextId++, members, centroid: columnMeans(members.map((idx) => matrix[idx])) };
+        clusters = clusters.filter((_, index) => index !== aIndex && index !== bIndex);
+        clusters.push(merged);
+      }
+      const targetK = Math.max(1, Math.min(requestedK, n));
+      let cut = matrix.map((row, index) => ({ id: index, members: [index], centroid: row.slice() }));
+      let cutNextId = n;
+      while (cut.length > targetK) {
+        let best = [0, 1, Infinity];
+        for (let i = 0; i < cut.length; i++) {
+          for (let j = i + 1; j < cut.length; j++) {
+            const distance = euclidean(cut[i].centroid, cut[j].centroid);
+            if (distance < best[2]) best = [i, j, distance];
+          }
+        }
+        const [aIndex, bIndex] = best;
+        const members = [...cut[aIndex].members, ...cut[bIndex].members];
+        const merged = { id: cutNextId++, members, centroid: columnMeans(members.map((idx) => matrix[idx])) };
+        cut = cut.filter((_, index) => index !== aIndex && index !== bIndex);
+        cut.push(merged);
+      }
+      const assignments = new Array(n).fill(0);
+      cut.forEach((cluster, label) => cluster.members.forEach((idx) => { assignments[idx] = label; }));
+      const centroids = cut.map((cluster) => cluster.centroid);
+      const distances = matrix.map((row, index) => euclidean(row, centroids[assignments[index]]));
+      return { method: 'Hierárquico', k: cut.length, assignments, centroids, distances, noiseCount: 0, dendrogram: merges };
+    }
+
+    function computeEmbedding(matrix, pca) {
+      if (state.embeddingMethod === 'umap' && window.UMAP && matrix.length > 2) {
+        try {
+          const model = new window.UMAP.UMAP({ nComponents: 2, nNeighbors: Math.max(2, Math.min(15, matrix.length - 1)), minDist: 0.1, random: () => 0.42 });
+          return { method: 'UMAP', points: model.fit(matrix) };
+        } catch (error) {
+          return { method: 'PCA 2D', points: pcaScores2d(pca) };
+        }
+      }
+      if (state.embeddingMethod === 'tsne' && window.tsnejs && matrix.length > 2) {
+        try {
+          const model = new window.tsnejs.tSNE({ dim: 2, perplexity: Math.max(2, Math.min(20, Math.floor((matrix.length - 1) / 3))), epsilon: 10 });
+          model.initDataRaw(matrix);
+          for (let i = 0; i < 250; i++) model.step();
+          return { method: 't-SNE', points: model.getSolution() };
+        } catch (error) {
+          return { method: 'PCA 2D', points: pcaScores2d(pca) };
+        }
+      }
+      return { method: 'PCA 2D', points: pcaScores2d(pca) };
+    }
+
+    function computeOutliers(dataset, clusters) {
+      const rootValues = dataset.rows.map((row) => row.valor);
+      const q1 = quantile(rootValues.slice().sort((a, b) => a - b), 0.25);
+      const q3 = quantile(rootValues.slice().sort((a, b) => a - b), 0.75);
+      const iqr = q3 - q1;
+      const distanceStats = sortedStats(clusters.distances);
+      const threshold = distanceStats.q3 + 1.5 * (distanceStats.q3 - distanceStats.q1);
+      return dataset.rows.map((row, index) => ({
+        id: row.id,
+        iqr: row.valor < q1 - 1.5 * iqr || row.valor > q3 + 1.5 * iqr,
+        centroid: Number.isFinite(clusters.distances[index]) && clusters.distances[index] > threshold,
+        distance: clusters.distances[index],
+        cluster: clusters.assignments[index],
+        imbalance: stddev(row.values),
+        weakVariables: row.values.filter((value) => value < 0.15).length
+      })).filter((item) => item.iqr || item.centroid || item.imbalance > 0.35 || item.weakVariables >= Math.max(4, Math.ceil(dataset.variables.length * 0.4)));
+    }
+
+    function computeVariableOutliers(dataset, stats) {
+      return dataset.variables.flatMap((variable, index) => {
+        const values = dataset.matrix.map((row) => row[index]);
+        const sorted = values.slice().sort((a, b) => a - b);
+        const q1 = quantile(sorted, 0.25);
+        const q3 = quantile(sorted, 0.75);
+        const iqr = q3 - q1;
+        const low = q1 - 1.5 * iqr;
+        const high = q3 + 1.5 * iqr;
+        return dataset.rows.map((row, rowIndex) => ({ id: row.id, variable, value: values[rowIndex], low, high }))
+          .filter((item) => item.value < low || item.value > high);
+      });
+    }
+
+    function computeBenchmarks(dataset, clusters, stats) {
+      const rootRank = dataset.rows.map((row, index) => ({ id: row.id, value: row.valor, cluster: clusters.assignments[index], maturity: row.nivel_maturidade }))
+        .sort((a, b) => b.value - a.value);
+      const variableRank = stats.slice().sort((a, b) => a.mean - b.mean);
+      const strongestVariables = stats.slice().sort((a, b) => b.mean - a.mean);
+      const balanced = dataset.rows.map((row) => ({ id: row.id, value: row.valor, dispersion: stddev(row.values), min: Math.min(...row.values), max: Math.max(...row.values) }))
+        .sort((a, b) => a.dispersion - b.dispersion);
+      const clusterSummary = [];
+      const labels = [...new Set(clusters.assignments)].sort((a, b) => a - b);
+      for (const cluster of labels) {
+        const members = dataset.rows.filter((_, index) => clusters.assignments[index] === cluster);
+        clusterSummary.push({ cluster, count: members.length, mean: mean(members.map((row) => row.valor)), min: Math.min(...members.map((row) => row.valor)), max: Math.max(...members.map((row) => row.valor)) });
+      }
+      const topQuartileCut = quantile(dataset.rows.map((row) => row.valor).sort((a, b) => a - b), 0.75);
+      const topQuartile = dataset.rows.filter((row) => row.valor >= topQuartileCut);
+      return { rootRank, variableRank, strongestVariables, balanced, clusterSummary, topQuartile, topQuartileCut };
+    }
+
+    function computeClusterQuality(matrix, clusters) {
+      const labels = clusters.assignments;
+      const silhouettes = matrix.map((row, index) => silhouetteForPoint(matrix, labels, index));
+      const valid = silhouettes.filter(Number.isFinite);
+      return {
+        method: clusters.method,
+        silhouette: mean(valid),
+        minSilhouette: valid.length ? Math.min(...valid) : 0,
+        maxSilhouette: valid.length ? Math.max(...valid) : 0,
+        noiseCount: clusters.noiseCount || 0,
+        avgDistance: mean(clusters.distances.filter(Number.isFinite))
+      };
+    }
+
+    function silhouetteForPoint(matrix, labels, index) {
+      const own = labels[index];
+      if (own < 0) return 0;
+      const same = matrix.map((row, rowIndex) => rowIndex !== index && labels[rowIndex] === own ? euclidean(matrix[index], row) : null).filter(Number.isFinite);
+      const a = same.length ? mean(same) : 0;
+      const otherLabels = [...new Set(labels.filter((label) => label !== own && label >= 0))];
+      if (!otherLabels.length) return 0;
+      const b = Math.min(...otherLabels.map((label) => mean(matrix.map((row, rowIndex) => labels[rowIndex] === label ? euclidean(matrix[index], row) : null).filter(Number.isFinite))));
+      return (b - a) / Math.max(a, b, 1e-9);
+    }
+
+    function computeTemporalAnalysis(dataset) {
+      const cycleFields = ['ano', 'ciclo', 'year', 'survey_year', 'periodo', 'período'];
+      const rows = dataset.rows.map((row) => {
+        const raw = row.raw?.raw || row.raw || {};
+        const field = Object.keys(raw).find((key) => cycleFields.includes(String(key).toLowerCase()));
+        return field ? { id: row.id, cycle: raw[field], value: row.valor, maturity: row.nivel_maturidade } : null;
+      }).filter(Boolean);
+      const cycles = [...new Set(rows.map((row) => row.cycle))].filter((item) => item !== null && item !== undefined && item !== '');
+      if (cycles.length < 2) return { available: false, message: 'Análise temporal indisponível: a planilha não possui múltiplos ciclos identificáveis.' };
+      const byCycle = cycles.map((cycle) => {
+        const members = rows.filter((row) => row.cycle === cycle);
+        return { cycle, count: members.length, mean: mean(members.map((row) => row.value)), median: quantile(members.map((row) => row.value).sort((a, b) => a - b), 0.5) };
+      }).sort((a, b) => String(a.cycle).localeCompare(String(b.cycle)));
+      return { available: true, byCycle };
+    }
+
+    function computeStructuralVariables(dataset, stats, pearsonMatrix, miMatrix, pca) {
+      const rootIndex = dataset.variables.indexOf(dataset.root);
+      return dataset.variables.map((variable, index) => {
+        const correlations = pearsonMatrix.matrix[index].filter((_, corrIndex) => corrIndex !== index).map(Math.abs);
+        const miValues = miMatrix.matrix[index].filter((_, miIndex) => miIndex !== index);
+        const rootCorr = rootIndex >= 0 && index !== rootIndex ? Math.abs(pearsonMatrix.matrix[rootIndex][index]) : 1;
+        const pcaLoading = pca.loadings.find((item) => item.variable === variable)?.importance || 0;
+        const stat = stats.find((item) => item.variable === variable);
+        const score = (rootCorr * 0.35) + (mean(correlations) * 0.25) + (mean(miValues) * 0.20) + (pcaLoading * 0.20);
+        return { variable, score, rootCorr, meanCorr: mean(correlations), mi: mean(miValues), pca: pcaLoading, mean: stat?.mean || 0 };
+      }).sort((a, b) => b.score - a.score);
+    }
+
+    function generateInsights(dataset, stats, pearsonMatrix, miMatrix, clusters, outliers, benchmarks, structuralVariables, clusterQuality) {
+      const rootIndex = dataset.variables.indexOf(dataset.root);
+      const sortedByMean = stats.slice().sort((a, b) => a.mean - b.mean);
+      const sortedByCv = stats.slice().sort((a, b) => b.cv - a.cv);
+      const sortedByStd = stats.slice().sort((a, b) => a.stddev - b.stddev);
+      const rootCorrelations = rootIndex >= 0 ? dataset.variables.map((variable, index) => ({
+        variable,
+        value: pearsonMatrix.matrix[rootIndex][index]
+      })).filter((item) => item.variable !== dataset.root).sort((a, b) => Math.abs(b.value) - Math.abs(a.value)) : [];
+      const criticalCluster = benchmarks.clusterSummary.slice().sort((a, b) => a.mean - b.mean)[0];
+      const strongestMi = correlationPairs({ dataset, pearson: pearsonMatrix, spearman: pearsonMatrix, mutualInformation: miMatrix }).sort((a, b) => b.mi - a.mi)[0];
+      return [
+        `Variavel mais critica: ${sortedByMean[0]?.variable || '-'} (media ${formatNumber(sortedByMean[0]?.mean)}).`,
+        `Variavel mais forte: ${sortedByMean[sortedByMean.length - 1]?.variable || '-'} (media ${formatNumber(sortedByMean[sortedByMean.length - 1]?.mean)}).`,
+        `Dimensao mais homogenea: ${sortedByStd[0]?.variable || '-'} (desvio ${formatNumber(sortedByStd[0]?.stddev)}).`,
+        `Dimensao mais dispersa: ${sortedByCv[0]?.variable || '-'} (CV ${formatNumber(sortedByCv[0]?.cv)}).`,
+        `Maior correlacao com ${dataset.root}: ${rootCorrelations[0]?.variable || '-'} (r ${formatNumber(rootCorrelations[0]?.value)}).`,
+        `Dependencia nao linear mais forte: ${strongestMi ? `${strongestMi.a} x ${strongestMi.b} (MI ${formatNumber(strongestMi.mi)})` : '-'}.`,
+        `Variavel mais estruturante: ${structuralVariables[0]?.variable || '-'} (score ${formatNumber(structuralVariables[0]?.score)}).`,
+        `Cluster mais critico: ${criticalCluster ? `cluster ${criticalCluster.cluster + 1}, media ${formatNumber(criticalCluster.mean)}` : '-'}.`,
+        `Qualidade media dos clusters (${clusters.method}): silhouette ${formatNumber(clusterQuality.silhouette)}.`,
+        `Organizacoes atipicas detectadas: ${outliers.length}.`
+      ];
+    }
+
+    function renderAnalytics() {
+      const hasResults = state.results.length && state.analytics && !state.analytics.error;
+      $('analyticsEmpty').classList.toggle('hidden', Boolean(hasResults));
+      $('analyticsContent').classList.toggle('hidden', !hasResults);
+      if (!hasResults) {
+        if (state.analytics && state.analytics.error) $('analyticsEmpty').textContent = state.analytics.error;
+        return;
+      }
+      if (!window.Plotly) {
+        $('analyticsEmpty').textContent = 'As bibliotecas de graficos ainda nao foram carregadas. Verifique a conexao com os CDNs e recarregue a pagina.';
+        $('analyticsEmpty').classList.remove('hidden');
+        $('analyticsContent').classList.add('hidden');
+        return;
+      }
+      const analytics = state.analytics;
+      renderAnalyticsCards(analytics);
+      renderInsights(analytics);
+      renderDescriptiveTable(analytics);
+      renderRankingTable(analytics);
+      renderCorrelationViews(analytics);
+      renderClusterViews(analytics);
+      renderBenchmarkViews(analytics);
+      renderOutlierViews(analytics);
+      renderIndividualViews(analytics);
+      renderDistributionViews(analytics);
+      renderPcaExplainability(analytics);
+      renderTemporalViews(analytics);
+      resizeAnalyticsCharts();
+    }
+
+    function renderAnalyticsCards(analytics) {
+      const rootStats = analytics.stats.find((item) => item.variable === analytics.dataset.root) || analytics.stats[0];
+      $('anOrgCount').textContent = String(analytics.dataset.rows.length);
+      $('anMeanRoot').textContent = formatNumber(rootStats.mean);
+      $('anMedianRoot').textContent = formatNumber(rootStats.median);
+      $('anStdRoot').textContent = formatNumber(rootStats.stddev);
+      const counts = countBy(analytics.dataset.maturity);
+      Plotly.react('maturityChart', [{
+        type: 'pie',
+        hole: 0.48,
+        labels: Object.keys(counts),
+        values: Object.values(counts),
+        marker: { colors: ['#b42318', '#a15c07', '#087c8f', '#147a3d', '#5f6b7a'] }
+      }], plotLayout('Distribuição dos níveis'), plotConfig());
+    }
+
+    function renderInsights(analytics) {
+      $('insightsList').innerHTML = analytics.insights.map((text) => `<div class="insight">${escapeHtml(text)}</div>`).join('');
+    }
+
+    function renderDescriptiveTable(analytics) {
+      const cols = ['variable', 'mean', 'median', 'q1', 'q3', 'min', 'max', 'variance', 'stddev', 'cv'];
+      $('descriptiveTable').innerHTML = renderTable(cols, analytics.stats, (row, col) => col === 'variable' ? row[col] : formatNumber(row[col]));
+    }
+
+    function renderRankingTable(analytics) {
+      const rows = filteredRootRank(analytics).slice(0, 30).map((row, index) => ({ rank: index + 1, ...row }));
+      $('rankingTable').innerHTML = renderTable(['rank', 'id', 'value', 'cluster', 'maturity'], rows, (row, col) => col === 'value' ? formatNumber(row[col]) : col === 'cluster' ? row[col] + 1 : row[col]);
+      $('rankingTable').querySelectorAll('tbody tr').forEach((tr, index) => {
+        tr.addEventListener('click', () => {
+          state.selectedAnalyticsEntity = rows[index].id;
+          fillAnalyticsEntitySelect(analytics.dataset);
+          renderAnalytics();
+        });
+      });
+    }
+
+    function renderCorrelationViews(analytics) {
+      const variables = analytics.dataset.variables;
+      Plotly.react('pearsonHeatmap', [{
+        z: analytics.pearson.matrix,
+        x: variables,
+        y: variables,
+        type: 'heatmap',
+        zmin: -1,
+        zmax: 1,
+        colorscale: [[0, '#b42318'], [0.5, '#ffffff'], [1, '#087c8f']],
+        hovertemplate: '%{y} x %{x}<br>r=%{z:.3f}<extra></extra>'
+      }], plotLayout('Matriz de Pearson'), plotConfig());
+      const pairs = correlationPairs(analytics).slice(0, 80);
+      $('correlationSummary').textContent = `${pairs.filter((p) => Math.abs(p.pearson) >= 0.7).length} fortes`;
+      $('correlationTable').innerHTML = renderTable(['a', 'b', 'pearson', 'spearman', 'mi', 'classificacao'], pairs, (row, col) => ['pearson', 'spearman', 'mi'].includes(col) ? formatNumber(row[col]) : row[col]);
+      Plotly.react('miHeatmap', [{
+        z: analytics.mutualInformation.matrix,
+        x: variables,
+        y: variables,
+        type: 'heatmap',
+        colorscale: 'YlGnBu',
+        hovertemplate: '%{y} x %{x}<br>MI=%{z:.3f}<extra></extra>'
+      }], plotLayout('Mutual Information'), plotConfig());
+      $('miSummary').textContent = `${pairs.filter((p) => p.mi >= 0.35).length} dependências`;
+      $('structuralVariablesTable').innerHTML = renderTable(['variable', 'score', 'rootCorr', 'meanCorr', 'mi', 'pca', 'mean'], analytics.structuralVariables.slice(0, 20), (row, col) => col === 'variable' ? row[col] : formatNumber(row[col]));
+      const mode = state.correlationMode;
+      const filtered = pairs.filter((pair) => mode === 'mi' ? pair.mi >= 0.25 : Math.abs(pair[mode]) >= 0.6).slice(0, 25);
+      renderCorrelationNetwork(analytics, filtered, mode);
+    }
+
+    function renderCorrelationNetwork(analytics, pairs, mode = 'pearson') {
+      const variables = [...new Set(pairs.flatMap((pair) => [pair.a, pair.b]))];
+      const angle = (2 * Math.PI) / Math.max(variables.length, 1);
+      const coords = variables.map((variable, index) => ({ variable, x: Math.cos(index * angle), y: Math.sin(index * angle) }));
+      const byVar = new Map(coords.map((item) => [item.variable, item]));
+      const edgeX = [];
+      const edgeY = [];
+      for (const pair of pairs) {
+        const a = byVar.get(pair.a);
+        const b = byVar.get(pair.b);
+        if (!a || !b) continue;
+        edgeX.push(a.x, b.x, null);
+        edgeY.push(a.y, b.y, null);
+      }
+      Plotly.react('correlationNetwork', [
+        { x: edgeX, y: edgeY, mode: 'lines', type: 'scatter', line: { color: '#c7d3de', width: 1 }, hoverinfo: 'skip' },
+        { x: coords.map((c) => c.x), y: coords.map((c) => c.y), text: coords.map((c) => c.variable), mode: 'markers+text', type: 'scatter', textposition: 'top center', marker: { size: 12, color: '#087c8f' } }
+      ], plotLayout(`Dependências por ${mode === 'mi' ? 'Mutual Information' : mode}`), plotConfig());
+    }
+
+    function renderClusterViews(analytics) {
+      fillClusterFilter(analytics);
+      const colors = analytics.clusters.assignments.map((cluster) => cluster + 2);
+      const outlierIds = new Set(analytics.outliers.map((item) => item.id));
+      const marker = { size: analytics.dataset.ids.map((id) => outlierIds.has(id) ? 14 : 9), color: colors, colorscale: 'Viridis', showscale: true, line: { color: '#fff', width: 1 } };
+      const pcaPoints = pcaScores2d(analytics.pca);
+      Plotly.react('pcaScatter', [scatterTrace(analytics.dataset, pcaPoints, marker, 'PCA')], scatterLayout('Clusters por PCA'), plotConfig());
+      Plotly.react('embeddingScatter', [scatterTrace(analytics.dataset, analytics.embedding.points, marker, analytics.embedding.method)], scatterLayout(`Clusters por ${analytics.embedding.method}`), plotConfig());
+      renderClusterQualityPanel(analytics);
+      renderDendrogram(analytics);
+      ['pcaScatter', 'embeddingScatter'].forEach((id) => {
+        const element = $(id);
+        element.on?.('plotly_click', (event) => {
+          const point = event.points && event.points[0];
+          if (!point) return;
+          state.selectedAnalyticsEntity = analytics.dataset.ids[point.pointIndex];
+          fillAnalyticsEntitySelect(analytics.dataset);
+          renderAnalytics();
+        });
+      });
+    }
+
+    function renderBenchmarkViews(analytics) {
+      const weaknessRows = analytics.benchmarks.variableRank.slice(0, 12);
+      Plotly.react('weaknessChart', [{
+        type: 'bar',
+        orientation: 'h',
+        x: weaknessRows.map((row) => row.mean),
+        y: weaknessRows.map((row) => row.variable),
+        marker: { color: '#a15c07' }
+      }], plotLayout('Dimensões mais críticas'), plotConfig());
+      const top = analytics.benchmarks.rootRank.slice(0, 10).map((row) => ({ grupo: 'Top', ...row }));
+      const bottom = analytics.benchmarks.rootRank.slice(-10).reverse().map((row) => ({ grupo: 'Bottom', ...row }));
+      const clusters = analytics.benchmarks.clusterSummary.map((row) => ({ grupo: `Cluster ${row.cluster + 1}`, id: `${row.count} orgs`, value: row.mean, cluster: row.cluster + 1, maturity: '' }));
+      const balanced = analytics.benchmarks.balanced.slice(0, 5).map((row) => ({ grupo: 'Equilibrada', id: row.id, value: row.value, cluster: '-', maturity: `disp ${formatNumber(row.dispersion)}` }));
+      const unbalanced = analytics.benchmarks.balanced.slice(-5).reverse().map((row) => ({ grupo: 'Desbalanceada', id: row.id, value: row.value, cluster: '-', maturity: `disp ${formatNumber(row.dispersion)}` }));
+      $('benchmarkTable').innerHTML = renderTable(['grupo', 'id', 'value', 'cluster', 'maturity'], [...top, ...bottom, ...balanced, ...unbalanced, ...clusters], (row, col) => col === 'value' ? formatNumber(row[col]) : row[col]);
+    }
+
+    function renderOutlierViews(analytics) {
+      const orgRows = analytics.outliers.map((item) => ({
+        tipo: 'organização',
+        id: item.id,
+        detalhe: [
+          item.iqr ? 'IQR' : '',
+          item.centroid ? 'distância' : '',
+          item.imbalance > 0.35 ? 'desbalanceamento' : '',
+          item.weakVariables ? `${item.weakVariables} fragilidades` : ''
+        ].filter(Boolean).join('; '),
+        valor: item.distance
+      }));
+      const variableRows = analytics.variableOutliers.slice(0, 80).map((item) => ({
+        tipo: 'variável extrema',
+        id: item.id,
+        detalhe: item.variable,
+        valor: item.value
+      }));
+      $('outlierTable').innerHTML = renderTable(['tipo', 'id', 'detalhe', 'valor'], [...orgRows, ...variableRows], (row, col) => col === 'valor' ? formatNumber(row[col]) : row[col]);
+    }
+
+    function renderIndividualViews(analytics) {
+      const rowIndex = Math.max(0, analytics.dataset.ids.indexOf(state.selectedAnalyticsEntity));
+      const row = analytics.dataset.rows[rowIndex];
+      if (!row) return;
+      const cluster = analytics.clusters.assignments[rowIndex];
+      $('selectedOrgBadge').textContent = `${row.id} · cluster ${cluster + 1}`;
+      const variables = analytics.dataset.variables.slice(0, 12);
+      const values = variables.map((variable) => row.values[analytics.dataset.variables.indexOf(variable)]);
+      const means = variables.map((variable) => analytics.stats.find((stat) => stat.variable === variable)?.mean || 0);
+      const clusterRows = analytics.dataset.rows.filter((_, index) => analytics.clusters.assignments[index] === cluster);
+      const clusterMeans = variables.map((variable) => mean(clusterRows.map((item) => item.values[analytics.dataset.variables.indexOf(variable)])));
+      const topQuartileMeans = variables.map((variable) => mean(analytics.benchmarks.topQuartile.map((item) => item.values[analytics.dataset.variables.indexOf(variable)])));
+      const compareRow = analytics.dataset.rows.find((item) => item.id === state.selectedCompareEntity);
+      const compareValues = compareRow ? variables.map((variable) => compareRow.values[analytics.dataset.variables.indexOf(variable)]) : null;
+      const traces = [
+        radarTrace(variables, values, row.id, '#087c8f'),
+        radarTrace(variables, means, 'Média', '#6d8f21'),
+        radarTrace(variables, clusterMeans, 'Cluster', '#a15c07'),
+        radarTrace(variables, topQuartileMeans, 'Top quartil', '#147a3d')
+      ];
+      if (compareValues) traces.push(radarTrace(variables, compareValues, `Comparação: ${compareRow.id}`, '#7c3aed'));
+      Plotly.react('individualRadar', [
+        ...traces
+      ], { polar: { radialaxis: { visible: true, range: [0, 1] } }, margin: { t: 30, b: 30, l: 40, r: 40 }, legend: { orientation: 'h' } }, plotConfig());
+      const rank = analytics.benchmarks.rootRank.findIndex((item) => item.id === row.id) + 1;
+      const profile = analytics.dataset.variables.map((variable, index) => ({
+        variable,
+        valor: row.values[index],
+        media: analytics.stats[index].mean,
+        gap: row.values[index] - analytics.stats[index].mean
+      })).sort((a, b) => a.gap - b.gap);
+      $('individualProfile').innerHTML = `<div class="notice small">Ranking ${rank}/${analytics.dataset.rows.length}; valor ${formatNumber(row.valor)}; maturidade ${escapeHtml(row.nivel_maturidade)}; cluster ${cluster + 1}.</div>` +
+        renderTable(['variable', 'valor', 'media', 'gap'], profile, (item, col) => col === 'variable' ? item[col] : formatNumber(item[col]));
+    }
+
+    function renderDistributionViews(analytics) {
+      const rootValues = analytics.dataset.rows.map((row) => row.valor);
+      Plotly.react('distributionChart', [
+        { type: 'histogram', x: rootValues, name: analytics.dataset.root, marker: { color: '#087c8f' }, opacity: 0.75 },
+        { type: 'box', x: rootValues, name: 'Boxplot', marker: { color: '#a15c07' }, boxpoints: 'outliers' },
+        { type: 'violin', x: rootValues, name: 'Violin', marker: { color: '#6d8f21' }, meanline: { visible: true } },
+        { type: 'scatter', mode: 'lines', x: kernelDensity(rootValues).x, y: kernelDensity(rootValues).y, name: 'Densidade', yaxis: 'y2', line: { color: '#7c3aed' } }
+      ], { ...plotLayout(`Distribuição de ${analytics.dataset.root}`), yaxis2: { overlaying: 'y', side: 'right', showgrid: false } }, plotConfig());
+    }
+
+    function renderPcaExplainability(analytics) {
+      const loadings = analytics.pca.loadings.slice(0, 15);
+      Plotly.react('pcaExplainChart', [
+        { type: 'bar', x: analytics.pca.variance.map((value, index) => `PC${index + 1}`), y: analytics.pca.variance, name: 'Variância explicada', marker: { color: '#087c8f' } },
+        { type: 'scatter', x: analytics.pca.cumulative.map((_, index) => `PC${index + 1}`), y: analytics.pca.cumulative, name: 'Acumulada', mode: 'lines+markers', yaxis: 'y2', line: { color: '#a15c07' } },
+        { type: 'bar', x: loadings.map((item) => item.variable), y: loadings.map((item) => item.importance), name: 'Importância', marker: { color: '#6d8f21' } }
+      ], { ...plotLayout('PCA: variância e loadings'), yaxis2: { overlaying: 'y', side: 'right', range: [0, 1], tickformat: '.0%' }, barmode: 'group' }, plotConfig());
+    }
+
+    function renderClusterQualityPanel(analytics) {
+      const q = analytics.clusterQuality;
+      $('clusterQualityPanel').innerHTML = `<div class="mini-grid">
+        <div class="mini-metric"><b>${escapeHtml(q.method)}</b><span>Método</span></div>
+        <div class="mini-metric"><b>${formatNumber(q.silhouette)}</b><span>Silhouette médio</span></div>
+        <div class="mini-metric"><b>${formatNumber(q.avgDistance)}</b><span>Distância média</span></div>
+        <div class="mini-metric"><b>${q.noiseCount}</b><span>Ruído DBSCAN</span></div>
+      </div>` + renderTable(['cluster', 'count', 'mean', 'min', 'max'], analytics.benchmarks.clusterSummary, (row, col) => col === 'cluster' ? row[col] + 1 : typeof row[col] === 'number' ? formatNumber(row[col]) : row[col]);
+    }
+
+    function renderDendrogram(analytics) {
+      const merges = analytics.clusters.dendrogram || [];
+      if (!merges.length) {
+        $('dendrogramChart').innerHTML = '<div class="notice small">Dendrograma disponível ao selecionar clustering hierárquico.</div>';
+        return;
+      }
+      $('dendrogramChart').innerHTML = '';
+      const visible = merges.slice(-Math.min(30, merges.length));
+      Plotly.react('dendrogramChart', [{
+        type: 'bar',
+        x: visible.map((merge, index) => `M${index + 1}`),
+        y: visible.map((merge) => merge.distance),
+        text: visible.map((merge) => `n=${merge.size}`),
+        marker: { color: '#087c8f' }
+      }], plotLayout('Altura das fusões hierárquicas'), plotConfig());
+    }
+
+    function renderTemporalViews(analytics) {
+      if (!analytics.temporal.available) {
+        $('temporalPanel').innerHTML = `<div class="notice small">${escapeHtml(analytics.temporal.message)}</div>`;
+        return;
+      }
+      $('temporalPanel').innerHTML = '<div id="temporalChart" class="chart"></div>';
+      Plotly.react('temporalChart', [{
+        type: 'scatter',
+        mode: 'lines+markers',
+        x: analytics.temporal.byCycle.map((row) => row.cycle),
+        y: analytics.temporal.byCycle.map((row) => row.mean),
+        text: analytics.temporal.byCycle.map((row) => `${row.count} organizações`),
+        line: { color: '#087c8f' }
+      }], plotLayout('Evolução média por ciclo'), plotConfig());
+    }
+
+    function fillAnalyticsEntitySelect(dataset) {
+      fillMaturityFilter(dataset);
+      const source = dataset.ids.filter((id) => {
+        const rowIndex = dataset.ids.indexOf(id);
+        const clusterOk = !state.clusterFilter || !state.analytics || String(state.analytics.clusters.assignments[rowIndex]) === state.clusterFilter;
+        return clusterOk && (!state.analyticsSearch || id.toLowerCase().includes(state.analyticsSearch));
+      });
+      $('analyticsEntitySelect').innerHTML = source.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(id)}</option>`).join('');
+      $('analyticsCompareSelect').innerHTML = source.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(id)}</option>`).join('');
+      if (source.length && !source.includes(state.selectedAnalyticsEntity)) state.selectedAnalyticsEntity = source[0];
+      if (source.length && !source.includes(state.selectedCompareEntity)) state.selectedCompareEntity = source.find((id) => id !== state.selectedAnalyticsEntity) || source[0];
+      $('analyticsEntitySelect').value = state.selectedAnalyticsEntity || '';
+      $('analyticsCompareSelect').value = state.selectedCompareEntity || '';
+    }
+
+    function fillMaturityFilter(dataset) {
+      const options = ['<option value="">Todos</option>', ...dataset.allMaturity.map((name) => `<option value="${escapeHtml(name)}" ${state.maturityFilter === name ? 'selected' : ''}>${escapeHtml(name)}</option>`)];
+      $('analyticsMaturityFilter').innerHTML = options.join('');
+    }
+
+    function fillClusterFilter(analytics) {
+      const labels = [...new Set(analytics.clusters.assignments)].sort((a, b) => a - b);
+      const options = ['<option value="">Todos</option>', ...labels.map((label) => `<option value="${label}" ${state.clusterFilter === String(label) ? 'selected' : ''}>${label < 0 ? 'Ruído' : `Cluster ${label + 1}`}</option>`)];
+      $('analyticsClusterFilter').innerHTML = options.join('');
+    }
+
+    function filteredRootRank(analytics) {
+      return analytics.benchmarks.rootRank.filter((item) => {
+        const clusterOk = !state.clusterFilter || String(item.cluster) === state.clusterFilter;
+        const searchOk = !state.analyticsSearch || item.id.toLowerCase().includes(state.analyticsSearch);
+        return clusterOk && searchOk;
+      });
+    }
+
+    function correlationPairs(analytics) {
+      const pairs = [];
+      const vars = analytics.dataset.variables;
+      for (let i = 0; i < vars.length; i++) {
+        for (let j = i + 1; j < vars.length; j++) {
+          const value = analytics.pearson.matrix[i][j];
+          pairs.push({
+            a: vars[i],
+            b: vars[j],
+            pearson: value,
+            spearman: analytics.spearman.matrix[i][j],
+            mi: analytics.mutualInformation.matrix[i][j],
+            classificacao: Math.abs(value) >= 0.7 ? 'forte' : Math.abs(value) >= 0.4 ? 'moderada' : 'fraca'
+          });
+        }
+      }
+      return pairs.sort((a, b) => Math.abs(b.pearson) - Math.abs(a.pearson));
+    }
+
+    function renderTable(columns, rows, formatter) {
+      const body = rows.map((row) => `<tr>${columns.map((col) => `<td>${escapeHtml(formatter(row, col) ?? '')}</td>`).join('')}</tr>`).join('');
+      return `<table><thead><tr>${columns.map((col) => `<th>${escapeHtml(col)}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+
+    function plotLayout(title) {
+      return {
+        autosize: true,
+        title: { text: title, font: { size: 14, color: '#152033' } },
+        margin: { t: 46, b: 70, l: 82, r: 24 },
+        paper_bgcolor: '#ffffff',
+        plot_bgcolor: '#ffffff',
+        font: { family: 'Inter, Segoe UI, sans-serif', color: '#152033' },
+        xaxis: { automargin: true, tickfont: { size: 11 } },
+        yaxis: { automargin: true, tickfont: { size: 11 } }
+      };
+    }
+
+    function plotConfig() {
+      return { responsive: true, displaylogo: false, toImageButtonOptions: { format: 'png', filename: 'analise-igovti' } };
+    }
+
+    function scatterLayout(title) {
+      return { ...plotLayout(title), xaxis: { title: 'Dimensão 1', zeroline: false, automargin: true }, yaxis: { title: 'Dimensão 2', zeroline: false, automargin: true } };
+    }
+
+    function resizeAnalyticsCharts() {
+      window.requestAnimationFrame(() => {
+        document.querySelectorAll('#analyticsTab .chart').forEach((element) => {
+          if (element.offsetParent && window.Plotly) Plotly.Plots.resize(element);
+        });
+      });
+    }
+
+    function scatterTrace(dataset, points, marker, name) {
+      return {
+        type: 'scatter',
+        mode: 'markers',
+        name,
+        x: points.map((point) => point[0] || 0),
+        y: points.map((point) => point[1] || 0),
+        text: dataset.ids,
+        customdata: dataset.rows.map((row) => [row.valor, row.nivel_maturidade]),
+        marker,
+        hovertemplate: '<b>%{text}</b><br>Valor=%{customdata[0]:.3f}<br>%{customdata[1]}<extra></extra>'
+      };
+    }
+
+    function radarTrace(variables, values, name, color) {
+      return {
+        type: 'scatterpolar',
+        r: [...values, values[0]],
+        theta: [...variables, variables[0]],
+        fill: 'toself',
+        name,
+        line: { color }
+      };
+    }
+
+    function analyticsToCsv(analytics) {
+      const lines = [['tipo', 'a', 'b', 'valor'].join(',')];
+      for (const stat of analytics.stats) {
+        lines.push(['estatistica', stat.variable, 'media', formatNumber(stat.mean)].join(','));
+        lines.push(['estatistica', stat.variable, 'desvio', formatNumber(stat.stddev)].join(','));
+      }
+      for (const pair of correlationPairs(analytics)) {
+        lines.push(['correlacao_pearson', pair.a, pair.b, formatNumber(pair.pearson)].join(','));
+      }
+      analytics.dataset.rows.forEach((row, index) => {
+        lines.push(['cluster', row.id, analytics.clusters.assignments[index] + 1, formatNumber(row.valor)].join(','));
+      });
+      return lines.join('\n');
+    }
+
+    function downloadAnalyticsXlsx(analytics) {
+      if (!window.XLSX) {
+        downloadText('analise-estatistica-igovti.csv', analyticsToCsv(analytics), 'text/csv');
+        return;
+      }
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(analytics.stats), 'estatisticas');
+      XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(correlationPairs(analytics)), 'correlacoes');
+      XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(analytics.benchmarks.rootRank), 'ranking');
+      XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(analytics.outliers), 'outliers');
+      XLSX.writeFile(workbook, 'analise-estatistica-igovti.xlsx');
+    }
+
+    function analyticsJsonReplacer(key, value) {
+      if (key === 'matrix' && Array.isArray(value) && value.length > 80) return `[${value.length} linhas]`;
+      return value;
+    }
+
+    function mean(values) {
+      const clean = values.filter(Number.isFinite);
+      return clean.length ? clean.reduce((sum, value) => sum + value, 0) / clean.length : 0;
+    }
+
+    function variance(values) {
+      const clean = values.filter(Number.isFinite);
+      if (clean.length < 2) return 0;
+      const avg = mean(clean);
+      return clean.reduce((sum, value) => sum + Math.pow(value - avg, 2), 0) / (clean.length - 1);
+    }
+
+    function stddev(values) {
+      return Math.sqrt(variance(values));
+    }
+
+    function quantile(sortedValues, q) {
+      const values = sortedValues.filter(Number.isFinite).sort((a, b) => a - b);
+      if (!values.length) return 0;
+      const pos = (values.length - 1) * q;
+      const base = Math.floor(pos);
+      const rest = pos - base;
+      return values[base + 1] !== undefined ? values[base] + rest * (values[base + 1] - values[base]) : values[base];
+    }
+
+    function sortedStats(values) {
+      const sorted = values.slice().sort((a, b) => a - b);
+      return { q1: quantile(sorted, 0.25), q3: quantile(sorted, 0.75) };
+    }
+
+    function pearson(a, b) {
+      const avgA = mean(a);
+      const avgB = mean(b);
+      let numerator = 0;
+      let denA = 0;
+      let denB = 0;
+      for (let i = 0; i < a.length; i++) {
+        const da = a[i] - avgA;
+        const db = b[i] - avgB;
+        numerator += da * db;
+        denA += da * da;
+        denB += db * db;
+      }
+      const den = Math.sqrt(denA * denB);
+      return den ? numerator / den : 0;
+    }
+
+    function rankValues(values) {
+      const sorted = values.map((value, index) => ({ value, index })).sort((a, b) => a.value - b.value);
+      const ranks = new Array(values.length);
+      for (let i = 0; i < sorted.length; i++) {
+        let j = i;
+        while (j + 1 < sorted.length && sorted[j + 1].value === sorted[i].value) j++;
+        const avgRank = (i + 1 + j + 1) / 2;
+        for (let k = i; k <= j; k++) ranks[sorted[k].index] = avgRank;
+        i = j;
+      }
+      return ranks;
+    }
+
+    function kernelDensity(values) {
+      const clean = values.filter(Number.isFinite);
+      if (!clean.length) return { x: [], y: [] };
+      const min = Math.min(...clean);
+      const max = Math.max(...clean);
+      const sd = stddev(clean) || 0.1;
+      const bandwidth = Math.max(0.03, 1.06 * sd * Math.pow(clean.length, -0.2));
+      const steps = 50;
+      const x = Array.from({ length: steps }, (_, index) => min + ((max - min || 1) * index) / (steps - 1));
+      const y = x.map((point) => mean(clean.map((value) => Math.exp(-0.5 * Math.pow((point - value) / bandwidth, 2)) / (bandwidth * Math.sqrt(2 * Math.PI)))));
+      return { x, y };
+    }
+
+    function mutualInformation(a, b, bins) {
+      const pairs = a.map((value, index) => [bucket(value, bins), bucket(b[index], bins)]);
+      const n = pairs.length || 1;
+      const countA = countBy(pairs.map((pair) => pair[0]));
+      const countB = countBy(pairs.map((pair) => pair[1]));
+      const countAB = countBy(pairs.map((pair) => `${pair[0]}|${pair[1]}`));
+      let mi = 0;
+      for (const [key, count] of Object.entries(countAB)) {
+        const [ka, kb] = key.split('|');
+        const pxy = count / n;
+        const px = (countA[ka] || 0) / n;
+        const py = (countB[kb] || 0) / n;
+        if (pxy && px && py) mi += pxy * Math.log2(pxy / (px * py));
+      }
+      return mi;
+    }
+
+    function bucket(value, bins) {
+      return Math.max(0, Math.min(bins - 1, Math.floor(clamp(value, 0, 0.999999) * bins)));
+    }
+
+    function countBy(values) {
+      return values.reduce((acc, value) => {
+        const key = String(value || 'Sem classificação');
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {});
+    }
+
+    function centerColumns(matrix) {
+      const means = columnMeans(matrix);
+      return matrix.map((row) => row.map((value, index) => value - means[index]));
+    }
+
+    function columnMeans(matrix) {
+      if (!matrix.length) return [];
+      return matrix[0].map((_, index) => mean(matrix.map((row) => row[index])));
+    }
+
+    function covarianceMatrix(centered) {
+      const cols = centered[0].length;
+      const cov = Array.from({ length: cols }, () => Array(cols).fill(0));
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < cols; j++) {
+          cov[i][j] = centered.reduce((sum, row) => sum + row[i] * row[j], 0) / Math.max(1, centered.length - 1);
+        }
+      }
+      return cov;
+    }
+
+    function powerIteration(matrix) {
+      const n = matrix.length;
+      let vector = Array.from({ length: n }, (_, index) => index === 0 ? 1 : 1 / n);
+      for (let iter = 0; iter < 80; iter++) {
+        const next = matrixVector(matrix, vector);
+        const norm = Math.sqrt(dot(next, next)) || 1;
+        vector = next.map((value) => value / norm);
+      }
+      const value = dot(vector, matrixVector(matrix, vector));
+      return { value, vector };
+    }
+
+    function deflateMatrix(matrix, vector, value) {
+      return matrix.map((row, i) => row.map((cell, j) => cell - value * vector[i] * vector[j]));
+    }
+
+    function matrixVector(matrix, vector) {
+      return matrix.map((row) => dot(row, vector));
+    }
+
+    function dot(a, b) {
+      return a.reduce((sum, value, index) => sum + value * b[index], 0);
+    }
+
+    function euclidean(a, b) {
+      return Math.sqrt(a.reduce((sum, value, index) => sum + Math.pow(value - b[index], 2), 0));
+    }
+
+    function pcaScores2d(pca) {
+      return (pca.scores || []).map((row) => [row[0] || 0, row[1] || 0]);
+    }
+
+    function resultExportColumns() {
+      const root = state.config.metadata.raiz;
+      return ['id', root, 'nivel_maturidade', ...Object.keys(state.config.agregados).filter((id) => id !== root)];
+    }
+
+    function resultExportRows(results) {
+      const columns = resultExportColumns();
+      return results.map((result) => {
+        const row = {};
+        for (const col of columns) {
+          row[col] = col === 'id' ? result.id : col === 'nivel_maturidade' ? result.nivel_maturidade : result.valores[col];
+        }
+        return row;
+      });
+    }
+
+    function downloadResultsXlsx(results) {
+      if (!results.length) return;
+      if (!window.XLSX) {
+        downloadText(nextResultExportFilename('csv'), toCsv(results), 'text/csv');
+        return;
+      }
+      const columns = resultExportColumns();
+      const worksheet = XLSX.utils.json_to_sheet(resultExportRows(results), { header: columns });
+      worksheet['!cols'] = columns.map((column) => ({ wch: Math.max(14, String(column).length + 2) }));
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'resultados');
+      XLSX.writeFile(workbook, nextResultExportFilename('xlsx'));
+    }
+
+    function toCsv(results) {
+      if (!results.length) return '';
+      const columns = resultExportColumns();
+      const lines = [columns.join(',')];
+      for (const result of results) {
+        lines.push(columns.map((col) => {
+          const value = col === 'id' ? result.id : col === 'nivel_maturidade' ? result.nivel_maturidade : result.valores[col];
+          return `"${String(formatCell(value)).replace(/"/g, '""')}"`;
+        }).join(','));
+      }
+      return lines.join('\n');
+    }
+  </script>
+</body>
+</html>

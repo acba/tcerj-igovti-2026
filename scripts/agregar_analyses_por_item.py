@@ -1,4 +1,4 @@
-"""Agrega conclusoes dos arquivos analyses.jsonl por questao avaliada."""
+"""Agrega conclusoes dos arquivos JSONL de avaliacao por questao avaliada."""
 
 from __future__ import annotations
 
@@ -237,7 +237,7 @@ def gerar_xlsx(
         [
             "Item", "Auditado", "Provider", "Modelo", "Estado", "Coluna de evidência",
             "Evidência", "Item original", "Afirmação avaliada", "Justificativa", "Lacunas",
-            "Arquivo analyses.jsonl",
+            "Arquivo JSONL",
         ]
     )
     for registro in sorted(conclusoes, key=lambda x: (x["item"], x["auditado"], x["modelo"], x["estado"])):
@@ -273,7 +273,7 @@ def gerar_xlsx(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("analyses", nargs="+", type=Path, help="Arquivos analyses.jsonl de entrada.")
+    parser.add_argument("analyses", nargs="+", type=Path, help="Arquivos JSONL de avaliacao de entrada.")
     parser.add_argument("--output", required=True, type=Path, help="Planilha XLSX de saída.")
     parser.add_argument(
         "--referencia",

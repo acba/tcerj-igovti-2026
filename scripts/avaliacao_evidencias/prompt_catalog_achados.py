@@ -87,14 +87,39 @@ def validate_catalog(catalogo: dict[str, Any], questionario: str | Path) -> list
         criterios = entrada.get("criterios_por_item")
         if criterios is not None and not isinstance(criterios, dict):
             erros.append(f"{arquivo} criterios_por_item deve ser objeto")
+        elif isinstance(criterios, dict):
+            for codigo, valores in criterios.items():
+                if not isinstance(codigo, str) or codigo not in contexto.itens_possiveis:
+                    erros.append(f"{arquivo} criterios_por_item contem item inexistente: {codigo}")
+                if not _lista_textos(valores):
+                    erros.append(f"{arquivo} criterios_por_item.{codigo} deve ser lista de textos")
+        criterios_comuns = entrada.get("criterios_comuns_itens")
+        if criterios_comuns is not None and not _lista_textos(criterios_comuns):
+            erros.append(f"{arquivo} criterios_comuns_itens deve ser lista de textos")
+        excluir_comuns = entrada.get("excluir_criterios_comuns_itens")
+        if excluir_comuns is not None and (
+            not isinstance(excluir_comuns, list)
+            or not all(isinstance(item, str) and item.strip() for item in excluir_comuns)
+        ):
+            erros.append(f"{arquivo} excluir_criterios_comuns_itens deve ser lista de textos")
+        elif isinstance(excluir_comuns, list) and itens:
+            extras = sorted(set(excluir_comuns) - set(itens))
+            if extras:
+                erros.append(f"{arquivo} excluir_criterios_comuns_itens contem itens nao avaliaveis: {', '.join(extras)}")
+        exibir_texto = entrada.get("exibir_texto_itens")
+        if exibir_texto is not None and not isinstance(exibir_texto, bool):
+            erros.append(f"{arquivo} exibir_texto_itens deve ser booleano")
         excluir_regra = entrada.get("excluir_regra_comum_conformidade")
         if excluir_regra is not None and (
             not isinstance(excluir_regra, list) or not all(isinstance(item, str) and item.strip() for item in excluir_regra)
         ):
             erros.append(f"{arquivo} excluir_regra_comum_conformidade deve ser lista de textos")
         pratica = entrada.get("criterios_pratica_principal")
-        if pratica is not None and (not isinstance(pratica, list) or not all(isinstance(item, str) and item.strip() for item in pratica)):
+        if pratica is not None and not _lista_textos(pratica):
             erros.append(f"{arquivo} criterios_pratica_principal deve ser lista de textos")
+        gera_achado = entrada.get("gera_achado")
+        if gera_achado is not None and not isinstance(gera_achado, bool):
+            erros.append(f"{arquivo} gera_achado deve ser booleano")
     return erros
 
 
@@ -104,6 +129,9 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
     titulo = entrada.get("titulo") or f"{contexto.arquivo[:-3]} - {contexto.texto_questao}"
     itens_avaliaveis = [str(item) for item in entrada["itens_avaliaveis"]]
     criterios_por_item = entrada.get("criterios_por_item", {}) if isinstance(entrada.get("criterios_por_item"), dict) else {}
+    criterios_comuns = [str(item) for item in entrada.get("criterios_comuns_itens", [])]
+    excluir_criterios_comuns = set(entrada.get("excluir_criterios_comuns_itens") or [])
+    exibir_texto_itens = _exibir_texto_itens(entrada, itens_avaliaveis)
     excluir_conformidade = set(entrada.get("excluir_regra_comum_conformidade") or [])
     regra_conformidade = [
         item
@@ -113,14 +141,10 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
     linhas: list[str] = [
         f"# {titulo}",
         "",
-        "<!-- Gerado a partir do catalogo YAML. Edite o catalogo, nao este arquivo. -->",
         f"<!-- itens_avaliaveis: {', '.join(itens_avaliaveis)} -->",
+        f"<!-- exibir_texto_itens: {'sim' if exibir_texto_itens else 'nao'} -->",
         "",
         "## Identidade da analise",
-        f"- Prompt set: {meta.get('nome', 'igovti_2026_achados_binario')}",
-        f"- Versao: {meta.get('versao', 'v1')}",
-        "- Postura de julgamento: auditoria objetiva, binaria e conservadora",
-        f"- Grupo do questionario: {contexto.grupo}",
         f"- Questao base: {contexto.texto_questao}",
         f"- Coluna de evidencia: {contexto.coluna_evidencia}",
         f"- Solicitacao de evidencia ao auditado: {contexto.solicitacao_evidencia}",
@@ -129,6 +153,7 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
         "- Avalie somente os itens afirmados recebidos em `itens_afirmados` pelo pipeline.",
         "- Nao crie conclusoes para itens nao afirmados, ainda que a evidencia sugira sua ocorrencia.",
         "- Nao avalie item sem criterio listado neste prompt.",
+        "- Julgue cada item exclusivamente pelos criterios listados neste prompt; textos de alternativa, quando presentes, servem apenas para identificacao.",
         "",
         "## Regra comum de conformidade",
     ]
@@ -144,8 +169,13 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
     linhas.extend(["", "## Criterios por item"])
     for codigo in itens_avaliaveis:
         texto_item = contexto.itens_possiveis[codigo]
-        linhas.append(f"- {codigo}: {texto_item}")
-        criterios = criterios_por_item.get(codigo) or (pratica if codigo == contexto.questao_base else None) or [_criterio_padrao_item(texto_item)]
+        linhas.append(f"- {codigo}: {texto_item}" if exibir_texto_itens else f"- {codigo}:")
+        criterios = []
+        if codigo not in excluir_criterios_comuns:
+            criterios.extend(criterios_comuns)
+        criterios.extend(criterios_por_item.get(codigo) or [])
+        if not criterios:
+            criterios = (pratica if codigo == contexto.questao_base else None) or [_criterio_padrao_item(texto_item)]
         for criterio in criterios:
             linhas.append(f"  - {criterio}")
 
@@ -163,6 +193,7 @@ def render_prompt(catalogo: dict[str, Any], entrada: dict[str, Any], contexto: P
             "- O objeto raiz deve conter `status` com `completed` ou `error`.",
             "- Quando `status` for `completed`, inclua `conclusoes`, uma lista com uma conclusao por item afirmado avaliavel.",
             "- Cada conclusao deve conter exatamente estes campos: `item_codigo`, `item_texto`, `afirmacao_auditado`, `estado`, `justificativa`, `lacunas`, `arquivos_referenciados`, `trechos_ou_elementos`, `paginas_ou_localizacao`.",
+            "- Quando o texto da alternativa nao estiver disponivel no payload, preencha `item_texto` com o proprio `item_codigo`.",
             "- Para julgamento substantivo, `estado` deve ser `conforme` ou `nao_conforme`.",
             "- `lacunas`, `arquivos_referenciados`, `trechos_ou_elementos` e `paginas_ou_localizacao` devem ser listas.",
             "",
@@ -223,6 +254,16 @@ def _itens_possiveis(question: Any, item_especifico: str, questoes: dict[str, An
 
 def _criterio_padrao_item(texto_item: str) -> str:
     return f"A evidência demonstra diretamente a ocorrência da afirmação: {texto_item}"
+
+
+def _exibir_texto_itens(entrada: dict[str, Any], itens_avaliaveis: list[str]) -> bool:
+    if isinstance(entrada.get("exibir_texto_itens"), bool):
+        return bool(entrada["exibir_texto_itens"])
+    return any("ext[" in item for item in itens_avaliaveis)
+
+
+def _lista_textos(valor: Any) -> bool:
+    return isinstance(valor, list) and all(isinstance(item, str) and item.strip() for item in valor)
 
 
 def _clean(texto: str) -> str:

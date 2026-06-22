@@ -8,7 +8,7 @@ O pipeline e generico. Os prompts nao sao genericos: cada questionario deve ter 
 
 A logica de providers de IA fica isolada em `avaliacao_evidencias/providers_ai_service.py`. Esse modulo nao importa `pipeline.py` nem depende das dataclasses do questionario: ele recebe itens afirmados por interface estrutural, como objetos com atributos `codigo`, `texto` e `afirmacao`, ou dicionarios equivalentes.
 
-`pipeline.py` e `consolidacao.py` apenas preparam contexto, evidencias, checkpoint e controle de fluxo; a chamada a Gemini, OpenRouter, provider fake, retry transiente, reparo de JSON e validacao da resposta ficam no servico de providers.
+`pipeline.py` e `consolidacao.py` apenas preparam contexto, evidencias, checkpoint e controle de fluxo; a chamada a Gemini, OpenRouter, OpenAI-compatible local, provider fake, retry transiente, reparo de JSON e validacao da resposta ficam no servico de providers.
 
 ## O que o pipeline faz
 
@@ -19,7 +19,7 @@ A logica de providers de IA fica isolada em `avaliacao_evidencias/providers_ai_s
 5. Resolve o prompt especifico da questao.
 6. Monta o pacote de evidencia, incluindo texto extraido, inventario de ZIP e arquivos compativeis para upload no Gemini.
 7. Se nenhum item foi afirmado pelo auditado, grava a analise como concluida sem chamar provider.
-8. Chama o provider configurado: `fake`, `gemini` ou `openrouter`.
+8. Chama o provider configurado: `fake`, `gemini`, `openrouter`, `opencodego` ou `openai`.
 9. Repara e valida a resposta JSON do modelo com `json-repair`.
 10. Grava checkpoint incremental em JSONL.
 11. Gera `relatorio_conformidade.xlsx`.
@@ -111,6 +111,10 @@ Edite o YAML, nao os Markdown gerados. O gerador e deterministico: se o YAML e o
 
 O conjunto `igovti_2026_achados_binario_v1` cobre somente colunas de evidencia associadas a situacoes encontradas e achados na matriz de procedimentos. Ele usa julgamento substantivo binario: `conforme` ou `nao_conforme`.
 
+No catalogo binario, cada entrada deve declarar `arquivo`, `coluna_evidencia` e `itens_avaliaveis`. Use `criterios_pratica_principal` para a pratica base de questoes `adoption`, `criterios_comuns_itens` para criterios compartilhados por varias alternativas e `criterios_por_item` para criterios especificos. Quando alguns itens nao devem receber os criterios comuns, declare `excluir_criterios_comuns_itens`.
+
+Para questoes em que a alternativa marcada serve apenas como codigo de rastreabilidade, use `exibir_texto_itens: false`. O Markdown gerado passa a listar somente o codigo e os criterios; o pipeline tambem mascara `itens_afirmados[].texto` antes de chamar o provider, impedindo que o modelo julgue pelo texto integral da alternativa. Em questoes `adoption` com detalhamentos, mantenha o texto visivel quando o detalhamento marcado for a propria afirmacao que precisa ser sustentada pela evidencia.
+
 Fonte de verdade:
 
 ```text
@@ -188,7 +192,7 @@ Execute:
   --out-dir .saida_analise
 ```
 
-O Gemini usa `google-genai`. Arquivos compativeis sao enviados pela Files API com nomes temporarios seguros em ASCII, para evitar falhas de upload por caracteres especiais no caminho/nome do arquivo. Evidencias ZIP sao validadas contra path traversal e arquivos internos compativeis sao extraidos temporariamente para upload. Arquivos `.xlsx` nao sao enviados diretamente ao Gemini: o pipeline extrai o texto com `markitdown`, gera um `.txt` temporario com nome seguro e envia esse texto para a API. Arquivos `.doc` e `.docx` tambem nao sao enviados diretamente: o pipeline converte o documento para PDF com LibreOffice/`soffice` em modo headless e envia o PDF ao modelo, preservando imagens e layout. Em Windows, quando LibreOffice/`soffice` nao estiver disponivel ou falhar, o pipeline tenta converter pelo Microsoft Word instalado, via automacao COM acionada pelo PowerShell. Se nenhum conversor funcionar, a analise da evidencia e registrada como erro tecnico.
+O Gemini usa `google-genai`. Arquivos compativeis sao enviados pela Files API com nomes temporarios seguros em ASCII, para evitar falhas de upload por caracteres especiais no caminho/nome do arquivo. Evidencias ZIP sao validadas contra path traversal e arquivos internos compativeis sao extraidos temporariamente para upload. Arquivos `.xlsx` nao sao enviados diretamente ao Gemini: o pipeline extrai o texto com `markitdown`, gera um `.txt` temporario com nome seguro e envia esse texto para a API. Arquivos `.doc` e `.docx` tambem nao sao enviados diretamente: por padrao, o pipeline converte o documento para PDF com LibreOffice/`soffice` em modo headless e envia o PDF ao modelo, preservando imagens e layout. Em Windows, quando LibreOffice/`soffice` nao estiver disponivel ou falhar, o pipeline tenta converter pelo Microsoft Word instalado, via automacao COM acionada pelo PowerShell. Se nenhum conversor funcionar, a analise da evidencia e registrada como erro tecnico.
 
 Para modelos Gemini com suporte a pensamento controlavel, use `--reasoning low`, `--reasoning medium` ou `--reasoning high`. O valor e enviado como `thinking_config.thinking_level` e tambem entra na identidade do checkpoint, permitindo comparar execucoes com niveis diferentes sem reaproveitar indevidamente resultados anteriores. O alias `--reasoning-effort` e equivalente.
 
@@ -218,7 +222,54 @@ O OpenRouter recebe o prompt e o pacote de evidencia normalizado em texto pela A
 
 Quando o provider `openrouter` usa modelos Google/Gemini ou OpenAI/ChatGPT, o pipeline tambem anexa os arquivos `.pdf` preparados em `messages[].content` como `type: "file"` com `file_data` em base64 e configura o plugin `file-parser` com engine `native`. Isso permite que modelos com suporte nativo a arquivos analisem o PDF diretamente. Para os demais modelos, o comportamento permanece textual: o OpenRouter recebe apenas o pacote normalizado de evidencia.
 
+## Executar com OpenAI-compatible local
+
+O provider `openai` usa, por padrao, o proxy local `openai-oauth` no endereco `http://127.0.0.1:10531/v1`, o mesmo usado por `scripts/test_openai_oauth_provider.py`. Ele chama `/v1/responses` em modo streaming e envia PDFs preparados como `input_file` com `file_data` em base64. O proxy local normalmente nao exige chave; se houver chave, informe `OPENAI_API_KEY`. Para trocar a base URL, defina `OPENAI_BASE_URL`.
+
+Execute com o proxy local ja ativo:
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+  02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
+  --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_achados_binario_v1 \
+  --only-prompts-present \
+  --provider openai \
+  --model gpt-5.4-mini \
+  --rpm 12 \
+  --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/achados_binario_openai_gpt-5.4-mini
+```
+
+Para testar apenas algumas organizacoes:
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+  02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
+  --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_achados_binario_v1 \
+  --only-prompts-present \
+  --provider openai \
+  --model gpt-5.4-mini \
+  --auditados ALERJ AGENERSA \
+  --rpm 12 \
+  --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/achados_binario_openai_gpt-5.4-mini
+```
+
+Para forcar a conversao de evidencias PDF em Markdown com imagens extraidas antes da chamada ao modelo, use `--pdf2md`. Quando o anexo de evidencia resolvido for um arquivo `.pdf`, o pipeline usa `pymupdf4llm` para gerar um documento Markdown e arquivos de imagem, inclui o Markdown em `pacote_evidencia.documentos` e envia os artefatos preparados ao provider. No OpenRouter, as imagens `.png`/`.jpg` extraidas sao anexadas como `image_url` em data URI; no provider `openai`, como `input_image`; no Gemini, os arquivos preparados seguem pela camada de upload do provider. O PDF original nao e enviado nesse modo. Use `--pdf2md-dpi N` para ajustar a resolucao das imagens extraidas; o padrao e `150`.
+
+Para forcar a conversao de evidencias DOCX em HTML com imagens extraidas antes da chamada ao modelo, use `--docx2html`. Quando o anexo de evidencia resolvido for um arquivo `.docx`, o pipeline usa `mammoth` para gerar um documento HTML, inclui esse HTML em `pacote_evidencia.documentos` e envia as imagens `.png`/`.jpg`/`.jpeg` extraidas como anexos ao provider. O DOCX original nao e enviado nesse modo. Arquivos `.doc` continuam seguindo o fluxo padrao de conversao para PDF.
+
+No provider `opencodego`, imagens preparadas por `--pdf2md` ou `--docx2html` tambem sao enviadas ao endpoint OpenAI-compatible como `image_url` com data URI base64. O conteudo textual do Markdown/HTML permanece no `pacote_evidencia.documentos`.
+
 Para modelos OpenRouter com suporte a raciocinio controlavel, use `--reasoning low`, `--reasoning medium` ou `--reasoning high`. O valor e enviado como `reasoning.effort` e tambem entra na identidade do checkpoint, permitindo comparar execucoes com niveis diferentes sem reaproveitar indevidamente resultados anteriores. O alias `--reasoning-effort` e equivalente.
+
+Cada registro gravado no JSONL de analises inclui metadados de execucao da avaliacao: `started_at`, `finished_at`, `duration_seconds` e `reasoning_effort`. Esses campos permitem auditar o tempo gasto por item e distinguir execucoes com diferentes niveis de reasoning.
+
+Para inspecionar o payload textual completo enviado ao provider, use `--store-prompts`. O campo `prompt_payload` sera gravado no respectivo registro do JSONL de analises. Em chamadas com arquivos anexados, como PDFs enviados ao Gemini ou ao OpenRouter, esse campo representa a parte textual do request; os arquivos continuam sendo enviados por upload/anexo e aparecem no pacote como `arquivos_upload`.
 
 ## Controlar requests por minuto
 
@@ -252,10 +303,24 @@ Para um conjunto parcial de prompts, como `igovti_2026_achados_binario_v1`, use 
 
 ## Retomada e deduplicacao
 
-O pipeline grava um checkpoint incremental em:
+O pipeline grava um checkpoint incremental no arquivo JSONL de saida. Por padrao, o nome e derivado do provider e do modelo:
 
 ```text
-.saida_analise/analyses.jsonl
+.saida_analise/analyses_<provider>_<model>.jsonl
+```
+
+Exemplo: `--provider openrouter --model openai/gpt-5.4-mini` grava `.saida_analise/analyses_openrouter_openai_gpt-5.4-mini.jsonl`. Caracteres inadequados para nome de arquivo, como `/`, sao normalizados para `_`.
+
+Use `--out-file` para escolher outro nome ou caminho. Se o valor for relativo, ele sera resolvido dentro de `--out-dir`; se for absoluto, sera usado diretamente:
+
+```bash
+.venv/bin/python -m avaliacao_evidencias respostas.xlsx evidencias/ \
+  --questionario igovti_2026.md \
+  --prompts-dir avaliacao_evidencias/prompts/igovti_2026_conservador_v2 \
+  --provider gemini \
+  --model gemini-2.5-flash \
+  --out-dir .saida_analise \
+  --out-file analyses.jsonl
 ```
 
 Uma analise com `status = completed` nao e reprocessada se a identidade for a mesma.
@@ -288,11 +353,11 @@ Erros sao retentados por padrao. Use `--skip-errors` para pular erros ja registr
 
 ```text
 .saida_analise/
-  analyses.jsonl
+  analyses_<provider>_<model>.jsonl
   relatorio_conformidade.xlsx
 ```
 
-`analyses.jsonl` contem uma linha por analise tentada, incluindo metadados, provider, modelo, resultado e erro quando houver.
+O JSONL de analises contem uma linha por analise tentada, incluindo metadados, provider, modelo, resultado e erro quando houver.
 
 `relatorio_conformidade.xlsx` contem uma linha por conclusao de conformidade, com estado, justificativa, lacunas e referencias.
 
@@ -309,24 +374,26 @@ Depois de executar a pre-analise com mais de um provider/modelo, gere um parecer
 
 ```bash
 .venv/bin/python -m avaliacao_evidencias.consolidacao \
-  .saida_analise/teste_gemini/analyses.jsonl \
-  .saida_analise/teste_openrouter/analyses.jsonl \
+  .saida_analise/teste_gemini/analyses*.jsonl \
+  .saida_analise/teste_openrouter/analyses*.jsonl \
   --evidencias-root evidencias \
   --judge-provider gemini \
   --judge-model gemini-2.5-flash \
   --out-dir .saida_analise/consolidado
 ```
 
-A etapa le um ou mais `analyses.jsonl`, agrupa os resultados por `auditado + questao + coluna_evidencia + evidencia`, coleta as conclusoes emitidas pelos modelos e chama um modelo juiz para produzir um `Parecer consolidado de evidencia`.
+A etapa le um ou mais JSONL de analises, agrupa os resultados por `auditado + questao + coluna_evidencia + evidencia`, coleta as conclusoes emitidas pelos modelos e chama um modelo juiz para produzir um `Parecer consolidado de evidencia`.
 
 A evidencia e reenviada ao juiz quando `--evidencias-root` e informado. Sem essa opcao, o juiz recebe apenas as opinioes dos modelos e deve registrar a lacuna de evidencia direta.
+
+A chamada ao juiz nao envia nomes de provedores ou modelos no pacote de avaliacoes preliminares. O prompt orienta linguagem impessoal e institucional, propria de equipe de auditoria governamental, e padroniza a justificativa em: conclusao objetiva; elementos da evidencia; convergencia, divergencia ou fragilidade das avaliacoes recebidas; lacuna ou limitacao relevante.
 
 A consolidacao usa a mesma camada de provider do processamento principal, portanto tambem aplica retries para erros transientes antes de registrar erro em `consolidated.jsonl`.
 
 Opcionalmente, informe uma opiniao da equipe de auditoria:
 
 ```bash
-.venv/bin/python -m avaliacao_evidencias.consolidacao .saida_analise/*/analyses.jsonl \
+.venv/bin/python -m avaliacao_evidencias.consolidacao .saida_analise/*/analyses*.jsonl \
   --auditor-opinions opinioes_auditoria.jsonl \
   --judge-provider openrouter \
   --judge-model google/gemini-2.5-flash

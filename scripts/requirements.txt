@@ -2,9 +2,12 @@ openpyxl
 python-docx
 PyYAML
 pypdf
+pymupdf4llm
+pikepdf
 json-repair
 google-genai
-markitdown[xlsx]
+markitdown[pdf,docx,xlsx]
+mammoth
 pandas
 xlsxwriter
 jinja2

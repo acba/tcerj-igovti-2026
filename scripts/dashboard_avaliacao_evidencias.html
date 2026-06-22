@@ -6,6 +6,7 @@
   <title>Dashboard de Avaliação de Evidências</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     tailwind.config = {
@@ -38,11 +39,23 @@
     .card { border: 1px solid hsl(214.3 31.8% 91.4%); background: white; border-radius: 8px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; height: 2.25rem; border-radius: 6px; border: 1px solid hsl(214.3 31.8% 91.4%); padding: 0 .75rem; font-size: .875rem; font-weight: 500; background: white; }
     .btn:hover { background: hsl(210 40% 96.1%); }
+    .copy-btn { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; height: 1.75rem; border-radius: 6px; border: 1px solid hsl(214.3 31.8% 91.4%); padding: 0 .5rem; font-size: .75rem; font-weight: 500; background: white; color: #334155; }
+    .copy-btn:hover { background: hsl(210 40% 96.1%); }
+    .copy-btn-dark { border-color: #334155; background: #0f172a; color: #e2e8f0; }
+    .copy-btn-dark:hover { background: #1e293b; }
     .input { height: 2.25rem; border: 1px solid hsl(214.3 31.8% 91.4%); border-radius: 6px; padding: 0 .75rem; font-size: .875rem; background: white; outline: none; }
     .input:focus { box-shadow: 0 0 0 2px rgba(15,23,42,.12); }
     .badge { display: inline-flex; align-items: center; gap: .35rem; border-radius: 999px; padding: .125rem .5rem; font-size: .75rem; font-weight: 600; white-space: nowrap; }
     .scrollbar-thin::-webkit-scrollbar { height: 8px; width: 8px; }
     .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+
+    /* Virtualização da tabela */
+    .virtual-tbody { position: relative; will-change: transform; }
+    .virtual-spacer { position: absolute; left: 0; right: 0; pointer-events: none; }
+    .virtual-row { position: absolute; left: 0; right: 0; contain: layout style paint; }
+
+    /* Ícones inline SVG (elimina custo do lucide nos badges repetidos) */
+    .svg-icon { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
   </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-950">
@@ -58,10 +71,32 @@
         <p id="datasetMeta" class="mt-1 text-sm text-slate-500"></p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 py-1">
+          <i data-lucide="user-round" class="h-4 w-4 text-slate-400"></i>
+          <input id="auditorNameInput" class="w-36 text-sm outline-none placeholder:text-slate-400" placeholder="Nome do auditor" />
+        </div>
+        <button id="exportReviewBtn" class="btn" type="button" title="Exportar revisão do auditor atual em JSONL e XLSX">
+          <i data-lucide="download" class="h-4 w-4"></i>Exportar revisão
+        </button>
+        <label class="btn cursor-pointer" title="Importar revisões de um ou mais auditores (JSONL ou XLSX)">
+          <i data-lucide="upload" class="h-4 w-4"></i>Importar revisões
+          <input id="reviewFileInput" type="file" accept=".jsonl,.txt,.json,.xlsx,.xls" class="hidden" multiple />
+        </label>
+        <button id="consolidateBtn" class="btn" type="button" title="Consolidar revisões de todos os auditores por maioria simples">
+          <i data-lucide="users" class="h-4 w-4"></i>Consolidar
+        </button>
+        <button id="exportConsolidatedBtn" class="btn" type="button" title="Exportar consolidado da equipe" disabled style="opacity:.5">
+          <i data-lucide="file-check-2" class="h-4 w-4"></i>Exportar consolidado
+        </button>
         <label class="btn cursor-pointer">
           <i data-lucide="upload" class="h-4 w-4"></i>
           Carregar JSONL(s)
           <input id="fileInput" type="file" accept=".jsonl,.txt,.json" class="hidden" multiple />
+        </label>
+        <label class="btn cursor-pointer" title="Opcional quando o dashboard não conseguir carregar o XLSX automaticamente">
+          <i data-lucide="table" class="h-4 w-4"></i>
+          Carregar mapa
+          <input id="mapFileInput" type="file" accept=".xlsx,.xls" class="hidden" />
         </label>
       </div>
     </header>
@@ -79,41 +114,116 @@
         </div>
         <div>
           <label class="mb-1 block text-xs font-medium text-slate-500">Auditado</label>
-          <select id="auditadoFilter" class="input w-full"></select>
+          <details id="auditadoFilter" class="relative" data-multiselect-filter data-all-label="Todos">
+            <summary class="input flex w-full cursor-pointer list-none items-center justify-between gap-2 pr-2">
+              <span id="auditadoFilterSummary" class="truncate">Todos</span>
+              <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-slate-400"></i>
+            </summary>
+            <div class="absolute z-30 mt-1 w-64 rounded-md border border-slate-200 bg-white p-2 text-sm shadow-soft">
+              <label class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+                <input id="auditadoFilterAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" data-multiselect-all checked />
+                <span>Todos</span>
+              </label>
+              <div class="my-1 border-t border-slate-100"></div>
+              <div id="auditadoFilterOptions" class="max-h-64 overflow-auto scrollbar-thin"></div>
+            </div>
+          </details>
         </div>
         <div>
           <label class="mb-1 block text-xs font-medium text-slate-500">Questão</label>
-          <select id="questaoFilter" class="input w-full"></select>
+          <details id="questaoFilter" class="relative" data-multiselect-filter data-all-label="Todas">
+            <summary class="input flex w-full cursor-pointer list-none items-center justify-between gap-2 pr-2">
+              <span id="questaoFilterSummary" class="truncate">Todas</span>
+              <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-slate-400"></i>
+            </summary>
+            <div class="absolute z-30 mt-1 w-64 rounded-md border border-slate-200 bg-white p-2 text-sm shadow-soft">
+              <label class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+                <input id="questaoFilterAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" data-multiselect-all checked />
+                <span>Todas</span>
+              </label>
+              <div class="my-1 border-t border-slate-100"></div>
+              <div id="questaoFilterOptions" class="max-h-64 overflow-auto scrollbar-thin"></div>
+            </div>
+          </details>
         </div>
         <div>
           <label class="mb-1 block text-xs font-medium text-slate-500">Estado</label>
-          <select id="estadoFilter" class="input w-full">
-            <option value="">Todos</option>
-            <option value="nao_conforme">Não conforme</option>
-            <option value="conforme">Conforme</option>
-            <option value="inconclusivo">Inconclusivo</option>
-            <option value="erro">Erro</option>
-          </select>
+          <details id="estadoFilter" class="relative" data-multiselect-filter data-all-label="Todos">
+            <summary class="input flex w-full cursor-pointer list-none items-center justify-between gap-2 pr-2">
+              <span id="estadoFilterSummary" class="truncate">Todos</span>
+              <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-slate-400"></i>
+            </summary>
+            <div class="absolute z-30 mt-1 w-56 rounded-md border border-slate-200 bg-white p-2 text-sm shadow-soft">
+              <label class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+                <input id="estadoFilterAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" data-multiselect-all checked />
+                <span>Todos</span>
+              </label>
+              <div class="my-1 border-t border-slate-100"></div>
+              <div id="estadoFilterOptions" class="max-h-64 overflow-auto scrollbar-thin"></div>
+            </div>
+          </details>
         </div>
         <div>
           <label class="mb-1 block text-xs font-medium text-slate-500">Modelo</label>
-          <select id="modeloFilter" class="input w-full"></select>
+          <details id="modeloFilter" class="relative" data-multiselect-filter data-all-label="Todos">
+            <summary class="input flex w-full cursor-pointer list-none items-center justify-between gap-2 pr-2">
+              <span id="modeloFilterSummary" class="truncate">Todos</span>
+              <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-slate-400"></i>
+            </summary>
+            <div class="absolute z-30 mt-1 w-72 rounded-md border border-slate-200 bg-white p-2 text-sm shadow-soft">
+              <label class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+                <input id="modeloFilterAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" data-multiselect-all checked />
+                <span>Todos</span>
+              </label>
+              <div class="my-1 border-t border-slate-100"></div>
+              <div id="modeloFilterOptions" class="max-h-64 overflow-auto scrollbar-thin"></div>
+            </div>
+          </details>
         </div>
         <div>
           <label class="mb-1 block text-xs font-medium text-slate-500">Consenso</label>
-          <select id="consensoFilter" class="input w-full">
-            <option value="">Todos</option>
-            <option value="divergente">Divergente</option>
-            <option value="consenso_conforme">Consenso conforme</option>
-            <option value="consenso_nao_conforme">Consenso não conforme</option>
-            <option value="consenso_inconclusivo">Consenso inconclusivo</option>
-            <option value="modelo_unico">Modelo único</option>
-            <option value="com_erro">Com erro</option>
-          </select>
+          <details id="consensoFilter" class="relative" data-multiselect-filter data-all-label="Todos">
+            <summary class="input flex w-full cursor-pointer list-none items-center justify-between gap-2 pr-2">
+              <span id="consensoFilterSummary" class="truncate">Todos</span>
+              <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-slate-400"></i>
+            </summary>
+            <div class="absolute z-30 mt-1 w-72 rounded-md border border-slate-200 bg-white p-2 text-sm shadow-soft">
+              <label class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+                <input id="consensoFilterAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" data-multiselect-all checked />
+                <span>Todos</span>
+              </label>
+              <div class="my-1 border-t border-slate-100"></div>
+              <div id="consensoFilterOptions" class="max-h-64 overflow-auto scrollbar-thin"></div>
+            </div>
+          </details>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-medium text-slate-500">Revisão</label>
+          <details id="revisaoFilter" class="relative" data-multiselect-filter data-all-label="Todos">
+            <summary class="input flex w-full cursor-pointer list-none items-center justify-between gap-2 pr-2">
+              <span id="revisaoFilterSummary" class="truncate">Todos</span>
+              <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-slate-400"></i>
+            </summary>
+            <div class="absolute z-30 mt-1 w-72 rounded-md border border-slate-200 bg-white p-2 text-sm shadow-soft">
+              <label class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+                <input id="revisaoFilterAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" data-multiselect-all checked />
+                <span>Todos</span>
+              </label>
+              <div class="my-1 border-t border-slate-100"></div>
+              <div id="revisaoFilterOptions" class="max-h-64 overflow-auto scrollbar-thin"></div>
+            </div>
+          </details>
         </div>
         <div class="flex items-end">
           <button id="clearFiltersBtn" class="btn w-full" type="button"><i data-lucide="filter-x" class="h-4 w-4"></i>Limpar</button>
         </div>
+      </div>
+      <div class="mt-3 flex flex-col gap-2 border-t border-slate-100 pt-3 md:flex-row md:items-center md:justify-between">
+        <label class="flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-700">
+          <input id="achadosOnlyFilter" type="checkbox" class="h-4 w-4 rounded border-slate-300" />
+          <span>Mostrar apenas itens que ensejam situações encontradas e achados</span>
+        </label>
+        <div id="achadosMapStatus" class="text-xs text-slate-500">Mapa de achados não carregado.</div>
       </div>
     </section>
 
@@ -133,6 +243,24 @@
               <span class="text-xs text-slate-500">comparativo por questão</span>
             </div>
             <div class="h-56"><canvas id="questaoChart"></canvas></div>
+          </div>
+        </section>
+
+        <section class="card p-4">
+          <div class="mb-3 flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center gap-2">
+              <h2 class="text-sm font-semibold">Conformidade relativa por auditado</h2>
+              <button id="auditadoOrderBtn" class="btn !h-7 !px-2 text-xs" type="button" title="Alternar ordenação">
+                <i data-lucide="arrow-down-wide-short" class="h-3.5 w-3.5"></i>
+                <span id="auditadoOrderLabel">Piores primeiro</span>
+              </button>
+            </div>
+            <span class="text-xs text-slate-500">% sobre afirmações avaliadas conforme/não conforme</span>
+          </div>
+          <div class="scrollbar-thin overflow-x-auto overflow-y-hidden">
+            <div id="auditadoConformidadeChartWrap" class="h-72" style="min-width:100%;">
+              <canvas id="auditadoConformidadeChart"></canvas>
+            </div>
           </div>
         </section>
 
@@ -164,9 +292,9 @@
               <button id="onlyNonConformBtn" class="btn" type="button"><i data-lucide="circle-alert" class="h-4 w-4"></i>Não conformes</button>
             </div>
           </div>
-          <div class="scrollbar-thin overflow-auto">
-            <table class="w-full min-w-[1180px] text-left text-sm">
-              <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <div class="scrollbar-thin overflow-auto" id="tableScroll" style="max-height: 70vh;">
+            <table class="w-full min-w-[1280px] text-left text-sm">
+              <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500 sticky top-0 z-10">
                 <tr>
                   <th class="px-4 py-3">Consenso</th>
                   <th class="px-4 py-3">Auditado</th>
@@ -175,9 +303,10 @@
                   <th class="px-4 py-3">Modelos</th>
                   <th class="px-4 py-3">Estados por modelo</th>
                   <th class="px-4 py-3">Lacunas</th>
+                  <th class="px-4 py-3">Revisão</th>
                 </tr>
               </thead>
-              <tbody id="conclusoesTable" class="divide-y divide-slate-100"></tbody>
+              <tbody id="conclusoesTable" class="virtual-tbody divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </section>
@@ -203,6 +332,12 @@
     let filteredRows = [];
     let selectedId = null;
     let charts = {};
+    let copyBlockCounter = 0;
+    let lastFilterSignature = "";
+    function debounce(fn, ms = 200) {
+      let timer = null;
+      return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
+    }
 
     const stateConfig = {
       conforme: { label: "Conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", color: "#059669" },
@@ -216,6 +351,7 @@
       try { return decodeURIComponent(String(value || "")); } catch { return String(value || ""); }
     };
     const pct = (part, total) => total ? `${Math.round((part / total) * 100)}%` : "0%";
+    const nextCopyId = (prefix) => `${prefix}-${++copyBlockCounter}`;
 
     function parseJsonl(text) {
       return text.split(/\r?\n/).map((line, index) => {
@@ -239,6 +375,7 @@
             provider: record.provider || "",
             model: record.model || "",
             finished_at: record.finished_at || "",
+            prompt_payload: record.prompt_payload || "",
             estado: "erro",
             item_codigo: "",
             item_texto: "Erro no processamento",
@@ -260,6 +397,7 @@
             provider: record.provider || "",
             model: record.model || "",
             finished_at: record.finished_at || "",
+            prompt_payload: record.prompt_payload || "",
             estado: normalState(conclusao.estado),
             item_codigo: conclusao.item_codigo || "",
             item_texto: conclusao.item_texto || "",
@@ -289,25 +427,89 @@
     }
 
     function populateFilters() {
-      setOptions("auditadoFilter", ["", ...unique(rows.map(r => r.auditado))], "Todos");
-      setOptions("questaoFilter", ["", ...unique(rows.map(r => r.questao))], "Todas");
+      setMultiOptions("auditadoFilter", unique(rows.map(r => r.auditado)));
+      setMultiOptions("questaoFilter", unique(rows.map(r => r.questao)));
+      setMultiOptions("estadoFilter", ["conforme", "nao_conforme", "erro"], stateConfig);
     }
     function unique(values) { return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR")); }
-    function setOptions(id, values, emptyLabel) {
-      const current = $(id).value;
-      $(id).innerHTML = values.map(value => `<option value="${escapeHtml(value)}">${value ? escapeHtml(value) : emptyLabel}</option>`).join("");
-      if (values.includes(current)) $(id).value = current;
+    function multiOptionInputs(id) { return [...document.querySelectorAll(`#${id}Options [data-multiselect-option]`)]; }
+    function getSelectedValues(id) {
+      return multiOptionInputs(id).filter(input => input.checked).map(input => input.value);
+    }
+    function setSelectedValues(id, values) {
+      const selected = new Set(values);
+      multiOptionInputs(id).forEach(input => { input.checked = selected.has(input.value); });
+      syncMultiAllFilter(id);
+      updateMultiFilterSummary(id);
+    }
+    function resetMultiFilter(id) {
+      multiOptionInputs(id).forEach(input => { input.checked = true; });
+      syncMultiAllFilter(id);
+      updateMultiFilterSummary(id);
+    }
+    function setMultiOptions(id, values, labels = {}) {
+      const existingInputs = multiOptionInputs(id);
+      const selectedBefore = new Set(getSelectedValues(id));
+      const wasAllSelected = existingInputs.length === 0 || selectedBefore.size === existingInputs.length;
+      const normalized = [...new Set(values.filter(Boolean))];
+      const options = $(`${id}Options`);
+      if (!options) return;
+      options.innerHTML = normalized.map(value => `
+        <label class="flex cursor-pointer items-start gap-2 rounded px-2 py-1.5 hover:bg-slate-50">
+          <input type="checkbox" class="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300" data-multiselect-option value="${escapeHtml(value)}" checked />
+          <span class="min-w-0 break-words">${escapeHtml(filterOptionLabel(value, labels))}</span>
+        </label>
+      `).join("");
+      if (!wasAllSelected) {
+        setSelectedValues(id, normalized.filter(value => selectedBefore.has(value)));
+      } else {
+        resetMultiFilter(id);
+      }
+    }
+    function filterOptionLabel(value, labels = {}) {
+      const cfg = labels[value];
+      return typeof cfg === "string" ? cfg : cfg?.label || value;
+    }
+    function syncMultiAllFilter(id) {
+      const inputs = multiOptionInputs(id);
+      const all = $(`${id}All`);
+      if (!all) return;
+      const selected = inputs.filter(input => input.checked).length;
+      all.checked = selected === inputs.length;
+      all.indeterminate = selected > 0 && selected < inputs.length;
+    }
+    function updateMultiFilterSummary(id) {
+      const summary = $(`${id}Summary`);
+      const root = $(id);
+      if (!summary) return;
+      const selected = getSelectedValues(id);
+      const total = multiOptionInputs(id).length;
+      const allLabel = root?.dataset?.allLabel || "Todos";
+      if (selected.length === total) summary.textContent = allLabel;
+      else if (!selected.length) summary.textContent = "Nenhum";
+      else if (selected.length <= 2) summary.textContent = selected.map(value => filterOptionLabel(value, filterLabelsFor(id))).join(", ");
+      else summary.textContent = `${selected.length} selecionados`;
+    }
+    function getSelectedEstados() { return getSelectedValues("estadoFilter"); }
+    function setSelectedEstados(values) { setSelectedValues("estadoFilter", values); }
+    function resetEstadoFilter() { resetMultiFilter("estadoFilter"); }
+    function selectedSet(id) { return new Set(getSelectedValues(id)); }
+    function valueSelected(set, value) { return set.has(value); }
+    function filterLabelsFor(id) {
+      if (id === "estadoFilter") return typeof comparisonStateConfig !== "undefined" ? { ...stateConfig, ...comparisonStateConfig } : stateConfig;
+      if (id === "consensoFilter" && typeof comparisonConsensusConfig !== "undefined") return comparisonConsensusConfig;
+      return {};
     }
 
     function applyFilters() {
       const search = norm($("searchInput").value);
-      const auditado = $("auditadoFilter").value;
-      const questao = $("questaoFilter").value;
-      const estado = $("estadoFilter").value;
+      const auditados = selectedSet("auditadoFilter");
+      const questoes = selectedSet("questaoFilter");
+      const estados = selectedSet("estadoFilter");
       filteredRows = rows.filter(row => {
-        if (auditado && row.auditado !== auditado) return false;
-        if (questao && row.questao !== questao) return false;
-        if (estado && row.estado !== estado) return false;
+        if (!valueSelected(auditados, row.auditado)) return false;
+        if (!valueSelected(questoes, row.questao)) return false;
+        if (!valueSelected(estados, row.estado)) return false;
         if (!search) return true;
         return norm([row.auditado, row.questao, row.item_codigo, row.item_texto, row.afirmacao_auditado, row.justificativa, row.evidencia, row.lacunas.join(" "), row.trechos_ou_elementos.join(" ")].join(" ")).includes(search);
       });
@@ -327,7 +529,7 @@
 
     function renderMeta() {
       if (!sourceName) {
-        $("datasetMeta").textContent = "Carregue um arquivo analyses.jsonl para iniciar a análise.";
+        $("datasetMeta").textContent = "Carregue um arquivo JSONL de análises para iniciar a análise.";
         return;
       }
       const dates = rows.map(r => r.finished_at).filter(Boolean).sort();
@@ -363,17 +565,30 @@
 
     function renderCharts() {
       const states = countBy(filteredRows, "estado");
-      drawDoughnut("estadoChart", ["Conforme", "Não conforme", "Erro"], [states.conforme || 0, states.nao_conforme || 0, states.erro || 0], ["#059669", "#e11d48", "#d97706"]);
+      const chartStates = getSelectedEstados().map(value => ({ value, cfg: stateConfig[value] })).filter(item => item.cfg);
+      drawDoughnut(
+        "estadoChart",
+        chartStates.map(item => item.cfg.label),
+        chartStates.map(item => states[item.value] || 0),
+        chartStates.map(item => item.cfg.color)
+      );
       const issueRows = Object.entries(groupBy(filteredRows, "questao")).map(([questao, items]) => ({
         questao,
         nao: items.filter(i => i.estado === "nao_conforme").length,
         total: items.length,
       })).sort((a, b) => b.nao - a.nao || b.total - a.total).slice(0, 8);
       drawBar("questaoChart", issueRows.map(i => i.questao), issueRows.map(i => i.nao), "#e11d48");
+      drawAuditadoConformidadeChart(filteredRows);
     }
 
     function drawDoughnut(id, labels, data, colors) {
-      charts[id]?.destroy();
+      if (charts[id]) {
+        charts[id].data.labels = labels;
+        charts[id].data.datasets[0].data = data;
+        charts[id].data.datasets[0].backgroundColor = colors;
+        charts[id].update("none");
+        return;
+      }
       charts[id] = new Chart($(id), {
         type: "doughnut",
         data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
@@ -382,7 +597,13 @@
     }
 
     function drawBar(id, labels, data, color) {
-      charts[id]?.destroy();
+      if (charts[id]) {
+        charts[id].data.labels = labels;
+        charts[id].data.datasets[0].data = data;
+        charts[id].data.datasets[0].backgroundColor = color;
+        charts[id].update("none");
+        return;
+      }
       charts[id] = new Chart($(id), {
         type: "bar",
         data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 5, maxBarThickness: 42 }] },
@@ -393,6 +614,76 @@
           scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { precision: 0 } } }
         }
       });
+    }
+
+    let auditadoConformidadeOrder = "piores";
+    function auditadoConformidadeRows(items) {
+      return Object.entries(groupBy(items, "auditado")).map(([auditado, rows]) => {
+        const conforme = rows.filter(row => row.estado === "conforme").length;
+        const nao = rows.filter(row => row.estado === "nao_conforme").length;
+        const total = conforme + nao;
+        return {
+          auditado,
+          conforme,
+          nao,
+          total,
+          pctConforme: total ? Math.round((conforme / total) * 100) : 0,
+          pctNao: total ? Math.round((nao / total) * 100) : 0,
+        };
+      }).filter(row => row.total > 0).sort((a, b) =>
+        auditadoConformidadeOrder === "melhores"
+          ? b.pctConforme - a.pctConforme || b.total - a.total || a.auditado.localeCompare(b.auditado, "pt-BR")
+          : b.pctNao - a.pctNao || b.total - a.total || a.auditado.localeCompare(b.auditado, "pt-BR")
+      );
+    }
+
+    function drawAuditadoConformidadeChart(items) {
+      const dataRows = auditadoConformidadeRows(items);
+      const BAR_SLOT = 56;
+      const wrap = $("auditadoConformidadeChartWrap");
+      if (wrap) {
+        const parentWidth = wrap.parentElement.clientWidth;
+        wrap.style.width = Math.max(parentWidth, dataRows.length * BAR_SLOT) + "px";
+      }
+      const existing = charts.auditadoConformidadeChart;
+      if (existing) {
+        existing.data.labels = dataRows.map(row => row.auditado);
+        existing.data.datasets[0].data = dataRows.map(row => row.pctConforme);
+        existing.data.datasets[1].data = dataRows.map(row => row.pctNao);
+        existing._dataRows = dataRows;
+        existing.update("none");
+        return;
+      }
+      charts.auditadoConformidadeChart = new Chart($("auditadoConformidadeChart"), {
+        type: "bar",
+        data: {
+          labels: dataRows.map(row => row.auditado),
+          datasets: [
+            { label: "% conforme", data: dataRows.map(row => row.pctConforme), backgroundColor: "#059669", borderRadius: 5, maxBarThickness: 28 },
+            { label: "% não conforme", data: dataRows.map(row => row.pctNao), backgroundColor: "#e11d48", borderRadius: 5, maxBarThickness: 28 },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom", labels: { boxWidth: 10, usePointStyle: true } },
+            tooltip: {
+              callbacks: {
+                afterLabel(context) {
+                  const row = (charts.auditadoConformidadeChart._dataRows || dataRows)[context.dataIndex];
+                  return row ? `${row.total} afirmações avaliadas (${row.conforme} conformes, ${row.nao} não conformes)` : "";
+                },
+              },
+            },
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, max: 100, ticks: { callback: value => `${value}%` } },
+          },
+        },
+      });
+      charts.auditadoConformidadeChart._dataRows = dataRows;
     }
 
     function renderRankings() {
@@ -434,7 +725,7 @@
               <div class="mx-auto max-w-md rounded-md border border-dashed border-slate-300 bg-slate-50 p-6">
                 <div class="flex justify-center"><i data-lucide="file-up" class="h-8 w-8 text-slate-400"></i></div>
                 <p class="mt-3 text-sm font-medium text-slate-700">Nenhum processamento carregado</p>
-                <p class="mt-1 text-xs text-slate-500">Use o botão “Carregar JSONL” para selecionar um arquivo analyses.jsonl gerado pelo pipeline.</p>
+                <p class="mt-1 text-xs text-slate-500">Use o botão “Carregar JSONL” para selecionar um arquivo de análises gerado pelo pipeline.</p>
               </div>
             </td>
           </tr>
@@ -478,11 +769,129 @@
             ${detailRow("Finalizado em", formatDate(row.finished_at))}
           </dl>
         `)}
+        ${section("Prompt de análise enviado ao modelo", promptAnalysisHtml(row.prompt_payload))}
+        ${section("Payload enviado ao modelo", payloadHtml(row.prompt_payload))}
       `;
     }
 
     function section(title, body) { return `<section><h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">${title}</h3>${body}</section>`; }
     function detailRow(label, value) { return `<div class="rounded-md border border-slate-200 p-2"><dt class="text-slate-500">${label}</dt><dd class="mt-1 break-words font-medium text-slate-800">${escapeHtml(value)}</dd></div>`; }
+    function payloadHtml(payload) {
+      const text = formatPayload(payload);
+      if (!text) {
+        return `<div class="rounded-md border border-dashed border-slate-300 bg-slate-50 p-3 text-sm text-slate-500">
+          Payload não registrado neste JSONL. Execute a avaliação com <code class="rounded bg-white px-1 py-0.5 font-mono text-xs text-slate-700">--store-prompts</code> para gravar o campo <code class="rounded bg-white px-1 py-0.5 font-mono text-xs text-slate-700">prompt_payload</code>.
+        </div>`;
+      }
+      const id = nextCopyId("payload-copy");
+      return `<details class="rounded-md border border-slate-200 bg-slate-950 text-slate-100">
+        <summary class="flex cursor-pointer select-none items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-slate-200">
+          <span>Payload completo</span>
+          <button class="copy-btn copy-btn-dark" type="button" data-copy-target="${id}">
+            <i data-lucide="copy" class="h-3.5 w-3.5"></i>
+            Copiar
+          </button>
+        </summary>
+        <pre id="${id}" class="max-h-96 overflow-auto whitespace-pre-wrap break-words border-t border-slate-800 p-3 font-mono text-[11px] leading-5 scrollbar-thin">${escapeHtml(text)}</pre>
+      </details>`;
+    }
+    function promptAnalysisHtml(payload) {
+      const prompt = promptAnalysisFromPayload(payload);
+      if (!prompt) {
+        return `<div class="rounded-md border border-dashed border-slate-300 bg-slate-50 p-3 text-sm text-slate-500">
+          Prompt de análise não encontrado no payload. Verifique se o JSONL contém <code class="rounded bg-white px-1 py-0.5 font-mono text-xs text-slate-700">prompt_payload.prompt_de_analise</code>.
+        </div>`;
+      }
+      const id = nextCopyId("prompt-copy");
+      return `<details class="rounded-md border border-slate-200 bg-white" open>
+        <summary class="flex cursor-pointer select-none items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-slate-700">
+          <span>Prompt formatado</span>
+          <button class="copy-btn" type="button" data-copy-target="${id}">
+            <i data-lucide="copy" class="h-3.5 w-3.5"></i>
+            Copiar
+          </button>
+        </summary>
+        <pre id="${id}" class="sr-only">${escapeHtml(prompt)}</pre>
+        <div class="max-h-96 overflow-auto border-t border-slate-200 p-3 scrollbar-thin">${renderPromptMarkdown(prompt)}</div>
+      </details>`;
+    }
+    function promptAnalysisFromPayload(payload) {
+      const parsed = parsePayload(payload);
+      return typeof parsed?.prompt_de_analise === "string" ? parsed.prompt_de_analise : "";
+    }
+    const payloadParseCache = new Map();
+    const PAYLOAD_CACHE_LIMIT = 500;
+    function parsePayload(payload) {
+      if (payload === undefined || payload === null || payload === "") return null;
+      if (typeof payload !== "string") return payload && typeof payload === "object" ? payload : null;
+      if (payloadParseCache.has(payload)) return payloadParseCache.get(payload);
+      const trimmed = payload.trim();
+      if (!trimmed) return null;
+      let result;
+      try { result = JSON.parse(trimmed); } catch { result = null; }
+      if (payloadParseCache.size >= PAYLOAD_CACHE_LIMIT) {
+        payloadParseCache.delete(payloadParseCache.keys().next().value);
+      }
+      payloadParseCache.set(payload, result);
+      return result;
+    }
+    const formatPayloadCache = new Map();
+    function formatPayload(payload) {
+      if (payload === undefined || payload === null || payload === "") return "";
+      if (typeof payload !== "string") return JSON.stringify(payload, null, 2);
+      if (formatPayloadCache.has(payload)) return formatPayloadCache.get(payload);
+      const trimmed = payload.trim();
+      let result;
+      if (!trimmed) result = "";
+      else { try { result = JSON.stringify(JSON.parse(trimmed), null, 2); } catch { result = payload; } }
+      if (formatPayloadCache.size >= PAYLOAD_CACHE_LIMIT) formatPayloadCache.delete(formatPayloadCache.keys().next().value);
+      formatPayloadCache.set(payload, result);
+      return result;
+    }
+    function renderPromptMarkdown(text) {
+      const lines = String(text || "").split(/\r?\n/);
+      let html = "";
+      let inList = false;
+      const closeList = () => {
+        if (inList) {
+          html += "</ul>";
+          inList = false;
+        }
+      };
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) {
+          closeList();
+          html += `<div class="h-2"></div>`;
+          return;
+        }
+        const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+        if (heading) {
+          closeList();
+          const level = heading[1].length;
+          const cls = level === 1
+            ? "mt-1 text-base font-semibold text-slate-950"
+            : "mt-4 border-t border-slate-200 pt-3 text-xs font-semibold uppercase tracking-wide text-slate-500";
+          html += `<div class="${cls}">${promptInlineHtml(heading[2])}</div>`;
+          return;
+        }
+        if (trimmed.startsWith("- ")) {
+          if (!inList) {
+            html += `<ul class="my-2 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700">`;
+            inList = true;
+          }
+          html += `<li>${promptInlineHtml(trimmed.slice(2))}</li>`;
+          return;
+        }
+        closeList();
+        html += `<p class="my-2 text-sm leading-6 text-slate-700">${promptInlineHtml(trimmed)}</p>`;
+      });
+      closeList();
+      return html;
+    }
+    function promptInlineHtml(value) {
+      return escapeHtml(value).replace(/`([^`]+)`/g, `<code class="rounded bg-slate-100 px-1 py-0.5 font-mono text-xs text-slate-800">$1</code>`);
+    }
     function chips(items, color) {
       if (!items.length) return `<p class="text-sm text-slate-500">Nenhuma lacuna registrada.</p>`;
       return `<div class="space-y-2">${items.map(item => `<div class="rounded-md border border-${color}-200 bg-${color}-50 p-3 text-sm text-${color}-800">${escapeHtml(item)}</div>`).join("")}</div>`;
@@ -501,24 +910,85 @@
     function escapeHtml(value) {
       return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
     }
+    async function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    }
+    async function handleCopyButton(button) {
+      const target = $(button.dataset.copyTarget || "");
+      if (!target) return;
+      const original = button.innerHTML;
+      try {
+        await copyText(target.textContent || "");
+        button.innerHTML = `<i data-lucide="check" class="h-3.5 w-3.5"></i>Copiado`;
+      } catch {
+        button.innerHTML = `<i data-lucide="triangle-alert" class="h-3.5 w-3.5"></i>Erro`;
+      }
+      if (window.lucide) lucide.createIcons({ root: button.parentElement || button });
+      window.setTimeout(() => {
+        button.innerHTML = original;
+        if (window.lucide) lucide.createIcons({ root: button.parentElement || button });
+      }, 1400);
+    }
 
     document.addEventListener("click", (event) => {
+      const copyButton = event.target.closest("[data-copy-target]");
+      if (copyButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        handleCopyButton(copyButton);
+        return;
+      }
       const row = event.target.closest("[data-row-id]");
       if (row) { selectedId = row.dataset.rowId; renderTable(); renderDetail(); if (window.lucide) lucide.createIcons(); }
       const rank = event.target.closest("[data-rank-filter]");
       if (rank) {
         const value = rank.dataset.rankFilter;
-        if (unique(rows.map(r => r.auditado)).includes(value)) $("auditadoFilter").value = value;
+        if (unique(rows.map(r => r.auditado)).includes(value)) setSelectedValues("auditadoFilter", [value]);
         else $("searchInput").value = value;
         render();
       }
     });
 
-    ["searchInput", "auditadoFilter", "questaoFilter", "estadoFilter"].forEach(id => $(id).addEventListener("input", render));
-    $("clearFiltersBtn").addEventListener("click", () => {
-      $("searchInput").value = ""; $("auditadoFilter").value = ""; $("questaoFilter").value = ""; $("estadoFilter").value = ""; render();
+    const debouncedRender = debounce(render, 200);
+    $("searchInput").addEventListener("input", debouncedRender);
+    document.addEventListener("change", (event) => {
+      const all = event.target.closest("[data-multiselect-all]");
+      if (all) {
+        const root = all.closest("[data-multiselect-filter]");
+        if (!root) return;
+        multiOptionInputs(root.id).forEach(input => { input.checked = all.checked; });
+        syncMultiAllFilter(root.id);
+        updateMultiFilterSummary(root.id);
+        render();
+        return;
+      }
+      const option = event.target.closest("[data-multiselect-option]");
+      if (option) {
+        const root = option.closest("[data-multiselect-filter]");
+        if (!root) return;
+        syncMultiAllFilter(root.id);
+        updateMultiFilterSummary(root.id);
+        render();
+      }
     });
-    $("onlyNonConformBtn").addEventListener("click", () => { $("estadoFilter").value = "nao_conforme"; render(); });
+    $("clearFiltersBtn").addEventListener("click", () => {
+      $("searchInput").value = "";
+      ["auditadoFilter", "questaoFilter", "estadoFilter", "modeloFilter", "consensoFilter"].forEach(resetMultiFilter);
+      render();
+    });
+    $("onlyNonConformBtn").addEventListener("click", () => { setSelectedEstados(["nao_conforme"]); render(); });
     $("fileInput").addEventListener("change", async (event) => {
       const file = event.target.files?.[0];
       if (!file) return;
@@ -533,15 +1003,49 @@
     var comparisonGroups = [];
     var comparisonFilteredGroups = [];
     var comparisonSelectedId = null;
+    var achadoItems = new Map();
+    var achadoMapLoaded = false;
+    var achadoMapError = "";
 
-    const comparisonStateConfig = {
+    // Revisão humana colaborativa
+    var reviewsByGroup = new Map();       // group_key -> [review, ...]
+    var currentAuditor = "";
+    var consolidatedByGroup = new Map();  // group_key -> { estado_final, justificativa_final, divergente_equipe, votos, total_revisores }
+
+    const REVIEW_STATES = ["conforme", "nao_conforme", "inconclusivo", "sem_parecer"];
+    const reviewStateConfig = {
+      conforme: { label: "Conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", color: "#059669", dot: "#059669" },
+      nao_conforme: { label: "Não conforme", cls: "bg-rose-50 text-rose-700 ring-1 ring-rose-200", color: "#e11d48", dot: "#e11d48" },
+      inconclusivo: { label: "Inconclusivo", cls: "bg-sky-50 text-sky-700 ring-1 ring-sky-200", color: "#0284c7", dot: "#0284c7" },
+      sem_parecer: { label: "Sem parecer", cls: "bg-slate-100 text-slate-500 ring-1 ring-slate-200", color: "#94a3b8", dot: "#cbd5e1" },
+      divergente_equipe: { label: "Divergência da equipe", cls: "bg-violet-50 text-violet-700 ring-1 ring-violet-200", color: "#7c3aed", dot: "#7c3aed" },
+    };
+
+    function groupKeyFor(group) {
+      return [group.auditado, group.questao, group.coluna_evidencia, group.item_codigo || group.item_texto || "erro", group.evidencia || "sem_evidencia"].join("||");
+    }
+    function slugAuditor(name) { return String(name || "").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "auditor"; }
+    function timestampSlug() {
+      const d = new Date();
+      const p = (n) => String(n).padStart(2, "0");
+      return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`;
+    }
+    function triggerDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click();
+      a.remove(); URL.revokeObjectURL(url);
+    }
+
+    var comparisonStateConfig = {
       conforme: { label: "Conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", color: "#059669" },
       nao_conforme: { label: "Não conforme", cls: "bg-rose-50 text-rose-700 ring-1 ring-rose-200", color: "#e11d48" },
       inconclusivo: { label: "Inconclusivo", cls: "bg-sky-50 text-sky-700 ring-1 ring-sky-200", color: "#0284c7" },
       erro: { label: "Erro", cls: "bg-amber-50 text-amber-800 ring-1 ring-amber-200", color: "#d97706" },
     };
 
-    const comparisonConsensusConfig = {
+    var comparisonConsensusConfig = {
       consenso_conforme: { label: "Consenso conforme", cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", icon: "badge-check" },
       consenso_nao_conforme: { label: "Consenso não conforme", cls: "bg-rose-50 text-rose-700 ring-1 ring-rose-200", icon: "circle-alert" },
       consenso_inconclusivo: { label: "Consenso inconclusivo", cls: "bg-sky-50 text-sky-700 ring-1 ring-sky-200", icon: "help-circle" },
@@ -551,6 +1055,266 @@
     };
 
     const comparisonModelLabel = (row) => [row.provider, row.model].filter(Boolean).join(" / ") || row.source_file || "Modelo não informado";
+
+    // SVG inline para badges repetidos nas linhas virtuais (elimina custo do lucide.createIcons por linha)
+    const svgIcons = {
+      flag: '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+      "badge-check": '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>',
+      "circle-alert": '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+      "help-circle": '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+      "git-compare-arrows": '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 9 3-3 3 3"/><path d="m19 15-3 3-3-3"/><path d="M8 6v12"/><path d="M16 18V6"/><path d="M16 6h-6"/><path d="M8 18h6"/></svg>',
+      "user-round-check": '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 11 2 2 4-4"/></svg>',
+      "triangle-alert": '<svg class="svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    };
+    const iconSvg = (name) => svgIcons[name] || "";
+
+    // =========================================================================
+    // Web Worker via Blob inline: parse/flatten/group off-main-thread
+    // =========================================================================
+    const workerSource = `
+      const norm = (value) => String(value ?? "").toLocaleLowerCase("pt-BR");
+      const asArray = (value) => Array.isArray(value) ? value.filter(Boolean) : value ? [String(value)] : [];
+      const extractQuestao = (value) => String(value || "").match(/q\\d{4}/i)?.[0]?.toLowerCase();
+      const normalState = (value) => ["conforme", "nao_conforme", "inconclusivo", "erro"].includes(value) ? value : "erro";
+      const decodeName = (value) => { try { return decodeURIComponent(String(value || "")); } catch { return String(value || ""); } };
+      const unique = (values) => [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+      const countBy = (items, key) => items.reduce((acc, item) => (acc[item[key]] = (acc[item[key]] || 0) + 1, acc), {});
+      const modelLabel = (row) => [row.provider, row.model].filter(Boolean).join(" / ") || row.source_file || "Modelo não informado";
+
+      function parseJsonl(text, sourceFile = "") {
+        return text.split(/\\r?\\n/).map((line, index) => {
+          if (!line.trim()) return null;
+          try { const r = JSON.parse(line); r.source_file = sourceFile; return r; }
+          catch (error) { return { status: "error", source_file: sourceFile, auditado: "Linha " + (index + 1), error: String(error), result: { conclusoes: [] } }; }
+        }).filter(Boolean);
+      }
+      function rowFromRecord(record, idPart, c) {
+        return {
+          id: \`\${record.source_file || "fonte"}-\${idPart}\`,
+          auditado: record.auditado || "Sem auditado",
+          questao: record.questao || extractQuestao(c.item_codigo) || extractQuestao(record.coluna_evidencia) || "sem_questao",
+          coluna_evidencia: record.coluna_evidencia || "",
+          evidencia: decodeName(record.evidencia || ""),
+          provider: record.provider || "", model: record.model || "", source_file: record.source_file || "",
+          finished_at: record.finished_at || "", prompt_payload: record.prompt_payload || "",
+          estado: normalState(c.estado), item_codigo: c.item_codigo || "", item_texto: c.item_texto || "",
+          afirmacao_auditado: c.afirmacao_auditado || "", justificativa: c.justificativa || "",
+          lacunas: asArray(c.lacunas), arquivos_referenciados: asArray(c.arquivos_referenciados),
+          trechos_ou_elementos: asArray(c.trechos_ou_elementos), paginas_ou_localizacao: asArray(c.paginas_ou_localizacao),
+        };
+      }
+      function flattenRecords(records) {
+        const out = [];
+        records.forEach((record, ri) => {
+          const cs = record?.result?.conclusoes || [];
+          if (record.status === "error" || record.result?.status === "error") {
+            out.push(rowFromRecord(record, ri + "-erro", { estado: "erro", item_codigo: "", item_texto: "Erro no processamento", justificativa: record.error || record.result?.error || "Erro sem mensagem registrada." }));
+          }
+          cs.forEach((c, ci) => out.push(rowFromRecord(record, ri + "-" + ci, c)));
+        });
+        return out;
+      }
+      function buildSearchBlob(g) {
+        return norm([g.auditado, g.questao, g.item_codigo, g.item_texto, g.afirmacao_auditado, g.evidencia,
+          g.models.join(" "),
+          g.evaluations.map(r => [r.justificativa, r.lacunas.join(" "), r.trechos_ou_elementos.join(" ")].join(" ")).join(" ")
+        ].join(" "));
+      }
+      function buildGroups(items) {
+        const map = new Map();
+        items.forEach(row => {
+          const key = [row.auditado, row.questao, row.coluna_evidencia, row.item_codigo || row.item_texto || "erro", row.evidencia || "sem_evidencia"].join("||");
+          if (!map.has(key)) map.set(key, { id: "g-" + map.size, auditado: row.auditado, questao: row.questao, coluna_evidencia: row.coluna_evidencia, item_codigo: row.item_codigo, item_texto: row.item_texto, afirmacao_auditado: row.afirmacao_auditado, evidencia: row.evidencia, evaluations: [] });
+          map.get(key).evaluations.push(row);
+        });
+        return [...map.values()].map(g => {
+          const states = g.evaluations.map(i => i.estado);
+          const substantive = [...new Set(states.filter(s => s !== "erro"))];
+          const errors = states.filter(s => s === "erro").length;
+          const models = unique(g.evaluations.map(modelLabel));
+          const counts = countBy(g.evaluations, "estado");
+          let consensus = "modelo_unico";
+          if (models.length > 1) {
+            if (substantive.length > 1) consensus = "divergente";
+            else if (errors > 0) consensus = "com_erro";
+            else if (substantive[0]) consensus = "consenso_" + substantive[0];
+            else consensus = "com_erro";
+          } else if (errors > 0 && !substantive.length) consensus = "com_erro";
+          return { ...g, models, counts, consensus, errors, achado_entries: [], is_achado: false, searchBlob: buildSearchBlob({ ...g, models }) };
+        }).sort((a, b) => a.auditado.localeCompare(b.auditado, "pt-BR") || a.questao.localeCompare(b.questao, "pt-BR") || a.item_codigo.localeCompare(b.item_codigo, "pt-BR"));
+      }
+      self.onmessage = async (e) => {
+        if (e.data.type !== "load") return;
+        try {
+          const loaded = [];
+          for (const file of e.data.files) loaded.push(parseJsonl(await file.text(), file.name));
+          const records = loaded.flat();
+          const flat = flattenRecords(records);
+          const groups = buildGroups(flat);
+          self.postMessage({ type: "loaded", records, rows: flat, groups });
+        } catch (error) { self.postMessage({ type: "error", error: String(error?.message || error) }); }
+      };
+    `;
+
+    let datasetWorker = null;
+    function getDatasetWorker() {
+      if (datasetWorker) return datasetWorker;
+      if (typeof Worker === "undefined" || typeof URL === "undefined" || typeof Blob === "undefined") return null;
+      try {
+        const blob = new Blob([workerSource], { type: "text/javascript" });
+        datasetWorker = new Worker(URL.createObjectURL(blob));
+        return datasetWorker;
+      } catch (e) {
+        console.warn("Web Worker indisponível, usando fallback síncrono:", e);
+        return null;
+      }
+    }
+
+    function recomputeAchadoEntries() {
+      comparisonGroups.forEach(group => {
+        group.achado_entries = achadoEntriesFor(group);
+        group.is_achado = group.achado_entries.length > 0;
+      });
+    }
+
+    function normalizeAchadoCode(value) {
+      return String(value || "")
+        .trim()
+        .replace(/\s+/g, "")
+        .replace(/\[/g, "[")
+        .replace(/\]/g, "]")
+        .toLowerCase();
+    }
+
+    function baseQuestionCode(value) {
+      return String(value || "").match(/q\d{4}/i)?.[0]?.toLowerCase() || "";
+    }
+
+    function achadoCandidatesForRow(rowOrGroup) {
+      const item = normalizeAchadoCode(rowOrGroup.item_codigo);
+      const questao = baseQuestionCode(rowOrGroup.questao || rowOrGroup.item_codigo || rowOrGroup.coluna_evidencia);
+      return [...new Set([item, questao].filter(Boolean))];
+    }
+
+    function achadoEntriesFor(rowOrGroup) {
+      const seen = new Set();
+      const entries = [];
+      achadoCandidatesForRow(rowOrGroup).forEach(key => {
+        const found = achadoItems.get(key) || [];
+        found.forEach(entry => {
+          const entryKey = `${entry.acao_id}|${entry.item}`;
+          if (!seen.has(entryKey)) {
+            seen.add(entryKey);
+            entries.push(entry);
+          }
+        });
+      });
+      return entries;
+    }
+
+    function isAchadoItem(rowOrGroup) {
+      return achadoEntriesFor(rowOrGroup).length > 0;
+    }
+
+    function addAchadoEntry(item, entry) {
+      const key = normalizeAchadoCode(item);
+      if (!key) return;
+      const list = achadoItems.get(key) || [];
+      list.push(entry);
+      achadoItems.set(key, list);
+    }
+
+    function headerRowIndex(rows, requiredHeaders) {
+      return rows.findIndex(row => requiredHeaders.every(header => row.map(cell => String(cell || "").trim()).includes(header)));
+    }
+
+    function rowsFromSheet(workbook, sheetName) {
+      const sheet = workbook.Sheets[sheetName];
+      return sheet ? XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" }) : [];
+    }
+
+    function parseAchadosWorkbook(workbook) {
+      const procedimentosRows = rowsFromSheet(workbook, "Procedimentos de Auditoria");
+      const procedimentosHeaderIndex = headerRowIndex(procedimentosRows, ["id", "logica_achado", "numero_achado", "nome_achado"]);
+      const avParaAchados = new Map();
+      if (procedimentosHeaderIndex >= 0) {
+        const headers = procedimentosRows[procedimentosHeaderIndex].map(value => String(value || "").trim());
+        const idx = Object.fromEntries(headers.map((header, index) => [header, index]));
+        procedimentosRows.slice(procedimentosHeaderIndex + 1).forEach(row => {
+          const procedimento = String(row[idx.id] || "").trim();
+          const logica = String(row[idx.logica_achado] || "");
+          const numero = String(row[idx.numero_achado] || "").trim();
+          const nome = String(row[idx.nome_achado] || "").trim();
+          [...logica.matchAll(/\bAV\d+\b/g)].forEach(match => {
+            const av = match[0];
+            const list = avParaAchados.get(av) || [];
+            list.push({ procedimento, numero, nome });
+            avParaAchados.set(av, list);
+          });
+        });
+      }
+
+      const acoesRows = rowsFromSheet(workbook, "Ações de Verificação");
+      const acoesHeaderIndex = headerRowIndex(acoesRows, ["id", "informacao_requerida", "descricao_situacao_inconforme"]);
+      achadoItems = new Map();
+      if (acoesHeaderIndex < 0) {
+        throw new Error("Aba 'Ações de Verificação' sem cabeçalho esperado.");
+      }
+      const headers = acoesRows[acoesHeaderIndex].map(value => String(value || "").trim());
+      const idx = Object.fromEntries(headers.map((header, index) => [header, index]));
+      acoesRows.slice(acoesHeaderIndex + 1).forEach(row => {
+        const item = String(row[idx.informacao_requerida] || "").trim();
+        if (!item) return;
+        const acaoId = String(row[idx.id] || "").trim();
+        const situacao = String(row[idx.descricao_situacao_inconforme] || "").trim();
+        const valorInconforme = String(row[idx.situacao_inconforme] || "").trim();
+        const criterio = String(row[idx.criterio] || "").trim();
+        const achados = avParaAchados.get(acaoId) || [];
+        addAchadoEntry(item, {
+          item,
+          acao_id: acaoId,
+          situacao,
+          valor_inconforme: valorInconforme,
+          criterio,
+          achados,
+        });
+      });
+      achadoMapLoaded = true;
+      achadoMapError = "";
+      comparisonGroups = comparisonBuildGroups(rows);
+      recomputeAchadoEntries();
+      lastFilterSignature = "";
+      if (!comparisonFilteredGroups.some(group => group.id === comparisonSelectedId)) comparisonSelectedId = comparisonGroups[0]?.id || null;
+      populateFilters();
+      render();
+    }
+
+    async function loadAchadosMapFromArrayBuffer(buffer) {
+      if (!window.XLSX) throw new Error("Biblioteca XLSX não carregada.");
+      const workbook = XLSX.read(buffer, { type: "array" });
+      parseAchadosWorkbook(workbook);
+    }
+
+    function renderAchadosMapStatus() {
+      const target = $("achadosMapStatus");
+      if (!target) return;
+      if (achadoMapLoaded) {
+        const totalAcoes = [...achadoItems.values()].reduce((sum, list) => sum + list.length, 0);
+        target.innerHTML = `<span class="font-medium text-slate-700">${achadoItems.size}</span> itens mapeados para achados · <span class="font-medium text-slate-700">${totalAcoes}</span> ações de verificação`;
+      } else if (achadoMapError) {
+        target.textContent = `Falha ao carregar o mapa. Use “Carregar mapa”. (${achadoMapError})`;
+      } else {
+        target.textContent = "Clique em “Carregar mapa” para mapear situações encontradas e achados.";
+      }
+    }
+
+    function achadoBadge(entries, compact = false) {
+      if (!entries.length) return "";
+      const title = entries.map(entry => `${entry.acao_id}: ${entry.situacao || entry.item}`).join("\n");
+      return `<span class="badge bg-orange-50 text-orange-800 ring-1 ring-orange-200" title="${escapeHtml(title)}">
+        ${iconSvg("flag")}${compact ? "Achado" : `${entries.length} ação(ões) de achado`}
+      </span>`;
+    }
 
     parseJsonl = function parseJsonl(text, sourceFile = "") {
       return text.split(/\r?\n/).map((line, index) => {
@@ -605,6 +1369,7 @@
         model: record.model || "",
         source_file: record.source_file || "",
         finished_at: record.finished_at || "",
+        prompt_payload: record.prompt_payload || "",
         estado: normalState(conclusao.estado),
         item_codigo: conclusao.item_codigo || "",
         item_texto: conclusao.item_texto || "",
@@ -655,6 +1420,7 @@
       const errors = states.filter(state => state === "erro").length;
       const models = unique(group.evaluations.map(comparisonModelLabel));
       const counts = countBy(group.evaluations, "estado");
+      const achado_entries = achadoEntriesFor(group);
       let consensus = "modelo_unico";
       if (models.length > 1) {
         if (substantive.length > 1) consensus = "divergente";
@@ -664,75 +1430,170 @@
       } else if (errors > 0 && !substantive.length) {
         consensus = "com_erro";
       }
-      return { ...group, models, counts, consensus, errors };
+      const searchBlob = group.searchBlob !== undefined && group.evaluations.length === (group._enrichedEvalCount || 0)
+        ? group.searchBlob
+        : norm([
+            group.auditado, group.questao, group.item_codigo, group.item_texto, group.afirmacao_auditado, group.evidencia,
+            models.join(" "),
+            group.evaluations.map(row => [row.justificativa, row.lacunas.join(" "), row.trechos_ou_elementos.join(" ")].join(" ")).join(" "),
+          ].join(" "));
+      return { ...group, models, counts, consensus, errors, achado_entries, is_achado: achado_entries.length > 0, searchBlob, _enrichedEvalCount: group.evaluations.length };
     }
 
     async function comparisonInitDatasetFromFiles(files) {
       sourceName = files.map(file => file.name).join(" · ");
-      const loaded = await Promise.all(files.map(async file => parseJsonl(await file.text(), file.name)));
-      rawRecords = loaded.flat();
-      rows = flattenRecords(rawRecords);
-      comparisonGroups = comparisonBuildGroups(rows);
+      const worker = getDatasetWorker();
+      let usedWorker = false;
+      if (worker) {
+        try {
+          await new Promise((resolve, reject) => {
+            let settled = false;
+            const timeoutId = window.setTimeout(() => {
+              if (settled) return;
+              settled = true;
+              reject(new Error("Timeout do worker (15s)"));
+            }, 15000);
+            worker.onmessage = (e) => {
+              if (settled) return;
+              if (e.data.type === "loaded") {
+                settled = true;
+                window.clearTimeout(timeoutId);
+                rawRecords = e.data.records;
+                rows = e.data.rows;
+                comparisonGroups = e.data.groups;
+                recomputeAchadoEntries();
+                resolve();
+              } else if (e.data.type === "error") {
+                settled = true;
+                window.clearTimeout(timeoutId);
+                reject(new Error(e.data.error));
+              }
+            };
+            worker.onerror = (e) => {
+              if (settled) return;
+              settled = true;
+              window.clearTimeout(timeoutId);
+              reject(new Error(e.message || "Erro no worker"));
+            };
+            worker.postMessage({ type: "load", files });
+          });
+          usedWorker = true;
+        } catch (error) {
+          console.warn("Worker falhou, caindo no fallback síncrono:", error?.message || error);
+          try { worker.terminate(); } catch {}
+          datasetWorker = null;
+        }
+      }
+      if (!usedWorker) {
+        const loaded = await Promise.all(files.map(async file => parseJsonl(await file.text(), file.name)));
+        rawRecords = loaded.flat();
+        rows = flattenRecords(rawRecords);
+        comparisonGroups = comparisonBuildGroups(rows);
+        recomputeAchadoEntries();
+      }
+      lastFilterSignature = "";
       comparisonSelectedId = comparisonGroups[0]?.id || null;
       populateFilters();
       render();
     }
 
     populateFilters = function populateFilters() {
-      setOptions("auditadoFilter", ["", ...unique(comparisonGroups.map(r => r.auditado))], "Todos");
-      setOptions("questaoFilter", ["", ...unique(comparisonGroups.map(r => r.questao))], "Todas");
-      setOptions("modeloFilter", ["", ...unique(rows.map(comparisonModelLabel))], "Todos");
+      setMultiOptions("auditadoFilter", unique(comparisonGroups.map(r => r.auditado)));
+      setMultiOptions("questaoFilter", unique(comparisonGroups.map(r => r.questao)));
+      setMultiOptions("estadoFilter", ["conforme", "nao_conforme", "inconclusivo", "erro"], comparisonStateConfig);
+      setMultiOptions("modeloFilter", unique(rows.map(comparisonModelLabel)));
+      setMultiOptions(
+        "consensoFilter",
+        ["divergente", "consenso_conforme", "consenso_nao_conforme", "consenso_inconclusivo", "modelo_unico", "com_erro"],
+        comparisonConsensusConfig
+      );
+      setMultiOptions(
+        "revisaoFilter",
+        ["com_parecer", "sem_parecer", "consolidado_conforme", "consolidado_nao_conforme", "consolidado_inconclusivo", "consolidado_divergente"],
+        { com_parecer: { label: "Com parecer (auditor atual)" }, sem_parecer: { label: "Sem parecer (auditor atual)" },
+          consolidado_conforme: { label: "Consolidado: conforme" }, consolidado_nao_conforme: { label: "Consolidado: não conforme" },
+          consolidado_inconclusivo: { label: "Consolidado: inconclusivo" }, consolidado_divergente: { label: "Consolidado: divergência da equipe" } }
+      );
     };
 
     applyFilters = function applyFilters() {
       const search = norm($("searchInput").value);
-      const auditado = $("auditadoFilter").value;
-      const questao = $("questaoFilter").value;
-      const estado = $("estadoFilter").value;
-      const modelo = $("modeloFilter").value;
-      const consenso = $("consensoFilter").value;
-      comparisonFilteredGroups = comparisonGroups.filter(group => {
-        if (auditado && group.auditado !== auditado) return false;
-        if (questao && group.questao !== questao) return false;
-        if (estado && !group.evaluations.some(row => row.estado === estado)) return false;
-        if (modelo && !group.evaluations.some(row => comparisonModelLabel(row) === modelo)) return false;
-        if (consenso && group.consensus !== consenso) return false;
+      const auditados = selectedSet("auditadoFilter");
+      const questoes = selectedSet("questaoFilter");
+      const estados = selectedSet("estadoFilter");
+      const modelos = selectedSet("modeloFilter");
+      const consensos = selectedSet("consensoFilter");
+      const revisoes = selectedSet("revisaoFilter");
+      const onlyAchados = $("achadosOnlyFilter")?.checked;
+      const signature = `${search}|${[...auditados].join(",")}|${[...questoes].join(",")}|${[...estados].join(",")}|${[...modelos].join(",")}|${[...consensos].join(",")}|${[...revisoes].join(",")}|${onlyAchados}|${comparisonGroups.length}`;
+      if (signature === lastFilterSignature) return;
+      lastFilterSignature = signature;
+      const hasRevisaoFilter = revisoes.size > 0 && revisoes.size < 6;
+      comparisonFilteredGroups = comparisonGroups.map(group => {
+        const evaluations = group.evaluations.filter(row => estados.has(row.estado) && modelos.has(comparisonModelLabel(row)));
+        if (!evaluations.length) return null;
+        if (evaluations.length === group.evaluations.length) return group;
+        return comparisonEnrichGroup({ ...group, evaluations });
+      }).filter(Boolean).filter(group => {
+        if (!valueSelected(auditados, group.auditado)) return false;
+        if (!valueSelected(questoes, group.questao)) return false;
+        if (!valueSelected(consensos, group.consensus)) return false;
+        if (onlyAchados && !group.is_achado) return false;
+        if (hasRevisaoFilter) {
+          const gkey = groupKeyFor(group);
+          const reviews = reviewsByGroup.get(gkey) || [];
+          const myReview = reviews.find(r => r.auditor === currentAuditor);
+          const consolidated = consolidatedByGroup.get(gkey);
+          const matches = new Set();
+          if (myReview && myReview.estado_revisao !== "sem_parecer") matches.add("com_parecer");
+          else if (!myReview) matches.add("sem_parecer");
+          if (consolidated) {
+            if (consolidated.estado_final === "conforme") matches.add("consolidado_conforme");
+            else if (consolidated.estado_final === "nao_conforme") matches.add("consolidado_nao_conforme");
+            else if (consolidated.estado_final === "inconclusivo") matches.add("consolidado_inconclusivo");
+            else if (consolidated.estado_final === "divergente_equipe") matches.add("consolidado_divergente");
+          }
+          let ok = false;
+          for (const r of revisoes) { if (matches.has(r)) { ok = true; break; } }
+          if (!ok) return false;
+        }
         if (!search) return true;
-        return norm([
-          group.auditado,
-          group.questao,
-          group.item_codigo,
-          group.item_texto,
-          group.afirmacao_auditado,
-          group.evidencia,
-          group.models.join(" "),
-          group.evaluations.map(row => [row.justificativa, row.lacunas.join(" "), row.trechos_ou_elementos.join(" ")].join(" ")).join(" "),
-        ].join(" ")).includes(search);
+        const blob = group.searchBlob !== undefined
+          ? group.searchBlob
+          : norm([group.auditado, group.questao, group.item_codigo, group.item_texto, group.afirmacao_auditado, group.evidencia, group.models.join(" "), group.evaluations.map(row => [row.justificativa, row.lacunas.join(" "), row.trechos_ou_elementos.join(" ")].join(" ")).join(" ")].join(" "));
+        if (blob.includes(search)) return true;
+        const achadoBlob = norm(group.achado_entries.map(entry => [entry.acao_id, entry.item, entry.situacao, entry.achados.map(a => a.nome).join(" ")].join(" ")).join(" "));
+        return achadoBlob.includes(search);
       });
       if (!comparisonFilteredGroups.some(group => group.id === comparisonSelectedId)) comparisonSelectedId = comparisonFilteredGroups[0]?.id || null;
     };
 
     renderMeta = function renderMeta() {
+      renderAchadosMapStatus();
       if (!sourceName) {
-        $("datasetMeta").textContent = "Carregue um ou mais arquivos analyses.jsonl para iniciar a análise comparativa.";
+        $("datasetMeta").textContent = "Carregue um ou mais arquivos JSONL de análises para iniciar a análise comparativa.";
         return;
       }
       const dates = rows.map(r => r.finished_at).filter(Boolean).sort();
       $("datasetMeta").textContent = `${sourceName} · ${rawRecords.length} registros · ${rows.length} conclusões · ${comparisonGroups.length} grupos · ${dates[0] ? formatDate(dates[0]) : "sem data"}`;
     };
 
-    renderKpis = function renderKpis() {
-      const evals = comparisonFilteredGroups.flatMap(group => group.evaluations);
+    renderKpis = function renderKpis(evals) {
+      evals = evals || comparisonFilteredGroups.flatMap(group => group.evaluations);
       const consensus = countBy(comparisonFilteredGroups, "consensus");
       const distinctModels = unique(evals.map(comparisonModelLabel)).length;
       const nao = evals.filter(row => row.estado === "nao_conforme").length;
+      const achados = comparisonFilteredGroups.filter(group => group.is_achado).length;
+      const myReviews = currentAuditor ? reviewsForAuditor(currentAuditor).length : 0;
+      const consolidatedCount = consolidatedByGroup.size;
+      const divergenteEquipe = [...consolidatedByGroup.values()].filter(c => c.divergente_equipe).length;
       const cards = [
         ["Grupos", comparisonFilteredGroups.length, "itens comparáveis", "rows-3"],
+        ["Itens de achado", achados, achadoMapLoaded ? `${achadoItems.size} itens no mapa` : "mapa não carregado", "flag"],
         ["Divergências", consensus.divergente || 0, "revisão prioritária", "git-compare-arrows"],
         ["Consensos", (consensus.consenso_conforme || 0) + (consensus.consenso_nao_conforme || 0) + (consensus.consenso_inconclusivo || 0), "entre dois ou mais modelos", "badge-check"],
-        ["Modelo único", consensus.modelo_unico || 0, "sem comparação possível", "user-round-check"],
-        ["Não conformes", nao, "conclusões individuais", "circle-alert"],
-        ["Modelos", distinctModels, "fontes de avaliação", "bot"],
+        ["Revisados", myReviews, currentAuditor ? `por ${currentAuditor}` : "digite o nome do auditor", "user-round-check"],
+        ["Consolidados", consolidatedCount, `${divergenteEquipe} com divergência da equipe`, "users"],
       ];
       $("kpiGrid").innerHTML = cards.map(([title, value, hint, icon]) => `
         <div class="card p-4">
@@ -746,14 +1607,15 @@
       `).join("");
     };
 
-    renderCharts = function renderCharts() {
-      const evals = comparisonFilteredGroups.flatMap(group => group.evaluations);
+    renderCharts = function renderCharts(evals) {
+      evals = evals || comparisonFilteredGroups.flatMap(group => group.evaluations);
       const states = countBy(evals, "estado");
+      const chartStates = getSelectedEstados().map(value => ({ value, cfg: comparisonStateConfig[value] })).filter(item => item.cfg);
       drawDoughnut(
         "estadoChart",
-        ["Conforme", "Não conforme", "Inconclusivo", "Erro"],
-        [states.conforme || 0, states.nao_conforme || 0, states.inconclusivo || 0, states.erro || 0],
-        ["#059669", "#e11d48", "#0284c7", "#d97706"]
+        chartStates.map(item => item.cfg.label),
+        chartStates.map(item => states[item.value] || 0),
+        chartStates.map(item => item.cfg.color)
       );
       const issueRows = Object.entries(groupBy(comparisonFilteredGroups, "questao")).map(([questao, items]) => ({
         questao,
@@ -761,9 +1623,11 @@
         total: items.length,
       })).sort((a, b) => b.divergentes - a.divergentes || b.total - a.total).slice(0, 8);
       drawBar("questaoChart", issueRows.map(i => i.questao), issueRows.map(i => i.divergentes), "#7c3aed");
+      drawAuditadoConformidadeChart(evals);
     };
 
-    renderRankings = function renderRankings() {
+    renderRankings = function renderRankings(evals) {
+      evals = evals || comparisonFilteredGroups.flatMap(group => group.evaluations);
       const auditadoRows = Object.entries(groupBy(comparisonFilteredGroups, "auditado")).map(([auditado, items]) => ({
         label: auditado,
         value: items.filter(i => i.consensus === "divergente").length,
@@ -772,7 +1636,7 @@
       $("auditadoRanking").innerHTML = rankingHtml(auditadoRows, "divergências");
 
       const lacunas = new Map();
-      comparisonFilteredGroups.flatMap(group => group.evaluations).forEach(row => row.lacunas.forEach(lacuna => lacunas.set(lacuna, (lacunas.get(lacuna) || 0) + 1)));
+      evals.forEach(row => row.lacunas.forEach(lacuna => lacunas.set(lacuna, (lacunas.get(lacuna) || 0) + 1)));
       const lacunaRows = [...lacunas.entries()].map(([label, total]) => ({ label, value: total, total })).sort((a,b) => b.total - a.total).slice(0, 8);
       $("lacunasRanking").innerHTML = lacunaRows.length ? rankingHtml(lacunaRows, "ocorrências") : `<p class="text-sm text-slate-500">Nenhuma lacuna nos filtros atuais.</p>`;
     };
@@ -793,36 +1657,98 @@
       }).join("");
     };
 
+    const TABLE_ROW_HEIGHT = 92;
+    const TABLE_BUFFER = 8;
+    let lastVisibleStart = -1;
+    let lastVisibleEnd = -1;
+    let lastTotalForPaint = -1;
+
+    function rowHtml(group) {
+      return `<tr class="${group.id === comparisonSelectedId ? "bg-slate-50" : "bg-white"} ${group.is_achado ? "border-l-4 border-orange-400" : ""} cursor-pointer hover:bg-slate-50" data-group-id="${group.id}" style="height:${TABLE_ROW_HEIGHT}px">
+          <td class="px-4 py-2 align-top">${comparisonConsensusBadge(group.consensus)}</td>
+          <td class="px-4 py-2 align-top font-medium">${escapeHtml(group.auditado)}</td>
+          <td class="px-4 py-2 align-top"><span class="font-mono text-xs">${escapeHtml(group.questao)}</span><div class="mt-1 text-xs text-slate-500">${escapeHtml(group.coluna_evidencia)}</div></td>
+          <td class="px-4 py-2 align-top">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="font-medium">${escapeHtml(group.item_codigo || "Sem item")}</div>
+              ${achadoBadge(group.achado_entries, true)}
+            </div>
+            <div class="mt-1 line-clamp-2 text-xs text-slate-500">${escapeHtml(group.item_texto || group.afirmacao_auditado)}</div>
+          </td>
+          <td class="px-4 py-2 align-top">${comparisonModelList(group)}</td>
+          <td class="px-4 py-2 align-top">${comparisonStateMatrix(group)}</td>
+          <td class="px-4 py-2 align-top">${comparisonLacunaSummary(group)}</td>
+          <td class="px-4 py-2 align-top">${reviewBadgeForGroup(group)}</td>
+        </tr>`;
+    }
+
+    function reviewBadgeForGroup(group) {
+      const gkey = groupKeyFor(group);
+      const reviews = reviewsByGroup.get(gkey) || [];
+      const consolidated = consolidatedByGroup.get(gkey);
+      if (consolidated) {
+        const cfg = reviewStateConfig[consolidated.estado_final] || reviewStateConfig.sem_parecer;
+        const votes = Object.values(consolidated.votos).reduce((a, b) => a + b, 0);
+        return `<span class="badge ${cfg.cls}" title="Consolidado: ${Object.entries(consolidado.votos).map(([s,v]) => `${s}:${v}`).join(", ")}">${cfg.label.split(" ")[0]} (${votes})</span>`;
+      }
+      const myReview = reviews.find(r => r.auditor === currentAuditor);
+      if (myReview) {
+        const cfg = reviewStateConfig[myReview.estado_revisao] || reviewStateConfig.sem_parecer;
+        return `<span class="badge ${cfg.cls}">${cfg.label}</span>`;
+      }
+      if (reviews.length) {
+        const cfg = reviewStateConfig[reviews[0].estado_revisao] || reviewStateConfig.sem_parecer;
+        return `<span class="badge bg-slate-100 text-slate-600 ring-1 ring-slate-200" title="${escapeHtml(reviews.map(r => `${r.auditor}: ${r.estado_revisao}`).join("; "))}">${reviews.length} revisão(ões)</span>`;
+      }
+      return `<span class="text-xs text-slate-300">—</span>`;
+    }
+
+    function paintVisibleRows() {
+      const scroll = $("tableScroll");
+      const tbody = $("conclusoesTable");
+      const total = comparisonFilteredGroups.length;
+      if (!total) {
+        if (lastTotalForPaint !== 0) { tbody.innerHTML = ""; lastTotalForPaint = 0; lastVisibleStart = -1; lastVisibleEnd = -1; }
+        return;
+      }
+      const scrollTop = scroll.scrollTop;
+      const viewportHeight = scroll.clientHeight;
+      const start = Math.max(0, Math.floor(scrollTop / TABLE_ROW_HEIGHT) - TABLE_BUFFER);
+      const visibleCount = Math.ceil(viewportHeight / TABLE_ROW_HEIGHT) + 2 * TABLE_BUFFER;
+      const end = Math.min(total, start + visibleCount);
+      if (start === lastVisibleStart && end === lastVisibleEnd && total === lastTotalForPaint) return;
+      lastVisibleStart = start;
+      lastVisibleEnd = end;
+      lastTotalForPaint = total;
+      const visibleGroups = comparisonFilteredGroups.slice(start, end);
+      const topSpacer = start > 0 ? `<tr style="height:${start * TABLE_ROW_HEIGHT}px" aria-hidden="true"><td colspan="8"></td></tr>` : "";
+      const bottomSpacer = end < total ? `<tr style="height:${(total - end) * TABLE_ROW_HEIGHT}px" aria-hidden="true"><td colspan="8"></td></tr>` : "";
+      tbody.innerHTML = topSpacer + visibleGroups.map(rowHtml).join("") + bottomSpacer;
+    }
+
     renderTable = function renderTable() {
       $("tableCount").textContent = `${comparisonFilteredGroups.length} de ${comparisonGroups.length} grupos · ${comparisonFilteredGroups.flatMap(group => group.evaluations).length} conclusões`;
       if (!comparisonGroups.length) {
+        lastTotalForPaint = -1;
         $("conclusoesTable").innerHTML = `
           <tr>
-            <td colspan="7" class="px-4 py-12 text-center">
+            <td colspan="8" class="px-4 py-12 text-center">
               <div class="mx-auto max-w-md rounded-md border border-dashed border-slate-300 bg-slate-50 p-6">
                 <div class="flex justify-center"><i data-lucide="file-up" class="h-8 w-8 text-slate-400"></i></div>
                 <p class="mt-3 text-sm font-medium text-slate-700">Nenhum processamento carregado</p>
-                <p class="mt-1 text-xs text-slate-500">Use o botão “Carregar JSONL(s)” para selecionar um ou mais arquivos analyses.jsonl gerados por modelos diferentes.</p>
+                <p class="mt-1 text-xs text-slate-500">Use o botão “Carregar JSONL(s)” para selecionar um ou mais arquivos de análises gerados por modelos diferentes.</p>
               </div>
             </td>
           </tr>
         `;
+        if (window.lucide) lucide.createIcons({ root: $("conclusoesTable") });
         return;
       }
-      $("conclusoesTable").innerHTML = comparisonFilteredGroups.map(group => `
-        <tr class="${group.id === comparisonSelectedId ? "bg-slate-50" : "bg-white"} cursor-pointer hover:bg-slate-50" data-group-id="${group.id}">
-          <td class="px-4 py-3 align-top">${comparisonConsensusBadge(group.consensus)}</td>
-          <td class="px-4 py-3 align-top font-medium">${escapeHtml(group.auditado)}</td>
-          <td class="px-4 py-3 align-top"><span class="font-mono text-xs">${escapeHtml(group.questao)}</span><div class="mt-1 text-xs text-slate-500">${escapeHtml(group.coluna_evidencia)}</div></td>
-          <td class="px-4 py-3 align-top">
-            <div class="font-medium">${escapeHtml(group.item_codigo || "Sem item")}</div>
-            <div class="mt-1 line-clamp-2 text-xs text-slate-500">${escapeHtml(group.item_texto || group.afirmacao_auditado)}</div>
-          </td>
-          <td class="px-4 py-3 align-top">${comparisonModelList(group)}</td>
-          <td class="px-4 py-3 align-top">${comparisonStateMatrix(group)}</td>
-          <td class="px-4 py-3 align-top">${comparisonLacunaSummary(group)}</td>
-        </tr>
-      `).join("");
+      lastVisibleStart = -1;
+      lastVisibleEnd = -1;
+      lastTotalForPaint = -1;
+      $("tableScroll").scrollTop = 0;
+      paintVisibleRows();
     };
 
     renderDetail = function renderDetail() {
@@ -836,6 +1762,7 @@
       $("detailPanel").innerHTML = `
         ${section("Afirmação avaliada", `<div class="rounded-md bg-slate-50 p-3"><div class="text-xs font-medium text-slate-500">Resposta</div><div class="mt-1 font-medium">${escapeHtml(group.afirmacao_auditado || "Não registrada")}</div><div class="mt-2 text-xs text-slate-600">${escapeHtml(group.item_texto)}</div></div>`)}
         ${section("Síntese do consenso", comparisonSummaryHtml(group))}
+        ${group.is_achado ? section("Situações encontradas e achados relacionados", achadoDetailsHtml(group)) : ""}
         ${section("Avaliações por modelo", comparisonModelDetails(group))}
         ${section("Rastreabilidade comum", `
           <dl class="grid grid-cols-1 gap-2 text-xs">
@@ -844,7 +1771,325 @@
             ${detailRow("Modelos", group.models.join(" · ") || "Não informado")}
           </dl>
         `)}
+        ${renderReviewSection(group)}
       `;
+    };
+
+    function renderReviewSection(group) {
+      const gkey = groupKeyFor(group);
+      const reviews = reviewsByGroup.get(gkey) || [];
+      const myReview = reviews.find(r => r.auditor === currentAuditor);
+      const consolidated = consolidatedByGroup.get(gkey);
+
+      const radios = REVIEW_STATES.map(state => {
+        const cfg = reviewStateConfig[state];
+        const checked = (myReview?.estado_revisao || "sem_parecer") === state ? "checked" : "";
+        return `<label class="flex cursor-pointer items-center gap-2 rounded-md border border-slate-200 px-2.5 py-1.5 text-sm hover:bg-slate-50 ${checked ? "bg-slate-50" : ""}">
+          <input type="radio" name="reviewEstado" value="${state}" ${checked} class="h-4 w-4 border-slate-300 text-slate-900" />
+          <span class="badge ${cfg.cls}">${cfg.label}</span>
+        </label>`;
+      }).join("");
+
+      const modelChecks = group.models.map(model => {
+        const checked = myReview?.concorda_modelos?.includes(model) ? "checked" : "";
+        return `<label class="flex cursor-pointer items-center gap-1.5 rounded px-2 py-1 text-xs hover:bg-slate-50">
+          <input type="checkbox" name="reviewConcorda" value="${escapeHtml(model)}" ${checked} class="h-3.5 w-3.5 rounded border-slate-300" />
+          <span class="truncate">${escapeHtml(model)}</span>
+        </label>`;
+      }).join("");
+
+      const reviewsListHtml = reviews.length ? `
+        <div class="mt-3 rounded-md border border-slate-200">
+          <div class="border-b border-slate-100 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">Revisões registradas (${reviews.length})</div>
+          <div class="divide-y divide-slate-100">
+            ${reviews.map(r => {
+              const cfg = reviewStateConfig[r.estado_revisao] || reviewStateConfig.sem_parecer;
+              const isMe = r.auditor === currentAuditor;
+              return `<div class="px-3 py-2 text-xs">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-medium ${isMe ? "text-slate-900" : "text-slate-600"}">${escapeHtml(r.auditor)}${isMe ? " (você)" : ""}</span>
+                  <span class="badge ${cfg.cls}">${cfg.label}</span>
+                </div>
+                ${r.justificativa_revisao ? `<p class="mt-1 text-slate-600">${escapeHtml(r.justificativa_revisao)}</p>` : ""}
+                ${r.concorda_modelos?.length ? `<div class="mt-1 text-slate-400">Concorda com: ${escapeHtml(r.concorda_modelos.join(", "))}</div>` : ""}
+              </div>`;
+            }).join("")}
+          </div>
+        </div>` : `<p class="text-xs text-slate-400">Nenhuma revisão registrada ainda.</p>`;
+
+      const consolidatedHtml = consolidated ? `
+        <div class="mt-3 rounded-md border border-violet-200 bg-violet-50/50 p-3">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Consolidado da equipe</span>
+            <span class="badge ${reviewStateConfig[consolidated.estado_final]?.cls || ""}">${reviewStateConfig[consolidado.estado_final]?.label || consolidated.estado_final}</span>
+          </div>
+          <div class="mt-1 text-xs text-slate-600">
+            ${Object.entries(consolidado.votos).map(([s, v]) => `${reviewStateConfig[s]?.label || s}: ${v}`).join(" · ")} (${consolidado.total_revisores} revisor(es))
+          </div>
+          ${consolidado.justificativa_final ? `<p class="mt-2 text-xs text-slate-600 whitespace-pre-line">${escapeHtml(consolidado.justificativa_final)}</p>` : ""}
+        </div>` : "";
+
+      return `<section id="reviewSection">
+        <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Parecer da revisão</h3>
+        <div class="space-y-3 rounded-md border border-slate-200 p-3">
+          ${!currentAuditor ? `<p class="text-xs text-amber-700">Digite o nome do auditor no cabeçalho para registrar pareceres.</p>` : `
+            <div>
+              <div class="mb-1 text-xs font-medium text-slate-500">Estado final do item</div>
+              <div class="flex flex-wrap gap-1.5">${radios}</div>
+            </div>
+            <div>
+              <div class="mb-1 text-xs font-medium text-slate-500">Justificativa da revisão</div>
+              <textarea id="reviewJustificativa" class="w-full rounded-md border border-slate-200 p-2 text-sm outline-none focus:ring-2 focus:ring-slate-300" rows="3" placeholder="Justifique o parecer...">${escapeHtml(myReview?.justificativa_revisao || "")}</textarea>
+            </div>
+            ${group.models.length > 1 ? `<div>
+              <div class="mb-1 text-xs font-medium text-slate-500">Concorda com quais modelos?</div>
+              <div class="flex flex-wrap gap-1">${modelChecks}</div>
+            </div>` : ""}
+            <div class="flex gap-2">
+              <button id="saveReviewBtn" class="btn !h-8 text-xs" type="button"><i data-lucide="save" class="h-3.5 w-3.5"></i>Salvar parecer</button>
+              <button id="clearReviewBtn" class="btn !h-8 text-xs" type="button"><i data-lucide="eraser" class="h-3.5 w-3.5"></i>Limpar</button>
+            </div>
+          `}
+          ${reviewsListHtml}
+          ${consolidatedHtml}
+        </div>
+      </section>`;
+    }
+
+    function saveCurrentReview(group) {
+      if (!currentAuditor) { alert("Digite o nome do auditor no cabeçalho primeiro."); return; }
+      const gkey = groupKeyFor(group);
+      const estadoEl = $("detailPanel").querySelector('input[name="reviewEstado"]:checked');
+      const justEl = $("reviewJustificativa");
+      const concordaEls = [...($("detailPanel").querySelectorAll('input[name="reviewConcorda"]:checked') || [])];
+      const estado_revisao = estadoEl?.value || "sem_parecer";
+      const justificativa_revisao = justEl?.value?.trim() || "";
+      const concorda_modelos = concordaEls.map(e => e.value);
+      const review = {
+        auditor: currentAuditor,
+        revisao_em: new Date().toISOString(),
+        estado_revisao,
+        justificativa_revisao,
+        concorda_modelos,
+        group_key: gkey,
+        auditado: group.auditado,
+        questao: group.questao,
+        item_codigo: group.item_codigo,
+        coluna_evidencia: group.coluna_evidencia,
+        evidencia: group.evidencia,
+        // Compatibilidade com consolidacao.py --auditor-opinions:
+        opiniao_auditoria: justificativa_revisao,
+        parecer: estado_revisao,
+      };
+      const list = reviewsByGroup.get(gkey) || [];
+      const idx = list.findIndex(r => r.auditor === currentAuditor);
+      if (idx >= 0) list[idx] = review; else list.push(review);
+      reviewsByGroup.set(gkey, list);
+      persistReviews();
+      lastFilterSignature = "";
+      render();
+    }
+
+    function clearCurrentReview(group) {
+      const gkey = groupKeyFor(group);
+      const list = reviewsByGroup.get(gkey) || [];
+      const idx = list.findIndex(r => r.auditor === currentAuditor);
+      if (idx >= 0) { list.splice(idx, 1); if (!list.length) reviewsByGroup.delete(gkey); else reviewsByGroup.set(gkey, list); }
+      persistReviews();
+      lastFilterSignature = "";
+      render();
+    }
+
+    // =========================================================================
+    // Export: JSONL + XLSX (auditor atual + consolidado equipe)
+    // =========================================================================
+    function reviewsForAuditor(auditor) {
+      return [...reviewsByGroup.values()].flat().filter(r => r.auditor === auditor);
+    }
+    function exportReviewsJSONL(auditor) {
+      const reviews = reviewsForAuditor(auditor);
+      if (!reviews.length) { alert(`Nenhuma revisão registrada para "${auditor}".`); return; }
+      const text = reviews.map(r => JSON.stringify(r)).join("\n");
+      triggerDownload(new Blob([text], { type: "application/jsonl" }), `revisao_${slugAuditor(auditor)}_${timestampSlug()}.jsonl`);
+    }
+    function exportReviewsXLSX(auditor) {
+      const reviews = reviewsForAuditor(auditor);
+      if (!reviews.length) { alert(`Nenhuma revisão registrada para "${auditor}".`); return; }
+      if (!window.XLSX) { alert("Biblioteca XLSX não carregada."); return; }
+      const rows = reviews.map(r => ({
+        auditor: r.auditor, revisao_em: r.revisao_em, estado_revisao: r.estado_revisao,
+        justificativa_revisao: r.justificativa_revisao, concorda_modelos: (r.concorda_modelos || []).join("; "),
+        auditado: r.auditado, questao: r.questao, item_codigo: r.item_codigo, coluna_evidencia: r.coluna_evidencia,
+        evidencia: r.evidencia, group_key: r.group_key, parecer: r.parecer, opiniao_auditoria: r.opiniao_auditoria,
+      }));
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Revisões");
+      const buf = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      triggerDownload(new Blob([buf], { type: "application/octet-stream" }), `revisao_${slugAuditor(auditor)}_${timestampSlug()}.xlsx`);
+    }
+    function exportConsolidatedJSONL() {
+      if (!consolidatedByGroup.size) { alert("Nenhum consolidado calculado. Clique em \"Consolidar\" primeiro."); return; }
+      const records = [...consolidatedByGroup.entries()].map(([gkey, c]) => {
+        const reviews = reviewsByGroup.get(gkey) || [];
+        const [auditado, questao, coluna_evidencia, item, evidencia] = gkey.split("||");
+        return {
+          group_key: gkey, auditado, questao, coluna_evidencia, item_codigo: item, evidencia,
+          estado_final: c.estado_final, justificativa_final: c.justificativa_final,
+          divergente_equipe: c.divergente_equipe, votos: c.votos, total_revisores: c.total_revisores,
+          revisoes: reviews,
+        };
+      });
+      const text = records.map(r => JSON.stringify(r)).join("\n");
+      triggerDownload(new Blob([text], { type: "application/jsonl" }), `consolidado_equipe_${timestampSlug()}.jsonl`);
+    }
+    function exportConsolidatedXLSX() {
+      if (!consolidatedByGroup.size) { alert("Nenhum consolidado calculado."); return; }
+      if (!window.XLSX) { alert("Biblioteca XLSX não carregada."); return; }
+      const consRows = [...consolidatedByGroup.entries()].map(([gkey, c]) => {
+        const [auditado, questao, coluna_evidencia, item, evidencia] = gkey.split("||");
+        return {
+          auditado, questao, coluna_evidencia, item_codigo: item, evidencia,
+          estado_final: c.estado_final, divergente_equipe: c.divergente_equipe,
+          votos_conforme: c.votos.conforme || 0, votos_nao_conforme: c.votos.nao_conforme || 0,
+          votos_inconclusivo: c.votos.inconclusivo || 0, total_revisores: c.total_revisores,
+          justificativa_final: c.justificativa_final,
+        };
+      });
+      const allReviews = [...reviewsByGroup.entries()].flatMap(([gkey, reviews]) => reviews.map(r => ({ ...r, group_key: gkey })));
+      const revRows = allReviews.map(r => ({
+        auditor: r.auditor, revisao_em: r.revisao_em, estado_revisao: r.estado_revisao,
+        justificativa_revisao: r.justificativa_revisao, concorda_modelos: (r.concorda_modelos || []).join("; "),
+        auditado: r.auditado, questao: r.questao, item_codigo: r.item_codigo, evidencia: r.evidencia,
+      }));
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(consRows), "Consolidado");
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(revRows), "Revisões");
+      const buf = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      triggerDownload(new Blob([buf], { type: "application/octet-stream" }), `consolidado_equipe_${timestampSlug()}.xlsx`);
+    }
+
+    // =========================================================================
+    // Import: JSONL + XLSX (merge por group_key + auditor)
+    // =========================================================================
+    function mergeReview(review) {
+      if (!review || !review.auditor) return;
+      const gkey = review.group_key || [review.auditado, review.questao, review.coluna_evidencia, review.item_codigo, review.evidencia].join("||");
+      if (!gkey || gkey === "||||") return;
+      const list = reviewsByGroup.get(gkey) || [];
+      const idx = list.findIndex(r => r.auditor === review.auditor);
+      const normalized = {
+        auditor: String(review.auditor),
+        revisao_em: review.revisao_em || new Date().toISOString(),
+        estado_revisao: review.estado_revisao || review.parecer || "sem_parecer",
+        justificativa_revisao: review.justificativa_revisao || review.opiniao_auditoria || "",
+        concorda_modelos: review.concorda_modelos || [],
+        group_key: gkey,
+        auditado: review.auditado || gkey.split("||")[0],
+        questao: review.questao || gkey.split("||")[1],
+        item_codigo: review.item_codigo || gkey.split("||")[3],
+        coluna_evidencia: review.coluna_evidencia || gkey.split("||")[2],
+        evidencia: review.evidencia || gkey.split("||")[4],
+        opiniao_auditoria: review.justificativa_revisao || review.opiniao_auditoria || "",
+        parecer: review.estado_revisao || review.parecer || "sem_parecer",
+      };
+      if (idx >= 0) list[idx] = normalized; else list.push(normalized);
+      reviewsByGroup.set(gkey, list);
+    }
+    async function importReviewsFiles(files) {
+      let imported = 0;
+      for (const file of files) {
+        try {
+          if (file.name.endsWith(".jsonl") || file.name.endsWith(".txt") || file.name.endsWith(".json")) {
+            const text = await file.text();
+            text.split(/\r?\n/).filter(Boolean).forEach(line => {
+              try { const r = JSON.parse(line); mergeReview(r); imported++; } catch {}
+            });
+          } else if (file.name.endsWith(".xlsx") || file.name.endsWith(".xls")) {
+            if (!window.XLSX) continue;
+            const wb = XLSX.read(await file.arrayBuffer(), { type: "array" });
+            const sheet = wb.Sheets["Revisões"] || wb.Sheets[wb.SheetNames[0]];
+            if (!sheet) continue;
+            XLSX.utils.sheet_to_json(sheet).forEach(r => { mergeReview(r); imported++; });
+          }
+        } catch (e) { console.warn(`Erro ao importar ${file.name}:`, e); }
+      }
+      consolidatedByGroup = new Map();
+      const btn = $("exportConsolidatedBtn");
+      if (btn) { btn.disabled = true; btn.style.opacity = ".5"; }
+      lastFilterSignature = "";
+      alert(`${imported} revisão(ões) importada(s) de ${files.length} arquivo(s).`);
+      render();
+    }
+
+    // =========================================================================
+    // Consolidação por maioria simples
+    // =========================================================================
+    function consolidateReviews() {
+      consolidatedByGroup = new Map();
+      for (const [gkey, reviews] of reviewsByGroup) {
+        const validReviews = reviews.filter(r => r.estado_revisao && r.estado_revisao !== "sem_parecer");
+        if (!validReviews.length) continue;
+        const votes = countBy(validReviews, "estado_revisao");
+        const maxVotes = Math.max(...Object.values(votes));
+        const winners = Object.entries(votes).filter(([_, v]) => v === maxVotes).map(([k]) => k);
+        const estado_final = winners.length === 1 ? winners[0] : "divergente_equipe";
+        const winnerReviews = winners.length === 1 ? validReviews.filter(r => r.estado_revisao === winners[0]) : validReviews;
+        consolidatedByGroup.set(gkey, {
+          estado_final,
+          justificativa_final: winnerReviews.map(r => `${r.auditor}: ${r.justificativa_revisao || "(sem justificativa)"}`).join("\n\n"),
+          divergente_equipe: winners.length > 1,
+          votos: votes,
+          total_revisores: validReviews.length,
+        });
+      }
+      const btn = $("exportConsolidatedBtn");
+      if (btn) { btn.disabled = false; btn.style.opacity = "1"; }
+      lastFilterSignature = "";
+      alert(`Consolidação concluída: ${consolidatedByGroup.size} grupo(s) consolidado(s) a partir de ${[...reviewsByGroup.values()].flat().length} revisão(ões).`);
+      render();
+    }
+
+    // =========================================================================
+    // Persistência localStorage (só revisões do auditor atual)
+    // =========================================================================
+    const REVIEWS_STORAGE_KEY = "igovti_reviews_v1";
+    function persistReviews() {
+      try {
+        const myReviews = currentAuditor ? reviewsForAuditor(currentAuditor) : [];
+        localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify({ auditor: currentAuditor, reviews: myReviews }));
+      } catch (e) { console.warn("Não foi possível salvar revisões em localStorage:", e); }
+    }
+    function loadPersistedReviews() {
+      try {
+        const data = JSON.parse(localStorage.getItem(REVIEWS_STORAGE_KEY) || "null");
+        if (data && data.auditor) {
+          currentAuditor = data.auditor;
+          const input = $("auditorNameInput");
+          if (input) input.value = currentAuditor;
+          (data.reviews || []).forEach(r => mergeReview(r));
+        }
+      } catch (e) { console.warn("Não foi possível carregar revisões do localStorage:", e); }
+    }
+
+    function refreshIconsGlobal() {
+      if (!window.lucide) return;
+      lucide.createIcons({ root: $("kpiGrid") });
+      lucide.createIcons({ root: $("auditadoRanking") });
+      lucide.createIcons({ root: $("lacunasRanking") });
+      lucide.createIcons({ root: $("detailPanel") });
+    }
+
+    render = function render() {
+      applyFilters();
+      const evals = comparisonFilteredGroups.flatMap(group => group.evaluations);
+      renderMeta();
+      renderKpis(evals);
+      renderCharts(evals);
+      renderRankings(evals);
+      renderTable();
+      renderDetail();
+      refreshIconsGlobal();
     };
 
     function comparisonModelDetails(group) {
@@ -861,8 +2106,39 @@
             ${detailRow("Páginas ou localização", row.paginas_ou_localizacao.join(" · ") || "Não informado")}
             ${detailRow("Arquivo JSONL", row.source_file || "Não informado")}
           </div>
+          <div class="mt-3">
+            <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Prompt de análise enviado ao modelo</div>
+            ${promptAnalysisHtml(row.prompt_payload)}
+          </div>
+          <div class="mt-3">
+            <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Payload enviado ao modelo</div>
+            ${payloadHtml(row.prompt_payload)}
+          </div>
         </article>
       `).join("")}</div>`;
+    }
+
+    function achadoDetailsHtml(group) {
+      const entries = group.achado_entries || [];
+      if (!entries.length) {
+        return `<div class="rounded-md border border-dashed border-slate-300 bg-slate-50 p-3 text-sm text-slate-500">Este item não consta no mapa como situação encontrada ou achado.</div>`;
+      }
+      return `<div class="space-y-2">${entries.map(entry => {
+        const achados = entry.achados?.length
+          ? entry.achados.map(achado => `Achado ${achado.numero || ""}: ${achado.nome || achado.procedimento || "Sem nome"}`).join(" · ")
+          : "Sem achado vinculado no procedimento";
+        return `<article class="rounded-md border border-orange-200 bg-orange-50/70 p-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="badge bg-white text-orange-800 ring-1 ring-orange-200">${escapeHtml(entry.acao_id || "AV")}</span>
+            <span class="font-mono text-xs font-semibold text-orange-900">${escapeHtml(entry.item || group.item_codigo || "")}</span>
+          </div>
+          <p class="mt-2 text-sm leading-6 text-orange-950">${escapeHtml(entry.situacao || "Situação inconforme não descrita.")}</p>
+          <dl class="mt-2 grid gap-2 text-xs">
+            ${detailRow("Valor inconforme no mapa", entry.valor_inconforme || "Não informado")}
+            ${detailRow("Achado relacionado", achados)}
+          </dl>
+        </article>`;
+      }).join("")}</div>`;
     }
 
     function comparisonSummaryHtml(group) {
@@ -871,7 +2147,7 @@
         .map(state => `${comparisonStateConfig[state].label}: ${group.counts[state]}`)
         .join(" · ");
       return `<div class="rounded-md border border-slate-200 p-3">
-        <div class="flex flex-wrap items-center gap-2">${comparisonConsensusBadge(group.consensus)}<span class="text-xs text-slate-500">${escapeHtml(parts || "Sem conclusões")}</span></div>
+        <div class="flex flex-wrap items-center gap-2">${comparisonConsensusBadge(group.consensus)}${achadoBadge(group.achado_entries)}<span class="text-xs text-slate-500">${escapeHtml(parts || "Sem conclusões")}</span></div>
         <p class="mt-2 text-sm text-slate-600">${comparisonConsensusText(group)}</p>
       </div>`;
     }
@@ -910,7 +2186,7 @@
 
     function comparisonConsensusBadge(consensus) {
       const cfg = comparisonConsensusConfig[consensus] || comparisonConsensusConfig.modelo_unico;
-      return `<span class="badge ${cfg.cls}"><i data-lucide="${cfg.icon}" class="h-3 w-3"></i>${cfg.label}</span>`;
+      return `<span class="badge ${cfg.cls}">${iconSvg(cfg.icon)}${cfg.label}</span>`;
     }
 
     const originalFileInput = $("fileInput");
@@ -923,20 +2199,109 @@
       event.target.value = "";
     });
 
-    ["modeloFilter", "consensoFilter"].forEach(id => $(id).addEventListener("input", render));
     $("clearFiltersBtn").addEventListener("click", () => {
-      $("modeloFilter").value = "";
-      $("consensoFilter").value = "";
+      ["auditadoFilter", "questaoFilter", "estadoFilter", "modeloFilter", "consensoFilter", "revisaoFilter"].forEach(resetMultiFilter);
+      $("achadosOnlyFilter").checked = false;
       render();
     });
-    $("onlyDivergentBtn").addEventListener("click", () => { $("consensoFilter").value = "divergente"; render(); });
+    $("onlyDivergentBtn").addEventListener("click", () => { setSelectedValues("consensoFilter", ["divergente"]); render(); });
+    $("auditadoOrderBtn").addEventListener("click", () => {
+      auditadoConformidadeOrder = auditadoConformidadeOrder === "piores" ? "melhores" : "piores";
+      const label = $("auditadoOrderLabel");
+      const icon = $("auditadoOrderBtn").querySelector("[data-lucide], svg");
+      if (auditadoConformidadeOrder === "melhores") {
+        label.textContent = "Melhores primeiro";
+        if (icon) { icon.setAttribute("data-lucide", "arrow-up-wide-short"); icon.outerHTML = '<i data-lucide="arrow-up-wide-short" class="h-3.5 w-3.5"></i>'; }
+      } else {
+        label.textContent = "Piores primeiro";
+        if (icon) { icon.setAttribute("data-lucide", "arrow-down-wide-short"); icon.outerHTML = '<i data-lucide="arrow-down-wide-short" class="h-3.5 w-3.5"></i>'; }
+      }
+      if (window.lucide) lucide.createIcons({ root: $("auditadoOrderBtn") });
+      const evals = comparisonFilteredGroups.flatMap(group => group.evaluations);
+      drawAuditadoConformidadeChart(evals);
+    });
+    $("achadosOnlyFilter").addEventListener("change", render);
+    $("auditorNameInput").addEventListener("input", debounce((e) => {
+      currentAuditor = e.target.value.trim();
+      paintVisibleRows();
+      renderDetail();
+    }, 200));
+    $("exportReviewBtn").addEventListener("click", () => {
+      if (!currentAuditor) { alert("Digite o nome do auditor no cabeçalho primeiro."); return; }
+      exportReviewsJSONL(currentAuditor);
+      exportReviewsXLSX(currentAuditor);
+    });
+    $("reviewFileInput").addEventListener("change", async (event) => {
+      const files = [...(event.target.files || [])];
+      if (files.length) await importReviewsFiles(files);
+      event.target.value = "";
+    });
+    $("consolidateBtn").addEventListener("click", () => {
+      if (!reviewsByGroup.size) { alert("Nenhuma revisão para consolidar. Importe revisões ou registre pareceres primeiro."); return; }
+      consolidateReviews();
+    });
+    $("exportConsolidatedBtn").addEventListener("click", () => {
+      exportConsolidatedJSONL();
+      exportConsolidatedXLSX();
+    });
+    $("mapFileInput").addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        await loadAchadosMapFromArrayBuffer(await file.arrayBuffer());
+      } catch (error) {
+        achadoMapLoaded = false;
+        achadoMapError = String(error?.message || error);
+        render();
+      }
+      event.target.value = "";
+    });
     document.addEventListener("click", (event) => {
+      const saveBtn = event.target.closest("#saveReviewBtn");
+      if (saveBtn) {
+        const group = comparisonFilteredGroups.find(g => g.id === comparisonSelectedId);
+        if (group) saveCurrentReview(group);
+        return;
+      }
+      const clearBtn = event.target.closest("#clearReviewBtn");
+      if (clearBtn) {
+        const group = comparisonFilteredGroups.find(g => g.id === comparisonSelectedId);
+        if (group) clearCurrentReview(group);
+        return;
+      }
       const row = event.target.closest("[data-group-id]");
-      if (row) { comparisonSelectedId = row.dataset.groupId; renderTable(); renderDetail(); if (window.lucide) lucide.createIcons(); }
+      if (row) {
+        comparisonSelectedId = row.dataset.groupId;
+        // Render incremental: só repinta a janela visível (para destacar a linha) + detail
+        const prevStart = lastVisibleStart;
+        const prevEnd = lastVisibleEnd;
+        lastVisibleStart = -1; lastVisibleEnd = -1; lastTotalForPaint = -1;
+        paintVisibleRows();
+        renderDetail();
+        if (window.lucide) lucide.createIcons({ root: $("detailPanel") });
+      }
     });
 
+    // Scroll listener com requestAnimationFrame para virtualização fluida
+    let scrollRafId = 0;
+    $("tableScroll").addEventListener("scroll", () => {
+      if (scrollRafId) return;
+      scrollRafId = requestAnimationFrame(() => {
+        scrollRafId = 0;
+        paintVisibleRows();
+      });
+    }, { passive: true });
+
+    // Repinta ao redimensionar a janela (viewport da tabela muda)
+    window.addEventListener("resize", debounce(() => {
+      lastVisibleStart = -1; lastVisibleEnd = -1; lastTotalForPaint = -1;
+      paintVisibleRows();
+    }, 150));
+
     populateFilters();
+    loadPersistedReviews();
     render();
+    if (window.lucide) lucide.createIcons();
   </script>
 </body>
 </html>

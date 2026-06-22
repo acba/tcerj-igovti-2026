@@ -28,7 +28,7 @@ OUTPUT_DIR = Path(tempfile.gettempdir()) / "tcerj-igovti-2026/relatorio-consolid
 FILES = {
     "setic_2023": DATA_DIR / "iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx",
     "municipios_2023": DATA_DIR / "iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx",
-    "igovti_2026": ROOT / "02-Execucao/01-Questionario/20260611-iGovTI-2026-Ajustado-Comparavel.xlsx",
+    "igovti_2026": ROOT / "02-Execucao/01-Questionario/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
 }
 
 ALIASES = {

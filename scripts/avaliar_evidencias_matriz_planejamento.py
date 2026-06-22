@@ -1472,7 +1472,11 @@ def build_record(
     evidencias: list[str] | None = None,
     prompt_payload: str | None = None,
     raw_response_excerpt: str = "",
+    started_at: dt.datetime | None = None,
+    reasoning_effort: str = "",
 ) -> dict[str, Any]:
+    finished_at = dt.datetime.now(dt.timezone.utc)
+    started = started_at or finished_at
     record = {
         "identity": identity,
         "status": status,
@@ -1487,12 +1491,15 @@ def build_record(
         "referenciada_na_matriz": avaliacao.referenciada_na_matriz,
         "provider": provider,
         "model": model,
+        "reasoning_effort": reasoning_effort,
         "result": result,
         "error": error,
         "evidencias": evidencias or [],
         "prompt_hash": avaliacao.prompt_hash,
         "raw_response_excerpt": raw_response_excerpt,
-        "finished_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "started_at": started.isoformat(),
+        "finished_at": finished_at.isoformat(),
+        "duration_seconds": round((finished_at - started).total_seconds(), 3),
     }
     if prompt_payload is not None:
         record["prompt_payload"] = prompt_payload
@@ -1567,6 +1574,7 @@ def processar(
                 skipped += 1
                 continue
 
+            evaluation_started_at = dt.datetime.now(dt.timezone.utc)
             log_event(
                 "avaliacao_started",
                 "Iniciando avaliacao de evidencia.",
@@ -1592,6 +1600,8 @@ def processar(
                     status="completed",
                     result=result,
                     evidencias=[],
+                    started_at=evaluation_started_at,
+                    reasoning_effort=args.reasoning_effort,
                 )
             elif not uploads:
                 result = resultado_nao_conforme(
@@ -1608,6 +1618,8 @@ def processar(
                     status="completed",
                     result=result,
                     evidencias=[],
+                    started_at=evaluation_started_at,
+                    reasoning_effort=args.reasoning_effort,
                 )
             elif any(resolved.erro for resolved in resolvidas):
                 missing = [resolved.erro for resolved in resolvidas if resolved.erro]
@@ -1622,6 +1634,8 @@ def processar(
                     status="completed",
                     result=result,
                     evidencias=[str(resolved.caminho) for resolved in resolvidas if resolved.caminho],
+                    started_at=evaluation_started_at,
+                    reasoning_effort=args.reasoning_effort,
                 )
             elif pacote.erros:
                 record = build_record(
@@ -1635,6 +1649,8 @@ def processar(
                     result=None,
                     error=f"erro tecnico ao processar evidencia: {'; '.join(pacote.erros)}",
                     evidencias=[str(resolved.caminho) for resolved in resolvidas if resolved.caminho],
+                    started_at=evaluation_started_at,
+                    reasoning_effort=args.reasoning_effort,
                 )
             else:
                 prompt_payload = montar_payload_prompt(avaliacao, row, auditado, pacote)
@@ -1678,6 +1694,8 @@ def processar(
                     evidencias=[str(path) for path in evidence_paths],
                     prompt_payload=prompt_payload if args.store_prompts or args.provider == "dry-run" else None,
                     raw_response_excerpt=provider_result.get("raw_response_excerpt", ""),
+                    started_at=evaluation_started_at,
+                    reasoning_effort=args.reasoning_effort,
                 )
 
             append_jsonl(jsonl_path, record)
