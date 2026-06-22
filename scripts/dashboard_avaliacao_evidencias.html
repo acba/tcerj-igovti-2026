@@ -72,6 +72,10 @@
       </div>
       <div class="flex flex-wrap items-center gap-2">
         <div class="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 py-1">
+          <i data-lucide="folder-open" class="h-4 w-4 text-slate-400"></i>
+          <input id="evidenceBasePath" class="w-56 text-sm outline-none placeholder:text-slate-400" placeholder="Caminho das evidências (ex: /home/usuario/.../evidencias_extraidas)" title="Caminho base das evidências para abrir arquivos. Ex: /home/usuario/workspace/fiscalizacoes/tcerj-igovti-2026/02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas" />
+        </div>
+        <div class="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2 py-1">
           <i data-lucide="user-round" class="h-4 w-4 text-slate-400"></i>
           <input id="auditorNameInput" class="w-36 text-sm outline-none placeholder:text-slate-400" placeholder="Nome do auditor" />
         </div>
@@ -761,8 +765,8 @@
         ${section("Lacunas apontadas", chips(row.lacunas, "rose"))}
         ${section("Rastreabilidade", `
           <dl class="grid grid-cols-1 gap-2 text-xs">
-            ${detailRow("Evidência enviada", row.evidencia || "Sem arquivo")}
-            ${detailRow("Arquivos referenciados", row.arquivos_referenciados.join(" · ") || "Não informado")}
+            ${detailRowWithLink("Evidência enviada", row.evidencia || "Sem arquivo", evidenceFileUrl(row.auditado, row.evidencia), "abrir")}
+            ${detailRow("Arquivos referenciados", evidenceFileListHtml(row.auditado, row.arquivos_referenciados))}
             ${detailRow("Trechos ou elementos", row.trechos_ou_elementos.join(" · ") || "Não informado")}
             ${detailRow("Páginas ou localização", row.paginas_ou_localizacao.join(" · ") || "Não informado")}
             ${detailRow("Modelo", `${row.provider} / ${row.model}`)}
@@ -776,6 +780,26 @@
 
     function section(title, body) { return `<section><h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">${title}</h3>${body}</section>`; }
     function detailRow(label, value) { return `<div class="rounded-md border border-slate-200 p-2"><dt class="text-slate-500">${label}</dt><dd class="mt-1 break-words font-medium text-slate-800">${escapeHtml(value)}</dd></div>`; }
+    function detailRowWithLink(label, value, fileUrl, linkText) {
+      if (!fileUrl) return detailRow(label, value);
+      return `<div class="rounded-md border border-slate-200 p-2"><dt class="text-slate-500">${label}</dt><dd class="mt-1 break-words font-medium text-slate-800">${escapeHtml(value)} <a href="${escapeHtml(fileUrl)}" target="_blank" class="ml-1 inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 hover:underline"><i data-lucide="external-link" class="h-3 w-3"></i>${escapeHtml(linkText)}</a></dd></div>`;
+    }
+    function evidenceFileUrl(auditado, fileName) {
+      const basePath = $("evidenceBasePath")?.value?.trim();
+      if (!basePath || !auditado || !fileName) return "";
+      const cleanBase = basePath.replace(/\/+$/, "");
+      const cleanName = fileName.replace(/^\/+/, "");
+      return `file://${cleanBase}/${encodeURIComponent(auditado)}/${encodeURIComponent(cleanName)}`;
+    }
+    function evidenceFileListHtml(auditado, files) {
+      if (!files || !files.length) return "Não informado";
+      const basePath = $("evidenceBasePath")?.value?.trim();
+      if (!basePath) return files.map(f => escapeHtml(f)).join(" · ");
+      return files.map(f => {
+        const url = evidenceFileUrl(auditado, f);
+        return `${escapeHtml(f)} <a href="${escapeHtml(url)}" target="_blank" class="ml-1 inline-flex items-center gap-0.5 text-xs font-medium text-blue-600 hover:text-blue-800 hover:underline"><i data-lucide="external-link" class="h-3 w-3"></i>abrir</a>`;
+      }).join("<br>");
+    }
     function payloadHtml(payload) {
       const text = formatPayload(payload);
       if (!text) {
@@ -998,6 +1022,18 @@
 
     populateFilters();
     render();
+    (function() {
+      const basePathInput = $("evidenceBasePath");
+      if (basePathInput) {
+        const saved = localStorage.getItem("evidenceBasePath");
+        if (saved) basePathInput.value = saved;
+        basePathInput.addEventListener("input", debounce(() => {
+          localStorage.setItem("evidenceBasePath", basePathInput.value.trim());
+          renderDetail();
+          if (window.lucide) lucide.createIcons();
+        }, 300));
+      }
+    })();
   </script>
   <script>
     var comparisonGroups = [];
@@ -1766,7 +1802,7 @@
         ${section("Avaliações por modelo", comparisonModelDetails(group))}
         ${section("Rastreabilidade comum", `
           <dl class="grid grid-cols-1 gap-2 text-xs">
-            ${detailRow("Evidência enviada", group.evidencia || "Sem arquivo")}
+            ${detailRowWithLink("Evidência enviada", group.evidencia || "Sem arquivo", evidenceFileUrl(group.auditado, group.evidencia), "abrir")}
             ${detailRow("Coluna de evidência", group.coluna_evidencia || "Não informada")}
             ${detailRow("Modelos", group.models.join(" · ") || "Não informado")}
           </dl>
@@ -2102,6 +2138,7 @@
           <p class="mt-3 leading-6 text-slate-700">${escapeHtml(row.justificativa || "Sem justificativa.")}</p>
           <div class="mt-3 grid gap-2 text-xs">
             ${detailRow("Lacunas", row.lacunas.join(" · ") || "Nenhuma lacuna registrada")}
+            ${detailRow("Arquivos referenciados", evidenceFileListHtml(group.auditado, row.arquivos_referenciados))}
             ${detailRow("Trechos ou elementos", row.trechos_ou_elementos.join(" · ") || "Não informado")}
             ${detailRow("Páginas ou localização", row.paginas_ou_localizacao.join(" · ") || "Não informado")}
             ${detailRow("Arquivo JSONL", row.source_file || "Não informado")}
