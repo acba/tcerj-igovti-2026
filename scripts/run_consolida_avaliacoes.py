@@ -8,6 +8,7 @@ progresso empilhadas no terminal com rich.Progress.
 
 from __future__ import annotations
 
+import argparse
 import glob
 import json
 import os
@@ -34,15 +35,18 @@ from rich.table import Table
 # ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
 
 REPO = Path(__file__).resolve().parent.parent
-VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
+if sys.platform == "win32":
+    VENV_PYTHON = str(REPO / "scripts" / ".venv" / "Scripts" / "python.exe")
+else:
+    VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
 
 BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
-EVIDENCIAS_ROOT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
+EVIDENCIAS_ROOT_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
 PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
 
 # Padrão glob para encontrar os arquivos analyses*.jsonl de entrada.
-ANALYSES_GLOB = f"{BASE_OUT}/analyses*.jsonl"
+ANALYSES_GLOB = f"{BASE_OUT}/analyses_clean*.jsonl"
 
 # Lista de juízes para executar em paralelo.
 # Cada juiz consolida todos os analyses*.jsonl em pareceres.
@@ -55,6 +59,8 @@ JUDGES: list[dict] = [
         "judge_model": "gemini-3.1-flash-lite",
         "rpm": 0,
         "reasoning": "high",
+        "pdf2md": False,
+        "docx2html": True,
         "store_prompts": False,
         "enabled": True,
     },
@@ -144,7 +150,7 @@ def resolve_analyses_files() -> list[str]:
     return [str(Path(f).relative_to(REPO)) if Path(f).is_absolute() else f for f in files]
 
 
-def build_command(cfg: dict, analyses_files: list[str]) -> list[str]:
+def build_command(cfg: dict, analyses_files: list[str], evidencias_root: str = EVIDENCIAS_ROOT_DEFAULT, only_achados: bool = True) -> list[str]:
     out_dir = f"{BASE_OUT}/consolidado"
     cmd = [
         VENV_PYTHON,
@@ -152,8 +158,7 @@ def build_command(cfg: dict, analyses_files: list[str]) -> list[str]:
         "scripts.avaliacao_evidencias.consolidacao",
         *analyses_files,
         "--evidencias-root",
-        EVIDENCIAS_ROOT,
-        "--only-achados",
+        evidencias_root,
         "--catalog",
         CATALOG,
         "--judge-provider",
@@ -163,6 +168,8 @@ def build_command(cfg: dict, analyses_files: list[str]) -> list[str]:
         "--out-dir",
         out_dir,
     ]
+    if only_achados or cfg.get("only_achados"):
+        cmd.append("--only-achados")
     rpm = cfg.get("rpm", 0)
     if rpm:
         cmd += ["--rpm", str(rpm)]
@@ -171,6 +178,10 @@ def build_command(cfg: dict, analyses_files: list[str]) -> list[str]:
         cmd += ["--reasoning", reasoning]
     if cfg.get("store_prompts"):
         cmd.append("--store-prompts")
+    if cfg.get("pdf2md"):
+        cmd.append("--pdf2md")
+    if cfg.get("docx2html"):
+        cmd.append("--docx2html")
     return cmd
 
 
@@ -255,6 +266,21 @@ console = Console()
 
 
 def run() -> int:
+    parser = argparse.ArgumentParser(
+        description="Orquestra a consolidação de avaliações de evidências por juiz IA."
+    )
+    parser.add_argument(
+        "--evidencias",
+        default=EVIDENCIAS_ROOT_DEFAULT,
+        help=f"Diretório raiz das evidências extraídas (default: {EVIDENCIAS_ROOT_DEFAULT})",
+    )
+    parser.add_argument(
+        "--only-achados",
+        action="store_true",
+        help="Consolida apenas os itens que geram achados (default: todos os itens).",
+    )
+    args = parser.parse_args()
+
     analyses_files = resolve_analyses_files()
     if not analyses_files:
         console.print(f"[red]Nenhum arquivo encontrado em {ANALYSES_GLOB}.[/red]")
@@ -266,7 +292,10 @@ def run() -> int:
         console.print("[red]Nenhum juiz ativado. Edite a lista JUDGES no script.[/red]")
         return 1
 
+    only_achados = args.only_achados
     console.print(f"[bold green]Iniciando consolidação com {len(active)} juiz(es)...[/bold green]")
+    console.print(f"[dim]Evidências: {args.evidencias}[/dim]")
+    console.print(f"[dim]Escopo: {'apenas itens que geram achados' if only_achados else 'todos os itens'}[/dim]")
     console.print(f"[dim]Arquivos de entrada ({len(analyses_files)}):[/dim]")
     for f in analyses_files:
         console.print(f"[dim]  • {f}[/dim]")
@@ -284,7 +313,7 @@ def run() -> int:
         )
         jp.status = "running"
         jp.started_at = time.monotonic()
-        cmd = build_command(cfg, analyses_files)
+        cmd = build_command(cfg, analyses_files, args.evidencias, only_achados)
         env = env_for_judge(cfg)
         try:
             proc = subprocess.Popen(

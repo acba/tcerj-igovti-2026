@@ -300,22 +300,32 @@ def estimar_tokens_payload(
     Para PDFs:
     - Gemini: usa File API (upload separado), tokens estimados por conteudo
       (~1 token por 3.5 chars do texto extraido, sem overhead de base64)
-    - OpenRouter/OpenAI/OpencodeGo: PDF enviado como base64 inline no payload
+    - OpenRouter/OpenAI: PDF enviado como base64 inline no payload
       (~1 token por 3.5 chars do base64, que e ~1.33x o tamanho do PDF)
+    - OpencodeGo: PDFs NAO sao enviados (so texto e imagens); estimativa
+      de PDFs e zero para esse provider.
     """
+    arquivos_upload = pacote.get("arquivos_upload", []) if isinstance(pacote, dict) else []
+    # Espelhar o runtime: quando ha arquivos para upload, o Gemini suprime
+    # os documentos de texto do prompt (o modelo processa os arquivos
+    # diretamente via File API). Para outros providers, o texto e mantido.
+    pacote_estimado = {k: v for k, v in pacote.items() if k != "arquivos_upload"}
+    has_pdfs = any(Path(str(a)).suffix.lower() == ".pdf" for a in arquivos_upload)
+    if has_pdfs and provider.lower() == "gemini":
+        pacote_estimado = dict(pacote_estimado)
+        pacote_estimado["documentos"] = []
     texto = _conteudo_provider_textual(
         prompt=prompt,
         auditado=auditado,
         questao_base=questao_base,
         coluna_evidencia=coluna_evidencia,
         itens_afirmados=itens_afirmados,
-        pacote={k: v for k, v in pacote.items() if k != "arquivos_upload"},
+        pacote=pacote_estimado,
     )
     chars_texto = len(texto)
     tokens_texto = int(chars_texto / 3.5)
 
     # Contar imagens nos arquivos_upload
-    arquivos_upload = pacote.get("arquivos_upload", []) if isinstance(pacote, dict) else []
     n_imagens = sum(
         1
         for a in arquivos_upload
@@ -330,7 +340,9 @@ def estimar_tokens_payload(
         if Path(str(a)).suffix.lower() == ".pdf"
     )
     tokens_pdfs = 0
-    is_gemini = provider.lower() == "gemini"
+    provider_lower = provider.lower()
+    is_gemini = provider_lower == "gemini"
+    is_opencodego = provider_lower == "opencodego"
     for a in arquivos_upload:
         if Path(str(a)).suffix.lower() == ".pdf":
             try:
@@ -342,8 +354,13 @@ def estimar_tokens_payload(
                     size = Path(str(a)).stat().st_size
                     chars_estimados = size // 1024 * 1500
                     tokens_pdfs += int(chars_estimados / 3.5)
+                elif is_opencodego:
+                    # OpencodeGo nao envia PDFs como base64 (so texto e imagens).
+                    # PDFs em arquivos_upload sao ignorados no runtime, entao nao
+                    # contribuem para o total de tokens.
+                    pass
                 else:
-                    # OpenRouter/OpenAI/OpencodeGo: PDF como base64 inline
+                    # OpenRouter/OpenAI: PDF como base64 inline
                     size = Path(str(a)).stat().st_size
                     tokens_pdfs += int((size * 1.33) / 3.5)
             except OSError:

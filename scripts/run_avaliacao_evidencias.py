@@ -8,6 +8,7 @@ no terminal, mostrando concluídas, erros, puladas, % e ETA.
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import signal
@@ -33,15 +34,19 @@ from rich.table import Table
 # ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
 
 REPO = Path(__file__).resolve().parent.parent
-VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
+if sys.platform == "win32":
+    VENV_PYTHON = str(REPO / "scripts" / ".venv" / "Scripts" / "python.exe")
+else:
+    VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
 
 BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
+AUDITADOS = "RIO DAS OSTRAS"  # Deixe vazio "" para processar todos os auditados
 QUESTIONARIO = "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 PROMPT_VERSION = "igovti_2026_achados_binario_v1"
 CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
 RESPOSTAS = "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"
-EVIDENCIAS = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
+EVIDENCIAS_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
 
 # Lista de modelos para executar em paralelo.
 # Para desativar um modelo, mudar "enabled" para False.
@@ -198,13 +203,13 @@ class ModelProgress:
 # ─── CONSTRUÇÃO DE COMANDO ──────────────────────────────────────────────────
 
 
-def build_command(cfg: dict) -> list[str]:
+def build_command(cfg: dict, evidencias: str = EVIDENCIAS_DEFAULT) -> list[str]:
     cmd = [
         VENV_PYTHON,
         "-m",
         "scripts.avaliacao_evidencias",
         RESPOSTAS,
-        EVIDENCIAS,
+        evidencias,
         "--questionario",
         QUESTIONARIO,
         "--prompts-dir",
@@ -222,6 +227,8 @@ def build_command(cfg: dict) -> list[str]:
         "--out-dir",
         BASE_OUT,
     ]
+    if AUDITADOS:
+        cmd += ["--auditados", AUDITADOS]
     reasoning = cfg.get("reasoning", "")
     if reasoning:
         cmd += ["--reasoning", reasoning]
@@ -268,7 +275,7 @@ def reader_thread(proc: subprocess.Popen, mp: ModelProgress) -> None:
                     mp.errors += 1
                 else:
                     mp.completed += 1
-            elif evt == "analysis_skipped":
+            elif evt.startswith("analysis_skipped"):
                 mp.skipped += 1
             elif evt == "all_keys_exhausted":
                 mp.status = "paused"
@@ -307,7 +314,10 @@ def fallback_count_thread(mp: ModelProgress, cfg: dict) -> None:
             if ckpt.is_file():
                 count = sum(1 for _ in ckpt.open(encoding="utf-8"))
                 with mp.lock:
-                    if count > mp.processed:
+                    # Só atualiza se o total já for conhecido e o count não
+                    # exceder o total desta execução (evita reaproveitar
+                    # checkpoints de execuções anteriores).
+                    if mp.total > 0 and count > mp.processed and count <= mp.total:
                         mp.completed = count
         except OSError:
             pass
@@ -319,12 +329,23 @@ console = Console()
 
 
 def run() -> int:
+    parser = argparse.ArgumentParser(
+        description="Orquestra pipelines de avaliação de evidências em paralelo."
+    )
+    parser.add_argument(
+        "--evidencias",
+        default=EVIDENCIAS_DEFAULT,
+        help=f"Diretório raiz das evidências extraídas (default: {EVIDENCIAS_DEFAULT})",
+    )
+    args = parser.parse_args()
+
     active = [m for m in MODELS if m.get("enabled")]
     if not active:
         console.print("[red]Nenhum modelo ativado. Edite a lista MODELS no script.[/red]")
         return 1
 
     console.print(f"[bold green]Iniciando {len(active)} pipeline(s) de avaliação de evidências...[/bold green]")
+    console.print(f"[dim]Evidências: {args.evidencias}[/dim]")
     console.print()
 
     progress_list: list[ModelProgress] = []
@@ -335,7 +356,7 @@ def run() -> int:
         mp = ModelProgress(name=cfg["name"], provider=cfg["provider"], model=cfg["model"])
         mp.status = "running"
         mp.started_at = time.monotonic()
-        cmd = build_command(cfg)
+        cmd = build_command(cfg, args.evidencias)
         env = env_for_model(cfg)
         try:
             proc = subprocess.Popen(
@@ -422,7 +443,7 @@ def run() -> int:
                     progress.update(
                         task_ids[i],
                         total=total,
-                        completed=mp.completed,
+                        completed=min(mp.completed, total),
                         name=mp.display_name,
                         errors=mp.errors,
                         skipped=mp.skipped,
@@ -510,7 +531,7 @@ def run() -> int:
         table.add_row(
             mp.display_name,
             str(mp.total),
-            str(mp.completed),
+            str(min(mp.completed, mp.total or mp.completed)),
             str(mp.errors),
             str(mp.skipped),
             elapsed_str,

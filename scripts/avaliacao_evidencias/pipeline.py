@@ -1132,7 +1132,7 @@ def _tentar_extrair_markdown_pdf(
         import pymupdf4llm
     except ModuleNotFoundError:
         return "", "pymupdf4llm nao instalado no ambiente virtual"
-    # Limitar a MAX_PAGINAS_PDF primeiras paginas
+    # Limitar a MAX_PAGINAS_PDF primeiras paginas (0-indexed para pymupdf4llm)
     try:
         import fitz
 
@@ -1141,14 +1141,19 @@ def _tentar_extrair_markdown_pdf(
         doc.close()
     except Exception:
         total_paginas = 0
-    pages = list(range(1, min(total_paginas, MAX_PAGINAS_PDF) + 1)) if total_paginas > 0 else None
+    # pymupdf4llm usa paginas 0-indexed; None significa "todas as paginas".
+    # Nunca passar lista vazia (o pymupdf4llm rejeita com erro de validacao).
+    if total_paginas > 0:
+        pages = list(range(0, min(total_paginas, MAX_PAGINAS_PDF)))
+    else:
+        pages = None
     caminho_absoluto = caminho.resolve()
     cwd = Path.cwd()
     try:
         os.chdir(raiz)
         kwargs: dict[str, Any] = {
             "write_images": True,
-            "image_path": "images",
+            "image_path": "img",
             "image_format": "png",
             "dpi": dpi,
         }
@@ -1440,9 +1445,9 @@ def _extrair_pdf_markdown_imagens(
     destino.mkdir(parents=True, exist_ok=True)
     nome_base = nome_original or caminho.name
     slug = _slug_ascii(Path(nome_base).stem, fallback="pdf")
-    raiz = _caminho_unico(destino, f"{slug}-pymupdf4llm")
+    raiz = _caminho_unico(destino, f"{slug}-md")
     raiz.mkdir(parents=True, exist_ok=True)
-    imagens_dir = raiz / "images"
+    imagens_dir = raiz / "img"
     imagens_dir.mkdir(parents=True, exist_ok=True)
     markdown_nome = f"{slug}.md"
     markdown_path = raiz / markdown_nome
@@ -1530,9 +1535,9 @@ def _extrair_docx_html_imagens(
     destino.mkdir(parents=True, exist_ok=True)
     nome_base = nome_original or caminho.name
     slug = _slug_ascii(Path(nome_base).stem, fallback="docx")
-    raiz = _caminho_unico(destino, f"{slug}-mammoth")
+    raiz = _caminho_unico(destino, f"{slug}-html")
     raiz.mkdir(parents=True, exist_ok=True)
-    imagens_dir = raiz / "images"
+    imagens_dir = raiz / "img"
     imagens_dir.mkdir(parents=True, exist_ok=True)
     html_nome = f"{slug}.html"
     html_path = raiz / html_nome
@@ -1543,11 +1548,11 @@ def _extrair_docx_html_imagens(
         nonlocal contador
         contador += 1
         suffix = _extensao_imagem_mammoth(str(getattr(image, "content_type", "")))
-        image_path = imagens_dir / f"image_{contador:03d}{suffix}"
+        image_path = imagens_dir / f"img_{contador:03d}{suffix}"
         with image.open() as image_bytes:
             image_path.write_bytes(image_bytes.read())
         imagens.append(image_path)
-        return {"src": f"images/{image_path.name}"}
+        return {"src": f"img/{image_path.name}"}
 
     try:
         with caminho.open("rb") as handle:
@@ -1585,7 +1590,7 @@ def _extrair_docx_html_imagens(
     return pacote, arquivos_upload, ""
 
 
-def _slug_ascii(valor: str, *, fallback: str = "evidencia", max_len: int = 80) -> str:
+def _slug_ascii(valor: str, *, fallback: str = "evidencia", max_len: int = 30) -> str:
     normalizado = unicodedata.normalize("NFKD", valor)
     ascii_text = normalizado.encode("ascii", "ignore").decode("ascii")
     slug = re.sub(r"[^A-Za-z0-9._-]+", "-", ascii_text).strip("._-").lower()
@@ -1638,6 +1643,113 @@ def _preparar_documento_para_upload(caminho: Path, destino: Path, nome_original:
     if erro:
         return None
     return _gravar_upload_texto(destino, nome_original or caminho.name, texto)
+
+
+def _processar_zip_com_preprocessamento(
+    caminho_zip: Path,
+    destino: Path,
+    *,
+    pdf2md: bool = False,
+    docx2html: bool = False,
+    dpi: int = 150,
+) -> tuple[PacoteEvidencia | None, list[str], str]:
+    """Extrai PDFs/DOCXs de um ZIP aplicando pdf2md/docx2html a cada um.
+
+    Retorna um PacoteEvidencia consolidado com os documentos extraídos e a
+    lista de arquivos para upload (markdown/html + imagens). Arquivos não
+    processáveis (txt, md, csv, xlsx, etc.) são preservados como upload
+    direto quando compatíveis.
+    """
+    destino.mkdir(parents=True, exist_ok=True)
+    documentos: list[dict[str, Any]] = []
+    inventario: list[str] = []
+    arquivos_upload: list[str] = []
+    hashes_vistos: set[str] = set()
+    names: list[str] = []
+
+    try:
+        with zipfile.ZipFile(caminho_zip) as archive:
+            names = archive.namelist()
+            for name in names:
+                if name.endswith("/") or not _zip_member_safe(name):
+                    continue
+                member = Path(name)
+                suffix = member.suffix.lower()
+                data = archive.read(name)
+                hash_conteudo = hashlib.sha256(data).hexdigest()
+                if hash_conteudo in hashes_vistos:
+                    continue
+                hashes_vistos.add(hash_conteudo)
+
+                # Estagiar o arquivo em disco para processamento
+                staging = destino / _nome_upload_seguro(name, suffix)
+                staging.parent.mkdir(parents=True, exist_ok=True)
+                staging.write_bytes(data)
+
+                if pdf2md and suffix == ".pdf":
+                    pacote_pdf, upload_pdf, erro_pdf = _extrair_pdf_markdown_imagens(
+                        staging, destino / f"{_slug_ascii(member.stem)}-pdf",
+                        member.name, dpi=dpi,
+                    )
+                    if erro_pdf:
+                        documentos.append({"nome": name, "erro": erro_pdf})
+                    elif pacote_pdf is not None:
+                        documentos.extend(pacote_pdf.documentos)
+                        arquivos_upload.extend(upload_pdf)
+                    continue
+
+                if docx2html and suffix in EXTENSOES_WORD_PARA_PDF:
+                    pacote_docx, upload_docx, erro_docx = _extrair_docx_html_imagens(
+                        staging, destino / f"{_slug_ascii(member.stem)}-docx",
+                        member.name,
+                    )
+                    if erro_docx:
+                        documentos.append({"nome": name, "erro": erro_docx})
+                    elif pacote_docx is not None:
+                        documentos.extend(pacote_docx.documentos)
+                        arquivos_upload.extend(upload_docx)
+                    continue
+
+                # Arquivos textuais: incluir conteúdo no pacote
+                if suffix in {".txt", ".md", ".csv"}:
+                    try:
+                        texto = data.decode("utf-8")
+                    except UnicodeDecodeError:
+                        texto = data.decode("latin-1")
+                    documentos.append({"nome": name, "texto": texto})
+                    inventario.append(name)
+                    continue
+
+                # Outros arquivos preparáveis: converter/enviar como upload
+                if suffix in EXTENSOES_UPLOAD_PREPARAVEIS:
+                    if suffix in EXTENSOES_WORD_PARA_PDF:
+                        preparado, erro_conv = _converter_word_para_pdf(staging, destino, name)
+                        if erro_conv:
+                            documentos.append({"nome": name, "erro": erro_conv})
+                        elif preparado:
+                            arquivos_upload.append(str(preparado))
+                    elif suffix == ".xlsx":
+                        preparado = _preparar_documento_para_upload(staging, destino, name)
+                        if preparado:
+                            arquivos_upload.append(str(preparado))
+                    elif suffix in EXTENSOES_UPLOAD_DIRETO:
+                        arquivos_upload.append(str(staging))
+                    inventario.append(name)
+                    continue
+
+                # Não suportado
+                documentos.append({"nome": name, "nao_suportado": True})
+                inventario.append(name)
+    except zipfile.BadZipFile as exc:
+        return None, [], f"zip invalido: {exc}"
+
+    pacote = PacoteEvidencia(
+        caminho=caminho_zip,
+        tipo="zip_preprocessado",
+        documentos=documentos,
+        inventario=names,
+    )
+    return pacote, arquivos_upload, ""
 
 
 def arquivos_compativeis_upload(caminho: str | Path, destino_zip: str | Path | None = None) -> list[str]:
@@ -2470,6 +2582,18 @@ def main(argv: list[str] | None = None) -> int:
                         resolucao.caminho,
                         Path(upload_tmp),
                         resolucao.nome_decodificado or resolucao.caminho.name,
+                    )
+                    if erro_extracao:
+                        raise RuntimeError(erro_extracao)
+                    if pacote_extraido is not None:
+                        pacote = pacote_extraido
+                elif suffix_evidencia == ".zip" and (args.pdf2md or args.docx2html):
+                    pacote_extraido, arquivos_upload, erro_extracao = _processar_zip_com_preprocessamento(
+                        resolucao.caminho,
+                        Path(upload_tmp),
+                        pdf2md=args.pdf2md,
+                        docx2html=args.docx2html,
+                        dpi=args.pdf2md_dpi,
                     )
                     if erro_extracao:
                         raise RuntimeError(erro_extracao)

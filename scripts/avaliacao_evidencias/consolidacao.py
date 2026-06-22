@@ -31,6 +31,9 @@ from .pipeline import (
     log_event,
     normalizar_evidencia,
     validar_rpm,
+    _extrair_pdf_markdown_imagens,
+    _extrair_docx_html_imagens,
+    _processar_zip_com_preprocessamento,
 )
 from .providers_ai_service import executar_provider, estimar_tokens_payload
 
@@ -513,6 +516,22 @@ def main(argv: list[str] | None = None) -> int:
         help="Caminho do catalogo YAML de prompts. Fonte primaria do conjunto de questoes-achado "
         "quando --only-achados esta ativo (le o atributo gera_achado do YAML).",
     )
+    parser.add_argument(
+        "--pdf2md",
+        action="store_true",
+        help="Converte PDFs para markdown+imagens com pymupdf4llm antes de enviar ao juiz.",
+    )
+    parser.add_argument(
+        "--docx2html",
+        action="store_true",
+        help="Converte DOCX para HTML+imagens com mammoth antes de enviar ao juiz.",
+    )
+    parser.add_argument(
+        "--pdf2md-dpi",
+        type=int,
+        default=150,
+        help="DPI para extracao de imagens no pdf2md (default: 150).",
+    )
     args = parser.parse_args(argv)
 
     log_event(
@@ -670,7 +689,71 @@ def main(argv: list[str] | None = None) -> int:
         with tempfile.TemporaryDirectory() as upload_tmp:
             if caminho_evidencia:
                 pacote = normalizar_evidencia(caminho_evidencia)
-                arquivos_upload = arquivos_compativeis_upload(caminho_evidencia, upload_tmp)
+                log_event(
+                    "evidence_normalized",
+                    "Evidencia normalizada para envio ao juiz.",
+                    quiet=args.quiet,
+                    level="warning" if pacote.erro else "info",
+                    tipo=pacote.tipo,
+                    documentos=len(pacote.documentos),
+                    inventario=len(pacote.inventario),
+                    error=pacote.erro,
+                    **base_log,
+                )
+                try:
+                    suffix_evidencia = caminho_evidencia.suffix.lower()
+                    if args.pdf2md and suffix_evidencia == ".pdf":
+                        pacote_extraido, arquivos_upload, erro_extracao = _extrair_pdf_markdown_imagens(
+                            caminho_evidencia,
+                            Path(upload_tmp),
+                            caminho_evidencia.name,
+                            dpi=args.pdf2md_dpi,
+                        )
+                        if erro_extracao:
+                            raise RuntimeError(erro_extracao)
+                        if pacote_extraido is not None:
+                            pacote = pacote_extraido
+                    elif args.docx2html and suffix_evidencia == ".docx":
+                        pacote_extraido, arquivos_upload, erro_extracao = _extrair_docx_html_imagens(
+                            caminho_evidencia,
+                            Path(upload_tmp),
+                            caminho_evidencia.name,
+                        )
+                        if erro_extracao:
+                            raise RuntimeError(erro_extracao)
+                        if pacote_extraido is not None:
+                            pacote = pacote_extraido
+                    elif suffix_evidencia == ".zip" and (args.pdf2md or args.docx2html):
+                        pacote_extraido, arquivos_upload, erro_extracao = _processar_zip_com_preprocessamento(
+                            caminho_evidencia,
+                            Path(upload_tmp),
+                            pdf2md=args.pdf2md,
+                            docx2html=args.docx2html,
+                            dpi=args.pdf2md_dpi,
+                        )
+                        if erro_extracao:
+                            raise RuntimeError(erro_extracao)
+                        if pacote_extraido is not None:
+                            pacote = pacote_extraido
+                    else:
+                        arquivos_upload = arquivos_compativeis_upload(caminho_evidencia, upload_tmp)
+                except RuntimeError as exc:
+                    pacote = PacoteEvidencia(
+                        caminho=caminho_evidencia,
+                        tipo=suffix_evidencia.lstrip("."),
+                        documentos=[],
+                        inventario=[],
+                        erro=f"erro ao preparar evidencia para o juiz: {exc}",
+                    )
+                    arquivos_upload = []
+                    log_event(
+                        "upload_prepare_error",
+                        "Erro ao preparar evidencia para upload ao juiz.",
+                        quiet=args.quiet,
+                        level="error",
+                        error=str(exc),
+                        **base_log,
+                    )
                 pacote_evidencia = {
                     "documentos": pacote.documentos,
                     "inventario": pacote.inventario,
@@ -761,7 +844,9 @@ def main(argv: list[str] | None = None) -> int:
                     provider=args.judge_provider,
                 )
                 limite_tokens = _limite_tokens_provider(args.judge_provider, args.judge_model)
-                if limite_tokens and tokens_info["tokens_total"] > limite_tokens:
+                # Gemini: pular bloqueio da estimativa — a contagem exata e feita
+                # via client.models.count_tokens dentro do executar_julgamento_gemini_genai
+                if limite_tokens and args.judge_provider != "gemini" and tokens_info["tokens_total"] > limite_tokens:
                     result = {
                         "status": "error",
                         "error": (
