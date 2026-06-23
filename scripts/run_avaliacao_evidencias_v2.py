@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Orquestra pipelines de avaliação de evidências em paralelo com barras de progresso.
 
-Substitui scripts/run_avaliacao_evidencias.sh com visibilidade de progresso por modelo
-usando rich.Progress. Cada modelo rodando em paralelo tem sua própria barra empilhada
-no terminal, mostrando concluídas, erros, puladas, % e ETA.
+Versão v2: aponta para o pacote refatorado ``scripts.avaliacao_evidencias_refatorado``
+(provider genérico especializado, evidence_processing compartilhado, correção O(n²)
+via rows_by_id). Mantém a mesma CLI e os mesmos eventos de log JSONL do orquestrador
+original (``run_avaliacao_evidencias.py``), portanto compatível com a infraestrutura
+de progresso/ETA já existente.
 """
 
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import os
 import signal
@@ -40,11 +43,11 @@ else:
     VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
 
 BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
-AUDITADOS = "RIO DAS OSTRAS"  # Deixe vazio "" para processar todos os auditados
+AUDITADOS = ""  # Deixe vazio "" para processar todos os auditados
 QUESTIONARIO = "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
-PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
+PROMPTS_DIR = "scripts/avaliacao_evidencias_refatorado/prompts/igovti_2026_achados_binario_v1"
 PROMPT_VERSION = "igovti_2026_achados_binario_v1"
-CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
+CATALOG = "scripts/avaliacao_evidencias_refatorado/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
 RESPOSTAS = "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"
 EVIDENCIAS_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
 
@@ -72,7 +75,7 @@ MODELS: list[dict] = [
         "pdf2md": True,
         "docx2html": True,
         "store_prompts": False,
-        "enabled": True,
+        "enabled": False,
     },
     # ── Modelos desativados (mudar "enabled" para True para ativar) ──────────
     {
@@ -170,6 +173,9 @@ class ModelProgress:
     paused_message: str = ""
     started_at: float = 0.0
     finished_at: float = 0.0
+    started_wall: str = ""  # hora de inicio em GMT-3 (string HH:MM:SS)
+    current_auditado: str = ""
+    current_evidencia: str = ""
     proc: subprocess.Popen | None = None
     lock: threading.Lock = field(default_factory=threading.Lock)
 
@@ -203,11 +209,11 @@ class ModelProgress:
 # ─── CONSTRUÇÃO DE COMANDO ──────────────────────────────────────────────────
 
 
-def build_command(cfg: dict, evidencias: str = EVIDENCIAS_DEFAULT) -> list[str]:
+def build_command(cfg: dict, evidencias: str = EVIDENCIAS_DEFAULT, only_achados: bool = False) -> list[str]:
     cmd = [
         VENV_PYTHON,
         "-m",
-        "scripts.avaliacao_evidencias",
+        "scripts.avaliacao_evidencias_refatorado",
         RESPOSTAS,
         evidencias,
         "--questionario",
@@ -216,8 +222,6 @@ def build_command(cfg: dict, evidencias: str = EVIDENCIAS_DEFAULT) -> list[str]:
         PROMPTS_DIR,
         "--prompt-version",
         PROMPT_VERSION,
-        "--only-prompts-present",
-        "--only-achados",
         "--catalog",
         CATALOG,
         "--provider",
@@ -227,6 +231,9 @@ def build_command(cfg: dict, evidencias: str = EVIDENCIAS_DEFAULT) -> list[str]:
         "--out-dir",
         BASE_OUT,
     ]
+    if only_achados:
+        cmd.append("--only-prompts-present")
+        cmd.append("--only-achados")
     if AUDITADOS:
         cmd += ["--auditados", AUDITADOS]
     reasoning = cfg.get("reasoning", "")
@@ -265,7 +272,16 @@ def reader_thread(proc: subprocess.Popen, mp: ModelProgress) -> None:
             continue
         evt = event.get("event", "")
         with mp.lock:
-            if evt == "inventory_completed":
+            if evt == "pipeline_started":
+                ts = event.get("ts", "")
+                if ts:
+                    try:
+                        utc = dt.datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                        local = utc.astimezone(dt.timezone(dt.timedelta(hours=-3)))
+                        mp.started_wall = local.strftime("%H:%M:%S")
+                    except (ValueError, TypeError):
+                        mp.started_wall = ""
+            elif evt == "inventory_completed":
                 mp.total = int(event.get("total_analises", 0))
             elif evt in ("analysis_recorded", "analysis_recorded_error", "evidence_processing_error"):
                 status = event.get("status", "") or ("error" if "error" in evt else "completed")
@@ -275,9 +291,13 @@ def reader_thread(proc: subprocess.Popen, mp: ModelProgress) -> None:
                     mp.errors += 1
                 else:
                     mp.completed += 1
+                mp.current_auditado = str(event.get("auditado", ""))
+                mp.current_evidencia = str(event.get("evidencia", ""))
             elif evt.startswith("analysis_skipped"):
                 if event.get("reason") != "checkpoint":
                     mp.skipped += 1
+                    mp.current_auditado = str(event.get("auditado", ""))
+                    mp.current_evidencia = str(event.get("evidencia", ""))
             elif evt == "all_keys_exhausted":
                 mp.status = "paused"
                 wait_s = event.get("retry_after_seconds", 60)
@@ -344,6 +364,16 @@ def fallback_count_thread(mp: ModelProgress, cfg: dict) -> None:
 console = Console()
 
 
+def _format_current(mp: ModelProgress) -> str:
+    """Compacta auditado + evidencia para a coluna 'Atual' da barra."""
+    if not mp.current_auditado and not mp.current_evidencia:
+        return ""
+    ev = mp.current_evidencia
+    if len(ev) > 26:
+        ev = ev[:23] + "..."
+    return f"{mp.current_auditado} | {ev}"
+
+
 def load_initial_checkpoint_counts(cfg: dict) -> tuple[int, int]:
     ckpt = checkpoint_path(cfg)
     completed = 0
@@ -370,12 +400,18 @@ def load_initial_checkpoint_counts(cfg: dict) -> tuple[int, int]:
 
 def run() -> int:
     parser = argparse.ArgumentParser(
-        description="Orquestra pipelines de avaliação de evidências em paralelo."
+        description="Orquestra pipelines de avaliação de evidências em paralelo (v2 — refatorado)."
     )
     parser.add_argument(
         "--evidencias",
         default=EVIDENCIAS_DEFAULT,
         help=f"Diretório raiz das evidências extraídas (default: {EVIDENCIAS_DEFAULT})",
+    )
+    parser.add_argument(
+        "--only-achados",
+        action="store_true",
+        help="Filtra e processa apenas os itens que geram achados. "
+        "Por padrao, processa todos os itens.",
     )
     args = parser.parse_args()
 
@@ -386,6 +422,7 @@ def run() -> int:
 
     console.print(f"[bold green]Iniciando {len(active)} pipeline(s) de avaliação de evidências...[/bold green]")
     console.print(f"[dim]Evidências: {args.evidencias}[/dim]")
+    console.print(f"[dim]Escopo: {'apenas itens que geram achados' if args.only_achados else 'todos os itens com prompt'}[/dim]")
     console.print()
 
     progress_list: list[ModelProgress] = []
@@ -397,7 +434,7 @@ def run() -> int:
         mp.completed, mp.errors = load_initial_checkpoint_counts(cfg)
         mp.status = "running"
         mp.started_at = time.monotonic()
-        cmd = build_command(cfg, args.evidencias)
+        cmd = build_command(cfg, args.evidencias, args.only_achados)
         env = env_for_model(cfg)
         try:
             proc = subprocess.Popen(
@@ -428,14 +465,16 @@ def run() -> int:
         fallback_threads.append(fb)
 
     progress = Progress(
-        TextColumn("[bold cyan]{task.fields[name]:<36}"),
-        BarColumn(bar_width=26, complete_style="green", finished_style="green", pulse_style="blue"),
+        TextColumn("[bold cyan]{task.fields[name]:<30}"),
+        BarColumn(bar_width=22, complete_style="green", finished_style="green", pulse_style="blue"),
         TaskProgressColumn(),
         TextColumn("{task.completed}/{task.total}"),
-        TextColumn("[red]✗{task.fields[errors]:>4}[/red]"),
+        TextColumn("[red]✗{task.fields[errors]:>3}[/red]"),
         TextColumn("[yellow]⏭{task.fields[skipped]:>3}[/yellow]"),
         TimeElapsedColumn(),
         TimeRemainingColumn(),
+        TextColumn("{task.fields[started_wall]:>8}"),
+        TextColumn("[dim]{task.fields[current]:<40}"),
         TextColumn("{task.fields[status_icon]}"),
         console=console,
         expand=False,
@@ -450,6 +489,8 @@ def run() -> int:
             completed=mp.completed,
             errors=mp.errors,
             skipped=mp.skipped,
+            started_wall=mp.started_wall or "--:--:--",
+            current="",
             status_icon="⏳",
         )
         task_ids.append(tid)
@@ -488,6 +529,8 @@ def run() -> int:
                         name=mp.display_name,
                         errors=mp.errors,
                         skipped=mp.skipped,
+                        started_wall=mp.started_wall or "--:--:--",
+                        current=_format_current(mp),
                         status_icon={
                             "running": "⏳",
                             "paused": "[yellow blink]⏸[/yellow blink]",
@@ -502,14 +545,16 @@ def run() -> int:
             time.sleep(0.3)
 
     header_table = Table(show_header=False, box=None, padding=(0, 1), expand=False)
-    header_table.add_column("hdr_name", width=38, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_bar", width=28, style="bold dim", no_wrap=True)
+    header_table.add_column("hdr_name", width=32, style="bold dim", no_wrap=True)
+    header_table.add_column("hdr_bar", width=24, style="bold dim", no_wrap=True)
     header_table.add_column("hdr_pct", width=6, style="bold dim", no_wrap=True)
     header_table.add_column("hdr_count", width=13, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_err", width=6, style="bold dim red", no_wrap=True)
-    header_table.add_column("hdr_skip", width=6, style="bold dim yellow", no_wrap=True)
+    header_table.add_column("hdr_err", width=5, style="bold dim red", no_wrap=True)
+    header_table.add_column("hdr_skip", width=5, style="bold dim yellow", no_wrap=True)
     header_table.add_column("hdr_time", width=8, style="bold dim", no_wrap=True)
     header_table.add_column("hdr_eta", width=8, style="bold dim", no_wrap=True)
+    header_table.add_column("hdr_start", width=9, style="bold dim", no_wrap=True)
+    header_table.add_column("hdr_cur", width=41, style="bold dim", no_wrap=True)
     header_table.add_column("hdr_st", width=3, style="bold dim", no_wrap=True)
     header_table.add_row(
         "Provider/Modelo",
@@ -520,6 +565,8 @@ def run() -> int:
         "Pul",
         "Tempo",
         "ETA",
+        "Início",
+        "Auditado / Evidência",
         "St",
     )
 

@@ -20,7 +20,7 @@ run_gemini() {
     echo "[$(date '+%F %T')] Iniciando Gemini: $MODEL"
 
     GEMINI_API_KEY="$GEMINI_API_KEY" \
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias.consolidacao \
+    scripts/.venv/bin/python -m scripts.avaliacao_evidencias_refatorado.consolidacao \
         $BASE_OUT/analyses_clean*.jsonl \
         --evidencias-root 02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
         --judge-provider gemini \

@@ -15,3 +15,4 @@ pydantic
 docxtpl
 docxcompose
 rich
+rarfile

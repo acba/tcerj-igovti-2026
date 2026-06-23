@@ -13,7 +13,7 @@ BASE_OUT="02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
 # Auditados específicos a serem avaliados (reprocessados/novos).
 # O pipeline filtra pelo firstname do auditado; nomes com espaços são suportados.
 # Lista de auditados separada por vírgula (suporta nomes com espaços).
-AUDITADOS="RIO DAS OSTRAS" #,FS,MPERJ,PGE,PRODERJ,QUEIMADOS,SEDEC"
+AUDITADOS="" #,FS,MPERJ,PGE,PRODERJ,QUEIMADOS,SEDEC"
 
 ###############################################################################
 # FUNÇÕES
@@ -25,7 +25,7 @@ run_openrouter_com_preprocessamento() {
     echo "[$(date '+%F %T')] Iniciando OpenRouter: $MODEL"
 
     OPENROUTER_API_KEY="$OPENROUTER_API_KEY" \
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+    scripts/.venv/bin/python -m scripts.avaliacao_evidencias_refatorado \
         02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
         02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
@@ -39,7 +39,6 @@ run_openrouter_com_preprocessamento() {
         --reasoning high \
         --pdf2md \
         --docx2html \
-        --auditados "$AUDITADOS" \
         --out-dir "$BASE_OUT" &
 
     PIDS+=($!)
@@ -52,7 +51,7 @@ run_openrouter() {
     echo "[$(date '+%F %T')] Iniciando OpenRouter: $MODEL"
 
     OPENROUTER_API_KEY="$OPENROUTER_API_KEY" \
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+    scripts/.venv/bin/python -m scripts.avaliacao_evidencias_refatorado \
         02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
         02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
@@ -64,7 +63,6 @@ run_openrouter() {
         --provider openrouter \
         --model "$MODEL" \
         --reasoning high \
-        --auditados "$AUDITADOS" \
         --out-dir "$BASE_OUT" &
 
     PIDS+=($!)
@@ -77,7 +75,7 @@ run_opencodego() {
     echo "[$(date '+%F %T')] Iniciando OpenCode Go: $MODEL"
 
     OPENROUTER_API_KEY="$OPENROUTER_API_KEY" \
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+    scripts/.venv/bin/python -m scripts.avaliacao_evidencias_refatorado \
         02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
         02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
@@ -91,7 +89,6 @@ run_opencodego() {
         --pdf2md \
         --docx2html \
         --reasoning high \
-        --auditados "$AUDITADOS" \
         --out-dir "$BASE_OUT" &
 
     PIDS+=($!)
@@ -104,7 +101,7 @@ run_gemini() {
     echo "[$(date '+%F %T')] Iniciando Gemini: $MODEL"
 
     GEMINI_API_KEY="$GEMINI_API_KEY" \
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+    scripts/.venv/bin/python -m scripts.avaliacao_evidencias_refatorado \
         02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
         02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
@@ -117,7 +114,6 @@ run_gemini() {
         --model "$MODEL" \
         --rpm 12 \
         --reasoning high \
-        --auditados "$AUDITADOS" \
         --out-dir "$BASE_OUT" &
 
     PIDS+=($!)
@@ -130,7 +126,7 @@ run_openai() {
     echo "[$(date '+%F %T')] Iniciando OpenAI: $MODEL"
 
     GEMINI_API_KEY="$GEMINI_API_KEY" \
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+    scripts/.venv/bin/python -m scripts.avaliacao_evidencias_refatorado \
         02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
         02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
@@ -143,7 +139,6 @@ run_openai() {
         --model "$MODEL" \
         --rpm 12 \
         --reasoning high \
-        --auditados "$AUDITADOS" \
         --out-dir "$BASE_OUT" &
 
     PIDS+=($!)
