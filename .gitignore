@@ -32,3 +32,6 @@ scripts/.tmp_tests/
 htmlcov/
 .saida_analise/
 
+# Cloudflare Pages deploy & local CLI cache
+dist/
+.wrangler/

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Orquestra pipelines de avaliação de evidências em paralelo com barras de progresso.
 
-Versão v2: aponta para o pacote refatorado ``scripts.avaliacao_evidencias_refatorado``
+Versão v2: aponta para o pacote refatorado ``scripts.avaliacao_evidencias``
 (provider genérico especializado, evidence_processing compartilhado, correção O(n²)
 via rows_by_id). Mantém a mesma CLI e os mesmos eventos de log JSONL do orquestrador
-original (``run_avaliacao_evidencias.py``), portanto compatível com a infraestrutura
+anterior (``run_avaliacao_evidencias_v2.py``), portanto compatível com a infraestrutura
 de progresso/ETA já existente.
 """
 
@@ -34,6 +34,91 @@ from rich.progress import (
 )
 from rich.table import Table
 
+
+# ─── CLASSES CUSTOMIZADAS PARA ALINHAMENTO DO PROGRESSO ──────────────────────
+
+from rich.progress import ProgressColumn
+from rich.text import Text as RichText
+
+class CustomNameColumn(ProgressColumn):
+    def render(self, task):
+        is_hdr = task.fields.get("is_header")
+        name = task.fields.get("name", "")
+        if is_hdr:
+            return RichText(name, style="bold dim")
+        return RichText(name, style="bold cyan")
+
+class CustomBarColumn(BarColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            width = self.bar_width
+            return RichText("Progresso".center(width), style="bold dim")
+        return super().render(task)
+
+class CustomProgressColumn(TaskProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("%", style="bold dim")
+        return super().render(task)
+
+class CustomCountColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Avaliaveis", style="bold dim")
+        return RichText(f"{task.completed}/{task.total}")
+
+class CustomErrorColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Erros", style="bold dim red")
+        errs = task.fields.get("errors", 0)
+        return RichText(f"x {errs}", style="red")
+
+class CustomSkipColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Ignorados", style="bold dim yellow")
+        skips = task.fields.get("skipped", 0)
+        return RichText(f"> {skips}", style="yellow")
+
+class CustomSemEvidColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Sem Evidencia", style="bold dim magenta")
+        se = task.fields.get("sem_evid", 0)
+        return RichText(f"- {se}", style="magenta")
+
+class CustomTimeElapsedColumn(TimeElapsedColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Tempo", style="bold dim")
+        return super().render(task)
+
+class CustomTimeRemainingColumn(TimeRemainingColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("ETA", style="bold dim")
+        return super().render(task)
+
+class CustomStartedColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Início", style="bold dim")
+        return RichText(task.fields.get("started_wall", ""))
+
+class CustomCurrentColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Auditado / Evidência", style="bold dim")
+        return RichText(task.fields.get("current", ""), style="dim")
+
+class CustomStatusColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Status", style="bold dim")
+        return RichText(task.fields.get("status_icon", ""))
+
+
 # ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
 
 REPO = Path(__file__).resolve().parent.parent
@@ -45,9 +130,9 @@ else:
 BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
 AUDITADOS = ""  # Deixe vazio "" para processar todos os auditados
 QUESTIONARIO = "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
-PROMPTS_DIR = "scripts/avaliacao_evidencias_refatorado/prompts/igovti_2026_achados_binario_v1"
+PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 PROMPT_VERSION = "igovti_2026_achados_binario_v1"
-CATALOG = "scripts/avaliacao_evidencias_refatorado/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
+CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
 RESPOSTAS = "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"
 EVIDENCIAS_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
 
@@ -75,7 +160,7 @@ MODELS: list[dict] = [
         "pdf2md": True,
         "docx2html": True,
         "store_prompts": False,
-        "enabled": False,
+        "enabled": True,
     },
     # ── Modelos desativados (mudar "enabled" para True para ativar) ──────────
     {
@@ -169,6 +254,7 @@ class ModelProgress:
     completed: int = 0
     errors: int = 0
     skipped: int = 0
+    total_sem_evidencias: int = 0
     status: str = "pending"  # pending | running | paused | done | failed | killed
     paused_message: str = ""
     started_at: float = 0.0
@@ -178,6 +264,8 @@ class ModelProgress:
     current_evidencia: str = ""
     proc: subprocess.Popen | None = None
     lock: threading.Lock = field(default_factory=threading.Lock)
+    checkpoint_status: dict[str, str] = field(default_factory=dict)
+    errors_map: dict[str, dict] = field(default_factory=dict)
 
     @property
     def processed(self) -> int:
@@ -213,7 +301,7 @@ def build_command(cfg: dict, evidencias: str = EVIDENCIAS_DEFAULT, only_achados:
     cmd = [
         VENV_PYTHON,
         "-m",
-        "scripts.avaliacao_evidencias_refatorado",
+        "scripts.avaliacao_evidencias",
         RESPOSTAS,
         evidencias,
         "--questionario",
@@ -282,11 +370,10 @@ def reader_thread(proc: subprocess.Popen, mp: ModelProgress) -> None:
                     except (ValueError, TypeError):
                         mp.started_wall = ""
             elif evt == "inventory_completed":
-                mp.total = int(event.get("total_analises", 0))
+                mp.total = int(event.get("total_avaliaveis") or event.get("total_analises", 0))
+                mp.total_sem_evidencias = int(event.get("total_sem_evidencias", 0))
             elif evt in ("analysis_recorded", "analysis_recorded_error", "evidence_processing_error"):
                 status = event.get("status", "") or ("error" if "error" in evt else "completed")
-                if not mp.total and event.get("total"):
-                    mp.total = int(event["total"])
                 if status == "error":
                     mp.errors += 1
                 else:
@@ -294,7 +381,15 @@ def reader_thread(proc: subprocess.Popen, mp: ModelProgress) -> None:
                 mp.current_auditado = str(event.get("auditado", ""))
                 mp.current_evidencia = str(event.get("evidencia", ""))
             elif evt.startswith("analysis_skipped"):
-                if event.get("reason") != "checkpoint":
+                reason = event.get("reason")
+                if reason == "checkpoint":
+                    ident = event.get("identity")
+                    status = mp.checkpoint_status.get(ident)
+                    if status == "error":
+                        mp.errors += 1
+                    else:
+                        mp.completed += 1
+                else:
                     mp.skipped += 1
                     mp.current_auditado = str(event.get("auditado", ""))
                     mp.current_evidencia = str(event.get("evidencia", ""))
@@ -312,6 +407,27 @@ def reader_thread(proc: subprocess.Popen, mp: ModelProgress) -> None:
             elif evt == "pipeline_finished":
                 mp.status = "done" if event.get("erros", 0) == 0 or mp.completed > 0 else "done"
                 mp.finished_at = time.monotonic()
+
+            # Captura detalhes de erros
+            ident = event.get("identity")
+            if ident:
+                is_err_evt = (
+                    evt in ("analysis_recorded_error", "evidence_processing_error")
+                    or (evt == "provider_finished" and (event.get("level") == "error" or event.get("status") == "error"))
+                    or (evt == "analysis_recorded" and event.get("status") == "error")
+                )
+                is_success_evt = (evt == "analysis_recorded" and event.get("status") != "error")
+
+                if is_err_evt:
+                    error_msg = event.get("error") or event.get("message") or "Erro na avaliação"
+                    mp.errors_map[ident] = {
+                        "auditado": event.get("auditado") or mp.current_auditado or "Desconhecido",
+                        "coluna_evidencia": event.get("coluna_evidencia") or event.get("questao") or "Desconhecido",
+                        "error": str(error_msg),
+                    }
+                elif is_success_evt:
+                    if ident in mp.errors_map:
+                        del mp.errors_map[ident]
     with mp.lock:
         if mp.status in ("running", "pending"):
             mp.status = "done" if proc.poll() == 0 else "failed"
@@ -327,36 +443,10 @@ def checkpoint_path(cfg: dict) -> Path:
     return REPO / BASE_OUT / f"analyses_{provider}_{model}.jsonl"
 
 
+# A thread fallback_count_thread foi desativada pois causava leituras
+# cegas de cache fora do escopo de execução atual.
 def fallback_count_thread(mp: ModelProgress, cfg: dict) -> None:
-    ckpt = checkpoint_path(cfg)
-    while mp.status == "running":
-        time.sleep(2.0)
-        try:
-            if ckpt.is_file():
-                completed = 0
-                errors = 0
-                with ckpt.open(encoding="utf-8") as f:
-                    for line in f:
-                        line = line.strip()
-                        if not line:
-                            continue
-                        try:
-                            record = json.loads(line)
-                            if record.get("status") == "error":
-                                errors += 1
-                            else:
-                                completed += 1
-                        except (json.JSONDecodeError, ValueError):
-                            pass
-                with mp.lock:
-                    processed = completed + errors + mp.skipped
-                    if mp.total > 0 and processed <= mp.total:
-                        if completed > mp.completed:
-                            mp.completed = completed
-                        if errors > mp.errors:
-                            mp.errors = errors
-        except OSError:
-            pass
+    pass
 
 
 # ─── ORQUESTRADOR ───────────────────────────────────────────────────────────
@@ -374,10 +464,10 @@ def _format_current(mp: ModelProgress) -> str:
     return f"{mp.current_auditado} | {ev}"
 
 
-def load_initial_checkpoint_counts(cfg: dict) -> tuple[int, int]:
+def load_checkpoint_status(cfg: dict) -> tuple[dict[str, str], dict[str, dict]]:
     ckpt = checkpoint_path(cfg)
-    completed = 0
-    errors = 0
+    status_dict = {}
+    errors_map = {}
     if ckpt.is_file():
         try:
             with ckpt.open(encoding="utf-8") as f:
@@ -387,15 +477,24 @@ def load_initial_checkpoint_counts(cfg: dict) -> tuple[int, int]:
                         continue
                     try:
                         record = json.loads(line)
-                        if record.get("status") == "error":
-                            errors += 1
-                        else:
-                            completed += 1
+                        ident = record.get("identity")
+                        if ident:
+                            status = record.get("status")
+                            status_dict[ident] = status
+                            if status == "error":
+                                errors_map[ident] = {
+                                    "auditado": record.get("auditado", ""),
+                                    "coluna_evidencia": record.get("coluna_evidencia", "") or record.get("questao", ""),
+                                    "error": record.get("error", "Erro registrado no checkpoint")
+                                }
+                            elif status == "completed":
+                                if ident in errors_map:
+                                    del errors_map[ident]
                     except (json.JSONDecodeError, ValueError):
                         pass
         except OSError:
             pass
-    return completed, errors
+    return status_dict, errors_map
 
 
 def run() -> int:
@@ -431,7 +530,9 @@ def run() -> int:
 
     for cfg in active:
         mp = ModelProgress(name=cfg["name"], provider=cfg["provider"], model=cfg["model"])
-        mp.completed, mp.errors = load_initial_checkpoint_counts(cfg)
+        mp.checkpoint_status, mp.errors_map = load_checkpoint_status(cfg)
+        mp.completed = 0
+        mp.errors = 0
         mp.status = "running"
         mp.started_at = time.monotonic()
         cmd = build_command(cfg, args.evidencias, args.only_achados)
@@ -460,24 +561,36 @@ def run() -> int:
         t.start()
         threads.append(t)
 
-        fb = threading.Thread(target=fallback_count_thread, args=(mp, cfg), daemon=True)
-        fb.start()
-        fallback_threads.append(fb)
-
     progress = Progress(
-        TextColumn("[bold cyan]{task.fields[name]:<30}"),
-        BarColumn(bar_width=22, complete_style="green", finished_style="green", pulse_style="blue"),
-        TaskProgressColumn(),
-        TextColumn("{task.completed}/{task.total}"),
-        TextColumn("[red]✗{task.fields[errors]:>3}[/red]"),
-        TextColumn("[yellow]⏭{task.fields[skipped]:>3}[/yellow]"),
-        TimeElapsedColumn(),
-        TimeRemainingColumn(),
-        TextColumn("{task.fields[started_wall]:>8}"),
-        TextColumn("[dim]{task.fields[current]:<40}"),
-        TextColumn("{task.fields[status_icon]}"),
+        CustomNameColumn(),
+        CustomBarColumn(bar_width=18, complete_style="green", finished_style="green", pulse_style="blue"),
+        CustomProgressColumn(),
+        CustomCountColumn(),
+        CustomErrorColumn(),
+        CustomSkipColumn(),
+        CustomSemEvidColumn(),
+        CustomTimeElapsedColumn(),
+        CustomTimeRemainingColumn(),
+        CustomStartedColumn(),
+        CustomCurrentColumn(),
+        CustomStatusColumn(),
         console=console,
         expand=False,
+    )
+
+    # Adiciona a tarefa de cabeçalho na primeira linha
+    progress.add_task(
+        description="",
+        is_header=True,
+        name="Provider/Modelo",
+        total=1,
+        completed=0,
+        errors=0,
+        skipped=0,
+        sem_evid=0,
+        started_wall="",
+        current="",
+        status_icon="",
     )
 
     task_ids: list[int] = []
@@ -492,6 +605,7 @@ def run() -> int:
             started_wall=mp.started_wall or "--:--:--",
             current="",
             status_icon="⏳",
+            sem_evid=mp.total_sem_evidencias,
         )
         task_ids.append(tid)
 
@@ -539,36 +653,11 @@ def run() -> int:
                             "killed": "[yellow]⚠[/yellow]",
                             "pending": "…",
                         }.get(mp.status, "…"),
+                        sem_evid=mp.total_sem_evidencias,
                     )
             if all_done:
                 break
             time.sleep(0.3)
-
-    header_table = Table(show_header=False, box=None, padding=(0, 1), expand=False)
-    header_table.add_column("hdr_name", width=32, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_bar", width=24, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_pct", width=6, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_count", width=13, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_err", width=5, style="bold dim red", no_wrap=True)
-    header_table.add_column("hdr_skip", width=5, style="bold dim yellow", no_wrap=True)
-    header_table.add_column("hdr_time", width=8, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_eta", width=8, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_start", width=9, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_cur", width=41, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_st", width=3, style="bold dim", no_wrap=True)
-    header_table.add_row(
-        "Provider/Modelo",
-        "Progresso",
-        "%",
-        "Concl/Total",
-        "Erros",
-        "Pul",
-        "Tempo",
-        "ETA",
-        "Início",
-        "Auditado / Evidência",
-        "St",
-    )
 
     from rich.text import Text as RichText
 
@@ -582,7 +671,7 @@ def run() -> int:
             lines.append(f"⚠ ALERTA: {msg} [{name}]")
         return RichText("\n".join(lines), style="bold yellow")
 
-    live_display = Group(header_table, progress)
+    live_display = progress
 
     with Live(live_display, console=console, refresh_per_second=4, screen=False):
         update_thread = threading.Thread(target=update_loop, daemon=True)
@@ -597,10 +686,11 @@ def run() -> int:
     console.print()
     table = Table(title="Resumo da avaliação de evidências", show_lines=False)
     table.add_column("Provider/Modelo", style="bold cyan")
-    table.add_column("Total", justify="right")
+    table.add_column("Total Avaliáveis", justify="right")
     table.add_column("Concluídas", justify="right", style="green")
     table.add_column("Erros", justify="right", style="red")
     table.add_column("Puladas", justify="right", style="yellow")
+    table.add_column("Sem Evidências", justify="right", style="magenta")
     table.add_column("Tempo", justify="right")
     table.add_column("Status", justify="center")
 
@@ -622,12 +712,32 @@ def run() -> int:
             str(min(mp.completed, mp.total or mp.completed)),
             str(mp.errors),
             str(mp.skipped),
+            str(mp.total_sem_evidencias),
             elapsed_str,
             status_str,
         )
 
     console.print(table)
     console.print()
+
+    has_any_errors = any(len(mp.errors_map) > 0 for mp in progress_list)
+    if has_any_errors:
+        from rich.tree import Tree
+        error_tree = Tree("[bold red]Detalhamento de Erros por Provider/Modelo[/bold red]")
+        for mp in progress_list:
+            if mp.errors_map:
+                model_node = error_tree.add(f"[bold cyan]{mp.display_name}[/bold cyan] ({len(mp.errors_map)} erro(s))")
+                sorted_errors = sorted(
+                    mp.errors_map.values(),
+                    key=lambda x: (x.get("auditado", ""), x.get("coluna_evidencia", ""))
+                )
+                for err_info in sorted_errors:
+                    auditado = err_info.get("auditado", "Desconhecido")
+                    coluna = err_info.get("coluna_evidencia", "Desconhecido")
+                    desc = str(err_info.get("error", "Erro desconhecido")).strip().replace("\n", " ")
+                    model_node.add(f"[bold yellow]{auditado}[/bold yellow] | [bold magenta]{coluna}[/bold magenta]: {desc}")
+        console.print(error_tree)
+        console.print()
     if fail == 0:
         console.print("[bold green]Todos os pipelines finalizaram com sucesso.[/bold green]")
     else:

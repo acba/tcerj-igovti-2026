@@ -63,7 +63,19 @@ arquivo exportado:
 
 Essa resolucao tenta, nesta ordem: nome exato decodificado, prefixo numerico inferido do id da resposta e da ordem da coluna de evidencia, e fallback por nome normalizado.
 
-Cada coluna de evidencia deve conter exatamente um arquivo. Esse arquivo pode ser `.zip`; nesse caso, o ZIP pode conter varios arquivos internos.
+Cada coluna de evidencia deve conter exatamente um arquivo. Esse arquivo pode ser `.zip` ou `.rar`; nesse caso, o arquivo compactado pode conter varios arquivos internos. Arquivos `.zip` e `.rar` aninhados tambem sao extraidos recursivamente (ate um limite de profundidade). Os arquivos internos sao achatados em uma unica pasta temporaria: duplicados por hash de conteudo sao removidos e colisoes de nome com conteudo diferente sao renomeadas.
+
+### Atalhos `.url`
+
+Arquivos `.url` (atalhos do Windows) sao interpretados pelo pipeline. A URL contida no arquivo e lida e, se atender as restricoes de seguranca, o recurso e baixado temporariamente e processado como evidencia:
+
+- Apenas URLs dos esquemas `http` e `https` sao aceitas.
+- Apenas dominios terminados em `.gov.br` sao permitidos.
+- URLs com credenciais embutidas, enderecos locais (`localhost`, `127.0.0.1`, `::1`) e IPs privados/reservados sao bloqueadas.
+- O download e limitado a **10 MB** e a um timeout de **30 segundos**.
+- Apenas MIME types conhecidos e seguros sao aceitos (PDF, DOC/DOCX, planilhas, imagens, texto, HTML).
+
+Se o recurso for uma pagina HTML, o arquivo `.html` baixado e enviado diretamente ao provider. Se a URL nao for `.gov.br`, o download falhar, o tipo for nao permitido ou qualquer outra restricao de seguranca for violada, o atalho e descartado silenciosamente: nenhum texto com a URL e enviado ao modelo.
 
 ## Instalar dependencias
 
@@ -79,6 +91,15 @@ Se a venv ja existir:
 ```bash
 .venv/bin/pip install -r scripts/requirements.txt
 ```
+
+### Dependencia para arquivos `.rar`
+
+A extracao de `.rar` usa a biblioteca `rarfile` (incluida em `requirements.txt`). Ela localiza automaticamente:
+
+- **Windows:** `UnRAR.exe`, normalmente disponivel quando o WinRAR esta instalado.
+- **Linux:** `unrar`, `unrar-free` ou `bsdtar`.
+
+Se nenhuma dessas ferramentas estiver disponivel, o modulo tenta fallback com `7z`, mas o 7z open source pode nao suportar metodos de compressao de RARs recentes. Nesse caso, instale `unrar` non-free ou use um ambiente Windows com WinRAR.
 
 ## Gerar prompts
 

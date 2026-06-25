@@ -54,13 +54,13 @@ Utility scripts are stored under `scripts/`. Always run them using the workspace
     python3 scripts/gerar_matriz_achados.py
     ```
 *   **`avaliar_evidencias_matriz_planejamento.py` / `avaliacao_evidencias`:** Runs the AI evidence evaluation pipeline. See [scripts/avaliacao_evidencias/README.md](file:///home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/scripts/avaliacao_evidencias/README.md) for full commands.
-*   **`run_avaliacao_evidencias.py`:** Python orchestrator that runs several `avaliacao_evidencias` pipelines in parallel (one per model/provider) and shows stacked `rich.Progress` bars in the terminal with per-model progress, ETA, and a final summary table. Replaces the legacy `scripts/run_avaliacao_evidencias.sh`. Configure the list of active models at the top of the script (`MODELS = [...]`, set `enabled: True/False`). Supports automatic Gemini key rotation on 429: when `GEMINI_API_KEY` contains multiple comma-separated keys, the pipeline rotates to the next available key immediately on 429, and if all keys are exhausted simultaneously, it pauses by the smallest `Retry-After` and shows an alert in the terminal instead of recording errors. Run with:
+*   **`run_avaliacao_evidencias_v2.py`:** Python orchestrator that runs several `avaliacao_evidencias` pipelines in parallel (one per model/provider) and shows stacked `rich.Progress` bars in the terminal with per-model progress, ETA, and a final summary table. Replaces the legacy `scripts/run_avaliacao_evidencias.sh`. Configure the list of active models at the top of the script (`MODELS = [...]`, set `enabled: True/False`). Supports automatic Gemini key rotation on 429: when `GEMINI_API_KEY` contains multiple comma-separated keys, the pipeline rotates to the next available key immediately on 429, and if all keys are exhausted simultaneously, it pauses by the smallest `Retry-After` and shows an alert in the terminal instead of recording errors. Run with:
     ```bash
-    scripts/.venv/bin/python scripts/run_avaliacao_evidencias.py
+    scripts/.venv/bin/python scripts/run_avaliacao_evidencias_v2.py
     ```
-*   **`run_consolida_avaliacoes.py`:** Python orchestrator for the judge-based consolidation (`consolidacao.py`). Runs one or more judges in parallel over all `analyses*.jsonl` and shows stacked `rich.Progress` bars per judge. Replaces the legacy `scripts/run_consolida_avaliacoes.sh`. Supports the same Gemini key rotation and pause-on-exhaustion behavior as the evaluation orchestrator. The consolidated record includes `started_at`, `finished_at`, `duration_seconds`, `reasoning_effort`, and (with `--store-prompts`) `prompt_payload`, in addition to the consolidation-specific fields (`opinion_count`, `opinion_sources`, `opiniao_auditoria`, `evidence_path`, `evidence_hash`). Configure the list of active judges at the top of the script (`JUDGES = [...]`, set `enabled: True/False`). Run with:
+*   **`run_consolida_avaliacoes_v2.py`:** Python orchestrator for the judge-based consolidation (`consolidacao.py`). Runs one or more judges in parallel over all `analyses*.jsonl` and shows stacked `rich.Progress` bars per judge. Replaces the legacy `scripts/run_consolida_avaliacoes.sh`. Supports the same Gemini key rotation and pause-on-exhaustion behavior as the evaluation orchestrator. The consolidated record includes `started_at`, `finished_at`, `duration_seconds`, `reasoning_effort`, and (with `--store-prompts`) `prompt_payload`, in addition to the consolidation-specific fields (`opinion_count`, `opinion_sources`, `opiniao_auditoria`, `evidence_path`, `evidence_hash`). Configure the list of active judges at the top of the script (`JUDGES = [...]`, set `enabled: True/False`). Run with:
     ```bash
-    scripts/.venv/bin/python scripts/run_consolida_avaliacoes.py
+    scripts/.venv/bin/python scripts/run_consolida_avaliacoes_v2.py
     ```
 *   **`agregar_analyses_por_item.py`:** Consolidates the conclusions stored in one or more evidence-evaluation JSONL files (`analyses*.jsonl`) by questionnaire item (`q0101`, `q2101`, etc.). It counts `conforme`, `nao_conforme`, `inconclusivo`, and `erro`, selects up to two representative evaluations with their justifications, and creates an XLSX with summary, traceability, and metadata sheets. Use `--referencia` to include only records produced by a specific model; the option may be repeated to combine models.
     ```powershell
@@ -73,6 +73,12 @@ Utility scripts are stored under `scripts/`. Always run them using the workspace
       @analyses `
       --referencia "gemini-3.1-flash-lite" `
       --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_avaliacoes_por_item_gemini-3.1-flash-lite.xlsx"
+    ```
+*   **`ajustar_respostas_questionario.py`:** Applies "Não Conforme" adjustments to the questionnaire responses. Replaces affirmative responses with blanks/No or 'Não adota' on evaluated items, based on the XLSX of adjustments. The auditor's review overrides the judge's score.
+    ```bash
+    scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
+      --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+      --ajustes ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx
     ```
 
 Do not add invented `npm`, `make`, or `pytest` commands unless the required project files are introduced.
@@ -111,7 +117,7 @@ Use `--pdf2md` when PDF evidence should be converted with PyMuPDF4LLM into Markd
 Use `--docx2html` when DOCX evidence should be converted with Mammoth into HTML plus extracted images before provider evaluation.
 
 The consolidation judge (`scripts.avaliacao_evidencias.consolidacao`) accepts `--only-achados` (plus `--catalog` or `--prompts-dir`) to consolidate only groups whose root question gives rise to a finding. The achados set is derived primarily from the `--catalog` YAML (`gera_achado` attribute), or, in its absence, from `--prompts-dir` markdown markers, or finally from the `gera_achado` field of the analyses records. The consolidated record also carries a `gera_achado` field for traceability.
-The Python orchestrators (`run_avaliacao_evidencias.py`, `run_consolida_avaliacoes.py`) pass `--only-achados` when a model/judge config sets `only_achados: true` or when the environment variable `ONLY_ACHADOS=1` is set.
+The Python orchestrators (`run_avaliacao_evidencias_v2.py`, `run_consolida_avaliacoes_v2.py`) pass `--only-achados` when a model/judge config sets `only_achados: true` or when the environment variable `ONLY_ACHADOS=1` is set.
 
 ```bash
 scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
@@ -130,8 +136,8 @@ scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
 
 For running several models (or judges) in parallel with real-time progress visibility, use the Python orchestrators instead of the legacy `run_avaliacao_evidencias.sh` / `run_consolida_avaliacoes.sh` shell scripts.
 
-*   **Evaluation:** `scripts/.venv/bin/python scripts/run_avaliacao_evidencias.py` — launches one `avaliacao_evidencias` subprocess per active model. Each model gets a stacked `rich.Progress` bar showing `provider/model`, progress, percentage, completed/total, errors (`✗`), skipped (`⏭`), elapsed time, ETA, and status icon. Active models are configured at the top of the script (`MODELS = [...]`, set `enabled: True/False`).
-*   **Consolidation:** `scripts/.venv/bin/python scripts/run_consolida_avaliacoes.py` — same pattern for judges. Active judges are configured at the top (`JUDGES = [...]`).
+*   **Evaluation:** `scripts/.venv/bin/python scripts/run_avaliacao_evidencias_v2.py` — launches one `avaliacao_evidencias` subprocess per active model. Each model gets a stacked `rich.Progress` bar showing `provider/model`, progress, percentage, completed/total, errors (`✗`), skipped (`⏭`), elapsed time, ETA, and status icon. Active models are configured at the top of the script (`MODELS = [...]`, set `enabled: True/False`).
+*   **Consolidation:** `scripts/.venv/bin/python scripts/run_consolida_avaliacoes_v2.py` — same pattern for judges. Active judges are configured at the top (`JUDGES = [...]`).
 
 Both orchestrators parse the JSON-line progress events emitted by the underlying Python modules (`pipeline.py` and `consolidacao.py`) to update the bars in real time, and emit a summary `rich.Table` at the end. `Ctrl+C` sends `terminate()` to all subprocesses and prints a partial summary.
 

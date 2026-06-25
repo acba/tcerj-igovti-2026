@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Orquestra a consolidação de avaliações de evidências por juiz IA com barras de progresso.
 
-Versão v2: aponta para o pacote refatorado ``scripts.avaliacao_evidencias_refatorado``
+Versão v2: aponta para o pacote refatorado ``scripts.avaliacao_evidencias``
 (provider genérico especializado, evidence_processing compartilhado com o pipeline,
 consolidacao reusa preparar_evidencia_para_provider). Mantém a mesma CLI e os mesmos
-eventos de log JSONL do orquestrador original (``run_consolida_avaliacoes.py``).
+eventos de log JSONL do orquestrador anterior (``run_consolida_avaliacoes_v2.py``).
 """
 
 from __future__ import annotations
@@ -27,12 +27,84 @@ from rich.live import Live
 from rich.progress import (
     BarColumn,
     Progress,
+    ProgressColumn,
     TaskProgressColumn,
-    TextColumn,
     TimeElapsedColumn,
     TimeRemainingColumn,
 )
 from rich.table import Table
+from rich.text import Text as RichText
+
+class CustomNameColumn(ProgressColumn):
+    def render(self, task):
+        is_hdr = task.fields.get("is_header")
+        name = task.fields.get("name", "")
+        if is_hdr:
+            return RichText(name, style="bold dim")
+        return RichText(name, style="bold cyan")
+
+class CustomBarColumn(BarColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            width = self.bar_width
+            return RichText("Progresso".center(width), style="bold dim")
+        return super().render(task)
+
+class CustomProgressColumn(TaskProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("%", style="bold dim")
+        return super().render(task)
+
+class CustomCountColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Concl/Total", style="bold dim")
+        return RichText(f"{task.completed}/{task.total}")
+
+class CustomErrorColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Erros", style="bold dim red")
+        errs = task.fields.get("errors", 0)
+        return RichText(f"x {errs}", style="red")
+
+class CustomSkipColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Pul", style="bold dim yellow")
+        skips = task.fields.get("skipped", 0)
+        return RichText(f"> {skips}", style="yellow")
+
+class CustomTimeElapsedColumn(TimeElapsedColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Tempo", style="bold dim")
+        return super().render(task)
+
+class CustomTimeRemainingColumn(TimeRemainingColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("ETA", style="bold dim")
+        return super().render(task)
+
+class CustomStartedColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Início", style="bold dim")
+        return RichText(task.fields.get("started_wall", ""))
+
+class CustomCurrentColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("Auditado / Evidência", style="bold dim")
+        return RichText(task.fields.get("current", ""), style="dim")
+
+class CustomStatusColumn(ProgressColumn):
+    def render(self, task):
+        if task.fields.get("is_header"):
+            return RichText("St", style="bold dim")
+        return RichText(task.fields.get("status_icon", ""))
 
 # ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
 
@@ -44,8 +116,8 @@ else:
 
 BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
 EVIDENCIAS_ROOT_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
-PROMPTS_DIR = "scripts/avaliacao_evidencias_refatorado/prompts/igovti_2026_achados_binario_v1"
-CATALOG = "scripts/avaliacao_evidencias_refatorado/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
+PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
+CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
 
 # Padrão glob para encontrar os arquivos analyses*.jsonl de entrada.
 ANALYSES_GLOB = f"{BASE_OUT}/analyses_clean*.jsonl"
@@ -116,6 +188,7 @@ class JudgeProgress:
     current_auditado: str = ""
     current_evidencia: str = ""
     proc: subprocess.Popen | None = None
+    errors_map: dict[str, dict] = field(default_factory=dict)
     lock: threading.Lock = field(default_factory=threading.Lock)
 
     @property
@@ -160,7 +233,7 @@ def build_command(cfg: dict, analyses_files: list[str], evidencias_root: str = E
     cmd = [
         VENV_PYTHON,
         "-m",
-        "scripts.avaliacao_evidencias_refatorado.consolidacao",
+        "scripts.avaliacao_evidencias.consolidacao",
         *analyses_files,
         "--evidencias-root",
         evidencias_root,
@@ -223,7 +296,7 @@ def reader_thread(proc: subprocess.Popen, jp: JudgeProgress) -> None:
             elif evt == "consolidation_skipped":
                 if not jp.total and event.get("total"):
                     jp.total = int(event["total"])
-                jp.skipped += 1
+                jp.completed += 1
                 jp.current_auditado = str(event.get("auditado", ""))
                 jp.current_evidencia = str(event.get("evidencia", ""))
             elif evt == "consolidation_recorded":
@@ -232,6 +305,12 @@ def reader_thread(proc: subprocess.Popen, jp: JudgeProgress) -> None:
                 status = event.get("status", "")
                 if status == "error":
                     jp.errors += 1
+                    identity = event.get("identity") or f"{event.get('auditado', 'D')}_{event.get('coluna_evidencia', 'C')}"
+                    jp.errors_map[identity] = {
+                        "auditado": event.get("auditado", "Desconhecido"),
+                        "coluna_evidencia": event.get("coluna_evidencia", "Desconhecido"),
+                        "error": event.get("error", "Erro de consolidação desconhecido"),
+                    }
                 else:
                     jp.completed += 1
                 jp.current_auditado = str(event.get("auditado", ""))
@@ -262,18 +341,10 @@ def checkpoint_path(cfg: dict) -> Path:
     return REPO / BASE_OUT / "consolidado" / "consolidated.jsonl"
 
 
+# A thread fallback_count_thread foi desativada pois causava leituras
+# cegas de cache fora do escopo de execução atual.
 def fallback_count_thread(jp: JudgeProgress, cfg: dict) -> None:
-    ckpt = checkpoint_path(cfg)
-    while jp.status == "running":
-        time.sleep(2.0)
-        try:
-            if ckpt.is_file():
-                count = sum(1 for _ in ckpt.open(encoding="utf-8"))
-                with jp.lock:
-                    if count > jp.processed:
-                        jp.completed = count
-        except OSError:
-            pass
+    pass
 
 
 # ─── ORQUESTRADOR ───────────────────────────────────────────────────────────
@@ -370,19 +441,33 @@ def run() -> int:
         fallback_threads.append(fb)
 
     progress = Progress(
-        TextColumn("[bold cyan]{task.fields[name]:<30}"),
-        BarColumn(bar_width=22, complete_style="green", finished_style="green", pulse_style="blue"),
-        TaskProgressColumn(),
-        TextColumn("{task.completed}/{task.total}"),
-        TextColumn("[red]✗{task.fields[errors]:>3}[/red]"),
-        TextColumn("[yellow]⏭{task.fields[skipped]:>3}[/yellow]"),
-        TimeElapsedColumn(),
-        TimeRemainingColumn(),
-        TextColumn("{task.fields[started_wall]:>8}"),
-        TextColumn("[dim]{task.fields[current]:<40}"),
-        TextColumn("{task.fields[status_icon]}"),
+        CustomNameColumn(),
+        CustomBarColumn(bar_width=22, complete_style="green", finished_style="green", pulse_style="blue"),
+        CustomProgressColumn(),
+        CustomCountColumn(),
+        CustomErrorColumn(),
+        CustomSkipColumn(),
+        CustomTimeElapsedColumn(),
+        CustomTimeRemainingColumn(),
+        CustomStartedColumn(),
+        CustomCurrentColumn(),
+        CustomStatusColumn(),
         console=console,
         expand=False,
+    )
+
+    # Adiciona a tarefa de cabeçalho na primeira linha
+    progress.add_task(
+        description="",
+        is_header=True,
+        name="Juiz (Provider/Modelo)",
+        total=1,
+        completed=0,
+        errors=0,
+        skipped=0,
+        started_wall="",
+        current="",
+        status_icon="",
     )
 
     task_ids: list[int] = []
@@ -412,34 +497,6 @@ def run() -> int:
 
     signal.signal(signal.SIGINT, handle_sigint)
 
-    header_table = Table(show_header=False, box=None, padding=(0, 1), expand=False)
-    header_table.add_column("hdr_name", width=32, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_bar", width=24, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_pct", width=6, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_count", width=13, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_err", width=5, style="bold dim red", no_wrap=True)
-    header_table.add_column("hdr_skip", width=5, style="bold dim yellow", no_wrap=True)
-    header_table.add_column("hdr_time", width=8, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_eta", width=8, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_start", width=9, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_cur", width=41, style="bold dim", no_wrap=True)
-    header_table.add_column("hdr_st", width=3, style="bold dim", no_wrap=True)
-    header_table.add_row(
-        "Juiz (Provider/Modelo)",
-        "Progresso",
-        "%",
-        "Concl/Total",
-        "Erros",
-        "Pul",
-        "Tempo",
-        "ETA",
-        "Início",
-        "Auditado / Evidência",
-        "St",
-    )
-
-    from rich.text import Text as RichText
-
     def build_alert() -> RichText | None:
         paused = [(jp.display_name, jp.paused_message) for jp in progress_list if jp.status == "paused"]
         if not paused:
@@ -447,7 +504,7 @@ def run() -> int:
         lines = [f"⚠ ALERTA: {msg} [{name}]" for name, msg in paused]
         return RichText("\n".join(lines), style="bold yellow")
 
-    live_display = Group(header_table, progress)
+    live_display = Group(progress)
 
     def update_loop():
         last_alert_printed = False
@@ -530,6 +587,26 @@ def run() -> int:
 
     console.print(table)
     console.print()
+
+    has_any_errors = any(len(jp.errors_map) > 0 for jp in progress_list)
+    if has_any_errors:
+        from rich.tree import Tree
+        error_tree = Tree("[bold red]Detalhamento de Erros por Juiz[/bold red]")
+        for jp in progress_list:
+            if jp.errors_map:
+                judge_node = error_tree.add(f"[bold cyan]{jp.display_name}[/bold cyan] ({len(jp.errors_map)} erro(s))")
+                sorted_errors = sorted(
+                    jp.errors_map.values(),
+                    key=lambda x: (x.get("auditado", ""), x.get("coluna_evidencia", ""))
+                )
+                for err_info in sorted_errors:
+                    auditado = err_info.get("auditado", "Desconhecido")
+                    coluna = err_info.get("coluna_evidencia", "Desconhecido")
+                    desc = str(err_info.get("error", "Erro de consolidação desconhecido")).strip().replace("\n", " ")
+                    judge_node.add(f"[bold yellow]{auditado}[/bold yellow] | [bold magenta]{coluna}[/bold magenta]: {desc}")
+        console.print(error_tree)
+        console.print()
+
     if fail == 0:
         console.print("[bold green]Todos os juízes finalizaram com sucesso.[/bold green]")
     else:

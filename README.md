@@ -178,7 +178,7 @@ pip install -r scripts/requirements.txt
 
         Use `--auditados SIGLA` para processar apenas organizações específicas. Use `--list-only` para conferir as análises candidatas sem chamar o provedor. O parâmetro `--only-prompts-present` é obrigatório para conjuntos parciais de prompts, como `igovti_2026_achados_binario_v1`. Por padrão, o JSONL incremental é gravado como `analyses_<provider>_<model>.jsonl`; use `--out-file nome.jsonl` para escolher outro nome ou caminho. Para evidências PDF que devem ser avaliadas como Markdown com imagens extraídas, use `--pdf2md`. Para evidências DOCX que devem ser avaliadas como HTML com imagens extraídas, use `--docx2html`.
 
-    *   **Orquestrador multi-modelo com barras de progresso (`run_avaliacao_evidencias.py`):** Lança vários pipelines de avaliação em paralelo (cada um com seu provider, modelo e flags) e exibe **barras de progresso empilhadas** no terminal via `rich.Progress` — uma por modelo ativo. Substitui o antigo `scripts/run_avaliacao_evidencias.sh` com visibilidade de progresso em tempo real. Cada barra mostra: provider/modelo, barra de progresso, percentual, concluídos/total, erros (`✗`), puladas (`⏭`), tempo decorrido, ETA e status. Ao final, imprime uma tabela `rich.Table` com o resumo de cada modelo.
+    *   **Orquestrador multi-modelo com barras de progresso (`run_avaliacao_evidencias_v2.py`):** Lança vários pipelines de avaliação em paralelo (cada um com seu provider, modelo e flags) e exibe **barras de progresso empilhadas** no terminal via `rich.Progress` — uma por modelo ativo. Substitui o antigo `scripts/run_avaliacao_evidencias.sh` com visibilidade de progresso em tempo real. Cada barra mostra: provider/modelo, barra de progresso, percentual, concluídos/total, erros (`✗`), puladas (`⏭`), tempo decorrido, ETA e status. Ao final, imprime uma tabela `rich.Table` com o resumo de cada modelo.
 
         A lista de modelos a executar está no topo do script (`MODELS = [...]`). Para ativar ou desativar modelos, edite o campo `enabled` de cada bloco; para adicionar um novo, copie um bloco e ajuste provider, model, rpm, reasoning, pdf2md, docx2html, store_prompts. Os modelos ativos por padrão são `gemini-3.1-flash-lite` (provider `gemini`) e `minimax-m3` (provider `opencodego`).
 
@@ -186,14 +186,14 @@ pip install -r scripts/requirements.txt
 
         ```bash
         cd /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026
-        scripts/.venv/bin/python scripts/run_avaliacao_evidencias.py
+        scripts/.venv/bin/python scripts/run_avaliacao_evidencias_v2.py
         ```
 
         O atalho `Ctrl+C` interrompe todos os subprocesses em paralelo com `terminate()` e exibe um resumo parcial do que foi processado até o momento.
 
 *   **Consolidação por juiz IA (`consolidacao.py` + orquestrador):** Consolida as avaliações dos modelos em um parecer por evidência. Lê todos os `analyses*.jsonl` encontrados em `02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/`, agrupa por `(auditado, questao, coluna_evidencia, evidencia)`, e envia cada grupo a um juiz IA com as avaliações preliminares + a evidência reenviada (quando `--evidencias-root` é informado). O juiz retorna um parecer consolidado (`conforme` / `nao_conforme` / `inconclusivo` / `erro`) com justificativa, lacunas e referências, sem mencionar provedores/modelos no texto. A opinião da equipe de auditoria pode ser injetada no prompt do juiz via `--auditor-opinions` (JSONL/JSON/CSV com campo `opiniao_auditoria` ou `parecer`).
 
-    *Orquestrador multi-juiz com barras de progresso (`run_consolida_avaliacoes.py`):* Lança vários juízes em paralelo (cada um com seu `judge_provider`/`judge_model`) e exibe **barras de progresso empilhadas** no terminal via `rich.Progress` — uma por juiz. Substitui o antigo `scripts/run_consolida_avaliacoes.sh`. Cada barra mostra: provider/modelo do juiz, barra de progresso, percentual, concluídos/total, erros (`✗`), puladas (`⏭`), tempo, ETA e status. Ao final, tabela `rich.Table` com o resumo por juiz. Suporta `--reasoning` e `--store-prompts` para paridade com a avaliação de evidências.
+    *Orquestrador multi-juiz com barras de progresso (`run_consolida_avaliacoes_v2.py`):* Lança vários juízes em paralelo (cada um com seu `judge_provider`/`judge_model`) e exibe **barras de progresso empilhadas** no terminal via `rich.Progress` — uma por juiz. Substitui o antigo `scripts/run_consolida_avaliacoes.sh`. Cada barra mostra: provider/modelo do juiz, barra de progresso, percentual, concluídos/total, erros (`✗`), puladas (`⏭`), tempo, ETA e status. Ao final, tabela `rich.Table` com o resumo por juiz. Suporta `--reasoning` e `--store-prompts` para paridade com a avaliação de evidências.
 
     O registro consolidado inclui: `identity`, `status`, `auditado`, `questao`, `coluna_evidencia`, `evidencia`, `judge_provider`, `judge_model`, `opinion_count`, `opinion_sources` (identities + providers + models das opiniões recebidas), `opiniao_auditoria`, `evidence_path`, `evidence_hash`, `result`, `error`, `started_at`, `finished_at`, `duration_seconds` e `reasoning_effort`. Com `--store-prompts`, também grava `prompt_payload` (payload textual enviado ao juiz). A rotação de chaves em 429 e a pausa por chaves exauridas funcionam do mesmo modo que na avaliação de evidências.
 
@@ -201,7 +201,7 @@ pip install -r scripts/requirements.txt
 
     ```bash
     cd /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026
-    scripts/.venv/bin/python scripts/run_consolida_avaliacoes.py
+    scripts/.venv/bin/python scripts/run_consolida_avaliacoes_v2.py
     ```
 
     Para executar manualmente um juiz específico (sem o orquestrador), use o módulo `consolidacao`:

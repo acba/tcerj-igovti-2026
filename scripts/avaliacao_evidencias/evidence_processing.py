@@ -228,22 +228,58 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
 
     Aplica limite de tamanho, timeout e validacao de Content-Type.
     """
-    import urllib.request
+    import ssl
+    import requests
+    from requests.adapters import HTTPAdapter
     from urllib.parse import urlparse
+
+    class TLSAdapter(HTTPAdapter):
+        def init_poolmanager(self, *args, **kwargs):
+            ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+            ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+            CIPHERS = (
+                'ECDHE-ECDSA-AES128-GCM-SHA256:'
+                'ECDHE-RSA-AES128-GCM-SHA256:'
+                'ECDHE-ECDSA-AES256-GCM-SHA384:'
+                'ECDHE-RSA-AES256-GCM-SHA384:'
+                'ECDHE-ECDSA-CHACHA20-POLY1305:'
+                'ECDHE-RSA-CHACHA20-POLY1305:'
+                'DHE-RSA-AES128-GCM-SHA256:'
+                'DHE-RSA-AES256-GCM-SHA384'
+            )
+            ctx.set_ciphers(CIPHERS)
+            kwargs['ssl_context'] = ctx
+            return super().init_poolmanager(*args, **kwargs)
 
     destino.mkdir(parents=True, exist_ok=True)
     parsed = urlparse(url)
     nome_sugerido = Path(parsed.path).name or "recurso"
-    extensao = Path(nome_sugerido).suffix.lower()
-    if extensao not in EXTENSOES_UPLOAD_DIRETO | EXTENSOES_WORD_PARA_PDF | EXTENSOES_PLANILHAS | {".html", ".htm"}:
-        extensao = ".bin"
-    nome_seguro = nome_upload_seguro(nome_sugerido, extensao)
-    target = caminho_unico(destino, nome_seguro)
 
-    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Mozilla/5.0"})
+    session = requests.Session()
+    session.mount('https://', TLSAdapter())
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+    }
 
     try:
-        with urllib.request.urlopen(request, timeout=URL_DOWNLOAD_TIMEOUT) as resp:
+        resp = session.head(url, headers=headers, timeout=URL_DOWNLOAD_TIMEOUT, allow_redirects=True)
+        length = resp.headers.get("Content-Length")
+        if length:
+            try:
+                if int(length) > URL_DOWNLOAD_MAX_BYTES:
+                    return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
+            except ValueError:
+                pass
+    except Exception:
+        pass  # HEAD pode nao ser suportado; continua com GET
+
+    try:
+        with session.get(url, headers=headers, timeout=URL_DOWNLOAD_TIMEOUT, stream=True, allow_redirects=True) as resp:
+            resp.raise_for_status()
+            
             length = resp.headers.get("Content-Length")
             if length:
                 try:
@@ -251,15 +287,12 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
                         return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
                 except ValueError:
                     pass
-    except Exception:
-        pass  # HEAD pode nao ser suportado; continua com GET
 
-    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=URL_DOWNLOAD_TIMEOUT) as resp:
-            dados = resp.read(URL_DOWNLOAD_MAX_BYTES + 1)
-            if len(dados) > URL_DOWNLOAD_MAX_BYTES:
-                return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
+            dados = bytearray()
+            for chunk in resp.iter_content(chunk_size=8192):
+                dados.extend(chunk)
+                if len(dados) > URL_DOWNLOAD_MAX_BYTES:
+                    return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
 
             content_type = resp.headers.get("Content-Type", "").split(";")[0].strip().lower()
             if content_type:
@@ -270,7 +303,25 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
                 if not tipo_inferido or tipo_inferido not in URL_MIME_TYPES_PERMITIDOS:
                     return None, "tipo de conteudo nao identificado ou nao permitido"
 
-            target.write_bytes(dados)
+            # Determina a extensao baseada no Content-Type ou na URL original
+            ext_sugerida = Path(nome_sugerido).suffix.lower()
+            extensao = None
+            if ext_sugerida in EXTENSOES_UPLOAD_DIRETO | EXTENSOES_WORD_PARA_PDF | EXTENSOES_PLANILHAS | {".html", ".htm"}:
+                extensao = ext_sugerida
+
+            if not extensao:
+                if content_type:
+                    ext_inferida = mimetypes.guess_extension(content_type)
+                    if ext_inferida:
+                        extensao = ext_inferida.lower()
+
+            if not extensao:
+                extensao = ".bin"
+
+            nome_seguro = nome_upload_seguro(nome_sugerido, extensao)
+            target = caminho_unico(destino, nome_seguro)
+
+            target.write_bytes(bytes(dados))
             return target, ""
     except Exception as exc:
         return None, f"erro ao baixar recurso: {exc}"
@@ -517,6 +568,11 @@ def processar_arquivo_individual(
 
     elif suffix in {".html", ".htm"}:
         # HTML e autocontido: envia o arquivo bruto ao provider.
+        try:
+            texto = caminho.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            texto = caminho.read_text(encoding="latin-1")
+        documentos.append({"nome": nome, "texto": texto})
         arquivos_upload.append(str(caminho))
 
     else:
@@ -577,7 +633,7 @@ def normalizar_evidencia(
                 duplicados_ignorados=tuple(duplicados_ignorados),
             )
 
-    if suffix in {".txt", ".md", ".csv"}:
+    if suffix in {".txt", ".md", ".csv", ".html", ".htm"}:
         try:
             texto = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
