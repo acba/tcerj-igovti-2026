@@ -112,6 +112,7 @@ def aplicar_variaveis_temporarias(fontes, variaveis):
         )
 
     nomes_criados = set()
+    colunas_por_fonte = {}
     for _, row in variaveis.iterrows():
         variable_id = str(row['id']).strip()
         source_id = str(row['id_fonte_informacao']).strip()
@@ -132,19 +133,26 @@ def aplicar_variaveis_temporarias(fontes, variaveis):
         if name in nomes_criados or name in source.info.columns:
             raise ValueError(f"Nome de variável temporária duplicado ou já existente: {name!r}.")
 
+        colunas_fonte = colunas_por_fonte.setdefault(source_id, {})
+        contexto = pd.concat([source.info, pd.DataFrame(colunas_fonte, index=source.info.index)], axis=1)
         prepared = expression
-        for column in sorted(source.info.columns, key=lambda value: len(str(value)), reverse=True):
+        for column in sorted(contexto.columns, key=lambda value: len(str(value)), reverse=True):
             column = str(column)
             if not re.fullmatch(r"[A-Za-z_]\w*", column):
                 prepared = prepared.replace(column, f"`{column}`")
 
         try:
-            source.info[name] = source.info.eval(prepared, engine='python')
+            colunas_fonte[name] = contexto.eval(prepared, engine='python')
         except Exception as exc:
             raise ValueError(
                 f"Não foi possível calcular a variável temporária {variable_id} ({name}): {exc}"
             ) from exc
         nomes_criados.add(name)
+
+    for source_id, colunas in colunas_por_fonte.items():
+        if colunas:
+            source = fontes[source_id]
+            source.info = pd.concat([source.info, pd.DataFrame(colunas, index=source.info.index)], axis=1)
 
     return fontes
 

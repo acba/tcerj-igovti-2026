@@ -1,12 +1,52 @@
 import os
 import re
-import copy
 import pandas as pd
 import numpy as np
 from docx import Document
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 from argos_utils import avalia_expressao, avalia_logica
+
+
+def valor_vazio(valor):
+    if valor is None:
+        return True
+    try:
+        if pd.isna(valor):
+            return True
+    except (TypeError, ValueError):
+        pass
+    return str(valor).strip() == ""
+
+
+def parse_bool_planilha(valor, default=False, field_name="valor"):
+    if valor_vazio(valor):
+        return default
+    if isinstance(valor, (bool, np.bool_)):
+        return bool(valor)
+    if isinstance(valor, (int, np.integer)) and valor in {0, 1}:
+        return bool(valor)
+    texto = str(valor).strip().lower()
+    texto = texto.replace("ã", "a").replace("á", "a").replace("à", "a").replace("â", "a")
+    texto = texto.replace("é", "e").replace("ê", "e").replace("í", "i")
+    texto = texto.replace("ó", "o").replace("ô", "o").replace("õ", "o").replace("ú", "u")
+    verdadeiros = {"true", "t", "sim", "s", "yes", "y", "1", "verdadeiro"}
+    falsos = {"false", "f", "nao", "n", "no", "0", "falso"}
+    if texto in verdadeiros:
+        return True
+    if texto in falsos:
+        return False
+    raise ValueError(f"Valor booleano inválido em {field_name}: {valor!r}")
+
+
+def parse_lista_auditados(valor):
+    if valor_vazio(valor):
+        return None
+    if isinstance(valor, (set, list, tuple)):
+        itens = [str(item).strip().upper() for item in valor if str(item).strip()]
+        return set(itens) if itens else None
+    itens = [item.strip().upper() for item in re.split(r"[,;\n]+", str(valor)) if item.strip()]
+    return set(itens) if itens else None
 
 def safe_serialize(obj):
     """Helper to serialize numpy/pandas types to native Python types."""
@@ -18,6 +58,8 @@ def safe_serialize(obj):
         return bool(obj)
     elif isinstance(obj, np.ndarray):
         return obj.tolist()
+    elif isinstance(obj, set):
+        return sorted(obj)
     elif pd.isna(obj):
         return None
     return obj
@@ -116,6 +158,31 @@ class Achado:
             encaminhamentos=data.get('encaminhamentos')
         )
 
+
+class ResultadoAcao:
+    def __init__(self, acao, resultado=False, situacao_encontrada=None, descricao_evidencia=None):
+        self.acao = acao
+        self.resultado = resultado
+        self.situacao_encontrada = situacao_encontrada
+        self.descricao_evidencia_renderizada = descricao_evidencia
+
+    def __getattr__(self, name):
+        return getattr(self.acao, name)
+
+    @property
+    def descricao_evidencia(self):
+        return self.descricao_evidencia_renderizada
+
+    def to_dict(self):
+        data = self.acao.to_dict()
+        data.update({
+            'descricao_evidencia': self.descricao_evidencia_renderizada,
+            'situacao_encontrada': safe_serialize(self.situacao_encontrada),
+            'resultado': bool(self.resultado) if self.resultado is not None else None,
+        })
+        return data
+
+
 class AcaoVerificacao:
     contador = 1  # Contador de instâncias para automatizar o identificador
 
@@ -135,21 +202,25 @@ class AcaoVerificacao:
         self.criterio = criterio  # Condição a ser avaliada (ex: "> 0")
         self.descricao_evidencia = descricao_evidencia  # Descrição da evidência em caso de inconformidade
 
-        self.acao_exclusiva_auditados = acao_exclusiva_auditados  # Siglas dos auditados (CSV)
-        self.auditado_inexistente_e_achado = auditado_inexistente_e_achado  # Se auditado não existir, reporta achado?
+        self.acao_exclusiva_auditados = parse_lista_auditados(acao_exclusiva_auditados)  # Siglas dos auditados
+        self.auditado_inexistente_e_achado = parse_bool_planilha(
+            auditado_inexistente_e_achado,
+            default=False,
+            field_name=f"auditado_inexistente_e_achado da ação {id}",
+        )
         self.descricao_auditado_inexistente = descricao_auditado_inexistente  # Descrever o pq não existe
 
         self.situacao_inconforme = situacao_inconforme  # Condição que indica inconformidade (ex: "Não adota")
         self.descricao_situacao_inconforme = descricao_situacao_inconforme
-        self.situacao_encontrada_nan_e_achado = False if pd.isna(situacao_encontrada_nan_e_achado) else True
-        self.situacao_encontrada = None  # Valor encontrado durante a verificação
+        self.situacao_encontrada_nan_e_achado = parse_bool_planilha(
+            situacao_encontrada_nan_e_achado,
+            default=False,
+            field_name=f"situacao_encontrada_nan_e_achado da ação {id}",
+        )
 
         self.tipo_encaminhamento = tipo_encaminhamento  # Ex: "Recomendação", "Determinação"
         self.pre_encaminhamento = pre_encaminhamento  # Ação prévia ao encaminhamento
         self.encaminhamento = encaminhamento
-
-        self.resultado = None    # Inicialmente falso, até ser verificado
-
 
     def __repr__(self):
         return (
@@ -159,15 +230,14 @@ class AcaoVerificacao:
                 f"descricao_situacao_inconforme='{self.descricao_situacao_inconforme}', acao_exclusiva_auditados='{self.acao_exclusiva_auditados}')\n"
                 f"pre_encaminhamento='{self.pre_encaminhamento}', encaminhamento='{self.encaminhamento}')\n"
                 f"situacao_encontrada_nan_e_achado='{self.situacao_encontrada_nan_e_achado}', auditado_inexistente_e_achado='{self.auditado_inexistente_e_achado}')\n"
-                f"descricao_auditado_inexistente='{self.descricao_auditado_inexistente}', situacao_encontrada='{self.situacao_encontrada}')\n"
-                f"resultado='{self.resultado}'")
+                f"descricao_auditado_inexistente='{self.descricao_auditado_inexistente}')\n")
 
     def executar(self, auditado, debug=False):
         # Verifica se a ação é exclusiva para um determinado grupo de auditados.
         # Se for, e o auditado atual não estiver nesse grupo, a ação não é executada.
         # Isso permite que certas verificações sejam feitas apenas em alguns órgãos.
-        if not pd.isna(self.acao_exclusiva_auditados) and (auditado not in self.acao_exclusiva_auditados):
-            return self
+        if self.acao_exclusiva_auditados is not None and auditado.upper() not in self.acao_exclusiva_auditados:
+            return ResultadoAcao(self, resultado=False)
 
         if debug:
             print(f'\tExecutando ação {self.id}')
@@ -185,31 +255,59 @@ class AcaoVerificacao:
         # Realiza a busca e a verificação para cada campo especificado
         if auditado in self.fonte_informacao.info.index:
             resultado_acoes = []
+            descricao_evidencia = self.descricao_evidencia
+            situacao_encontrada = None
             for info_requerida in self.informacao_requerida.split('|'):
                 val = self.fonte_informacao.info.loc[auditado, info_requerida]
                 # Defesa contra índices duplicados que retornam uma Series ao invés de um valor escalar
                 if isinstance(val, pd.Series):
                     val = val.iloc[0]
-                self.situacao_encontrada = val
+                situacao_encontrada = val
 
-                if self.situacao_encontrada_nan_e_achado and pd.isna(self.situacao_encontrada):
+                if self.situacao_encontrada_nan_e_achado and pd.isna(situacao_encontrada):
                     resultado_acoes.append(True)
                 else:
-                    resultado_acoes.append(avalia_expressao(self.situacao_inconforme, self.situacao_encontrada, debug=debug))
-                    self.descricao_evidencia = self.descricao_evidencia.replace('@', str(self.situacao_encontrada))
+                    resultado_acoes.append(avalia_expressao(self.situacao_inconforme, situacao_encontrada, debug=debug))
+                    placeholders = {
+                        '@': situacao_encontrada,
+                        '{situacao_encontrada}': situacao_encontrada,
+                        '{avaliacao_justificativa}': None,
+                    }
+                    colunas_auxiliares = {
+                        '{avaliacao_justificativa}': f"{info_requerida}__justificativa",
+                    }
+                    for placeholder, coluna in colunas_auxiliares.items():
+                        if coluna in self.fonte_informacao.info.columns:
+                            valor = self.fonte_informacao.info.loc[auditado, coluna]
+                            if isinstance(valor, pd.Series):
+                                valor = valor.iloc[0]
+                            if not pd.isna(valor) and str(valor).strip():
+                                placeholders[placeholder] = valor
 
-            self.resultado = all(resultado_acoes)
+                    for placeholder, valor in placeholders.items():
+                        if valor is not None:
+                            descricao_evidencia = descricao_evidencia.replace(placeholder, str(valor))
+                        elif placeholder.startswith('{'):
+                            descricao_evidencia = descricao_evidencia.replace(placeholder, "")
+
+            resultado = all(resultado_acoes)
 
         else:
-            self.resultado = True if self.auditado_inexistente_e_achado else False
-            self.descricao_evidencia = self.descricao_auditado_inexistente
+            resultado = True if self.auditado_inexistente_e_achado else False
+            situacao_encontrada = None
+            descricao_evidencia = self.descricao_auditado_inexistente
 
         if debug:
-            print(f'\tSituação Encontrada: {self.situacao_encontrada}')
-            print(f'\tResultado da verificação: {self.resultado}')
+            print(f'\tSituação Encontrada: {situacao_encontrada}')
+            print(f'\tResultado da verificação: {resultado}')
             print(f'')
 
-        return self
+        return ResultadoAcao(
+            self,
+            resultado=resultado,
+            situacao_encontrada=situacao_encontrada,
+            descricao_evidencia=descricao_evidencia,
+        )
 
     def to_dict(self):
         return {
@@ -227,8 +325,6 @@ class AcaoVerificacao:
             'auditado_inexistente_e_achado': safe_serialize(self.auditado_inexistente_e_achado),
             'descricao_auditado_inexistente': self.descricao_auditado_inexistente,
             'situacao_encontrada_nan_e_achado': safe_serialize(self.situacao_encontrada_nan_e_achado),
-            'situacao_encontrada': safe_serialize(self.situacao_encontrada),
-            'resultado': bool(self.resultado) if self.resultado is not None else None
         }
 
     @classmethod
@@ -253,6 +349,36 @@ class AcaoVerificacao:
         obj.resultado = data.get('resultado')
         return obj
 
+class ResultadoProcedimento:
+    def __init__(self, procedimento, acoes_verificacao, achado_ocorreu, achado=None):
+        self.id = procedimento.id
+        self.descricao = procedimento.descricao
+        self.logica_achado = procedimento.logica_achado
+        self.numero_achado = procedimento.numero_achado
+        self.nome_achado = procedimento.nome_achado
+        self.executado = True
+        self.acoes_verificacao = acoes_verificacao
+        self.achado = achado
+        self.achado_ocorreu = achado_ocorreu
+
+    def to_dict(self, compacto=True):
+        data = {
+            'id': self.id,
+            'numero_achado': self.numero_achado,
+            'nome_achado': self.nome_achado,
+            'executado': safe_serialize(self.executado),
+            'achado': self.achado.to_dict() if self.achado else None,
+            'achado_ocorreu': safe_serialize(self.achado_ocorreu)
+        }
+        if not compacto:
+            data.update({
+                'descricao': self.descricao,
+                'logica_achado': self.logica_achado,
+                'acoes_verificacao': [acao.to_dict() for acao in self.acoes_verificacao],
+            })
+        return data
+
+
 class ProcedimentoAuditoria:
     contador = 1  # Contador de instâncias para automatizar o identificador
 
@@ -264,23 +390,16 @@ class ProcedimentoAuditoria:
         self.id = id
         self.descricao = descricao  # Descrição do procedimento
         self.logica_achado = logica_achado  # Expressão lógica para determinar o achado (ex: "AV01 | AV02")
-        self.executado = False
-
         self.numero_achado = numero_achado
         self.nome_achado = nome_achado
 
         # Ações de verificação que compõem o procedimento
         self.acoes_verificacao = []
-        self.achado = None
-        self.achado_ocorreu = None
 
     def __repr__(self):
         return  (f"ProcedimentoAuditoria(id='{self.id}', \n" +
                 f"descricao='{self.descricao}'\n" +
-                f"executado='{self.executado}'\n" +
                 f"logica_achado='{self.logica_achado}'\n" +
-                f"achado_ocorreu='{self.achado_ocorreu}'\n" +
-                f"achado='{self.achado}'\n" +
                 f"acoes_verificacao ('{len(self.acoes_verificacao)}')\n") #+ "\n".join([f"{acao}" for acao in self.acoes_verificacao])
 
 
@@ -290,16 +409,12 @@ class ProcedimentoAuditoria:
 
     def executar(self, auditado, debug=False):
         """Executa todas as ações, avalia a lógica do achado e retorna o achado, caso encontrado."""
-        # Não é mais necessário fazer deepcopy aqui. A cópia será feita no nível do Auditado.
 
-        [acao.executar(auditado, debug) for acao in self.acoes_verificacao]
-        resultados = {acao.id: acao.resultado for acao in self.acoes_verificacao}
+        acoes_verificadas = [acao.executar(auditado, debug) for acao in self.acoes_verificacao]
+        resultados = {acao.id: acao.resultado for acao in acoes_verificadas}
 
         # Avalia a lógica do achado com os resultados das ações
         achado_ocorreu = avalia_logica(self.logica_achado, resultados)
-        self.achado_ocorreu = achado_ocorreu
-
-        self.executado = True
 
         if debug:
             # [print(acao) for acao in acoes_verificadas.values()]
@@ -307,6 +422,7 @@ class ProcedimentoAuditoria:
             print(f"Procedimento resultou em achado: {'Sim' if achado_ocorreu else 'Não'}")
             print()
 
+        achado = None
         if achado_ocorreu:
             achado = Achado(numero=self.numero_achado, nome=self.nome_achado)
 
@@ -320,7 +436,7 @@ class ProcedimentoAuditoria:
             situacoes_encontradas = []
             seen_situacoes = set()
 
-            for acao in self.acoes_verificacao:
+            for acao in acoes_verificadas:
                 if acao.resultado:
                     # Encaminhamentos
                     if acao.encaminhamento and acao.tipo_encaminhamento:
@@ -342,28 +458,30 @@ class ProcedimentoAuditoria:
             achado.encaminhamentos = encaminhamentos
             achado.evidencias = evidencias
             achado.situacoes_encontradas = situacoes_encontradas
-            self.achado = achado
 
-        # Otimização: Remove a referência ao DataFrame de todas as fontes de informação
-        # usadas neste procedimento APÓS a execução de todas as ações.
-        for acao in self.acoes_verificacao:
-            if hasattr(acao.fonte_informacao, 'info') and acao.fonte_informacao.info is not None:
-                acao.fonte_informacao.info = None
+        return ResultadoProcedimento(
+            self,
+            acoes_verificacao=acoes_verificadas,
+            achado_ocorreu=achado_ocorreu,
+            achado=achado,
+        )
 
-        return self
-
-    def to_dict(self):
-        return {
+    def to_dict(self, compacto=True):
+        data = {
             'id': self.id,
-            'descricao': self.descricao,
-            'logica_achado': self.logica_achado,
             'numero_achado': self.numero_achado,
             'nome_achado': self.nome_achado,
-            'executado': safe_serialize(self.executado),
-            'acoes_verificacao': [acao.to_dict() for acao in self.acoes_verificacao],
-            'achado': self.achado.to_dict() if self.achado else None,
-            'achado_ocorreu': safe_serialize(self.achado_ocorreu)
+            'executado': safe_serialize(getattr(self, 'executado', False)),
+            'achado': self.achado.to_dict() if getattr(self, 'achado', None) else None,
+            'achado_ocorreu': safe_serialize(getattr(self, 'achado_ocorreu', None))
         }
+        if not compacto:
+            data.update({
+                'descricao': self.descricao,
+                'logica_achado': self.logica_achado,
+                'acoes_verificacao': [acao.to_dict() for acao in self.acoes_verificacao],
+            })
+        return data
 
     @classmethod
     def from_dict(cls, data):
@@ -414,9 +532,7 @@ class Auditado:
             # print(f'Procedimento {procedimento.id} já foi executado')
             return
 
-        # Cria uma cópia do procedimento AQUI, uma vez por auditado.
-        p = copy.deepcopy(procedimento)
-        p.executar(self.sigla, debug)
+        p = procedimento.executar(self.sigla, debug)
         self.procedimentos_executados.append(p)
 
         if p.achado:
@@ -495,6 +611,16 @@ class Auditado:
         encaminhamentos = []
         for p in self.procedimentos_executados:
             if p.achado is None:
+                continue
+            if not p.acoes_verificacao:
+                for item in p.achado.encaminhamentos:
+                    encaminhamento = item.get('encaminhamento')
+                    tipo = item.get('tipo')
+                    if not encaminhamento or not tipo:
+                        continue
+                    registro = {'achado_num': p.achado.numero, 'encaminhamento': encaminhamento, 'tipo': tipo}
+                    if registro not in encaminhamentos:
+                        encaminhamentos.append(registro)
                 continue
             for acao in p.acoes_verificacao:
                 if acao.resultado:
@@ -641,14 +767,14 @@ class Auditado:
 
         return doc
 
-    def to_dict(self):
+    def to_dict(self, compacto=True):
         return {
             'id': self.id,
             'nome': self.nome,
             'sigla': self.sigla,
             'foi_auditado': safe_serialize(self.foi_auditado),
             'tem_achados': safe_serialize(self.tem_achados),
-            'procedimentos_executados': [p.to_dict() for p in self.procedimentos_executados]
+            'procedimentos_executados': [p.to_dict(compacto=compacto) for p in self.procedimentos_executados]
         }
 
     @classmethod

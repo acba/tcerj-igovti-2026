@@ -49,7 +49,7 @@ Os principais produtos do trabalho são:
 - `02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx`: base de respostas tratada.
 - `02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
 - `02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx`: matriz que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos.
-- `02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json`: resultado estruturado da execução dos procedimentos de auditoria.
+- `02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json`: resultado compacto da execução dos procedimentos de auditoria.
 - `03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md`: fonte Markdown do relatório consolidado.
 - `03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md`: template dos relatórios individuais.
 - `scripts/calcula-igovti.html`: calculadora interativa para aplicar uma estrutura YAML de índice a uma fonte de informação e analisar resultados.
@@ -334,6 +334,14 @@ scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
   --output 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
 ```
 
+Fonte derivada para uso nos procedimentos de auditoria:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
+```
+
+O script gera `02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx`, em formato largo por auditado, contendo apenas itens já utilizados no mapa de verificação de achados. Essa fonte permite que a ocorrência de `Não conforme` na avaliação de evidências também componha a lógica dos achados, mantendo a justificativa do juiz ou do auditor revisor disponível para a descrição da evidência.
+
 ### 11. Cálculo de estatísticas, índices e comparação longitudinal
 
 Com a base ajustada, são recalculados os resultados do iGovTI, a versão comparável, os dados históricos 2023-2026 e o contexto usado nos relatórios.
@@ -383,19 +391,25 @@ A execução automatizada cruza o banco de auditados, a matriz de procedimentos 
 scripts/.venv/bin/python scripts/executa_auditoria.py \
   --auditados 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
   --mapa 02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx \
-  --fontes 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --fontes \
+    02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+    02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx \
   --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
   --tabelas-auditoria-xlsx /tmp/tcerj-igovti-2026/auditoria/tabelas_consolidadas_auditoria.xlsx
 ```
 
 Saídas principais:
 
-- `resultado_auditoria.json`: serialização completa dos resultados.
+- `resultado_auditoria.json`: serialização compacta dos resultados, suficiente para gráficos, relatórios e plano de ação.
 - `tabelas_consolidadas_auditoria.xlsx`: tabelas de achados, recomendações e ranking.
 - `relatorios_procedimentos.zip`: relatórios de procedimentos por auditado.
 - `anexo_evidencias.docx`: consolidação de evidências vinculadas aos achados.
 - `comentarios_gestor/questionario_comentarios_gestor.lss`: survey para comentários dos gestores.
 - `comentarios_gestor/anexos_docx_comentarios.zip`: modelos Word para manifestação dos gestores.
+
+Para depuração da execução, incluindo todas as ações de verificação avaliadas, informe também `--resultado-auditoria-detalhado-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria_detalhado.json`.
+
+Antes da execução, o script valida o mapa de auditoria de forma bloqueante, incluindo referências a fontes, ações citadas na lógica, colunas das fontes, valores booleanos e expressões lógicas. Para uma execução leve, sem ZIP, DOCX ou LSS acessórios, use `--somente-dados`. Também é possível pular saídas específicas com `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias` e `--skip-comentarios-gestor`.
 
 ### 13. Escrita dos relatórios individuais preliminares
 

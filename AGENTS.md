@@ -125,6 +125,14 @@ scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
   --output 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
 ```
 
+Generate the derived evidence-adjustment source used by audit procedures:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
+```
+
+This creates `02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx`, a wide workbook keyed by `Auditado`, restricted by default to questionnaire items already used in `mapa-verificacao-achados.xlsx`.
+
 Generate the findings matrix DOCX:
 
 ```bash
@@ -137,10 +145,16 @@ Run audit procedures and write outputs to `/tmp` for validation:
 scripts/.venv/bin/python scripts/executa_auditoria.py \
   --auditados 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
   --mapa 02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx \
-  --fontes 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --fontes \
+    02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+    02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx \
   --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
   --tabelas-auditoria-xlsx /tmp/tcerj-igovti-2026/auditoria/tabelas_consolidadas_auditoria.xlsx
 ```
+
+`resultado_auditoria.json` is compact by default and omits the full list of evaluated actions. Use `--resultado-auditoria-detalhado-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria_detalhado.json` only when a detailed debugging trace is required.
+
+The audit CLI validates the map before execution and fails on missing sources/actions/columns, invalid booleans, and malformed finding logic. Use `--somente-dados` for a data-only run, or `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias`, and `--skip-comentarios-gestor` to skip specific accessory outputs.
 
 Generate individual report charts:
 
