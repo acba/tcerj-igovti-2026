@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera gráficos consolidados e individuais dos relatórios do iGovTI 2026."""
+"""Gera gráficos para os relatórios consolidado e individuais do iGovTI 2026."""
 
 from __future__ import annotations
 

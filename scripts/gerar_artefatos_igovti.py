@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenera todo o conjunto de artefatos iGovTI 2026 a partir das respostas.
+"""Gera os artefatos derivados do iGovTI 2026 a partir das respostas.
 
 Gera, em sequência:
 
@@ -11,7 +11,7 @@ Gera, em sequência:
 
 Exemplo::
 
-    scripts/.venv/bin/python scripts/atualizar_conjunto_igovti.py \
+    scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
       --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
 """
 

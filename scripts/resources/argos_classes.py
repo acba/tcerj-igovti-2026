@@ -494,6 +494,8 @@ class Auditado:
 
         encaminhamentos = []
         for p in self.procedimentos_executados:
+            if p.achado is None:
+                continue
             for acao in p.acoes_verificacao:
                 if acao.resultado:
                     if len(encaminhamentos):

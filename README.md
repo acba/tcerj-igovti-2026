@@ -1,280 +1,477 @@
-# Fiscalização 18/2026 - Índice de Governança de TI (iGovTI)
+# Fiscalização 18/2026 - iGovTI 2026
 
-**Tribunal de Contas do Estado do Rio de Janeiro (TCE-RJ)**
-*Auditoria Temática de Governança e Gestão de Tecnologia da Informação*
+**Tribunal de Contas do Estado do Rio de Janeiro (TCE-RJ)**  
+**Auditoria temática de governança e gestão de tecnologia da informação**
 
----
+Este repositório reúne os papéis de trabalho digitais da Fiscalização nº 18/2026, voltada à avaliação da governança e da gestão de tecnologia da informação dos jurisdicionados estaduais e municipais do Rio de Janeiro.
 
-## 📌 Visão Geral
+O trabalho combina matriz de planejamento, questionário estruturado no LimeSurvey, cálculo do índice iGovTI 2026, avaliação de evidências, execução automatizada dos procedimentos de auditoria e geração de relatórios individuais e consolidado.
 
-Este repositório armazena os **Papéis de Trabalho Digitais** referentes à Fiscalização nº 18/2026. O objetivo principal é avaliar o nível de maturidade em Governança de TI dos órgãos jurisdicionados estaduais e municipais do Rio de Janeiro, resultando na composição do índice **iGovTI-RJ**.
+## Objetivo
 
-A auditoria adota uma abordagem baseada em riscos e conformidade, alinhada às normas internacionais de auditoria (ISSAIs) e aos frameworks de boas práticas de mercado (COBIT, ITIL, ISO 27001).
+Avaliar se as estruturas, práticas e controles de governança e gestão de TIC dos jurisdicionados são suficientes para apoiar o alinhamento estratégico, a conformidade normativa, a segurança da informação, a gestão de serviços, a gestão de contratações e a melhoria contínua da administração pública.
 
-## 🎯 Objetivos
+Os principais produtos do trabalho são:
 
-### Objetivo Geral
-Avaliar se as estruturas de governança e gestão de TI dos jurisdicionados são adequadas para garantir o alinhamento estratégico, a conformidade legal (especialmente LGPD e leis de Governo Digital), a otimização de recursos e a mitigação de riscos operacionais.
+- diagnóstico consolidado de maturidade em governança e gestão de TIC;
+- índice iGovTI 2026, inclusive versão ajustada para comparação longitudinal;
+- avaliação de conformidade das respostas e evidências apresentadas;
+- achados, recomendações e determinações por organização auditada;
+- relatórios individuais preliminares e relatório consolidado.
 
-### Objetivos Específicos
-1.  **Diagnóstico:** Mapear a situação atual ("As-Is") da TI pública no estado.
-2.  **Segurança:** Identificar vulnerabilidades críticas em segurança da informação.
-3.  **Transparência:** Fomentar a publicação ativa de dados e serviços digitais.
-4.  **Ranking:** Estabelecer um índice comparativo (iGovTI) para estimular a melhoria contínua.
-
-## 📂 Estrutura do Repositório (Papéis de Trabalho)
-
-A organização dos diretórios segue o ciclo de vida da auditoria governamental e os requisitos de documentação das normas da INTOSAI.
+## Estrutura do Repositório
 
 ```text
-tcerj-fisc-18-2026-igovti/
-├── 01-Planejamento/           # Inteligência e Metodologia
-│   ├── 01-Estudos_Preliminares/  # Benchmarking, Análise de Riscos e Monitoramento
-│   ├── 02-Metodologia_iGovTI/    # Construção do Questionário e Critérios
-│   └── 03-Estrategia_e_Plano/    # Documentos Formais (ISSAI 200/4000)
-│
-├── 02-Execucao/               # Campo e Evidências
-│   ├── 01-Coleta_Dados/          # Respostas dos questionários e evidências brutas
-│   ├── 02-Testes_Auditoria/      # Scripts de análise e validação
-│   ├── 03-Achados_Preliminares/  # Descrição dos achados (situação encontrada, critérios de avaliação, evidências e propostas de encaminhamento)
-│   └── 04-Matriz_Achados/        # Confronto Critério vs. Condição
-│
-├── 03-Relatorios/             # Produtos Finais
-│   ├── Minutas, Relatórios Individuais e Relatório Consolidado
-│
-├── 04-Portal_iGovTI/          # Portal da Fiscalização
-│   └── Documentação e requisitos do Portal da Fiscalização
-│
-└── 99-Gestao/                 # Administrativo
-    ├── 01-Oficios_Apresentacao   # Portarias, Cronogramas, Ofícios e TSIDs
-    ├── 02-TSIDs/                 # Termos de Solicitação de Informação e Documentos
-    └── 99-Supervisao/            # Checklist de Supervisão
+.
+├── 01-Planejamento/
+│   ├── 01-Estudos_Preliminares/
+│   ├── 02-Metodologia_iGovTI/
+│   └── 03-Estrategia_e_Plano/
+├── 02-Execucao/
+│   ├── 01-Questionario/
+│   ├── 02-Questionario iGovTI 2023/
+│   ├── 03-Execucao_Procedimentos/
+│   └── 04-Matriz_Achados/
+├── 03-Relatorios/
+│   ├── 01-Relatorio_Consolidado/
+│   └── 02-Relatorios_Individuais_Preliminares/
+├── 04-Portal_iGovTI/
+└── scripts/
 ```
 
-## ⚖️ Conformidade com Normas (ISSAIs)
+### Principais Artefatos
 
-Este projeto foi estruturado para garantir aderência às Normas Internacionais das Entidades Fiscalizadoras Superiores (ISSAIs):
+- `01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md`: questionário-fonte do iGovTI 2026.
+- `01-Planejamento/02-Metodologia_iGovTI/igovti_2026.lss`: questionário importável no LimeSurvey.
+- `01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml`: estrutura oficial de cálculo do iGovTI 2026.
+- `01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026-ajustado-comparavel.yaml`: estrutura ajustada para comparação com 2023.
+- `01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md`: matriz de planejamento em formato estruturado.
+- `02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx`: base de respostas tratada.
+- `02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
+- `02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx`: matriz que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos.
+- `02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json`: resultado estruturado da execução dos procedimentos de auditoria.
+- `03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md`: fonte Markdown do relatório consolidado.
+- `03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md`: template dos relatórios individuais.
+- `scripts/calcula-igovti.html`: calculadora interativa para aplicar uma estrutura YAML de índice a uma fonte de informação e analisar resultados.
+- `scripts/dashboard_avaliacao_evidencias.html`: dashboard para revisão humana das avaliações de evidências e exportação da consolidação por auditado e item.
+- `scripts/montar_tabela_download_anexos_limesurvey.js`: script de apoio para gerar, a partir da tabela de respostas do LimeSurvey, a planilha com URLs de anexos e de respostas.
+- `scripts/gerar_pacote_relatorios_igovti.py`: orquestrador do fluxo completo de geração dos artefatos, auditoria, gráficos e relatórios.
 
-*   **ISSAI 100 (Princípios):** Controles de Ética e Independência em `99-Gestao/`.
-*   **ISSAI 4000 (Conformidade):**
-    *   **Planejamento:** Matriz de Riscos em `01-Planejamento/01-Estudos_Preliminares`.
-    *   **Execução:** Segregação clara entre evidências e achados em `02-Execucao`.
-    *   **Responsabilização:** Matriz específica para nexo causal.
+## Metodologia Sequencial
 
-## 🛠️ Metodologia e Ferramentas
+As etapas abaixo descrevem o fluxo operacional do trabalho, da concepção da auditoria à geração dos relatórios. Quando há automação disponível, o script correspondente é indicado.
 
-*   **iGovTI (Metodologia):** Baseada no modelo federal do TCU (iGG/iESGo), adaptada para a realidade municipal fluminense (foco em *Conformidade Legal* e *Estrutura Mínima*) e estadual (foco em *Governança Sistêmica* e *Segurança*).
-*   **Análise de Dados:** Scripts de validação e cruzamento de dados localizados na pasta `scripts/`.
-*   **Portal iGovTI:** Ferramenta web para dar publicidade aos resultados (especificações em `04-Portal_iGovTI/`).
+### Fluxo completo em comando único
 
-## 🐍 Scripts de Automação
+Para regenerar o pacote completo a partir da planilha bruta exportada do questionário eletrônico, use o orquestrador:
 
-O repositório conta com scripts utilitários na pasta `scripts/` para automatizar etapas essenciais da fiscalização:
-
-### 📋 Instalação de Dependências
-Para rodar os scripts, instale as dependências declaradas no arquivo [requirements.txt](file:///home/acba/workspace/fiscalizacoes/tcerj-igovti-2026/scripts/requirements.txt):
 ```bash
-pip install -r scripts/requirements.txt
+scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
+  --respostas-bruto 02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx \
+  --output-dir /tmp/tcerj-igovti-2026-ultima-versao
 ```
 
-### 1. Geração de Matrizes
-*   **Matriz de Planejamento (`gerar_matriz_planejamento.py`):** Lê o arquivo Markdown e preenche um template do Word (`.docx`).
-    *   *Como executar:*
-        ```bash
-        python scripts/gerar_matriz_planejamento.py 01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
-        ```
-*   **Matriz de Achados (`gerar_matriz_achados.py`):** Preenche o modelo formal Word da Matriz de Achados cruzando a matriz de planejamento e o mapa de verificação.
-    *   *Como executar:*
-        ```bash
-        python scripts/gerar_matriz_achados.py
-        ```
+O script infere o prefixo `20260621` a partir do nome da planilha bruta, aplica os ajustes registrados pela equipe, recalcula o iGovTI, executa a auditoria, gera gráficos, relatórios individuais e relatório consolidado. Cada etapa é exibida na tela com logs e o comando executado. Use `--auditados-select SIGLA...` para restringir a geração dos relatórios individuais a auditados específicos.
 
-### 2. Coleta e Avaliação de Evidências (IA)
-*   **Coletar Anexos (`coletar_anexos_limesurvey.py`):** Baixa de forma automatizada todas as evidências submetidas pelas organizações no LimeSurvey.
-    *   *Como executar:*
-        ```bash
-        python scripts/coletar_anexos_limesurvey.py
-        ```
-        *(Nota: Caso a sessão expire, atualize os cookies nas linhas 19 a 23 do script).*
-*   **Extração de Evidências (`extrair_evidencias.py`):** Extrai de forma estruturada e plana todos os arquivos ZIP baixados para a pasta temporária de trabalho `/tmp/tcerj-igovti-2026/evidencias_extraidas`.
-    *   *Como executar:*
-        ```bash
-        python scripts/extrair_evidencias.py
-        ```
-*   **Avaliação de Evidências (`avaliacao_evidencias`):** Executa o pipeline de avaliação de evidências por IA.
-    *   *Como adicionar ou alterar um prompt:*
-        1.  Edite o catálogo YAML, não os arquivos Markdown gerados:
-            - catálogo conservador completo: `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_conservador_v2.yml`;
-            - catálogo binário para achados: `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml`.
-        2.  No catálogo binário, cada entrada deve indicar `arquivo`, `coluna_evidencia`, `itens_avaliaveis` e, se aplicável, `criterios_pratica_principal`, `criterios_comuns_itens` ou `criterios_por_item`.
-            - Use `criterios_comuns_itens` para critérios compartilhados por várias alternativas e `excluir_criterios_comuns_itens` para exceções.
-            - Use `exibir_texto_itens: false` quando a avaliação deve considerar apenas os critérios listados, não o texto integral da alternativa do questionário. O pipeline respeita essa marcação e mascara `itens_afirmados[].texto` antes de chamar o provedor.
-            - Em questões `adoption` com detalhamentos, como `q1001ext[A]`, mantenha o texto visível quando o detalhamento marcado for a própria afirmação a validar.
-        3.  Não inclua itens que não exigem evidência no questionário, como `q0101[F]`, `q0102[E]` e `q0103[G]`.
-        4.  Regenere os prompts Markdown após qualquer alteração no YAML.
+Principais saídas:
 
-    *   *Regenerar prompts conservadores:*
-        ```bash
-        scripts/.venv/bin/python -m scripts.avaliacao_evidencias.prompt_catalog build \
-          scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_conservador_v2.yml \
-          01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-          scripts/avaliacao_evidencias/prompts/igovti_2026_conservador_v2
-        ```
+```text
+/tmp/tcerj-igovti-2026-ultima-versao/01-Questionario/
+/tmp/tcerj-igovti-2026-ultima-versao/auditoria/
+/tmp/tcerj-igovti-2026-ultima-versao/relatorios-individuais/
+/tmp/tcerj-igovti-2026-ultima-versao/relatorio-consolidado/
+```
 
-    *   *Regenerar prompts binários para achados:*
-        ```bash
-        scripts/.venv/bin/python -m scripts.avaliacao_evidencias.prompt_catalog_achados build \
-          scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
-          01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-          scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1
-        ```
+### 1. Estudos preliminares e definição da abordagem
 
-    *   *Validar sem chamar IA remota (provider fake):*
-        ```bash
-        scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
-          02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-          /tmp/tcerj-igovti-2026/evidencias_extraidas \
-          --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
-          --prompt-version igovti_2026_achados_binario_v1 \
-          --only-prompts-present \
-          --provider fake \
-          --model fake \
-          --out-dir /tmp/tcerj-igovti-2026/avaliacao_evidencias/teste-achados-binario
-        ```
+A equipe reúne antecedentes, referenciais externos e critérios de auditoria para definir escopo, riscos e questões de auditoria. As referências ficam principalmente em:
 
-    *   *Como executar a avaliação binária de achados via OpenRouter:*
-        ```bash
-        export OPENROUTER_API_KEY="sua_chave_aqui"
-        scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
-          02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-          /tmp/tcerj-igovti-2026/evidencias_extraidas \
-          --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
-          --prompt-version igovti_2026_achados_binario_v1 \
-          --only-prompts-present \
-          --provider openrouter \
-          --model google/gemini-2.5-flash \
-          --rpm 12 \
-          --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/achados_binario_openrouter
-        ```
+- `01-Planejamento/01-Estudos_Preliminares/`
+- `01-Planejamento/01-Estudos_Preliminares/Referencias_Externas/`
+- `01-Planejamento/01-Estudos_Preliminares/Analise_Riscos/`
 
-    *   *Como executar via provider OpenAI-compatible local (`openai-oauth`):*
-        ```bash
-        scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
-          02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-          02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
-          --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-          --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
-          --prompt-version igovti_2026_achados_binario_v1 \
-          --only-prompts-present \
-          --provider openai \
-          --model gpt-5.4-mini \
-          --rpm 12 \
-          --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/achados_binario_openai_gpt-5.4-mini
-        ```
+Não há script único para esta etapa; trata-se de atividade analítica e documental.
 
-        O provider `openai` usa por padrão o endpoint local `http://127.0.0.1:10531/v1` e envia PDFs por `/v1/responses` como `input_file` em modo streaming. O proxy local normalmente não exige chave; se necessário, use `OPENAI_API_KEY`.
+### 2. Elaboração da matriz de planejamento
 
-        Use `--auditados SIGLA` para processar apenas organizações específicas. Use `--list-only` para conferir as análises candidatas sem chamar o provedor. O parâmetro `--only-prompts-present` é obrigatório para conjuntos parciais de prompts, como `igovti_2026_achados_binario_v1`. Por padrão, o JSONL incremental é gravado como `analyses_<provider>_<model>.jsonl`; use `--out-file nome.jsonl` para escolher outro nome ou caminho. Para evidências PDF que devem ser avaliadas como Markdown com imagens extraídas, use `--pdf2md`. Para evidências DOCX que devem ser avaliadas como HTML com imagens extraídas, use `--docx2html`.
+A matriz de planejamento organiza questões de auditoria, subquestões, riscos, fontes de informação, informações requeridas, critérios, procedimentos, evidências esperadas, possíveis achados e encaminhamentos.
 
-    *   **Orquestrador multi-modelo com barras de progresso (`run_avaliacao_evidencias_v2.py`):** Lança vários pipelines de avaliação em paralelo (cada um com seu provider, modelo e flags) e exibe **barras de progresso empilhadas** no terminal via `rich.Progress` — uma por modelo ativo. Substitui o antigo `scripts/run_avaliacao_evidencias.sh` com visibilidade de progresso em tempo real. Cada barra mostra: provider/modelo, barra de progresso, percentual, concluídos/total, erros (`✗`), puladas (`⏭`), tempo decorrido, ETA e status. Ao final, imprime uma tabela `rich.Table` com o resumo de cada modelo.
+Fonte principal:
 
-        A lista de modelos a executar está no topo do script (`MODELS = [...]`). Para ativar ou desativar modelos, edite o campo `enabled` de cada bloco; para adicionar um novo, copie um bloco e ajuste provider, model, rpm, reasoning, pdf2md, docx2html, store_prompts. Os modelos ativos por padrão são `gemini-3.1-flash-lite` (provider `gemini`) e `minimax-m3` (provider `opencodego`).
+```text
+01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+```
 
-        *Rotação automática de chaves em 429 (Gemini):* quando a variável de ambiente `GEMINI_API_KEY` contém múltiplas chaves separadas por vírgula, o pipeline rotaciona para a próxima chave disponível imediatamente ao receber 429, em vez de esperar 30/60/120s. Se todas as chaves estiverem exauridas simultaneamente, o pipeline **pausa** pelo menor `Retry-After` e exibe um alerta amarelo no terminal; nenhum item é gravado como erro por rate limit. Limite de 5× 429 consecutivos na mesma chave faz com que ela seja abandonada (as outras continuam sendo tentadas). As demais flags de cada modelo (rpm, reasoning, pdf2md, docx2html, store_prompts) são preservadas pelo orquestrador.
+Geração do DOCX:
 
-        ```bash
-        cd /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026
-        scripts/.venv/bin/python scripts/run_avaliacao_evidencias_v2.py
-        ```
+```bash
+scripts/.venv/bin/python scripts/gerar_matriz_planejamento.py \
+  01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+```
 
-        O atalho `Ctrl+C` interrompe todos os subprocesses em paralelo com `terminate()` e exibe um resumo parcial do que foi processado até o momento.
+### 3. Criação da metodologia e do índice iGovTI
 
-*   **Consolidação por juiz IA (`consolidacao.py` + orquestrador):** Consolida as avaliações dos modelos em um parecer por evidência. Lê todos os `analyses*.jsonl` encontrados em `02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/`, agrupa por `(auditado, questao, coluna_evidencia, evidencia)`, e envia cada grupo a um juiz IA com as avaliações preliminares + a evidência reenviada (quando `--evidencias-root` é informado). O juiz retorna um parecer consolidado (`conforme` / `nao_conforme` / `inconclusivo` / `erro`) com justificativa, lacunas e referências, sem mencionar provedores/modelos no texto. A opinião da equipe de auditoria pode ser injetada no prompt do juiz via `--auditor-opinions` (JSONL/JSON/CSV com campo `opiniao_auditoria` ou `parecer`).
+A metodologia do iGovTI 2026 é definida a partir do questionário e das estruturas YAML de cálculo. A versão oficial calcula o índice do ciclo atual; a versão ajustada comparável permite análise longitudinal com 2023.
 
-    *Orquestrador multi-juiz com barras de progresso (`run_consolida_avaliacoes_v2.py`):* Lança vários juízes em paralelo (cada um com seu `judge_provider`/`judge_model`) e exibe **barras de progresso empilhadas** no terminal via `rich.Progress` — uma por juiz. Substitui o antigo `scripts/run_consolida_avaliacoes.sh`. Cada barra mostra: provider/modelo do juiz, barra de progresso, percentual, concluídos/total, erros (`✗`), puladas (`⏭`), tempo, ETA e status. Ao final, tabela `rich.Table` com o resumo por juiz. Suporta `--reasoning` e `--store-prompts` para paridade com a avaliação de evidências.
+Fontes principais:
 
-    O registro consolidado inclui: `identity`, `status`, `auditado`, `questao`, `coluna_evidencia`, `evidencia`, `judge_provider`, `judge_model`, `opinion_count`, `opinion_sources` (identities + providers + models das opiniões recebidas), `opiniao_auditoria`, `evidence_path`, `evidence_hash`, `result`, `error`, `started_at`, `finished_at`, `duration_seconds` e `reasoning_effort`. Com `--store-prompts`, também grava `prompt_payload` (payload textual enviado ao juiz). A rotação de chaves em 429 e a pausa por chaves exauridas funcionam do mesmo modo que na avaliação de evidências.
+```text
+01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md
+01-Planejamento/02-Metodologia_iGovTI/metodologia-calculo.md
+01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml
+01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026-ajustado-comparavel.yaml
+```
 
-    A lista de juízes está no topo do script (`JUDGES = [...]`). Por padrão, apenas `gemini-3.1-flash-lite` (como juiz) está ativo. Para executar:
+Cálculo dos resultados a partir das respostas:
 
-    ```bash
-    cd /home/acba/workspace/fiscalizacoes/tcerj-igovti-2026
-    scripts/.venv/bin/python scripts/run_consolida_avaliacoes_v2.py
-    ```
+```bash
+scripts/.venv/bin/python scripts/gerar_igovti.py \
+  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+```
 
-    Para executar manualmente um juiz específico (sem o orquestrador), use o módulo `consolidacao`:
+Regeneração integrada dos artefatos do índice, comparação longitudinal e contexto estatístico:
 
-    ```bash
-    export GEMINI_API_KEY="sua_chave_aqui"
-    scripts/.venv/bin/python -m scripts.avaliacao_evidencias.consolidacao \
-        02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/analyses*.jsonl \
-        --evidencias-root 02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas \
-        --judge-provider gemini \
-        --judge-model gemini-3.1-flash-lite \
-        --reasoning high \
-        --out-dir 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/consolidado
-    ```
+```bash
+scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
+  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  --prefixo 20260621 \
+  --output-dir /tmp/tcerj-igovti-2026
+```
 
-    Use `--auditor-opinions caminho/do/revisao_equipe.jsonl` para injetar opiniões textuais da equipe no prompt do juiz. Os registros consolidados são gravados como `consolidated.jsonl` dentro de `--out-dir`, e um XLSX de pareceres consolidados (`pareceres_consolidados.xlsx`) é gerado ao final. O JSONL exportado pelo **dashboard de revisão humana** (`scripts/dashboard_avaliacao_evidencias.html`) pode ser alimentado diretamente como `--auditor-opinions`, fechando o ciclo de revisão humana → juiz IA.
+Para simulações, validações metodológicas ou cálculo de um índice qualquer baseado em uma estrutura YAML, pode ser usada a página:
 
-*   **Agregação das Avaliações (`agregar_analyses_por_item.py`):** Consolida os resultados de um ou mais arquivos JSONL de avaliação (`analyses*.jsonl`) por item do questionário, como `q0101`, `q1001` ou `q2101`. Para cada item, calcula o total de avaliações e os quantitativos de `conforme`, `nao_conforme`, `inconclusivo` e `erro`. A planilha também apresenta até dois exemplos de avaliações, com auditado, modelo, evidência, afirmação avaliada e justificativa.
+```text
+scripts/calcula-igovti.html
+```
 
-    A saída possui três abas:
+Essa ferramenta permite carregar uma fonte de informação, aplicar a estrutura YAML de entrada, gerar resultados e visualizar estatísticas exploratórias do índice calculado.
 
-    - `Resumo por item`: uma linha por item, com quantitativos, percentuais e exemplos;
-    - `Rastreabilidade`: todas as conclusões individuais usadas na agregação;
-    - `Metadados`: arquivos processados, referência aplicada e totais da execução.
+### 4. Criação da matriz de procedimentos de auditoria
 
-    O parâmetro `--referencia` filtra os registros pelo valor do campo `model` do JSONL de avaliação. Ele pode ser repetido quando for necessário combinar mais de um modelo. Sem esse parâmetro, todos os modelos encontrados serão agregados.
+A matriz de procedimentos traduz a matriz de planejamento em verificações executáveis: fontes de informação, procedimentos, ações de verificação, lógica de achado, situações encontradas e encaminhamentos.
 
-    *Como executar no Windows PowerShell, considerando somente o modelo `gemini-3.1-flash-lite`:*
+Artefato principal:
 
-    ```powershell
-    $analyses = Get-ChildItem `
-      "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias" `
-      -Recurse -Filter "analyses*.jsonl" -File |
-      Select-Object -ExpandProperty FullName
+```text
+02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx
+```
 
-    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
-      @analyses `
-      --referencia "gemini-3.1-flash-lite" `
-      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_avaliacoes_por_item_gemini-3.1-flash-lite.xlsx"
-    ```
+O repositório usa a skill local `preencher-matriz-procedimentos-auditoria` para apoiar essa geração a partir da matriz de planejamento. A matriz de achados em DOCX é gerada por:
 
-    *Como agregar todos os modelos:*
+```bash
+scripts/.venv/bin/python scripts/gerar_matriz_achados.py
+```
 
-    ```powershell
-    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
-      @analyses `
-      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_avaliacoes_por_item.xlsx"
-    ```
+### 5. Construção do questionário e publicação no LimeSurvey
 
-    *Como combinar duas referências:*
+O questionário-fonte é mantido em Markdown estruturado e convertido para LimeSurvey quando necessário.
 
-    ```powershell
-    .\scripts\.venv\Scripts\python.exe scripts\agregar_analyses_por_item.py `
-      @analyses `
-      --referencia "gemini-3.1-flash-lite" `
-      --referencia "mimo-v2.5-pro" `
-      --output "02-Execucao\03-Execucao_Procedimentos\avaliacao_evidencias\consolidado\agregado_modelos_selecionados.xlsx"
-    ```
+Fonte e saída:
 
-### 3. Geração de Relatórios
-*   **Geração do Relatório Consolidado (`gerar_relatorio_consolidado.py`):** Converte o Markdown do Relatório Consolidado para Word (`.docx`) aplicando referências cruzadas, quebras de página, sublinhados do Pandoc e estilos de tabela. O script automaticamente gera os gráficos e planifica todas as imagens em uma pasta temporária (sem poluir a pasta do relatório). Aceita o arquivo Markdown como parâmetro posicional, gera a saída com o mesmo nome `.docx` por padrão, e suporta recursos adicionais e wildcards via `--resource-files`.
-    *   *Como executar:*
-        ```bash
-        scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py
-        ```
+```text
+01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md
+01-Planejamento/02-Metodologia_iGovTI/igovti_2026.lss
+```
 
+Conversão do Markdown para LSS:
 
+```bash
+scripts/.venv/bin/python scripts/resources/md2lss.py \
+  01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  01-Planejamento/02-Metodologia_iGovTI/igovti_2026.lss
+```
 
+A importação, ativação e configuração final do survey no LimeSurvey são etapas operacionais da plataforma, sem script dedicado neste repositório.
 
-## 👥 Equipe Técnica
+### 6. Comunicação aos auditados
 
-*   **Unidade Técnica:** Coordenadoria de Auditoria de Tecnologia da Informação (CAD-TI/TCE-RJ).
-*   **Responsável:** Equipe de Auditoria.
+Após a ativação do survey, cada auditado recebe comunicação formal com link individualizado de acesso ao questionário. A consolidação dos identificadores e links de anexos aparece nos artefatos de execução, especialmente:
+
+```text
+02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx
+```
+
+Não há script dedicado para expedição das comunicações formais. O envio e o controle de ciência são procedimentos administrativos externos ao repositório.
+
+### 7. Coleta das respostas e dos anexos
+
+As respostas do LimeSurvey são exportadas para XLSX e armazenadas em `02-Execucao/01-Questionario/`. Os anexos enviados pelos auditados são baixados e extraídos para análise.
+
+Antes de rodar o coletor de anexos, a planilha com URLs de download pode ser montada a partir da página administrativa de respostas do LimeSurvey com:
+
+```text
+scripts/montar_tabela_download_anexos_limesurvey.js
+```
+
+O script deve ser executado no navegador, na tela de listagem das respostas do survey. Ele lê a tabela de respostas do LimeSurvey e gera `urls_anexos_limesurvey_consolidado.xlsx`, contendo identificadores, nomes dos auditados, URLs de download dos anexos e URLs dos PDFs de respostas. Essa planilha é usada pelo coletor Python.
+
+Coleta dos anexos:
+
+```bash
+scripts/.venv/bin/python scripts/coletar_anexos_limesurvey.py
+```
+
+Extração dos ZIPs de evidências:
+
+```bash
+scripts/.venv/bin/python scripts/extrair_evidencias.py
+```
+
+Principais artefatos:
+
+```text
+02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx
+02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx
+02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias/
+02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas/
+```
+
+### 8. Aplicação de ajustes iniciais nas respostas
+
+Antes das avaliações finais, a equipe pode aplicar ajustes decorrentes de retificações, saneamento de inconsistências, correção de bugs identificados no survey ou padronização de respostas.
+
+Artefato de controle:
+
+```text
+02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_inicial.xlsx
+```
+
+Quando o ajuste segue a estrutura esperada pelo script de ajustes, ele pode ser aplicado por:
+
+```bash
+scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
+  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx \
+  --ajustes 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_inicial.xlsx \
+  --output 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+```
+
+### 9. Avaliação das respostas e evidências
+
+A avaliação confronta as respostas afirmativas dos auditados com as evidências anexadas. O pipeline usa catálogos de prompts, processa arquivos PDF/DOCX quando necessário, registra avaliações em JSONL e permite consolidação posterior por juiz IA e revisão humana.
+
+Catálogo principal para achados:
+
+```text
+scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml
+scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1/
+```
+
+Regeneração dos prompts binários de achados:
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias.prompt_catalog_achados build \
+  scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
+  01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1
+```
+
+Validação local sem IA remota:
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
+  02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  /tmp/tcerj-igovti-2026/evidencias_extraidas \
+  --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_achados_binario_v1 \
+  --only-prompts-present \
+  --provider fake \
+  --model fake \
+  --out-dir /tmp/tcerj-igovti-2026/avaliacao_evidencias/teste-achados-binario
+```
+
+Execução paralela dos modelos configurados:
+
+```bash
+scripts/.venv/bin/python scripts/run_avaliacao_evidencias_v2.py
+```
+
+Consolidação das avaliações por juiz IA:
+
+```bash
+scripts/.venv/bin/python scripts/run_consolida_avaliacoes_v2.py
+```
+
+Revisão humana das avaliações e dos pareceres consolidados:
+
+```text
+scripts/dashboard_avaliacao_evidencias.html
+```
+
+O dashboard permite que a equipe revise as avaliações das evidências, inclusive pareceres consolidados pelo juiz, filtre por auditado e item avaliado, e exporte planilha XLSX com a consolidação da revisão. Isso permite dividir o mesmo conjunto de dados entre revisores em paralelo e depois usar a planilha exportada como insumo para os ajustes pós-avaliação.
+
+Agregação por item do questionário:
+
+```bash
+scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
+  02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/analyses*.jsonl \
+  --output 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
+```
+
+Documentação detalhada:
+
+```text
+scripts/avaliacao_evidencias/README.md
+```
+
+### 10. Ajustes pós-avaliação de evidências
+
+Após a revisão das evidências, respostas afirmativas não comprovadas podem ser convertidas em respostas não conformes ou removidas, conforme o tipo de item.
+
+Planilha de ajustes:
+
+```text
+02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx
+```
+
+Aplicação dos ajustes:
+
+```bash
+scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
+  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  --ajustes 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --output 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
+```
+
+### 11. Cálculo de estatísticas, índices e comparação longitudinal
+
+Com a base ajustada, são recalculados os resultados do iGovTI, a versão comparável, os dados históricos 2023-2026 e o contexto usado nos relatórios.
+
+Regeneração completa recomendada:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
+  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --prefixo 20260621 \
+  --output-dir /tmp/tcerj-igovti-2026
+```
+
+Execução manual das etapas estatísticas:
+
+```bash
+scripts/.venv/bin/python scripts/consolidar_dados_comparativos_igovti.py
+scripts/.venv/bin/python scripts/calcular_contexto_relatorios_igovti.py
+```
+
+Geração de gráficos para relatórios:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py \
+  --auditados FTM \
+  --output-root /tmp/tcerj-igovti-2026
+```
+
+Geração de gráficos específicos da comparação harmonizada iGovTI 2023-2026:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_graficos_igovti_comparavel.py
+```
+
+Geração de gráficos consolidados dos achados por esfera, a partir do banco de auditados e do resultado da auditoria:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_graficos_achados_consolidado.py \
+  --output-dir /tmp/tcerj-igovti-2026/relatorio-consolidado/img
+```
+
+### 12. Execução dos procedimentos de auditoria e consolidação de achados
+
+A execução automatizada cruza o banco de auditados, a matriz de procedimentos e as fontes de informação para produzir achados, encaminhamentos, rankings e artefatos de suporte à manifestação dos gestores.
+
+```bash
+scripts/.venv/bin/python scripts/executa_auditoria.py \
+  --auditados 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
+  --mapa 02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx \
+  --fontes 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
+  --tabelas-auditoria-xlsx /tmp/tcerj-igovti-2026/auditoria/tabelas_consolidadas_auditoria.xlsx
+```
+
+Saídas principais:
+
+- `resultado_auditoria.json`: serialização completa dos resultados.
+- `tabelas_consolidadas_auditoria.xlsx`: tabelas de achados, recomendações e ranking.
+- `relatorios_procedimentos.zip`: relatórios de procedimentos por auditado.
+- `anexo_evidencias.docx`: consolidação de evidências vinculadas aos achados.
+- `comentarios_gestor/questionario_comentarios_gestor.lss`: survey para comentários dos gestores.
+- `comentarios_gestor/anexos_docx_comentarios.zip`: modelos Word para manifestação dos gestores.
+
+### 13. Escrita dos relatórios individuais preliminares
+
+Os relatórios individuais combinam o resultado da execução dos procedimentos, o contexto estatístico do iGovTI, gráficos e templates Markdown.
+
+```bash
+scripts/.venv/bin/python scripts/gerar_relatorios_individuais.py \
+  --auditados /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
+  --templates 03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md \
+  --context-files 02-Execucao/01-Questionario/20260621-contexto-relatorios-igovti-2026.xlsx \
+  --ajustes-respostas 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --resource-files "/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png" \
+  --auditados-select FTM \
+  --output-dir /tmp/tcerj-igovti-2026/relatorios-individuais/FTM \
+  --reference-docx scripts/resources/template-base-estilos-sigiloso.docx
+```
+
+O argumento `--ajustes-respostas` alimenta o Apêndice B de cada relatório individual com os ajustes aplicados após a avaliação de evidências, incluindo item, resposta declarada, resposta ajustada e justificativa do juiz ou do auditor revisor, quando houver revisão humana.
+
+### 14. Escrita do relatório consolidado
+
+O relatório consolidado é mantido em Markdown e convertido para DOCX com aplicação de estilos, recursos gráficos e referências.
+
+Fonte principal:
+
+```text
+03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md
+```
+
+Geração do DOCX:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py \
+  --input 03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md \
+  --output /tmp/tcerj-igovti-2026/relatorio-consolidado/Relatório_altaresolucao_novo.docx \
+  --resource-files "/tmp/tcerj-igovti-2026/relatorio-consolidado/img/**/*" "/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" \
+  --resultados-2026 /tmp/tcerj-igovti-2026/01-Questionario/20260621-iGovTI-2026.xlsx \
+  --respostas-2026 /tmp/tcerj-igovti-2026/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --comparavel-2026 /tmp/tcerj-igovti-2026/01-Questionario/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx \
+  --auditados-xlsx 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
+  --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json
+```
+
+O gerador do consolidado também recria, em diretório temporário interno, os gráficos gerais e os gráficos de achados usados pelo DOCX. Quando os argumentos acima são informados, esses gráficos são produzidos a partir dos artefatos recém-gerados, e não dos arquivos padrão do repositório.
+
+### 15. Publicação e portal iGovTI
+
+Os requisitos do portal ficam em:
+
+```text
+04-Portal_iGovTI/PRD.md
+```
+
+Essa etapa consolida a estratégia de transparência e comunicação dos resultados após a validação dos produtos de auditoria.
+
+## Convenções de Execução
+
+- Use preferencialmente o ambiente virtual do repositório: `scripts/.venv/bin/python`.
+- Gere artefatos intermediários em `/tmp/tcerj-igovti-2026` quando estiver validando uma nova execução.
+- Não edite diretamente prompts Markdown gerados em `scripts/avaliacao_evidencias/prompts/`; altere o catálogo YAML correspondente e regenere os prompts.
+- Trate saídas de IA como minutas auxiliares. A conclusão de auditoria depende de revisão humana da equipe.
+- Para documentação, preserve português do Brasil e os identificadores técnicos do questionário, como `q0101`, `evidence_text`, `visible_if` e códigos de alternativas.
+
+## Comandos de Inspeção Úteis
+
+```bash
+rg --files -g '!**/.git/**'
+find . -maxdepth 3 -type d | sort
+rg -n "^## Grupo:|^### q|evidence_text:" 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md
+```
+
+## Equipe Técnica
+
+**Unidade técnica:** Coordenadoria de Auditoria de Tecnologia da Informação (CAD-TI/TCE-RJ)  
+**Responsável:** Equipe de Auditoria
 
 ---
-*© 2026 Tribunal de Contas do Estado do Rio de Janeiro - Repositório de Uso Interno/Restrito até a publicação do Relatório Final.*
+
+© 2026 Tribunal de Contas do Estado do Rio de Janeiro. Repositório de uso interno/restrito até a publicação do relatório final.

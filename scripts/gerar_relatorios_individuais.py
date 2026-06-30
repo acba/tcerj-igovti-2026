@@ -38,6 +38,90 @@ from argos_utils import (
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+def normalizar_texto_ajuste(val):
+    if pd.isna(val):
+        return ""
+    s = str(val).strip().lower()
+    return s.replace("ã", "a").replace("õ", "o").replace("é", "e").replace("á", "a").replace("í", "i")
+
+def is_nao_conforme_ajuste(val):
+    return normalizar_texto_ajuste(val) in ("nao conforme", "nao_conforme", "nao-conforme")
+
+def valor_texto(val, vazio=""):
+    if pd.isna(val) or str(val).strip() == "" or str(val).strip().lower() in ("nan", "none"):
+        return vazio
+    return str(val).strip()
+
+def resposta_ajustada_exibicao(item_codigo, resposta_afirmada, resposta_ajustada=None):
+    if resposta_ajustada is not None and not pd.isna(resposta_ajustada):
+        text = str(resposta_ajustada).strip()
+        if text and text.lower() not in ("nan", "none", "vazio"):
+            return text
+        if text.lower() == "vazio":
+            return ""
+
+    item = str(item_codigo or "").strip()
+    afirmada = valor_texto(resposta_afirmada)
+    if "ext" in item.lower() or "[" in item:
+        if afirmada.lower() in ("sim", "y"):
+            return "Não" if afirmada.lower() == "sim" else ""
+        return ""
+    if re.match(r"^q\d{4}$", item.lower()):
+        return "Não adota." if afirmada.endswith(".") else "Não adota"
+    return ""
+
+def carregar_ajustes_respostas(path):
+    if not path:
+        return {}
+    if not os.path.exists(path):
+        logger.warning(f"Planilha de ajustes de respostas '{path}' não encontrada. Apêndice B não será preenchido.")
+        return {}
+
+    try:
+        df = pd.read_excel(path)
+    except Exception as e:
+        logger.error(f"Erro ao ler planilha de ajustes de respostas '{path}': {e}")
+        return {}
+
+    ajustes_por_auditado = {}
+    for _, row in df.iterrows():
+        auditado = row.get("Auditado")
+        item_codigo = row.get("Código do item")
+        if pd.isna(item_codigo):
+            item_codigo = row.get("Código do item avaliado")
+        if pd.isna(auditado) or pd.isna(item_codigo):
+            continue
+
+        resposta_ajustada_planilha = row.get("Resposta ajustada") if "Resposta ajustada" in df.columns else None
+
+        if "Resposta ajustada" not in df.columns:
+            revisor_val = row.get("Avaliação do auditor revisor")
+            juiz_val = row.get("Resultado da avaliação do juiz")
+            tem_revisor = pd.notna(revisor_val) and str(revisor_val).strip() != "" and normalizar_texto_ajuste(revisor_val) != "sem_parecer"
+            resultado_final = revisor_val if tem_revisor else juiz_val
+            if not is_nao_conforme_ajuste(resultado_final):
+                continue
+            justificativa = row.get("Justificativa do auditor revisor") if tem_revisor else row.get("Justificativa do juiz")
+        else:
+            justificativa = row.get("Justificativa")
+            if pd.isna(justificativa):
+                justificativa = row.get("observacao")
+
+        resposta_afirmada = row.get("Resposta afirmada")
+        ajuste = {
+            "codigo_questao": str(item_codigo).strip(),
+            "de": valor_texto(resposta_afirmada, vazio="Vazio"),
+            "para": valor_texto(
+                resposta_ajustada_exibicao(item_codigo, resposta_afirmada, resposta_ajustada_planilha),
+                vazio="Vazio",
+            ),
+            "justificativa": valor_texto(justificativa, vazio="Sem justificativa registrada"),
+        }
+        ajustes_por_auditado.setdefault(str(auditado).strip().upper(), []).append(ajuste)
+
+    logger.info(f"Carregados ajustes de respostas para {len(ajustes_por_auditado)} auditado(s) a partir de '{path}'.")
+    return ajustes_por_auditado
+
 def consolidar_templates(base_content, all_files_content, template_paths, processed_files=None):
     """
     Consolidates templates by replacing {% include 'filename' %} with the file's content,
@@ -109,6 +193,11 @@ def main():
         '--reference-docx', default='scripts/resources/template-base-estilos-sigiloso.docx',
         help='Modelo de referência Word (.docx) usado pelo Pandoc para os estilos (padrão: scripts/resources/template-base-estilos-sigiloso.docx).'
     )
+    parser.add_argument(
+        '--ajustes-respostas',
+        default=None,
+        help='Planilha XLSX de ajustes aplicados às respostas para preencher o Apêndice B.'
+    )
 
     args = parser.parse_args()
 
@@ -158,9 +247,11 @@ def main():
             except Exception as e:
                 logger.error(f"Erro ao ler planilha de contexto '{path}': {e}")
 
-        if dfs_contexto:
+    if dfs_contexto:
             df_contexto_extra = pd.concat(dfs_contexto).groupby(level=0).first()
             logger.info("Planilhas de contexto consolidadas com sucesso.")
+
+    ajustes_respostas_por_auditado = carregar_ajustes_respostas(args.ajustes_respostas)
 
     # 3. Read and Consolidate Templates
     template_content = None
@@ -326,6 +417,10 @@ def main():
 
             if df_contexto_extra is not None and sigla in df_contexto_extra.index:
                 contexto.update(df_contexto_extra.loc[sigla].to_dict())
+
+            ajustes_respostas = ajustes_respostas_por_auditado.get(sigla.upper(), [])
+            contexto['ajustes_respostas'] = ajustes_respostas
+            contexto['teve_ajuste'] = bool(ajustes_respostas)
 
             # Fill missing variables in context with empty lists so Jinja rendering doesn't crash
             vars_faltantes = set(vars_template) - set(contexto.keys())

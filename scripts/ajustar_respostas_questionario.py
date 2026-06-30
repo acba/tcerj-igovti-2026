@@ -84,6 +84,18 @@ def main():
     print(f"Lendo ajustes de: {args.ajustes}")
     df_ajustes = pd.read_excel(args.ajustes)
 
+    # Ordenar por auditado e depois por item (ordem alfabética case-insensitive)
+    col_item_ajustes = None
+    if "Código do item" in df_ajustes.columns:
+        col_item_ajustes = "Código do item"
+    elif "Código do item avaliado" in df_ajustes.columns:
+        col_item_ajustes = "Código do item avaliado"
+
+    if col_item_ajustes and "Auditado" in df_ajustes.columns:
+        df_ajustes["_sort_auditado"] = df_ajustes["Auditado"].fillna("").astype(str).str.upper()
+        df_ajustes["_sort_item"] = df_ajustes[col_item_ajustes].fillna("").astype(str).str.upper()
+        df_ajustes = df_ajustes.sort_values(by=["_sort_auditado", "_sort_item"]).drop(columns=["_sort_auditado", "_sort_item"])
+
     # Estatísticas e lista de mudanças
     total_lidos = len(df_ajustes)
     total_nao_conforme = 0
@@ -242,21 +254,51 @@ def main():
 
     # Imprimir a tabela de alterações se houver mudanças
     if changes:
-        print("\nAlterações Realizadas:")
-        print("=" * 118)
-        print(f"{'Auditado':<15} | {'Item':<15} | {'Antes':<15} | {'Ajustado':<15} | {'Justificativa':<50}")
-        print("-" * 118)
-        for c in changes:
-            # Limitar justificativa a 47 caracteres e adicionar "..." se maior
-            if len(c["justificativa"]) > 47:
-                just_display = c["justificativa"][:47] + "..."
-            else:
-                just_display = c["justificativa"]
-            # Substituir quebras de linha por espaço simples para manter o alinhamento da linha na tabela
-            just_display = just_display.replace("\n", " ").replace("\r", " ").replace("  ", " ")
-            
-            print(f"{c['auditado']:<15} | {c['item']:<15} | {c['antes']:<15} | {c['ajustado']:<15} | {just_display:<50}")
-        print("=" * 118)
+        try:
+            from rich.console import Console
+            from rich.table import Table
+            from rich.box import ROUNDED
+
+            console = Console()
+            table = Table(
+                title="[bold cyan]Alterações Realizadas nas Respostas[/bold cyan]",
+                title_justify="left",
+                box=ROUNDED,
+                show_header=True,
+                header_style="bold magenta"
+            )
+            table.add_column("Auditado", style="cyan", width=15)
+            table.add_column("Item", style="yellow", width=15)
+            table.add_column("Antes", style="green", width=20)
+            table.add_column("Ajustado", style="red", width=20)
+            table.add_column("Justificativa", style="white", max_width=100)
+
+            for c in changes:
+                antes_display = c["antes"]
+                if len(antes_display) > 20:
+                    antes_display = antes_display[:17] + "..."
+
+                just_display = c["justificativa"].replace("\n", " ").replace("\r", " ").replace("  ", " ")
+                if len(just_display) > 97:
+                    just_display = just_display[:97] + "..."
+                table.add_row(c["auditado"], c["item"], antes_display, c["ajustado"], just_display)
+
+            console.print("\n")
+            console.print(table)
+        except ImportError:
+            # Fallback clássico se rich não estiver instalado
+            print("\nAlterações Realizadas:")
+            print("=" * 168)
+            print(f"{'Auditado':<15} | {'Item':<15} | {'Antes':<15} | {'Ajustado':<15} | {'Justificativa':<100}")
+            print("-" * 168)
+            for c in changes:
+                if len(c["justificativa"]) > 97:
+                    just_display = c["justificativa"][:97] + "..."
+                else:
+                    just_display = c["justificativa"]
+                just_display = just_display.replace("\n", " ").replace("\r", " ").replace("  ", " ")
+                print(f"{c['auditado']:<15} | {c['item']:<15} | {c['antes']:<15} | {c['ajustado']:<15} | {just_display:<100}")
+            print("=" * 168)
     else:
         print("\nNenhuma alteração foi realizada nas respostas.")
 

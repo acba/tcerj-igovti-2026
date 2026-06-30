@@ -96,6 +96,13 @@ def main() -> int:
         default=[],
         help="Parâmetros de contexto adicionais chave=valor (ex: sigla=FTM ano=2026)."
     )
+    parser.add_argument("--resultados-2026", default=None, help="XLSX de resultados iGovTI 2026 usado para gerar gráficos do relatório consolidado.")
+    parser.add_argument("--respostas-2026", default=None, help="XLSX de respostas do questionário usado para gerar gráficos do relatório consolidado.")
+    parser.add_argument("--comparavel-2026", default=None, help="XLSX iGovTI 2026 ajustado comparável usado para gerar gráficos do relatório consolidado.")
+    parser.add_argument("--setic-2023", default=None, help="XLSX comparável do SETIC 2023 usado para gerar gráficos do relatório consolidado.")
+    parser.add_argument("--municipios-2023", default=None, help="XLSX comparável dos municípios 2023 usado para gerar gráficos do relatório consolidado.")
+    parser.add_argument("--auditados-xlsx", default=None, help="Base de auditados XLSX usada para gerar gráficos consolidados de achados.")
+    parser.add_argument("--resultado-auditoria-json", default=None, help="Resultado estruturado da auditoria em JSON usado para gerar gráficos consolidados de achados.")
     args = parser.parse_args()
 
     input_str = args.input_positional or args.input or "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
@@ -165,12 +172,22 @@ def main() -> int:
         import subprocess
         import shutil
         
-        script_gerais = os.path.join(os.path.dirname(__file__), "gerar_graficos_relatorios_igovti.py")
+        script_gerais = os.path.join(os.path.dirname(__file__), "gerar_graficos_relatorios_consolidado_individuais_igovti.py")
         print("Executando a geração de gráficos gerais consolidados no diretório temporário...")
         try:
+            cmd_graficos_gerais = [sys.executable, script_gerais, "--somente-consolidados", "--output-root", temp_resources_dir]
+            for option, value in [
+                ("--resultados-2026", args.resultados_2026),
+                ("--respostas-2026", args.respostas_2026),
+                ("--comparavel-2026", args.comparavel_2026),
+                ("--setic-2023", args.setic_2023),
+                ("--municipios-2023", args.municipios_2023),
+            ]:
+                if value:
+                    cmd_graficos_gerais.extend([option, value])
             # Executa com o mesmo interpretador python
             subprocess.run(
-                [sys.executable, script_gerais, "--somente-consolidados", "--output-root", temp_resources_dir],
+                cmd_graficos_gerais,
                 check=True,
                 stdout=subprocess.DEVNULL
             )
@@ -181,8 +198,13 @@ def main() -> int:
         script_achados = os.path.join(os.path.dirname(__file__), "gerar_graficos_achados_consolidado.py")
         print("Executando a geração de gráficos de achados no diretório temporário...")
         try:
+            cmd_graficos_achados = [sys.executable, script_achados, "--output-dir", temp_resources_dir]
+            if args.auditados_xlsx:
+                cmd_graficos_achados.extend(["--auditados", args.auditados_xlsx])
+            if args.resultado_auditoria_json:
+                cmd_graficos_achados.extend(["--resultado-auditoria-json", args.resultado_auditoria_json])
             subprocess.run(
-                [sys.executable, script_achados, "--output-dir", temp_resources_dir],
+                cmd_graficos_achados,
                 check=True,
                 stdout=subprocess.DEVNULL
             )

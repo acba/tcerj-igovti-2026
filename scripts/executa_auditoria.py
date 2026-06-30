@@ -7,6 +7,10 @@ import re
 import json
 import logging
 import argparse
+import zipfile
+import io
+import datetime
+from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "resources"))
@@ -15,6 +19,8 @@ from argos_classes import FonteInformacao, AcaoVerificacao, ProcedimentoAuditori
     gerar_tabela_encaminhamentos, gerar_tabela_achados, gerar_tabela_situacoes_inconformes
 from argos_utils import aplicar_variaveis_temporarias, carregar_dados
 from igovti_dados_utils import to_relative
+from docxtpl import DocxTemplate
+from limesurvey_generator import LimeSurveyGenerator
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -53,12 +59,40 @@ def main():
         help='Caminho para um ou mais arquivos de fontes de informação/respostas (.xlsx).'
     )
     parser.add_argument(
-        '-j', '--output-json', default='.output_reports/resultado_auditoria.json',
-        help='Caminho para salvar o resultado dos auditados em JSON (padrão: .output_reports/resultado_auditoria.json).'
+        '-j', '--resultado-auditoria-json', '--output-json',
+        dest='resultado_auditoria_json',
+        default='.output_reports/resultado_auditoria.json',
+        help='Caminho para salvar o resultado estruturado da auditoria em JSON (padrão: .output_reports/resultado_auditoria.json).'
     )
     parser.add_argument(
-        '-x', '--output-xlsx', default='.output_reports/tabelas_consolidadas_auditoria.xlsx',
-        help='Caminho para salvar as tabelas consolidadas em Excel (padrão: .output_reports/tabelas_consolidadas_auditoria.xlsx).'
+        '-x', '--tabelas-auditoria-xlsx', '--output-xlsx',
+        dest='tabelas_auditoria_xlsx',
+        default='.output_reports/tabelas_consolidadas_auditoria.xlsx',
+        help='Caminho para salvar a planilha de tabelas consolidadas da auditoria (padrão: .output_reports/tabelas_consolidadas_auditoria.xlsx).'
+    )
+    parser.add_argument(
+        '--email-contato', default='auditoria_seginfo@tcerj.tc.br',
+        help='E-mail do administrador para o questionário do gestor (padrão: auditoria_seginfo@tcerj.tc.br).'
+    )
+    parser.add_argument(
+        '--data-entrega', default='',
+        help='Data final de entrega das considerações do gestor formatada como DD/MM/AAAA (padrão: data atual + 15 dias).'
+    )
+    parser.add_argument(
+        '--out-proc-zip', default='',
+        help='Caminho para salvar o arquivo .zip com relatórios individuais de procedimentos.'
+    )
+    parser.add_argument(
+        '--out-evidencias-docx', default='',
+        help='Caminho para salvar o documento Word consolidado do anexo de evidências.'
+    )
+    parser.add_argument(
+        '--out-lss', default='',
+        help='Caminho para salvar o arquivo de questionário unificado (.lss) do LimeSurvey.'
+    )
+    parser.add_argument(
+        '--out-comentarios-zip', default='',
+        help='Caminho para salvar o arquivo .zip com os questionários de comentários em Word individuais.'
     )
 
     args = parser.parse_args()
@@ -214,26 +248,116 @@ def main():
 
     # 10. Salva em JSON
     try:
-        os.makedirs(os.path.dirname(os.path.abspath(args.output_json)), exist_ok=True)
+        os.makedirs(os.path.dirname(os.path.abspath(args.resultado_auditoria_json)), exist_ok=True)
         auditados_dict = {k: v.to_dict() for k, v in auditados.items()}
-        with open(args.output_json, 'w', encoding='utf-8') as f:
+        with open(args.resultado_auditoria_json, 'w', encoding='utf-8') as f:
             json.dump(auditados_dict, f, indent=2, ensure_ascii=False, cls=NpEncoder)
-        logger.info(f"Contexto dos auditados salvo em: {args.output_json}")
+        logger.info(f"Resultado estruturado da auditoria salvo em: {args.resultado_auditoria_json}")
     except Exception as e:
         logger.error(f"Erro ao salvar arquivo JSON de auditados: {e}")
 
     # 11. Salva em Excel
     try:
-        os.makedirs(os.path.dirname(os.path.abspath(args.output_xlsx)), exist_ok=True)
-        with pd.ExcelWriter(args.output_xlsx, engine='xlsxwriter') as writer:
+        os.makedirs(os.path.dirname(os.path.abspath(args.tabelas_auditoria_xlsx)), exist_ok=True)
+        with pd.ExcelWriter(args.tabelas_auditoria_xlsx, engine='xlsxwriter') as writer:
             tabela_achados.to_excel(writer, sheet_name='Achados por Auditado')
             tabela_encaminhamentos.to_excel(writer, sheet_name='Encaminhamentos por Auditado')
             tabela_situacoes.to_excel(writer, sheet_name='Situações Inconformes')
             if not df_rank_combined.empty:
                 df_rank_combined.to_excel(writer, sheet_name='Ranking de Auditados')
-        logger.info(f"Tabelas consolidadas salvas em: {args.output_xlsx}")
+        logger.info(f"Tabelas consolidadas da auditoria salvas em: {args.tabelas_auditoria_xlsx}")
     except Exception as e:
         logger.error(f"Erro ao salvar tabelas em Excel: {e}")
+
+    # 12. Geração de relatórios de procedimentos individuais (ZIP)
+    proc_zip_path = Path(args.out_proc_zip) if args.out_proc_zip else Path(args.resultado_auditoria_json).parent / "relatorios_procedimentos.zip"
+    logger.info(f"Gerando relatórios de procedimentos individuais em ZIP: {proc_zip_path}")
+    try:
+        os.makedirs(proc_zip_path.parent, exist_ok=True)
+        template_report = os.path.join(os.path.dirname(__file__), "resources", "template_report.docx")
+        
+        with zipfile.ZipFile(proc_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_f:
+            for sigla, auditado in auditados.items():
+                if auditado.foi_auditado:
+                    doc = auditado.documenta_procedimentos(template_path=template_report)
+                    bio = io.BytesIO()
+                    doc.save(bio)
+                    zip_f.writestr(f"{auditado.sigla} - Relatorio.docx", bio.getvalue())
+        logger.info(f"Relatórios de procedimentos individuais ZIP gerado com sucesso!")
+    except Exception as e:
+        logger.error(f"Erro ao gerar ZIP de procedimentos: {e}")
+
+    # 13. Geração do Anexo de Evidências (Word consolidado)
+    evidencias_docx_path = Path(args.out_evidencias_docx) if args.out_evidencias_docx else Path(args.resultado_auditoria_json).parent / "anexo_evidencias.docx"
+    logger.info(f"Gerando anexo de evidências unificado: {evidencias_docx_path}")
+    try:
+        os.makedirs(evidencias_docx_path.parent, exist_ok=True)
+        template_evidencias = os.path.join(os.path.dirname(__file__), "resources", "anexo-evidencias-base.docx")
+        
+        contexto_anexo = [
+            {
+                'sigla_orgao': a.sigla, 
+                'nome_orgao': a.nome, 
+                'achados': list(a.get_achados().values())
+            } 
+            for a in auditados.values()
+        ]
+        
+        doc_evidencias = DocxTemplate(template_evidencias)
+        doc_evidencias.render({'dados': contexto_anexo})
+        doc_evidencias.save(evidencias_docx_path)
+        logger.info(f"Anexo de evidências gerado com sucesso!")
+    except Exception as e:
+        logger.error(f"Erro ao gerar anexo de evidências: {e}")
+
+    # 14. Geração do Questionário do Gestor (.lss e anexos Word em ZIP)
+    auditados_com_achados = [v for v in auditados.values() if v.tem_achados]
+    
+    # 14.1 Arquivo .lss (LimeSurvey)
+    lss_path = Path(args.out_lss) if args.out_lss else Path(args.resultado_auditoria_json).parent / "comentarios_gestor" / "questionario_comentarios_gestor.lss"
+    logger.info(f"Gerando questionário LimeSurvey unificado (.lss): {lss_path}")
+    try:
+        os.makedirs(lss_path.parent, exist_ok=True)
+        generator = LimeSurveyGenerator()
+        xml_content = generator.generate_xml(auditados_com_achados, admin_email=args.email_contato)
+        
+        with open(lss_path, 'w', encoding='utf-8') as f:
+            f.write(xml_content)
+        logger.info(f"Questionário LimeSurvey (.lss) gerado com sucesso!")
+    except Exception as e:
+        logger.error(f"Erro ao gerar questionário LSS: {e}")
+
+    # 14.2 Anexos Word em ZIP
+    comentarios_zip_path = Path(args.out_comentarios_zip) if args.out_comentarios_zip else Path(args.resultado_auditoria_json).parent / "comentarios_gestor" / "anexos_docx_comentarios.zip"
+    logger.info(f"Gerando anexos de comentários do gestor individuais em ZIP: {comentarios_zip_path}")
+    try:
+        os.makedirs(comentarios_zip_path.parent, exist_ok=True)
+        template_comentarios = os.path.join(os.path.dirname(__file__), "resources", "template-questionario-comentarios-gestor.docx")
+        
+        if args.data_entrega:
+            data_final_entrega = args.data_entrega
+        else:
+            data_final_entrega = (datetime.date.today() + datetime.timedelta(days=15)).strftime("%d/%m/%Y")
+            
+        with zipfile.ZipFile(comentarios_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for auditado in auditados_com_achados:
+                doc = DocxTemplate(template_comentarios)
+                achados = [p.achado for p in auditado.procedimentos_executados if p.achado is not None]
+                
+                contexto = {
+                    'auditado': auditado,
+                    'achados': achados,
+                    'data_final_entrega': data_final_entrega,
+                    'email_contato': args.email_contato
+                }
+                doc.render(contexto)
+                
+                bio = io.BytesIO()
+                doc.save(bio)
+                zip_file.writestr(f"Anexo - Questionário Comentarios ({auditado.sigla}).docx", bio.getvalue())
+        logger.info(f"Anexos de comentários individuais ZIP gerado com sucesso!")
+    except Exception as e:
+        logger.error(f"Erro ao gerar ZIP de comentários do gestor: {e}")
 
     logger.info("Auditoria finalizada!")
 

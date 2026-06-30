@@ -18,8 +18,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-xlsx_path = ROOT / "02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx"
-json_path = ROOT / "02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json"
+DEFAULT_AUDITADOS_XLSX = ROOT / "02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx"
+DEFAULT_RESULTADO_AUDITORIA_JSON = ROOT / "02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json"
 
 # Cores institucionais do TCE-RJ/CIS do iGovTI 2026
 COLOR_ESTADUAL = "#3B6EA8"   # Steel Blue
@@ -108,8 +108,22 @@ def main(argv: list[str] | None = None):
         default=str(ROOT / "03-Relatorios/01-Relatorio_Consolidado"),
         help="Diretório de saída para os gráficos gerados."
     )
+    parser.add_argument(
+        "--auditados",
+        type=Path,
+        default=DEFAULT_AUDITADOS_XLSX,
+        help=f"Base de auditados XLSX usada para identificar a esfera (padrão: {DEFAULT_AUDITADOS_XLSX})."
+    )
+    parser.add_argument(
+        "--resultado-auditoria-json",
+        type=Path,
+        default=DEFAULT_RESULTADO_AUDITORIA_JSON,
+        help=f"Resultado estruturado da auditoria em JSON (padrão: {DEFAULT_RESULTADO_AUDITORIA_JSON})."
+    )
     args = parser.parse_args(argv)
     output_dir = Path(args.output_dir)
+    xlsx_path = args.auditados
+    json_path = args.resultado_auditoria_json
 
     print("Iniciando geração de gráficos dos achados...")
     
