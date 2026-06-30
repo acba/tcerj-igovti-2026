@@ -281,7 +281,7 @@ scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
   --only-prompts-present \
   --provider fake \
   --model fake \
-  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/teste-achados-binario
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/teste-achados-binario
 ```
 
 Execução paralela dos modelos configurados:
@@ -308,7 +308,7 @@ Agregação por item do questionário:
 
 ```bash
 scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
-  02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses*.jsonl \
+  02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/analyses*.jsonl \
   --output 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
 ```
 
@@ -343,7 +343,7 @@ Fonte derivada para uso nos procedimentos de auditoria:
 scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
 ```
 
-O script gera `02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx`, em formato largo por auditado, contendo apenas itens já utilizados no mapa de verificação de achados. Essa fonte permite que a ocorrência de `Não conforme` na avaliação de evidências também componha a lógica dos achados, mantendo a justificativa do juiz ou do auditor revisor disponível para a descrição da evidência.
+O script gera `02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx`, em formato largo por auditado, contendo apenas itens já utilizados no mapa de verificação de achados. Essa fonte permite que a ocorrência de `Não conforme` na avaliação de evidências também componha a lógica dos achados, mantendo a justificativa do juiz ou do auditor revisor disponível para a descrição da evidência.
 
 ### 11. Cálculo de estatísticas, índices e comparação longitudinal
 
@@ -396,7 +396,7 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
   --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
   --fontes \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
-    02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx \
+    02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
   --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
   --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx
 ```

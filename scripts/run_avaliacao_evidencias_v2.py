@@ -127,7 +127,7 @@ if sys.platform == "win32":
 else:
     VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
 
-BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias"
+BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais"
 AUDITADOS = ""  # Deixe vazio "" para processar todos os auditados
 QUESTIONARIO = "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"

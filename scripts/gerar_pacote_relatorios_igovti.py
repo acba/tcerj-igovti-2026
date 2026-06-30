@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BRUTO = ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx"
 DEFAULT_AJUSTES_INICIAIS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_inicial.xlsx"
 DEFAULT_AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
+DEFAULT_PAINEL_AVALIACAO_EVIDENCIAS = ROOT / "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx"
 DEFAULT_AUDITADOS = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx"
 DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
 DEFAULT_TEMPLATE_INDIVIDUAL = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md"
@@ -150,6 +151,7 @@ def main() -> int:
             args.mapa,
             "--fontes",
             base_final,
+            args.painel_avaliacao_evidencias,
             "--resultado-auditoria-json",
             resultado_auditoria,
             "--tabelas-auditoria-xlsx",

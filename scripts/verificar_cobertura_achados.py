@@ -13,7 +13,7 @@ Uso:
     scripts/.venv/bin/python scripts/verificar_cobertura_achados.py \
         --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-        --analyses 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses_*.jsonl \
+        --analyses 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/analyses_*.jsonl \
         --catalog scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
         --output C:/tmp/tcerj-igovti-2026/cobertura_achados.xlsx
 """

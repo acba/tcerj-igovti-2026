@@ -14,7 +14,7 @@ reprocessado do zero.
 
 Uso:
     scripts/.venv/bin/python scripts/migrar_checkpoint_provider.py \
-        --input 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses_openai_gpt-5.4-mini.jsonl \
+        --input 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/analyses_openai_gpt-5.4-mini.jsonl \
         --evidencias 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas \
         --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
         --new-provider openrouter \

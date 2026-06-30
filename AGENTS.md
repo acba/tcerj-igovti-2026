@@ -131,7 +131,7 @@ Generate the derived evidence-adjustment source used by audit procedures:
 scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
 ```
 
-This creates `02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx`, a wide workbook keyed by `Auditado`, restricted by default to questionnaire items already used in `mapa-verificacao-achados.xlsx`.
+This creates `02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx`, a wide workbook keyed by `Auditado`, restricted by default to questionnaire items already used in `mapa-verificacao-achados.xlsx`.
 
 Generate the findings matrix DOCX:
 
@@ -147,7 +147,7 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
   --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
   --fontes \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
-    02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx \
+    02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
   --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
   --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx
 ```
@@ -225,7 +225,7 @@ scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
   --only-prompts-present \
   --provider fake \
   --model fake \
-  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/teste-achados-binario
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/teste-achados-binario
 ```
 
 For the binary findings set, run the pipeline with `--only-prompts-present`. Use `--only-achados` to restrict processing to questions whose prompt is marked `gera_achado: true`. Use `--pdf2md` for PDF evidence that should be converted with PyMuPDF4LLM before provider evaluation. Use `--docx2html` for DOCX evidence that should be converted with Mammoth before provider evaluation.
@@ -246,7 +246,7 @@ Aggregate evaluations by questionnaire item:
 
 ```bash
 scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
-  02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses*.jsonl \
+  02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/analyses*.jsonl \
   --output 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
 ```
 

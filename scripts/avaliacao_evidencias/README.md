@@ -260,7 +260,7 @@ scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
   --provider openai \
   --model gpt-5.4-mini \
   --rpm 12 \
-  --out-dir 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/achados_binario_openai_gpt-5.4-mini
+  --out-dir 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/achados_binario_openai_gpt-5.4-mini
 ```
 
 Para testar apenas algumas organizacoes:
@@ -277,7 +277,7 @@ scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
   --model gpt-5.4-mini \
   --auditados ALERJ AGENERSA \
   --rpm 12 \
-  --out-dir 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/achados_binario_openai_gpt-5.4-mini
+  --out-dir 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/individuais/achados_binario_openai_gpt-5.4-mini
 ```
 
 Para forcar a conversao de evidencias PDF em Markdown com imagens extraidas antes da chamada ao modelo, use `--pdf2md`. Quando o anexo de evidencia resolvido for um arquivo `.pdf`, o pipeline usa `pymupdf4llm` para gerar um documento Markdown e arquivos de imagem, inclui o Markdown em `pacote_evidencia.documentos` e envia os artefatos preparados ao provider. No OpenRouter, as imagens `.png`/`.jpg` extraidas sao anexadas como `image_url` em data URI; no provider `openai`, como `input_image`; no Gemini, os arquivos preparados seguem pela camada de upload do provider. O PDF original nao e enviado nesse modo. Use `--pdf2md-dpi N` para ajustar a resolucao das imagens extraidas; o padrao e `150`.
