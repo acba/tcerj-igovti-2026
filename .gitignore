@@ -1,4 +1,4 @@
-﻿# Temporary files
+# Temporary files
 tmp/
 temp/
 .tmp/
@@ -39,3 +39,6 @@ scripts/.tmp_tests/
 # Cloudflare Pages deploy & local CLI cache
 dist/
 .wrangler/
+
+relatorio-consolidado/
+relatorios-individuais/

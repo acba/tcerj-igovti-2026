@@ -47,6 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--respostas-bruto", type=Path, default=DEFAULT_BRUTO, help="Planilha bruta exportada do LimeSurvey.")
     parser.add_argument("--ajustes-iniciais", type=Path, default=DEFAULT_AJUSTES_INICIAIS, help="Planilha de ajustes iniciais registrados pela equipe.")
     parser.add_argument("--ajustes-evidencias", type=Path, default=DEFAULT_AJUSTES_EVIDENCIAS, help="Planilha de ajustes pós-avaliação de evidências.")
+    parser.add_argument("--painel-avaliacao-evidencias", type=Path, default=DEFAULT_PAINEL_AVALIACAO_EVIDENCIAS, help="Painel consolidado da avaliacao de evidencias usado como fonte pela execucao da auditoria.")
     parser.add_argument("--prefixo", default=None, help="Prefixo AAAAMMDD dos artefatos. Se omitido, é inferido do nome da planilha bruta.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR, help="Diretório base dos artefatos gerados.")
     parser.add_argument("--auditados", type=Path, default=DEFAULT_AUDITADOS, help="Base de auditados XLSX.")
@@ -55,6 +56,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--relatorio-consolidado-md", type=Path, default=DEFAULT_RELATORIO_CONSOLIDADO, help="Markdown fonte do relatório consolidado.")
     parser.add_argument("--reference-docx", type=Path, default=DEFAULT_REFERENCE_DOCX, help="DOCX de referência de estilos.")
     parser.add_argument("--auditados-select", nargs="*", default=[], help="Siglas de auditados para relatórios individuais. Se omitido, gera todos.")
+    parser.add_argument(
+        "--tipo-relatorio-individual",
+        choices=["preliminar", "final"],
+        default="preliminar",
+        help="Define o nome dos DOCX individuais: preliminar inclui 'Preliminar'; final remove esse termo.",
+    )
     parser.add_argument("--log-level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR"], help="Nível de log.")
     return parser.parse_args()
 
@@ -89,6 +96,8 @@ def main() -> int:
 
     for path in [respostas_dir, resultados_igovti_dir, auditoria_dir, comentarios_dir, relatorios_dir, consolidado_dir]:
         path.mkdir(parents=True, exist_ok=True)
+
+    nome_base_relatorio_individual = "Relatório Individual Preliminar" if args.tipo_relatorio_individual == "preliminar" else "Relatório Individual"
 
     python = sys.executable
     logging.info("Iniciando geração do pacote de relatórios iGovTI 2026.")
@@ -196,6 +205,8 @@ def main() -> int:
         contexto_relatorios,
         "--ajustes-respostas",
         args.ajustes_evidencias,
+        "--nome-base-docx",
+        nome_base_relatorio_individual,
         "--resource-files",
         str(output_dir / "relatorios-individuais/img/**/*"),
         DEFAULT_INFOGRAFICO,
@@ -237,7 +248,7 @@ def main() -> int:
         ROOT,
     )
 
-    docx_count = len(list(relatorios_dir.glob("Relatorio-*.docx")))
+    docx_count = len(list(relatorios_dir.glob(f"{nome_base_relatorio_individual} - *.docx")))
     logging.info("Pacote concluído.")
     logging.info("Relatórios individuais gerados: %s em %s", docx_count, relatorios_dir)
     logging.info("Relatório consolidado: %s", relatorio_consolidado_docx)

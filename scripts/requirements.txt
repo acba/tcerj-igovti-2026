@@ -16,3 +16,6 @@ docxtpl
 docxcompose
 rich
 rarfile
+matplotlib
+pypandoc_binary
+scipy

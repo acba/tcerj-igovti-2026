@@ -134,7 +134,7 @@ def consolidar_templates(base_content, all_files_content, template_paths, proces
 
     def replace_match(match):
         filename = match.group(1)
-        
+
         # If not already loaded, try to load it from the directories of the supplied templates
         if filename not in all_files_content:
             for t_path in template_paths:
@@ -147,7 +147,7 @@ def consolidar_templates(base_content, all_files_content, template_paths, proces
                         break
                     except Exception as e:
                         logger.warning(f"Failed to read included file '{full_path}': {e}")
-        
+
         if filename in all_files_content:
             if filename in processed_files:
                 return f"<!-- ERRO: Ciclo de inclusão detectado para '{filename}' -->"
@@ -198,7 +198,11 @@ def main():
         default=None,
         help='Planilha XLSX de ajustes aplicados às respostas para preencher o Apêndice B.'
     )
-
+    parser.add_argument(
+        '--nome-base-docx',
+        default='Relatório Individual Preliminar',
+        help='Nome base dos arquivos DOCX gerados, antes da sigla do auditado.'
+    )
     args = parser.parse_args()
 
     # 1. Load auditados from JSON
@@ -228,7 +232,7 @@ def main():
                 if 'sigla' in df_temp.columns:
                     df_temp = df_temp.set_index('sigla')
                     df_temp.columns = [col.strip() for col in df_temp.columns]
-                    
+
                     # Process special columns ending in '*'
                     for col in df_temp.columns:
                         if col.endswith('*'):
@@ -260,7 +264,7 @@ def main():
 
     # Check template extension (take first to determine type)
     first_template_ext = os.path.splitext(template_paths[0])[1].lower()
-    
+
     if first_template_ext in ('.md', '.jinja', '.txt'):
         template_type = 'md'
         template_files = {}
@@ -300,7 +304,7 @@ def main():
         if not os.path.exists(template_content_path):
             logger.error(f"Template Word '{template_content_path}' não encontrado.")
             sys.exit(1)
-        
+
         # Try reading template text just to get variables
         try:
             doc_sample = docx.Document(template_content_path)
@@ -321,7 +325,7 @@ def main():
     siglas_selecionadas = args.auditados_select
     if not siglas_selecionadas:
         siglas_selecionadas = list(auditados.keys())
-    
+
     # Ensure they exist in the loaded JSON
     siglas_selecionadas = [s for s in siglas_selecionadas if s in auditados]
     if not siglas_selecionadas:
@@ -335,12 +339,12 @@ def main():
 
     # 7. Set up environment for generation
     env = Environment(loader=BaseLoader(), undefined=StrictUndefined)
-    
+
     # Prepare resource paths
     with tempfile.TemporaryDirectory() as tmp_dir:
         flat_resources_dir = os.path.join(tmp_dir, "flat_resources")
         os.makedirs(flat_resources_dir, exist_ok=True)
-        
+
         unzip_dir = os.path.join(tmp_dir, "unzipped_context")
         os.makedirs(unzip_dir, exist_ok=True)
 
@@ -453,7 +457,7 @@ def main():
 
                     # Build final Docx file using Pandoc
                     import pypandoc
-                    docx_filename = os.path.join(args.output_dir, f'Relatorio-{sigla}.docx')
+                    docx_filename = os.path.join(args.output_dir, f'{args.nome_base_docx} - {sigla}.docx')
 
                     resource_paths = ['.', args.output_dir, unzip_dir, flat_resources_dir, os.path.dirname(args.templates[0])]
                     resource_path_arg = '--resource-path=' + os.pathsep.join(resource_paths)
@@ -462,10 +466,10 @@ def main():
                         '--reference-doc=' + args.reference_docx,
                         resource_path_arg
                     ]
-                    
+
                     # Convert to Docx
                     pypandoc.convert_file(md_filename, to='docx', outputfile=docx_filename, extra_args=args_docx)
-                    
+
                     # Apply styles to tables in Docx
                     aplicar_estilo_tabelas(docx_filename)
                     evitar_quebra_elementos(docx_filename)
@@ -484,9 +488,9 @@ def main():
                             logger.warning(f"[{sigla}] {w}")
 
                     base_docx.render(contexto)
-                    docx_filename = os.path.join(args.output_dir, f'Relatorio-{sigla}.docx')
+                    docx_filename = os.path.join(args.output_dir, f'{args.nome_base_docx} - {sigla}.docx')
                     base_docx.save(docx_filename)
-                    
+
                     # Apply styling to tables
                     aplicar_estilo_tabelas(docx_filename)
                     evitar_quebra_elementos(docx_filename)
