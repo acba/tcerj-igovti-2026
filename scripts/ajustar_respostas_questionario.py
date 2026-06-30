@@ -43,7 +43,7 @@ def main():
     parser.add_argument(
         "--respostas",
         type=Path,
-        default=Path("02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"),
+        default=Path("02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx"),
         help="Caminho da planilha de respostas original (XLSX)."
     )
     parser.add_argument(

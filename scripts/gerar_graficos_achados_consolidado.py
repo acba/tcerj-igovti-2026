@@ -18,8 +18,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_AUDITADOS_XLSX = ROOT / "02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx"
-DEFAULT_RESULTADO_AUDITORIA_JSON = ROOT / "02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json"
+DEFAULT_AUDITADOS_XLSX = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx"
+DEFAULT_RESULTADO_AUDITORIA_JSON = ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json"
 
 # Cores institucionais do TCE-RJ/CIS do iGovTI 2026
 COLOR_ESTADUAL = "#3B6EA8"   # Steel Blue

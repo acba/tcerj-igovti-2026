@@ -212,8 +212,10 @@ def main() -> int:
             print(f"Aviso: Erro ao gerar gráficos de achados: {e}", file=sys.stderr)
             
         # 5. Copia imagens de contexto de outros locais (se existirem / especificados) para consolidar na pasta temporária
-        tmp_consolidado_img = "/tmp/tcerj-igovti-2026/relatorio-consolidado/img"
-        tmp_individuais_img = "/tmp/tcerj-igovti-2026/relatorios-individuais/img"
+        tmp_root = Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())
+        tmp_pkg = tmp_root / "tcerj-igovti-2026"
+        tmp_consolidado_img = str(tmp_pkg / "relatorio-consolidado" / "img")
+        tmp_individuais_img = str(tmp_pkg / "relatorios-individuais" / "img")
         
         resource_inputs = [tmp_consolidado_img, tmp_individuais_img]
         if args.resource_files:

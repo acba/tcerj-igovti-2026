@@ -3,16 +3,16 @@
 
 Gera, em sequência:
 
-1. ``02-Execucao/01-Questionario/<prefixo>-iGovTI-2026.xlsx``
-2. ``02-Execucao/01-Questionario/<prefixo>-iGovTI-2026-Ajustado-Comparavel.xlsx``
+1. ``02-Execucao/01-Questionario/04-Resultados_iGovTI/<prefixo>-iGovTI-2026.xlsx``
+2. ``02-Execucao/01-Questionario/04-Resultados_iGovTI/<prefixo>-iGovTI-2026-Ajustado-Comparavel.xlsx``
 3. ``02-Execucao/02-Questionario iGovTI 2023/<prefixo>-comparacao-iGovTI-2023-2026.xlsx``
-4. ``02-Execucao/01-Questionario/<prefixo>-contexto-relatorios-igovti-2026.xlsx``
-5. ``02-Execucao/01-Questionario/<prefixo>-estatisticas-relatorios-igovti-2026.json``
+4. ``02-Execucao/01-Questionario/04-Resultados_iGovTI/<prefixo>-contexto-relatorios-igovti-2026.xlsx``
+5. ``02-Execucao/01-Questionario/04-Resultados_iGovTI/<prefixo>-estatisticas-relatorios-igovti-2026.json``
 
 Exemplo::
 
     scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
-      --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+      --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx
 """
 
 from __future__ import annotations
@@ -67,7 +67,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--respostas",
         type=Path,
-        default=ROOT / "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx",
+        default=ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx",
         help="Planilha XLSX com as respostas do questionário.",
     )
     parser.add_argument(
@@ -91,7 +91,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--mapeamento-id",
         type=Path,
-        default=ROOT / "02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx",
+        default=ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/urls_anexos_limesurvey_consolidado.xlsx",
         help="Planilha com colunas 'id' e 'orgao'.",
     )
     parser.add_argument(
@@ -251,13 +251,14 @@ def main() -> None:
     prefixo = args.prefixo
 
     dir_q1 = args.output_dir / "01-Questionario"
+    dir_resultados = dir_q1 / "04-Resultados_iGovTI"
     dir_q2 = args.output_dir / "02-Questionario iGovTI 2023"
 
-    saida_oficial = dir_q1 / f"{prefixo}-iGovTI-2026.xlsx"
-    saida_comparavel = dir_q1 / f"{prefixo}-iGovTI-2026-Ajustado-Comparavel.xlsx"
+    saida_oficial = dir_resultados / f"{prefixo}-iGovTI-2026.xlsx"
+    saida_comparavel = dir_resultados / f"{prefixo}-iGovTI-2026-Ajustado-Comparavel.xlsx"
     saida_comparacao = dir_q2 / f"{prefixo}-comparacao-iGovTI-2023-2026.xlsx"
-    saida_contexto = dir_q1 / f"{prefixo}-contexto-relatorios-igovti-2026.xlsx"
-    saida_estatisticas = dir_q1 / f"{prefixo}-estatisticas-relatorios-igovti-2026.json"
+    saida_contexto = dir_resultados / f"{prefixo}-contexto-relatorios-igovti-2026.xlsx"
+    saida_estatisticas = dir_resultados / f"{prefixo}-estatisticas-relatorios-igovti-2026.json"
 
     print(f"Respostas: {args.respostas}")
     print(f"Prefixo: {prefixo}")

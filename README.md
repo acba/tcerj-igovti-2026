@@ -46,10 +46,10 @@ Os principais produtos do trabalho são:
 - `01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml`: estrutura oficial de cálculo do iGovTI 2026.
 - `01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026-ajustado-comparavel.yaml`: estrutura ajustada para comparação com 2023.
 - `01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md`: matriz de planejamento em formato estruturado.
-- `02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx`: base de respostas tratada.
-- `02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
-- `02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx`: matriz que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos.
-- `02-Execucao/03-Execucao_Procedimentos/resultado_auditoria.json`: resultado compacto da execução dos procedimentos de auditoria.
+- `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx`: base de respostas tratada.
+- `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
+- `02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx`: matriz que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos.
+- `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json`: resultado compacto da execução dos procedimentos de auditoria.
 - `03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md`: fonte Markdown do relatório consolidado.
 - `03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md`: template dos relatórios individuais.
 - `scripts/calcula-igovti.html`: calculadora interativa para aplicar uma estrutura YAML de índice a uma fonte de informação e analisar resultados.
@@ -67,20 +67,23 @@ Para regenerar o pacote completo a partir da planilha bruta exportada do questio
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
-  --respostas-bruto 02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx \
-  --output-dir /tmp/tcerj-igovti-2026-ultima-versao
+  --respostas-bruto 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx \
+  --output-dir C:/tmp/tcerj-igovti-2026-ultima-versao
 ```
 
 O script infere o prefixo `20260621` a partir do nome da planilha bruta, aplica os ajustes registrados pela equipe, recalcula o iGovTI, executa a auditoria, gera gráficos, relatórios individuais e relatório consolidado. Cada etapa é exibida na tela com logs e o comando executado. Use `--auditados-select SIGLA...` para restringir a geração dos relatórios individuais a auditados específicos.
 
-Principais saídas:
+Principais sa?das no Windows:
 
 ```text
-/tmp/tcerj-igovti-2026-ultima-versao/01-Questionario/
-/tmp/tcerj-igovti-2026-ultima-versao/auditoria/
-/tmp/tcerj-igovti-2026-ultima-versao/relatorios-individuais/
-/tmp/tcerj-igovti-2026-ultima-versao/relatorio-consolidado/
+C:/tmp/tcerj-igovti-2026-ultima-versao/02-Execucao/01-Questionario/
+C:/tmp/tcerj-igovti-2026-ultima-versao/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/
+C:/tmp/tcerj-igovti-2026-ultima-versao/02-Execucao/05-Comentarios_Gestor/
+C:/tmp/tcerj-igovti-2026-ultima-versao/relatorios-individuais/
+C:/tmp/tcerj-igovti-2026-ultima-versao/relatorio-consolidado/
 ```
+
+Em Linux/macOS, o mesmo pacote ? gerado sob `/tmp/tcerj-igovti-2026-ultima-versao`.
 
 ### 1. Estudos preliminares e definição da abordagem
 
@@ -126,16 +129,16 @@ Cálculo dos resultados a partir das respostas:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_igovti.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx
 ```
 
 Regeneração integrada dos artefatos do índice, comparação longitudinal e contexto estatístico:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
   --prefixo 20260621 \
-  --output-dir /tmp/tcerj-igovti-2026
+  --output-dir C:/tmp/tcerj-igovti-2026
 ```
 
 Para simulações, validações metodológicas ou cálculo de um índice qualquer baseado em uma estrutura YAML, pode ser usada a página:
@@ -153,7 +156,7 @@ A matriz de procedimentos traduz a matriz de planejamento em verificações exec
 Artefato principal:
 
 ```text
-02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx
+02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx
 ```
 
 O repositório usa a skill local `preencher-matriz-procedimentos-auditoria` para apoiar essa geração a partir da matriz de planejamento. A matriz de achados em DOCX é gerada por:
@@ -188,7 +191,7 @@ A importação, ativação e configuração final do survey no LimeSurvey são e
 Após a ativação do survey, cada auditado recebe comunicação formal com link individualizado de acesso ao questionário. A consolidação dos identificadores e links de anexos aparece nos artefatos de execução, especialmente:
 
 ```text
-02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx
+02-Execucao/01-Questionario/01-Coleta_LimeSurvey/urls_anexos_limesurvey_consolidado.xlsx
 ```
 
 Não há script dedicado para expedição das comunicações formais. O envio e o controle de ciência são procedimentos administrativos externos ao repositório.
@@ -220,11 +223,11 @@ scripts/.venv/bin/python scripts/extrair_evidencias.py
 Principais artefatos:
 
 ```text
-02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx
-02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
-02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx
-02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias/
-02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas/
+02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx
+02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx
+02-Execucao/01-Questionario/01-Coleta_LimeSurvey/urls_anexos_limesurvey_consolidado.xlsx
+02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias/
+02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas/
 ```
 
 ### 8. Aplicação de ajustes iniciais nas respostas
@@ -234,16 +237,16 @@ Antes das avaliações finais, a equipe pode aplicar ajustes decorrentes de reti
 Artefato de controle:
 
 ```text
-02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_inicial.xlsx
+02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_inicial.xlsx
 ```
 
 Quando o ajuste segue a estrutura esperada pelo script de ajustes, ele pode ser aplicado por:
 
 ```bash
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx \
-  --ajustes 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_inicial.xlsx \
-  --output 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+  --respostas 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx \
+  --ajustes 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_inicial.xlsx \
+  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx
 ```
 
 ### 9. Avaliação das respostas e evidências
@@ -270,15 +273,15 @@ Validação local sem IA remota:
 
 ```bash
 scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
-  02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-  /tmp/tcerj-igovti-2026/evidencias_extraidas \
+  02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
+  C:/tmp/tcerj-igovti-2026/evidencias_extraidas \
   --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
   --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
   --prompt-version igovti_2026_achados_binario_v1 \
   --only-prompts-present \
   --provider fake \
   --model fake \
-  --out-dir /tmp/tcerj-igovti-2026/avaliacao_evidencias/teste-achados-binario
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/teste-achados-binario
 ```
 
 Execução paralela dos modelos configurados:
@@ -305,8 +308,8 @@ Agregação por item do questionário:
 
 ```bash
 scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
-  02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/analyses*.jsonl \
-  --output 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
+  02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses*.jsonl \
+  --output 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
 ```
 
 Documentação detalhada:
@@ -322,16 +325,16 @@ Após a revisão das evidências, respostas afirmativas não comprovadas podem s
 Planilha de ajustes:
 
 ```text
-02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx
+02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx
 ```
 
 Aplicação dos ajustes:
 
 ```bash
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-  --ajustes 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
-  --output 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
+  --ajustes 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
 ```
 
 Fonte derivada para uso nos procedimentos de auditoria:
@@ -340,7 +343,7 @@ Fonte derivada para uso nos procedimentos de auditoria:
 scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
 ```
 
-O script gera `02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx`, em formato largo por auditado, contendo apenas itens já utilizados no mapa de verificação de achados. Essa fonte permite que a ocorrência de `Não conforme` na avaliação de evidências também componha a lógica dos achados, mantendo a justificativa do juiz ou do auditor revisor disponível para a descrição da evidência.
+O script gera `02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx`, em formato largo por auditado, contendo apenas itens já utilizados no mapa de verificação de achados. Essa fonte permite que a ocorrência de `Não conforme` na avaliação de evidências também componha a lógica dos achados, mantendo a justificativa do juiz ou do auditor revisor disponível para a descrição da evidência.
 
 ### 11. Cálculo de estatísticas, índices e comparação longitudinal
 
@@ -350,9 +353,9 @@ Regeneração completa recomendada:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
   --prefixo 20260621 \
-  --output-dir /tmp/tcerj-igovti-2026
+  --output-dir C:/tmp/tcerj-igovti-2026
 ```
 
 Execução manual das etapas estatísticas:
@@ -367,7 +370,7 @@ Geração de gráficos para relatórios:
 ```bash
 scripts/.venv/bin/python scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py \
   --auditados FTM \
-  --output-root /tmp/tcerj-igovti-2026
+  --output-root C:/tmp/tcerj-igovti-2026
 ```
 
 Geração de gráficos específicos da comparação harmonizada iGovTI 2023-2026:
@@ -380,7 +383,7 @@ Geração de gráficos consolidados dos achados por esfera, a partir do banco de
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_graficos_achados_consolidado.py \
-  --output-dir /tmp/tcerj-igovti-2026/relatorio-consolidado/img
+  --output-dir C:/tmp/tcerj-igovti-2026/relatorio-consolidado/img
 ```
 
 ### 12. Execução dos procedimentos de auditoria e consolidação de achados
@@ -389,13 +392,13 @@ A execução automatizada cruza o banco de auditados, a matriz de procedimentos 
 
 ```bash
 scripts/.venv/bin/python scripts/executa_auditoria.py \
-  --auditados 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
-  --mapa 02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx \
+  --auditados 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
+  --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
   --fontes \
-    02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
-    02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx \
-  --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
-  --tabelas-auditoria-xlsx /tmp/tcerj-igovti-2026/auditoria/tabelas_consolidadas_auditoria.xlsx
+    02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+    02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx \
+  --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx
 ```
 
 Saídas principais:
@@ -407,7 +410,7 @@ Saídas principais:
 - `comentarios_gestor/questionario_comentarios_gestor.lss`: survey para comentários dos gestores.
 - `comentarios_gestor/anexos_docx_comentarios.zip`: modelos Word para manifestação dos gestores.
 
-Para depuração da execução, incluindo todas as ações de verificação avaliadas, informe também `--resultado-auditoria-detalhado-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria_detalhado.json`.
+Para depuração da execução, incluindo todas as ações de verificação avaliadas, informe também `--resultado-auditoria-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json`.
 
 Antes da execução, o script valida o mapa de auditoria de forma bloqueante, incluindo referências a fontes, ações citadas na lógica, colunas das fontes, valores booleanos e expressões lógicas. Para uma execução leve, sem ZIP, DOCX ou LSS acessórios, use `--somente-dados`. Também é possível pular saídas específicas com `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias` e `--skip-comentarios-gestor`.
 
@@ -417,13 +420,13 @@ Os relatórios individuais combinam o resultado da execução dos procedimentos,
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_relatorios_individuais.py \
-  --auditados /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
+  --auditados C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
   --templates 03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md \
-  --context-files 02-Execucao/01-Questionario/20260621-contexto-relatorios-igovti-2026.xlsx \
-  --ajustes-respostas 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
-  --resource-files "/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png" \
+  --context-files 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
+  --ajustes-respostas 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --resource-files "C:/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png" \
   --auditados-select FTM \
-  --output-dir /tmp/tcerj-igovti-2026/relatorios-individuais/FTM \
+  --output-dir C:/tmp/tcerj-igovti-2026/relatorios-individuais/FTM \
   --reference-docx scripts/resources/template-base-estilos-sigiloso.docx
 ```
 
@@ -444,13 +447,13 @@ Geração do DOCX:
 ```bash
 scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py \
   --input 03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md \
-  --output /tmp/tcerj-igovti-2026/relatorio-consolidado/Relatório_altaresolucao_novo.docx \
-  --resource-files "/tmp/tcerj-igovti-2026/relatorio-consolidado/img/**/*" "/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" \
-  --resultados-2026 /tmp/tcerj-igovti-2026/01-Questionario/20260621-iGovTI-2026.xlsx \
-  --respostas-2026 /tmp/tcerj-igovti-2026/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
-  --comparavel-2026 /tmp/tcerj-igovti-2026/01-Questionario/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx \
-  --auditados-xlsx 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
-  --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json
+  --output C:/tmp/tcerj-igovti-2026/relatorio-consolidado/Relatório_altaresolucao_novo.docx \
+  --resource-files "C:/tmp/tcerj-igovti-2026/relatorio-consolidado/img/**/*" "C:/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" \
+  --resultados-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx \
+  --respostas-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --comparavel-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx \
+  --auditados-xlsx 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
+  --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json
 ```
 
 O gerador do consolidado também recria, em diretório temporário interno, os gráficos gerais e os gráficos de achados usados pelo DOCX. Quando os argumentos acima são informados, esses gráficos são produzidos a partir dos artefatos recém-gerados, e não dos arquivos padrão do repositório.
@@ -468,7 +471,7 @@ Essa etapa consolida a estratégia de transparência e comunicação dos resulta
 ## Convenções de Execução
 
 - Use preferencialmente o ambiente virtual do repositório: `scripts/.venv/bin/python`.
-- Gere artefatos intermediários em `/tmp/tcerj-igovti-2026` quando estiver validando uma nova execução.
+- Gere artefatos intermediários em `C:/tmp/tcerj-igovti-2026` quando estiver validando uma nova execução.
 - Não edite diretamente prompts Markdown gerados em `scripts/avaliacao_evidencias/prompts/`; altere o catálogo YAML correspondente e regenere os prompts.
 - Trate saídas de IA como minutas auxiliares. A conclusão de auditoria depende de revisão humana da equipe.
 - Para documentação, preserve português do Brasil e os identificadores técnicos do questionário, como `q0101`, `evidence_text`, `visible_if` e códigos de alternativas.

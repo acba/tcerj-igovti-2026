@@ -114,8 +114,8 @@ if sys.platform == "win32":
 else:
     VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
 
-BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
-EVIDENCIAS_ROOT_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
+BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias"
+EVIDENCIAS_ROOT_DEFAULT = "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas"
 PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
 

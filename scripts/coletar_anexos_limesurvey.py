@@ -75,12 +75,12 @@ def main(argv: list[str] | None = None):
     parser = argparse.ArgumentParser(description="Baixa anexos de evidencias do LimeSurvey.")
     parser.add_argument(
         "--planilha", "-p",
-        default=str(repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx"),
+        default=str(repo_root / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/urls_anexos_limesurvey_consolidado.xlsx"),
         help="Caminho da planilha Excel de entrada com as URLs."
     )
     parser.add_argument(
         "--output-dir", "-o",
-        default=str(repo_root / "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias"),
+        default=str(repo_root / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias"),
         help="Diretorio de destino para os downloads."
     )
     args = parser.parse_args(argv)

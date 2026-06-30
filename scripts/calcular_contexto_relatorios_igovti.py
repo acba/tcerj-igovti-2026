@@ -52,8 +52,8 @@ INDICADORES = {
     "iGestTI": "igest_geral",
 }
 
-SAIDA_CONTEXTO = ROOT / "02-Execucao/01-Questionario/20260621-contexto-relatorios-igovti-2026.xlsx"
-SAIDA_JSON = ROOT / "02-Execucao/01-Questionario/20260621-estatisticas-relatorios-igovti-2026.json"
+SAIDA_CONTEXTO = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx"
+SAIDA_JSON = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-estatisticas-relatorios-igovti-2026.json"
 
 
 def percentual(quantidade: int, total: int) -> float:

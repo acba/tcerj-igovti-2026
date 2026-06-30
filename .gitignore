@@ -1,6 +1,8 @@
-# Temporary files
-tmp/*
+﻿# Temporary files
+tmp/
 temp/
+.tmp/
+.scratch/
 *.log
 
 # OS generated files
@@ -15,21 +17,23 @@ desktop.ini
 *.swo
 .~lock.*#
 
-# Project specific
-C:\Users\augustocba\.gemini\tmp/
-
-.venv-relatorio/
-__pycache__/
-02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias/
-02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas/
-
-scripts/.venv/
-.venv/
-scripts/benchmark_results.json
-scripts/.tmp_tests/
+# Python environments and caches
+/.venv-relatorio/
+/.venv/
+/scripts/.venv/
+**/__pycache__/
+*.py[cod]
 .pytest_cache/
 .coverage
 htmlcov/
+
+# LimeSurvey evidence payloads can be large/sensitive; keep the index workbook tracked.
+/02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias/
+/02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas/
+
+# Project local outputs
+scripts/benchmark_results.json
+scripts/.tmp_tests/
 .saida_analise/
 
 # Cloudflare Pages deploy & local CLI cache

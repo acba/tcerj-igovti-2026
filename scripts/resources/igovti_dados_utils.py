@@ -24,9 +24,9 @@ def to_relative(path: str | Path) -> str:
     except Exception:
         return str(path)
 
-RESULTADOS_2026 = ROOT / "02-Execucao/01-Questionario/20260621-iGovTI-2026.xlsx"
-RESPOSTAS_2026 = ROOT / "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"
-COMPARAVEL_2026 = ROOT / "02-Execucao/01-Questionario/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx"
+RESULTADOS_2026 = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx"
+RESPOSTAS_2026 = ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx"
+COMPARAVEL_2026 = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx"
 COMPARAVEL_2023_SETIC = ROOT / "02-Execucao/02-Questionario iGovTI 2023/iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx"
 COMPARAVEL_2023_MUNICIPIOS = ROOT / "02-Execucao/02-Questionario iGovTI 2023/iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx"
 

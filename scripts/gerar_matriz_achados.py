@@ -86,7 +86,7 @@ def carregar_achados(repo: Path):
 
 
 def carregar_acoes(repo: Path):
-    path = repo / "02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx"
+    path = repo / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
     workbook = load_workbook(path, read_only=False, data_only=False)
     try:
         ws_acoes = workbook["Ações de Verificação"]
@@ -114,7 +114,7 @@ def carregar_acoes(repo: Path):
 
 
 def contar_auditados(repo: Path) -> int:
-    path = repo / "02-Execucao/01-Questionario/20260607-respostas-questionario.xlsx"
+    path = repo / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx"
     workbook = load_workbook(path, read_only=False, data_only=True)
     try:
         ws = workbook.active

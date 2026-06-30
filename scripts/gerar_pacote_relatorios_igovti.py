@@ -9,20 +9,23 @@ import re
 import shlex
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_BRUTO = ROOT / "02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx"
-DEFAULT_AJUSTES_INICIAIS = ROOT / "02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_inicial.xlsx"
-DEFAULT_AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
-DEFAULT_AUDITADOS = ROOT / "02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx"
-DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx"
+DEFAULT_BRUTO = ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx"
+DEFAULT_AJUSTES_INICIAIS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_inicial.xlsx"
+DEFAULT_AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
+DEFAULT_AUDITADOS = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx"
+DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
 DEFAULT_TEMPLATE_INDIVIDUAL = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md"
 DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png"
 DEFAULT_RELATORIO_CONSOLIDADO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
 DEFAULT_REFERENCE_DOCX = ROOT / "scripts/resources/template-base-estilos-sigiloso.docx"
-DEFAULT_OUTPUT_DIR = Path("/tmp/tcerj-igovti-2026-ultima-versao")
+
+default_tmp_root = Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())
+DEFAULT_OUTPUT_DIR = default_tmp_root / "tcerj-igovti-2026-ultima-versao"
 
 
 def infer_prefixo(path: Path) -> str:
@@ -61,21 +64,29 @@ def main() -> int:
 
     prefixo = args.prefixo or infer_prefixo(args.respostas_bruto)
     output_dir = args.output_dir.expanduser().resolve()
-    questionario_dir = output_dir / "01-Questionario"
-    auditoria_dir = output_dir / "auditoria"
+    execucao_dir = output_dir / "02-Execucao"
+    questionario_dir = execucao_dir / "01-Questionario"
+    respostas_dir = questionario_dir / "03-Respostas_Processadas"
+    resultados_igovti_dir = questionario_dir / "04-Resultados_iGovTI"
+    auditoria_dir = execucao_dir / "03-Execucao_Procedimentos" / "02-Resultados_Auditoria"
+    comentarios_dir = execucao_dir / "05-Comentarios_Gestor"
     relatorios_dir = output_dir / "relatorios-individuais"
     consolidado_dir = output_dir / "relatorio-consolidado"
 
-    base_inicial = questionario_dir / f"{prefixo}-respostas-questionario.xlsx"
-    base_final = questionario_dir / f"{prefixo}-respostas-questionario-pos-avaliacao-evidencias.xlsx"
-    resultado_oficial = questionario_dir / f"{prefixo}-iGovTI-2026.xlsx"
-    resultado_comparavel = questionario_dir / f"{prefixo}-iGovTI-2026-Ajustado-Comparavel.xlsx"
-    contexto_relatorios = questionario_dir / f"{prefixo}-contexto-relatorios-igovti-2026.xlsx"
+    base_inicial = respostas_dir / f"{prefixo}-respostas-questionario.xlsx"
+    base_final = respostas_dir / f"{prefixo}-respostas-questionario-pos-avaliacao-evidencias.xlsx"
+    resultado_oficial = resultados_igovti_dir / f"{prefixo}-iGovTI-2026.xlsx"
+    resultado_comparavel = resultados_igovti_dir / f"{prefixo}-iGovTI-2026-Ajustado-Comparavel.xlsx"
+    contexto_relatorios = resultados_igovti_dir / f"{prefixo}-contexto-relatorios-igovti-2026.xlsx"
     resultado_auditoria = auditoria_dir / "resultado_auditoria.json"
     tabelas_auditoria = auditoria_dir / "tabelas_consolidadas_auditoria.xlsx"
+    anexo_evidencias = auditoria_dir / "anexo_evidencias.docx"
+    relatorios_procedimentos = auditoria_dir / "relatorios_procedimentos.zip"
+    comentarios_lss = comentarios_dir / "questionario_comentarios_gestor.lss"
+    comentarios_zip = comentarios_dir / "anexos_docx_comentarios.zip"
     relatorio_consolidado_docx = consolidado_dir / args.relatorio_consolidado_md.with_suffix(".docx").name
 
-    for path in [questionario_dir, auditoria_dir, relatorios_dir, consolidado_dir]:
+    for path in [respostas_dir, resultados_igovti_dir, auditoria_dir, comentarios_dir, relatorios_dir, consolidado_dir]:
         path.mkdir(parents=True, exist_ok=True)
 
     python = sys.executable
@@ -123,7 +134,7 @@ def main() -> int:
             "--prefixo",
             prefixo,
             "--output-dir",
-            output_dir,
+            execucao_dir,
         ],
         ROOT,
     )
@@ -143,6 +154,14 @@ def main() -> int:
             resultado_auditoria,
             "--tabelas-auditoria-xlsx",
             tabelas_auditoria,
+            "--out-proc-zip",
+            relatorios_procedimentos,
+            "--out-evidencias-docx",
+            anexo_evidencias,
+            "--out-lss",
+            comentarios_lss,
+            "--out-comentarios-zip",
+            comentarios_zip,
         ],
         ROOT,
     )

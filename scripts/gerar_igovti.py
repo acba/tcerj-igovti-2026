@@ -10,8 +10,8 @@ Produz os arquivos:
 Exemplo::
 
     scripts/.venv/bin/python scripts/gerar_igovti.py \
-      --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-      --mapeamento-id 02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx
+      --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
+      --mapeamento-id 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/urls_anexos_limesurvey_consolidado.xlsx
 """
 
 from __future__ import annotations
@@ -30,17 +30,17 @@ from igovti_calculadora import calcular_igovti
 
 ROOT = Path(__file__).resolve().parents[1]
 
-DEFAULT_RESPOSTAS = ROOT / "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"
+DEFAULT_RESPOSTAS = ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx"
 DEFAULT_YAML_OFICIAL = ROOT / "01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml"
 DEFAULT_YAML_COMPARAVEL = (
     ROOT / "01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026-ajustado-comparavel.yaml"
 )
 DEFAULT_MAPEAMENTO = (
-    ROOT / "02-Execucao/01-Questionario/Evidencias_Coletadas/urls_anexos_limesurvey_consolidado.xlsx"
+    ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/urls_anexos_limesurvey_consolidado.xlsx"
 )
-DEFAULT_SAIDA_OFICIAL = ROOT / "02-Execucao/01-Questionario/20260621-iGovTI-2026.xlsx"
+DEFAULT_SAIDA_OFICIAL = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx"
 DEFAULT_SAIDA_COMPARAVEL = (
-    ROOT / "02-Execucao/01-Questionario/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx"
+    ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx"
 )
 
 

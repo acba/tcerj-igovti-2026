@@ -67,8 +67,8 @@ Run the complete report package workflow from the raw LimeSurvey export:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
-  --respostas-bruto 02-Execucao/01-Questionario/20260621-respostas-questionario-bruto.xlsx \
-  --output-dir /tmp/tcerj-igovti-2026-ultima-versao
+  --respostas-bruto 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx \
+  --output-dir C:/tmp/tcerj-igovti-2026-ultima-versao
 ```
 
 This applies recorded adjustments, recalculates iGovTI artifacts, executes the audit, generates charts, individual reports, and the consolidated report. The script logs each stage and command to the terminal.
@@ -104,25 +104,25 @@ Generate iGovTI 2026 result workbooks:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_igovti.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx
 ```
 
 Regenerate the full iGovTI artifact set:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
   --prefixo 20260621 \
-  --output-dir /tmp/tcerj-igovti-2026
+  --output-dir C:/tmp/tcerj-igovti-2026
 ```
 
 Apply response adjustments:
 
 ```bash
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
-  --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-  --ajustes 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
-  --output 02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
+  --ajustes 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
 ```
 
 Generate the derived evidence-adjustment source used by audit procedures:
@@ -131,7 +131,7 @@ Generate the derived evidence-adjustment source used by audit procedures:
 scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
 ```
 
-This creates `02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx`, a wide workbook keyed by `Auditado`, restricted by default to questionnaire items already used in `mapa-verificacao-achados.xlsx`.
+This creates `02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx`, a wide workbook keyed by `Auditado`, restricted by default to questionnaire items already used in `mapa-verificacao-achados.xlsx`.
 
 Generate the findings matrix DOCX:
 
@@ -143,16 +143,16 @@ Run audit procedures and write outputs to `/tmp` for validation:
 
 ```bash
 scripts/.venv/bin/python scripts/executa_auditoria.py \
-  --auditados 02-Execucao/03-Execucao_Procedimentos/bd_auditados.xlsx \
-  --mapa 02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx \
+  --auditados 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
+  --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
   --fontes \
-    02-Execucao/01-Questionario/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
-    02-Execucao/01-Questionario/Ajustes/20260621-ajustes-evidencias-para-auditoria.xlsx \
-  --resultado-auditoria-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
-  --tabelas-auditoria-xlsx /tmp/tcerj-igovti-2026/auditoria/tabelas_consolidadas_auditoria.xlsx
+    02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+    02-Execucao/01-Questionario/02-Ajustes_Respostas/20260621-ajustes-evidencias-para-auditoria.xlsx \
+  --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx
 ```
 
-`resultado_auditoria.json` is compact by default and omits the full list of evaluated actions. Use `--resultado-auditoria-detalhado-json /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria_detalhado.json` only when a detailed debugging trace is required.
+`resultado_auditoria.json` is compact by default and omits the full list of evaluated actions. Use `--resultado-auditoria-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json` only when a detailed debugging trace is required.
 
 The audit CLI validates the map before execution and fails on missing sources/actions/columns, invalid booleans, and malformed finding logic. Use `--somente-dados` for a data-only run, or `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias`, and `--skip-comentarios-gestor` to skip specific accessory outputs.
 
@@ -161,20 +161,20 @@ Generate individual report charts:
 ```bash
 scripts/.venv/bin/python scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py \
   --auditados FTM \
-  --output-root /tmp/tcerj-igovti-2026
+  --output-root C:/tmp/tcerj-igovti-2026
 ```
 
 Generate an individual preliminary report:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_relatorios_individuais.py \
-  --auditados /tmp/tcerj-igovti-2026/auditoria/resultado_auditoria.json \
+  --auditados C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
   --templates 03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md \
-  --context-files 02-Execucao/01-Questionario/20260621-contexto-relatorios-igovti-2026.xlsx \
-  --ajustes-respostas 02-Execucao/01-Questionario/Ajustes/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
-  --resource-files "/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png" \
+  --context-files 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
+  --ajustes-respostas 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --resource-files "C:/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png" \
   --auditados-select FTM \
-  --output-dir /tmp/tcerj-igovti-2026/relatorios-individuais/FTM \
+  --output-dir C:/tmp/tcerj-igovti-2026/relatorios-individuais/FTM \
   --reference-docx scripts/resources/template-base-estilos-sigiloso.docx
 ```
 
@@ -201,7 +201,7 @@ To add or alter a prompt in the binary findings set:
 3. Use `criterios_comuns_itens` for criteria shared by several alternatives and `excluir_criterios_comuns_itens` for exceptions.
 4. Use `exibir_texto_itens: false` when the model must judge only the listed criteria, not the full questionnaire alternative text.
 5. For adoption/detail items such as `q1001ext[A]`, keep item text visible when the selected detail text is itself the assertion to be checked.
-6. Mark `gera_achado: true` on entries whose root question gives rise to a finding in `02-Execucao/03-Execucao_Procedimentos/mapa-verificacao-achados.xlsx`.
+6. Mark `gera_achado: true` on entries whose root question gives rise to a finding in `02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx`.
 7. Keep only items that can be evaluated by evidence. Do not add negative/no-upload items such as `q0101[F]`, `q0102[E]`, or `q0103[G]`.
 
 Regenerate the binary findings prompts:
@@ -217,15 +217,15 @@ Validate with `provider fake` before remote AI execution:
 
 ```bash
 scripts/.venv/bin/python -m scripts.avaliacao_evidencias \
-  02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
-  /tmp/tcerj-igovti-2026/evidencias_extraidas \
+  02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
+  C:/tmp/tcerj-igovti-2026/evidencias_extraidas \
   --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
   --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
   --prompt-version igovti_2026_achados_binario_v1 \
   --only-prompts-present \
   --provider fake \
   --model fake \
-  --out-dir /tmp/tcerj-igovti-2026/avaliacao_evidencias/teste-achados-binario
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/teste-achados-binario
 ```
 
 For the binary findings set, run the pipeline with `--only-prompts-present`. Use `--only-achados` to restrict processing to questions whose prompt is marked `gera_achado: true`. Use `--pdf2md` for PDF evidence that should be converted with PyMuPDF4LLM before provider evaluation. Use `--docx2html` for DOCX evidence that should be converted with Mammoth before provider evaluation.
@@ -246,8 +246,8 @@ Aggregate evaluations by questionnaire item:
 
 ```bash
 scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
-  02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/analyses*.jsonl \
-  --output 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
+  02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses*.jsonl \
+  --output 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
 ```
 
 The orchestrators support Gemini key rotation when `GEMINI_API_KEY` contains multiple comma-separated keys. On 429, they rotate keys, pause only when all keys are exhausted, and avoid recording rate-limit failures for items that can be retried after the pause.
@@ -256,7 +256,7 @@ See `scripts/avaliacao_evidencias/README.md` for deeper pipeline details.
 
 ## Output Policy
 
-Write generated artifacts to `/tmp/tcerj-igovti-2026` unless the user explicitly requests a repository destination. This keeps validation runs separate from auditable repository artifacts.
+Write generated artifacts to `C:/tmp/tcerj-igovti-2026` on Windows or `/tmp/tcerj-igovti-2026` on Linux/macOS unless the user explicitly requests a repository destination. This keeps validation runs separate from auditable repository artifacts.
 
 When a script creates DOCX, XLSX, JSON, LSS, ZIP, or chart outputs, report the generated paths in the final response. For report generation, validate that there are no missing-resource warnings and that expected media files are embedded when the tooling exposes that information.
 
@@ -277,8 +277,8 @@ There are no automated tests yet. Choose validation based on the changed artifac
 - Documentation: verify links, paths, headings, command consistency, and alignment with source documents.
 - Questionnaire changes: compare `.md` and `.lss`; validate LimeSurvey import/export before treating the change as complete.
 - Prompt catalog changes: regenerate prompts and run the `provider fake` validation command.
-- iGovTI calculation changes: run `gerar_artefatos_igovti.py` to `/tmp` and inspect the generated XLSX/JSON paths.
-- Audit execution changes: run `executa_auditoria.py` to `/tmp` with the current audit inputs.
+- iGovTI calculation changes: run `gerar_artefatos_igovti.py` to the temporary package directory and inspect the generated XLSX/JSON paths.
+- Audit execution changes: run `executa_auditoria.py` to the temporary package directory with the current audit inputs.
 - Report changes: regenerate the target report and check for missing resources or conversion warnings.
 
 ## Agent-Specific Instructions

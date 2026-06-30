@@ -11,16 +11,19 @@ Para cada (auditado, questao-achado) no universo:
 
 Uso:
     scripts/.venv/bin/python scripts/verificar_cobertura_achados.py \
-        --respostas 02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx \
+        --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
         --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
-        --analyses 02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias/analyses_*.jsonl \
+        --analyses 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/analyses_*.jsonl \
         --catalog scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml \
-        --output /tmp/tcerj-igovti-2026/cobertura_achados.xlsx
+        --output C:/tmp/tcerj-igovti-2026/cobertura_achados.xlsx
 """
 
 from __future__ import annotations
 
 import argparse
+import sys
+import tempfile
+from pathlib import Path
 import json
 import re
 import sys
@@ -261,7 +264,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--respostas",
-        default="02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx",
+        default="02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx",
         help="Planilha de respostas do questionario (fonte do universo amostral).",
     )
     parser.add_argument(
@@ -276,7 +279,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--output",
-        default="/tmp/tcerj-igovti-2026/cobertura_achados.xlsx",
+        default=str((Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())) / "tcerj-igovti-2026" / "cobertura_achados.xlsx"),
         help="Arquivo XLSX de saída.",
     )
     parser.add_argument(

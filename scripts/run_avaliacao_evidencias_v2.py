@@ -127,14 +127,14 @@ if sys.platform == "win32":
 else:
     VENV_PYTHON = str(REPO / "scripts" / ".venv" / "bin" / "python")
 
-BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/avaliacao_evidencias"
+BASE_OUT = "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias"
 AUDITADOS = ""  # Deixe vazio "" para processar todos os auditados
 QUESTIONARIO = "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 PROMPTS_DIR = "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 PROMPT_VERSION = "igovti_2026_achados_binario_v1"
 CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
-RESPOSTAS = "02-Execucao/01-Questionario/20260621-respostas-questionario.xlsx"
-EVIDENCIAS_DEFAULT = "02-Execucao/01-Questionario/Evidencias_Coletadas/evidencias_extraidas"
+RESPOSTAS = "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx"
+EVIDENCIAS_DEFAULT = "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas"
 
 # Lista de modelos para executar em paralelo.
 # Para desativar um modelo, mudar "enabled" para False.
