@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import json
 import os
 import tempfile
 from pathlib import Path
@@ -296,6 +297,34 @@ def main(argv: list[str] | None = None) -> int:
 
         pacote_evidencia: dict[str, Any] = {"documentos": [], "inventario": [], "erro": "evidencia nao informada para o juiz"}
         arquivos_upload: list[str] = []
+        documentos_contexto: list[dict[str, Any]] = []
+        inventario_contexto: list[str] = []
+        documentos_contexto_vistos: set[str] = set()
+        inventario_contexto_visto: set[str] = set()
+        for opiniao in opinioes_validas:
+            pacote_contexto = opiniao.get("pacote_contexto_consolidacao")
+            if not isinstance(pacote_contexto, dict):
+                continue
+            documentos = pacote_contexto.get("documentos")
+            if isinstance(documentos, list):
+                for doc in documentos:
+                    if not isinstance(doc, dict):
+                        continue
+                    chave_doc = json.dumps(doc, ensure_ascii=False, sort_keys=True, default=str)
+                    if chave_doc in documentos_contexto_vistos:
+                        continue
+                    documentos_contexto_vistos.add(chave_doc)
+                    documentos_contexto.append(doc)
+            inventario = pacote_contexto.get("inventario")
+            if isinstance(inventario, list):
+                for item in inventario:
+                    if item in (None, ""):
+                        continue
+                    item_str = str(item)
+                    if item_str in inventario_contexto_visto:
+                        continue
+                    inventario_contexto_visto.add(item_str)
+                    inventario_contexto.append(item_str)
 
         with tempfile.TemporaryDirectory() as upload_tmp:
             if caminho_evidencia:
@@ -327,10 +356,17 @@ def main(argv: list[str] | None = None) -> int:
                         **base_log,
                     )
                 pacote_evidencia = {
-                    "documentos": pacote.documentos,
-                    "inventario": pacote.inventario,
+                    "documentos": documentos_contexto + pacote.documentos,
+                    "inventario": inventario_contexto + pacote.inventario,
                     "erro": pacote.erro,
                     "arquivos_upload": arquivos_upload,
+                }
+            elif documentos_contexto and not chave.evidencia:
+                pacote_evidencia = {
+                    "documentos": documentos_contexto,
+                    "inventario": inventario_contexto,
+                    "erro": "",
+                    "arquivos_upload": [],
                 }
             elif args.evidencias_root:
                 pacote_evidencia["erro"] = "evidencia nao localizada na raiz informada"

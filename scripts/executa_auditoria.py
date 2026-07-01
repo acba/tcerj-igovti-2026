@@ -21,11 +21,15 @@ from argos_classes import FonteInformacao, AcaoVerificacao, ProcedimentoAuditori
 from argos_utils import aplicar_variaveis_temporarias, carregar_dados, avalia_logica
 from igovti_dados_utils import to_relative
 from docxtpl import DocxTemplate
-from limesurvey_generator import LimeSurveyGenerator
+from limesurvey_generator import DEFAULT_ADMIN_EMAIL, DEFAULT_ADMIN_NAME, LimeSurveyGenerator
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_QUESTIONARIO_IGOVTI = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
+NAO_PARECER_REVISOR = {"", "nan", "none", "sem_parecer", "sem parecer", "não revisado", "nao revisado"}
 
 class NpEncoder(json.JSONEncoder):
     """JSON Encoder that converts numpy/pandas types to python primitives."""
@@ -127,6 +131,141 @@ def validar_mapa_auditoria(df_procedimentos, df_acoes, df_fontes, df_variaveis, 
     if erros:
         raise ValueError("Mapa de auditoria inválido:\n- " + "\n- ".join(erros))
 
+
+def calcular_data_final_comentarios_gestor(data_informada):
+    if data_informada:
+        try:
+            data_final = datetime.datetime.strptime(data_informada, "%d/%m/%Y").date()
+        except ValueError as exc:
+            raise ValueError(
+                "Data final de preenchimento dos comentários do gestor inválida. "
+                "Use o formato DD/MM/AAAA."
+            ) from exc
+    else:
+        data_final = datetime.date.today() + datetime.timedelta(days=15)
+
+    data_exibicao = data_final.strftime("%d/%m/%Y")
+    data_limesurvey = f"{data_final.strftime('%Y-%m-%d')} 23:59:59"
+    return data_exibicao, data_limesurvey
+
+
+def normalizar_texto_comentarios_gestor(valor):
+    if pd.isna(valor):
+        return ""
+    return str(valor).strip()
+
+
+def normalizar_resultado_comentarios_gestor(valor):
+    texto = normalizar_texto_comentarios_gestor(valor)
+    if not texto:
+        return ""
+    texto = re.sub(r"\s+", " ", texto).lower()
+    texto = (
+        texto.replace("ã", "a")
+        .replace("á", "a")
+        .replace("à", "a")
+        .replace("é", "e")
+        .replace("ê", "e")
+        .replace("í", "i")
+        .replace("ó", "o")
+        .replace("ô", "o")
+        .replace("õ", "o")
+        .replace("ç", "c")
+    )
+    return texto.replace("-", "_").replace(" ", "_")
+
+
+def resultado_final_evidencia_comentarios_gestor(row):
+    avaliacao_revisor = normalizar_texto_comentarios_gestor(row.get("Avaliação do auditor revisor"))
+    if avaliacao_revisor.lower() not in NAO_PARECER_REVISOR:
+        return avaliacao_revisor, normalizar_texto_comentarios_gestor(row.get("Justificativa do auditor revisor"))
+    return (
+        normalizar_texto_comentarios_gestor(row.get("Resultado da avaliação do juiz")),
+        normalizar_texto_comentarios_gestor(row.get("Justificativa do juiz")),
+    )
+
+
+def base_item_questionario(codigo):
+    match = re.match(r"^(q\d{4})", normalizar_texto_comentarios_gestor(codigo), flags=re.IGNORECASE)
+    return match.group(1).lower() if match else ""
+
+
+def carregar_textos_questoes_base_questionario(path=DEFAULT_QUESTIONARIO_IGOVTI):
+    textos = {}
+    current = ""
+    if not Path(path).exists():
+        logger.warning("Questionário iGovTI não encontrado para textos de reavaliação: %s", path)
+        return textos
+
+    with open(path, encoding="utf-8") as stream:
+        for line in stream:
+            match = re.match(r"^###\s+(q\d{4})\b", line.strip(), flags=re.IGNORECASE)
+            if match:
+                current = match.group(1).lower()
+                continue
+            if current and line.startswith("question:"):
+                texto = line.split(":", 1)[1].strip()
+                texto = re.sub(r"^\*\*|\*\*$", "", texto).strip()
+                textos[current] = texto
+                current = ""
+    return textos
+
+
+def carregar_reavaliacao_evidencias_comentarios_gestor(path):
+    if not path:
+        return {}
+
+    ajustes_path = Path(path)
+    if not ajustes_path.exists():
+        raise FileNotFoundError(f"Planilha de ajustes de evidências não encontrada: {ajustes_path}")
+
+    df = pd.read_excel(ajustes_path)
+    required = {
+        "Auditado",
+        "Código do item avaliado",
+        "Resposta afirmada",
+        "Resultado da avaliação do juiz",
+        "Justificativa do juiz",
+    }
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(
+            "Colunas ausentes na planilha de ajustes de evidências para comentários do gestor: "
+            + ", ".join(sorted(missing))
+        )
+
+    textos_base = carregar_textos_questoes_base_questionario()
+    registros = {}
+    for _, row in df.iterrows():
+        auditado = normalizar_texto_comentarios_gestor(row.get("Auditado")).upper()
+        codigo = normalizar_texto_comentarios_gestor(row.get("Código do item avaliado"))
+        base = base_item_questionario(codigo)
+        if not auditado or not codigo or not base:
+            continue
+
+        resultado, justificativa = resultado_final_evidencia_comentarios_gestor(row)
+        if normalizar_resultado_comentarios_gestor(resultado) != "nao_conforme":
+            continue
+
+        registro_base = registros.setdefault(
+            base,
+            {
+                "base": base,
+                "base_texto": textos_base.get(base, base),
+                "auditados": set(),
+            },
+        )
+        registro_base["auditados"].add(auditado)
+
+    return [
+        {
+            "base": registro["base"],
+            "base_texto": registro["base_texto"],
+            "auditados": sorted(registro["auditados"]),
+        }
+        for _, registro in sorted(registros.items(), key=lambda item: int(item[0][1:]))
+    ]
+
 def main():
     parser = argparse.ArgumentParser(
         description='Executa os procedimentos de auditoria do Argos via Linha de Comando.'
@@ -161,12 +300,24 @@ def main():
         help='Caminho para salvar a planilha de tabelas consolidadas da auditoria (padrão: .output_reports/tabelas_consolidadas_auditoria.xlsx).'
     )
     parser.add_argument(
-        '--email-contato', default='auditoria_seginfo@tcerj.tc.br',
-        help='E-mail do administrador para o questionário do gestor (padrão: auditoria_seginfo@tcerj.tc.br).'
+        '--email-contato-comentarios-gestor',
+        default=DEFAULT_ADMIN_EMAIL,
+        help=f'E-mail de contato para o questionário de comentários do gestor (padrão: {DEFAULT_ADMIN_EMAIL}).'
     )
     parser.add_argument(
-        '--data-entrega', default='',
-        help='Data final de entrega das considerações do gestor formatada como DD/MM/AAAA (padrão: data atual + 15 dias).'
+        '--admin-responsavel-comentarios-gestor',
+        default=DEFAULT_ADMIN_NAME,
+        help=f'Nome do administrador responsável pelo questionário de comentários do gestor (padrão: {DEFAULT_ADMIN_NAME}).'
+    )
+    parser.add_argument(
+        '--data-final-preenchimento-comentarios-gestor',
+        default='',
+        help='Data final de preenchimento dos comentários do gestor em DD/MM/AAAA (padrão: data atual + 15 dias).'
+    )
+    parser.add_argument(
+        '--ajustes-evidencias-comentarios-gestor',
+        default='',
+        help='Planilha de ajustes pós-avaliação de evidências usada para incluir seção opcional de reavaliação no survey de comentários do gestor.'
     )
     parser.add_argument(
         '--out-proc-zip', default='',
@@ -438,6 +589,24 @@ def main():
 
     # 14. Geração do Questionário do Gestor (.lss e anexos Word em ZIP)
     auditados_com_achados = [v for v in auditados.values() if v.tem_achados]
+    if not (args.somente_dados or args.skip_comentarios_gestor):
+        data_final_entrega, data_final_limesurvey = calcular_data_final_comentarios_gestor(
+            args.data_final_preenchimento_comentarios_gestor
+        )
+        reavaliacao_evidencias = carregar_reavaliacao_evidencias_comentarios_gestor(
+            args.ajustes_evidencias_comentarios_gestor
+        )
+        if reavaliacao_evidencias:
+            total_auditados_reavaliacao = len({
+                auditado
+                for base in reavaliacao_evidencias
+                for auditado in base.get("auditados", [])
+            })
+            logger.info(
+                "Seção de reavaliação de evidências habilitada para %s auditado(s) e %s questão(ões)-base.",
+                total_auditados_reavaliacao,
+                len(reavaliacao_evidencias),
+            )
     
     # 14.1 Arquivo .lss (LimeSurvey)
     if args.somente_dados or args.skip_comentarios_gestor:
@@ -448,7 +617,13 @@ def main():
         try:
             os.makedirs(lss_path.parent, exist_ok=True)
             generator = LimeSurveyGenerator()
-            xml_content = generator.generate_xml(auditados_com_achados, admin_email=args.email_contato)
+            xml_content = generator.generate_xml(
+                auditados_com_achados,
+                admin_name=args.admin_responsavel_comentarios_gestor,
+                admin_email=args.email_contato_comentarios_gestor,
+                expires=data_final_limesurvey,
+                reavaliacao_evidencias=reavaliacao_evidencias,
+            )
             
             with open(lss_path, 'w', encoding='utf-8') as f:
                 f.write(xml_content)
@@ -465,11 +640,6 @@ def main():
         try:
             os.makedirs(comentarios_zip_path.parent, exist_ok=True)
             template_comentarios = os.path.join(os.path.dirname(__file__), "resources", "template-questionario-comentarios-gestor.docx")
-            
-            if args.data_entrega:
-                data_final_entrega = args.data_entrega
-            else:
-                data_final_entrega = (datetime.date.today() + datetime.timedelta(days=15)).strftime("%d/%m/%Y")
                 
             with zipfile.ZipFile(comentarios_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
                 for auditado in auditados_com_achados:
@@ -480,7 +650,7 @@ def main():
                         'auditado': auditado,
                         'achados': achados,
                         'data_final_entrega': data_final_entrega,
-                        'email_contato': args.email_contato
+                        'email_contato': args.email_contato_comentarios_gestor
                     }
                     doc.render(contexto)
                     

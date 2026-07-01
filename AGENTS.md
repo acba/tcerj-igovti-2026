@@ -250,6 +250,56 @@ scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
   --output 02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/consolidado/agregado_avaliacoes_por_item.xlsx
 ```
 
+### Manager Comments Evidence Reassessment
+
+Use `scripts/avaliar_comentarios_gestor.py` to reassess items previously marked `Não conforme` after the audited organization submits manager comments and optional new PDF/ZIP evidence in the comments survey. The script reuses the evidence-evaluation prompts and produces `analyses*.jsonl` compatible with `scripts.avaliacao_evidencias.consolidacao`.
+
+Generate individual reassessments from the LimeSurvey comments export and extracted attachments:
+
+```bash
+scripts/.venv/bin/python scripts/avaliar_comentarios_gestor.py avaliar \
+  --respostas-comentarios C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --evidencias-comentarios-root C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/evidencias_extraidas \
+  --ajustes-pos-avaliacao-evidencias 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_comentarios_gestor_v1 \
+  --provider fake \
+  --model fake \
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/individuais
+```
+
+Consolidate those reassessments with the existing judge pipeline:
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias.consolidacao \
+  C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/individuais/analyses*.jsonl \
+  --evidencias-root C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/evidencias_extraidas \
+  --judge-provider fake \
+  --judge-model fake \
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/consolidado
+```
+
+Generate reverse adjustments from the consolidated reassessment:
+
+```bash
+scripts/.venv/bin/python scripts/avaliar_comentarios_gestor.py gerar-ajustes \
+  --consolidado C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/consolidado/consolidated.jsonl \
+  --ajustes-pos-avaliacao-evidencias 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --output C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx
+```
+
+Apply reverse adjustments over the post-evidence-adjusted response base:
+
+```bash
+scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --ajustes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx \
+  --output C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-comentarios-gestor.xlsx
+```
+
+The reverse-adjustment XLSX intentionally includes only items whose consolidated reassessment is `Conforme`; each row restores the original `Resposta afirmada` through the `Resposta ajustada` column. Treat the generated adjustments as a draft subject to audit review before using them as the definitive response base. On Linux/macOS, replace `C:/tmp/tcerj-igovti-2026` with `/tmp/tcerj-igovti-2026`.
+
 The orchestrators support Gemini key rotation when `GEMINI_API_KEY` contains multiple comma-separated keys. On 429, they rotate keys, pause only when all keys are exhausted, and avoid recording rate-limit failures for items that can be retried after the pause.
 
 See `scripts/avaliacao_evidencias/README.md` for deeper pipeline details.

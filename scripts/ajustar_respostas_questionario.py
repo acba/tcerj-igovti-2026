@@ -17,6 +17,38 @@ import re
 from pathlib import Path
 import pandas as pd
 
+NA_VALUES_PRESERVANDO_NA = [
+    "",
+    "#N/A",
+    "#N/A N/A",
+    "#NA",
+    "-1.#IND",
+    "-1.#QNAN",
+    "-NaN",
+    "-nan",
+    "1.#IND",
+    "1.#QNAN",
+    "<NA>",
+    "NA",
+    "NULL",
+    "NaN",
+    "n/a",
+    "nan",
+    "null",
+]
+
+
+def read_excel_preservando_na(path: Path) -> pd.DataFrame:
+    """Lê XLSX preservando o texto literal "N/A".
+
+    No pandas, "N/A" faz parte da lista padrão de valores ausentes. Para as
+    respostas LimeSurvey deste trabalho, porém, "N/A" tem significado
+    substantivo: item não disponibilizado ao auditado. Por isso ele não pode
+    ser convertido para NaN durante os ajustes.
+    """
+    return pd.read_excel(path, keep_default_na=False, na_values=NA_VALUES_PRESERVANDO_NA)
+
+
 def normalize_text(val):
     if pd.isna(val):
         return ""
@@ -74,7 +106,7 @@ def main():
         output_path = args.respostas.parent / f"{args.respostas.stem}{suffix}.xlsx"
 
     print(f"Lendo respostas de: {args.respostas}")
-    df_respostas = pd.read_excel(args.respostas)
+    df_respostas = read_excel_preservando_na(args.respostas)
 
     # Garantir que a coluna 'firstname' exista
     if "firstname" not in df_respostas.columns:
@@ -82,7 +114,7 @@ def main():
         sys.exit(1)
 
     print(f"Lendo ajustes de: {args.ajustes}")
-    df_ajustes = pd.read_excel(args.ajustes)
+    df_ajustes = read_excel_preservando_na(args.ajustes)
 
     # Ordenar por auditado e depois por item (ordem alfabética case-insensitive)
     col_item_ajustes = None
@@ -304,6 +336,7 @@ def main():
 
     # Salvar resultado final
     print(f"\nSalvando resultado ajustado em: {output_path}")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     df_respostas.to_excel(output_path, index=False)
 
     print("\n--- Resumo de Execução ---")

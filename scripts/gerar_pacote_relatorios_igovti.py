@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import re
 import shlex
 import subprocess
@@ -24,6 +25,8 @@ DEFAULT_TEMPLATE_INDIVIDUAL = ROOT / "03-Relatorios/02-Relatorios_Individuais_Pr
 DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png"
 DEFAULT_RELATORIO_CONSOLIDADO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
 DEFAULT_REFERENCE_DOCX = ROOT / "scripts/resources/template-base-estilos-sigiloso.docx"
+DEFAULT_ADMIN_COMENTARIOS_GESTOR = "CAD-TI"
+DEFAULT_EMAIL_COMENTARIOS_GESTOR = "auditoriati@tcerj.tc.br"
 
 default_tmp_root = Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())
 DEFAULT_OUTPUT_DIR = default_tmp_root / "tcerj-igovti-2026-ultima-versao"
@@ -55,7 +58,36 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--template-individual", type=Path, default=DEFAULT_TEMPLATE_INDIVIDUAL, help="Template Markdown dos relatórios individuais.")
     parser.add_argument("--relatorio-consolidado-md", type=Path, default=DEFAULT_RELATORIO_CONSOLIDADO, help="Markdown fonte do relatório consolidado.")
     parser.add_argument("--reference-docx", type=Path, default=DEFAULT_REFERENCE_DOCX, help="DOCX de referência de estilos.")
+    parser.add_argument(
+        "--email-contato-comentarios-gestor",
+        default=DEFAULT_EMAIL_COMENTARIOS_GESTOR,
+        help=f"E-mail de contato para o questionário de comentários do gestor (padrão: {DEFAULT_EMAIL_COMENTARIOS_GESTOR}).",
+    )
+    parser.add_argument(
+        "--admin-responsavel-comentarios-gestor",
+        default=DEFAULT_ADMIN_COMENTARIOS_GESTOR,
+        help=f"Nome do administrador responsável pelo questionário de comentários do gestor (padrão: {DEFAULT_ADMIN_COMENTARIOS_GESTOR}).",
+    )
+    parser.add_argument(
+        "--data-final-preenchimento-comentarios-gestor",
+        default="",
+        help="Data final de preenchimento dos comentários do gestor em DD/MM/AAAA (padrão: data atual + 15 dias).",
+    )
+    parser.add_argument(
+        "--ajustes-evidencias-comentarios-gestor",
+        type=Path,
+        default=None,
+        help="Planilha de ajustes pós-avaliação de evidências usada para incluir seção opcional de reavaliação no survey de comentários do gestor.",
+    )
     parser.add_argument("--auditados-select", nargs="*", default=[], help="Siglas de auditados para relatórios individuais. Se omitido, gera todos.")
+    parser.add_argument(
+        "--graficos-jobs",
+        type=int,
+        default=max(1, min(4, (os.cpu_count() or 2) - 1)),
+        help="Quantidade de processos paralelos para gráficos individuais.",
+    )
+    parser.add_argument("--graficos-dpi", type=int, default=300, help="Resolução dos PNG gerados para relatórios.")
+    parser.add_argument("--graficos-skip-existing", action="store_true", help="Pula PNG de relatórios já existentes no diretório de saída.")
     parser.add_argument(
         "--tipo-relatorio-individual",
         choices=["preliminar", "final"],
@@ -149,50 +181,65 @@ def main() -> int:
         ROOT,
     )
 
-    run_step(
-        "4/7 Executando procedimentos de auditoria.",
-        [
-            python,
-            ROOT / "scripts/executa_auditoria.py",
-            "--auditados",
-            args.auditados,
-            "--mapa",
-            args.mapa,
-            "--fontes",
-            base_final,
-            args.painel_avaliacao_evidencias,
-            "--resultado-auditoria-json",
-            resultado_auditoria,
-            "--tabelas-auditoria-xlsx",
-            tabelas_auditoria,
-            "--out-proc-zip",
-            relatorios_procedimentos,
-            "--out-evidencias-docx",
-            anexo_evidencias,
-            "--out-lss",
-            comentarios_lss,
-            "--out-comentarios-zip",
-            comentarios_zip,
-        ],
-        ROOT,
-    )
+    auditoria_cmd = [
+        python,
+        ROOT / "scripts/executa_auditoria.py",
+        "--auditados",
+        args.auditados,
+        "--mapa",
+        args.mapa,
+        "--fontes",
+        base_final,
+        args.painel_avaliacao_evidencias,
+        "--resultado-auditoria-json",
+        resultado_auditoria,
+        "--tabelas-auditoria-xlsx",
+        tabelas_auditoria,
+        "--out-proc-zip",
+        relatorios_procedimentos,
+        "--out-evidencias-docx",
+        anexo_evidencias,
+        "--out-lss",
+        comentarios_lss,
+        "--out-comentarios-zip",
+        comentarios_zip,
+        "--email-contato-comentarios-gestor",
+        args.email_contato_comentarios_gestor,
+        "--admin-responsavel-comentarios-gestor",
+        args.admin_responsavel_comentarios_gestor,
+        "--data-final-preenchimento-comentarios-gestor",
+        args.data_final_preenchimento_comentarios_gestor,
+    ]
+    if args.ajustes_evidencias_comentarios_gestor:
+        auditoria_cmd.extend([
+            "--ajustes-evidencias-comentarios-gestor",
+            args.ajustes_evidencias_comentarios_gestor,
+        ])
 
-    run_step(
-        "5/7 Gerando gráficos consolidados e individuais.",
-        [
-            python,
-            ROOT / "scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py",
-            "--output-root",
-            output_dir,
-            "--resultados-2026",
-            resultado_oficial,
-            "--respostas-2026",
-            base_final,
-            "--comparavel-2026",
-            resultado_comparavel,
-        ],
-        ROOT,
-    )
+    run_step("4/7 Executando procedimentos de auditoria.", auditoria_cmd, ROOT)
+
+    graficos_cmd = [
+        python,
+        ROOT / "scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py",
+        "--output-root",
+        output_dir,
+        "--resultados-2026",
+        resultado_oficial,
+        "--respostas-2026",
+        base_final,
+        "--comparavel-2026",
+        resultado_comparavel,
+        "--jobs",
+        args.graficos_jobs,
+        "--dpi",
+        args.graficos_dpi,
+    ]
+    if args.graficos_skip_existing:
+        graficos_cmd.append("--skip-existing")
+    if args.auditados_select:
+        graficos_cmd.extend(["--auditados", *args.auditados_select])
+
+    run_step("5/7 Gerando gráficos consolidados e individuais.", graficos_cmd, ROOT)
 
     relatorios_cmd = [
         python,

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import math
 import os
 import re
@@ -50,6 +51,10 @@ CONSOLIDATED_IMG = DEFAULT_OUTPUT_ROOT / "relatorio-consolidado/img"
 INDIVIDUAL_IMG = DEFAULT_OUTPUT_ROOT / "relatorios-individuais/img"
 
 DPI = 300
+SKIP_EXISTING = False
+WORKER_RESULTS: pd.DataFrame | None = None
+WORKER_RAW_BY_KEY: pd.DataFrame | None = None
+WORKER_PAIRS_BY_KEY: dict[str, dict[str, object]] | None = None
 LEVELS = ["Inexpressivo", "Iniciando", "Intermediário", "Aprimorado"]
 LEVEL_COLORS = {
     "Inexpressivo": "#B22222",  # firebrick
@@ -321,6 +326,9 @@ def add_maturity_background(ax: plt.Axes, orientation: str = "vertical", alpha: 
 
 def save(fig: plt.Figure, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    if SKIP_EXISTING and path.exists():
+        plt.close(fig)
+        return
     fig.savefig(path, dpi=DPI, bbox_inches="tight", facecolor="white", metadata={"Software": "TCE-RJ iGovTI 2026"})
     plt.close(fig)
 
@@ -329,7 +337,9 @@ def save_shared(fig: plt.Figure, filename: str) -> None:
     target = CONSOLIDATED_IMG / filename
     save(fig, target)
     INDIVIDUAL_IMG.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(target, INDIVIDUAL_IMG / filename)
+    individual_target = INDIVIDUAL_IMG / filename
+    if not (SKIP_EXISTING and individual_target.exists()):
+        shutil.copy2(target, individual_target)
 
 
 def individual_output(sigla: object, filename: str) -> Path:
@@ -791,37 +801,92 @@ def select_audited(results: pd.DataFrame, requested: list[str] | None) -> pd.Dat
     return results.loc[selected_indices]
 
 
+def _generate_one_individual(results: pd.DataFrame, raw_by_key: pd.DataFrame,
+                             pairs_by_key: dict[str, dict[str, object]],
+                             record: pd.Series) -> tuple[str, int]:
+    sigla = str(record["sigla"])
+    key = str(record["_key"])
+    raw_record = raw_by_key.loc[key]
+    plot_position_histogram(results, record, "iGovTI", f"{sigla}_comparativo_distribuicao_iGovTI.png", "iGovTI 2026")
+    plot_position_histogram(results, record, "GovernancaTI", f"{sigla}_comparativo_distribuicao_GovernancaTI.png", "Governança de TIC")
+    plot_position_histogram(results, record, "iGestTI", f"{sigla}_comparativo_distribuicao_iGestTI.png", "Gestão de TIC")
+    plot_individual_components(record)
+    plot_individual_radar(results, record)
+    plot_individual_bullets(results, record)
+    plot_individual_percentiles(results, record)
+    pair = pairs_by_key.get(key)
+    plot_individual_evolution(record, pair)
+    plot_workforce(raw_record, sigla)
+    quantidade = 9 if pair else 8
+    return sigla, quantidade
+
+
+def _init_individual_worker(results: pd.DataFrame, raw_by_key: pd.DataFrame,
+                            pairs_by_key: dict[str, dict[str, object]],
+                            individual_img: Path, dpi: int, skip_existing: bool) -> None:
+    global WORKER_RESULTS, WORKER_RAW_BY_KEY, WORKER_PAIRS_BY_KEY, INDIVIDUAL_IMG, DPI, SKIP_EXISTING
+    WORKER_RESULTS = results
+    WORKER_RAW_BY_KEY = raw_by_key
+    WORKER_PAIRS_BY_KEY = pairs_by_key
+    INDIVIDUAL_IMG = individual_img
+    DPI = dpi
+    SKIP_EXISTING = skip_existing
+    configure_style()
+
+
+def _generate_one_individual_worker(record_dict: dict[str, object]) -> tuple[str, int]:
+    if WORKER_RESULTS is None or WORKER_RAW_BY_KEY is None or WORKER_PAIRS_BY_KEY is None:
+        raise RuntimeError("Worker de gráficos individuais não foi inicializado.")
+    return _generate_one_individual(
+        WORKER_RESULTS,
+        WORKER_RAW_BY_KEY,
+        WORKER_PAIRS_BY_KEY,
+        pd.Series(record_dict),
+    )
+
+
 def generate_individual(results: pd.DataFrame, raw: pd.DataFrame, profiles: pd.DataFrame,
                         pairs: list[dict[str, object]], category_scores: dict[str, float],
-                        requested: list[str] | None = None) -> int:
+                        requested: list[str] | None = None, jobs: int = 1) -> int:
     raw_by_key = raw.set_index("_key")
-    profiles_by_key = profiles.set_index("_key")
     pairs_by_key = {str(pair["key"]): pair for pair in pairs}
     records = select_audited(results, requested)
-    for index, (_, record) in enumerate(records.iterrows(), start=1):
-        sigla = str(record["sigla"])
-        key = str(record["_key"])
-        raw_record = raw_by_key.loc[key]
-        profile = profiles_by_key.loc[key]
-        plot_position_histogram(results, record, "iGovTI", f"{sigla}_comparativo_distribuicao_iGovTI.png", "iGovTI 2026")
-        plot_position_histogram(results, record, "GovernancaTI", f"{sigla}_comparativo_distribuicao_GovernancaTI.png", "Governança de TIC")
-        plot_position_histogram(results, record, "iGestTI", f"{sigla}_comparativo_distribuicao_iGestTI.png", "Gestão de TIC")
-        plot_individual_components(record)
-        plot_individual_radar(results, record)
-        plot_individual_bullets(results, record)
-        plot_individual_percentiles(results, record)
-        pair = pairs_by_key.get(key)
-        plot_individual_evolution(record, pair)
-        plot_workforce(raw_record, sigla)
-        (raw_record, sigla, category_scores)
-        quantidade = 11 if pair else 10
-        print(f"[{index}/{len(records)}] {sigla}: {quantidade} gráficos individuais")
+    total = len(records)
+    if total == 0:
+        return 0
+
+    jobs = max(1, min(jobs, total))
+    if jobs == 1:
+        for index, (_, record) in enumerate(records.iterrows(), start=1):
+            sigla, quantidade = _generate_one_individual(results, raw_by_key, pairs_by_key, record)
+            print(f"[{index}/{total}] {sigla}: {quantidade} gráficos individuais")
+        return total
+
+    record_dicts = [record.to_dict() for _, record in records.iterrows()]
+    with concurrent.futures.ProcessPoolExecutor(
+        max_workers=jobs,
+        initializer=_init_individual_worker,
+        initargs=(results, raw_by_key, pairs_by_key, INDIVIDUAL_IMG, DPI, SKIP_EXISTING),
+    ) as executor:
+        futures = [executor.submit(_generate_one_individual_worker, record) for record in record_dicts]
+        for index, future in enumerate(concurrent.futures.as_completed(futures), start=1):
+            sigla, quantidade = future.result()
+            print(f"[{index}/{total}] {sigla}: {quantidade} gráficos individuais")
     return len(records)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--somente-consolidados", action="store_true", help="Não gera gráficos por auditado")
+    parser.add_argument("--somente-individuais", action="store_true", help="Não gera gráficos consolidados")
+    parser.add_argument("--skip-existing", action="store_true", help="Pula PNG já existentes no diretório de saída")
+    parser.add_argument(
+        "--jobs",
+        type=int,
+        default=max(1, min(4, (os.cpu_count() or 2) - 1)),
+        help="Quantidade de processos paralelos para gráficos individuais (padrão: até 4). Use 1 para execução sequencial.",
+    )
+    parser.add_argument("--dpi", type=int, default=DPI, help=f"Resolução dos PNG gerados (padrão: {DPI}).")
     parser.add_argument(
         "--auditados",
         nargs="+",
@@ -843,22 +908,29 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    global CONSOLIDATED_IMG, INDIVIDUAL_IMG
+    global CONSOLIDATED_IMG, INDIVIDUAL_IMG, DPI, SKIP_EXISTING
     args = parse_args()
+    if args.somente_consolidados and args.somente_individuais:
+        raise ValueError("Use apenas uma das opções: --somente-consolidados ou --somente-individuais.")
     output_root = args.output_root.expanduser().resolve()
     CONSOLIDATED_IMG = output_root / "relatorio-consolidado/img"
     INDIVIDUAL_IMG = output_root / "relatorios-individuais/img"
+    DPI = args.dpi
+    SKIP_EXISTING = args.skip_existing
     configure_style()
     CONSOLIDATED_IMG.mkdir(parents=True, exist_ok=True)
     INDIVIDUAL_IMG.mkdir(parents=True, exist_ok=True)
     results, raw, category_scores = load_data(args.resultados_2026, args.respostas_2026)
     profiles = load_procedure_profiles(raw)
     pairs = load_pairs(args.comparavel_2026, args.setic_2023, args.municipios_2023)
-    generate_consolidated(results, raw, profiles, pairs)
+    consolidated_count = 0
+    if not args.somente_individuais:
+        generate_consolidated(results, raw, profiles, pairs)
+        consolidated_count = 17
     individual_count = 0
     if not args.somente_consolidados:
-        individual_count = generate_individual(results, raw, profiles, pairs, category_scores, args.auditados)
-    print(f"OK: 17 gráficos consolidados e gráficos para {individual_count} organizações gerados em 300 dpi.")
+        individual_count = generate_individual(results, raw, profiles, pairs, category_scores, args.auditados, args.jobs)
+    print(f"OK: {consolidated_count} gráficos consolidados e gráficos para {individual_count} organizações gerados em {DPI} dpi.")
     print(f"Gráficos consolidados: {CONSOLIDATED_IMG}")
     print(f"Gráficos individuais: {INDIVIDUAL_IMG}")
 

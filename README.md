@@ -345,6 +345,58 @@ scripts/.venv/bin/python scripts/gerar_fonte_ajustes_evidencias_auditoria.py
 
 O script gera `02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx`, em formato largo por auditado, contendo apenas itens já utilizados no mapa de verificação de achados. Essa fonte permite que a ocorrência de `Não conforme` na avaliação de evidências também componha a lógica dos achados, mantendo a justificativa do juiz ou do auditor revisor disponível para a descrição da evidência.
 
+### 10.1. Reavaliação dos comentários do gestor e ajustes reversos
+
+Quando o survey de comentários do gestor coletar comentários e novas evidências para itens avaliados como `Não conforme`, a reavaliação deve usar o mesmo conjunto de prompts da avaliação de evidências. O pipeline específico para essa fase lê a exportação XLSX do LimeSurvey de comentários, a pasta de anexos já extraídos e a planilha de ajustes pós-avaliação de evidências. Ele avalia apenas os itens originalmente não conformes para cada auditado e questão base.
+
+Geração das avaliações individuais:
+
+```bash
+scripts/.venv/bin/python scripts/avaliar_comentarios_gestor.py avaliar \
+  --respostas-comentarios C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --evidencias-comentarios-root C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/evidencias_extraidas \
+  --ajustes-pos-avaliacao-evidencias 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --questionario 01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md \
+  --prompts-dir scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1 \
+  --prompt-version igovti_2026_comentarios_gestor_v1 \
+  --provider fake \
+  --model fake \
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/individuais
+```
+
+Consolidação das avaliações por juiz IA:
+
+```bash
+scripts/.venv/bin/python -m scripts.avaliacao_evidencias.consolidacao \
+  C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/individuais/analyses*.jsonl \
+  --evidencias-root C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/evidencias_extraidas \
+  --judge-provider fake \
+  --judge-model fake \
+  --out-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/consolidado
+```
+
+Geração do arquivo de ajustes reversos:
+
+```bash
+scripts/.venv/bin/python scripts/avaliar_comentarios_gestor.py gerar-ajustes \
+  --consolidado C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/consolidado/consolidated.jsonl \
+  --ajustes-pos-avaliacao-evidencias 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
+  --output C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx
+```
+
+O arquivo gerado contém apenas itens que o parecer consolidado classificou como `Conforme`. Para esses casos, a coluna `Resposta ajustada` restaura a `Resposta afirmada` original, permitindo desfazer o ajuste negativo aplicado após a primeira avaliação de evidências.
+
+Aplicação dos ajustes reversos sobre a base já ajustada por evidências:
+
+```bash
+scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --ajustes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx \
+  --output C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-comentarios-gestor.xlsx
+```
+
+Em Linux/macOS, substitua `C:/tmp/tcerj-igovti-2026` por `/tmp/tcerj-igovti-2026`. Use `provider fake` e `judge-provider fake` apenas para validação estrutural; a reavaliação substantiva exige os provedores reais configurados.
+
 ### 11. Cálculo de estatísticas, índices e comparação longitudinal
 
 Com a base ajustada, são recalculados os resultados do iGovTI, a versão comparável, os dados históricos 2023-2026 e o contexto usado nos relatórios.

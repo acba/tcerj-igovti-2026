@@ -1,6 +1,11 @@
 import os
+import re
 from typing import List, Dict, Set
 from argos_classes import Auditado, Achado
+
+
+DEFAULT_ADMIN_NAME = 'CAD-TI'
+DEFAULT_ADMIN_EMAIL = 'auditoriati@tcerj.tc.br'
 
 class LimeSurveyGenerator:
     """Gera .lss consolidado espelhando EXATAMENTE o template DOCX"""
@@ -15,9 +20,17 @@ class LimeSurveyGenerator:
             return ''
         return str(text).replace(']]>', ']]]]><![CDATA[>')
 
-    def generate_xml(self, auditados: List[Auditado], admin_email: str = 'brunosm@tcerj.tc.br') -> str:
+    def generate_xml(
+        self,
+        auditados: List[Auditado],
+        admin_name: str = DEFAULT_ADMIN_NAME,
+        admin_email: str = DEFAULT_ADMIN_EMAIL,
+        expires: str = '',
+        reavaliacao_evidencias: list[dict[str, object]] | None = None,
+    ) -> str:
         """Gera um único XML consolidado para todos os auditados"""
-        if not auditados:
+        reavaliacao_evidencias = reavaliacao_evidencias or {}
+        if not auditados and not reavaliacao_evidencias:
             return ""
 
         # Mapeia situações únicas e quais auditados as possuem
@@ -45,10 +58,25 @@ class LimeSurveyGenerator:
                     for ev in achado.evidencias:
                         evidencias_map[key].add(ev)
 
-        xml = self._build_xml(situacoes_map, evidencias_map, admin_email)
+        xml = self._build_xml(
+            situacoes_map,
+            evidencias_map,
+            admin_name,
+            admin_email,
+            expires,
+            reavaliacao_evidencias,
+        )
         return xml
 
-    def _build_xml(self, situacoes_map: Dict[tuple, Set[str]], evidencias_map: Dict[tuple, Set[str]], admin_email: str) -> str:
+    def _build_xml(
+        self,
+        situacoes_map: Dict[tuple, Set[str]],
+        evidencias_map: Dict[tuple, Set[str]],
+        admin_name: str,
+        admin_email: str,
+        expires: str,
+        reavaliacao_evidencias: list[dict[str, object]],
+    ) -> str:
         xml = '<?xml version="1.0" encoding="UTF-8"?>\n<document>\n'
         xml += ' <LimeSurveyDocType>Survey</LimeSurveyDocType>\n'
         xml += ' <DBVersion>363</DBVersion>\n'
@@ -80,18 +108,40 @@ class LimeSurveyGenerator:
                 return (1, val, sit)
 
         sorted_keys = sorted(situacoes_map.keys(), key=safe_sort_key)
+        reavaliacao_entries = self._sort_reavaliacao_evidencias(reavaliacao_evidencias)
 
         # ORDEM CORRETA:
         xml += self._build_answers(sorted_keys)       # 1. answers
-        xml += self._build_groups(sorted_keys, situacoes_map, evidencias_map)        # 2. groups
-        xml += self._build_questions(sorted_keys)     # 3. questions
-        xml += self._build_surveys(admin_email)              # 4. surveys
+        xml += self._build_groups(sorted_keys, situacoes_map, evidencias_map, reavaliacao_entries)        # 2. groups
+        questions_xml, upload_qids = self._build_questions(sorted_keys, reavaliacao_entries)
+        xml += questions_xml     # 3. questions
+        xml += self._build_question_attributes(upload_qids) # 4. question_attributes
+        xml += self._build_surveys(admin_name, admin_email, expires)              # 4. surveys
         xml += self._build_surveys_lang() # 5. surveys_languagesettings
 
         xml += '</document>'
         return xml
 
-    def _build_groups(self, sorted_keys: List[tuple], situacoes_map: Dict[tuple, Set[str]], evidencias_map: Dict[tuple, Set[str]]) -> str:
+    def _sort_reavaliacao_evidencias(
+        self,
+        reavaliacao_evidencias: list[dict[str, object]],
+    ) -> list[dict[str, object]]:
+        return sorted(
+            (dict(entry) for entry in reavaliacao_evidencias),
+            key=lambda item: self._base_sort_key(item.get("base", "")),
+        )
+
+    def _base_sort_key(self, base: object) -> tuple[int, str]:
+        match = re.search(r"(\d+)", str(base or ""))
+        return (int(match.group(1)) if match else 999999, str(base or ""))
+
+    def _build_groups(
+        self,
+        sorted_keys: List[tuple],
+        situacoes_map: Dict[tuple, Set[str]],
+        evidencias_map: Dict[tuple, Set[str]],
+        reavaliacao_entries: list[dict[str, object]],
+    ) -> str:
         xml = ' <groups>\n  <fields>\n'
         xml += '   <fieldname>gid</fieldname>\n   <fieldname>sid</fieldname>\n'
         xml += '   <fieldname>group_name</fieldname>\n   <fieldname>group_order</fieldname>\n'
@@ -152,10 +202,35 @@ class LimeSurveyGenerator:
             gid += 1
             group_order += 1
 
+        for entry in reavaliacao_entries:
+            base = str(entry.get("base", ""))
+            base_texto = str(entry.get("base_texto", base))
+            auditados = sorted(str(auditado) for auditado in (entry.get("auditados") or []))
+            conditions = [f'TOKEN:FIRSTNAME == "{self._esc(auditado)}"' for auditado in auditados]
+            grelevance = " OR ".join(conditions) if conditions else "0"
+
+            desc = '<h4>Retificação ou suplementação de evidências</h4>'
+            desc += f'<p><strong>Questão-base {self._esc(base)}:</strong> {self._esc(base_texto)}</p>'
+            desc += '<p>A avaliação de evidências indicou não conformidade em pelo menos um item ou subitem vinculado a esta questão-base. Caso entenda necessário, a organização poderá apresentar esclarecimentos e encaminhar evidência suplementar para reavaliação.</p>'
+            desc += '<p>Consulte no relatório individual ou anexo correspondente os itens específicos avaliados como não conformes.</p>'
+
+            xml += '   <row>\n'
+            xml += f'    <gid><![CDATA[{gid}]]></gid>\n    <sid><![CDATA[0]]></sid>\n'
+            xml += f'    <group_name><![CDATA[Reavaliação de evidências - {self._esc(base)}]]></group_name>\n'
+            xml += f'    <group_order><![CDATA[{group_order}]]></group_order>\n'
+            xml += f'    <description><![CDATA[{desc}]]></description>\n'
+            xml += '    <language><![CDATA[pt-BR]]></language>\n'
+            xml += '    <randomization_group/>\n'
+            xml += f'    <grelevance><![CDATA[{grelevance}]]></grelevance>\n'
+            xml += '   </row>\n'
+
+            gid += 1
+            group_order += 1
+
         xml += '  </rows>\n </groups>\n'
         return xml
 
-    def _build_questions(self, sorted_keys: List[tuple]) -> str:
+    def _build_questions(self, sorted_keys: List[tuple], reavaliacao_entries: list[dict[str, object]]) -> tuple[str, list[int]]:
         xml = ' <questions>\n  <fields>\n'
         xml += '   <fieldname>qid</fieldname>\n   <fieldname>parent_qid</fieldname>\n'
         xml += '   <fieldname>sid</fieldname>\n   <fieldname>gid</fieldname>\n'
@@ -169,6 +244,7 @@ class LimeSurveyGenerator:
         xml += '  </fields>\n  <rows>\n'
 
         qid = 1
+        upload_qids: list[int] = []
 
         # Identificação (4 perguntas) - Grupo 1
         for title, question, mandatory in [
@@ -235,8 +311,27 @@ class LimeSurveyGenerator:
             # Avança Grupo
             gid += 1
 
+        for idx, entry in enumerate(reavaliacao_entries, 1):
+            base = str(entry.get("base", ""))
+            safe_base = re.sub(r"[^A-Za-z0-9]", "", base).upper() or f"B{idx}"
+            base_code = f'REV{safe_base}'
+
+            xml += self._q_row(qid, gid, f'{base_code}Com',
+                'Caso deseje, apresente comentários, esclarecimentos ou retificações sobre a avaliação de evidências desta questão.',
+                'T', 'N', 1,
+                'Campo opcional para contextualizar a evidência suplementar ou apresentar esclarecimentos adicionais.')
+            qid += 1
+
+            xml += self._q_row(qid, gid, f'{base_code}Evi',
+                'Caso deseje, envie uma evidência suplementar para reavaliação',
+                '|', 'N', 2,
+                'É aceito um arquivo com extensão PDF ou ZIP. Caso haja mais de um documento, compactar em formato ZIP.')
+            upload_qids.append(qid)
+            qid += 1
+            gid += 1
+
         xml += '  </rows>\n </questions>\n'
-        return xml
+        return xml, upload_qids
 
     def _q_row(self, qid: int, gid: int, title: str, question: str, qtype: str,
                mandatory: str, order: int, help_text: str = '', relevance: str = '1') -> str:
@@ -297,7 +392,32 @@ class LimeSurveyGenerator:
         xml += '  </rows>\n </answers>\n'
         return xml
 
-    def _build_surveys(self, admin_email: str) -> str:
+    def _build_question_attributes(self, upload_qids: list[int]) -> str:
+        if not upload_qids:
+            return ''
+
+        xml = ' <question_attributes>\n  <fields>\n'
+        xml += '   <fieldname>qid</fieldname>\n   <fieldname>attribute</fieldname>\n'
+        xml += '   <fieldname>value</fieldname>\n   <fieldname>language</fieldname>\n'
+        xml += '  </fields>\n  <rows>\n'
+
+        for qid in upload_qids:
+            for attribute, value in [
+                ('allowed_filetypes', 'pdf,zip'),
+                ('max_num_of_files', '1'),
+            ]:
+                xml += '   <row>\n'
+                xml += f'    <qid><![CDATA[{qid}]]></qid>\n'
+                xml += f'    <attribute><![CDATA[{attribute}]]></attribute>\n'
+                xml += f'    <value><![CDATA[{value}]]></value>\n'
+                xml += '    <language/>\n'
+                xml += '   </row>\n'
+
+        xml += '  </rows>\n </question_attributes>\n'
+        return xml
+
+    def _build_surveys(self, admin_name: str, admin_email: str, expires: str) -> str:
+        expires_xml = f'<expires><![CDATA[{self._esc(expires)}]]></expires>' if expires else '<expires/>'
         xml = ' <surveys>\n  <fields>\n'
         xml += '   <fieldname>sid</fieldname>\n   <fieldname>gsid</fieldname>\n'
         xml += '   <fieldname>admin</fieldname>\n   <fieldname>expires</fieldname>\n'
@@ -325,8 +445,9 @@ class LimeSurveyGenerator:
         xml += '   <fieldname>nokeyboard</fieldname>\n   <fieldname>alloweditaftercompletion</fieldname>\n'
         xml += '  </fields>\n  <rows>\n   <row>\n'
         xml += '    <sid><![CDATA[0]]></sid>\n    <gsid><![CDATA[1]]></gsid>\n'
-        xml += '    <admin><![CDATA[TCE-RJ]]></admin>\n    <expires/>\n    <startdate/>\n'
-        xml += f'    <adminemail><![CDATA[{admin_email}]]></adminemail>\n'
+        xml += f'    <admin><![CDATA[{self._esc(admin_name)}]]></admin>\n'
+        xml += f'    {expires_xml}\n    <startdate/>\n'
+        xml += f'    <adminemail><![CDATA[{self._esc(admin_email)}]]></adminemail>\n'
         xml += '    <anonymized><![CDATA[N]]></anonymized>\n    <faxto/>\n'
         xml += '    <format><![CDATA[G]]></format>\n'
         xml += '    <savetimings><![CDATA[N]]></savetimings>\n'
@@ -351,7 +472,7 @@ class LimeSurveyGenerator:
         xml += '    <assessments><![CDATA[N]]></assessments>\n'
         xml += '    <usecaptcha><![CDATA[N]]></usecaptcha>\n'
         xml += '    <usetokens><![CDATA[N]]></usetokens>\n'
-        xml += f'    <bounce_email><![CDATA[{admin_email}]]></bounce_email>\n'
+        xml += f'    <bounce_email><![CDATA[{self._esc(admin_email)}]]></bounce_email>\n'
         xml += '    <emailresponseto/>\n    <emailnotificationto/>\n'
         xml += '    <tokenlength><![CDATA[15]]></tokenlength>\n'
         xml += '    <showxquestions><![CDATA[N]]></showxquestions>\n'
