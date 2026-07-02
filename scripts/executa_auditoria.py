@@ -20,6 +20,7 @@ from argos_classes import FonteInformacao, AcaoVerificacao, ProcedimentoAuditori
     parse_bool_planilha, parse_lista_auditados
 from argos_utils import aplicar_variaveis_temporarias, carregar_dados, avalia_logica
 from igovti_dados_utils import to_relative
+from xlsx_utils import escrever_xlsx_se_diferente
 from docxtpl import DocxTemplate
 from limesurvey_generator import DEFAULT_ADMIN_EMAIL, DEFAULT_ADMIN_NAME, LimeSurveyGenerator
 
@@ -572,13 +573,15 @@ def main():
 
     # 11. Salva em Excel
     try:
-        os.makedirs(os.path.dirname(os.path.abspath(args.tabelas_auditoria_xlsx)), exist_ok=True)
-        with pd.ExcelWriter(args.tabelas_auditoria_xlsx, engine='xlsxwriter') as writer:
-            tabela_achados.to_excel(writer, sheet_name='Achados por Auditado')
-            tabela_encaminhamentos.to_excel(writer, sheet_name='Encaminhamentos por Auditado')
-            tabela_situacoes.to_excel(writer, sheet_name='Situações Inconformes')
-            if not df_rank_combined.empty:
-                df_rank_combined.to_excel(writer, sheet_name='Ranking de Auditados')
+        def _writer(temp_path):
+            with pd.ExcelWriter(temp_path, engine='xlsxwriter') as writer:
+                tabela_achados.to_excel(writer, sheet_name='Achados por Auditado')
+                tabela_encaminhamentos.to_excel(writer, sheet_name='Encaminhamentos por Auditado')
+                tabela_situacoes.to_excel(writer, sheet_name='Situações Inconformes')
+                if not df_rank_combined.empty:
+                    df_rank_combined.to_excel(writer, sheet_name='Ranking de Auditados')
+
+        escrever_xlsx_se_diferente(args.tabelas_auditoria_xlsx, _writer)
         logger.info(f"Tabelas consolidadas da auditoria salvas em: {args.tabelas_auditoria_xlsx}")
     except Exception as e:
         logger.error(f"Erro ao salvar tabelas em Excel: {e}")

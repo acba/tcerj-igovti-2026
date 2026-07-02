@@ -16,6 +16,11 @@ import numpy as np
 import pandas as pd
 import yaml
 
+try:
+    from .xlsx_utils import dataframe_to_xlsx_se_diferente
+except ImportError:  # execução direta com scripts/resources no sys.path
+    from xlsx_utils import dataframe_to_xlsx_se_diferente
+
 
 class ErroCalculadoraIgovti(Exception):
     """Erro controlado durante o cálculo do iGovTI."""
@@ -449,8 +454,7 @@ def exportar_resultados_xlsx(
         linhas.append(linha)
 
     df = pd.DataFrame(linhas, columns=colunas)
-    caminho_saida.parent.mkdir(parents=True, exist_ok=True)
-    df.to_excel(caminho_saida, sheet_name="resultados", index=False)
+    dataframe_to_xlsx_se_diferente(df, caminho_saida, sheet_name="resultados", index=False)
 
 
 def calcular_igovti(

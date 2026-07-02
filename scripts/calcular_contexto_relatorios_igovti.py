@@ -28,6 +28,7 @@ from igovti_dados_utils import (
     formatar_lista_variacoes,
     to_relative,
 )
+from xlsx_utils import dataframe_to_xlsx_se_diferente
 
 
 DIMENSOES = {
@@ -217,8 +218,7 @@ def main() -> None:
     contexto, estatisticas, pareados = gerar_contexto(
         args.resultados_2026, args.comparavel_2026, args.setic_2023, args.municipios_2023
     )
-    args.saida_contexto.parent.mkdir(parents=True, exist_ok=True)
-    contexto.to_excel(args.saida_contexto, index=False)
+    dataframe_to_xlsx_se_diferente(contexto, args.saida_contexto, index=False)
     payload = {
         "fontes": {
             "resultados_2026": to_relative(args.resultados_2026),

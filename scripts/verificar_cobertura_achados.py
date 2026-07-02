@@ -40,6 +40,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from scripts.resources.xlsx_utils import escrever_xlsx_se_diferente
+
 
 def carregar_questoes_achado(catalog_path: str | Path) -> dict[str, str]:
     """Retorna dict questao -> coluna_evidencia das questoes marcadas gera_achado."""
@@ -241,8 +243,7 @@ def gerar_relatorio(
             ws2.cell(row=row_idx, column=4).fill = fill_parcial
 
     out_path = Path(output)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    wb.save(out_path)
+    escrever_xlsx_se_diferente(out_path, wb.save)
     return {
         "universo": total_grupos,
         "no_jsonl": len(universo & grupos_jsonl),

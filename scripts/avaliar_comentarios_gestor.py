@@ -75,6 +75,7 @@ from scripts.avaliacao_evidencias.utils import (
     log_event,
     validar_rpm,
 )
+from scripts.resources.xlsx_utils import dataframe_to_xlsx_se_diferente
 
 
 DEFAULT_AJUSTES = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
@@ -696,9 +697,12 @@ def cmd_gerar_ajustes(args: argparse.Namespace) -> int:
             "Fonte",
         ],
     )
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    with pd.ExcelWriter(args.output, engine="openpyxl") as writer:
-        df.to_excel(writer, index=False, sheet_name="Ajustes Comentarios Gestor")
+    dataframe_to_xlsx_se_diferente(
+        df,
+        args.output,
+        index=False,
+        sheet_name="Ajustes Comentarios Gestor",
+    )
     print(f"OK: {len(df)} ajustes reversos gerados em {args.output}")
     return 0
 

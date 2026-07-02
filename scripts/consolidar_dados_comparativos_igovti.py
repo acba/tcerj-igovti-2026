@@ -24,6 +24,7 @@ from igovti_dados_utils import (
     direcao_variacao,
     to_relative,
 )
+from xlsx_utils import escrever_xlsx_se_diferente
 
 
 SAIDA_PADRAO = ROOT / "02-Execucao/02-Questionario iGovTI 2023/20260621-comparacao-iGovTI-2023-2026.xlsx"
@@ -122,15 +123,17 @@ def main() -> None:
     )
     geral, agregados, transicoes = gerar_estatisticas(pareados)
     individuais = preparar_resultados_individuais(pareados)
-    args.saida.parent.mkdir(parents=True, exist_ok=True)
-    with pd.ExcelWriter(args.saida, engine="openpyxl") as writer:
-        individuais.to_excel(writer, sheet_name="Resultados pareados", index=False)
-        geral.to_excel(writer, sheet_name="Estatísticas gerais", index=False)
-        agregados.to_excel(writer, sheet_name="Estatísticas agregados", index=False)
-        transicoes.to_excel(writer, sheet_name="Transições maturidade", index=False)
-        pareamentos.to_excel(writer, sheet_name="Pareamentos", index=False)
-        pareamentos.loc[~pareamentos["pareado"]].to_excel(writer, sheet_name="Sem par em 2026", index=False)
-        nao_pareados_2026.to_excel(writer, sheet_name="Sem histórico em 2023", index=False)
+    def _writer(temp_path: Path) -> None:
+        with pd.ExcelWriter(temp_path, engine="openpyxl") as writer:
+            individuais.to_excel(writer, sheet_name="Resultados pareados", index=False)
+            geral.to_excel(writer, sheet_name="Estatísticas gerais", index=False)
+            agregados.to_excel(writer, sheet_name="Estatísticas agregados", index=False)
+            transicoes.to_excel(writer, sheet_name="Transições maturidade", index=False)
+            pareamentos.to_excel(writer, sheet_name="Pareamentos", index=False)
+            pareamentos.loc[~pareamentos["pareado"]].to_excel(writer, sheet_name="Sem par em 2026", index=False)
+            nao_pareados_2026.to_excel(writer, sheet_name="Sem histórico em 2023", index=False)
+
+    escrever_xlsx_se_diferente(args.saida, _writer)
     print(f"Consolidação gerada: {to_relative(args.saida)}")
     print(f"Organizações pareadas: {len(pareados)}")
 

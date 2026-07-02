@@ -29,6 +29,11 @@ from scipy.stats import pearsonr, pointbiserialr, spearmanr
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
+try:
+    from scripts.resources.xlsx_utils import escrever_xlsx_se_diferente
+except ImportError:  # execução direta do arquivo em scripts/
+    from resources.xlsx_utils import escrever_xlsx_se_diferente
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_IGOVTI = Path("/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx")
@@ -366,7 +371,6 @@ def calcular_analises(base: pd.DataFrame, achado_cols: list[str], situacao_cols:
 
 
 def gerar_planilha(analises: dict[str, object], destino: Path) -> None:
-    destino.parent.mkdir(parents=True, exist_ok=True)
     abas = {
         "base_cruzada": analises["base"],
         "correlacoes": analises["correlacoes"],
@@ -379,9 +383,13 @@ def gerar_planilha(analises: dict[str, object], destino: Path) -> None:
         "mais_achados_esperado": analises["mais_que_esperado"],
         "menos_achados_esperado": analises["menos_que_esperado"],
     }
-    with pd.ExcelWriter(destino, engine="openpyxl") as writer:
-        for nome, df in abas.items():
-            df.to_excel(writer, index=False, sheet_name=nome)
+
+    def _writer(temp_path: Path) -> None:
+        with pd.ExcelWriter(temp_path, engine="openpyxl") as writer:
+            for nome, df in abas.items():
+                df.to_excel(writer, index=False, sheet_name=nome)
+
+    escrever_xlsx_se_diferente(destino, _writer)
 
 
 def gerar_graficos(analises: dict[str, object], img_dir: Path) -> None:

@@ -9,6 +9,7 @@ from openpyxl import Workbook
 
 from .checkpoint import carregar_registros_analise
 from .utils import join_value
+from scripts.resources.xlsx_utils import escrever_xlsx_se_diferente
 
 
 def gerar_relatorio_conformidade(checkpoint: str | Path, destino: str | Path) -> int:
@@ -67,8 +68,7 @@ def gerar_relatorio_conformidade(checkpoint: str | Path, destino: str | Path) ->
                 ]
             )
     destino_path = Path(destino)
-    destino_path.parent.mkdir(parents=True, exist_ok=True)
-    workbook.save(destino_path)
+    escrever_xlsx_se_diferente(destino_path, workbook.save)
     return total_linhas
 
 
@@ -144,8 +144,7 @@ def gerar_relatorio_pareceres(checkpoint: str | Path, destino: str | Path) -> in
                 ]
             )
     destino_path = Path(destino)
-    destino_path.parent.mkdir(parents=True, exist_ok=True)
-    workbook.save(destino_path)
+    escrever_xlsx_se_diferente(destino_path, workbook.save)
     return total
 
 

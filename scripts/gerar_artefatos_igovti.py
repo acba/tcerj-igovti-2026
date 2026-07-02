@@ -33,6 +33,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from gerar_igovti import carregar_mapeamento_id, deduplicar_respostas
 from igovti_calculadora import calcular_igovti
+from xlsx_utils import dataframe_to_xlsx_se_diferente, escrever_xlsx_se_diferente
 
 from calcular_contexto_relatorios_igovti import (
     DIMENSOES,
@@ -139,15 +140,17 @@ def gerar_comparacao(
     geral, agregados, transicoes = gerar_estatisticas(pareados)
     individuais = preparar_resultados_individuais(pareados)
 
-    caminho_saida.parent.mkdir(parents=True, exist_ok=True)
-    with pd.ExcelWriter(caminho_saida, engine="openpyxl") as writer:
-        individuais.to_excel(writer, sheet_name="Resultados pareados", index=False)
-        geral.to_excel(writer, sheet_name="Estatísticas gerais", index=False)
-        agregados.to_excel(writer, sheet_name="Estatísticas agregados", index=False)
-        transicoes.to_excel(writer, sheet_name="Transições maturidade", index=False)
-        pareamentos.to_excel(writer, sheet_name="Pareamentos", index=False)
-        pareamentos.loc[~pareamentos["pareado"]].to_excel(writer, sheet_name="Sem par em 2026", index=False)
-        nao_pareados_2026.to_excel(writer, sheet_name="Sem histórico em 2023", index=False)
+    def _writer(temp_path: Path) -> None:
+        with pd.ExcelWriter(temp_path, engine="openpyxl") as writer:
+            individuais.to_excel(writer, sheet_name="Resultados pareados", index=False)
+            geral.to_excel(writer, sheet_name="Estatísticas gerais", index=False)
+            agregados.to_excel(writer, sheet_name="Estatísticas agregados", index=False)
+            transicoes.to_excel(writer, sheet_name="Transições maturidade", index=False)
+            pareamentos.to_excel(writer, sheet_name="Pareamentos", index=False)
+            pareamentos.loc[~pareamentos["pareado"]].to_excel(writer, sheet_name="Sem par em 2026", index=False)
+            nao_pareados_2026.to_excel(writer, sheet_name="Sem histórico em 2023", index=False)
+
+    escrever_xlsx_se_diferente(caminho_saida, _writer)
 
     print(f"Comparação gerada: {to_relative(caminho_saida)}")
     print(f"  Organizações pareadas: {len(pareados)}")
@@ -215,8 +218,7 @@ def gerar_contexto(
     contexto = _adicionar_comparacao(contexto, pareados)
     contexto = contexto.drop(columns=["_key"])
 
-    caminho_contexto.parent.mkdir(parents=True, exist_ok=True)
-    contexto.to_excel(caminho_contexto, index=False)
+    dataframe_to_xlsx_se_diferente(contexto, caminho_contexto, index=False)
 
     payload = {
         "fontes": {

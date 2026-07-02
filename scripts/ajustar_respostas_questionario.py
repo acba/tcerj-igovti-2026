@@ -17,6 +17,10 @@ import re
 from pathlib import Path
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
+
+from xlsx_utils import dataframe_to_xlsx_se_diferente
+
 NA_VALUES_PRESERVANDO_NA = [
     "",
     "#N/A",
@@ -336,8 +340,7 @@ def main():
 
     # Salvar resultado final
     print(f"\nSalvando resultado ajustado em: {output_path}")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    df_respostas.to_excel(output_path, index=False)
+    dataframe_to_xlsx_se_diferente(df_respostas, output_path, index=False)
 
     print("\n--- Resumo de Execução ---")
     print(f"Total de itens avaliados no arquivo de ajustes: {total_lidos}")

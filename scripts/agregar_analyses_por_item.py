@@ -14,6 +14,11 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
+try:
+    from scripts.resources.xlsx_utils import escrever_xlsx_se_diferente
+except ImportError:  # execução direta do arquivo em scripts/
+    from resources.xlsx_utils import escrever_xlsx_se_diferente
+
 
 ESTADOS = ("conforme", "nao_conforme", "inconclusivo")
 PRIORIDADE_EXEMPLOS = {"nao_conforme": 0, "inconclusivo": 1, "conforme": 2}
@@ -267,8 +272,7 @@ def gerar_xlsx(
         metadados.append(["Erro de leitura", erro])
     formatar_planilha(metadados, {1: 24, 2: 110})
 
-    saida.parent.mkdir(parents=True, exist_ok=True)
-    wb.save(saida)
+    escrever_xlsx_se_diferente(saida, wb.save)
 
 
 def main() -> int:
