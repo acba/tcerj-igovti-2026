@@ -28,18 +28,18 @@ Os critérios de boas práticas orientam que a organização deve dirigir o sist
 
 Com base na análise das respostas aos itens 1001 e 1002 do questionário aplicado e da avaliação das evidências documentais anexadas, constatou-se que a organização não atende integralmente a esses requisitos de governança. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
-{% set situacao_modelo = 'Ausência ou insuficiência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.' %}
+{% set situacao_modelo = 'Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.' %}
 {% set situacao_comite_formal = 'Comitê de TIC ou instância equivalente não instituído formalmente.' %}
 {% set situacao_comite_atuacao = 'Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.' %}
 
 {% if situacao_modelo in achado.situacoes_encontradas %}
-* **Modelo básico de governança e gestão de TIC**: a ausência ou insuficiência de modelo formalizado contraria os critérios de direção do sistema de governança e avaliação de desempenho (COBIT 2019, EDM01.02/MEA01.04) e o Acórdão TCE-RJ 44.490/2024-PLEN (item II.1), gerando baixa clareza sobre papéis, responsabilidades, objetivos, indicadores e metas da TIC.
+* **Modelo básico de governança e gestão de TIC**: a ausência ou insuficiência de modelo formalizado não demonstra aderência aos critérios de direção do sistema de governança e avaliação de desempenho (COBIT 2019, EDM01.02/MEA01.04) e ao Acórdão TCE-RJ 44.490/2024-PLEN (item II.1), gerando baixa clareza sobre papéis, responsabilidades, objetivos, indicadores e metas da TIC.
 {% endif %}
 {% if situacao_comite_formal in achado.situacoes_encontradas %}
-* **Instituição do Comitê de TIC**: a não instituição formal contraria o Decreto nº 12.198/2024 (art. 5º), o Acórdão TCE-RJ 44.490/2024-PLEN (item II.1) e o COBIT 2019 (APO01.05), impedindo a existência de instância colegiada para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+* **Instituição do Comitê de TIC**: a não instituição formal não se alinha ao Acórdão TCE-RJ 44.490/2024-PLEN (item II.1), ao COBIT 2019 (APO01.05) e à diretriz de referência do Decreto nº 12.198/2024 (art. 5º), dificultando a existência de instância colegiada para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 {% endif %}
 {% if situacao_comite_atuacao in achado.situacoes_encontradas %}
-* **Atuação do Comitê de TIC**: a ausência de atuação efetiva contraria os critérios de avaliação de desempenho de estruturas colegiadas (COBIT 2019, MEA01.04, Decreto nº 12.198/2024, art. 5º e Acórdão TCE-RJ 44.490/2024-PLEN, item II.1), o que compromete a deliberação regular sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+* **Atuação do Comitê de TIC**: a ausência de atuação efetiva contraria os critérios de avaliação de desempenho de estruturas colegiadas (COBIT 2019, MEA01.04 e Acórdão TCE-RJ 44.490/2024-PLEN, item II.1) e a diretriz de referência do Decreto nº 12.198/2024 (art. 5º), o que pode comprometer a deliberação regular sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 {% endif %}
 
 Essas situações ensejaram o presente achado e serão detalhadas nas seções subsequentes.
@@ -50,7 +50,7 @@ Essas situações ensejaram o presente achado e serão detalhadas nas seções s
 
 [^explica_acordao_tcerj_governanca]: O Acórdão TCE-RJ 44.490/2024-PLEN, item II.1, registra a necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes e atribuições de alinhamento, priorização e monitoramento.
 
-{% set situacao = 'Ausência ou insuficiência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.' %}
+{% set situacao = 'Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.' %}
 {% if situacao in achado.situacoes_encontradas %}
 #### Modelo básico de governança e gestão de TIC
 
@@ -88,13 +88,13 @@ Diante disso, __será proposta recomendação para que a organização institua 
 {% if situacao in achado.situacoes_encontradas %}
 #### Atuação efetiva do Comitê de TIC ou instância equivalente
 
-A mera instituição formal do Comitê de TIC ou instância equivalente não é suficiente para assegurar governança efetiva. É necessário que a instância funcione de modo regular, com reuniões, pautas, atas, registros de deliberação, encaminhamentos e acompanhamento das decisões tomadas.
+A instituição formal isolada do Comitê de TIC ou instância equivalente não é suficiente para assegurar governança efetiva. É necessário que a instância funcione de modo regular, com reuniões, pautas, atas, registros de deliberação, encaminhamentos e acompanhamento das decisões tomadas.
 
 O COBIT 2019, no objetivo MEA01.04, exige monitoramento e avaliação periódica do desempenho e da conformidade da TI. O Acórdão TCE-RJ 44.490/2024-PLEN, item II.1, também aponta a responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.
 
 A atuação efetiva do Comitê deve ser demonstrada por atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências. A ausência desses registros impede verificar se a instância colegiada exerce, de fato, seu papel de avaliação, direção e monitoramento da TIC.
 
-Essa fragilidade operacional inviabiliza a garantia de que as decisões críticas sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC sejam submetidas ao crivo colegiado ou monitoradas formalmente.
+Essa fragilidade operacional reduz a segurança de que decisões relevantes sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC sejam submetidas ao crivo colegiado ou monitoradas formalmente.
 
 Diante disso, __será proposta recomendação para que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, com reuniões periódicas, atas, deliberações, encaminhamentos e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.__
 

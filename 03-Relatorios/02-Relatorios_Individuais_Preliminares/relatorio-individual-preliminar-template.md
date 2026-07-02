@@ -51,7 +51,7 @@ Com base na pontuação consolidada do iGovTI 2026, a organização é classific
 
 ## 2.1. Cenário Geral
 
-A análise consolidada apresentada nesta seção fundamenta-se nos resultados calculados para as {{ universo_2026_n|int }} organizações que integram o universo amostral da fiscalização. A análise visa contextualizar o resultado individual do(a) **{{ auditado.sigla }}**, identificar padrões de maturidade, assimetrias entre governança e gestão e capacidades desenvolvidas no conjunto avaliado.
+A análise consolidada apresentada nesta seção fundamenta-se nos resultados calculados para as {{ universo_2026_n|int }} organizações que integram o universo amostral da fiscalização. A análise visa contextualizar o resultado individual da organização **{{ auditado.sigla }}**, identificar padrões de maturidade, assimetrias entre governança e gestão e capacidades desenvolvidas no conjunto avaliado.
 
 A distribuição por nível de maturidade, apresentada na [@fig:distribuicao_maturidade_igovti_2026], evidencia concentração nos estágios iniciais. Das {{ universo_2026_n|int }} organizações, {{ maturidade_inexpressivo_n|int }} ({{ ('%0.1f' | format(maturidade_inexpressivo_pct|float)) | replace('.', ',') }}%) foram classificadas no nível **Inexpressivo** e {{ maturidade_iniciando_n|int }} ({{ ('%0.1f' | format(maturidade_iniciando_pct|float)) | replace('.', ',') }}%) no nível **Iniciando**. Assim, {{ igovti_abaixo_040_n|int }} organizações ({{ ('%0.1f' | format(igovti_abaixo_040_pct|float)) | replace('.', ',') }}%) obtiveram resultado inferior a 0,40. Somente {{ maturidade_intermediario_n|int }} organizações ({{ ('%0.1f' | format(maturidade_intermediario_pct|float)) | replace('.', ',') }}%) alcançaram o nível **Intermediário** e {{ maturidade_aprimorado_n|int }} ({{ ('%0.1f' | format(maturidade_aprimorado_pct|float)) | replace('.', ',') }}%) o nível **Aprimorado**.
 
@@ -65,21 +65,21 @@ A distribuição contínua da [@fig:distribuicao_continua_igovti_2026] complemen
 ![Distribuição contínua dos resultados do iGovTI 2026](igovti_2026_distribuicao_continua.png){#fig:distribuicao_continua_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A posição específica do(a) **{{ auditado.sigla }}** nessa distribuição pode ser observada na [@fig:comparativo_distribuicao_iGovTI]. Diferenças marginais de pontuação entre organizações adjacentes no ranking devem ser interpretadas com cautela analítica, visto que o modelo matemático de composição do índice não pressupõe estimativa de erro amostral e que os resultados estão sujeitos à qualidade e à fidedignidade declaratória do jurisdicionado.
+A posição específica da organização **{{ auditado.sigla }}** nessa distribuição pode ser observada na [@fig:comparativo_distribuicao_iGovTI]. Diferenças marginais de pontuação entre organizações adjacentes no ranking devem ser interpretadas com cautela analítica, visto que o modelo matemático de composição do índice não pressupõe estimativa de erro amostral e que os resultados estão sujeitos à qualidade e à fidedignidade declaratória do jurisdicionado.
 
 ## 2.2. Cenário atual - {{ auditado.sigla }}
 
-Apresentado o panorama geral do universo fiscalizado, esta subseção detalha o desempenho específico da organização jurisdicionada. O(A) **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGovTI|float)) | replace('.', ',') }} para o iGovTI 2026**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade.
+Apresentado o panorama geral do universo fiscalizado, esta subseção detalha o desempenho específico da organização jurisdicionada. A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGovTI|float)) | replace('.', ',') }} para o iGovTI 2026**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade.
 
-![Distribuição dos resultados do iGovTI 2026 e posição do(a) {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_iGovTI.png){#fig:comparativo_distribuicao_iGovTI#}
+![Distribuição dos resultados do iGovTI 2026 e posição da organização {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_iGovTI.png){#fig:comparativo_distribuicao_iGovTI#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:componentes_igovti] apresenta a composição do resultado do(a) **{{ auditado.sigla }}** entre governança e gestão de TIC.
+A [@fig:componentes_igovti] apresenta a composição do resultado da organização **{{ auditado.sigla }}** entre governança e gestão de TIC.
 
-![Resultado do(a) {{ auditado.sigla }} por componentes do iGovTI 2026]({{ auditado.sigla }}_componentes_iGovTI.png){#fig:componentes_igovti#}
+![Resultado da organização {{ auditado.sigla }} por componentes do iGovTI 2026]({{ auditado.sigla }}_componentes_iGovTI.png){#fig:componentes_igovti#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-: Resultado sintético do iGovTI 2026 do(a) {{ auditado.sigla }} {#tbl:resultado_sintetico_igovti#}
+: Resultado sintético do iGovTI 2026 da organização {{ auditado.sigla }} {#tbl:resultado_sintetico_igovti#}
 
 | Componente | Peso no iGovTI 2026 | Valor |
 |:--------------------------------------------------|------------------------------:|--------------------:|
@@ -95,9 +95,9 @@ A governança de TIC avalia a capacidade da alta administração de orientar, di
 
 No iGovTI 2026, a dimensão de governança consolida práticas relacionadas ao modelo de gestão de TIC, à atuação de comitês ou instâncias equivalentes, no monitoramento do desempenho, à participação da alta administração e ao alinhamento entre decisões de TIC, estratégia organizacional, orçamento, riscos e valor público.
 
-O(A) **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(GovernancaTI|float)) | replace('.', ',') }} no componente Governança de TIC**.
+A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(GovernancaTI|float)) | replace('.', ',') }} no componente Governança de TIC**.
 
-![Resultado do componente Governança de TIC do(a) {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_GovernancaTI.png){#fig:comparativo_distribuicao_governancati#}
+![Resultado do componente Governança de TIC da organização {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_GovernancaTI.png){#fig:comparativo_distribuicao_governancati#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 ### 2.2.2. Gestão de TIC
@@ -106,9 +106,9 @@ A gestão de TIC avalia a capacidade da organização de planejar, executar, mon
 
 No iGovTI 2026, o componente **iGestTI** consolida dimensões de planejamento de TIC, gestão de serviços, riscos de TI e de segurança da informação, estrutura de segurança da informação, processos de segurança da informação e gestão de soluções de TIC.
 
-O(A) **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGestTI|float)) | replace('.', ',') }} no componente Gestão de TIC**.
+A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGestTI|float)) | replace('.', ',') }} no componente Gestão de TIC**.
 
-![Resultado do componente Gestão de TIC do(a) {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_iGestTI.png){#fig:comparativo_distribuicao_igestti#}
+![Resultado do componente Gestão de TIC da organização {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_iGestTI.png){#fig:comparativo_distribuicao_igestti#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 ## 2.3. Relação entre governança e gestão de TIC
@@ -136,7 +136,7 @@ A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das org
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 {% if (GovernancaTI|float < 0.15) and (iGestTI|float < 0.15) %}
-No caso da organização **{{ auditado.sigla }}**, tanto o componente de Governança de TIC quanto o de Gestão de TIC situam-se no nível **Inexpressivo** (valores abaixo de 0,1500). Esse cenário revela que a organização se encontra em estágio inicial de estruturação institucional de tecnologia da informação. Diante disso, a diferença residual entre os componentes não reflete uma assimetria operacional relevante, mas sim a necessidade urgente de implantação simultânea de mecanismos fundamentais de governança (direção e controle) e processos operacionais de gestão.
+No caso da organização **{{ auditado.sigla }}**, tanto o componente de Governança de TIC quanto o de Gestão de TIC situam-se no nível **Inexpressivo** (valores abaixo de 0,1500). Esse cenário indica estágio inicial de estruturação institucional de tecnologia da informação. Diante disso, a diferença residual entre os componentes não reflete uma assimetria operacional relevante, mas sim a necessidade de implantação simultânea de mecanismos fundamentais de governança (direção e controle) e processos operacionais de gestão.
 {% elif GovernancaTI|float < iGestTI|float %}
 No caso da organização **{{ auditado.sigla }}**, o componente GovernancaTI ficou abaixo do iGestTI. Esse perfil indica que o principal desequilíbrio relativo se encontra nos mecanismos pelos quais a alta administração direciona, monitora e avalia a TIC, devendo a leitura ser aprofundada à luz das evidências e dos achados relacionados à governança.
 {% elif GovernancaTI|float > iGestTI|float %}
@@ -178,9 +178,9 @@ EstruturaSegInfo apresentou média de {{ ('%0.3f' | format(estrutura_seguranca_g
 
 ## 2.5. Leitura integrada do resultado individual
 
-A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil do(a) **{{ auditado.sigla }}** nas seis dimensões de gestão e o compara com as medianas observadas nas {{ universo_2026_n|int }} organizações. A comparação linear da [@fig:comparacao_dimensoes_gestao_auditado] permite identificar com maior precisão a distância entre o resultado individual e a mediana geral em cada dimensão.
+A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil da organização **{{ auditado.sigla }}** nas seis dimensões de gestão e o compara com as medianas observadas nas {{ universo_2026_n|int }} organizações. A comparação linear da [@fig:comparacao_dimensoes_gestao_auditado] permite identificar com maior precisão a distância entre o resultado individual e a mediana geral em cada dimensão.
 
-![Perfil do(a) {{ auditado.sigla }} nas dimensões do iGestTI em comparação com as medianas gerais]({{ auditado.sigla }}_perfil_dimensoes_iGestTI.png){#fig:perfil_dimensoes_gestao_auditado#}
+![Perfil da organização {{ auditado.sigla }} nas dimensões do iGestTI em comparação com as medianas gerais]({{ auditado.sigla }}_perfil_dimensoes_iGestTI.png){#fig:perfil_dimensoes_gestao_auditado#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 ![Comparação do resultado individual e da mediana nas dimensões do iGestTI]({{ auditado.sigla }}_comparacao_dimensoes_iGestTI.png){#fig:comparacao_dimensoes_gestao_auditado#}
@@ -190,9 +190,9 @@ A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil do(a) **{{ auditado
 Chama a atenção o fato de o resultado em PlanejamentoTI ({{ ('%0.4f' | format(PlanejamentoTI|float))|replace('.', ',') }}) situar-se abaixo da média das dimensões operacionais de gestão. Esse cenário atípico sugere que os poucos processos operacionais eventualmente adotados pela organização ocorrem de forma descentralizada ou sem a coordenação de diretrizes estratégicas formais, evidenciando a necessidade de priorização da dimensão de Planejamento de TIC.
 {% endif %}
 
-A [@fig:percentis_indicadores_auditado] informa a posição relativa do auditado no conjunto avaliado. O percentil não representa nível de maturidade nem grau de atendimento a critério; indica apenas a proporção de organizações com resultado igual ou inferior ao do(a) **{{ auditado.sigla }}**.
+A [@fig:percentis_indicadores_auditado] informa a posição relativa do auditado no conjunto avaliado. O percentil não representa nível de maturidade nem grau de atendimento a critério; indica apenas a proporção de organizações com resultado igual ou inferior ao da organização **{{ auditado.sigla }}**.
 
-![Posição percentílica do(a) {{ auditado.sigla }} nos indicadores avaliados]({{ auditado.sigla }}_percentis_indicadores.png){#fig:percentis_indicadores_auditado#}
+![Posição percentílica da organização {{ auditado.sigla }} nos indicadores avaliados]({{ auditado.sigla }}_percentis_indicadores.png){#fig:percentis_indicadores_auditado#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 A composição declarada da força de trabalho de TIC e de segurança da informação é apresentada na [@fig:forca_trabalho_auditado]. Os quantitativos não compõem o índice e não medem, isoladamente, suficiência de pessoal; sua avaliação depende do porte, da complexidade, da terceirização, dos serviços mantidos e dos riscos da organização.
@@ -205,7 +205,7 @@ A composição declarada da força de trabalho de TIC e de segurança da informa
 
 A análise longitudinal foi realizada exclusivamente para organizações com correspondência institucional validada nas bases de 2023 e 2026. Para reduzir os efeitos das alterações promovidas no questionário e na estrutura de cálculo, foram utilizados, em ambos os anos, índices ajustados formados por práticas e agregados comparáveis. Esses valores têm finalidade analítica e não substituem os resultados oficiais divulgados em cada ciclo.
 
-No caso do(a) **{{ auditado.sigla }}**, o iGovTI ajustado comparável passou de {{ ('%0.4f' | format(comparacao_igovti_2023|float)) | replace('.', ',') }}, em 2023, para {{ ('%0.4f' | format(comparacao_igovti_2026|float)) | replace('.', ',') }}, em 2026, com variação absoluta de {{ ('%+0.4f' | format(comparacao_delta_igovti|float)) | replace('.', ',') }}.
+No caso da organização **{{ auditado.sigla }}**, o iGovTI ajustado comparável passou de {{ ('%0.4f' | format(comparacao_igovti_2023|float)) | replace('.', ',') }}, em 2023, para {{ ('%0.4f' | format(comparacao_igovti_2026|float)) | replace('.', ',') }}, em 2026, com variação absoluta de {{ ('%+0.4f' | format(comparacao_delta_igovti|float)) | replace('.', ',') }}.
 
 {% if comparacao_direcao_igovti == 'avanço' %}
 {% if comparacao_nivel_2023 == comparacao_nivel_2026 %}
@@ -223,7 +223,7 @@ O resultado indica regressão no conjunto harmonizado de práticas avaliadas, ac
 Não foi observada variação material no conjunto harmonizado de práticas avaliadas, e a organização permaneceu no nível **{{ comparacao_nivel_2026 }}**.
 {% endif %}
 
-: Evolução dos componentes ajustados comparáveis do(a) {{ auditado.sigla }} {#tbl:evolucao_componentes_comparaveis#}
+: Evolução dos componentes ajustados comparáveis da organização {{ auditado.sigla }} {#tbl:evolucao_componentes_comparaveis#}
 
 | Indicador | 2023 | 2026 | Variação absoluta |
 |---|---:|---:|---:|
@@ -242,11 +242,11 @@ As principais regressões foram observadas em {{ comparacao_principais_regressoe
 
 A [@fig:evolucao_individual_igovti_comparavel] apresenta a trajetória dos três indicadores. A variação deve ser interpretada como mudança nas respostas às práticas harmonizadas, e não como comprovação isolada de melhora ou piora da efetividade da TIC. A leitura deve considerar eventuais alterações institucionais, a qualidade das informações declaradas e os achados de auditoria apresentados neste relatório.
 
-![Evolução comparável do(a) {{ auditado.sigla }} entre 2023 e 2026]({{ auditado.sigla }}_evolucao_igovti_2023_2026.png){#fig:evolucao_individual_igovti_comparavel#}
+![Evolução comparável da organização {{ auditado.sigla }} entre 2023 e 2026]({{ auditado.sigla }}_evolucao_igovti_2023_2026.png){#fig:evolucao_individual_igovti_comparavel#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 {% endif %}
 
-A priorização de melhorias não deve buscar apenas a elevação numérica do índice. Recomenda-se concentrar esforços nas capacidades com menor resultado que, simultaneamente, estejam associadas a riscos relevantes, serviços críticos, obrigações normativas e necessidades institucionais do(a) **{{ auditado.sigla }}**.
+A priorização de melhorias não deve buscar apenas a elevação numérica do índice. Recomenda-se concentrar esforços nas capacidades com menor resultado que, simultaneamente, estejam associadas a riscos relevantes, serviços críticos, obrigações normativas e necessidades institucionais da organização **{{ auditado.sigla }}**.
 
 ## 2.6. Questões avaliadas no relatório individual
 
@@ -271,7 +271,7 @@ Para o iGovTI 2026, a Equipe definiu questões de auditoria voltadas à avaliaç
 
 # 3. Resultados da Auditoria
 
-Os achados de auditoria apresentados a seguir decorrem da avaliação preliminar das respostas do(a) **{{ auditado.sigla }}** ao questionário iGovTI 2026 e da correspondente análise de consistência documental realizada por esta Equipe de Auditoria. O trabalho consistiu no confronto sistemático entre as práticas de governança e gestão autodeclaradas pela organização e as evidências comprobatórias efetivamente encaminhadas, à luz da legislação aplicável e de padrões técnicos de referência internacional.
+Os achados de auditoria apresentados a seguir decorrem da avaliação preliminar das respostas da organização **{{ auditado.sigla }}** ao questionário iGovTI 2026 e da correspondente análise de consistência documental realizada por esta Equipe de Auditoria. O trabalho consistiu no confronto sistemático entre as práticas de governança e gestão autodeclaradas pela organização e as evidências comprobatórias efetivamente encaminhadas, à luz da legislação aplicável e de padrões técnicos de referência internacional.
 
 O presente relatório individual adota uma estrutura analítica de apresentação voltada a conferir clareza, rastreabilidade e utilidade diagnóstica às constatações. Desse modo, cada achado de auditoria está estruturado a partir dos seguintes elementos fundamentais:
 
@@ -300,13 +300,13 @@ Cumpre ressaltar o caráter preliminar das constatações ora apresentadas. A di
 
 # 4. Plano de ação
 
-Para facilitar o atendimento das propostas constantes da Seção 3, a Equipe de Auditoria elaborou modelo de plano de ação contendo os encaminhamentos preliminarmente propostos à  organização.
+Para facilitar o atendimento das propostas constantes da Seção 3, a Equipe de Auditoria elaborou modelo de plano de ação contendo os encaminhamentos preliminarmente propostos à organização.
 
-Cumpre alertar que, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementar as recomendações. Ressalta-se, contudo, que a eventual decisão pela não aderência deve ser motivada: o gestor deverá demonstrar formalmente, sob pena de responsabilização, que o não atendimento constitui a medida mais adequada às circunstâncias do caso concreto, em seu julgamento, bem como apresentar as medidas alternativas adotadas para sanar a situação que ensejou a recomendação.
+Cumpre registrar que, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementar as recomendações. Ressalta-se, contudo, que a eventual decisão pela não aderência deve ser motivada: o gestor deve apresentar justificativa formal que demonstre, à luz das circunstâncias do caso concreto, as razões da decisão e, quando cabível, as medidas alternativas adotadas para tratar a situação que ensejou a recomendação.
 
 : Plano de ação contendo os encaminhamentos preliminarmente propostos {#tbl:plano_acao#}
 
-| Achado | Ação | Avaliação de Viabilidade | Quem? | Quando? |
+| Achado | Medida proposta | Avaliação de Viabilidade | Quem? | Quando? |
 |---|---|---|---|---|
 {%- for item in auditado.get_plano_acao() %}
 | **{{ item.achado_num }}** | {{ item.encaminhamento }} | | | |{% endfor %}
@@ -319,7 +319,7 @@ Cumpre alertar que, em conformidade com o art. 4º, incisos I e II, da Delibera�
 
 # 3. Resultados da Auditoria
 
-Com base na avaliação preliminar das respostas e das evidências do(a) **{{ auditado.sigla }}**, não foram identificadas situações que ensejassem achado individual nas Questões 1 a 6.
+Com base na avaliação preliminar das respostas e das evidências da organização **{{ auditado.sigla }}**, não foram identificadas situações que ensejassem achado individual nas Questões 1 a 6.
 
 {% endif %}
 
@@ -353,7 +353,7 @@ Os resultados ajustados comparáveis têm finalidade exclusivamente analítica. 
 
 # Apêndice B. Ajustes nas respostas declaradas
 
-A Equipe de Auditoria, em busca da melhor representação do cenário atual de governança e gestão de TIC da organização, ajustou resposta(s) declarada(s) pelo(a) **{{ auditado.sigla }}** ao questionário iGovTI 2026.
+A Equipe de Auditoria, em busca da melhor representação do cenário atual de governança e gestão de TIC, ajustou resposta(s) declarada(s) pela organização **{{ auditado.sigla }}** ao questionário iGovTI 2026.
 
 Para tanto, foram utilizadas as justificativas e evidências fornecidas pelo jurisdicionado quando do envio das respostas ao questionário. Ressalta-se que a verificação dessa documentação foi realizada nos termos dos procedimentos definidos para a fiscalização, de modo que nem todas as evidências encaminhadas foram, necessariamente, objeto de análise exaustiva pela Equipe de Auditoria.
 

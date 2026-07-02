@@ -25,53 +25,53 @@
 
 ### Situação encontrada
 
-A capacidade institucional de TIC e segurança da informação pressupõe dispor de recursos humanos, competências, perfis profissionais, funções e vínculos contratuais adequados para planejar, coordenar, gerir, proteger, contratar, fiscalizar e sustentar o ambiente tecnológico. Sob a perspectiva de controle e governança, a mera estruturação formal de uma unidade de tecnologia não supre a necessidade de equipe técnica interna minimamente dimensionada e capacitada para exercer a supervisão técnica de suas atribuições estratégicas.
+A capacidade institucional de TIC e segurança da informação pressupõe dispor de recursos humanos, competências, perfis profissionais, funções e vínculos contratuais adequados para planejar, coordenar, gerir, proteger, contratar, fiscalizar e sustentar o ambiente tecnológico. Sob a perspectiva de controle e governança, a estruturação formal de uma unidade de tecnologia deve ser acompanhada de capacidade técnica compatível para exercer a supervisão de suas atribuições estratégicas.
 
 Os critérios de boas práticas indicam que a organização deve formalizar a designação de papéis e responsabilidades, assegurar o dimensionamento apropriado do quadro de pessoal, mapear funções críticas, capacitar periodicamente a equipe e supervisionar de forma estrita a atuação de prestadores de serviços externos[^explica_capacidade_tic].
 
 Com base na análise das respostas aos itens 0101, 0105, 2701, 2702, 2703, 2704, 2705, 2706, 2708, 2801 e 2804 do questionário aplicado e da avaliação das evidências documentais anexadas, constatou-se que a organização apresenta insuficiências na capacidade institucional requerida. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
-{% set situacao_forca = 'Ausência de força de trabalho mínima dedicada à TIC ou à segurança da informação.' %}
+{% set situacao_forca = 'Ausência de força de trabalho dedicada à TIC ou à segurança da informação.' %}
 {% set situacao_quantitativo = 'A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.' %}
 {% set situacao_cargos = 'Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.' %}
 {% set situacao_perfis = 'Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.' %}
 {% set situacao_competencias = 'Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.' %}
-{% set situacao_terceiros = 'Modelo de operação de TIC predominantemente terceirizado ou externo, sem capacidade interna mínima declarada para coordenação, planejamento, aprovação técnica ou fiscalização das atividades críticas de TIC.' %}
+{% set situacao_terceiros = 'Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.' %}
 
 {% if situacao_forca in achado.situacoes_encontradas %}
-* **Força de trabalho dedicada**: a ausência de força de trabalho mínima contraria os critérios de pessoal adequado, planejamento de recursos humanos e competências de segurança da informação (COBIT 2019, APO07.01/APO07.05 e ABNT NBR ISO/IEC 27001:2022, cláusulas 5.3 e 7.2), inviabilizando a execução rotineira das atividades de planejamento, governança e sustentação operacional.
+* **Força de trabalho dedicada**: a ausência de força de trabalho dedicada não demonstra aderência aos critérios de pessoal adequado, planejamento de recursos humanos e competências de segurança da informação (COBIT 2019, APO07.01/APO07.05 e ABNT NBR ISO/IEC 27001:2022, cláusulas 5.3 e 7.2), podendo comprometer a execução rotineira das atividades de planejamento, governança e sustentação operacional.
 {% endif %}
 {% if situacao_quantitativo in achado.situacoes_encontradas %}
-* **Dimensionamento de pessoal**: a ausência de definição de parâmetros de pessoal contraria os critérios de planejamento de recursos humanos (COBIT 2019, APO07.01), acarretando subdimensionamento crônico ou má alocação da equipe técnica.
+* **Dimensionamento de pessoal**: a ausência de definição de parâmetros de pessoal não demonstra aderência aos critérios de planejamento de recursos humanos (COBIT 2019, APO07.01), elevando o risco de subdimensionamento ou má alocação da equipe técnica.
 {% endif %}
 {% if situacao_cargos in achado.situacoes_encontradas %}
-* **Cargos e carreiras específicas**: a ausência de cargos técnicos estruturados contraria as boas práticas de atração e retenção de pessoal (COBIT 2019, APO07.01), reduzindo a responsabilização e a continuidade da gestão tecnológica.
+* **Cargos e carreiras específicas**: a ausência de cargos, funções ou perfis técnicos estruturados não demonstra aderência às boas práticas de atração e retenção de pessoal (COBIT 2019, APO07.01), podendo reduzir a responsabilização e a continuidade da gestão tecnológica.
 {% endif %}
 {% if situacao_perfis in achado.situacoes_encontradas %}
-* **Perfis profissionais**: a ausência ou inobservância de perfis profissionais mínimos para a escolha de gestores e técnicos contraria as diretrizes de manutenção de competências (COBIT 2019, APO07.01/APO07.03 e ISO/IEC 27002:2022, 5.2/6.3), abrindo margem para a indicação de responsáveis sem a qualificação requerida.
+* **Perfis profissionais**: a ausência ou inobservância de perfis profissionais mínimos para a escolha de gestores e técnicos não demonstra aderência às diretrizes de manutenção de competências (COBIT 2019, APO07.01/APO07.03 e ISO/IEC 27002:2022, 5.2/6.3), reduzindo a segurança de que os responsáveis possuam qualificação compatível com as funções exercidas.
 {% endif %}
 {% if situacao_competencias in achado.situacoes_encontradas %}
-* **Lacunas de competência**: a ausência de identificação ou tratamento de lacunas de treinamento contraria as recomendações de capacitação técnica (COBIT 2019, APO07.03 e ISO/IEC 27002:2022, 6.3), fragilizando a operação de segurança e o gerenciamento de ativos de TIC.
+* **Lacunas de competência**: a ausência de identificação ou tratamento de lacunas de treinamento não demonstra aderência às recomendações de capacitação técnica (COBIT 2019, APO07.03 e ISO/IEC 27002:2022, 6.3), podendo fragilizar a operação de segurança e o gerenciamento de ativos de TIC.
 {% endif %}
 {% if situacao_terceiros in achado.situacoes_encontradas %}
-* **Dependência de terceiros**: a execução predominantemente externa sem capacidade interna de supervisão contraria as boas práticas de gestão de pessoal contratado e terceirizações (COBIT 2019, APO07.06, APO10.04 e DSS01.02), resultando em perda de governabilidade técnica e riscos à continuidade das atividades do órgão.
+* **Dependência externa**: a dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC não demonstra aderência às boas práticas de gestão de pessoal contratado e terceirizações (COBIT 2019, APO07.06, APO10.04 e DSS01.02), elevando riscos à governabilidade técnica e à continuidade das atividades do órgão.
 {% endif %}
 
 Essas situações ensejaram o presente achado e serão detalhadas nas seções subsequentes.
 
 [^explica_capacidade_tic]: Os critérios de capacidade institucional de TIC e segurança da informação concentram-se em pessoal adequado, competências, papéis, responsabilidades, retenção de conhecimento e supervisão de terceiros.
 
-{% set situacao = 'Ausência de força de trabalho mínima dedicada à TIC ou à segurança da informação.' %}
+{% set situacao = 'Ausência de força de trabalho dedicada à TIC ou à segurança da informação.' %}
 {% if situacao in achado.situacoes_encontradas %}
-#### Força de trabalho mínima dedicada à TIC ou à segurança da informação
+#### Força de trabalho dedicada à TIC ou à segurança da informação
 
-A organização deve dispor de força de trabalho mínima dedicada à TIC e à segurança da informação, compatível com sua estrutura, porte, serviços prestados, sistemas mantidos, contratações e riscos relevantes.
+A organização deve dispor de força de trabalho dedicada à TIC e à segurança da informação, compatível com sua estrutura, porte, serviços prestados, sistemas mantidos, contratações e riscos relevantes.
 
 O COBIT 2019, APO07.01 e APO07.05, orienta a manutenção de pessoal adequado e o planejamento e monitoramento da capacidade de recursos humanos. A ABNT NBR ISO/IEC 27001:2022, cláusulas 5.3 e 7.2, exige responsabilidades definidas e competências necessárias às funções atribuídas em segurança da informação.
 
-A inexistência ou insuficiência de profissionais dedicados, em quantitativo incompatível com a complexidade do ambiente tecnológico, inviabiliza a execução de rotinas essenciais de planejamento, gestão, segurança da informação, contratação, fiscalização contratual e sustentação das operações de TIC.
+A inexistência ou insuficiência de profissionais dedicados, em quantitativo incompatível com a complexidade do ambiente tecnológico, pode comprometer a execução de rotinas essenciais de planejamento, gestão, segurança da informação, contratação, fiscalização contratual e sustentação das operações de TIC.
 
-Diante disso, __será proposta recomendação para que a organização avalie sua força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação da TIC.__
+Diante disso, __será proposta recomendação para que a organização avalie sua força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade de planejamento, gestão, proteção, contratação, fiscalização e sustentação da TIC.__
 
 {% endif %}
 
@@ -85,7 +85,7 @@ O COBIT 2019, APO07.01 e APO07.05, exige que a organização assegure quantidade
 
 A ausência de um dimensionamento técnico do quadro de pessoal priva a administração de bases objetivas para subsidiar decisões sobre contratações, provimentos, planos de capacitação ou o eventual compartilhamento de estruturas com outras organizações.
 
-Diante disso, __será proposta recomendação para que a organização estime o quantitativo mínimo necessário de pessoal de TIC e segurança da informação, considerando porte, complexidade, serviços críticos, sistemas mantidos, contratações e riscos relevantes.__
+Diante disso, __será proposta recomendação para que a organização estime o quantitativo necessário de pessoal de TIC e segurança da informação, considerando porte, complexidade, serviços críticos, sistemas mantidos, contratações e riscos relevantes.__
 
 {% endif %}
 
@@ -131,17 +131,17 @@ Diante disso, __será proposta recomendação para que a organização realize d
 
 {% endif %}
 
-{% set situacao = 'Modelo de operação de TIC predominantemente terceirizado ou externo, sem capacidade interna mínima declarada para coordenação, planejamento, aprovação técnica ou fiscalização das atividades críticas de TIC.' %}
+{% set situacao = 'Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.' %}
 {% if situacao in achado.situacoes_encontradas %}
-#### Capacidade interna mínima em modelo terceirizado ou externo
+#### Dependência externa e capacidade interna de coordenação e fiscalização
 
 A utilização de terceiros ou de estrutura externa para execução de atividades de TIC não elimina a responsabilidade da organização pela coordenação, planejamento, aprovação técnica, fiscalização, tomada de decisão e retenção de conhecimento.
 
 O COBIT 2019, APO07.06, APO10.04 e DSS01.02, orienta o controle de pessoal contratado, a gestão de riscos de fornecedores e a supervisão de serviços terceirizados de TI, preservando responsabilização, medição, integração aos controles e retenção de conhecimento.
 
-O estabelecimento de modelo operacional baseado predominantemente em recursos externos, desprovido de capacidade interna de supervisão, transfere o controle de atividades críticas ao setor privado, acarretando perda de governabilidade técnica, fuga do conhecimento corporativo e risco à continuidade das operações.
+O estabelecimento de modelo operacional baseado predominantemente em recursos externos, sem capacidade interna suficiente de supervisão, pode reduzir a governabilidade técnica, a retenção de conhecimento e a continuidade das operações.
 
-Diante disso, __será proposta recomendação para que a organização avalie seu modelo de operação de TIC e adote medidas para assegurar capacidade interna mínima de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.__
+Diante disso, __será proposta recomendação para que a organização avalie seu modelo de operação de TIC e adote medidas para assegurar capacidade interna suficiente de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.__
 
 {% endif %}
 

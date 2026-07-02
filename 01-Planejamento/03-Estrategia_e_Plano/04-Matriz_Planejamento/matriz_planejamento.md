@@ -63,7 +63,7 @@ possiveis_achados:
 - A1: Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.
   situacoes_encontradas:
     - S1.1:
-      descricao: Ausência de formalização da área, unidade, setor ou função de TIC da organização.
+      descricao: Ausência de área, unidade, setor ou função de TIC formalmente instituída.
       severidade: alta
       itens_questionario: [q0101, q0101evi]
       regra_de_identificacao:
@@ -146,7 +146,7 @@ possiveis_achados:
 - A2: Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação.
   situacoes_encontradas:
     - S2.1:
-      descricao: Ausência ou insuficiência de modelo básico de governança e gestão de TIC com papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.
+      descricao: Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.
       severidade: alta
       itens_questionario: [q1001ext[C], q1001ext[H], q1002ext[A], q1002ext[C], q1001evi, q1002evi]
       regra_de_identificacao:
@@ -236,7 +236,7 @@ evidencias:
 - E9: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P9]
 
 possiveis_achados:
-- A3: Planejamento de TIC inexistente, insuficiente, desatualizado ou desconectado da gestão, do orçamento e das contratações
+- A3: Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
   situacoes_encontradas:
   - S3.1:
       descricao: Inexistência ou fragilidade do processo formal de planejamento de TIC.
@@ -269,7 +269,7 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
   - S3.5:
-      descricao: Plano de TIC sem integração adequada com orçamento, plano de contratações, projetos ou contratações de TIC.
+      descricao: Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC
       severidade: alta
       itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
       regra_de_identificacao:
@@ -361,14 +361,14 @@ possiveis_achados:
 - A4: Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
   situacoes_encontradas:
   - S4.1:
-    descricao: Ausência de força de trabalho mínima dedicada à TIC ou à segurança da informação.
+    descricao: Ausência de força de trabalho dedicada à TIC ou à segurança da informação.
     severidade: alta
     itens_questionario:
-      - [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios], q0105[SI_efetivos], q0105[SI_comissionados], q0105[SI_terceirizados], q0105[SI_cedidos], q0105[SI_temporarios], q0105[SI_estagiarios]]
+      - [q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios], q0105[SI_efetivos], q0105[SI_comissionados], q0105[SI_terceirizados], q0105[SI_cedidos], q0105[SI_temporarios], q0105[SI_estagiarios]]
     regra_de_identificacao:
       - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
       - total_SI = q0105[SI_efetivos] + q0105[SI_comissionados] + q0105[SI_terceirizados] + q0105[SI_cedidos] + q0105[SI_temporarios] + q0105[SI_estagiarios]
-      - ((total_TI == 0) & (q0101 != F)) | (total_SI == 0)
+      - (total_TI == 0) | (total_SI == 0)
       referencias_matriz: [R4.1, P1, E1]
       criterios: [C2, C5, C9]
     tipo_encaminhamento: Recomendação
@@ -376,9 +376,9 @@ possiveis_achados:
   - S4.2:
       descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
       severidade: alta
-      itens_questionario: [q2703ext[B], q2703ext[C], q2703evi]
+      itens_questionario: [q2703ext[C], q2703evi]
       regra_de_identificacao:
-      - (q2703ext[B] != Sim) | (q2703ext[C] != Sim)
+      - (q2703ext[C] != Sim)
       referencias_matriz: [R4.2, P2, E2]
       criterios: [C2, C5, C9]
       tipo_encaminhamento: Recomendação
@@ -386,9 +386,9 @@ possiveis_achados:
   - S4.3:
       descricao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.
       severidade: media
-      itens_questionario: [q2708[A], q2708[B], q2708[C], q2708[D]]
+      itens_questionario: [q2708[B], q2708[D]]
       regra_de_identificacao:
-      - ((q2708[A] != Sim) & (q2708[B] != Sim)) | ((q2708[C] != Sim) & (q2708[D] != Sim))
+      - (q2708[B] != Sim) | (q2708[D] != Sim)
       referencias_matriz: [R4.3, P3, E3]
       criterios: [C1, C2, C3]
       tipo_encaminhamento: Recomendação
@@ -396,9 +396,9 @@ possiveis_achados:
   - S4.4:
       descricao: Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.
       severidade: media
-      itens_questionario: [q2701ext[A], q2701ext[C], q2702ext[A], q2702ext[C], q2704ext[B], q2701evi, q2702evi, q2704evi]
+      itens_questionario: [q2701ext[A], q2702ext[A], q2704ext[B], q2701evi, q2702evi, q2704evi]
       regra_de_identificacao:
-      - ((q2701ext[A] != Sim) | (q2701ext[C] != Sim)) | ((q2702ext[A] != Sim) | (q2702ext[C] != Sim)) | (q2704ext[B] != Sim)
+      - (q2701ext[A] != Sim) | (q2702ext[A] != Sim) | (q2704ext[B] != Sim)
       referencias_matriz: [R4.4, P4, E4, P5, E5]
       criterios: [C1, C4, C9]
       tipo_encaminhamento: Recomendação
@@ -406,22 +406,22 @@ possiveis_achados:
   - S4.5:
       descricao: Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.
       severidade: media
-      itens_questionario: [q2705ext[B], q2705ext[C], q2705ext[D], q2706ext[A], q2706ext[B], q2706ext[C], q2705evi, q2706evi]
+      itens_questionario: [q2705ext[B], q2705ext[C], q2705ext[D], q2706ext[A], q2705evi, q2706evi]
       regra_de_identificacao:
-      - (q2705ext[B] != Sim) | (q2705ext[C] != Sim) | (q2705ext[D] != Sim) | (q2706ext[A] != Sim) | (q2706ext[B] != Sim) | (q2706ext[C] != Sim)
+      - (q2705ext[B] != Sim) | (q2705ext[C] != Sim) | (q2705ext[D] != Sim) | (q2706ext[A] != Sim)
       referencias_matriz: [R4.5, P6, E6]
       criterios: [C4, C9, C10]
       tipo_encaminhamento: Recomendação
       encaminhamento: realize diagnóstico periódico das lacunas de competências dos gestores e colaboradores de TIC e segurança da informação e estabeleça plano de tratamento, contemplando, conforme a necessidade, capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento
   - S4.6:
-    descricao: Modelo de operação de TIC predominantemente terceirizado ou externo, sem capacidade interna mínima declarada para coordenação, planejamento, aprovação técnica ou fiscalização das atividades críticas de TIC.
+    descricao: Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.
     severidade: alta
-    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_terceirizados], q2703ext[B], q2703ext[C], q2801ext[E], q2801ext[F], q2804[A], q2804[C], q2703evi, q2801evi, q2804eviA]
+    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_terceirizados]]
     regra_de_identificacao:
       - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
       - total_TI_terceiros = q0105[TI_terceirizados]
       - predominio_terceiros = total_TI_terceiros > total_TI_interno
-      - (((q0101 == B) | (q0101 == C)) & ((total_TI_interno == 0) | (((q2703ext[B] != Sim) | (q2703ext[C] != Sim)) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim))) | ((q2804[A] != Sim) | (q2804[C] != Sim)))) | ((predominio_terceiros == True) & ((q2801ext[E] != Sim) | (q2801ext[F] != Sim) | (q2804[A] != Sim) | (q2804[C] != Sim)))
+      - (((q0101 == B) | (q0101 == C)) & (total_TI_interno == 0)) | (predominio_terceiros == True)
     referencias_matriz: [R4.6, P7, E7]
     criterios: [C6, C7, C8]
     tipo_encaminhamento: Recomendação
@@ -505,7 +505,7 @@ evidencias:
 - E12: Ausência, insuficiência ou baixa rastreabilidade dos registros de incidentes, chamados ou tickets; [P12]
 
 possiveis_achados:
-- A5: Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes
+- A5: Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes
   situacoes_encontradas:
   - S5.1:
       descricao: Inexistência ou insuficiência do catálogo de serviços de TIC.
@@ -518,7 +518,7 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       encaminhamento: institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes
   - S5.2:
-      descricao: Inexistência de ANS, metas mínimas de níveis de serviço para os principais serviços de TIC.
+      descricao: Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.
       severidade: media
       itens_questionario: [q2201ext[D], q2201ext[E], q2201evi]
       regra_de_identificacao:
@@ -530,9 +530,9 @@ possiveis_achados:
   - S5.3:
       descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
       severidade: alta
-      itens_questionario: [q2203ext[A], q2501ext[A], q2501ext[B], q2504ext[A], q2504ext[B], q2203evi, q2501evi, q2504evi]
+      itens_questionario: [q2203ext[A], q2504ext[A], q2504ext[B], q2203evi, q2504evi]
       regra_de_identificacao:
-      - (q2203ext[A] != Sim) | (q2501ext[A] != Sim) | (q2501ext[B] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
+      - (q2203ext[A] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
       referencias_matriz: [R5.3, P5, E5, P6, E6]
       criterios: [C4, C5]
       tipo_encaminhamento: Recomendação
@@ -540,9 +540,9 @@ possiveis_achados:
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
-      itens_questionario: [q2203ext[A], q2203ext[B], q2203ext[C], q2203evi]
+      itens_questionario: [q2203ext[A], q2203ext[C], q2203evi]
       regra_de_identificacao:
-      - (q2203ext[A] != Sim) | (q2203ext[B] != Sim) | (q2203ext[C] != Sim)
+      - (q2203ext[A] != Sim) | (q2203ext[C] != Sim)
       referencias_matriz: [R5.3, P7, E7, P8, E8]
       criterios: [C5, C6]
       tipo_encaminhamento: Recomendação
@@ -550,9 +550,9 @@ possiveis_achados:
   - S5.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
       severidade: alta
-      itens_questionario: [q2204ext[A], q2204ext[B], q2204ext[C], q2204ext[D], q2204ext[E], q2204ext[F], q2204evi]
+      itens_questionario: [q2204ext[A], q2204ext[D], q2204ext[E], q2204evi]
       regra_de_identificacao:
-      - (q2204ext[A] != Sim) | (q2204ext[B] != Sim) | (q2204ext[C] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim) | (q2204ext[F] != Sim)
+      - (q2204ext[A] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim)
       referencias_matriz: [R5.4, P9, E9, P10, E10, P11, E11, P12, E12]
       criterios: [C7, C8]
       tipo_encaminhamento: Recomendação
@@ -653,7 +653,7 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais, a segurança da informação e a arquitetura existente, facultando a adoção de fluxos simplificados ou a dispensa de parecer detalhado para contratações diretas por dispensa em razão do valor (baixo valor) ou de baixa complexidade técnica, mediante critérios objetivos ou catálogos de soluções padronizadas
   - S6.3:
-      descricao: Contratações de TIC sem aderência ao plano de TIC, ao plano de contratações ou à proposta orçamentária.
+      descricao: Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.
       severidade: alta
       itens_questionario: [q2102ext[C], q2802ext[C], q2802ext[D], q2804[B], q2102evi, q2802evi]
       regra_de_identificacao:

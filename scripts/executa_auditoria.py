@@ -190,25 +190,54 @@ def base_item_questionario(codigo):
     return match.group(1).lower() if match else ""
 
 
-def carregar_textos_questoes_base_questionario(path=DEFAULT_QUESTIONARIO_IGOVTI):
-    textos = {}
+def limpar_texto_questionario(texto):
+    texto = normalizar_texto_comentarios_gestor(texto)
+    texto = re.sub(r"^\*\*|\*\*$", "", texto).strip()
+    return texto
+
+
+def texto_sem_numero_questao(texto):
+    return re.sub(r"^\d{4}\.\s*", "", limpar_texto_questionario(texto)).strip()
+
+
+def rotulo_item_questionario(codigo, textos_itens):
+    codigo = normalizar_texto_comentarios_gestor(codigo)
+    texto = textos_itens.get(codigo.lower())
+    if texto:
+        return texto
+    base = base_item_questionario(codigo)
+    return f"{base.upper()} - {codigo}" if base else codigo
+
+
+def carregar_textos_questionario(path=DEFAULT_QUESTIONARIO_IGOVTI):
+    textos_base = {}
+    textos_itens = {}
     current = ""
     if not Path(path).exists():
         logger.warning("Questionário iGovTI não encontrado para textos de reavaliação: %s", path)
-        return textos
+        return textos_base, textos_itens
 
     with open(path, encoding="utf-8") as stream:
         for line in stream:
-            match = re.match(r"^###\s+(q\d{4})\b", line.strip(), flags=re.IGNORECASE)
+            stripped = line.strip()
+            match = re.match(r"^###\s+(q\d{4})\b", stripped, flags=re.IGNORECASE)
             if match:
                 current = match.group(1).lower()
                 continue
-            if current and line.startswith("question:"):
-                texto = line.split(":", 1)[1].strip()
-                texto = re.sub(r"^\*\*|\*\*$", "", texto).strip()
-                textos[current] = texto
-                current = ""
-    return textos
+            if current and stripped.startswith("question:"):
+                texto = limpar_texto_questionario(stripped.split(":", 1)[1])
+                textos_base[current] = texto
+                textos_itens[current] = f"{current.upper()} - {texto_sem_numero_questao(texto)}"
+                continue
+            if current:
+                option_match = re.match(r"^-\s*([A-Z])\s*\|\s*(.+)$", stripped)
+                if option_match:
+                    letra = option_match.group(1)
+                    texto = limpar_texto_questionario(option_match.group(2))
+                    rotulo = f"{current.upper()} - {texto}"
+                    textos_itens[f"{current}[{letra}]".lower()] = rotulo
+                    textos_itens[f"{current}ext[{letra}]".lower()] = rotulo
+    return textos_base, textos_itens
 
 
 def carregar_reavaliacao_evidencias_comentarios_gestor(path):
@@ -234,7 +263,7 @@ def carregar_reavaliacao_evidencias_comentarios_gestor(path):
             + ", ".join(sorted(missing))
         )
 
-    textos_base = carregar_textos_questoes_base_questionario()
+    textos_base, textos_itens = carregar_textos_questionario()
     registros = {}
     for _, row in df.iterrows():
         auditado = normalizar_texto_comentarios_gestor(row.get("Auditado")).upper()
@@ -253,15 +282,29 @@ def carregar_reavaliacao_evidencias_comentarios_gestor(path):
                 "base": base,
                 "base_texto": textos_base.get(base, base),
                 "auditados": set(),
+                "itens_por_auditado": {},
             },
         )
         registro_base["auditados"].add(auditado)
+        registro_base["itens_por_auditado"].setdefault(auditado, []).append(
+            {
+                "codigo": codigo,
+                "rotulo": rotulo_item_questionario(codigo, textos_itens),
+                "resposta_afirmada": normalizar_texto_comentarios_gestor(row.get("Resposta afirmada")),
+                "resultado": resultado,
+                "justificativa_nao_conformidade": justificativa,
+            }
+        )
 
     return [
         {
             "base": registro["base"],
             "base_texto": registro["base_texto"],
             "auditados": sorted(registro["auditados"]),
+            "itens_por_auditado": {
+                auditado: sorted(itens, key=lambda item: item["codigo"])
+                for auditado, itens in sorted(registro["itens_por_auditado"].items())
+            },
         }
         for _, registro in sorted(registros.items(), key=lambda item: int(item[0][1:]))
     ]
@@ -645,12 +688,26 @@ def main():
                 for auditado in auditados_com_achados:
                     doc = DocxTemplate(template_comentarios)
                     achados = [p.achado for p in auditado.procedimentos_executados if p.achado is not None]
+                    auditado_sigla = normalizar_texto_comentarios_gestor(auditado.sigla).upper()
+                    reavaliacao_evidencias_auditado = [
+                        {
+                            "base": item.get("base", ""),
+                            "base_texto": item.get("base_texto", item.get("base", "")),
+                            "itens": item.get("itens_por_auditado", {}).get(auditado_sigla, []),
+                        }
+                        for item in reavaliacao_evidencias
+                        if auditado_sigla in {
+                            normalizar_texto_comentarios_gestor(sigla).upper()
+                            for sigla in item.get("auditados", [])
+                        }
+                    ]
                     
                     contexto = {
                         'auditado': auditado,
                         'achados': achados,
                         'data_final_entrega': data_final_entrega,
-                        'email_contato': args.email_contato_comentarios_gestor
+                        'email_contato': args.email_contato_comentarios_gestor,
+                        'reavaliacao_evidencias': reavaliacao_evidencias_auditado,
                     }
                     doc.render(contexto)
                     

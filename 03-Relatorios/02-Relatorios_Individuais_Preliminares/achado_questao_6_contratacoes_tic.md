@@ -27,15 +27,15 @@
 
 ### Situação encontrada
 
-As contratações de TIC exigem governança técnica, planejamento prévio circunstanciado, efetiva participação da área de tecnologia e o estabelecimento de critérios objetivos para recebimento do objeto e mensuração de resultados. A alta complexidade dos ativos de tecnologia, as exigências de conformidade legal (incluindo LGPD) e a forte dependência das atividades finalísticas em relação aos serviços de TIC demandam um fluxo de contratação rigoroso, afastando a possibilidade de aquisições genéricas ou desprovidas de análise técnica especializada.
+As contratações de TIC devem observar governança técnica, planejamento prévio proporcional à complexidade do objeto, participação da área de tecnologia quando cabível e critérios objetivos para recebimento e mensuração de resultados. A complexidade dos ativos de tecnologia, as exigências de conformidade legal, incluindo LGPD quando aplicável, e a dependência das atividades finalísticas em relação aos serviços de TIC demandam controles compatíveis com a relevância, o risco e o valor da contratação.
 
-Os critérios previstos na Lei 14.133/2021, na Lei 13.709/2018 (LGPD) e nos objetivos do COBIT 2019 disciplinam que a alta administração responde pela governança das contratações, que a fase preparatória deve ser instruída com Estudo Técnico Preliminar (ETP) e matrizes de risco adequadas, e que os Termos de Referência (TR) devem conter modelos objetivos de execução, critérios objetivos de medição atrelados a níveis mínimos de serviço (ANS) e aprovação formal dos requisitos técnicos e de segurança[^explica_contratacoes_tic].
+Os critérios previstos na Lei 14.133/2021, na Lei 13.709/2018 (LGPD) e nos objetivos do COBIT 2019 disciplinam que a alta administração responde pela governança das contratações, que a fase preparatória deve ser instruída com planejamento compatível com o objeto e que os Termos de Referência (TR), projetos básicos, contratos ou instrumentos equivalentes devem conter requisitos, modelos de execução, critérios de medição e parâmetros de acompanhamento proporcionais à natureza da contratação[^explica_contratacoes_tic].
 
 Com base na análise das respostas aos itens 2801, 2804, 2102 e 2802 do questionário aplicado e da avaliação das evidências documentais anexadas, constatou-se que as contratações de TIC da organização apresentam desconformidades em relação a essas diretrizes. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
 {% set situacao_processo = 'Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.' %}
 {% set situacao_aprovacao = 'Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.' %}
-{% set situacao_aderencia = 'Contratações de TIC sem aderência ao plano de TIC, ao plano de contratações ou à proposta orçamentária.' %}
+{% set situacao_aderencia = 'Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.' %}
 {% set situacao_equipe = 'Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC.' %}
 {% set situacao_artefatos = 'Artefatos de planejamento das contratações de TIC sem requisitos técnicos, análise de riscos, segurança da informação, proteção de dados ou critérios objetivos de aceite.' %}
 {% set situacao_niveis = 'Contratações de TIC sem níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento.' %}
@@ -44,19 +44,19 @@ Com base na análise das respostas aos itens 2801, 2804, 2102 e 2802 do question
 * **Processo de contratação de TIC**: a fragilidade ou ausência de fluxo padronizado contraria a governança de contratações (Lei 14.133/2021, art. 11/art. 19, IV) e o COBIT 2019 (APO01.09), acarretando indefinição de papéis, ritos processuais e prazos internos.
 {% endif %}
 {% if situacao_aprovacao in achado.situacoes_encontradas %}
-* **Aprovação técnica de TIC**: a falta de avaliação prévia obrigatória pela área técnica contraria a governança institucional (COBIT 2019, BAI02.04 e APO01.05), favorecendo aquisições de soluções desalinhadas do ecossistema de infraestrutura existente.
+* **Aprovação técnica de TIC**: a falta de avaliação prévia pela área técnica, quando necessária, contraria a governança institucional (COBIT 2019, BAI02.04 e APO01.05), favorecendo aquisições de soluções desalinhadas do ambiente tecnológico existente.
 {% endif %}
 {% if situacao_aderencia in achado.situacoes_encontradas %}
-* **Aderência ao planejamento**: a desconexão com o planejamento setorial de TIC e com o plano de contratações anual contraria a Lei 14.133/2021 (arts. 11 e 18), resultando em aquisições reativas, emergenciais ou sem lastro orçamentário adequado.
+* **Alinhamento ao planejamento**: a ausência de alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária não demonstra aderência à Lei 14.133/2021 (arts. 11 e 18), podendo resultar em aquisições reativas ou sem lastro orçamentário adequado.
 {% endif %}
 {% if situacao_equipe in achado.situacoes_encontradas %}
-* **Equipe de planejamento**: a ausência de portaria ou designação de equipe mista com representação técnica de TIC contraria a governança pública e a Lei 14.133/2021 (art. 7º), comprometendo a qualidade e a imparcialidade das especificações técnicas.
+* **Equipe de planejamento**: a ausência de portaria ou designação de equipe mista com representação técnica de TIC, quando aplicável, não demonstra aderência à governança pública e à Lei 14.133/2021 (art. 7º), podendo comprometer a qualidade e a imparcialidade das especificações técnicas.
 {% endif %}
 {% if situacao_artefatos in achado.situacoes_encontradas %}
-* **Artefatos de planejamento (ETP/TR)**: a insuficiência de análise de riscos, LGPD e requisitos técnicos detalhados contraria a Lei 14.133/2021 (art. 18 e art. 6º, XXIII) e a LGPD (art. 46), expondo o órgão a passivos de segurança da informação e perdas contratuais.
+* **Artefatos de planejamento (ETP/TR)**: a insuficiência de análise de riscos, requisitos de proteção de dados quando aplicáveis e requisitos técnicos detalhados não demonstra aderência à Lei 14.133/2021 (art. 18 e art. 6º, XXIII) e à LGPD (art. 46), elevando riscos de segurança da informação e de perdas contratuais.
 {% endif %}
 {% if situacao_niveis in achado.situacoes_encontradas %}
-* **Níveis de serviço (ANS)**: a ausência de indicadores objetivos de desempenho e qualidade contraria a Lei 14.133/2021 (art. 6º, XXIII) e o COBIT 2019 (APO10.03 e APO10.05), vinculando os pagamentos à mera disponibilização de esforço ou tempo, em detrimento da qualidade das entregas.
+* **Níveis de serviço**: a ausência de indicadores objetivos de desempenho e qualidade não demonstra aderência à Lei 14.133/2021 (art. 6º, XXIII) e ao COBIT 2019 (APO10.03 e APO10.05), podendo dificultar a vinculação dos pagamentos à qualidade e aos resultados das entregas.
 {% endif %}
 
 Essas situações ensejaram o presente achado e serão detalhadas nas seções subsequentes.
@@ -87,19 +87,19 @@ O COBIT 2019, BAI02.04, orienta a obtenção de aprovação formal dos requisito
 
 A realização de aquisições de tecnologia sem a validação técnica da área de TIC compromete a integridade do ambiente lógico do órgão, gerando riscos de incompatibilidade sistêmica, vulnerabilidades de segurança e ineficiência operacional.
 
-Diante disso, __será proposta recomendação para que a organização estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, facultando a adoção de fluxos simplificados ou a dispensa de parecer detalhado para contratações diretas por dispensa em razão do valor (baixo valor) ou de baixa complexidade técnica, mediante critérios objetivos ou catálogos de soluções padronizadas.__
+Diante disso, __será proposta recomendação para que a organização estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, facultando a adoção de fluxos simplificados ou a dispensa de parecer detalhado para contratações diretas por dispensa em razão do valor ou de baixa complexidade técnica, mediante critérios objetivos ou catálogos de soluções padronizadas.__
 
 {% endif %}
 
-{% set situacao = 'Contratações de TIC sem aderência ao plano de TIC, ao plano de contratações ou à proposta orçamentária.' %}
+{% set situacao = 'Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.' %}
 {% if situacao in achado.situacoes_encontradas %}
-#### Aderência ao planejamento, plano de contratações e proposta orçamentária
+#### Alinhamento ao planejamento, plano de contratações e proposta orçamentária
 
 As contratações de TIC devem estar vinculadas ao planejamento de TIC, ao plano de contratações e à proposta orçamentária. Essa vinculação demonstra que a contratação decorre de prioridade definida, possui respaldo orçamentário e contribui para objetivos institucionais.
 
 O art. 18 da Lei 14.133/2021 prevê a compatibilização da contratação com o plano de contratações anual e o planejamento da Administração. O art. 11 também reforça a responsabilidade da alta administração pela governança das contratações.
 
-A falta de conformidade das aquisições frente ao planejamento setorial de TIC e ao plano de contratações anual resulta na fragmentação de despesas, em contratações reativas e no desperdício de recursos orçamentários.
+A falta de conformidade das aquisições frente ao planejamento setorial de TIC e ao plano de contratações anual eleva o risco de fragmentação de despesas, contratações reativas e uso ineficiente de recursos orçamentários.
 
 Diante disso, __será proposta recomendação para que a organização condicione as contratações de TIC à vinculação com o planejamento de TIC, com o plano de contratações e com a proposta orçamentária, ressalvadas situações excepcionais devidamente justificadas.__
 
@@ -127,7 +127,7 @@ Os artefatos de planejamento das contratações de TIC devem contemplar requisit
 
 O art. 18 da Lei 14.133/2021 define elementos mínimos da fase preparatória, e o art. 6º, inciso XXIII, prevê que o termo de referência contenha requisitos da contratação, modelo de execução, modelo de gestão contratual e critérios de medição e pagamento. O art. 46 da LGPD exige medidas técnicas e administrativas de segurança desde a concepção do produto ou serviço até sua execução.
 
-A omissão de requisitos técnicos claros, matrizes de risco, diretrizes de segurança da informação e regras de LGPD nos artefatos preparatórios expõe a administração a severos riscos operacionais e inviabiliza a fiscalização das entregas.
+A omissão de requisitos técnicos claros, matrizes de risco, diretrizes de segurança da informação e regras de LGPD nos artefatos preparatórios expõe a administração a riscos operacionais relevantes e dificulta a fiscalização das entregas.
 
 Diante disso, __será proposta recomendação para que os artefatos de planejamento das contratações de TIC contemplem requisitos técnicos, análise de riscos, requisitos de segurança da informação, proteção de dados pessoais quando aplicável e critérios objetivos de aceite.__
 
@@ -141,7 +141,7 @@ Os instrumentos de contratação de TIC devem estabelecer níveis mínimos de se
 
 O art. 6º, inciso XXIII, da Lei 14.133/2021 exige modelo de gestão contratual e critérios de medição e pagamento no termo de referência. O COBIT 2019, APO10.03 e APO10.05, orienta o estabelecimento e acompanhamento de contratos, responsabilidades, níveis de serviço, desempenho, conformidade, qualidade e resultados pactuados com fornecedores.
 
-A contratação desprovida de Acordos de Nível de Serviço (ANS) e indicadores objetivos vincula o pagamento público à mera presença física ou disponibilização de tempo de profissionais, impossibilitando a cobrança por resultados, qualidade e conformidade das entregas da contratada.
+A contratação desprovida de níveis mínimos de serviço, métricas ou indicadores objetivos pode dificultar a vinculação do pagamento público a resultados, qualidade e conformidade das entregas.
 
 Diante disso, __será proposta recomendação para que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.__
 
