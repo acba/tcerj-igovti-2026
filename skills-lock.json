@@ -13,6 +13,13 @@
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
       "computedHash": "eb0e91e84277283dc2b23ed544399e53afd6b5287e5b6929f25fe8aa608e164b"
     },
+    "gws-drive": {
+      "source": "googleworkspace/cli",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/gws-drive/SKILL.md",
+      "computedHash": "d637ff849b82a9fc195bcfedea260cffe94eaa31b843b28cd04313b1720bb153"
+    },
     "handoff": {
       "source": "mattpocock/skills",
       "sourceType": "github",
