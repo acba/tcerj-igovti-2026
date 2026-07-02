@@ -11,6 +11,18 @@ Este relatório apresenta os resultados preliminares da organização **{{ audit
 
 O trabalho abrangeu órgãos e entidades de todos os poderes da Administração Pública Estadual e um conjunto de prefeituras municipais.
 
+{% if auditado.status_avaliacao == "nao_respondente" %}
+
+# 2. Ausência de resposta válida ao questionário
+
+A organização **{{ auditado.sigla }}** integrou o universo da Fiscalização TCE-RJ nº 18/2026. Contudo, não foi identificada resposta válida ao questionário iGovTI 2026 nas bases processadas pela Equipe de Auditoria.
+
+Em razão da ausência de informações declaradas e de documentação comprobatória, não foi possível calcular o índice individual, avaliar a consistência das práticas declaradas ou executar os procedimentos de auditoria individualizados previstos para as organizações respondentes.
+
+Assim, este relatório registra a ausência de resposta válida e não contém achados decorrentes da avaliação de evidências. Na fase de comentários do gestor, a organização poderá utilizar seção própria do questionário eletrônico para apresentar esclarecimentos, comprovação de eventual resposta encaminhada ou justificativa para a ausência de resposta. Essa manifestação não corresponde à contestação de achados ou à reavaliação de evidências, pois não houve resposta válida e documentação comprobatória avaliadas para a organização.
+
+{% else %}
+
 # 2. iGovTI 2026
 
 A avaliação das organizações jurisdicionadas baseia-se no método de autoavaliação de controles (*Control Self-Assessment* – CSA), operacionalizado mediante questionário eletrônico. A ferramenta permitiu aos gestores declarar o nível de adoção das práticas de tecnologia da informação avaliadas e encaminhar a documentação probatória correspondente. As evidências anexadas e as justificativas apresentadas foram submetidas à análise de consistência por esta Equipe de Auditoria, servindo de subsídio para eventuais ajustes na pontuação declarada e para a identificação de inconformidades ou achados de auditoria.
@@ -367,5 +379,7 @@ Seguem as alterações realizadas após a avaliação das respostas e da amostra
 | **{{ ajuste.codigo_questao }}** | {{ ajuste.de }} | {{ ajuste.para }} | {{ ajuste.justificativa }} |{% endfor %}
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+{% endif %}
 
 {% endif %}

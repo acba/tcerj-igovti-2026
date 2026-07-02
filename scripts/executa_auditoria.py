@@ -22,7 +22,13 @@ from argos_utils import aplicar_variaveis_temporarias, carregar_dados, avalia_lo
 from igovti_dados_utils import to_relative
 from xlsx_utils import escrever_xlsx_se_diferente
 from docxtpl import DocxTemplate
-from limesurvey_generator import DEFAULT_ADMIN_EMAIL, DEFAULT_ADMIN_NAME, LimeSurveyGenerator
+from limesurvey_generator import (
+    DEFAULT_ADMIN_EMAIL,
+    DEFAULT_ADMIN_NAME,
+    DEFAULT_FISCALIZACAO_NOME,
+    DEFAULT_FISCALIZACAO_NUMERO,
+    LimeSurveyGenerator,
+)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -131,6 +137,23 @@ def validar_mapa_auditoria(df_procedimentos, df_acoes, df_fontes, df_variaveis, 
 
     if erros:
         raise ValueError("Mapa de auditoria inválido:\n- " + "\n- ".join(erros))
+
+
+def gerar_tabela_status_auditados(auditados):
+    dados = []
+    for auditado in auditados.values():
+        dados.append({
+            "Auditado": auditado.sigla,
+            "Nome": auditado.nome,
+            "Respondeu ao questionário": "Sim" if auditado.respondeu_questionario else "Não",
+            "Status da avaliação": auditado.status_avaliacao,
+            "Foi auditado": "Sim" if auditado.foi_auditado else "Não",
+            "Tem achados": "Sim" if auditado.tem_achados else "Não",
+            "Motivo da não avaliação": auditado.motivo_nao_avaliacao,
+        })
+    if not dados:
+        return pd.DataFrame().rename_axis("Auditado")
+    return pd.DataFrame(dados).set_index("Auditado")
 
 
 def calcular_data_final_comentarios_gestor(data_informada):
@@ -359,6 +382,16 @@ def main():
         help='Data final de preenchimento dos comentários do gestor em DD/MM/AAAA (padrão: data atual + 15 dias).'
     )
     parser.add_argument(
+        '--numero-fiscalizacao-comentarios-gestor',
+        default=DEFAULT_FISCALIZACAO_NUMERO,
+        help=f'Número da fiscalização usado no questionário de comentários do gestor (padrão: {DEFAULT_FISCALIZACAO_NUMERO}).'
+    )
+    parser.add_argument(
+        '--nome-fiscalizacao-comentarios-gestor',
+        default=DEFAULT_FISCALIZACAO_NOME,
+        help=f'Nome da fiscalização usado no questionário de comentários do gestor (padrão: {DEFAULT_FISCALIZACAO_NOME}).'
+    )
+    parser.add_argument(
         '--ajustes-evidencias-comentarios-gestor',
         default='',
         help='Planilha de ajustes pós-avaliação de evidências usada para incluir seção opcional de reavaliação no survey de comentários do gestor.'
@@ -527,14 +560,40 @@ def main():
         auditado = Auditado(nome=row['orgao'], sigla=row['sigla'])
         auditados[auditado.sigla] = auditado
 
+    fonte_questionario = fontes.get("questionario")
+    if fonte_questionario is None or fonte_questionario.info is None:
+        logger.error("Fonte de informação 'questionario' não foi carregada; não é possível identificar respondentes.")
+        sys.exit(1)
+    respondentes_questionario = {
+        valor for valor in fonte_questionario.info.index.astype(str).str.strip()
+        if valor
+    }
+    respondentes_fora_cadastro = sorted(respondentes_questionario - set(auditados.keys()))
+    if respondentes_fora_cadastro:
+        logger.error(
+            "Há respondentes ausentes da base de auditados. Atualize o cadastro antes de executar "
+            "a auditoria: %s",
+            ", ".join(respondentes_fora_cadastro),
+        )
+        sys.exit(1)
+
     # 8. Executa a auditoria
     logger.info("Executando procedimentos de auditoria...")
     for auditado in auditados.values():
+        if auditado.sigla not in respondentes_questionario:
+            auditado.marcar_nao_respondente("Ausência de resposta válida ao questionário iGovTI 2026.")
+            logger.warning(
+                "Auditado %s consta no cadastro, mas não possui resposta válida ao questionário; "
+                "procedimentos individualizados não serão executados.",
+                auditado.sigla,
+            )
+            continue
         auditado.aplicar_procedimentos(procedimentos.values(), debug=False)
 
     logger.info("Auditoria executada com sucesso! Gerando relatórios de saída...")
 
     # 9. Consolida tabelas
+    tabela_status = gerar_tabela_status_auditados(auditados)
     tabela_encaminhamentos = gerar_tabela_encaminhamentos(auditados)
     tabela_achados = gerar_tabela_achados(auditados)
     tabela_situacoes = gerar_tabela_situacoes_inconformes(auditados)
@@ -575,6 +634,10 @@ def main():
     try:
         def _writer(temp_path):
             with pd.ExcelWriter(temp_path, engine='xlsxwriter') as writer:
+                tabela_status.to_excel(writer, sheet_name='Status dos Auditados')
+                nao_respondentes = tabela_status[tabela_status["Status da avaliação"] == "nao_respondente"]
+                if not nao_respondentes.empty:
+                    nao_respondentes.to_excel(writer, sheet_name='Não Respondentes')
                 tabela_achados.to_excel(writer, sheet_name='Achados por Auditado')
                 tabela_encaminhamentos.to_excel(writer, sheet_name='Encaminhamentos por Auditado')
                 tabela_situacoes.to_excel(writer, sheet_name='Situações Inconformes')
@@ -635,6 +698,10 @@ def main():
 
     # 14. Geração do Questionário do Gestor (.lss e anexos Word em ZIP)
     auditados_com_achados = [v for v in auditados.values() if v.tem_achados]
+    auditados_nao_respondentes = [
+        v for v in auditados.values()
+        if getattr(v, "status_avaliacao", "") == "nao_respondente"
+    ]
     if not (args.somente_dados or args.skip_comentarios_gestor):
         data_final_entrega, data_final_limesurvey = calcular_data_final_comentarios_gestor(
             args.data_final_preenchimento_comentarios_gestor
@@ -669,6 +736,9 @@ def main():
                 admin_email=args.email_contato_comentarios_gestor,
                 expires=data_final_limesurvey,
                 reavaliacao_evidencias=reavaliacao_evidencias,
+                auditados_nao_respondentes=auditados_nao_respondentes,
+                fiscalizacao_numero=args.numero_fiscalizacao_comentarios_gestor,
+                fiscalizacao_nome=args.nome_fiscalizacao_comentarios_gestor,
             )
             
             with open(lss_path, 'w', encoding='utf-8') as f:
@@ -686,9 +756,22 @@ def main():
         try:
             os.makedirs(comentarios_zip_path.parent, exist_ok=True)
             template_comentarios = os.path.join(os.path.dirname(__file__), "resources", "template-questionario-comentarios-gestor.docx")
+            siglas_reavaliacao = {
+                normalizar_texto_comentarios_gestor(sigla).upper()
+                for item in reavaliacao_evidencias
+                for sigla in item.get("auditados", [])
+            }
+            auditados_reavaliacao = [
+                auditado for auditado in auditados.values()
+                if normalizar_texto_comentarios_gestor(auditado.sigla).upper() in siglas_reavaliacao
+            ]
+            auditados_para_comentarios = {
+                auditado.sigla: auditado
+                for auditado in [*auditados_com_achados, *auditados_reavaliacao, *auditados_nao_respondentes]
+            }
                 
             with zipfile.ZipFile(comentarios_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-                for auditado in auditados_com_achados:
+                for auditado in auditados_para_comentarios.values():
                     doc = DocxTemplate(template_comentarios)
                     achados = [p.achado for p in auditado.procedimentos_executados if p.achado is not None]
                     auditado_sigla = normalizar_texto_comentarios_gestor(auditado.sigla).upper()

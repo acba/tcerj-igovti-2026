@@ -13,6 +13,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+import pandas as pd
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BRUTO = ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx"
@@ -27,6 +29,8 @@ DEFAULT_RELATORIO_CONSOLIDADO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/R
 DEFAULT_REFERENCE_DOCX = ROOT / "scripts/resources/template-base-estilos-sigiloso.docx"
 DEFAULT_ADMIN_COMENTARIOS_GESTOR = "CAD-TI"
 DEFAULT_EMAIL_COMENTARIOS_GESTOR = "auditoriati@tcerj.tc.br"
+DEFAULT_NUMERO_FISCALIZACAO_COMENTARIOS_GESTOR = "18/2026"
+DEFAULT_NOME_FISCALIZACAO_COMENTARIOS_GESTOR = "iGovTI 2026"
 
 default_tmp_root = Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())
 DEFAULT_OUTPUT_DIR = default_tmp_root / "tcerj-igovti-2026-ultima-versao"
@@ -43,6 +47,35 @@ def run_step(title: str, cmd: list[str], cwd: Path) -> None:
     logging.info("%s", title)
     logging.info("Comando: %s", shlex.join(str(part) for part in cmd))
     subprocess.run([str(part) for part in cmd], cwd=cwd, check=True)
+
+
+def _ler_siglas_xlsx(path: Path, coluna: str) -> set[str]:
+    df = pd.read_excel(path)
+    if coluna not in df.columns:
+        raise ValueError(f"Planilha {path} não possui a coluna obrigatória {coluna!r}.")
+    return {str(valor).strip() for valor in df[coluna].dropna() if str(valor).strip()}
+
+
+def validar_cadastro_respostas(auditados_xlsx: Path, respostas_xlsx: Path) -> None:
+    siglas_cadastro = _ler_siglas_xlsx(auditados_xlsx, "sigla")
+    siglas_respostas = _ler_siglas_xlsx(respostas_xlsx, "firstname")
+    fora_cadastro = sorted(siglas_respostas - siglas_cadastro)
+    if fora_cadastro:
+        raise ValueError(
+            "Há respondentes ausentes da base de auditados. Atualize bd_auditados.xlsx antes "
+            f"de continuar: {', '.join(fora_cadastro)}"
+        )
+
+
+def validar_contexto_respondentes(respostas_xlsx: Path, contexto_xlsx: Path) -> None:
+    siglas_respostas = _ler_siglas_xlsx(respostas_xlsx, "firstname")
+    siglas_contexto = _ler_siglas_xlsx(contexto_xlsx, "sigla")
+    sem_contexto = sorted(siglas_respostas - siglas_contexto)
+    if sem_contexto:
+        raise ValueError(
+            "Há respondentes sem contexto iGovTI calculado. Refaça os artefatos iGovTI antes "
+            f"de gerar relatórios: {', '.join(sem_contexto)}"
+        )
 
 
 def parse_args() -> argparse.Namespace:
@@ -74,6 +107,22 @@ def parse_args() -> argparse.Namespace:
         help="Data final de preenchimento dos comentários do gestor em DD/MM/AAAA (padrão: data atual + 15 dias).",
     )
     parser.add_argument(
+        "--numero-fiscalizacao-comentarios-gestor",
+        default=DEFAULT_NUMERO_FISCALIZACAO_COMENTARIOS_GESTOR,
+        help=(
+            "Número da fiscalização usado no questionário de comentários do gestor "
+            f"(padrão: {DEFAULT_NUMERO_FISCALIZACAO_COMENTARIOS_GESTOR})."
+        ),
+    )
+    parser.add_argument(
+        "--nome-fiscalizacao-comentarios-gestor",
+        default=DEFAULT_NOME_FISCALIZACAO_COMENTARIOS_GESTOR,
+        help=(
+            "Nome da fiscalização usado no questionário de comentários do gestor "
+            f"(padrão: {DEFAULT_NOME_FISCALIZACAO_COMENTARIOS_GESTOR})."
+        ),
+    )
+    parser.add_argument(
         "--ajustes-evidencias-comentarios-gestor",
         type=Path,
         default=None,
@@ -88,6 +137,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--graficos-dpi", type=int, default=300, help="Resolução dos PNG gerados para relatórios.")
     parser.add_argument("--graficos-skip-existing", action="store_true", help="Pula PNG de relatórios já existentes no diretório de saída.")
+    parser.add_argument("--skip-relatorios-procedimentos", action="store_true", help="Pula a geração do ZIP de relatórios de procedimentos individuais.")
     parser.add_argument(
         "--tipo-relatorio-individual",
         choices=["preliminar", "final"],
@@ -166,6 +216,8 @@ def main() -> int:
         ROOT,
     )
 
+    validar_cadastro_respostas(args.auditados, base_final)
+
     run_step(
         "3/7 Gerando artefatos iGovTI, comparação longitudinal e contexto estatístico.",
         [
@@ -180,6 +232,8 @@ def main() -> int:
         ],
         ROOT,
     )
+
+    validar_contexto_respondentes(base_final, contexto_relatorios)
 
     auditoria_cmd = [
         python,
@@ -209,12 +263,18 @@ def main() -> int:
         args.admin_responsavel_comentarios_gestor,
         "--data-final-preenchimento-comentarios-gestor",
         args.data_final_preenchimento_comentarios_gestor,
+        "--numero-fiscalizacao-comentarios-gestor",
+        args.numero_fiscalizacao_comentarios_gestor,
+        "--nome-fiscalizacao-comentarios-gestor",
+        args.nome_fiscalizacao_comentarios_gestor,
     ]
     if args.ajustes_evidencias_comentarios_gestor:
         auditoria_cmd.extend([
             "--ajustes-evidencias-comentarios-gestor",
             args.ajustes_evidencias_comentarios_gestor,
         ])
+    if args.skip_relatorios_procedimentos:
+        auditoria_cmd.append("--skip-relatorios-procedimentos")
 
     run_step("4/7 Executando procedimentos de auditoria.", auditoria_cmd, ROOT)
 

@@ -192,7 +192,8 @@ def main() -> int:
                 stdout=subprocess.DEVNULL
             )
         except Exception as e:
-            print(f"Aviso: Erro ao gerar gráficos gerais: {e}", file=sys.stderr)
+            print(f"Erro ao gerar gráficos gerais: {e}", file=sys.stderr)
+            return 1
 
         # Executa a geração de gráficos de achados diretamente para a pasta temporária
         script_achados = os.path.join(os.path.dirname(__file__), "gerar_graficos_achados_consolidado.py")
@@ -209,7 +210,8 @@ def main() -> int:
                 stdout=subprocess.DEVNULL
             )
         except Exception as e:
-            print(f"Aviso: Erro ao gerar gráficos de achados: {e}", file=sys.stderr)
+            print(f"Erro ao gerar gráficos de achados: {e}", file=sys.stderr)
+            return 1
             
         # 5. Copia imagens de contexto de outros locais (se existirem / especificados) para consolidar na pasta temporária
         tmp_root = Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())

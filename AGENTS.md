@@ -68,6 +68,10 @@ Run the complete report package workflow from the raw LimeSurvey export:
 ```bash
 scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
   --respostas-bruto 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx \
+  --data-final-preenchimento-comentarios-gestor 06/07/2026 \
+  --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
+  --numero-fiscalizacao-comentarios-gestor 18/2026 \
+  --nome-fiscalizacao-comentarios-gestor "iGovTI 2026" \
   --output-dir C:/tmp/tcerj-igovti-2026-ultima-versao
 ```
 
@@ -149,7 +153,11 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
   --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx
+  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
+  --data-final-preenchimento-comentarios-gestor 06/07/2026 \
+  --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
+  --numero-fiscalizacao-comentarios-gestor 18/2026 \
+  --nome-fiscalizacao-comentarios-gestor "iGovTI 2026"
 ```
 
 `resultado_auditoria.json` is compact by default and omits the full list of evaluated actions. Use `--resultado-auditoria-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json` only when a detailed debugging trace is required.

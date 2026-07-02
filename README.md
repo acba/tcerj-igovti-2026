@@ -68,10 +68,16 @@ Para regenerar o pacote completo a partir da planilha bruta exportada do questio
 ```bash
 scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
   --respostas-bruto 02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx \
+  --data-final-preenchimento-comentarios-gestor 06/07/2026 \
+  --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
+  --numero-fiscalizacao-comentarios-gestor 18/2026 \
+  --nome-fiscalizacao-comentarios-gestor "iGovTI 2026" \
   --output-dir C:/tmp/tcerj-igovti-2026-ultima-versao
 ```
 
 O script infere o prefixo `20260621` a partir do nome da planilha bruta, aplica os ajustes registrados pela equipe, recalcula o iGovTI, executa a auditoria, gera gráficos, relatórios individuais e relatório consolidado. Cada etapa é exibida na tela com logs e o comando executado. Use `--auditados-select SIGLA...` para restringir a geração dos relatórios individuais a auditados específicos.
+
+Os parâmetros `--email-contato-comentarios-gestor`, `--numero-fiscalizacao-comentarios-gestor` e `--nome-fiscalizacao-comentarios-gestor` são repassados ao gerador do questionário LimeSurvey de comentários do gestor e usados no texto de boas-vindas, encerramento, título, descrição e assunto do convite. Os padrões são `auditoriati@tcerj.tc.br`, `18/2026` e `iGovTI 2026`.
 
 Principais sa?das no Windows:
 
@@ -450,7 +456,11 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
   --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx
+  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
+  --data-final-preenchimento-comentarios-gestor 06/07/2026 \
+  --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
+  --numero-fiscalizacao-comentarios-gestor 18/2026 \
+  --nome-fiscalizacao-comentarios-gestor "iGovTI 2026"
 ```
 
 Saídas principais:

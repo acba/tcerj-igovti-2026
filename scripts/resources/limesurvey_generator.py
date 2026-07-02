@@ -6,6 +6,8 @@ from argos_classes import Auditado, Achado
 
 DEFAULT_ADMIN_NAME = 'CAD-TI'
 DEFAULT_ADMIN_EMAIL = 'auditoriati@tcerj.tc.br'
+DEFAULT_FISCALIZACAO_NUMERO = '18/2026'
+DEFAULT_FISCALIZACAO_NOME = 'iGovTI 2026'
 
 class LimeSurveyGenerator:
     """Gera .lss consolidado espelhando EXATAMENTE o template DOCX"""
@@ -27,10 +29,14 @@ class LimeSurveyGenerator:
         admin_email: str = DEFAULT_ADMIN_EMAIL,
         expires: str = '',
         reavaliacao_evidencias: list[dict[str, object]] | None = None,
+        auditados_nao_respondentes: List[Auditado] | None = None,
+        fiscalizacao_numero: str = DEFAULT_FISCALIZACAO_NUMERO,
+        fiscalizacao_nome: str = DEFAULT_FISCALIZACAO_NOME,
     ) -> str:
         """Gera um único XML consolidado para todos os auditados"""
         reavaliacao_evidencias = reavaliacao_evidencias or {}
-        if not auditados and not reavaliacao_evidencias:
+        auditados_nao_respondentes = auditados_nao_respondentes or []
+        if not auditados and not reavaliacao_evidencias and not auditados_nao_respondentes:
             return ""
 
         # Mapeia situações únicas e quais auditados as possuem
@@ -65,6 +71,9 @@ class LimeSurveyGenerator:
             admin_email,
             expires,
             reavaliacao_evidencias,
+            auditados_nao_respondentes,
+            fiscalizacao_numero,
+            fiscalizacao_nome,
         )
         return xml
 
@@ -76,6 +85,9 @@ class LimeSurveyGenerator:
         admin_email: str,
         expires: str,
         reavaliacao_evidencias: list[dict[str, object]],
+        auditados_nao_respondentes: List[Auditado],
+        fiscalizacao_numero: str,
+        fiscalizacao_nome: str,
     ) -> str:
         xml = '<?xml version="1.0" encoding="UTF-8"?>\n<document>\n'
         xml += ' <LimeSurveyDocType>Survey</LimeSurveyDocType>\n'
@@ -111,13 +123,25 @@ class LimeSurveyGenerator:
         reavaliacao_entries = self._sort_reavaliacao_evidencias(reavaliacao_evidencias)
 
         # ORDEM CORRETA:
-        xml += self._build_answers(sorted_keys)       # 1. answers
-        xml += self._build_groups(sorted_keys, situacoes_map, evidencias_map, reavaliacao_entries)        # 2. groups
-        questions_xml, upload_qids = self._build_questions(sorted_keys, reavaliacao_entries)
+        xml += self._build_answers(sorted_keys, reavaliacao_entries, auditados_nao_respondentes)       # 1. answers
+        xml += self._build_groups(
+            sorted_keys,
+            situacoes_map,
+            evidencias_map,
+            reavaliacao_entries,
+            auditados_nao_respondentes,
+            fiscalizacao_nome,
+        )        # 2. groups
+        questions_xml, upload_qids = self._build_questions(
+            sorted_keys,
+            reavaliacao_entries,
+            auditados_nao_respondentes,
+            fiscalizacao_nome,
+        )
         xml += questions_xml     # 3. questions
         xml += self._build_question_attributes(upload_qids) # 4. question_attributes
         xml += self._build_surveys(admin_name, admin_email, expires)              # 4. surveys
-        xml += self._build_surveys_lang() # 5. surveys_languagesettings
+        xml += self._build_surveys_lang(admin_email, fiscalizacao_numero, fiscalizacao_nome) # 5. surveys_languagesettings
 
         xml += '</document>'
         return xml
@@ -141,6 +165,8 @@ class LimeSurveyGenerator:
         situacoes_map: Dict[tuple, Set[str]],
         evidencias_map: Dict[tuple, Set[str]],
         reavaliacao_entries: list[dict[str, object]],
+        auditados_nao_respondentes: List[Auditado],
+        fiscalizacao_nome: str,
     ) -> str:
         xml = ' <groups>\n  <fields>\n'
         xml += '   <fieldname>gid</fieldname>\n   <fieldname>sid</fieldname>\n'
@@ -227,10 +253,37 @@ class LimeSurveyGenerator:
             gid += 1
             group_order += 1
 
+        if auditados_nao_respondentes:
+            siglas = sorted({auditado.sigla for auditado in auditados_nao_respondentes}, key=str)
+            conditions = [f'TOKEN:FIRSTNAME == "{self._esc(sigla)}"' for sigla in siglas]
+            grelevance = " OR ".join(conditions) if conditions else "0"
+
+            fiscalizacao_nome = self._esc(fiscalizacao_nome)
+            desc = f'<h4>Manifestação sobre ausência de resposta ao questionário {fiscalizacao_nome}</h4>'
+            desc += f'<p>Não foi identificada resposta válida ao questionário {fiscalizacao_nome} para esta organização nas bases processadas pela Equipe de Auditoria.</p>'
+            desc += '<p>Esta seção permite apresentar esclarecimentos, comprovação de eventual resposta encaminhada ou justificativa para a ausência de resposta válida.</p>'
+            desc += '<p>A manifestação nesta seção não corresponde à contestação de achados nem à reavaliação de evidências, pois não houve resposta válida e documentação comprobatória avaliadas para a organização.</p>'
+
+            xml += '   <row>\n'
+            xml += f'    <gid><![CDATA[{gid}]]></gid>\n    <sid><![CDATA[0]]></sid>\n'
+            xml += '    <group_name><![CDATA[Ausência de resposta ao questionário]]></group_name>\n'
+            xml += f'    <group_order><![CDATA[{group_order}]]></group_order>\n'
+            xml += f'    <description><![CDATA[{desc}]]></description>\n'
+            xml += '    <language><![CDATA[pt-BR]]></language>\n'
+            xml += '    <randomization_group/>\n'
+            xml += f'    <grelevance><![CDATA[{grelevance}]]></grelevance>\n'
+            xml += '   </row>\n'
+
         xml += '  </rows>\n </groups>\n'
         return xml
 
-    def _build_questions(self, sorted_keys: List[tuple], reavaliacao_entries: list[dict[str, object]]) -> tuple[str, list[int]]:
+    def _build_questions(
+        self,
+        sorted_keys: List[tuple],
+        reavaliacao_entries: list[dict[str, object]],
+        auditados_nao_respondentes: List[Auditado],
+        fiscalizacao_nome: str,
+    ) -> tuple[str, list[int]]:
         xml = ' <questions>\n  <fields>\n'
         xml += '   <fieldname>qid</fieldname>\n   <fieldname>parent_qid</fieldname>\n'
         xml += '   <fieldname>sid</fieldname>\n   <fieldname>gid</fieldname>\n'
@@ -330,6 +383,29 @@ class LimeSurveyGenerator:
             qid += 1
             gid += 1
 
+        if auditados_nao_respondentes:
+            xml += self._q_row(qid, gid, 'NRStatus',
+                f'Em relação à ausência de resposta válida ao questionário {self._esc(fiscalizacao_nome)}, a organização:',
+                'L', 'Y', 1,
+                'Selecione a opção que melhor descreve a manifestação da organização.')
+            qid += 1
+
+            relevance_texto = '((NRStatus.NAOK == "SQ002" or NRStatus.NAOK == "SQ003"))'
+            xml += self._q_row(qid, gid, 'NRTexto',
+                'Apresente os esclarecimentos, a comprovação do envio anterior ou a justificativa para a ausência de resposta válida.',
+                'T', 'Y', 2,
+                'Informe data, protocolo, e-mail, processo ou outro elemento de comprovação, quando aplicável.',
+                relevance=relevance_texto)
+            qid += 1
+
+            xml += self._q_row(qid, gid, 'NREvi',
+                'Caso necessário, envie documento que comprove a manifestação apresentada.',
+                '|', 'N', 3,
+                'É aceito um arquivo com extensão PDF ou ZIP. Caso haja mais de um documento, compactar em formato ZIP.',
+                relevance=relevance_texto)
+            upload_qids.append(qid)
+            qid += 1
+
         xml += '  </rows>\n </questions>\n'
         return xml, upload_qids
 
@@ -357,8 +433,13 @@ class LimeSurveyGenerator:
         xml += '   </row>\n'
         return xml
 
-    def _build_answers(self, sorted_keys: List[tuple]) -> str:
-        """Gera opções de resposta (4 opções de concordância)"""
+    def _build_answers(
+        self,
+        sorted_keys: List[tuple],
+        reavaliacao_entries: list[dict[str, object]],
+        auditados_nao_respondentes: List[Auditado],
+    ) -> str:
+        """Gera opções de resposta para perguntas de lista."""
         xml = ' <answers>\n  <fields>\n'
         xml += '   <fieldname>qid</fieldname>\n   <fieldname>code</fieldname>\n'
         xml += '   <fieldname>answer</fieldname>\n   <fieldname>sortorder</fieldname>\n'
@@ -388,6 +469,23 @@ class LimeSurveyGenerator:
 
             # Avança 4 perguntas por situação
             qid += 4
+
+        if auditados_nao_respondentes:
+            qid += len(reavaliacao_entries) * 2
+            for code, answer, sort in [
+                ('SQ001', 'Confirma a ausência de resposta válida ao questionário', 1),
+                ('SQ002', 'Informa que encaminhou resposta e deseja apresentar comprovação', 2),
+                ('SQ003', 'Apresenta justificativa para a ausência de resposta válida', 3),
+            ]:
+                xml += '   <row>\n'
+                xml += f'    <qid><![CDATA[{qid}]]></qid>\n'
+                xml += f'    <code><![CDATA[{code}]]></code>\n'
+                xml += f'    <answer><![CDATA[{answer}]]></answer>\n'
+                xml += f'    <sortorder><![CDATA[{sort}]]></sortorder>\n'
+                xml += '    <assessment_value><![CDATA[0]]></assessment_value>\n'
+                xml += '    <language><![CDATA[pt-BR]]></language>\n'
+                xml += '    <scale_id><![CDATA[0]]></scale_id>\n'
+                xml += '   </row>\n'
 
         xml += '  </rows>\n </answers>\n'
         return xml
@@ -489,11 +587,59 @@ class LimeSurveyGenerator:
         xml += '   </row>\n  </rows>\n </surveys>\n'
         return xml
 
-    def _build_surveys_lang(self) -> str:
-        welcome = f'''<p>Prezado(a) Gestor(a) da {{TOKEN:FIRSTNAME}},</p>
-<p>Este questionário é o instrumento pelo qual a {{TOKEN:FIRSTNAME}} pode se manifestar acerca dos achados apresentados pela Equipe de Auditoria no Relatório Individual Preliminar.</p>
-<p>Para os itens que houver discordância em relação à situação encontrada, é necessário justificar o motivo da divergência no campo apropriado, além de encaminhar documentação que corrobore com a argumentação apresentada.</p>
-<p><strong>Suas respostas são fundamentais para o processo de auditoria.</strong></p>'''
+    def _build_surveys_lang(self, admin_email: str, fiscalizacao_numero: str, fiscalizacao_nome: str) -> str:
+        fiscalizacao_numero = self._esc(fiscalizacao_numero)
+        fiscalizacao_nome = self._esc(fiscalizacao_nome)
+        admin_email = self._esc(admin_email)
+        fiscalizacao_label = f"Fiscalização TCE-RJ nº {fiscalizacao_numero} - {fiscalizacao_nome}"
+        welcome = f'''<div class="container mt-3" style="margin-top:20px;margin-bottom:20px;">
+  <div class="row align-items-center">
+    <div class="col-md-4">
+      <img alt="Logotipo TCERJ" class="img-fluid" src="https://www.tcerj.tc.br/cdn-storage/logos/logo-horizontal-colorida-para_fundo_branco@3x.png" style="max-width:300px;" />
+    </div>
+
+    <div class="col-md-8">
+      <h1 style="font-size:16px;font-weight:bold;color:#444;margin:0;margin-top:20px;">SECRETARIA-GERAL DE CONTROLE EXTERNO</h1>
+      <p style="font-size:12px;color:#666;margin:2px 0;">SUBSECRETARIA DE CONTROLE DE POLÍTICAS DE CIDADANIA</p>
+      <p style="font-size:12px;color:#666;margin:2px 0;">COORDENADORIA DE AUDITORIA EM POLÍTICAS DE TECNOLOGIA DA INFORMAÇÃO</p>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:justify;color:#000000;">
+  <p style="color:#000000;">Prezado(a) Gestor(a) da {{TOKEN:FIRSTNAME}},</p>
+
+  <p style="color:#000000;">Este questionário integra a fase de comentários do gestor da {fiscalizacao_label}, realizada pela Coordenadoria de Auditoria em Políticas de Tecnologia da Informação (CAD-TI).</p>
+
+  <p style="color:#000000;">O instrumento permite que a organização se manifeste sobre os apontamentos apresentados no Relatório Individual Preliminar, inclusive quanto às situações encontradas, às propostas de encaminhamento, às consequências práticas de sua implementação e, quando aplicável, aos itens avaliados como não conformes na etapa de avaliação das evidências.</p>
+
+  <p style="color:#000000;">Para cada situação disponibilizada, a organização deverá informar se concorda ou discorda do apontamento. Em caso de concordância, poderá registrar comentários, providências adotadas ou planejadas e considerações sobre os encaminhamentos propostos. Em caso de discordância, deverá apresentar justificativa objetiva e, quando necessário, encaminhar documentação comprobatória.</p>
+
+  <p style="color:#000000;">Quando houver seção de reavaliação de evidências, a organização poderá apresentar esclarecimentos, retificações ou evidência suplementar em formato PDF ou ZIP, limitada aos itens indicados para reanálise.</p>
+
+  <p style="color:#000000;">Para organizações em que não tenha sido identificada resposta válida ao questionário {fiscalizacao_nome}, será disponibilizada seção própria para apresentação de esclarecimentos, comprovação de eventual envio anterior ou justificativa para a ausência de resposta.</p>
+
+  <p style="color:#000000;margin-top:5px;"><strong>Observações importantes:</strong></p>
+
+  <ol>
+    <li style="margin-bottom:10px;">A etapa de comentários do gestor é facultativa, mas constitui oportunidade para esclarecimento de fatos, correção de informações, apresentação de documentos e manifestação sobre os apontamentos preliminares.</li>
+    <li style="margin-bottom:10px;">As manifestações devem ser objetivas e acompanhadas de documentação comprobatória sempre que a organização pretender afastar ou modificar situação apontada pela Equipe de Auditoria.</li>
+    <li style="margin-bottom:10px;">Os arquivos anexados devem estar em formato PDF ou ZIP. Caso haja mais de um documento, recomenda-se compactá-los em um único arquivo ZIP.</li>
+    <li style="margin-bottom:10px;">As informações prestadas serão analisadas pela Equipe de Auditoria antes da consolidação dos resultados e poderão subsidiar ajustes, ratificações ou complementações no relatório final.</li>
+  </ol>
+</div>'''
+
+        endtext = f'''<p style="color:#000000;">Prezado(a),</p>
+
+<p style="color:#000000;">Agradecemos pela participação na fase de comentários do gestor da {fiscalizacao_label}.</p>
+
+<p style="color:#000000;">As manifestações, justificativas e evidências encaminhadas serão analisadas pela Equipe de Auditoria para fins de apreciação dos esclarecimentos apresentados, reavaliação dos pontos cabíveis e consolidação dos resultados da fiscalização.</p>
+
+<p style="color:#000000;">O envio deste questionário não implica acolhimento automático das manifestações apresentadas. A análise será realizada à luz dos critérios de auditoria, das informações anteriormente prestadas, das evidências disponíveis e da documentação eventualmente encaminhada nesta etapa.</p>
+
+<p style="color:#000000;">Após a análise dos comentários do gestor, os resultados poderão subsidiar ajustes nos apontamentos preliminares, manutenção das conclusões, complementação de evidências e elaboração dos produtos finais da fiscalização.</p>
+
+<p style="color:#000000;">Em caso de dúvidas, entre em contato com a Coordenadoria de Auditoria em Políticas de Tecnologia da Informação (CAD-TI) pelo e-mail {admin_email}.</p>'''
 
         xml = ' <surveys_languagesettings>\n  <fields>\n'
         xml += '   <fieldname>surveyls_survey_id</fieldname>\n   <fieldname>surveyls_language</fieldname>\n'
@@ -510,12 +656,12 @@ class LimeSurveyGenerator:
         xml += '  </fields>\n  <rows>\n   <row>\n'
         xml += '    <surveyls_survey_id><![CDATA[0]]></surveyls_survey_id>\n'
         xml += '    <surveyls_language><![CDATA[pt-BR]]></surveyls_language>\n'
-        xml += f'    <surveyls_title><![CDATA[Comentários do Gestor - Auditoria]]></surveyls_title>\n'
-        xml += f'    <surveyls_description><![CDATA[Auditoria]]></surveyls_description>\n'
+        xml += f'    <surveyls_title><![CDATA[Comentários do Gestor - {fiscalizacao_label}]]></surveyls_title>\n'
+        xml += f'    <surveyls_description><![CDATA[{fiscalizacao_label}]]></surveyls_description>\n'
         xml += f'    <surveyls_welcometext><![CDATA[{welcome}]]></surveyls_welcometext>\n'
-        xml += '    <surveyls_endtext><![CDATA[<p><strong>Agradecemos sua participação!</strong></p>]]></surveyls_endtext>\n'
+        xml += f'    <surveyls_endtext><![CDATA[{endtext}]]></surveyls_endtext>\n'
         xml += '    <surveyls_url/>\n    <surveyls_urldescription/>\n'
-        xml += f'    <surveyls_email_invite_subj><![CDATA[Questionário - Auditoria]]></surveyls_email_invite_subj>\n'
+        xml += f'    <surveyls_email_invite_subj><![CDATA[Questionário - {fiscalizacao_label}]]></surveyls_email_invite_subj>\n'
         xml += '    <surveyls_email_invite/>\n    <surveyls_email_remind_subj/>\n'
         xml += '    <surveyls_email_remind/>\n    <surveyls_email_register_subj/>\n'
         xml += '    <surveyls_email_register/>\n    <surveyls_email_confirm_subj/>\n'

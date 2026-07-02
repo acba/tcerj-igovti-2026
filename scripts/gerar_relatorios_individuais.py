@@ -161,6 +161,24 @@ def consolidar_templates(base_content, all_files_content, template_paths, proces
 
     return pattern.sub(replace_match, base_content)
 
+def get_variaveis_definidas_no_template(template_content):
+    """Coleta nomes declarados em blocos Jinja, para não tratá-los como contexto externo."""
+    if not template_content:
+        return set()
+
+    definidas = set()
+    for match in re.finditer(r"\{%-?\s*set\s+([A-Za-z_]\w*)\s*=", template_content):
+        definidas.add(match.group(1))
+
+    for match in re.finditer(r"\{%-?\s*for\s+(.+?)\s+in\s+.+?%}", template_content):
+        targets = match.group(1).strip()
+        for target in targets.split(","):
+            target = target.strip()
+            if re.fullmatch(r"[A-Za-z_]\w*", target):
+                definidas.add(target)
+
+    return definidas
+
 def main():
     parser = argparse.ArgumentParser(
         description='Gerador de Relatórios Individuais do Argos via Linha de Comando.'
@@ -319,7 +337,11 @@ def main():
 
     # 4. Extract variables from template
     vars_template = get_variaveis_template(template_content)
-    logger.info(f"Variáveis encontradas no template: {sorted(list(vars_template))}")
+    vars_definidas_template = get_variaveis_definidas_no_template(template_content)
+    vars_contexto_template = vars_template - vars_definidas_template
+    logger.info(f"Variáveis de contexto encontradas no template: {sorted(list(vars_contexto_template))}")
+    if vars_definidas_template:
+        logger.debug(f"Variáveis definidas internamente no template: {sorted(list(vars_definidas_template))}")
 
     # 5. Filter auditados to process
     siglas_selecionadas = args.auditados_select
@@ -419,17 +441,32 @@ def main():
             contexto['data_hoje'] = data_hoje()
             contexto['auditado'] = auditado_obj
 
-            if df_contexto_extra is not None and sigla in df_contexto_extra.index:
+            tem_contexto_extra = df_contexto_extra is not None and sigla in df_contexto_extra.index
+            if tem_contexto_extra:
                 contexto.update(df_contexto_extra.loc[sigla].to_dict())
+            elif df_contexto_extra is not None and auditado_obj.status_avaliacao != "nao_respondente":
+                logger.error(
+                    "[%s] Contexto estatístico/iGovTI não encontrado para auditado avaliado; "
+                    "relatório normal não será gerado.",
+                    sigla,
+                )
+                sys.exit(1)
 
             ajustes_respostas = ajustes_respostas_por_auditado.get(sigla.upper(), [])
             contexto['ajustes_respostas'] = ajustes_respostas
             contexto['teve_ajuste'] = bool(ajustes_respostas)
 
             # Fill missing variables in context with empty lists so Jinja rendering doesn't crash
-            vars_faltantes = set(vars_template) - set(contexto.keys())
+            vars_faltantes = set(vars_contexto_template) - set(contexto.keys())
             if vars_faltantes:
-                logger.warning(f"[{sigla}] Variáveis ausentes no contexto: {vars_faltantes}. Preenchendo com valores vazios.")
+                if auditado_obj.status_avaliacao == "nao_respondente":
+                    logger.info(
+                        "[%s] Relatório de não respondente sem contexto iGovTI; %d variáveis de ramos não renderizados serão preenchidas com vazio.",
+                        sigla,
+                        len(vars_faltantes),
+                    )
+                else:
+                    logger.warning(f"[{sigla}] Variáveis ausentes no contexto: {vars_faltantes}. Preenchendo com valores vazios.")
                 for var in vars_faltantes:
                     contexto[var] = []
 

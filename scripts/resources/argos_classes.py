@@ -514,12 +514,24 @@ class Auditado:
         # Armazena os resultados dos procedimentos de auditoria
         self.procedimentos_executados = []
         self.tem_achados = False
+        self.respondeu_questionario = True
+        self.status_avaliacao = "pendente"
+        self.motivo_nao_avaliacao = ""
 
     def __repr__(self):
         return (f"Auditado(id='{self.id}', sigla='{self.sigla}')\n" +
                 f"nome='{self.nome}'\n" +
                 f"foi_auditado='{self.foi_auditado}'\n" +
-                f"tem_achados='{self.tem_achados}'\n")
+                f"tem_achados='{self.tem_achados}'\n" +
+                f"status_avaliacao='{self.status_avaliacao}'\n")
+
+    def marcar_nao_respondente(self, motivo=None):
+        self.respondeu_questionario = False
+        self.status_avaliacao = "nao_respondente"
+        self.motivo_nao_avaliacao = motivo or "Ausência de resposta válida ao questionário iGovTI 2026."
+        self.foi_auditado = False
+        self.tem_achados = False
+        self.procedimentos_executados = []
 
     def __aplicar_procedimento(self, procedimento, debug=False):
         if debug:
@@ -543,6 +555,9 @@ class Auditado:
             self.__aplicar_procedimento(procedimento, debug)
 
         self.foi_auditado = True
+        self.respondeu_questionario = True
+        self.status_avaliacao = "avaliado"
+        self.motivo_nao_avaliacao = ""
 
     def show(self):
         """Retorna uma string formatada com os dados do auditado."""
@@ -774,6 +789,9 @@ class Auditado:
             'sigla': self.sigla,
             'foi_auditado': safe_serialize(self.foi_auditado),
             'tem_achados': safe_serialize(self.tem_achados),
+            'respondeu_questionario': safe_serialize(self.respondeu_questionario),
+            'status_avaliacao': self.status_avaliacao,
+            'motivo_nao_avaliacao': self.motivo_nao_avaliacao,
             'procedimentos_executados': [p.to_dict(compacto=compacto) for p in self.procedimentos_executados]
         }
 
@@ -786,6 +804,9 @@ class Auditado:
         )
         obj.foi_auditado = data.get('foi_auditado')
         obj.tem_achados = data.get('tem_achados')
+        obj.respondeu_questionario = data.get('respondeu_questionario', True)
+        obj.status_avaliacao = data.get('status_avaliacao') or ("avaliado" if obj.foi_auditado else "pendente")
+        obj.motivo_nao_avaliacao = data.get('motivo_nao_avaliacao', "")
         obj.procedimentos_executados = [ProcedimentoAuditoria.from_dict(p) for p in data.get('procedimentos_executados', [])]
         return obj
 
@@ -793,7 +814,10 @@ def gerar_tabela_achados(auditados):
     # Reconstrói o dicionário de procedimentos a partir dos achados em cada auditado
     procedimentos = {}
     # Pega os procedimentos aplicados em qualquer um:
-    for p in list(auditados.values())[0].procedimentos_executados:
+    auditado_base = next((a for a in auditados.values() if a.procedimentos_executados), None)
+    if auditado_base is None:
+        return pd.DataFrame().rename_axis("Auditado")
+    for p in auditado_base.procedimentos_executados:
         procedimentos[p.id] = p
 
     # Coleta todos os nomes de achados únicos
@@ -814,6 +838,8 @@ def gerar_tabela_achados(auditados):
 
     # Cria o DataFrame com os dados coletados
     df_achados = pd.DataFrame(dados_tabela)
+    if df_achados.empty:
+        return pd.DataFrame().rename_axis("Auditado")
     df_achados = df_achados.set_index("Auditado")
 
     return df_achados
@@ -822,7 +848,10 @@ def gerar_tabela_encaminhamentos(auditados):
     # Reconstrói o dicionário de procedimentos a partir dos achados em cada auditado
     procedimentos = {}
     # Pega os procedimentos aplicados em qualquer um:
-    for p in list(auditados.values())[0].procedimentos_executados:
+    auditado_base = next((a for a in auditados.values() if a.procedimentos_executados), None)
+    if auditado_base is None:
+        return pd.DataFrame().rename_axis("Auditado")
+    for p in auditado_base.procedimentos_executados:
         procedimentos[p.id] = p
 
 
@@ -847,6 +876,8 @@ def gerar_tabela_encaminhamentos(auditados):
 
     # Cria o DataFrame com os dados coletados
     df_encaminhamentos = pd.DataFrame(dados_tabela)
+    if df_encaminhamentos.empty:
+        return pd.DataFrame().rename_axis("Auditado")
     df_encaminhamentos = df_encaminhamentos.set_index("Auditado")
 
     return df_encaminhamentos
@@ -855,7 +886,10 @@ def gerar_tabela_situacoes_inconformes(auditados):
     # Reconstrói o dicionário de procedimentos a partir dos achados em cada auditado
     procedimentos = {}
     # Pega os procedimentos aplicados em qualquer um:
-    for p in list(auditados.values())[0].procedimentos_executados:
+    auditado_base = next((a for a in auditados.values() if a.procedimentos_executados), None)
+    if auditado_base is None:
+        return pd.DataFrame().rename_axis("Auditado")
+    for p in auditado_base.procedimentos_executados:
         procedimentos[p.id] = p
 
 
@@ -888,6 +922,8 @@ def gerar_tabela_situacoes_inconformes(auditados):
 
     # Cria o DataFrame com os dados coletados
     df_situacoes = pd.DataFrame(dados_tabela)
+    if df_situacoes.empty:
+        return pd.DataFrame().rename_axis("Auditado")
     df_situacoes = df_situacoes.set_index("Auditado")
 
     return df_situacoes

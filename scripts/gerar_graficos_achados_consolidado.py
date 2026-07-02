@@ -27,6 +27,36 @@ COLOR_MUNICIPAL = "#167D8D"  # Teal
 COLOR_GRID = "#D1D5DB"       # Cinza claro
 COLOR_TEXT = "#1F2937"       # Cinza escuro
 
+
+def iter_organizacoes(data):
+    """Retorna pares (sigla, dados) aceitando os formatos JSON já usados pelo projeto."""
+    if isinstance(data, dict):
+        if isinstance(data.get("auditados"), list):
+            for org in data["auditados"]:
+                yield str(org.get("sigla") or org.get("id") or "").strip(), org
+            return
+        for sigla, org in data.items():
+            if isinstance(org, dict):
+                yield str(org.get("sigla") or sigla).strip(), org
+        return
+
+    if isinstance(data, list):
+        for org in data:
+            if isinstance(org, dict):
+                yield str(org.get("sigla") or org.get("id") or "").strip(), org
+
+
+def numero_achado(proc: dict) -> int | None:
+    """Extrai o número do achado do procedimento executado."""
+    for value in (proc.get("numero_achado"), (proc.get("achado") or {}).get("numero")):
+        if value is None:
+            continue
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            continue
+    return None
+
 def parse_excel_spheres(path: Path) -> dict[str, str]:
     """Parse do Excel bd_auditados.xlsx via zipfile/xml para evitar dependências de pandas no sandbox."""
     sigla_to_esfera = {}
@@ -156,23 +186,59 @@ def main(argv: list[str] | None = None):
         "axes.facecolor": "white",
     })
 
-    # Total auditado por esfera
-    total_e = sum(1 for esf in sigla_to_esfera.values() if esf == 'E')
-    total_m = sum(1 for esf in sigla_to_esfera.values() if esf == 'M')
-    total_geral = total_e + total_m # 114
+    organizacoes = list(iter_organizacoes(data))
+    organizacoes_avaliadas = [
+        (sigla, org)
+        for sigla, org in organizacoes
+        if org.get("procedimentos_executados")
+    ]
+
+    if not organizacoes_avaliadas:
+        print("Aviso: Nenhuma organização com procedimentos executados foi encontrada no JSON.")
+        return
+
+    desconhecidas = sorted(
+        {
+            sigla.strip().upper()
+            for sigla, _ in organizacoes_avaliadas
+            if sigla.strip().upper() not in sigla_to_esfera
+        }
+    )
+    if desconhecidas:
+        print(
+            "Aviso: Organizações avaliadas sem esfera em bd_auditados.xlsx: "
+            + ", ".join(desconhecidas)
+        )
+
+    # Denominador dos percentuais: somente organizações efetivamente avaliadas.
+    # Não respondentes constam no JSON, mas não possuem procedimentos executados.
+    total_e = sum(1 for sigla, _ in organizacoes_avaliadas if sigla_to_esfera.get(sigla.strip().upper()) == 'E')
+    total_m = sum(1 for sigla, _ in organizacoes_avaliadas if sigla_to_esfera.get(sigla.strip().upper()) == 'M')
+    total_geral = total_e + total_m
 
     for find_idx in range(6):
         num_find = find_idx + 1
         # Estrutura para contar as situações ocorridas por esfera
         counts = {} # sit -> {'E': int, 'M': int}
         
-        for org_key, org in data.items():
+        for org_key, org in organizacoes_avaliadas:
             sigla_upper = org_key.strip().upper()
             esfera = sigla_to_esfera.get(sigla_upper, "UNKNOWN")
-            
-            proc = org["procedimentos_executados"][find_idx]
-            if proc["achado_ocorreu"] and proc["achado"]:
-                for sit in proc["achado"]["situacoes_encontradas"]:
+
+            proc = next(
+                (
+                    item
+                    for item in org.get("procedimentos_executados", [])
+                    if isinstance(item, dict) and numero_achado(item) == num_find
+                ),
+                None,
+            )
+            if not proc:
+                continue
+
+            achado = proc.get("achado")
+            if proc.get("achado_ocorreu") and achado:
+                for sit in achado.get("situacoes_encontradas", []):
                     if sit not in counts:
                         counts[sit] = {'E': 0, 'M': 0}
                     if esfera == 'E':
