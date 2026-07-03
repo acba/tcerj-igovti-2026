@@ -41,6 +41,23 @@ Cabeçalho na linha 3:
 
 As variáveis são calculadas na ordem das linhas. Uma variável pode utilizar outra definida anteriormente. Elas existem apenas durante o processamento e não alteram o arquivo da fonte de informação.
 
+### Motivos do Relatório
+
+Cabeçalho na linha 3:
+
+| coluna | uso |
+|---|---|
+| `id` | identificador do motivo, como `MR001` |
+| `id_procedimento` | procedimento ao qual o motivo se vincula, como `PA01` |
+| `descricao_situacao_inconforme` | situação encontrada em que o motivo deve aparecer |
+| `ordem` | ordem de exibição do motivo dentro da situação |
+| `condicao_exibicao` | expressão lógica com ações de verificação, como `AV84` ou `AV04 & ~AV84` |
+| `acoes_referencia` | ações cujas evidências serão citadas no relatório, como `AV04, AV84` |
+| `texto_motivo` | texto a ser exibido no relatório; pode usar variáveis Jinja com os dados das ações, como `{{ AV01.situacao_encontrada }}` |
+| `ativo` | `TRUE` ou `FALSE` para ativar ou desativar a regra sem removê-la |
+
+Essa aba é opcional. Quando houver regras para uma situação encontrada, elas substituem, no relatório, a descrição bruta das ações de verificação daquela situação. Quando não houver regras aplicáveis, o sistema preserva o comportamento padrão e usa as descrições das evidências das ações que materializaram a situação.
+
 ### Ações de Verificação
 
 Cabeçalho na linha 3:
@@ -54,7 +71,7 @@ Cabeçalho na linha 3:
 | `descricao_auditado_inexistente` | evidência a registrar quando o auditado não existir na fonte |
 | `informacao_requerida` | uma única coluna, campo ou variável analisada, como `q1001ext[A]` ou `total_TI` |
 | `criterio` | critério aplicável, preferencialmente textual e específico |
-| `descricao_evidencia` | evidência que será registrada quando a ação for aplicada |
+| `descricao_evidencia` | evidência que será registrada quando a ação for aplicada; aceita `@`, `{situacao_encontrada}`, `{item_avaliado}` e, quando existirem colunas auxiliares, `{avaliacao_justificativa}`, `{resposta_afirmada}` e `{pratica}` |
 | `complemento_evidencia` | complemento opcional |
 | `descricao_situacao_inconforme` | frase que descreve a situação encontrada quando a ação for inconforme |
 | `situacao_inconforme` | valor ou expressão que caracteriza inconformidade |
@@ -78,6 +95,10 @@ Cabeçalho na linha 3:
 - Preencher `situacao_inconforme` com os valores literais encontrados na fonte. Em itens-base de escolha única, converter o código da alternativa para seu texto completo, por exemplo `F` para `f) Inexistente / Informal: ...`; para negação, usar `~(<texto completo>)`.
 - Em detalhamentos de itens `adoption`, usar os valores `Sim`, `Não` e `N/A` conforme a regra. Em matrizes `sim_nao`, usar `Sim` ou `Não`.
 - Montar `logica_achado` substituindo cada condição da regra pelos IDs das ações, preservando `&`, `|` e parênteses. Combinar as diferentes situações encontradas do achado com `|`.
+- Usar `Motivos do Relatório` para traduzir, de forma declarativa, as ações de verificação em motivos textuais acessíveis ao leitor do relatório, evitando lógica específica de achado no código Python.
+- Em `Motivos do Relatório`, preencher `condicao_exibicao` com ações da própria lógica do achado sempre que possível. Usar negação, como `AV04 & ~AV84`, para evitar motivos duplicados quando uma avaliação documental mais específica prevalecer sobre uma resposta declarada.
+- Em `acoes_referencia`, listar apenas ações cujas evidências devem aparecer entre parênteses no relatório como `E1`, `E2` etc.; para situações com motivos declarativos, a seção de evidências do achado também será limitada a essas ações referenciadas.
+- Para ações baseadas no painel de avaliação de evidências, preferir redação que diferencie a resposta originalmente afirmada da conclusão da Equipe, por exemplo: `A organização declarou "{resposta_afirmada}" no {item_avaliado}, mas a evidência encaminhada foi considerada insuficiente para comprovar que {pratica}. Justificativa da avaliação: {avaliacao_justificativa}`.
 - Preencher `tipo_encaminhamento` exclusivamente com `Determinação` ou `Recomendação`.
 - Redigir `encaminhamento` como providência iniciada diretamente por verbo, sem repetir os prefixos "Determinar que" ou "Recomendar que".
 - Não usar a planilha como relatório final; ela alimenta apuração e revisão humana.

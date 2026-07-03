@@ -2,10 +2,14 @@ import os
 import re
 import pandas as pd
 import numpy as np
+from jinja2 import Environment, StrictUndefined
 from docx import Document
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 from argos_utils import avalia_expressao, avalia_logica
+
+
+MOTIVO_TEMPLATE_ENV = Environment(undefined=StrictUndefined, autoescape=False)
 
 
 def valor_vazio(valor):
@@ -48,9 +52,133 @@ def parse_lista_auditados(valor):
     itens = [item.strip().upper() for item in re.split(r"[,;\n]+", str(valor)) if item.strip()]
     return set(itens) if itens else None
 
+
+def normalizar_motivo_situacao(descricao):
+    if valor_vazio(descricao):
+        return None
+    descricao_texto = str(descricao).strip()
+    complemento = None
+    marcador = "Justificativa da avaliação:"
+    if marcador in descricao_texto:
+        descricao_texto, justificativa = descricao_texto.split(marcador, 1)
+        descricao_texto = descricao_texto.strip()
+        complemento = f"{marcador} {justificativa.strip()}".strip()
+    if not descricao_texto:
+        return None
+    motivo = {"descricao": descricao_texto}
+    if complemento:
+        motivo["complemento"] = complemento
+    return motivo
+
+
+def normalizar_texto_relatorio(valor):
+    if valor_vazio(valor):
+        return ""
+    return re.sub(r"\s+", " ", str(valor)).strip()
+
+
+def extrair_item_informacao(informacao_requerida):
+    if valor_vazio(informacao_requerida):
+        return None
+    match = re.search(r"q?(\d{4})", str(informacao_requerida), flags=re.IGNORECASE)
+    return match.group(1) if match else None
+
+
+def formatar_item_avaliado(informacao_requerida):
+    if valor_vazio(informacao_requerida):
+        return "item avaliado"
+    match = re.search(
+        r"q?(\d{4})(?:[A-Za-z]+)?(?:\[([A-Za-z0-9]+)\])?",
+        str(informacao_requerida).strip(),
+        flags=re.IGNORECASE,
+    )
+    if not match:
+        return "item avaliado"
+
+    item = match.group(1)
+    subitem = match.group(2)
+    if not subitem:
+        return f"item {item}"
+
+    subitem_formatado = subitem.lower() if subitem.isalpha() else subitem
+    return f"subitem {subitem_formatado}) do item {item}"
+
+
+def parse_lista_ids_acoes(valor):
+    if valor_vazio(valor):
+        return []
+    if isinstance(valor, (list, tuple, set)):
+        texto = ",".join(str(item) for item in valor)
+    else:
+        texto = str(valor)
+    return [match.group(0).upper() for match in re.finditer(r"\bAV\d+\b", texto, flags=re.IGNORECASE)]
+
+
+def fonte_acao_id(acao):
+    fonte = getattr(acao, "fonte_informacao", None)
+    if isinstance(fonte, dict):
+        return fonte.get("id")
+    return getattr(fonte, "id", None)
+
+
+def fonte_acao_descricao(acao):
+    fonte = getattr(acao, "fonte_informacao", None)
+    if isinstance(fonte, dict):
+        return fonte.get("descricao")
+    return getattr(fonte, "descricao", None)
+
+
+def normalizar_evidencia_relatorio(evidencia):
+    if isinstance(evidencia, dict):
+        normalizada = normalizar_motivo_situacao(evidencia.get("descricao", ""))
+        if not normalizada:
+            return None
+        item = dict(evidencia)
+        item["descricao"] = normalizada.get("descricao", "")
+        complemento = normalizar_texto_relatorio(evidencia.get("complemento") or normalizada.get("complemento", ""))
+        if complemento:
+            item["complemento"] = complemento
+        else:
+            item.pop("complemento", None)
+        return item
+    return normalizar_motivo_situacao(evidencia)
+
+
+def construir_motivo_situacao(acao):
+    motivo = normalizar_motivo_situacao(getattr(acao, "descricao_evidencia", None))
+    if not motivo:
+        return None
+    motivo.update({
+        "id_acao": getattr(acao, "id", None),
+        "fonte": fonte_acao_id(acao),
+        "fonte_descricao": fonte_acao_descricao(acao),
+        "informacao_requerida": getattr(acao, "informacao_requerida", None),
+        "item": extrair_item_informacao(getattr(acao, "informacao_requerida", None)),
+        "situacao_encontrada": safe_serialize(getattr(acao, "situacao_encontrada", None)),
+        "situacao_inconforme": getattr(acao, "situacao_inconforme", None),
+    })
+    return motivo
+
+
+def renderizar_texto_motivo_relatorio(texto, auditado, acoes_verificadas):
+    texto = normalizar_texto_relatorio(texto)
+    if not texto:
+        return ""
+    contexto = {"auditado": auditado, "acoes": {}}
+    for acao in acoes_verificadas:
+        acao_dict = acao.to_dict()
+        contexto["acoes"][acao.id] = acao_dict
+        contexto[acao.id] = acao_dict
+    return MOTIVO_TEMPLATE_ENV.from_string(texto).render(contexto).strip()
+
+
 def safe_serialize(obj):
     """Helper to serialize numpy/pandas types to native Python types."""
-    if isinstance(obj, (np.integer, np.int64)):
+    if isinstance(obj, dict):
+        return {safe_serialize(k): safe_serialize(v) for k, v in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [safe_serialize(v) for v in obj]
+    elif isinstance(obj, (np.integer, np.int64)):
         return int(obj)
     elif isinstance(obj, (np.floating, np.float64)):
         return float(obj) if not pd.isna(obj) else None
@@ -129,12 +257,23 @@ class FonteInformacao:
         )
 
 class Achado:
-    def __init__(self, numero, nome, situacoes_encontradas=None, evidencias=None, encaminhamentos=None):
+    def __init__(
+        self,
+        numero,
+        nome,
+        situacoes_encontradas=None,
+        evidencias=None,
+        evidencias_detalhadas=None,
+        encaminhamentos=None,
+        motivos_situacoes=None,
+    ):
         self.numero = numero
         self.nome = nome
         self.situacoes_encontradas = situacoes_encontradas if situacoes_encontradas is not None else []
         self.encaminhamentos = encaminhamentos if encaminhamentos is not None else []
         self.evidencias = evidencias if evidencias is not None else []
+        self.evidencias_detalhadas = evidencias_detalhadas if evidencias_detalhadas is not None else []
+        self.motivos_situacoes = motivos_situacoes if motivos_situacoes is not None else {}
 
     def __repr__(self):
         return  f"Achado(numero='{self.numero}', nome='{self.nome}')"
@@ -145,7 +284,9 @@ class Achado:
             'nome': self.nome,
             'situacoes_encontradas': [safe_serialize(s) for s in self.situacoes_encontradas],
             'evidencias': [safe_serialize(e) for e in self.evidencias],
-            'encaminhamentos': self.encaminhamentos
+            'evidencias_detalhadas': safe_serialize(self.evidencias_detalhadas),
+            'encaminhamentos': self.encaminhamentos,
+            'motivos_situacoes': safe_serialize(self.motivos_situacoes),
         }
 
     @classmethod
@@ -155,7 +296,9 @@ class Achado:
             nome=data.get('nome'),
             situacoes_encontradas=data.get('situacoes_encontradas'),
             evidencias=data.get('evidencias'),
-            encaminhamentos=data.get('encaminhamentos')
+            evidencias_detalhadas=data.get('evidencias_detalhadas'),
+            encaminhamentos=data.get('encaminhamentos'),
+            motivos_situacoes=data.get('motivos_situacoes'),
         )
 
 
@@ -272,9 +415,14 @@ class AcaoVerificacao:
                         '@': situacao_encontrada,
                         '{situacao_encontrada}': situacao_encontrada,
                         '{avaliacao_justificativa}': None,
+                        '{resposta_afirmada}': None,
+                        '{pratica}': None,
+                        '{item_avaliado}': formatar_item_avaliado(info_requerida),
                     }
                     colunas_auxiliares = {
                         '{avaliacao_justificativa}': f"{info_requerida}__justificativa",
+                        '{resposta_afirmada}': f"{info_requerida}__resposta_afirmada",
+                        '{pratica}': f"{info_requerida}__pratica",
                     }
                     for placeholder, coluna in colunas_auxiliares.items():
                         if coluna in self.fonte_informacao.info.columns:
@@ -395,6 +543,7 @@ class ProcedimentoAuditoria:
 
         # Ações de verificação que compõem o procedimento
         self.acoes_verificacao = []
+        self.motivos_relatorio = []
 
     def __repr__(self):
         return  (f"ProcedimentoAuditoria(id='{self.id}', \n" +
@@ -406,6 +555,147 @@ class ProcedimentoAuditoria:
     def adicionar_acao(self, acao):
         """Adiciona uma ação de verificação ao procedimento."""
         self.acoes_verificacao.append(acao)
+
+    def adicionar_motivo_relatorio(self, motivo):
+        """Adiciona regra declarativa de motivo do relatório ao procedimento."""
+        if motivo:
+            self.motivos_relatorio.append(dict(motivo))
+
+    def _acoes_resultantes_por_id(self, acoes_verificadas):
+        return {acao.id: acao for acao in acoes_verificadas}
+
+    def _refs_padrao_situacao(self, acoes_verificadas, situacao):
+        return [
+            acao.id
+            for acao in acoes_verificadas
+            if acao.resultado and getattr(acao, "descricao_situacao_inconforme", None) == situacao
+        ]
+
+    def _construir_motivos_relatorio(self, auditado, acoes_verificadas, resultados, situacoes_encontradas):
+        motivos_por_situacao = {}
+        if not self.motivos_relatorio:
+            return motivos_por_situacao
+
+        def ordem_motivo(item):
+            try:
+                return int(float(item.get("ordem", 0)))
+            except (TypeError, ValueError):
+                return 0
+
+        situacoes_validas = set(situacoes_encontradas)
+        for regra in sorted(
+            self.motivos_relatorio,
+            key=lambda item: (ordem_motivo(item), str(item.get("id", ""))),
+        ):
+            try:
+                ativo = parse_bool_planilha(regra.get("ativo"), default=True, field_name=f"ativo do motivo {regra.get('id')}")
+            except ValueError:
+                ativo = True
+            if not ativo:
+                continue
+
+            situacao = normalizar_texto_relatorio(regra.get("descricao_situacao_inconforme"))
+            if situacao not in situacoes_validas:
+                continue
+
+            condicao = normalizar_texto_relatorio(regra.get("condicao_exibicao"))
+            if condicao and not avalia_logica(condicao, resultados):
+                continue
+
+            texto = renderizar_texto_motivo_relatorio(regra.get("texto_motivo"), auditado, acoes_verificadas)
+            if not texto:
+                continue
+
+            refs_acoes = parse_lista_ids_acoes(regra.get("acoes_referencia"))
+            if not refs_acoes:
+                refs_acoes = self._refs_padrao_situacao(acoes_verificadas, situacao)
+
+            motivo = {
+                "id": normalizar_texto_relatorio(regra.get("id")),
+                "descricao": texto,
+                "texto": texto,
+                "refs_acoes": refs_acoes,
+                "condicao_exibicao": condicao,
+                "acoes_referencia": refs_acoes,
+                "descricao_situacao_inconforme": situacao,
+            }
+            motivos_por_situacao.setdefault(situacao, []).append(motivo)
+
+        return motivos_por_situacao
+
+    def _situacoes_com_motivos_relatorio(self):
+        situacoes = set()
+        for regra in self.motivos_relatorio:
+            try:
+                ativo = parse_bool_planilha(regra.get("ativo"), default=True, field_name=f"ativo do motivo {regra.get('id')}")
+            except ValueError:
+                ativo = True
+            if ativo:
+                situacao = normalizar_texto_relatorio(regra.get("descricao_situacao_inconforme"))
+                if situacao:
+                    situacoes.add(situacao)
+        return situacoes
+
+    def _refs_acoes_por_situacao_motivo(self, motivos_declarativos):
+        refs_por_situacao = {}
+        for situacao, motivos in (motivos_declarativos or {}).items():
+            refs = []
+            for motivo in motivos:
+                refs.extend(
+                    parse_lista_ids_acoes(
+                        motivo.get("refs_acoes") or motivo.get("acoes_referencia")
+                    )
+                )
+            if refs:
+                refs_por_situacao[situacao] = set(refs)
+        return refs_por_situacao
+
+    def _construir_encaminhamentos_e_evidencias(
+        self,
+        acoes_verificadas,
+        situacoes_encontradas,
+        motivos_declarativos=None,
+    ):
+        situacoes_validas = set(situacoes_encontradas)
+        refs_por_situacao_motivo = self._refs_acoes_por_situacao_motivo(motivos_declarativos)
+        encaminhamentos = []
+        seen_encaminhamentos = set()
+        evidencias = []
+        evidencias_detalhadas = []
+        seen_evidencias = set()
+        evidencias_por_descricao = {}
+
+        for acao in acoes_verificadas:
+            if not acao.resultado:
+                continue
+            situacao = getattr(acao, "descricao_situacao_inconforme", None)
+            if pd.isna(situacao) or situacao not in situacoes_validas:
+                continue
+            refs_motivo = refs_por_situacao_motivo.get(situacao)
+            if refs_motivo is not None and acao.id not in refs_motivo:
+                continue
+
+            if acao.encaminhamento and acao.tipo_encaminhamento:
+                enc_tuple = (acao.encaminhamento, acao.tipo_encaminhamento)
+                if enc_tuple not in seen_encaminhamentos:
+                    seen_encaminhamentos.add(enc_tuple)
+                    encaminhamentos.append({'encaminhamento': acao.encaminhamento, 'tipo': acao.tipo_encaminhamento})
+
+            if acao.descricao_evidencia:
+                if acao.descricao_evidencia not in seen_evidencias:
+                    seen_evidencias.add(acao.descricao_evidencia)
+                    evidencias.append(acao.descricao_evidencia)
+                    detalhe = {
+                        "descricao": acao.descricao_evidencia,
+                        "id_acoes": [],
+                    }
+                    evidencias_por_descricao[acao.descricao_evidencia] = detalhe
+                    evidencias_detalhadas.append(detalhe)
+                detalhe = evidencias_por_descricao.get(acao.descricao_evidencia)
+                if detalhe is not None and acao.id not in detalhe["id_acoes"]:
+                    detalhe["id_acoes"].append(acao.id)
+
+        return encaminhamentos, evidencias, evidencias_detalhadas
 
     def executar(self, auditado, debug=False):
         """Executa todas as ações, avalia a lógica do achado e retorna o achado, caso encontrado."""
@@ -431,10 +721,14 @@ class ProcedimentoAuditoria:
             seen_encaminhamentos = set()
             
             evidencias = []
+            evidencias_detalhadas = []
             seen_evidencias = set()
+            evidencias_por_descricao = {}
             
             situacoes_encontradas = []
             seen_situacoes = set()
+            motivos_situacoes = {}
+            seen_motivos_situacoes = set()
 
             for acao in acoes_verificadas:
                 if acao.resultado:
@@ -446,18 +740,70 @@ class ProcedimentoAuditoria:
                             encaminhamentos.append({'encaminhamento': acao.encaminhamento, 'tipo': acao.tipo_encaminhamento})
 
                     # Evidências
-                    if acao.descricao_evidencia and acao.descricao_evidencia not in seen_evidencias:
-                        seen_evidencias.add(acao.descricao_evidencia)
-                        evidencias.append(acao.descricao_evidencia)
+                    if acao.descricao_evidencia:
+                        if acao.descricao_evidencia not in seen_evidencias:
+                            seen_evidencias.add(acao.descricao_evidencia)
+                            evidencias.append(acao.descricao_evidencia)
+                            detalhe = {
+                                "descricao": acao.descricao_evidencia,
+                                "id_acoes": [],
+                            }
+                            evidencias_por_descricao[acao.descricao_evidencia] = detalhe
+                            evidencias_detalhadas.append(detalhe)
+                        detalhe = evidencias_por_descricao.get(acao.descricao_evidencia)
+                        if detalhe is not None and acao.id not in detalhe["id_acoes"]:
+                            detalhe["id_acoes"].append(acao.id)
 
                     # Situações Encontradas
-                    if not pd.isna(acao.descricao_situacao_inconforme) and acao.descricao_situacao_inconforme not in seen_situacoes:
-                        seen_situacoes.add(acao.descricao_situacao_inconforme)
-                        situacoes_encontradas.append(acao.descricao_situacao_inconforme)
+                    if not pd.isna(acao.descricao_situacao_inconforme):
+                        situacao = acao.descricao_situacao_inconforme
+                        if situacao not in seen_situacoes:
+                            seen_situacoes.add(situacao)
+                            situacoes_encontradas.append(situacao)
+                        motivo = construir_motivo_situacao(acao)
+                        if motivo:
+                            chave_motivo = (
+                                situacao,
+                                motivo.get("id_acao", ""),
+                                motivo.get("descricao", ""),
+                                motivo.get("complemento", ""),
+                            )
+                            if chave_motivo not in seen_motivos_situacoes:
+                                seen_motivos_situacoes.add(chave_motivo)
+                                motivos_situacoes.setdefault(situacao, []).append(motivo)
+
+            motivos_declarativos = self._construir_motivos_relatorio(
+                auditado,
+                acoes_verificadas,
+                resultados,
+                situacoes_encontradas,
+            )
+            for situacao, motivos in motivos_declarativos.items():
+                if motivos:
+                    motivos_situacoes[situacao] = motivos
+
+            situacoes_com_regras = self._situacoes_com_motivos_relatorio()
+            if situacoes_com_regras:
+                situacoes_encontradas = [
+                    situacao for situacao in situacoes_encontradas
+                    if situacao not in situacoes_com_regras or motivos_declarativos.get(situacao)
+                ]
+                motivos_situacoes = {
+                    situacao: motivos
+                    for situacao, motivos in motivos_situacoes.items()
+                    if situacao in situacoes_encontradas
+                }
+                encaminhamentos, evidencias, evidencias_detalhadas = self._construir_encaminhamentos_e_evidencias(
+                    acoes_verificadas,
+                    situacoes_encontradas,
+                    motivos_declarativos,
+                )
 
             achado.encaminhamentos = encaminhamentos
             achado.evidencias = evidencias
+            achado.evidencias_detalhadas = evidencias_detalhadas
             achado.situacoes_encontradas = situacoes_encontradas
+            achado.motivos_situacoes = motivos_situacoes
 
         return ResultadoProcedimento(
             self,
@@ -601,6 +947,163 @@ class Auditado:
             if p.achado and p.achado.nome == nome_achado:
                 return p.achado
         return None
+
+    def _normalizar_motivo_relatorio(self, motivo):
+        if isinstance(motivo, dict):
+            item = dict(motivo)
+            descricao = normalizar_texto_relatorio(item.get("descricao") or item.get("texto", ""))
+            complemento = normalizar_texto_relatorio(item.get("complemento", ""))
+            if not descricao:
+                return None
+            item["descricao"] = descricao
+            item["texto"] = normalizar_texto_relatorio(item.get("texto") or descricao)
+            if complemento:
+                item["complemento"] = complemento
+            else:
+                item.pop("complemento", None)
+            if not item.get("item"):
+                item["item"] = (
+                    extrair_item_informacao(item.get("informacao_requerida"))
+                    or extrair_item_informacao(descricao)
+                )
+            return item
+
+        normalizado = normalizar_motivo_situacao(motivo)
+        if not normalizado:
+            return None
+        normalizado["item"] = extrair_item_informacao(normalizado.get("descricao"))
+        normalizado["texto"] = normalizado.get("descricao", "")
+        return normalizado
+
+    def get_motivos_situacao(self, nome_achado, situacao):
+        """Retorna os elementos que caracterizaram uma situação encontrada."""
+        motivos = []
+        seen = set()
+
+        for p in self.procedimentos_executados:
+            if not p.achado or p.achado.nome != nome_achado:
+                continue
+
+            for motivo in p.achado.motivos_situacoes.get(situacao, []):
+                item = self._normalizar_motivo_relatorio(motivo)
+                if not item:
+                    continue
+                item["refs"] = item.get("refs") or self._refs_evidencias_para_motivo(nome_achado, item)
+                chave = (
+                    item.get("id", ""),
+                    item.get("id_acao", ""),
+                    item.get("descricao", ""),
+                    item.get("complemento", ""),
+                    tuple(item.get("refs", [])),
+                )
+                if item.get("descricao") and chave not in seen:
+                    seen.add(chave)
+                    motivos.append(item)
+
+            if p.achado.motivos_situacoes.get(situacao):
+                continue
+
+            for acao in getattr(p, "acoes_verificacao", []):
+                if not getattr(acao, "resultado", False):
+                    continue
+                if getattr(acao, "descricao_situacao_inconforme", None) != situacao:
+                    continue
+                motivo = construir_motivo_situacao(acao)
+                if not motivo:
+                    continue
+                motivo["refs"] = self._refs_evidencias_para_motivo(nome_achado, motivo)
+                chave = (
+                    motivo.get("id_acao", ""),
+                    motivo.get("descricao", ""),
+                    motivo.get("complemento", ""),
+                    tuple(motivo.get("refs", [])),
+                )
+                if chave not in seen:
+                    seen.add(chave)
+                    motivos.append(motivo)
+
+        return motivos
+
+    def get_evidencias_numeradas(self, nome_achado):
+        """Retorna as evidências do achado com referências estáveis E1, E2, ..."""
+        achado = self.get_achado_por_nome(nome_achado)
+        if not achado:
+            return []
+
+        evidencias = []
+        seen = set()
+        origem_evidencias = getattr(achado, "evidencias_detalhadas", None) or [
+            {"descricao": evidencia, "id_acoes": []} for evidencia in achado.evidencias
+        ]
+        for evidencia in origem_evidencias:
+            item = normalizar_evidencia_relatorio(evidencia)
+            if not item:
+                continue
+            chave = (item.get("descricao", ""), item.get("complemento", ""))
+            if chave in seen:
+                continue
+            seen.add(chave)
+            item = dict(item)
+            item["ref"] = f"E{len(evidencias) + 1}"
+            item["id_acoes"] = parse_lista_ids_acoes(item.get("id_acoes", []))
+            evidencias.append(item)
+        return evidencias
+
+    @staticmethod
+    def _ordenar_refs(refs):
+        def chave(ref):
+            match = re.search(r"\d+", str(ref))
+            return int(match.group(0)) if match else 0
+        return sorted(set(refs), key=chave)
+
+    def _refs_evidencias_para_motivo(self, nome_achado, motivo):
+        motivo = self._normalizar_motivo_relatorio(motivo)
+        if not motivo:
+            return []
+
+        descricao = normalizar_texto_relatorio(motivo.get("descricao", ""))
+        complemento = normalizar_texto_relatorio(motivo.get("complemento", ""))
+        item = str(motivo.get("item") or "").strip()
+        refs_acoes = parse_lista_ids_acoes(motivo.get("refs_acoes") or motivo.get("acoes_referencia"))
+        refs = []
+
+        if refs_acoes:
+            refs_acoes_set = set(refs_acoes)
+            for evidencia in self.get_evidencias_numeradas(nome_achado):
+                if refs_acoes_set.intersection(set(evidencia.get("id_acoes", []))):
+                    refs.append(evidencia["ref"])
+            if refs:
+                return self._ordenar_refs(refs)
+
+        for evidencia in self.get_evidencias_numeradas(nome_achado):
+            desc_ev = normalizar_texto_relatorio(evidencia.get("descricao", ""))
+            comp_ev = normalizar_texto_relatorio(evidencia.get("complemento", ""))
+            descricao_compativel = descricao and (
+                descricao == desc_ev or descricao in desc_ev or desc_ev in descricao
+            )
+            complemento_compativel = (
+                not complemento
+                or complemento == comp_ev
+                or complemento in comp_ev
+                or comp_ev in complemento
+            )
+            if descricao_compativel and complemento_compativel:
+                refs.append(evidencia["ref"])
+
+        if not refs and item:
+            padrao_item = re.compile(rf"\b(item|q)?{re.escape(item)}\b", flags=re.IGNORECASE)
+            for evidencia in self.get_evidencias_numeradas(nome_achado):
+                texto = " ".join(
+                    filter(None, [evidencia.get("descricao", ""), evidencia.get("complemento", "")])
+                )
+                if padrao_item.search(texto):
+                    refs.append(evidencia["ref"])
+
+        return self._ordenar_refs(refs)
+
+    def get_motivos_situacao_traduzidos(self, nome_achado, situacao):
+        """Alias compatível: os motivos agora vêm de regras declarativas do mapa."""
+        return self.get_motivos_situacao(nome_achado, situacao)
 
     def get_situacoes_inconformes(self):
         situacoes = []

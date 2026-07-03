@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "resources"))
 
 from argos_classes import FonteInformacao, AcaoVerificacao, ProcedimentoAuditoria, Auditado, \
     gerar_tabela_encaminhamentos, gerar_tabela_achados, gerar_tabela_situacoes_inconformes, \
-    parse_bool_planilha, parse_lista_auditados
+    parse_bool_planilha, parse_lista_auditados, parse_lista_ids_acoes
 from argos_utils import aplicar_variaveis_temporarias, carregar_dados, avalia_logica
 from igovti_dados_utils import to_relative
 from xlsx_utils import escrever_xlsx_se_diferente
@@ -66,7 +66,13 @@ def validar_ids_unicos(df, coluna, nome):
         raise ValueError(f"{nome} possui identificadores duplicados em '{coluna}': {', '.join(duplicados)}")
 
 
-def validar_mapa_auditoria(df_procedimentos, df_acoes, df_fontes, df_variaveis, fontes):
+def texto_planilha(valor):
+    if pd.isna(valor):
+        return ""
+    return str(valor).strip()
+
+
+def validar_mapa_auditoria(df_procedimentos, df_acoes, df_fontes, df_variaveis, fontes, df_motivos_relatorio=None):
     erros = []
     avisos = []
 
@@ -130,6 +136,53 @@ def validar_mapa_auditoria(df_procedimentos, df_acoes, df_fontes, df_variaveis, 
     acoes_orfas = sorted(acao_ids - acoes_usadas)
     if acoes_orfas:
         avisos.append(f"Ações de verificação não usadas em procedimentos: {', '.join(acoes_orfas)}.")
+
+    if df_motivos_relatorio is not None and not df_motivos_relatorio.empty:
+        procedimento_ids = set(df_procedimentos['id'].dropna().astype(str).str.strip())
+        if 'id' in df_motivos_relatorio.columns:
+            try:
+                validar_ids_unicos(df_motivos_relatorio, 'id', 'Motivos do Relatório')
+            except ValueError as exc:
+                erros.append(str(exc))
+
+        for _, row in df_motivos_relatorio.iterrows():
+            motivo_id = texto_planilha(row.get('id'))
+            proc_id = texto_planilha(row.get('id_procedimento'))
+            if proc_id not in procedimento_ids:
+                erros.append(f"Motivo do relatório {motivo_id} referencia procedimento inexistente: {proc_id!r}.")
+
+            situacao = texto_planilha(row.get('descricao_situacao_inconforme'))
+            if not situacao:
+                erros.append(f"Motivo do relatório {motivo_id} não possui descricao_situacao_inconforme.")
+
+            texto_motivo = texto_planilha(row.get('texto_motivo'))
+            if not texto_motivo:
+                erros.append(f"Motivo do relatório {motivo_id} não possui texto_motivo.")
+
+            try:
+                parse_bool_planilha(row.get('ativo'), default=True, field_name=f"ativo do motivo {motivo_id}")
+            except ValueError as exc:
+                erros.append(str(exc))
+
+            condicao = texto_planilha(row.get('condicao_exibicao'))
+            ids_condicao = extrair_ids_acoes_logica(condicao)
+            if condicao:
+                faltantes = sorted(set(ids_condicao) - acao_ids)
+                if faltantes:
+                    erros.append(
+                        f"Motivo do relatório {motivo_id} possui condição com ações inexistentes: {', '.join(faltantes)}."
+                    )
+                try:
+                    avalia_logica(condicao, {acao_id: False for acao_id in ids_condicao})
+                except Exception as exc:
+                    erros.append(f"Motivo do relatório {motivo_id} possui condicao_exibicao inválida: {exc}")
+
+            refs_acoes = parse_lista_ids_acoes(row.get('acoes_referencia'))
+            faltantes_refs = sorted(set(refs_acoes) - acao_ids)
+            if faltantes_refs:
+                erros.append(
+                    f"Motivo do relatório {motivo_id} referencia ações inexistentes em acoes_referencia: {', '.join(faltantes_refs)}."
+                )
 
     if avisos:
         for aviso in avisos:
@@ -446,6 +499,15 @@ def main():
     cols_acoes = ['id', 'id_fonte_informacao', 'informacao_requerida', 'criterio', 'situacao_inconforme', 'tipo_encaminhamento']
     cols_fontes = ['id', 'descricao', 'filepath', 'chave_jurisdicionado']
     cols_variaveis = ['id', 'id_fonte_informacao', 'nome', 'expressao', 'descricao']
+    cols_motivos_relatorio = [
+        'id',
+        'id_procedimento',
+        'descricao_situacao_inconforme',
+        'ordem',
+        'condicao_exibicao',
+        'acoes_referencia',
+        'texto_motivo',
+    ]
 
     try:
         df_jurisdicionados = carregar_dados(args.auditados, skiprows=None, required_columns=cols_jurisdicionados)
@@ -458,6 +520,10 @@ def main():
             df_variaveis_temporarias = carregar_dados(args.mapa, sheet_name='Variáveis Temporárias', skiprows=None, required_columns=cols_variaveis)
         else:
             df_variaveis_temporarias = pd.DataFrame(columns=cols_variaveis)
+        if 'Motivos do Relatório' in xl_mapa.sheet_names:
+            df_motivos_relatorio = carregar_dados(args.mapa, sheet_name='Motivos do Relatório', skiprows=None, required_columns=cols_motivos_relatorio)
+        else:
+            df_motivos_relatorio = pd.DataFrame(columns=cols_motivos_relatorio + ['ativo'])
     except Exception as e:
         logger.error(f"Erro ao carregar arquivos de configuração da auditoria: {e}")
         sys.exit(1)
@@ -502,7 +568,14 @@ def main():
 
     logger.info("Validando mapa de auditoria...")
     try:
-        validar_mapa_auditoria(df_procedimentos, df_acoes_verificacao, df_fontes, df_variaveis_temporarias, fontes)
+        validar_mapa_auditoria(
+            df_procedimentos,
+            df_acoes_verificacao,
+            df_fontes,
+            df_variaveis_temporarias,
+            fontes,
+            df_motivos_relatorio,
+        )
     except Exception as e:
         logger.error(e)
         sys.exit(1)
@@ -552,6 +625,13 @@ def main():
             if acao:
                 procedimento.adicionar_acao(acao)
         procedimentos[procedimento.id] = procedimento
+
+    if not df_motivos_relatorio.empty:
+        for _, row in df_motivos_relatorio.iterrows():
+            proc_id = texto_planilha(row.get('id_procedimento'))
+            procedimento = procedimentos.get(proc_id)
+            if procedimento:
+                procedimento.adicionar_motivo_relatorio(row.to_dict())
 
     # 7. Inicializa os auditados
     logger.info("Carregando lista de auditados...")
