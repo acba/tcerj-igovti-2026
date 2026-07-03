@@ -952,6 +952,33 @@
     <language><![CDATA[pt-BR]]></language>
     <scale_id><![CDATA[0]]></scale_id>
    </row>
+   <row>
+    <qid><![CDATA[189]]></qid>
+    <code><![CDATA[SQ001]]></code>
+    <answer><![CDATA[Confirma a ausência de resposta válida ao questionário]]></answer>
+    <sortorder><![CDATA[1]]></sortorder>
+    <assessment_value><![CDATA[0]]></assessment_value>
+    <language><![CDATA[pt-BR]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+   </row>
+   <row>
+    <qid><![CDATA[189]]></qid>
+    <code><![CDATA[SQ002]]></code>
+    <answer><![CDATA[Informa que encaminhou resposta e deseja apresentar comprovação]]></answer>
+    <sortorder><![CDATA[2]]></sortorder>
+    <assessment_value><![CDATA[0]]></assessment_value>
+    <language><![CDATA[pt-BR]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+   </row>
+   <row>
+    <qid><![CDATA[189]]></qid>
+    <code><![CDATA[SQ003]]></code>
+    <answer><![CDATA[Apresenta justificativa para a ausência de resposta válida]]></answer>
+    <sortorder><![CDATA[3]]></sortorder>
+    <assessment_value><![CDATA[0]]></assessment_value>
+    <language><![CDATA[pt-BR]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+   </row>
   </rows>
  </answers>
  <groups>
@@ -1635,6 +1662,16 @@
     <language><![CDATA[pt-BR]]></language>
     <randomization_group/>
     <grelevance><![CDATA[TOKEN:FIRSTNAME == "AGERIO"]]></grelevance>
+   </row>
+   <row>
+    <gid><![CDATA[68]]></gid>
+    <sid><![CDATA[0]]></sid>
+    <group_name><![CDATA[Ausência de resposta ao questionário]]></group_name>
+    <group_order><![CDATA[68]]></group_order>
+    <description><![CDATA[<h4>Manifestação sobre ausência de resposta ao questionário iGovTI 2026</h4><p>Não foi identificada resposta válida ao questionário iGovTI 2026 para esta organização nas bases processadas pela Equipe de Auditoria.</p><p>Esta seção permite apresentar esclarecimentos, comprovação de eventual resposta encaminhada ou justificativa para a ausência de resposta válida.</p><p>A manifestação nesta seção não corresponde à contestação de achados nem à reavaliação de evidências, pois não houve resposta válida e documentação comprobatória avaliadas para a organização.</p>]]></description>
+    <language><![CDATA[pt-BR]]></language>
+    <randomization_group/>
+    <grelevance><![CDATA[TOKEN:FIRSTNAME == "CEHAB" OR TOKEN:FIRSTNAME == "EMOP" OR TOKEN:FIRSTNAME == "PESAGRO" OR TOKEN:FIRSTNAME == "SEDCON" OR TOKEN:FIRSTNAME == "SEPOL" OR TOKEN:FIRSTNAME == "SESP"]]></grelevance>
    </row>
   </rows>
  </groups>
@@ -5231,6 +5268,63 @@
     <relevance><![CDATA[1]]></relevance>
     <modulename/>
    </row>
+   <row>
+    <qid><![CDATA[189]]></qid>
+    <parent_qid><![CDATA[0]]></parent_qid>
+    <sid><![CDATA[0]]></sid>
+    <gid><![CDATA[68]]></gid>
+    <type><![CDATA[L]]></type>
+    <title><![CDATA[NRStatus]]></title>
+    <question><![CDATA[Em relação à ausência de resposta válida ao questionário iGovTI 2026, a organização:]]></question>
+    <preg/>
+    <help><![CDATA[Selecione a opção que melhor descreve a manifestação da organização.]]></help>
+    <other><![CDATA[N]]></other>
+    <mandatory><![CDATA[Y]]></mandatory>
+    <question_order><![CDATA[1]]></question_order>
+    <language><![CDATA[pt-BR]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+    <same_default><![CDATA[0]]></same_default>
+    <relevance><![CDATA[1]]></relevance>
+    <modulename/>
+   </row>
+   <row>
+    <qid><![CDATA[190]]></qid>
+    <parent_qid><![CDATA[0]]></parent_qid>
+    <sid><![CDATA[0]]></sid>
+    <gid><![CDATA[68]]></gid>
+    <type><![CDATA[T]]></type>
+    <title><![CDATA[NRTexto]]></title>
+    <question><![CDATA[Apresente os esclarecimentos, a comprovação do envio anterior ou a justificativa para a ausência de resposta válida.]]></question>
+    <preg/>
+    <help><![CDATA[Informe data, protocolo, e-mail, processo ou outro elemento de comprovação, quando aplicável.]]></help>
+    <other><![CDATA[N]]></other>
+    <mandatory><![CDATA[Y]]></mandatory>
+    <question_order><![CDATA[2]]></question_order>
+    <language><![CDATA[pt-BR]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+    <same_default><![CDATA[0]]></same_default>
+    <relevance><![CDATA[((NRStatus.NAOK == "SQ002" or NRStatus.NAOK == "SQ003"))]]></relevance>
+    <modulename/>
+   </row>
+   <row>
+    <qid><![CDATA[191]]></qid>
+    <parent_qid><![CDATA[0]]></parent_qid>
+    <sid><![CDATA[0]]></sid>
+    <gid><![CDATA[68]]></gid>
+    <type><![CDATA[|]]></type>
+    <title><![CDATA[NREvi]]></title>
+    <question><![CDATA[Caso necessário, envie documento que comprove a manifestação apresentada.]]></question>
+    <preg/>
+    <help><![CDATA[É aceito um arquivo com extensão PDF ou ZIP. Caso haja mais de um documento, compactar em formato ZIP.]]></help>
+    <other><![CDATA[N]]></other>
+    <mandatory><![CDATA[N]]></mandatory>
+    <question_order><![CDATA[3]]></question_order>
+    <language><![CDATA[pt-BR]]></language>
+    <scale_id><![CDATA[0]]></scale_id>
+    <same_default><![CDATA[0]]></same_default>
+    <relevance><![CDATA[((NRStatus.NAOK == "SQ002" or NRStatus.NAOK == "SQ003"))]]></relevance>
+    <modulename/>
+   </row>
   </rows>
  </questions>
  <question_attributes>
@@ -5721,6 +5815,18 @@
     <value><![CDATA[1]]></value>
     <language/>
    </row>
+   <row>
+    <qid><![CDATA[191]]></qid>
+    <attribute><![CDATA[allowed_filetypes]]></attribute>
+    <value><![CDATA[pdf,zip]]></value>
+    <language/>
+   </row>
+   <row>
+    <qid><![CDATA[191]]></qid>
+    <attribute><![CDATA[max_num_of_files]]></attribute>
+    <value><![CDATA[1]]></value>
+    <language/>
+   </row>
   </rows>
  </question_attributes>
  <surveys>
@@ -5779,7 +5885,7 @@
     <sid><![CDATA[0]]></sid>
     <gsid><![CDATA[1]]></gsid>
     <admin><![CDATA[CAD-TI]]></admin>
-    <expires><![CDATA[2026-07-08 23:59:59]]></expires>
+    <expires><![CDATA[2026-07-17 23:59:59]]></expires>
     <startdate/>
     <adminemail><![CDATA[auditoriati@tcerj.tc.br]]></adminemail>
     <anonymized><![CDATA[N]]></anonymized>
@@ -5856,16 +5962,58 @@
    <row>
     <surveyls_survey_id><![CDATA[0]]></surveyls_survey_id>
     <surveyls_language><![CDATA[pt-BR]]></surveyls_language>
-    <surveyls_title><![CDATA[Comentários do Gestor - Auditoria]]></surveyls_title>
-    <surveyls_description><![CDATA[Auditoria]]></surveyls_description>
-    <surveyls_welcometext><![CDATA[<p>Prezado(a) Gestor(a) da {TOKEN:FIRSTNAME},</p>
-<p>Este questionário é o instrumento pelo qual a {TOKEN:FIRSTNAME} pode se manifestar acerca dos achados apresentados pela Equipe de Auditoria no Relatório Individual Preliminar.</p>
-<p>Para os itens que houver discordância em relação à situação encontrada, é necessário justificar o motivo da divergência no campo apropriado, além de encaminhar documentação que corrobore com a argumentação apresentada.</p>
-<p><strong>Suas respostas são fundamentais para o processo de auditoria.</strong></p>]]></surveyls_welcometext>
-    <surveyls_endtext><![CDATA[<p><strong>Agradecemos sua participação!</strong></p>]]></surveyls_endtext>
+    <surveyls_title><![CDATA[Comentários do Gestor - Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026]]></surveyls_title>
+    <surveyls_description><![CDATA[Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026]]></surveyls_description>
+    <surveyls_welcometext><![CDATA[<div class="container mt-3" style="margin-top:20px;margin-bottom:20px;">
+  <div class="row align-items-center">
+    <div class="col-md-4">
+      <img alt="Logotipo TCERJ" class="img-fluid" src="https://www.tcerj.tc.br/cdn-storage/logos/logo-horizontal-colorida-para_fundo_branco@3x.png" style="max-width:300px;" />
+    </div>
+
+    <div class="col-md-8">
+      <h1 style="font-size:16px;font-weight:bold;color:#444;margin:0;margin-top:20px;">SECRETARIA-GERAL DE CONTROLE EXTERNO</h1>
+      <p style="font-size:12px;color:#666;margin:2px 0;">SUBSECRETARIA DE CONTROLE DE POLÍTICAS DE CIDADANIA</p>
+      <p style="font-size:12px;color:#666;margin:2px 0;">COORDENADORIA DE AUDITORIA EM POLÍTICAS DE TECNOLOGIA DA INFORMAÇÃO</p>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:justify;color:#000000;">
+  <p style="color:#000000;">Prezado(a) Gestor(a) da {TOKEN:FIRSTNAME},</p>
+
+  <p style="color:#000000;">Este questionário integra a fase de comentários do gestor da Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026, realizada pela Coordenadoria de Auditoria em Políticas de Tecnologia da Informação (CAD-TI).</p>
+
+  <p style="color:#000000;">O instrumento permite que a organização se manifeste sobre os apontamentos apresentados no Relatório Individual Preliminar, inclusive quanto às situações encontradas, às propostas de encaminhamento, às consequências práticas de sua implementação e, quando aplicável, aos itens avaliados como não conformes na etapa de avaliação das evidências.</p>
+
+  <p style="color:#000000;">Para cada situação disponibilizada, a organização deverá informar se concorda ou discorda do apontamento. Em caso de concordância, poderá registrar comentários, providências adotadas ou planejadas e considerações sobre os encaminhamentos propostos. Em caso de discordância, deverá apresentar justificativa objetiva e, quando necessário, encaminhar documentação comprobatória.</p>
+
+  <p style="color:#000000;">Quando houver seção de reavaliação de evidências, a organização poderá apresentar esclarecimentos, retificações ou evidência suplementar em formato PDF ou ZIP, limitada aos itens indicados para reanálise.</p>
+
+  <p style="color:#000000;">Para organizações em que não tenha sido identificada resposta válida ao questionário iGovTI 2026, será disponibilizada seção própria para apresentação de esclarecimentos, comprovação de eventual envio anterior ou justificativa para a ausência de resposta.</p>
+
+  <p style="color:#000000;margin-top:5px;"><strong>Observações importantes:</strong></p>
+
+  <ol>
+    <li style="margin-bottom:10px;">A etapa de comentários do gestor é facultativa, mas constitui oportunidade para esclarecimento de fatos, correção de informações, apresentação de documentos e manifestação sobre os apontamentos preliminares.</li>
+    <li style="margin-bottom:10px;">As manifestações devem ser objetivas e acompanhadas de documentação comprobatória sempre que a organização pretender afastar ou modificar situação apontada pela Equipe de Auditoria.</li>
+    <li style="margin-bottom:10px;">Os arquivos anexados devem estar em formato PDF ou ZIP. Caso haja mais de um documento, recomenda-se compactá-los em um único arquivo ZIP.</li>
+    <li style="margin-bottom:10px;">As informações prestadas serão analisadas pela Equipe de Auditoria antes da consolidação dos resultados e poderão subsidiar ajustes, ratificações ou complementações no relatório final.</li>
+  </ol>
+</div>]]></surveyls_welcometext>
+    <surveyls_endtext><![CDATA[<p style="color:#000000;">Prezado(a),</p>
+
+<p style="color:#000000;">Agradecemos pela participação na fase de comentários do gestor da Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026.</p>
+
+<p style="color:#000000;">As manifestações, justificativas e evidências encaminhadas serão analisadas pela Equipe de Auditoria para fins de apreciação dos esclarecimentos apresentados, reavaliação dos pontos cabíveis e consolidação dos resultados da fiscalização.</p>
+
+<p style="color:#000000;">O envio deste questionário não implica acolhimento automático das manifestações apresentadas. A análise será realizada à luz dos critérios de auditoria, das informações anteriormente prestadas, das evidências disponíveis e da documentação eventualmente encaminhada nesta etapa.</p>
+
+<p style="color:#000000;">Após a análise dos comentários do gestor, os resultados poderão subsidiar ajustes nos apontamentos preliminares, manutenção das conclusões, complementação de evidências e elaboração dos produtos finais da fiscalização.</p>
+
+<p style="color:#000000;">Em caso de dúvidas, entre em contato com a Coordenadoria de Auditoria em Políticas de Tecnologia da Informação (CAD-TI) pelo e-mail auditoriati@tcerj.tc.br.</p>]]></surveyls_endtext>
     <surveyls_url/>
     <surveyls_urldescription/>
-    <surveyls_email_invite_subj><![CDATA[Questionário - Auditoria]]></surveyls_email_invite_subj>
+    <surveyls_email_invite_subj><![CDATA[Questionário - Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026]]></surveyls_email_invite_subj>
     <surveyls_email_invite/>
     <surveyls_email_remind_subj/>
     <surveyls_email_remind/>

@@ -164,7 +164,7 @@ possiveis_achados:
       referencias_matriz: [R2.2, P3, E3, P4, E4]
       criterios: [C3, C4, C5]
       tipo_encaminhamento: Recomendação
-      encaminhamento: institua formalmente Comitê de TIC ou instância equivalente, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos
+      encaminhamento: institua formalmente Comitê de TIC ou instância equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos
     - S2.3:
       descricao: Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.
       severidade: media
@@ -174,7 +174,7 @@ possiveis_achados:
       referencias_matriz: [R2.3, P5, E5, P6, E6]
       criterios: [C2, C3, C4]
       tipo_encaminhamento: Recomendação
-      encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, atentando-se, minimamente, em realizar reuniões periódicas, registrar atas, deliberações e encaminhamentos e acompanhar as decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC
+      encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC
 
 ## Questão 03 - Planejamento de TIC
 
@@ -247,7 +247,7 @@ possiveis_achados:
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Recomendação
-      encaminhamento: institua processo formal de planejamento de TIC, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
+      encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
   - S3.2:
       descricao: Ausência de aprovação formal do plano de TIC.
       severidade: alta
@@ -425,7 +425,7 @@ possiveis_achados:
     referencias_matriz: [R4.6, P7, E7]
     criterios: [C6, C7, C8]
     tipo_encaminhamento: Recomendação
-    encaminhamento: avalie o modelo de operação de TIC e adote medidas para assegurar capacidade interna mínima de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa
+    encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente de coordenação, planejamento, aprovação técnica, fiscalização contratual e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa
 ---
 
 ## Questão 05 - Gestão de Serviços de TIC
@@ -641,7 +641,7 @@ possiveis_achados:
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
       criterios: [C1, C4, C9]
       tipo_encaminhamento: Recomendação
-      encaminhamento: formalize e padronize o processo de contratação de TIC, atentando-se, minimamente, em definir fluxo, etapas, papéis, responsabilidades, instâncias de aprovação e modelos de artefatos, manuais, listas de verificação ou orientações internas aplicáveis
+      encaminhamento: formalize e padronize o processo de contratação de TIC, compatível com o porte, a complexidade e os riscos das contratações da organização, atentando-se, minimamente, em definir fluxo, etapas, papéis, responsabilidades, instâncias de aprovação e modelos de artefatos, manuais, listas de verificação ou orientações internas aplicáveis
   - S6.2:
       descricao: Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.
       severidade: alta
@@ -651,7 +651,7 @@ possiveis_achados:
       referencias_matriz: [R6.3, P3, E3, E4]
       criterios: [C1, C7, C8, C12]
       tipo_encaminhamento: Recomendação
-      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais, a segurança da informação e a arquitetura existente, facultando a adoção de fluxos simplificados ou a dispensa de parecer detalhado para contratações diretas por dispensa em razão do valor (baixo valor) ou de baixa complexidade técnica, mediante critérios objetivos ou catálogos de soluções padronizadas
+      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, inclusive quando demandadas por outras áreas, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais, a segurança da informação e a arquitetura existente, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação
   - S6.3:
       descricao: Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.
       severidade: alta

@@ -73,7 +73,7 @@ O art. 11, parágrafo único, da Lei 14.133/2021 atribui à alta administração
 
 A ausência de um fluxo processual regulamentado e de modelos padronizados prejudica a conformidade das contratações de TIC, gerando atrasos processuais e inconsistências na elaboração dos documentos da fase preparatória.
 
-Diante disso, __será proposta recomendação para que a organização formalize processo de contratação de TIC, contemplando fluxo, etapas, papéis, responsabilidades, modelos mínimos de artefatos, manuais, checklists ou orientações internas.__
+Diante disso, __será proposta recomendação para que a organização formalize e padronize processo de contratação de TIC, compatível com seu porte, a complexidade e os riscos de suas contratações, contemplando fluxo, etapas, papéis, responsabilidades, instâncias de aprovação e modelos de artefatos, manuais, listas de verificação ou orientações internas aplicáveis.__
 
 {% endif %}
 
@@ -87,7 +87,7 @@ O COBIT 2019, BAI02.04, orienta a obtenção de aprovação formal dos requisito
 
 A realização de aquisições de tecnologia sem a validação técnica da área de TIC compromete a integridade do ambiente lógico do órgão, gerando riscos de incompatibilidade sistêmica, vulnerabilidades de segurança e ineficiência operacional.
 
-Diante disso, __será proposta recomendação para que a organização estabeleça a submissão das contratações de TIC à análise prévia e à aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, facultando a adoção de fluxos simplificados ou a dispensa de parecer detalhado para contratações diretas por dispensa em razão do valor ou de baixa complexidade técnica, mediante critérios objetivos ou catálogos de soluções padronizadas.__
+Diante disso, __será proposta recomendação para que a organização estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, inclusive quando demandadas por outras áreas, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação.__
 
 {% endif %}
 

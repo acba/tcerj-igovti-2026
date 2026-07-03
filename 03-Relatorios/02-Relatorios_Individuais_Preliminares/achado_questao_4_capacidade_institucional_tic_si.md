@@ -135,13 +135,13 @@ Diante disso, __será proposta recomendação para que a organização realize d
 {% if situacao in achado.situacoes_encontradas %}
 #### Dependência externa e capacidade interna de coordenação e fiscalização
 
-A utilização de terceiros ou de estrutura externa para execução de atividades de TIC não elimina a responsabilidade da organização pela coordenação, planejamento, aprovação técnica, fiscalização, tomada de decisão e retenção de conhecimento.
+A utilização de terceiros ou de estrutura externa para execução de atividades de TIC não elimina a responsabilidade da organização pela coordenação, planejamento, aprovação técnica, fiscalização contratual e retenção de conhecimento.
 
 O COBIT 2019, APO07.06, APO10.04 e DSS01.02, orienta o controle de pessoal contratado, a gestão de riscos de fornecedores e a supervisão de serviços terceirizados de TI, preservando responsabilização, medição, integração aos controles e retenção de conhecimento.
 
 O estabelecimento de modelo operacional baseado predominantemente em recursos externos, sem capacidade interna suficiente de supervisão, pode reduzir a governabilidade técnica, a retenção de conhecimento e a continuidade das operações.
 
-Diante disso, __será proposta recomendação para que a organização avalie seu modelo de operação de TIC e adote medidas para assegurar capacidade interna suficiente de coordenação, planejamento, aprovação técnica, fiscalização contratual, tomada de decisão e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.__
+Diante disso, __será proposta recomendação para que a organização avalie seu modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente de coordenação, planejamento, aprovação técnica, fiscalização contratual e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.__
 
 {% endif %}
 

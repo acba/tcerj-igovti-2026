@@ -63,7 +63,7 @@ O processo deve ser demonstrado por norma, procedimento, guia ou instrumento equ
 
 A inexistência ou fragilidade desse processo expõe a organização a uma atuação reativa e à alocação de recursos em iniciativas de tecnologia sem critérios claros de priorização.
 
-Diante disso, __será proposta recomendação para que a organização institua processo formal de planejamento de TIC, com etapas, responsáveis, participação das áreas demandantes e critérios mínimos de priorização.__
+Diante disso, __será proposta recomendação para que a organização institua processo formal de planejamento de TIC, compatível com seu porte e sua maturidade, com etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC.__
 
 {% endif %}
 

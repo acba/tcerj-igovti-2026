@@ -80,7 +80,7 @@ A instituição formal do Comitê deve ser demonstrada por ato, norma, regimento
 
 A ausência de instituição formal do Comitê de TIC ou instância equivalente fragiliza a governança, uma vez que a organização deixa de contar com foro institucional normatizado para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 
-Diante disso, __será proposta recomendação para que a organização institua formalmente Comitê de TIC ou instância equivalente, definindo composição, competências, periodicidade mínima, forma de registro das deliberações e acompanhamento dos encaminhamentos.__
+Diante disso, __será proposta recomendação para que a organização institua formalmente Comitê de TIC ou instância equivalente, compatível com seu porte e sua estrutura decisória, definindo composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos.__
 
 {% endif %}
 
@@ -96,7 +96,7 @@ A atuação efetiva do Comitê deve ser demonstrada por atas, pautas, listas de 
 
 Essa fragilidade operacional reduz a segurança de que decisões relevantes sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC sejam submetidas ao crivo colegiado ou monitoradas formalmente.
 
-Diante disso, __será proposta recomendação para que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, com reuniões periódicas, atas, deliberações, encaminhamentos e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.__
+Diante disso, __será proposta recomendação para que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, compatível com seu porte e sua estrutura decisória, com reuniões periódicas, registro de deliberações e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.__
 
 {% endif %}
 
