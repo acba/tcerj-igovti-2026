@@ -630,7 +630,7 @@ evidencias:
 - E8: Ausência ou insuficiência de níveis mínimos de serviço, métricas de desempenho ou critérios objetivos de fiscalização e recebimento; [P7]
 
 possiveis_achados:
-- A6: Contratações de TIC sem governança técnica e controle de resultados
+- A6: Fragilidades na governança técnica da fase preparatória das contratações de TIC
   situacoes_encontradas:
   - S6.1:
       descricao: Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.

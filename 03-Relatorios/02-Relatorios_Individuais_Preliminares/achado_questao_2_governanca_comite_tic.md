@@ -96,8 +96,6 @@ Da análise das respostas aos itens 1001 e 1002 e da documentação apresentada,
 
 A ausência ou a insuficiência de um modelo básico de governança e gestão de TIC acarreta o risco de indefinição sobre a direção estratégica da tecnologia da informação e sobre os resultados esperados da função de TIC.
 
-Diante disso, __será proposta recomendação para que a alta administração estabeleça modelo básico de governança e gestão de TIC, com papéis, responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico.__
-
 {% endif %}
 
 {% set situacao = situacao_comite_formal %}
@@ -125,8 +123,6 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 
 A ausência de instituição formal do Comitê de TIC ou instância equivalente fragiliza a governança, uma vez que a organização deixa de contar com foro institucional normatizado para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 
-Diante disso, __será proposta recomendação para que a organização institua formalmente Comitê de TIC ou instância equivalente, compatível com seu porte e sua estrutura decisória, definindo composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos.__
-
 {% endif %}
 
 {% set situacao = situacao_comite_atuacao %}
@@ -137,7 +133,7 @@ A instituição formal isolada do Comitê de TIC ou instância equivalente não 
 
 O COBIT 2019, no objetivo MEA01.04, exige monitoramento e avaliação periódica do desempenho e da conformidade da TI. O Acórdão TCE-RJ 44.490/2024-PLEN, item II.1, também aponta a responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.
 
-A atuação efetiva do Comitê deve ser demonstrada por atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências. A ausência desses registros impede verificar se a instância colegiada exerce, de fato, seu papel de avaliação, direção e monitoramento da TIC.
+A atuação efetiva do Comitê deve ser demonstrada por atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências. A ausência desses registros dificulta verificar se a instância colegiada exerce, de fato, seu papel de avaliação, direção e monitoramento da TIC.
 
 Da análise das respostas ao item 1001 e da documentação apresentada, verificou-se que a atuação efetiva do Comitê de TIC ou instância equivalente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -152,19 +148,17 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 
 Essa fragilidade operacional reduz a segurança de que decisões relevantes sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC sejam submetidas ao crivo colegiado ou monitoradas formalmente.
 
-Diante disso, __será proposta recomendação para que a organização assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, compatível com seu porte e sua estrutura decisória, com reuniões periódicas, registro de deliberações e acompanhamento das decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.__
-
 {% endif %}
 
 #### Conclusão
 
 As fragilidades identificadas na governança de TIC reduzem a segurança de que a organização disponha de mecanismos suficientes para avaliar, dirigir e monitorar a tecnologia da informação de forma alinhada aos objetivos institucionais.
 
-Diante do cenário efetivamente identificado, formula-se proposta de encaminhamento com vistas a recomendar à organização que promova a estruturação e a adequação dos mecanismos de governança de TIC correspondentes às situações apontadas neste achado, conforme os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas recomendações preliminares voltadas à estruturação e à adequação dos mecanismos de governança de TIC efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 
 {# Final do Achado - Governança e Comitê de TIC #}

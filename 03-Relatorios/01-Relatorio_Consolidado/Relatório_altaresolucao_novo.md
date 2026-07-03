@@ -752,7 +752,7 @@ Ressalta-se que as propostas de encaminhamento individualizados para cada organi
 
 \newpage
 
-### 4.3.6. Contratações de TIC sem governança técnica e controle de resultados
+### 4.3.6. Fragilidades na governança técnica da fase preparatória das contratações de TIC
 
 #### 4.3.6.1. Critérios
 

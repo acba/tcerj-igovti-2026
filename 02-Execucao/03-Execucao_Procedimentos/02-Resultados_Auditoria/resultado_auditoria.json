@@ -735,11 +735,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -1654,11 +1654,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -2866,11 +2866,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -4145,11 +4145,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -5532,11 +5532,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -6732,11 +6732,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -7304,7 +7304,7 @@
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -7350,7 +7350,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -7744,11 +7744,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
@@ -8981,11 +8981,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -10072,11 +10072,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -10349,7 +10349,7 @@
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -10389,7 +10389,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -10816,11 +10816,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -11928,11 +11928,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -12980,11 +12980,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -13911,11 +13911,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -15076,11 +15076,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -16256,11 +16256,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -17207,11 +17207,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -17842,7 +17842,7 @@
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -17900,7 +17900,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -18346,11 +18346,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -19304,11 +19304,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
           ],
@@ -20349,11 +20349,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -21045,7 +21045,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -21115,7 +21115,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -21633,11 +21633,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -22785,11 +22785,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -24024,11 +24024,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -25284,11 +25284,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -26516,11 +26516,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -27541,11 +27541,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -28104,7 +28104,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -28168,7 +28168,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -28566,11 +28566,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -29732,11 +29732,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -30971,11 +30971,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -32123,11 +32123,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -33080,11 +33080,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -34252,11 +34252,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -35511,11 +35511,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -36208,7 +36208,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -36272,7 +36272,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -36777,11 +36777,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -37909,11 +37909,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -38913,11 +38913,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -39476,7 +39476,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -39540,7 +39540,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -40045,11 +40045,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -41029,11 +41029,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -42175,11 +42175,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -42814,8 +42814,8 @@
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
             "Resposta \"b) Centralizada Terceirizada: Há uma área de TI centralizada e formal que faz a gestão, mas a execução operacional/técnica é predominantemente terceirizada (ex: fábricas de software, service desk).\" ao item 0101 do Questionário, para verificar qual alternativa melhor descreve a formalização e o modelo de operação predominante da Tecnologia da Informação (TI) na organização",
-            "Valor calculado \"0\" da variável temporária total_TI_interno, para verificar o total de profissionais internos de tecnologia da informação, excluídos terceirizados e estagiários",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Ausência de profissionais internos da organização que atuam regularmente em tecnologia da informação, conforme informado em resposta ao item 0105",
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -42891,13 +42891,13 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"0\" da variável temporária total_TI_interno, para verificar o total de profissionais internos de tecnologia da informação, excluídos terceirizados e estagiários",
+              "descricao": "Ausência de profissionais internos da organização que atuam regularmente em tecnologia da informação, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV46"
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -43441,11 +43441,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
@@ -43755,7 +43755,7 @@
             "A organização declarou \"Sim\" no subitem b) do item 2704, mas a evidência encaminhada foi considerada insuficiente para comprovar que os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado. Justificativa da avaliação: A avaliação da Equipe de Auditoria indica não conformidade com o item. A evidência apresentada atesta que não existem processos ou ferramentas definidos, refutando a afirmação de que os gestores são selecionados com base em perfil profissional documentado. A evidência é insuficiente para demonstrar a compatibilidade entre o perfil do gestor e o cargo ocupado. A lacuna principal é a inexistência de perfis profissionais formalizados e documentados, bem como de um processo estruturado de seleção compatível com a função.",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -43789,7 +43789,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -44043,11 +44043,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -45055,11 +45055,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -45859,7 +45859,7 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": null,
         "achado_ocorreu": false
@@ -46258,11 +46258,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC."
           ],
@@ -47370,11 +47370,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -48033,11 +48033,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC."
           ],
@@ -48332,7 +48332,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -48384,7 +48384,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -48757,11 +48757,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -50017,11 +50017,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -51008,11 +51008,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -52247,11 +52247,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -53452,11 +53452,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -54637,11 +54637,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -55103,7 +55103,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -55161,7 +55161,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -55621,11 +55621,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -56927,11 +56927,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -58085,11 +58085,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
           ],
@@ -58852,11 +58852,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -59957,11 +59957,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -61143,11 +61143,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -62276,11 +62276,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -63468,11 +63468,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -64606,11 +64606,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -65363,7 +65363,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "A organização declarou \"Sim\" no subitem a) do item 2706, mas a evidência encaminhada foi considerada insuficiente para comprovar que elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas. Justificativa da avaliação: A avaliação realizada indica que a prática não está conforme. O material enviado não apresenta o plano de capacitação ou treinamento mencionado, restringindo-se ao sumário do documento. A análise crítica da suficiência indica que não há elemento verificável que comprove a elaboração de plano destinado ao tratamento de lacunas de competência. A principal lacuna é a ausência de documento do plano de capacitação ou treinamento.",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -65427,7 +65427,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -65926,11 +65926,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
           ],
@@ -66956,11 +66956,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -68168,11 +68168,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -69461,11 +69461,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -70519,11 +70519,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -71061,11 +71061,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC."
@@ -72126,11 +72126,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -73336,11 +73336,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -73895,7 +73895,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -73941,7 +73941,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -74294,11 +74294,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -75021,11 +75021,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC."
@@ -76140,11 +76140,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -77373,11 +77373,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -78552,11 +78552,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -79838,11 +79838,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -80836,11 +80836,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
             "Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC."
@@ -81046,7 +81046,7 @@
           "evidencias": [
             "A organização declarou \"Sim\" no subitem b) do item 2708, mas a evidência encaminhada foi considerada insuficiente para comprovar que possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação. Justificativa da avaliação: A avaliação realizada conclui pela insuficiência da evidência apresentada. O material consiste exclusivamente em captura de tela de interface de compartilhamento de arquivos, carecendo de qualquer organograma, ato de designação ou normativo interno que vincule formalmente funções à área de tecnologia da informação. A evidência é ineficaz para demonstrar a estrutura organizacional pretendida. A lacuna principal é a inexistência de documento oficial que formalize tais atribuições.",
             "A organização declarou \"Sim\" no subitem d) do item 2708, mas a evidência encaminhada foi considerada insuficiente para comprovar que possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação. Justificativa da avaliação: A avaliação realizada conclui pela insuficiência da evidência. O arquivo enviado não contém elementos comprobatórios como organogramas, normas ou atos de designação que formalizem atribuições para a área de segurança da informação, limitando-se a uma imagem de interface de sistema. A evidência não permite confirmar a existência da estrutura organizacional necessária. A lacuna consiste na falta de documentação oficial que detalhe a função ou cargo em segurança da informação.",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -81062,7 +81062,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -81265,11 +81265,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -82397,11 +82397,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -83522,11 +83522,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -84701,11 +84701,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -85926,11 +85926,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -87205,11 +87205,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -88552,11 +88552,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -89898,11 +89898,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
@@ -91137,11 +91137,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -92356,11 +92356,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
@@ -93628,11 +93628,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -94840,11 +94840,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -96012,11 +96012,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -97124,11 +97124,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -98304,11 +98304,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -99349,11 +99349,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -100716,11 +100716,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -101955,11 +101955,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -103247,11 +103247,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -103929,7 +103929,7 @@
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -103987,7 +103987,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -104393,11 +104393,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
           ],
@@ -104905,7 +104905,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -104957,7 +104957,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -105384,11 +105384,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -106322,11 +106322,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
           ],
@@ -107447,11 +107447,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -108793,11 +108793,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -109965,11 +109965,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -111352,11 +111352,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
@@ -112631,11 +112631,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -113863,11 +113863,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -114894,11 +114894,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.",
@@ -115993,11 +115993,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -117018,11 +117018,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária."
@@ -118190,11 +118190,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -119469,11 +119469,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -120775,11 +120775,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -121981,11 +121981,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -122745,7 +122745,7 @@
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas",
-            "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI"
+            "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105"
           ],
           "evidencias_detalhadas": [
             {
@@ -122809,7 +122809,7 @@
               ]
             },
             {
-              "descricao": "Valor calculado \"True\" da variável temporária predominio_terceiros, para verificar se o quantitativo de profissionais terceirizados de TI supera o quantitativo de profissionais internos de TI",
+              "descricao": "Predomínio de profissionais terceirizados de TI em relação ao quantitativo de profissionais internos, conforme informado em resposta ao item 0105",
               "id_acoes": [
                 "AV53"
               ]
@@ -123314,11 +123314,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -124660,11 +124660,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -125892,11 +125892,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",
@@ -127151,11 +127151,11 @@
       {
         "id": "PA06",
         "numero_achado": 6,
-        "nome_achado": "Contratações de TIC sem governança técnica e controle de resultados",
+        "nome_achado": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
         "executado": true,
         "achado": {
           "numero": 6,
-          "nome": "Contratações de TIC sem governança técnica e controle de resultados",
+          "nome": "Fragilidades na governança técnica da fase preparatória das contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
             "Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.",

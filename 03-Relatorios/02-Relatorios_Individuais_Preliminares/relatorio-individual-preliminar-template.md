@@ -156,16 +156,28 @@ A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das org
 ![Relação entre os resultados de governança e gestão de TIC](igovti_2026_governanca_vs_gestao.png){#fig:governanca_vs_gestao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-{% if (GovernancaTI|float < 0.15) and (iGestTI|float < 0.15) %}
-No caso da organização **{{ auditado.sigla }}**, tanto o componente de Governança de TIC quanto o de Gestão de TIC situam-se no nível **Inexpressivo** (valores abaixo de 0,1500). Esse cenário indica estágio inicial de estruturação institucional de tecnologia da informação. Diante disso, a diferença residual entre os componentes não reflete uma assimetria operacional relevante, mas sim a necessidade de implantação simultânea de mecanismos fundamentais de governança (direção e controle) e processos operacionais de gestão.
-{% elif GovernancaTI|float < iGestTI|float %}
-No caso da organização **{{ auditado.sigla }}**, o resultado em Governança de TIC ficou abaixo do resultado em Gestão de TIC. Esse perfil indica que o principal desequilíbrio relativo se encontra nos mecanismos pelos quais a alta administração direciona, monitora e avalia a TIC, devendo a leitura ser aprofundada à luz das evidências e dos achados relacionados à governança.
-{% elif GovernancaTI|float > iGestTI|float %}
-No caso da organização **{{ auditado.sigla }}**, o resultado em Gestão de TIC ficou abaixo do resultado em Governança de TIC. Esse perfil indica que as principais oportunidades relativas se concentram na transformação das diretrizes de governança em processos, controles e capacidades operacionais de gestão, devendo a leitura ser aprofundada à luz das evidências e dos achados correspondentes.
-{% else %}
-No caso da organização **{{ auditado.sigla }}**, Governança de TIC e Gestão de TIC apresentaram o mesmo valor. A igualdade dos componentes não implica equilíbrio em nível adequado, razão pela qual a análise deve considerar o nível de maturidade alcançado e as fragilidades específicas evidenciadas em cada dimensão.
-{% endif %}
+{% set gov_val = (GovernancaTI|default(0))|float %}
+{% set gest_val = (iGestTI|default(0))|float %}
+{% set dif_abs = (gov_val - gest_val) if gov_val >= gest_val else (gest_val - gov_val) %}
 
+{% if (gov_val < 0.15) and (gest_val < 0.15) %}
+No caso da organização **{{ auditado.sigla }}**, tanto o componente de Governança de TIC quanto o de Gestão de TIC situam-se no nível **Inexpressivo** (valores abaixo de 0,1500). Esse cenário indica estágio inicial de estruturação institucional da tecnologia da informação. Nesse contexto, eventual diferença entre os componentes não configura assimetria operacional relevante, mas reforça a necessidade de implantação simultânea de mecanismos fundamentais de governança, direção, monitoramento e controle, bem como de processos operacionais básicos de gestão de TIC.
+
+{% elif (gov_val >= 0.70) and (gest_val >= 0.70) %}
+No caso da organização **{{ auditado.sigla }}**, os componentes de Governança de TIC e Gestão de TIC situam-se em patamar **Aprimorado**. Eventual diferença entre os componentes deve ser interpretada como variação relativa de perfil, e não como indicativo, por si só, de fragilidade estrutural. A leitura deve considerar os achados específicos, quando existentes, e as oportunidades pontuais de aperfeiçoamento identificadas nas dimensões avaliadas.
+
+{% elif dif_abs < 0.05 %}
+No caso da organização **{{ auditado.sigla }}**, os resultados de Governança de TIC e Gestão de TIC apresentaram valores próximos, sem indicar assimetria relevante entre os componentes principais. A análise deve considerar o nível de maturidade alcançado, a distribuição dos resultados nas dimensões avaliadas e as fragilidades específicas evidenciadas nos achados de auditoria.
+
+{% elif gov_val < gest_val %}
+No caso da organização **{{ auditado.sigla }}**, o resultado em Governança de TIC ficou abaixo do resultado em Gestão de TIC. Esse perfil indica oportunidade de fortalecer os mecanismos pelos quais a alta administração direciona, monitora e avalia a TIC, especialmente quanto à definição de responsabilidades, objetivos, indicadores, prioridades, riscos e acompanhamento de resultados. A leitura deve ser aprofundada à luz das evidências e dos achados relacionados à governança.
+
+{% elif gest_val < gov_val %}
+No caso da organização **{{ auditado.sigla }}**, o resultado em Gestão de TIC ficou abaixo do resultado em Governança de TIC. Esse perfil indica oportunidade de fortalecer a transformação das diretrizes de governança em processos, controles, serviços, capacidades operacionais e práticas de gestão de TIC. A leitura deve ser aprofundada à luz das evidências e dos achados correspondentes.
+
+{% else %}
+No caso da organização **{{ auditado.sigla }}**, Governança de TIC e Gestão de TIC apresentaram o mesmo valor. A igualdade dos componentes não implica, por si só, equilíbrio em nível adequado, razão pela qual a análise deve considerar o nível de maturidade alcançado e as fragilidades específicas evidenciadas em cada dimensão.
+{% endif %}
 ## 2.4. Dimensões da gestão de TIC
 
 A decomposição da Gestão de TIC revela diferenças relevantes entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], {% if dimensao_maior_media_nome == dimensao_maior_mediana_nome %}**{{ rotulos_dimensoes_gestao.get(dimensao_maior_media_nome, dimensao_maior_media_nome) }}** apresentou a maior média ({{ ('%0.3f' | format(dimensao_maior_media_valor|float)) | replace('.', ',') }}) e a maior mediana ({{ ('%0.3f' | format(dimensao_maior_mediana_valor|float)) | replace('.', ',') }}){% else %}**{{ rotulos_dimensoes_gestao.get(dimensao_maior_media_nome, dimensao_maior_media_nome) }}** apresentou a maior média ({{ ('%0.3f' | format(dimensao_maior_media_valor|float)) | replace('.', ',') }}), enquanto **{{ rotulos_dimensoes_gestao.get(dimensao_maior_mediana_nome, dimensao_maior_mediana_nome) }}** apresentou a maior mediana ({{ ('%0.3f' | format(dimensao_maior_mediana_valor|float)) | replace('.', ',') }}){% endif %}. A dimensão com maior média também figurou como a de maior resultado em {{ dimensao_maior_media_maior_resultado_n|int }} organizações ({{ ('%0.1f' | format(dimensao_maior_media_maior_resultado_pct|float)) | replace('.', ',') }}%), considerados os empates. Esse padrão indica que algumas capacidades se encontram mais disseminadas do que outras no conjunto fiscalizado.
@@ -207,8 +219,10 @@ A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil da organização **
 ![Comparação do resultado individual e da mediana nas dimensões de Gestão de TIC]({{ auditado.sigla }}_comparacao_dimensoes_iGestTI.png){#fig:comparacao_dimensoes_gestao_auditado#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-{% if PlanejamentoTI|float < iGestTI|float %}
-Chama a atenção o fato de o resultado em Planejamento de TIC ({{ ('%0.4f' | format(PlanejamentoTI|float))|replace('.', ',') }}) situar-se abaixo da média das dimensões operacionais de gestão. Esse cenário atípico sugere que os poucos processos operacionais eventualmente adotados pela organização ocorrem de forma descentralizada ou sem a coordenação de diretrizes estratégicas formais, evidenciando a necessidade de priorização dessa dimensão.
+{% set planejamento_val = (PlanejamentoTI|default(0))|float %}
+
+{% if planejamento_val < 0.40 %}
+O resultado em Planejamento de TIC ({{ ('%0.4f' | format(planejamento_val))|replace('.', ',') }}) situa-se nos níveis iniciais de maturidade. Esse resultado indica oportunidade de priorizar a estruturação do planejamento de TIC, de modo a fortalecer a definição de diretrizes, prioridades, responsáveis, recursos, contratações e mecanismos de acompanhamento.
 {% endif %}
 
 A [@fig:percentis_indicadores_auditado] compara a posição da organização **{{ auditado.sigla }}** com as demais organizações avaliadas em cada indicador. A letra "P" indica a posição relativa (percentil) no conjunto: **P50** representa posição próxima ao centro da distribuição; **P90** indica que a organização obteve resultado igual ou superior ao de aproximadamente 90% das organizações avaliadas; e **P20** indica que apenas cerca de 20% das organizações tiveram resultado igual ou inferior. Assim, quanto maior o valor de "P", melhor é a posição relativa da organização naquele indicador.
@@ -292,7 +306,20 @@ No âmbito desta fiscalização, foram definidas questões de auditoria para ori
 
 {% if auditado.tem_achados %}
 
-Os achados de auditoria apresentados a seguir decorrem da avaliação preliminar das respostas da organização **{{ auditado.sigla }}** ao questionário iGovTI 2026 e da correspondente análise de consistência documental realizada por esta Equipe de Auditoria. O trabalho consistiu no confronto sistemático entre as práticas de governança e gestão autodeclaradas pela organização e as evidências comprobatórias efetivamente encaminhadas, à luz da legislação aplicável e de padrões técnicos de referência internacional.
+
+{% set achados_identificados = auditado.get_achados() %}
+{% set questoes_sem_achado = [] %}
+{% if 'achado1' not in achados_identificados %}{% set _ = questoes_sem_achado.append('1') %}{% endif %}
+{% if 'achado2' not in achados_identificados %}{% set _ = questoes_sem_achado.append('2') %}{% endif %}
+{% if 'achado3' not in achados_identificados %}{% set _ = questoes_sem_achado.append('3') %}{% endif %}
+{% if 'achado4' not in achados_identificados %}{% set _ = questoes_sem_achado.append('4') %}{% endif %}
+{% if 'achado5' not in achados_identificados %}{% set _ = questoes_sem_achado.append('5') %}{% endif %}
+{% if 'achado6' not in achados_identificados %}{% set _ = questoes_sem_achado.append('6') %}{% endif %}
+{% if questoes_sem_achado %}
+__Não foram identificados achados individuais preliminares relacionados {% if questoes_sem_achado|length == 1 %}à Questão{% else %}às Questões{% endif %} {% for questao in questoes_sem_achado %}{% if loop.first %}{{ questao }}{% elif loop.last %} e {{ questao }}{% else %}, {{ questao }}{% endif %}{% endfor %} para esta organização__. Por essa razão, os achados apresentados a seguir preservam a numeração vinculada às questões de auditoria que lhes deram origem.
+{% endif %}
+
+Os achados de auditoria decorrem da avaliação preliminar das respostas da organização **{{ auditado.sigla }}** ao questionário iGovTI 2026 e da correspondente análise de consistência documental realizada por esta Equipe de Auditoria. O trabalho consistiu no confronto sistemático entre as práticas de governança e gestão autodeclaradas pela organização e as evidências comprobatórias efetivamente encaminhadas, à luz da legislação aplicável e de padrões técnicos de referência internacional.
 
 O presente relatório individual adota uma estrutura analítica de apresentação voltada a conferir clareza, rastreabilidade e utilidade diagnóstica às constatações. Desse modo, cada achado de auditoria está estruturado a partir dos seguintes elementos fundamentais:
 

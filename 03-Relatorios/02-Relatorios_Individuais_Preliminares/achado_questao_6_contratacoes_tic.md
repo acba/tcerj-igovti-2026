@@ -1,4 +1,4 @@
-{% set nome_achado = 'Contratações de TIC sem governança técnica e controle de resultados' %}
+{% set nome_achado = 'Fragilidades na governança técnica da fase preparatória das contratações de TIC' %}
 {% set achado = auditado.get_achado_por_nome(nome_achado) %}
 {% if achado %}
 {% set situacao_processo = 'Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.' %}
@@ -125,9 +125,7 @@ Da análise das respostas ao item 2801 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de um fluxo processual regulamentado e de modelos padronizados prejudica a conformidade das contratações de TIC, gerando atrasos processuais e inconsistências na elaboração dos documentos da fase preparatória.
-
-Diante disso, __será proposta recomendação para que a organização formalize e padronize processo de contratação de TIC, compatível com seu porte, a complexidade e os riscos de suas contratações, contemplando fluxo, etapas, papéis, responsabilidades, instâncias de aprovação e modelos de artefatos, manuais, listas de verificação ou orientações internas aplicáveis.__
+A ausência de fluxo processual regulamentado e de modelos padronizados reduz a segurança quanto à conformidade das contratações de TIC e eleva o risco de atrasos processuais, indefinição de papéis e inconsistências na elaboração dos documentos da fase preparatória.
 
 {% endif %}
 
@@ -150,9 +148,7 @@ Da análise das respostas ao item 2804 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A realização de aquisições de tecnologia sem a validação técnica da área de TIC compromete a integridade do ambiente lógico do órgão, gerando riscos de incompatibilidade sistêmica, vulnerabilidades de segurança e ineficiência operacional.
-
-Diante disso, __será proposta recomendação para que a organização estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, inclusive quando demandadas por outras áreas, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação.__
+A ausência de análise prévia ou aprovação técnica da área de TIC reduz a segurança de que as soluções contratadas sejam compatíveis com o ambiente tecnológico existente, com os requisitos institucionais e com os controles mínimos de segurança da informação, observada a proporcionalidade em relação à complexidade, ao risco e ao valor da contratação.
 
 {% endif %}
 
@@ -175,9 +171,7 @@ Da análise das respostas aos itens 2102, 2802 e 2804 e da documentação aprese
 {% endfor %}
 {% endif %}
 
-A falta de conformidade das aquisições frente ao planejamento setorial de TIC e ao plano de contratações anual eleva o risco de fragmentação de despesas, contratações reativas e uso ineficiente de recursos orçamentários.
-
-Diante disso, __será proposta recomendação para que a organização condicione as contratações de TIC à vinculação com o planejamento de TIC, com o plano de contratações e com a proposta orçamentária, ressalvadas situações excepcionais devidamente justificadas.__
+A ausência de alinhamento das contratações de TIC ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária eleva o risco de fragmentação de despesas, contratações reativas ou insuficientemente priorizadas e uso pouco eficiente dos recursos orçamentários.
 
 {% endif %}
 
@@ -200,9 +194,7 @@ Da análise das respostas ao item 2804 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A falta de designação formal da equipe com a inclusão de especialistas de TIC compromete a qualidade técnica das estimativas de mercado, dos estudos de viabilidade e da especificação do objeto no ETP e no TR.
-
-Diante disso, __será proposta recomendação para que a organização designe formalmente equipe de planejamento da contratação de TIC, com participação da área requisitante, área técnica de TIC e demais áreas necessárias.__
+A ausência de designação formal da equipe de planejamento, com participação técnica de TIC quando aplicável, reduz a segurança quanto à qualidade técnica das estimativas de mercado, dos estudos de viabilidade e da especificação do objeto no ETP, no TR ou em instrumentos equivalentes.
 
 {% endif %}
 
@@ -225,9 +217,7 @@ Da análise das respostas ao item 2801 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A omissão de requisitos técnicos claros, matrizes de risco, diretrizes de segurança da informação e regras de LGPD nos artefatos preparatórios expõe a administração a riscos operacionais relevantes e dificulta a fiscalização das entregas.
-
-Diante disso, __será proposta recomendação para que os artefatos de planejamento das contratações de TIC contemplem requisitos técnicos, análise de riscos, requisitos de segurança da informação, proteção de dados pessoais quando aplicável e critérios objetivos de aceite.__
+A ausência ou insuficiência de requisitos técnicos, análise de riscos, requisitos de segurança da informação, regras de proteção de dados pessoais quando aplicáveis ou critérios objetivos de aceite nos artefatos preparatórios eleva o risco de contratações insuficientemente instruídas e pode dificultar a fiscalização das entregas.
 
 {% endif %}
 
@@ -250,21 +240,19 @@ Da análise das respostas ao item 2801 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A contratação desprovida de níveis mínimos de serviço, métricas ou indicadores objetivos pode dificultar a vinculação do pagamento público a resultados, qualidade e conformidade das entregas.
-
-Diante disso, __será proposta recomendação para que os TRs, projetos básicos, contratos ou instrumentos equivalentes de TIC estabeleçam níveis mínimos de serviço, indicadores, critérios de medição, critérios de recebimento e vinculação do pagamento à efetiva entrega de resultados ou níveis de qualidade.__
+A ausência de demonstração de níveis mínimos de serviço, métricas de desempenho ou indicadores objetivos pode dificultar a vinculação do pagamento público a resultados, qualidade e conformidade das entregas.
 
 {% endif %}
 
 #### Conclusão
 
-As fragilidades identificadas nas contratações de TIC reduzem a segurança de que a organização disponha de governança técnica, alinhamento ao planejamento, artefatos adequados, gestão de riscos, segurança da informação e controle de resultados compatíveis com as contratações analisadas.
+As fragilidades evidenciadas na fase preparatória das contratações de TIC reduzem a segurança de que a organização disponha de controles suficientes para assegurar, conforme aplicável ao caso concreto, processo formal de contratação, participação técnica da área de TIC, alinhamento ao planejamento e adequada instrução dos processos. Essas fragilidades elevam o risco de contratações insuficientemente fundamentadas, pouco rastreáveis ou desalinhadas às necessidades institucionais, à complexidade e aos riscos das soluções de TIC pretendidas.
 
-Diante do cenário efetivamente identificado, formula-se proposta de encaminhamento com vistas a recomendar à organização que promova a estruturação e a adequação dos processos de contratação de TIC correspondentes às situações apontadas neste achado, conforme os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas recomendações preliminares voltadas à estruturação e à adequação dos aspectos da fase preparatória das contratações de TIC efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 
 {# Final do Achado - Contratações de TIC #}

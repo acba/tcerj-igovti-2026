@@ -514,7 +514,7 @@ def main():
         df_procedimentos = carregar_dados(args.mapa, sheet_name='Procedimentos de Auditoria', skiprows=None, required_columns=cols_procedimentos)
         df_acoes_verificacao = carregar_dados(args.mapa, sheet_name='Ações de Verificação', skiprows=None, required_columns=cols_acoes)
         df_fontes = carregar_dados(args.mapa, sheet_name='Fontes de Informação', skiprows=None, required_columns=cols_fontes)
-        
+
         xl_mapa = pd.ExcelFile(args.mapa)
         if 'Variáveis Temporárias' in xl_mapa.sheet_names:
             df_variaveis_temporarias = carregar_dados(args.mapa, sheet_name='Variáveis Temporárias', skiprows=None, required_columns=cols_variaveis)
@@ -536,7 +536,7 @@ def main():
     for _, row in df_fontes.iterrows():
         nome_arquivo_fonte = os.path.basename(row['filepath'])
         actual_path = fontes_path_map.get(nome_arquivo_fonte)
-        
+
         if not actual_path:
             if len(args.fontes) == 1:
                 actual_path = args.fontes[0]
@@ -588,7 +588,7 @@ def main():
         if not fonte_informacao:
             logger.error(f"Ação de verificação '{row['id']}' refere-se a uma fonte inexistente '{row['id_fonte_informacao']}'.")
             sys.exit(1)
-        
+
         acao = AcaoVerificacao(
             fonte_informacao=fonte_informacao,
             informacao_requerida=row.get('informacao_requerida'),
@@ -738,7 +738,7 @@ def main():
         try:
             os.makedirs(proc_zip_path.parent, exist_ok=True)
             template_report = os.path.join(os.path.dirname(__file__), "resources", "template_report.docx")
-            
+
             with zipfile.ZipFile(proc_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_f:
                 for sigla, auditado in auditados.items():
                     if auditado.foi_auditado:
@@ -759,16 +759,16 @@ def main():
         try:
             os.makedirs(evidencias_docx_path.parent, exist_ok=True)
             template_evidencias = os.path.join(os.path.dirname(__file__), "resources", "anexo-evidencias-base.docx")
-            
+
             contexto_anexo = [
                 {
-                    'sigla_orgao': a.sigla, 
-                    'nome_orgao': a.nome, 
+                    'sigla_orgao': a.sigla,
+                    'nome_orgao': a.nome,
                     'achados': list(a.get_achados().values())
-                } 
+                }
                 for a in auditados.values()
             ]
-            
+
             doc_evidencias = DocxTemplate(template_evidencias)
             doc_evidencias.render({'dados': contexto_anexo})
             doc_evidencias.save(evidencias_docx_path)
@@ -800,7 +800,7 @@ def main():
                 total_auditados_reavaliacao,
                 len(reavaliacao_evidencias),
             )
-    
+
     # 14.1 Arquivo .lss (LimeSurvey)
     if args.somente_dados or args.skip_comentarios_gestor:
         logger.info("Geração do questionário LimeSurvey de comentários ignorada.")
@@ -820,7 +820,7 @@ def main():
                 fiscalizacao_numero=args.numero_fiscalizacao_comentarios_gestor,
                 fiscalizacao_nome=args.nome_fiscalizacao_comentarios_gestor,
             )
-            
+
             with open(lss_path, 'w', encoding='utf-8') as f:
                 f.write(xml_content)
             logger.info(f"Questionário LimeSurvey (.lss) gerado com sucesso!")
@@ -849,7 +849,7 @@ def main():
                 auditado.sigla: auditado
                 for auditado in [*auditados_com_achados, *auditados_reavaliacao, *auditados_nao_respondentes]
             }
-                
+
             with zipfile.ZipFile(comentarios_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
                 for auditado in auditados_para_comentarios.values():
                     doc = DocxTemplate(template_comentarios)
@@ -867,7 +867,7 @@ def main():
                             for sigla in item.get("auditados", [])
                         }
                     ]
-                    
+
                     contexto = {
                         'auditado': auditado,
                         'achados': achados,
@@ -876,10 +876,10 @@ def main():
                         'reavaliacao_evidencias': reavaliacao_evidencias_auditado,
                     }
                     doc.render(contexto)
-                    
+
                     bio = io.BytesIO()
                     doc.save(bio)
-                    zip_file.writestr(f"Anexo - Questionário Comentarios ({auditado.sigla}).docx", bio.getvalue())
+                    zip_file.writestr(f"Comentarios do Gestor - {auditado.sigla}.docx", bio.getvalue())
             logger.info(f"Anexos de comentários individuais ZIP gerado com sucesso!")
         except Exception as e:
             logger.error(f"Erro ao gerar ZIP de comentários do gestor: {e}")

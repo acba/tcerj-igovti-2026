@@ -117,9 +117,7 @@ Da análise das respostas ao item 0105 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A inexistência ou insuficiência de profissionais dedicados, em quantitativo incompatível com a complexidade do ambiente tecnológico, pode comprometer a execução de rotinas essenciais de planejamento, gestão, segurança da informação, contratação, fiscalização contratual e sustentação das operações de TIC.
-
-Diante disso, __será proposta recomendação para que a organização avalie sua força de trabalho dedicada à TIC e à segurança da informação e adote medidas proporcionais para assegurar capacidade de planejamento, gestão, proteção, contratação, fiscalização e sustentação da TIC.__
+A inexistência ou insuficiência de profissionais dedicados, em quantitativo compatível com a complexidade do ambiente tecnológico, reduz a segurança quanto à capacidade da organização de executar rotinas essenciais de planejamento, gestão, segurança da informação, contratação, fiscalização contratual e sustentação das operações de TIC.
 
 {% endif %}
 
@@ -142,9 +140,7 @@ Da análise das respostas ao item 2703 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de um dimensionamento técnico do quadro de pessoal priva a administração de bases objetivas para subsidiar decisões sobre contratações, provimentos, planos de capacitação ou o eventual compartilhamento de estruturas com outras organizações.
-
-Diante disso, __será proposta recomendação para que a organização estime o quantitativo necessário de pessoal de TIC e segurança da informação, considerando porte, complexidade, serviços críticos, sistemas mantidos, contratações e riscos relevantes.__
+A ausência de dimensionamento técnico do quadro de pessoal reduz a disponibilidade de bases objetivas para subsidiar decisões sobre contratações, provimentos, planos de capacitação ou eventual compartilhamento de estruturas com outras organizações.
 
 {% endif %}
 
@@ -167,9 +163,7 @@ Da análise das respostas ao item 2708 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A falta de estruturação e provimento de cargos públicos ou gratificações de representação técnica adequadas compromete a capacidade de atração, correta responsabilização e retenção de profissionais detentores de perfil compatível com as necessidades da área.
-
-Diante disso, __será proposta recomendação para que a organização avalie a necessidade de instituir cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação, compatíveis com suas necessidades institucionais.__
+A ausência de cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação pode reduzir a capacidade de atração, responsabilização e retenção de profissionais com perfil compatível com as necessidades da área.
 
 {% endif %}
 
@@ -192,9 +186,7 @@ Da análise das respostas aos itens 2701, 2702 e 2704 e da documentação aprese
 {% endfor %}
 {% endif %}
 
-A designação de gestores ou técnicos sem a observância prévia de perfis profissionais bem delineados eleva o risco de indicação de colaboradores sem a qualificação requerida para conduzir atividades críticas da tecnologia da informação e da segurança cibernética.
-
-Diante disso, __será proposta recomendação para que a organização defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação e utilize esses perfis como referência para designação de responsáveis.__
+A ausência de perfis profissionais mínimos ou de sua utilização como referência para designação de gestores e técnicos eleva o risco de alocação de colaboradores sem qualificação compatível com atividades críticas de tecnologia da informação e segurança da informação.
 
 {% endif %}
 
@@ -217,9 +209,7 @@ Da análise das respostas aos itens 2705 e 2706 e da documentação apresentada,
 {% endfor %}
 {% endif %}
 
-A ausência de diagnóstico regular sobre as competências internas e de planos para saneamento de lacunas operacionais impede que a equipe técnica acompanhe a evolução tecnológica e mitigue vulnerabilidades na administração de sistemas e infraestrutura.
-
-Diante disso, __será proposta recomendação para que a organização realize diagnóstico periódico de lacunas de competências e estabeleça plano de tratamento, contemplando capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento.__
+A ausência de diagnóstico regular sobre competências internas e de medidas para tratamento de lacunas dificulta o acompanhamento da evolução tecnológica e pode reduzir a capacidade da equipe técnica de administrar sistemas, infraestrutura e controles de segurança da informação de forma compatível com os riscos existentes.
 
 {% endif %}
 
@@ -242,21 +232,19 @@ Da análise das respostas aos itens 0101 e 0105 e da documentação apresentada,
 {% endfor %}
 {% endif %}
 
-O estabelecimento de modelo operacional baseado predominantemente em recursos externos, sem capacidade interna suficiente de supervisão, pode reduzir a governabilidade técnica, a retenção de conhecimento e a continuidade das operações.
-
-Diante disso, __será proposta recomendação para que a organização avalie seu modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente de coordenação, planejamento, aprovação técnica, fiscalização contratual e retenção de conhecimento, especialmente quando a execução das atividades de TIC depender predominantemente de terceiros ou de estrutura externa.__
+O estabelecimento de modelo operacional baseado predominantemente em recursos externos, sem capacidade interna suficiente de coordenação e supervisão, pode reduzir a governabilidade técnica, a retenção de conhecimento e a continuidade das operações de TIC.
 
 {% endif %}
 
 #### Conclusão
 
-As fragilidades identificadas na capacidade institucional de TIC e segurança da informação reduzem a segurança de que a organização disponha de pessoal, competências, papéis e mecanismos de supervisão suficientes para sustentar a gestão, a proteção, as contratações, a fiscalização e a continuidade dos serviços tecnológicos.
+As fragilidades identificadas na capacidade institucional de TIC e segurança da informação reduzem a segurança de que a organização disponha, conforme aplicável ao caso concreto, de pessoal, competências, papéis, perfis profissionais e mecanismos de supervisão suficientes para sustentar a gestão, a proteção, as contratações, a fiscalização e a continuidade dos serviços tecnológicos.
 
-Diante do cenário efetivamente identificado, formula-se proposta de encaminhamento com vistas a recomendar à organização que promova a adequação de sua capacidade institucional de TIC e segurança da informação nas situações apontadas neste achado, conforme os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas recomendações preliminares voltadas à adequação dos aspectos de capacidade institucional de TIC e segurança da informação efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 
 {# Final do Achado - Capacidade institucional de TIC e segurança da informação #}

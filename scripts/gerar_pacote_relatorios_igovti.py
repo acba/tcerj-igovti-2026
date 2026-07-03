@@ -137,7 +137,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--graficos-dpi", type=int, default=300, help="Resolução dos PNG gerados para relatórios.")
     parser.add_argument("--graficos-skip-existing", action="store_true", help="Pula PNG de relatórios já existentes no diretório de saída.")
-    parser.add_argument("--skip-relatorios-procedimentos", action="store_true", help="Pula a geração do ZIP de relatórios de procedimentos individuais.")
+    parser.add_argument("--gerar-relatorios-procedimentos", action="store_true", help="Gera o ZIP de relatorios de procedimentos individuais. Por padrao, o ZIP nao e gerado.")
     parser.add_argument(
         "--tipo-relatorio-individual",
         choices=["preliminar", "final"],
@@ -273,7 +273,7 @@ def main() -> int:
             "--ajustes-evidencias-comentarios-gestor",
             args.ajustes_evidencias_comentarios_gestor,
         ])
-    if args.skip_relatorios_procedimentos:
+    if not args.gerar_relatorios_procedimentos:
         auditoria_cmd.append("--skip-relatorios-procedimentos")
 
     run_step("4/7 Executando procedimentos de auditoria.", auditoria_cmd, ROOT)

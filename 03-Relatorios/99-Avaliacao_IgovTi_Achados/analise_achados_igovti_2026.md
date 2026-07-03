@@ -116,7 +116,7 @@ O recorte por nível de maturidade reforça que a distribuição de achados não
 | Achado 3 - Planejamento de TIC inexistente, insuficiente, desatualizado ou desconectado... | 109 | 4 | 96.5% | 0.170 | 0.681 | 0.511 | -0.534 | < 0.0001 |
 | Achado 4 - Capacidade institucional insuficiente para sustentar a gestão de TIC e... | 113 | 0 | 100.0% | 0.188 |  |  |  |  |
 | Achado 5 - Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços,... | 113 | 0 | 100.0% | 0.188 |  |  |  |  |
-| Achado 6 - Contratações de TIC sem governança técnica e controle de resultados | 112 | 1 | 99.1% | 0.184 | 0.657 | 0.473 | -0.251 | 0.0074 |
+| Achado 6 - Fragilidades na governança técnica da fase preparatória das contratações de TIC | 112 | 1 | 99.1% | 0.184 | 0.657 | 0.473 | -0.251 | 0.0074 |
 
 O achado mais disseminado foi **Achado 5 - Gestão de serviços de TIC incipiente, sem controle mínimo sobre serviços, ativos e incidentes**, presente em **113 organizações** (**100.0%**). Mesmo o achado menos frequente, **Achado 1 - Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.**, alcançou **95 organizações** (**84.1%**), o que demonstra amplitude sistêmica das fragilidades encontradas.
 

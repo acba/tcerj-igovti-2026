@@ -101,8 +101,6 @@ Da análise das respostas ao item 2101 e da documentação apresentada, verifico
 
 A inexistência ou fragilidade desse processo expõe a organização a uma atuação reativa e à alocação de recursos em iniciativas de tecnologia sem critérios claros de priorização.
 
-Diante disso, __será proposta recomendação para que a organização institua processo formal de planejamento de TIC, compatível com seu porte e sua maturidade, com etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC.__
-
 {% endif %}
 
 {% set situacao = situacao_plano %}
@@ -126,9 +124,7 @@ Da análise das respostas ao item 2102 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de aprovação formal desprovê o plano de legitimidade institucional, retirando-lhe a autoridade regulatória necessária para orientar a gestão, os projetos, o orçamento e as contratações de tecnologia da informação.
-
-Diante disso, __será proposta recomendação para que a organização submeta o plano de TIC à aprovação formal do dirigente máximo ou de dirigente ou colegiado integrante da alta administração, mantendo registro do respectivo ato de aprovação.__
+A ausência de comprovação da aprovação formal do plano de TIC reduz a segurança quanto à legitimidade institucional do instrumento para orientar a gestão, os projetos, o orçamento e as contratações de tecnologia da informação.
 
 {% endif %}
 
@@ -151,9 +147,7 @@ Da análise das respostas ao item 2102 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de demonstração explícita desse alinhamento eleva o risco de execução de iniciativas tecnológicas com baixo valor agregado para a Administração Pública, desalinhadas das prioridades do órgão e das demandas dos usuários internos e da sociedade.
-
-Diante disso, __será proposta recomendação para que a organização revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas.__
+A ausência desse alinhamento eleva o risco de execução de iniciativas tecnológicas pouco aderentes às prioridades institucionais, às necessidades das áreas finalísticas e administrativas e à geração de valor público.
 
 {% endif %}
 
@@ -176,9 +170,7 @@ Da análise das respostas aos itens 2102, 2802 e 2804 e da documentação aprese
 {% endfor %}
 {% endif %}
 
-A falta de integração entre o planejamento de tecnologia, as previsões orçamentárias globais e as contratações executadas resulta em aquisições isoladas, reativas e desprovidas de priorização técnica.
-
-Diante disso, __será proposta recomendação para que a organização vincule o plano de TIC à proposta orçamentária, ao plano de contratações e às contratações de TIC executadas, priorizando demandas conforme relevância, risco e capacidade de execução.__
+A falta de integração demonstrada entre o planejamento de tecnologia, as previsões orçamentárias, o plano de contratações e as contratações executadas eleva o risco de aquisições isoladas, reativas ou insuficientemente priorizadas sob a perspectiva técnica.
 
 {% endif %}
 
@@ -201,21 +193,19 @@ Da análise das respostas ao item 2102 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de uma rotina sistemática de monitoramento e atualização impede a adaptação do planejamento estratégico a mudanças no contexto institucional, orçamentário ou tecnológico, mantendo iniciativas que podem não mais refletir o interesse público ou a viabilidade operacional.
-
-Diante disso, __será proposta recomendação para que a organização estabeleça rotina de acompanhamento, revisão e atualização do plano de TIC, com registro de execução, pendências, reprogramações e deliberações.__
+A ausência de rotina sistemática de monitoramento e atualização dificulta a adaptação do planejamento de TIC a mudanças no contexto institucional, orçamentário ou tecnológico, elevando o risco de manutenção de iniciativas, prioridades ou metas desatualizadas.
 
 {% endif %}
 
 #### Conclusão
 
-As fragilidades identificadas no planejamento de TIC reduzem a segurança de que a organização disponha de processo e instrumento suficientes para direcionar iniciativas, priorizar recursos, alinhar projetos às necessidades institucionais e integrar orçamento e contratações à estratégia de tecnologia.
+As fragilidades identificadas no planejamento de TIC reduzem a segurança de que a organização disponha, conforme aplicável ao caso concreto, de processo e instrumento suficientes para direcionar iniciativas, priorizar recursos, alinhar projetos às necessidades institucionais e integrar orçamento e contratações à estratégia de tecnologia.
 
-Diante do cenário efetivamente identificado, formula-se proposta de encaminhamento com vistas a recomendar à organização que promova a adequação dos aspectos de planejamento de TIC correspondentes às situações apontadas neste achado, conforme os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas recomendações preliminares voltadas à adequação dos aspectos de planejamento de TIC efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 
 {# Final do Achado - Planejamento de TIC #}

@@ -36,26 +36,29 @@ def xlsx_logicamente_iguais(a: Path | str, b: Path | str) -> bool:
 
     wb_a = load_workbook(caminho_a, read_only=True, data_only=False)
     wb_b = load_workbook(caminho_b, read_only=True, data_only=False)
-
-    if wb_a.sheetnames != wb_b.sheetnames:
-        return False
-
-    for nome_aba in wb_a.sheetnames:
-        ws_a = wb_a[nome_aba]
-        ws_b = wb_b[nome_aba]
-        if ws_a.max_row != ws_b.max_row or ws_a.max_column != ws_b.max_column:
+    try:
+        if wb_a.sheetnames != wb_b.sheetnames:
             return False
 
-        rows_a = ws_a.iter_rows(values_only=True)
-        rows_b = ws_b.iter_rows(values_only=True)
-        for row_a, row_b in zip(rows_a, rows_b):
-            if len(row_a) != len(row_b):
+        for nome_aba in wb_a.sheetnames:
+            ws_a = wb_a[nome_aba]
+            ws_b = wb_b[nome_aba]
+            if ws_a.max_row != ws_b.max_row or ws_a.max_column != ws_b.max_column:
                 return False
-            for valor_a, valor_b in zip(row_a, row_b):
-                if _normalizar_valor_celula(valor_a) != _normalizar_valor_celula(valor_b):
-                    return False
 
-    return True
+            rows_a = ws_a.iter_rows(values_only=True)
+            rows_b = ws_b.iter_rows(values_only=True)
+            for row_a, row_b in zip(rows_a, rows_b):
+                if len(row_a) != len(row_b):
+                    return False
+                for valor_a, valor_b in zip(row_a, row_b):
+                    if _normalizar_valor_celula(valor_a) != _normalizar_valor_celula(valor_b):
+                        return False
+
+        return True
+    finally:
+        wb_a.close()
+        wb_b.close()
 
 
 def substituir_xlsx_se_diferente(temporario: Path | str, destino: Path | str) -> bool:

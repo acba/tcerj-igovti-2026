@@ -52,6 +52,13 @@ def valor_texto(val, vazio=""):
         return vazio
     return str(val).strip()
 
+def normalizar_valor_contexto(val):
+    if isinstance(val, (list, tuple, dict, set)):
+        return val
+    if pd.isna(val):
+        return ""
+    return val
+
 def resposta_ajustada_exibicao(item_codigo, resposta_afirmada, resposta_ajustada=None):
     if resposta_ajustada is not None and not pd.isna(resposta_ajustada):
         text = str(resposta_ajustada).strip()
@@ -443,7 +450,12 @@ def main():
 
             tem_contexto_extra = df_contexto_extra is not None and sigla in df_contexto_extra.index
             if tem_contexto_extra:
-                contexto.update(df_contexto_extra.loc[sigla].to_dict())
+                contexto.update(
+                    {
+                        chave: normalizar_valor_contexto(valor)
+                        for chave, valor in df_contexto_extra.loc[sigla].to_dict().items()
+                    }
+                )
             elif df_contexto_extra is not None and auditado_obj.status_avaliacao != "nao_respondente":
                 logger.error(
                     "[%s] Contexto estatístico/iGovTI não encontrado para auditado avaliado; "

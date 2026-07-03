@@ -105,9 +105,7 @@ Da análise das respostas ao item 2201 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A inexistência, desatualização ou falta de divulgação do catálogo de serviços dificulta que os usuários conheçam o portfólio de entregas e os canais corretos de atendimento, podendo gerar modelo reativo e informal de prestação de suporte.
-
-Diante disso, __será proposta recomendação para que a organização institua e mantenha atualizado catálogo de serviços de TIC, acessível aos usuários e áreas demandantes, com informações mínimas sobre os serviços efetivamente prestados.__
+A inexistência, desatualização ou falta de divulgação do catálogo de serviços dificulta que os usuários conheçam o portfólio de entregas e os canais corretos de atendimento, elevando o risco de prestação de suporte de forma reativa, informal ou pouco transparente.
 
 {% endif %}
 
@@ -130,9 +128,7 @@ Da análise das respostas ao item 2201 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de níveis mínimos de serviço, metas estruturadas ou parâmetros equivalentes reduz as bases quantitativas para monitorar e avaliar a qualidade, o tempo de resposta e a eficiência dos serviços prestados.
-
-Diante disso, __será proposta recomendação para que a organização defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes.__
+A ausência de níveis mínimos de serviço, metas estruturadas ou parâmetros equivalentes reduz a disponibilidade de bases objetivas para monitorar e avaliar a qualidade, o tempo de resposta e a eficiência dos serviços prestados.
 
 {% endif %}
 
@@ -155,10 +151,7 @@ Da análise das respostas aos itens 2203 e 2504 e da documentação apresentada,
 {% endfor %}
 {% endif %}
 
-A falta de controle efetivo sobre os ativos de hardware e software expõe a organização a custos imprevistos, riscos de desconformidade de licenças, falhas de segurança cibernética e dificuldades operacionais no planejamento de capacidade.
-
-Diante disso, __será proposta recomendação para que a organização mantenha inventário atualizado de ativos de TIC, contemplando ao menos equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.__
-
+A ausência de inventário atualizado e abrangente de ativos de TIC reduz a segurança quanto ao controle sobre equipamentos, sistemas, softwares, licenças, serviços em nuvem e componentes de infraestrutura, elevando riscos relacionados a custos, conformidade, segurança da informação e planejamento de capacidade.
 {% endif %}
 
 {% set situacao = situacao_configuracao %}
@@ -180,9 +173,7 @@ Da análise das respostas ao item 2203 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de registros de configuração impede o mapeamento lógico das dependências entre servidores, bancos de dados, aplicações e serviços finalísticos, dificultando a análise de risco em mudanças operacionais e a mitigação de falhas sistêmicas.
-
-Diante disso, __será proposta recomendação para que a organização formalize e execute processo mínimo de gestão de configuração, mantendo base, ferramenta ou registro equivalente com itens de configuração relevantes, relacionamentos entre ativos, sistemas, infraestrutura e serviços, responsáveis, atualização periódica e uso das informações no planejamento e acompanhamento de mudanças.__
+A ausência de registros suficientes de configuração dificulta o mapeamento lógico das dependências entre servidores, bancos de dados, aplicações e serviços finalísticos, podendo reduzir a capacidade de análise de riscos em mudanças operacionais e de tratamento de falhas sistêmicas.
 
 {% endif %}
 
@@ -205,21 +196,19 @@ Da análise das respostas ao item 2204 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-O tratamento assistemático e sem registro centralizado das falhas tecnológicas impede o acompanhamento do histórico de incidentes, dificultando a identificação de causas raiz e a redução do período de indisponibilidade dos sistemas corporativos.
-
-Diante disso, __será proposta recomendação para que a organização formalize e execute processo mínimo de gestão de incidentes de TIC, contemplando papéis, responsabilidades, critérios de priorização, escalamento, tratamento de incidentes de serviços e de segurança da informação, registro sistemático em ferramenta, sistema, planilha ou base equivalente, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.__
+O tratamento assistemático ou sem registro centralizado das falhas tecnológicas dificulta o acompanhamento do histórico de incidentes, a identificação de causas raiz e a redução do período de indisponibilidade dos sistemas corporativos.
 
 {% endif %}
 
 #### Conclusão
 
-As fragilidades identificadas na gestão de serviços de TIC reduzem a segurança de que a organização disponha de práticas suficientes para assegurar eficiência, continuidade, rastreabilidade, qualidade dos serviços prestados e controle sobre ativos, configurações e incidentes.
+As fragilidades identificadas na gestão de serviços de TIC reduzem a segurança de que a organização disponha, conforme aplicável ao caso concreto, de práticas suficientes para assegurar eficiência, continuidade, rastreabilidade, qualidade dos serviços prestados e controle sobre ativos, configurações e incidentes.
 
-Diante do cenário efetivamente identificado, formula-se proposta de encaminhamento com vistas a recomendar à organização que estruture e promova a adequação das práticas de gestão de serviços de TIC correspondentes às situações apontadas neste achado, conforme os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas recomendações preliminares voltadas à estruturação e à adequação das práticas de gestão de serviços de TIC efetivamente apontadas neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 
 {# Final do Achado - Gestão de serviços de TIC #}

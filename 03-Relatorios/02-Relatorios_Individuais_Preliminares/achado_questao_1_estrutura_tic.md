@@ -55,10 +55,10 @@ Os critérios de boas práticas indicam que a organização deve estabelecer est
 Com base na análise das respostas aos itens 0101, 0102 e 0103 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de governança. A Equipe de Auditoria identificou as seguintes deficiências na estrutura de TIC da organização:
 
 {% if tem_formalizacao %}
-* **Formalização da área de TIC**: a ausência de demonstração da formalização da área, unidade, setor ou função de TIC não evidencia aderência aos critérios de definição de estruturas organizacionais e de comunicação de políticas e procedimentos (COBIT 2019, APO01.04/APO01.09 e ABNT NBR ISO/IEC 38500:2025, item 5.6.1), o que pode prejudicar a responsabilização e o alinhamento da TIC aos objetivos institucionais.
+* **Formalização da área de TIC**: a ausência da formalização da área, unidade, setor ou função de TIC não evidencia aderência aos critérios de definição de estruturas organizacionais e de comunicação de políticas e procedimentos (COBIT 2019, APO01.04/APO01.09 e ABNT NBR ISO/IEC 38500:2025, item 5.6.1), o que pode prejudicar a responsabilização e o alinhamento da TIC aos objetivos institucionais.
 {% endif %}
 {% if tem_atribuicoes %}
-* **Atribuições da área de TIC**: a insuficiência de comprovação das atribuições formais da área de TIC não evidencia aderência aos critérios de definição de papéis e responsabilidades e de comunicação de políticas e procedimentos (COBIT 2019, APO01.05/APO01.09 e ABNT NBR ISO/IEC 38500:2025, item 5.6.1), o que pode favorecer atuação reativa e fragmentada por falta de clareza sobre responsabilidades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
+* **Atribuições da área de TIC**: a insuficiência das atribuições formais da área de TIC não evidencia aderência aos critérios de definição de papéis e responsabilidades e de comunicação de políticas e procedimentos (COBIT 2019, APO01.05/APO01.09 e ABNT NBR ISO/IEC 38500:2025, item 5.6.1), o que pode favorecer atuação reativa e fragmentada por falta de clareza sobre responsabilidades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
 {% endif %}
 {% if tem_posicionamento %}
 * **Posicionamento organizacional**: o posicionamento informado não demonstrou compatibilidade suficiente com a relevância e as responsabilidades da função de TIC, em desacordo com o critério de aprimoramento do posicionamento da função de TI (COBIT 2019, APO01.06 e ABNT NBR ISO/IEC 38500:2025, item 5.6.1) e com a referência da Portaria SGD/ME nº 778/2019 (art. 4º, § 1º), o que pode reduzir a capacidade de influência institucional da TIC e comprometer sua participação em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
@@ -97,8 +97,6 @@ Da análise da resposta ao item 0101 e da documentação apresentada, não foi d
 
 A não demonstração dessa formalização materializa o risco de inexistência de unidade ou função institucionalmente reconhecida para coordenar o uso da tecnologia da informação, prejudicando o alinhamento da TIC aos objetivos da organização.
 
-Diante disso, __será proposta recomendação para que a organização formalize a área, unidade, setor ou função de TIC em regimento, decreto, portaria, resolução, organograma ou instrumento equivalente, compatível com seu porte, complexidade e dependência tecnológica.__
-
 {% endif %}
 
 {% set situacao = situacao_atribuicoes %}
@@ -123,8 +121,6 @@ Da análise das respostas aos itens 0101 e 0103 e da documentação apresentada,
 {% endif %}
 
 A não demonstração de atribuições formais suficientes compromete a capacidade de gestão da TIC e reduz a efetividade dos demais processos de governança e gestão, uma vez que a estrutura organizacional não explicita, de forma suficiente, quem deve decidir, executar, acompanhar e responder pelos resultados de tecnologia da informação.
-
-Diante disso, __será proposta recomendação para que a organização defina formalmente as atribuições da área de TIC, contemplando planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.__
 
 {% endif %}
 
@@ -151,19 +147,16 @@ Da análise das respostas aos itens 0101 e 0102 e da documentação apresentada,
 {% endfor %}
 {% endif %}
 
-Diante disso, __será proposta recomendação para que a organização avalie e ajuste o posicionamento organizacional da área de TIC, de modo a assegurar interlocução adequada com a alta administração e a participação da função de TIC nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.__
-
 {% endif %}
 
 #### Conclusão
 
 As fragilidades identificadas na estrutura de TIC reduzem a segurança de que a organização disponha de condições institucionais suficientes para coordenar, gerir e sustentar a tecnologia da informação de forma alinhada às necessidades institucionais.
 
-Diante do cenário efetivamente identificado, formula-se proposta de encaminhamento com vistas a recomendar à organização que promova a adequação de sua estrutura de TIC, alinhando-a aos critérios de governança e gestão aplicáveis previstos no COBIT 2019 e na ABNT NBR ISO/IEC 38500:2025{% if tem_posicionamento %}, bem como à diretriz de posicionamento organizacional constante do art. 4º, § 1º, da Portaria SGD/ME nº 778/2019{% endif %}.
-
+Em razão das lacunas descritas, são propostas recomendações preliminares voltadas à adequação dos aspectos da estrutura de TIC efetivamente apontados neste achado, observados os critérios aplicáveis de governança e gestão previstos no COBIT 2019 e na ABNT NBR ISO/IEC 38500:2025{% if tem_posicionamento %}, bem como a diretriz de posicionamento organizacional constante do art. 4º, § 1º, da Portaria SGD/ME nº 778/2019{% endif %}.
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 
 {## Final do Achado - Estrutura de TIC ##}
