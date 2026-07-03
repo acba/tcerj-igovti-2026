@@ -25,6 +25,15 @@ Assim, este relatório registra a ausência de resposta válida e não contém a
 
 # 2. iGovTI 2026
 
+{% set rotulos_dimensoes_gestao = {
+  'PlanejamentoTI': 'Planejamento de TIC',
+  'ServicosTI': 'Gestão de Serviços de TIC',
+  'RiscosTISegInfo': 'Gestão de Riscos de TI e Segurança da Informação',
+  'EstruturaSegInfo': 'Estrutura de Segurança da Informação',
+  'ProcessoSegInfo': 'Processos de Segurança da Informação',
+  'GerirSoluçõesTI': 'Gestão de Soluções de TIC'
+} %}
+
 A avaliação das organizações jurisdicionadas baseia-se no método de autoavaliação de controles (*Control Self-Assessment* – CSA), operacionalizado mediante questionário eletrônico. A ferramenta permitiu aos gestores declarar o nível de adoção das práticas de tecnologia da informação avaliadas e encaminhar a documentação probatória correspondente. As evidências anexadas e as justificativas apresentadas foram submetidas à análise de consistência por esta Equipe de Auditoria, servindo de subsídio para eventuais ajustes na pontuação declarada e para a identificação de inconformidades ou achados de auditoria.
 
 O questionário do iGovTI 2026 foi estruturado com o objetivo de diagnosticar aspectos essenciais de governança e gestão de TIC, abrangendo segurança da informação, gestão de riscos, continuidade de negócios, serviços de tecnologia, contratações de TIC, estrutura e força de trabalho, desenvolvimento de soluções, gestão de projetos e temas emergentes, a exemplo do uso de inteligência artificial. Para além do diagnóstico situacional de cada organização, o instrumento serve como referencial metodológico para futuras ações de melhoria de gestão.
@@ -43,7 +52,7 @@ O iGovTI 2026 constitui um índice composto, mensurado em uma escala de 0 a 1. A
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Nas questões que admitem itens de detalhamento (práticas específicas), a pontuação da questão principal sofre deduções proporcionais à quantidade de itens não atendidos pela organização. Subsequentemente, os valores são consolidados por meio de agregação ponderada em uma estrutura hierárquica. O índice final é composto por dois blocos principais, conforme detalhado na [@fig:composicao_igovti_2026]: **Governança de TIC (peso de 47,8%)**, formado por 4 questões de agregação direta; **Gestão de TIC (iGestTI) (peso de 52,2%)**, estruturado em 6 dimensões operacionais que consolidam 20 questões principais ponderadas.
+Nas questões que admitem itens de detalhamento, a pontuação da questão principal sofre deduções proporcionais à quantidade de itens não atendidos pela organização. Subsequentemente, os valores são consolidados por meio de agregação ponderada em uma estrutura hierárquica. O índice final é composto por dois blocos principais, conforme detalhado na [@fig:composicao_igovti_2026]: **Governança de TIC (peso de 47,8%)**, formado por 4 questões de agregação direta; **Gestão de TIC (iGestTI) (peso de 52,2%)**, estruturado em 6 dimensões operacionais que consolidam 20 questões principais ponderadas.
 
 ![Composição do iGovTI 2026](igovti_2026_composicao_infografico_v6.png){#fig:composicao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -116,7 +125,7 @@ A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(G
 
 A gestão de TIC avalia a capacidade da organização de planejar, executar, monitorar e aperfeiçoar processos, serviços, controles, recursos e contratações de tecnologia da informação, de forma compatível com suas necessidades institucionais.
 
-No iGovTI 2026, o componente **iGestTI** consolida dimensões de planejamento de TIC, gestão de serviços, riscos de TI e de segurança da informação, estrutura de segurança da informação, processos de segurança da informação e gestão de soluções de TIC.
+No iGovTI 2026, o componente **Gestão de TIC (iGestTI)** consolida seis dimensões operacionais: planejamento de TIC, gestão de serviços de TIC, gestão de riscos de TI e segurança da informação, estrutura de segurança da informação, processos de segurança da informação e gestão de soluções de TIC.
 
 A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGestTI|float)) | replace('.', ',') }} no componente Gestão de TIC**.
 
@@ -125,21 +134,21 @@ A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(i
 
 ## 2.3. Relação entre governança e gestão de TIC
 
-Os indicadores descritivos da [@tbl:estatisticas_componentes_igovti] mostram que o componente de gestão apresentou resultados superiores aos de governança no conjunto avaliado. A média do iGestTI foi {{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}, ante {{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }} para GovernancaTI; as medianas foram, respectivamente, {{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }} e {{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}. As duas médias situaram-se no nível Iniciando, enquanto a mediana de GovernancaTI permaneceu no limite superior do nível Inexpressivo e a mediana de iGestTI, no nível Iniciando.
+Os indicadores descritivos da [@tbl:estatisticas_componentes_igovti] mostram que o componente de gestão apresentou resultados superiores aos de governança no conjunto avaliado. A média da Gestão de TIC foi {{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}, ante {{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }} para Governança de TIC; as medianas foram, respectivamente, {{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }} e {{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}. As duas médias situaram-se no nível Iniciando, enquanto a mediana de Governança de TIC permaneceu no limite superior do nível Inexpressivo e a mediana de Gestão de TIC, no nível Iniciando.
 
 : Estatísticas descritivas do iGovTI 2026 e de seus componentes principais {#tbl:estatisticas_componentes_igovti#}
 
 | Indicador | Média | 1º quartil | Mediana | 3º quartil | Organizações com valor >= 0,40 | Valor {{ auditado.sigla }} |
 |---|---:|---:|---:|---:|---:|---:|
 | **iGovTI** | {{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igovti_geral_q1|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igovti_geral_q3|float)) | replace('.', ',') }} | {{ igovti_geral_a_partir_040_n|int }} ({{ ('%0.1f' | format(igovti_geral_a_partir_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((iGovTI|default(0))|float)) | replace('.', ',') }} |
-| **GovernancaTI** | {{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(governanca_geral_q1|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(governanca_geral_q3|float)) | replace('.', ',') }} | {{ governanca_geral_a_partir_040_n|int }} ({{ ('%0.1f' | format(governanca_geral_a_partir_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((GovernancaTI|default(0))|float)) | replace('.', ',') }} |
-| **iGestTI** | {{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igest_geral_q1|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igest_geral_q3|float)) | replace('.', ',') }} | {{ igest_geral_a_partir_040_n|int }} ({{ ('%0.1f' | format(igest_geral_a_partir_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((iGestTI|default(0))|float)) | replace('.', ',') }} |
+| **Governança de TIC** | {{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(governanca_geral_q1|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(governanca_geral_q3|float)) | replace('.', ',') }} | {{ governanca_geral_a_partir_040_n|int }} ({{ ('%0.1f' | format(governanca_geral_a_partir_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((GovernancaTI|default(0))|float)) | replace('.', ',') }} |
+| **Gestão de TIC** | {{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igest_geral_q1|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(igest_geral_q3|float)) | replace('.', ',') }} | {{ igest_geral_a_partir_040_n|int }} ({{ ('%0.1f' | format(igest_geral_a_partir_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((iGestTI|default(0))|float)) | replace('.', ',') }} |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos três indicadores. O iGestTI superou GovernancaTI em {{ gestao_maior_governanca_n|int }} organizações ({{ ('%0.1f' | format(gestao_maior_governanca_pct|float)) | replace('.', ',') }}%); o movimento inverso ocorreu em {{ governanca_maior_gestao_n|int }} ({{ ('%0.1f' | format(governanca_maior_gestao_pct|float)) | replace('.', ',') }}%); e houve igualdade em {{ governanca_gestao_iguais_n|int }} ({{ ('%0.1f' | format(governanca_gestao_iguais_pct|float)) | replace('.', ',') }}%). O padrão indica que, para a maior parte das organizações, as capacidades operacionais de gestão se situaram em patamar superior ao dos mecanismos de direção, monitoramento e controle exercidos pela alta administração. Essa diferença, contudo, não elimina a baixa maturidade da gestão: {{ igest_geral_abaixo_040_n|int }} organizações ({{ ('%0.1f' | format(igest_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) também obtiveram iGestTI inferior a 0,40.
+A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos três indicadores. O resultado em Gestão de TIC superou o de Governança de TIC em {{ gestao_maior_governanca_n|int }} organizações ({{ ('%0.1f' | format(gestao_maior_governanca_pct|float)) | replace('.', ',') }}%); o movimento inverso ocorreu em {{ governanca_maior_gestao_n|int }} ({{ ('%0.1f' | format(governanca_maior_gestao_pct|float)) | replace('.', ',') }}%); e houve igualdade em {{ governanca_gestao_iguais_n|int }} ({{ ('%0.1f' | format(governanca_gestao_iguais_pct|float)) | replace('.', ',') }}%). O padrão indica que, para a maior parte das organizações, as capacidades operacionais de gestão se situaram em patamar superior ao dos mecanismos de direção, monitoramento e controle exercidos pela alta administração. Essa diferença, contudo, não elimina a baixa maturidade da gestão: {{ igest_geral_abaixo_040_n|int }} organizações ({{ ('%0.1f' | format(igest_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) também obtiveram resultado em Gestão de TIC inferior a 0,40.
 
-![Distribuição do iGovTI 2026 e dos componentes GovernancaTI e iGestTI](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}
+![Distribuição do iGovTI 2026 e dos componentes Governança de TIC e Gestão de TIC](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das organizações nos dois componentes. Pontos abaixo da diagonal representam resultado de gestão superior ao de governança; pontos acima da diagonal representam a situação inversa.
@@ -150,61 +159,63 @@ A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das org
 {% if (GovernancaTI|float < 0.15) and (iGestTI|float < 0.15) %}
 No caso da organização **{{ auditado.sigla }}**, tanto o componente de Governança de TIC quanto o de Gestão de TIC situam-se no nível **Inexpressivo** (valores abaixo de 0,1500). Esse cenário indica estágio inicial de estruturação institucional de tecnologia da informação. Diante disso, a diferença residual entre os componentes não reflete uma assimetria operacional relevante, mas sim a necessidade de implantação simultânea de mecanismos fundamentais de governança (direção e controle) e processos operacionais de gestão.
 {% elif GovernancaTI|float < iGestTI|float %}
-No caso da organização **{{ auditado.sigla }}**, o componente GovernancaTI ficou abaixo do iGestTI. Esse perfil indica que o principal desequilíbrio relativo se encontra nos mecanismos pelos quais a alta administração direciona, monitora e avalia a TIC, devendo a leitura ser aprofundada à luz das evidências e dos achados relacionados à governança.
+No caso da organização **{{ auditado.sigla }}**, o resultado em Governança de TIC ficou abaixo do resultado em Gestão de TIC. Esse perfil indica que o principal desequilíbrio relativo se encontra nos mecanismos pelos quais a alta administração direciona, monitora e avalia a TIC, devendo a leitura ser aprofundada à luz das evidências e dos achados relacionados à governança.
 {% elif GovernancaTI|float > iGestTI|float %}
-No caso da organização **{{ auditado.sigla }}**, o componente iGestTI ficou abaixo de GovernancaTI. Esse perfil indica que as principais oportunidades relativas se concentram na transformação das diretrizes de governança em processos, controles e capacidades operacionais de gestão, devendo a leitura ser aprofundada à luz das evidências e dos achados correspondentes.
+No caso da organização **{{ auditado.sigla }}**, o resultado em Gestão de TIC ficou abaixo do resultado em Governança de TIC. Esse perfil indica que as principais oportunidades relativas se concentram na transformação das diretrizes de governança em processos, controles e capacidades operacionais de gestão, devendo a leitura ser aprofundada à luz das evidências e dos achados correspondentes.
 {% else %}
-No caso da organização **{{ auditado.sigla }}**, GovernancaTI e iGestTI apresentaram o mesmo valor. A igualdade dos componentes não implica equilíbrio em nível adequado, razão pela qual a análise deve considerar o nível de maturidade alcançado e as fragilidades específicas evidenciadas em cada dimensão.
+No caso da organização **{{ auditado.sigla }}**, Governança de TIC e Gestão de TIC apresentaram o mesmo valor. A igualdade dos componentes não implica equilíbrio em nível adequado, razão pela qual a análise deve considerar o nível de maturidade alcançado e as fragilidades específicas evidenciadas em cada dimensão.
 {% endif %}
 
 ## 2.4. Dimensões da gestão de TIC
 
-A decomposição do iGestTI revela diferenças relevantes entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], {% if dimensao_maior_media_nome == dimensao_maior_mediana_nome %}**{{ dimensao_maior_media_nome }}** apresentou a maior média ({{ ('%0.3f' | format(dimensao_maior_media_valor|float)) | replace('.', ',') }}) e a maior mediana ({{ ('%0.3f' | format(dimensao_maior_mediana_valor|float)) | replace('.', ',') }}){% else %}**{{ dimensao_maior_media_nome }}** apresentou a maior média ({{ ('%0.3f' | format(dimensao_maior_media_valor|float)) | replace('.', ',') }}), enquanto **{{ dimensao_maior_mediana_nome }}** apresentou a maior mediana ({{ ('%0.3f' | format(dimensao_maior_mediana_valor|float)) | replace('.', ',') }}){% endif %}. A dimensão com maior média também figurou como a de maior resultado em {{ dimensao_maior_media_maior_resultado_n|int }} organizações ({{ ('%0.1f' | format(dimensao_maior_media_maior_resultado_pct|float)) | replace('.', ',') }}%), considerados os empates. Esse padrão indica que algumas capacidades se encontram mais disseminadas do que outras no conjunto fiscalizado.
+A decomposição da Gestão de TIC revela diferenças relevantes entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], {% if dimensao_maior_media_nome == dimensao_maior_mediana_nome %}**{{ rotulos_dimensoes_gestao.get(dimensao_maior_media_nome, dimensao_maior_media_nome) }}** apresentou a maior média ({{ ('%0.3f' | format(dimensao_maior_media_valor|float)) | replace('.', ',') }}) e a maior mediana ({{ ('%0.3f' | format(dimensao_maior_mediana_valor|float)) | replace('.', ',') }}){% else %}**{{ rotulos_dimensoes_gestao.get(dimensao_maior_media_nome, dimensao_maior_media_nome) }}** apresentou a maior média ({{ ('%0.3f' | format(dimensao_maior_media_valor|float)) | replace('.', ',') }}), enquanto **{{ rotulos_dimensoes_gestao.get(dimensao_maior_mediana_nome, dimensao_maior_mediana_nome) }}** apresentou a maior mediana ({{ ('%0.3f' | format(dimensao_maior_mediana_valor|float)) | replace('.', ',') }}){% endif %}. A dimensão com maior média também figurou como a de maior resultado em {{ dimensao_maior_media_maior_resultado_n|int }} organizações ({{ ('%0.1f' | format(dimensao_maior_media_maior_resultado_pct|float)) | replace('.', ',') }}%), considerados os empates. Esse padrão indica que algumas capacidades se encontram mais disseminadas do que outras no conjunto fiscalizado.
 
-: Estatísticas descritivas das dimensões do iGestTI {#tbl:estatisticas_dimensoes_gestao#}
+: Estatísticas descritivas das dimensões de Gestão de TIC {#tbl:estatisticas_dimensoes_gestao#}
 
 | Dimensão | Média | Mediana | Resultados iguais a zero | Organizações com valor inferior a 0,40 | Valor {{ auditado.sigla }} |
 |---|---:|---:|---:|---:|---:|
-| **PlanejamentoTI** | {{ ('%0.3f' | format(planejamento_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(planejamento_geral_mediana|float)) | replace('.', ',') }} | {{ planejamento_geral_zeros_n|int }} ({{ ('%0.1f' | format(planejamento_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ planejamento_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(planejamento_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((PlanejamentoTI|default(0))|float)) | replace('.', ',') }} |
-| **ServicosTI** | {{ ('%0.3f' | format(servicos_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(servicos_geral_mediana|float)) | replace('.', ',') }} | {{ servicos_geral_zeros_n|int }} ({{ ('%0.1f' | format(servicos_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ servicos_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(servicos_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((ServicosTI|default(0))|float)) | replace('.', ',') }} |
-| **RiscosTISegInfo** | {{ ('%0.3f' | format(riscos_seguranca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(riscos_seguranca_geral_mediana|float)) | replace('.', ',') }} | {{ riscos_seguranca_geral_zeros_n|int }} ({{ ('%0.1f' | format(riscos_seguranca_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ riscos_seguranca_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(riscos_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((RiscosTISegInfo|default(0))|float)) | replace('.', ',') }} |
-| **EstruturaSegInfo** | {{ ('%0.3f' | format(estrutura_seguranca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(estrutura_seguranca_geral_mediana|float)) | replace('.', ',') }} | {{ estrutura_seguranca_geral_zeros_n|int }} ({{ ('%0.1f' | format(estrutura_seguranca_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ estrutura_seguranca_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(estrutura_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((EstruturaSegInfo|default(0))|float)) | replace('.', ',') }} |
-| **ProcessoSegInfo** | {{ ('%0.3f' | format(processos_seguranca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(processos_seguranca_geral_mediana|float)) | replace('.', ',') }} | {{ processos_seguranca_geral_zeros_n|int }} ({{ ('%0.1f' | format(processos_seguranca_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ processos_seguranca_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(processos_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((ProcessoSegInfo|default(0))|float)) | replace('.', ',') }} |
-| **GerirSoluçõesTI** | {{ ('%0.3f' | format(gestao_solucoes_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(gestao_solucoes_geral_mediana|float)) | replace('.', ',') }} | {{ gestao_solucoes_geral_zeros_n|int }} ({{ ('%0.1f' | format(gestao_solucoes_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ gestao_solucoes_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(gestao_solucoes_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((GerirSoluçõesTI|default(0))|float)) | replace('.', ',') }} |
+| **Planejamento de TIC** | {{ ('%0.3f' | format(planejamento_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(planejamento_geral_mediana|float)) | replace('.', ',') }} | {{ planejamento_geral_zeros_n|int }} ({{ ('%0.1f' | format(planejamento_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ planejamento_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(planejamento_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((PlanejamentoTI|default(0))|float)) | replace('.', ',') }} |
+| **Gestão de Serviços de TIC** | {{ ('%0.3f' | format(servicos_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(servicos_geral_mediana|float)) | replace('.', ',') }} | {{ servicos_geral_zeros_n|int }} ({{ ('%0.1f' | format(servicos_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ servicos_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(servicos_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((ServicosTI|default(0))|float)) | replace('.', ',') }} |
+| **Gestão de Riscos de TI e Segurança da Informação** | {{ ('%0.3f' | format(riscos_seguranca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(riscos_seguranca_geral_mediana|float)) | replace('.', ',') }} | {{ riscos_seguranca_geral_zeros_n|int }} ({{ ('%0.1f' | format(riscos_seguranca_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ riscos_seguranca_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(riscos_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((RiscosTISegInfo|default(0))|float)) | replace('.', ',') }} |
+| **Estrutura de Segurança da Informação** | {{ ('%0.3f' | format(estrutura_seguranca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(estrutura_seguranca_geral_mediana|float)) | replace('.', ',') }} | {{ estrutura_seguranca_geral_zeros_n|int }} ({{ ('%0.1f' | format(estrutura_seguranca_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ estrutura_seguranca_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(estrutura_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((EstruturaSegInfo|default(0))|float)) | replace('.', ',') }} |
+| **Processos de Segurança da Informação** | {{ ('%0.3f' | format(processos_seguranca_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(processos_seguranca_geral_mediana|float)) | replace('.', ',') }} | {{ processos_seguranca_geral_zeros_n|int }} ({{ ('%0.1f' | format(processos_seguranca_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ processos_seguranca_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(processos_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((ProcessoSegInfo|default(0))|float)) | replace('.', ',') }} |
+| **Gestão de Soluções de TIC** | {{ ('%0.3f' | format(gestao_solucoes_geral_media|float)) | replace('.', ',') }} | {{ ('%0.3f' | format(gestao_solucoes_geral_mediana|float)) | replace('.', ',') }} | {{ gestao_solucoes_geral_zeros_n|int }} ({{ ('%0.1f' | format(gestao_solucoes_geral_zeros_pct|float)) | replace('.', ',') }}%) | {{ gestao_solucoes_geral_abaixo_040_n|int }} ({{ ('%0.1f' | format(gestao_solucoes_geral_abaixo_040_pct|float)) | replace('.', ',') }}%) | {{ ('%0.4f' | format((GerirSoluçõesTI|default(0))|float)) | replace('.', ',') }} |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 A distribuição completa das seis dimensões é apresentada na [@fig:distribuicao_dimensoes_gestao_2026], incluindo medianas, intervalos interquartis e médias.
 
-![Distribuição dos resultados das seis dimensões que compõem o iGestTI](igovti_2026_distribuicao_dimensoes_gestao.png){#fig:distribuicao_dimensoes_gestao_2026#}
+![Distribuição dos resultados das seis dimensões de Gestão de TIC](igovti_2026_distribuicao_dimensoes_gestao.png){#fig:distribuicao_dimensoes_gestao_2026#}{width=50%}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 A [@fig:maturidade_dimensoes_igovti_2026] explicita a composição de cada dimensão por nível de maturidade e permite verificar em quais capacidades se concentram as organizações nos estágios iniciais.
 
-![Composição dos níveis de maturidade nas dimensões do iGestTI](igovti_2026_maturidade_dimensoes.png){#fig:maturidade_dimensoes_igovti_2026#}
+![Distribuição dos níveis de maturidade das organizações nas dimensões de Gestão de TIC](igovti_2026_maturidade_dimensoes.png){#fig:maturidade_dimensoes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-As menores médias foram observadas em **{{ dimensao_fragil_1_nome }}** ({{ ('%0.3f' | format(dimensao_fragil_1_media|float)) | replace('.', ',') }}) e **{{ dimensao_fragil_2_nome }}** ({{ ('%0.3f' | format(dimensao_fragil_2_media|float)) | replace('.', ',') }}). A primeira registrou valor inferior a 0,40 em {{ dimensao_fragil_1_abaixo_040_n|int }} organizações ({{ ('%0.1f' | format(dimensao_fragil_1_abaixo_040_pct|float)) | replace('.', ',') }}%) e apareceu entre as dimensões de menor resultado de {{ dimensao_fragil_1_menor_resultado_n|int }} organizações ({{ ('%0.1f' | format(dimensao_fragil_1_menor_resultado_pct|float)) | replace('.', ',') }}%), considerados os empates. Para a segunda, esses quantitativos foram, respectivamente, {{ dimensao_fragil_2_abaixo_040_n|int }} ({{ ('%0.1f' | format(dimensao_fragil_2_abaixo_040_pct|float)) | replace('.', ',') }}%) e {{ dimensao_fragil_2_menor_resultado_n|int }} ({{ ('%0.1f' | format(dimensao_fragil_2_menor_resultado_pct|float)) | replace('.', ',') }}%). O quadro indica que a formalização do planejamento, quando existente, frequentemente não é acompanhada, na mesma intensidade, pelas demais capacidades operacionais e de segurança.
+As menores médias foram observadas em **{{ rotulos_dimensoes_gestao.get(dimensao_fragil_1_nome, dimensao_fragil_1_nome) }}** ({{ ('%0.3f' | format(dimensao_fragil_1_media|float)) | replace('.', ',') }}) e **{{ rotulos_dimensoes_gestao.get(dimensao_fragil_2_nome, dimensao_fragil_2_nome) }}** ({{ ('%0.3f' | format(dimensao_fragil_2_media|float)) | replace('.', ',') }}). A primeira registrou valor inferior a 0,40 em {{ dimensao_fragil_1_abaixo_040_n|int }} organizações ({{ ('%0.1f' | format(dimensao_fragil_1_abaixo_040_pct|float)) | replace('.', ',') }}%) e apareceu entre as dimensões de menor resultado de {{ dimensao_fragil_1_menor_resultado_n|int }} organizações ({{ ('%0.1f' | format(dimensao_fragil_1_menor_resultado_pct|float)) | replace('.', ',') }}%), considerados os empates. Para a segunda, esses quantitativos foram, respectivamente, {{ dimensao_fragil_2_abaixo_040_n|int }} ({{ ('%0.1f' | format(dimensao_fragil_2_abaixo_040_pct|float)) | replace('.', ',') }}%) e {{ dimensao_fragil_2_menor_resultado_n|int }} ({{ ('%0.1f' | format(dimensao_fragil_2_menor_resultado_pct|float)) | replace('.', ',') }}%). O quadro indica que a formalização do planejamento, quando existente, frequentemente não é acompanhada, na mesma intensidade, pelas demais capacidades operacionais e de segurança.
 
-EstruturaSegInfo apresentou média de {{ ('%0.3f' | format(estrutura_seguranca_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(estrutura_seguranca_geral_mediana|float)) | replace('.', ',') }}. Essa diferença, associada à ampla dispersão observada na [@fig:distribuicao_dimensoes_gestao_2026], evidencia heterogeneidade: um grupo de organizações possui estruturas de segurança mais consolidadas, enquanto parcela expressiva permanece próxima dos níveis inferiores. ProcessoSegInfo mostrou mediana superior à de EstruturaSegInfo, mas {{ ('%0.1f' | format(processos_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}% das organizações ainda permaneceram abaixo de 0,40, o que recomenda examinar separadamente a existência da estrutura formal e a execução contínua dos processos de segurança.
+A dimensão Estrutura de Segurança da Informação apresentou média de {{ ('%0.3f' | format(estrutura_seguranca_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(estrutura_seguranca_geral_mediana|float)) | replace('.', ',') }}. Essa diferença, associada à ampla dispersão observada na [@fig:distribuicao_dimensoes_gestao_2026], evidencia heterogeneidade: um grupo de organizações possui estruturas de segurança mais consolidadas, enquanto parcela expressiva permanece próxima dos níveis inferiores. A dimensão Processos de Segurança da Informação mostrou mediana superior à de Estrutura de Segurança da Informação, mas {{ ('%0.1f' | format(processos_seguranca_geral_abaixo_040_pct|float)) | replace('.', ',') }}% das organizações ainda permaneceram abaixo de 0,40, o que recomenda examinar separadamente a existência da estrutura formal e a execução contínua dos processos de segurança.
 
 ## 2.5. Leitura integrada do resultado individual
 
 A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil da organização **{{ auditado.sigla }}** nas seis dimensões de gestão e o compara com as medianas observadas nas {{ universo_2026_n|int }} organizações. A comparação linear da [@fig:comparacao_dimensoes_gestao_auditado] permite identificar com maior precisão a distância entre o resultado individual e a mediana geral em cada dimensão.
 
-![Perfil da organização {{ auditado.sigla }} nas dimensões do iGestTI em comparação com as medianas gerais]({{ auditado.sigla }}_perfil_dimensoes_iGestTI.png){#fig:perfil_dimensoes_gestao_auditado#}
+![Perfil da organização nas dimensões de Gestão de TIC em comparação com os demais]({{ auditado.sigla }}_perfil_dimensoes_iGestTI.png){#fig:perfil_dimensoes_gestao_auditado#}{width=90%}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-![Comparação do resultado individual e da mediana nas dimensões do iGestTI]({{ auditado.sigla }}_comparacao_dimensoes_iGestTI.png){#fig:comparacao_dimensoes_gestao_auditado#}
+![Comparação do resultado individual e da mediana nas dimensões de Gestão de TIC]({{ auditado.sigla }}_comparacao_dimensoes_iGestTI.png){#fig:comparacao_dimensoes_gestao_auditado#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 {% if PlanejamentoTI|float < iGestTI|float %}
-Chama a atenção o fato de o resultado em PlanejamentoTI ({{ ('%0.4f' | format(PlanejamentoTI|float))|replace('.', ',') }}) situar-se abaixo da média das dimensões operacionais de gestão. Esse cenário atípico sugere que os poucos processos operacionais eventualmente adotados pela organização ocorrem de forma descentralizada ou sem a coordenação de diretrizes estratégicas formais, evidenciando a necessidade de priorização da dimensão de Planejamento de TIC.
+Chama a atenção o fato de o resultado em Planejamento de TIC ({{ ('%0.4f' | format(PlanejamentoTI|float))|replace('.', ',') }}) situar-se abaixo da média das dimensões operacionais de gestão. Esse cenário atípico sugere que os poucos processos operacionais eventualmente adotados pela organização ocorrem de forma descentralizada ou sem a coordenação de diretrizes estratégicas formais, evidenciando a necessidade de priorização dessa dimensão.
 {% endif %}
 
-A [@fig:percentis_indicadores_auditado] informa a posição relativa do auditado no conjunto avaliado. O percentil não representa nível de maturidade nem grau de atendimento a critério; indica apenas a proporção de organizações com resultado igual ou inferior ao da organização **{{ auditado.sigla }}**.
+A [@fig:percentis_indicadores_auditado] compara a posição da organização **{{ auditado.sigla }}** com as demais organizações avaliadas em cada indicador. A letra "P" indica a posição relativa (percentil) no conjunto: **P50** representa posição próxima ao centro da distribuição; **P90** indica que a organização obteve resultado igual ou superior ao de aproximadamente 90% das organizações avaliadas; e **P20** indica que apenas cerca de 20% das organizações tiveram resultado igual ou inferior. Assim, quanto maior o valor de "P", melhor é a posição relativa da organização naquele indicador.
 
-![Posição percentílica da organização {{ auditado.sigla }} nos indicadores avaliados]({{ auditado.sigla }}_percentis_indicadores.png){#fig:percentis_indicadores_auditado#}
+Essa comparação deve ser interpretada com cautela. A posição relativa não substitui o valor do índice, o nível de maturidade nem a análise de conformidade realizada nos achados de auditoria. Ela serve apenas para indicar se o resultado da organização ficou relativamente abaixo, próximo ou acima do conjunto avaliado.
+
+![Comparação da posição relativa da organização {{ auditado.sigla }} nos indicadores avaliados]({{ auditado.sigla }}_percentis_indicadores.png){#fig:percentis_indicadores_auditado#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 A composição declarada da força de trabalho de TIC e de segurança da informação é apresentada na [@fig:forca_trabalho_auditado]. Os quantitativos não compõem o índice e não medem, isoladamente, suficiência de pessoal; sua avaliação depende do porte, da complexidade, da terceirização, dos serviços mantidos e dos riscos da organização.
@@ -260,9 +271,11 @@ A [@fig:evolucao_individual_igovti_comparavel] apresenta a trajetória dos três
 
 A priorização de melhorias não deve buscar apenas a elevação numérica do índice. Recomenda-se concentrar esforços nas capacidades com menor resultado que, simultaneamente, estejam associadas a riscos relevantes, serviços críticos, obrigações normativas e necessidades institucionais da organização **{{ auditado.sigla }}**.
 
-## 2.6. Questões avaliadas no relatório individual
+\newpage
 
-Para o iGovTI 2026, a Equipe definiu questões de auditoria voltadas à avaliação da governança e da gestão de TIC. Para fins deste relatório individual preliminar, os possíveis achados decorrem das Questões 1 a 6, que tratam de temas passíveis de responsabilização institucional específica por organização.
+# 3. Resultados da Auditoria
+
+No âmbito desta fiscalização, foram definidas questões de auditoria para orientar a avaliação da governança e da gestão de TIC. Para fins deste relatório individual preliminar, os possíveis achados decorrem da verificação das Questões 1 a 6.
 
 : Questões de auditoria com avaliação individual preliminar {#tbl:questoes_avaliadas_individualmente#}
 
@@ -277,11 +290,7 @@ Para o iGovTI 2026, a Equipe definiu questões de auditoria voltadas à avaliaç
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-\newpage
-
 {% if auditado.tem_achados %}
-
-# 3. Resultados da Auditoria
 
 Os achados de auditoria apresentados a seguir decorrem da avaliação preliminar das respostas da organização **{{ auditado.sigla }}** ao questionário iGovTI 2026 e da correspondente análise de consistência documental realizada por esta Equipe de Auditoria. O trabalho consistiu no confronto sistemático entre as práticas de governança e gestão autodeclaradas pela organização e as evidências comprobatórias efetivamente encaminhadas, à luz da legislação aplicável e de padrões técnicos de referência internacional.
 
@@ -293,7 +302,7 @@ O presente relatório individual adota uma estrutura analítica de apresentaçã
 * **Conclusão da Equipe de Auditoria**: a análise técnica e o juízo profissional formulado a partir da correlação entre a situação factual e as regras de controle estabelecidas no mapa de verificação;
 * **Propostas de Encaminhamento**: as recomendações preliminares propostas com o intuito de orientar a organização na correção de fragilidades e no aprimoramento de suas capacidades de governança e gestão de TIC.
 
-Cumpre ressaltar o caráter preliminar das constatações ora apresentadas. A disponibilização deste relatório assegura a observância ao contraditório e à ampla defesa, proporcionando ao gestor a oportunidade de apresentar esclarecimentos adicionais, correções de fato ou novas informações que possam subsidiar a manifestação final desta Corte de Contas.
+Cumpre ressaltar o caráter preliminar das constatações ora apresentadas. A disponibilização deste relatório visa subsidiar a fase de comentários do gestor, permitindo à organização apresentar esclarecimentos adicionais, correções de fato ou novas informações que possam orientar a manifestação final desta Corte de Contas.
 
 
 {% include 'achado_questao_1_estrutura_tic.md' %}
@@ -312,7 +321,7 @@ Cumpre ressaltar o caráter preliminar das constatações ora apresentadas. A di
 
 # 4. Plano de ação
 
-Para facilitar o atendimento das propostas constantes da Seção 3, a Equipe de Auditoria elaborou modelo de plano de ação contendo os encaminhamentos preliminarmente propostos à organização.
+Para facilitar o atendimento das propostas constantes da Seção 3, a Equipe de Auditoria elaborou modelo preliminar de plano de ação contendo os encaminhamentos propostos à organização. O quadro não antecipa decisão final desta Corte de Contas e poderá ser revisto após a análise dos comentários do gestor.
 
 Cumpre registrar que, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementar as recomendações. Ressalta-se, contudo, que a eventual decisão pela não aderência deve ser motivada: o gestor deve apresentar justificativa formal que demonstre, à luz das circunstâncias do caso concreto, as razões da decisão e, quando cabível, as medidas alternativas adotadas para tratar a situação que ensejou a recomendação.
 
@@ -327,11 +336,7 @@ Cumpre registrar que, em conformidade com o art. 4º, incisos I e II, da Deliber
 
 {% else %}
 
-\newpage
-
-# 3. Resultados da Auditoria
-
-Com base na avaliação preliminar das respostas e das evidências da organização **{{ auditado.sigla }}**, não foram identificadas situações que ensejassem achado individual nas Questões 1 a 6.
+Com base na avaliação preliminar das respostas e das evidências da organização **{{ auditado.sigla }}**, nos limites dos procedimentos executados e das evidências analisadas, não foram identificadas situações que ensejassem achado individual nas Questões 1 a 6.
 
 {% endif %}
 
@@ -345,11 +350,11 @@ A estrutura de 2026 preservou a escala de 0 a 1, as categorias de resposta e as 
 
 | Aspecto | iGovTI 2023 | iGovTI 2026 | Implicação analítica |
 |---|---|---|---|
-| **Composição do índice final** | GovernancaTI e iGestTI com pesos iguais de 0,50. | GovernancaTI com peso 0,4777 e iGestTI com peso 0,5223. | A gestão passou a ter participação ligeiramente superior no índice final. |
+| **Composição do índice final** | Governança de TIC e Gestão de TIC com pesos iguais de 0,50. | Governança de TIC com peso 0,4777 e Gestão de TIC com peso 0,5223. | A gestão passou a ter participação ligeiramente superior no índice final. |
 | **Governança de TIC** | Agregação hierárquica de ModeloTI, MonitorAvaliaTI e ResultadoTI. | Agregação direta de quatro práticas relativas ao modelo de gestão, monitoramento, auditoria interna e simplificação de serviços públicos. | O componente tornou-se mais direto e incorporou práticas com escopo distinto da estrutura anterior. |
-| **Gestão de TIC** | Agregação de PlanejamentoTI, PessoasTI e ProcessosTI; este último reunia serviços, níveis de serviço, riscos, segurança, software, projetos e contratos. | Agregação direta de PlanejamentoTI, ServicosTI, RiscosTISegInfo, EstruturaSegInfo, ProcessoSegInfo e GerirSoluçõesTI. | O índice passou a evidenciar separadamente seis capacidades operacionais e de segurança. |
-| **Pessoas e contratações** | PessoasTI e iGestContratosTI integravam o cálculo do iGestTI. | Não integram a árvore de cálculo do iGovTI 2026, embora continuem relevantes para o diagnóstico e para a auditoria. | Mudanças nessas matérias não explicam diretamente a variação do índice de 2026. |
-| **Serviços, software e projetos** | Serviços e níveis de serviço eram agregados distintos; software e projetos integravam ProcessosTI. | Serviços foram consolidados em ServicosTI; software e projetos foram reunidos em GerirSoluçõesTI. | A leitura deve considerar a nova delimitação conceitual dos componentes. |
+| **Gestão de TIC** | Agregação de Planejamento de TIC, Pessoas e Processos de TIC; este último reunia serviços, níveis de serviço, riscos, segurança, software, projetos e contratos. | Agregação direta das seis dimensões de Gestão de TIC descritas neste relatório. | O índice passou a evidenciar separadamente seis capacidades operacionais e de segurança. |
+| **Pessoas e contratações** | Pessoas e contratações de TIC integravam o cálculo da Gestão de TIC. | Não integram a árvore de cálculo do iGovTI 2026, embora continuem relevantes para o diagnóstico e para a auditoria. | Mudanças nessas matérias não explicam diretamente a variação do índice de 2026. |
+| **Serviços, software e projetos** | Serviços e níveis de serviço eram agregados distintos; software e projetos integravam Processos de TIC. | Serviços foram consolidados na dimensão Gestão de Serviços de TIC; software e projetos foram reunidos na dimensão Gestão de Soluções de TIC. | A leitura deve considerar a nova delimitação conceitual dos componentes. |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
