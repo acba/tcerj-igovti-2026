@@ -590,7 +590,7 @@ def gerar_markdown(analises: dict[str, object], caminhos: dict[str, Path], desti
 
 ## 1. Objetivo
 
-Este relatório examina a relação entre os achados de auditoria registrados na execução dos procedimentos e as notas do iGovTI 2026 das organizações avaliadas. A análise foi atualizada com os artefatos mais recentes gerados em `/tmp/tcerj-igovti-2026`, contemplando resultados do índice, resultado estruturado da auditoria e tabelas consolidadas de achados, situações inconformes e encaminhamentos.
+Este relatório examina a relação entre os achados de auditoria registrados na execução dos procedimentos e as notas do iGovTI 2026 das organizações avaliadas. A análise foi atualizada com os artefatos informados na execução do script, contemplando resultados do índice, resultado estruturado da auditoria e tabelas consolidadas de achados, situações inconformes e encaminhamentos.
 
 ## 2. Fontes e método
 

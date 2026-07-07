@@ -355,7 +355,7 @@ def maturity_legend(ax: plt.Axes, location: str = "upper center", extra_handles:
 
 def plot_maturity_distribution(results: pd.DataFrame) -> None:
     counts = results["iGovTI_maturidade"].value_counts().reindex(LEVELS, fill_value=0)
-    fig, ax = plt.subplots(figsize=(9.2, 5.4))
+    fig, ax = plt.subplots(figsize=(9.2, 3.4))
     bars = ax.bar(LEVELS, counts.values, color=[LEVEL_COLORS[level] for level in LEVELS], width=0.68)
     labels = [f"{value}\n({value / counts.sum():.1%})" for value in counts.values]
     ax.bar_label(bars, labels=labels, padding=5, fontweight="bold")
@@ -369,7 +369,7 @@ def plot_continuous_distribution(results: pd.DataFrame) -> None:
     values = results["iGovTI"].astype(float).to_numpy()
     bins = np.arange(0, 1.0001, 0.05)
     counts, edges = np.histogram(values, bins=bins)
-    fig, ax = plt.subplots(figsize=(10.5, 5.8))
+    fig, ax = plt.subplots(figsize=(9, 5))
     for count, left, right in zip(counts, edges[:-1], edges[1:]):
         center = (left + right) / 2
         color = LEVEL_COLORS[maturity(center)]

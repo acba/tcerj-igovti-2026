@@ -10,6 +10,7 @@ import argparse
 import zipfile
 import io
 import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 import pandas as pd
 
@@ -37,6 +38,7 @@ logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_QUESTIONARIO_IGOVTI = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 NAO_PARECER_REVISOR = {"", "nan", "none", "sem_parecer", "sem parecer", "não revisado", "nao revisado"}
+DEFAULT_DOCX_WORKERS = max(1, min(8, os.cpu_count() or 1))
 
 class NpEncoder(json.JSONEncoder):
     """JSON Encoder that converts numpy/pandas types to python primitives."""
@@ -386,6 +388,159 @@ def carregar_reavaliacao_evidencias_comentarios_gestor(path):
         for _, registro in sorted(registros.items(), key=lambda item: int(item[0][1:]))
     ]
 
+
+def normalizar_workers_docx(valor):
+    try:
+        workers = int(valor)
+    except (TypeError, ValueError):
+        return DEFAULT_DOCX_WORKERS
+    return max(1, workers)
+
+
+def renderizar_docx_em_paralelo(itens, render_fn, jobs, descricao):
+    itens = list(itens)
+    total = len(itens)
+    if not total:
+        logger.warning("Nenhum item encontrado para gerar %s.", descricao)
+        return []
+
+    workers = min(normalizar_workers_docx(jobs), total)
+    logger.info("Renderizando %s DOCX de %s com %s worker(s)...", total, descricao, workers)
+
+    resultados = [None] * total
+    if workers == 1:
+        for index, item in enumerate(itens, start=1):
+            resultados[index - 1] = render_fn(item)
+            if index == total or index % 10 == 0:
+                logger.info("Renderizados %s/%s DOCX de %s.", index, total, descricao)
+        return resultados
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(render_fn, item): index
+            for index, item in enumerate(itens)
+        }
+        concluidos = 0
+        for future in as_completed(futures):
+            index = futures[future]
+            resultados[index] = future.result()
+            concluidos += 1
+            if concluidos == total or concluidos % 10 == 0:
+                logger.info("Renderizados %s/%s DOCX de %s.", concluidos, total, descricao)
+
+    return resultados
+
+
+def gravar_zip_docx(zip_path, entradas):
+    os.makedirs(zip_path.parent, exist_ok=True)
+    with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_STORED) as zip_file:
+        for filename, content in entradas:
+            zip_file.writestr(filename, content)
+
+
+def gerar_zip_relatorios_procedimentos(auditados, zip_path, jobs):
+    template_report = os.path.join(os.path.dirname(__file__), "resources", "template_report.docx")
+    auditados_para_relatorio = sorted(
+        (auditado for auditado in auditados.values() if auditado.foi_auditado),
+        key=lambda auditado: str(auditado.sigla),
+    )
+
+    def render(auditado):
+        doc = auditado.documenta_procedimentos(template_path=template_report)
+        bio = io.BytesIO()
+        doc.save(bio)
+        return f"{auditado.sigla} - Relatorio.docx", bio.getvalue()
+
+    entradas = renderizar_docx_em_paralelo(
+        auditados_para_relatorio,
+        render,
+        jobs,
+        "relatórios de procedimentos",
+    )
+    gravar_zip_docx(zip_path, entradas)
+    logger.info(
+        "Relatórios de procedimentos individuais ZIP gerado com sucesso: %s (%s arquivo(s)).",
+        zip_path,
+        len(entradas),
+    )
+
+
+def indexar_reavaliacao_evidencias_por_auditado(reavaliacao_evidencias):
+    por_auditado = {}
+    for item in reavaliacao_evidencias or []:
+        itens_por_auditado = {
+            normalizar_texto_comentarios_gestor(sigla).upper(): itens
+            for sigla, itens in (item.get("itens_por_auditado") or {}).items()
+        }
+        for sigla in item.get("auditados", []):
+            auditado_sigla = normalizar_texto_comentarios_gestor(sigla).upper()
+            por_auditado.setdefault(auditado_sigla, []).append(
+                {
+                    "base": item.get("base", ""),
+                    "base_texto": item.get("base_texto", item.get("base", "")),
+                    "itens": itens_por_auditado.get(auditado_sigla, []),
+                }
+            )
+    return por_auditado
+
+
+def selecionar_auditados_para_comentarios(auditados, auditados_com_achados, auditados_nao_respondentes, reavaliacao_por_auditado):
+    selecionados = {}
+    for auditado in [*auditados_com_achados, *auditados_nao_respondentes]:
+        selecionados[auditado.sigla] = auditado
+
+    siglas_reavaliacao = set(reavaliacao_por_auditado.keys())
+    for auditado in auditados.values():
+        if normalizar_texto_comentarios_gestor(auditado.sigla).upper() in siglas_reavaliacao:
+            selecionados[auditado.sigla] = auditado
+
+    return sorted(selecionados.values(), key=lambda auditado: str(auditado.sigla))
+
+
+def gerar_zip_anexos_comentarios_gestor(
+    auditados_para_comentarios,
+    reavaliacao_por_auditado,
+    zip_path,
+    data_final_entrega,
+    email_contato,
+    jobs,
+):
+    template_comentarios = os.path.join(
+        os.path.dirname(__file__),
+        "resources",
+        "template-questionario-comentarios-gestor.docx",
+    )
+
+    def render(auditado):
+        doc = DocxTemplate(template_comentarios)
+        achados = [p.achado for p in auditado.procedimentos_executados if p.achado is not None]
+        auditado_sigla = normalizar_texto_comentarios_gestor(auditado.sigla).upper()
+        contexto = {
+            'auditado': auditado,
+            'achados': achados,
+            'data_final_entrega': data_final_entrega,
+            'email_contato': email_contato,
+            'reavaliacao_evidencias': reavaliacao_por_auditado.get(auditado_sigla, []),
+        }
+        doc.render(contexto)
+        bio = io.BytesIO()
+        doc.save(bio)
+        return f"Anexo - Questionário Comentarios ({auditado.sigla}).docx", bio.getvalue()
+
+    entradas = renderizar_docx_em_paralelo(
+        auditados_para_comentarios,
+        render,
+        jobs,
+        "anexos de comentários do gestor",
+    )
+    gravar_zip_docx(zip_path, entradas)
+    logger.info(
+        "Anexos de comentários individuais ZIP gerado com sucesso: %s (%s arquivo(s)).",
+        zip_path,
+        len(entradas),
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Executa os procedimentos de auditoria do Argos via Linha de Comando.'
@@ -403,19 +558,17 @@ def main():
         help='Caminho para um ou mais arquivos de fontes de informação/respostas (.xlsx).'
     )
     parser.add_argument(
-        '-j', '--resultado-auditoria-json', '--output-json',
-        dest='resultado_auditoria_json',
+        '--resultado-json',
         default='.output_reports/resultado_auditoria.json',
         help='Caminho para salvar o resultado compacto da auditoria em JSON (padrão: .output_reports/resultado_auditoria.json).'
     )
     parser.add_argument(
-        '--resultado-auditoria-detalhado-json',
+        '--resultado-detalhado-json',
         default='',
         help='Caminho opcional para salvar o resultado detalhado da auditoria, incluindo todas as ações de verificação.'
     )
     parser.add_argument(
-        '-x', '--tabelas-auditoria-xlsx', '--output-xlsx',
-        dest='tabelas_auditoria_xlsx',
+        '--tabelas-xlsx',
         default='.output_reports/tabelas_consolidadas_auditoria.xlsx',
         help='Caminho para salvar a planilha de tabelas consolidadas da auditoria (padrão: .output_reports/tabelas_consolidadas_auditoria.xlsx).'
     )
@@ -450,20 +603,32 @@ def main():
         help='Planilha de ajustes pós-avaliação de evidências usada para incluir seção opcional de reavaliação no survey de comentários do gestor.'
     )
     parser.add_argument(
-        '--out-proc-zip', default='',
+        '--relatorios-procedimentos-zip', default='',
         help='Caminho para salvar o arquivo .zip com relatórios individuais de procedimentos.'
     )
     parser.add_argument(
-        '--out-evidencias-docx', default='',
+        '--anexo-evidencias-docx', default='',
         help='Caminho para salvar o documento Word consolidado do anexo de evidências.'
     )
     parser.add_argument(
-        '--out-lss', default='',
+        '--comentarios-gestor-lss', default='',
         help='Caminho para salvar o arquivo de questionário unificado (.lss) do LimeSurvey.'
     )
     parser.add_argument(
-        '--out-comentarios-zip', default='',
+        '--comentarios-gestor-anexos-zip', default='',
         help='Caminho para salvar o arquivo .zip com os questionários de comentários em Word individuais.'
+    )
+    parser.add_argument(
+        '--jobs-relatorios-procedimentos',
+        type=int,
+        default=DEFAULT_DOCX_WORKERS,
+        help=f'Quantidade de workers para renderizar DOCX de procedimentos (padrão: {DEFAULT_DOCX_WORKERS}).'
+    )
+    parser.add_argument(
+        '--jobs-comentarios-gestor-anexos',
+        type=int,
+        default=DEFAULT_DOCX_WORKERS,
+        help=f'Quantidade de workers para renderizar anexos DOCX de comentários do gestor (padrão: {DEFAULT_DOCX_WORKERS}).'
     )
     parser.add_argument(
         '--somente-dados', action='store_true',
@@ -480,6 +645,14 @@ def main():
     parser.add_argument(
         '--skip-comentarios-gestor', action='store_true',
         help='Não gera o questionário LimeSurvey nem os anexos Word de comentários do gestor.'
+    )
+    parser.add_argument(
+        '--skip-comentarios-gestor-lss', action='store_true',
+        help='Não gera o questionário LimeSurvey de comentários do gestor.'
+    )
+    parser.add_argument(
+        '--skip-comentarios-gestor-anexos', action='store_true',
+        help='Não gera os anexos Word de comentários do gestor.'
     )
 
     args = parser.parse_args()
@@ -695,18 +868,18 @@ def main():
 
     # 10. Salva em JSON
     try:
-        os.makedirs(os.path.dirname(os.path.abspath(args.resultado_auditoria_json)), exist_ok=True)
+        os.makedirs(os.path.dirname(os.path.abspath(args.resultado_json)), exist_ok=True)
         auditados_dict = {k: v.to_dict(compacto=True) for k, v in auditados.items()}
-        with open(args.resultado_auditoria_json, 'w', encoding='utf-8') as f:
+        with open(args.resultado_json, 'w', encoding='utf-8') as f:
             json.dump(auditados_dict, f, indent=2, ensure_ascii=False, cls=NpEncoder)
-        logger.info(f"Resultado compacto da auditoria salvo em: {args.resultado_auditoria_json}")
+        logger.info(f"Resultado compacto da auditoria salvo em: {args.resultado_json}")
 
-        if args.resultado_auditoria_detalhado_json:
-            os.makedirs(os.path.dirname(os.path.abspath(args.resultado_auditoria_detalhado_json)), exist_ok=True)
+        if args.resultado_detalhado_json:
+            os.makedirs(os.path.dirname(os.path.abspath(args.resultado_detalhado_json)), exist_ok=True)
             auditados_detalhado_dict = {k: v.to_dict(compacto=False) for k, v in auditados.items()}
-            with open(args.resultado_auditoria_detalhado_json, 'w', encoding='utf-8') as f:
+            with open(args.resultado_detalhado_json, 'w', encoding='utf-8') as f:
                 json.dump(auditados_detalhado_dict, f, indent=2, ensure_ascii=False, cls=NpEncoder)
-            logger.info(f"Resultado detalhado da auditoria salvo em: {args.resultado_auditoria_detalhado_json}")
+            logger.info(f"Resultado detalhado da auditoria salvo em: {args.resultado_detalhado_json}")
     except Exception as e:
         logger.error(f"Erro ao salvar arquivo JSON de auditados: {e}")
 
@@ -724,8 +897,8 @@ def main():
                 if not df_rank_combined.empty:
                     df_rank_combined.to_excel(writer, sheet_name='Ranking de Auditados')
 
-        escrever_xlsx_se_diferente(args.tabelas_auditoria_xlsx, _writer)
-        logger.info(f"Tabelas consolidadas da auditoria salvas em: {args.tabelas_auditoria_xlsx}")
+        escrever_xlsx_se_diferente(args.tabelas_xlsx, _writer)
+        logger.info(f"Tabelas consolidadas da auditoria salvas em: {args.tabelas_xlsx}")
     except Exception as e:
         logger.error(f"Erro ao salvar tabelas em Excel: {e}")
 
@@ -733,20 +906,18 @@ def main():
     if args.somente_dados or args.skip_relatorios_procedimentos:
         logger.info("Geração do ZIP de relatórios de procedimentos ignorada.")
     else:
-        proc_zip_path = Path(args.out_proc_zip) if args.out_proc_zip else Path(args.resultado_auditoria_json).parent / "relatorios_procedimentos.zip"
+        proc_zip_path = (
+            Path(args.relatorios_procedimentos_zip)
+            if args.relatorios_procedimentos_zip
+            else Path(args.resultado_json).parent / "relatorios_procedimentos.zip"
+        )
         logger.info(f"Gerando relatórios de procedimentos individuais em ZIP: {proc_zip_path}")
         try:
-            os.makedirs(proc_zip_path.parent, exist_ok=True)
-            template_report = os.path.join(os.path.dirname(__file__), "resources", "template_report.docx")
-
-            with zipfile.ZipFile(proc_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_f:
-                for sigla, auditado in auditados.items():
-                    if auditado.foi_auditado:
-                        doc = auditado.documenta_procedimentos(template_path=template_report)
-                        bio = io.BytesIO()
-                        doc.save(bio)
-                        zip_f.writestr(f"{auditado.sigla} - Relatorio.docx", bio.getvalue())
-            logger.info(f"Relatórios de procedimentos individuais ZIP gerado com sucesso!")
+            gerar_zip_relatorios_procedimentos(
+                auditados,
+                proc_zip_path,
+                args.jobs_relatorios_procedimentos,
+            )
         except Exception as e:
             logger.error(f"Erro ao gerar ZIP de procedimentos: {e}")
 
@@ -754,7 +925,11 @@ def main():
     if args.somente_dados or args.skip_anexo_evidencias:
         logger.info("Geração do anexo de evidências ignorada.")
     else:
-        evidencias_docx_path = Path(args.out_evidencias_docx) if args.out_evidencias_docx else Path(args.resultado_auditoria_json).parent / "anexo_evidencias.docx"
+        evidencias_docx_path = (
+            Path(args.anexo_evidencias_docx)
+            if args.anexo_evidencias_docx
+            else Path(args.resultado_json).parent / "anexo_evidencias.docx"
+        )
         logger.info(f"Gerando anexo de evidências unificado: {evidencias_docx_path}")
         try:
             os.makedirs(evidencias_docx_path.parent, exist_ok=True)
@@ -782,7 +957,22 @@ def main():
         v for v in auditados.values()
         if getattr(v, "status_avaliacao", "") == "nao_respondente"
     ]
-    if not (args.somente_dados or args.skip_comentarios_gestor):
+    skip_comentarios_lss = (
+        args.somente_dados
+        or args.skip_comentarios_gestor
+        or args.skip_comentarios_gestor_lss
+    )
+    skip_comentarios_anexos = (
+        args.somente_dados
+        or args.skip_comentarios_gestor
+        or args.skip_comentarios_gestor_anexos
+    )
+    gerar_alguma_saida_comentarios = not (skip_comentarios_lss and skip_comentarios_anexos)
+    reavaliacao_evidencias = []
+    reavaliacao_por_auditado = {}
+    data_final_entrega = ""
+    data_final_limesurvey = ""
+    if gerar_alguma_saida_comentarios:
         data_final_entrega, data_final_limesurvey = calcular_data_final_comentarios_gestor(
             args.data_final_preenchimento_comentarios_gestor
         )
@@ -800,12 +990,17 @@ def main():
                 total_auditados_reavaliacao,
                 len(reavaliacao_evidencias),
             )
+        reavaliacao_por_auditado = indexar_reavaliacao_evidencias_por_auditado(reavaliacao_evidencias)
 
     # 14.1 Arquivo .lss (LimeSurvey)
-    if args.somente_dados or args.skip_comentarios_gestor:
+    if skip_comentarios_lss:
         logger.info("Geração do questionário LimeSurvey de comentários ignorada.")
     else:
-        lss_path = Path(args.out_lss) if args.out_lss else Path(args.resultado_auditoria_json).parent / "comentarios_gestor" / "questionario_comentarios_gestor.lss"
+        lss_path = (
+            Path(args.comentarios_gestor_lss)
+            if args.comentarios_gestor_lss
+            else Path(args.resultado_json).parent / "comentarios_gestor" / "questionario_comentarios_gestor.lss"
+        )
         logger.info(f"Gerando questionário LimeSurvey unificado (.lss): {lss_path}")
         try:
             os.makedirs(lss_path.parent, exist_ok=True)
@@ -828,59 +1023,30 @@ def main():
             logger.error(f"Erro ao gerar questionário LSS: {e}")
 
     # 14.2 Anexos Word em ZIP
-    if args.somente_dados or args.skip_comentarios_gestor:
+    if skip_comentarios_anexos:
         logger.info("Geração dos anexos Word de comentários ignorada.")
     else:
-        comentarios_zip_path = Path(args.out_comentarios_zip) if args.out_comentarios_zip else Path(args.resultado_auditoria_json).parent / "comentarios_gestor" / "anexos_docx_comentarios.zip"
+        comentarios_zip_path = (
+            Path(args.comentarios_gestor_anexos_zip)
+            if args.comentarios_gestor_anexos_zip
+            else Path(args.resultado_json).parent / "comentarios_gestor" / "anexos_docx_comentarios.zip"
+        )
         logger.info(f"Gerando anexos de comentários do gestor individuais em ZIP: {comentarios_zip_path}")
         try:
-            os.makedirs(comentarios_zip_path.parent, exist_ok=True)
-            template_comentarios = os.path.join(os.path.dirname(__file__), "resources", "template-questionario-comentarios-gestor.docx")
-            siglas_reavaliacao = {
-                normalizar_texto_comentarios_gestor(sigla).upper()
-                for item in reavaliacao_evidencias
-                for sigla in item.get("auditados", [])
-            }
-            auditados_reavaliacao = [
-                auditado for auditado in auditados.values()
-                if normalizar_texto_comentarios_gestor(auditado.sigla).upper() in siglas_reavaliacao
-            ]
-            auditados_para_comentarios = {
-                auditado.sigla: auditado
-                for auditado in [*auditados_com_achados, *auditados_reavaliacao, *auditados_nao_respondentes]
-            }
-
-            with zipfile.ZipFile(comentarios_zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-                for auditado in auditados_para_comentarios.values():
-                    doc = DocxTemplate(template_comentarios)
-                    achados = [p.achado for p in auditado.procedimentos_executados if p.achado is not None]
-                    auditado_sigla = normalizar_texto_comentarios_gestor(auditado.sigla).upper()
-                    reavaliacao_evidencias_auditado = [
-                        {
-                            "base": item.get("base", ""),
-                            "base_texto": item.get("base_texto", item.get("base", "")),
-                            "itens": item.get("itens_por_auditado", {}).get(auditado_sigla, []),
-                        }
-                        for item in reavaliacao_evidencias
-                        if auditado_sigla in {
-                            normalizar_texto_comentarios_gestor(sigla).upper()
-                            for sigla in item.get("auditados", [])
-                        }
-                    ]
-
-                    contexto = {
-                        'auditado': auditado,
-                        'achados': achados,
-                        'data_final_entrega': data_final_entrega,
-                        'email_contato': args.email_contato_comentarios_gestor,
-                        'reavaliacao_evidencias': reavaliacao_evidencias_auditado,
-                    }
-                    doc.render(contexto)
-
-                    bio = io.BytesIO()
-                    doc.save(bio)
-                    zip_file.writestr(f"Comentarios do Gestor - {auditado.sigla}.docx", bio.getvalue())
-            logger.info(f"Anexos de comentários individuais ZIP gerado com sucesso!")
+            auditados_para_comentarios = selecionar_auditados_para_comentarios(
+                auditados,
+                auditados_com_achados,
+                auditados_nao_respondentes,
+                reavaliacao_por_auditado,
+            )
+            gerar_zip_anexos_comentarios_gestor(
+                auditados_para_comentarios,
+                reavaliacao_por_auditado,
+                comentarios_zip_path,
+                data_final_entrega,
+                args.email_contato_comentarios_gestor,
+                args.jobs_comentarios_gestor_anexos,
+            )
         except Exception as e:
             logger.error(f"Erro ao gerar ZIP de comentários do gestor: {e}")
 

@@ -455,8 +455,8 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
   --fontes \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
-  --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
+  --resultado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --tabelas-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
   --data-final-preenchimento-comentarios-gestor 06/07/2026 \
   --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
   --numero-fiscalizacao-comentarios-gestor 18/2026 \
@@ -472,9 +472,9 @@ Saídas principais:
 - `comentarios_gestor/questionario_comentarios_gestor.lss`: survey para comentários dos gestores.
 - `comentarios_gestor/anexos_docx_comentarios.zip`: modelos Word para manifestação dos gestores.
 
-Para depuração da execução, incluindo todas as ações de verificação avaliadas, informe também `--resultado-auditoria-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json`.
+Para depuração da execução, incluindo todas as ações de verificação avaliadas, informe também `--resultado-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json`.
 
-Antes da execução, o script valida o mapa de auditoria de forma bloqueante, incluindo referências a fontes, ações citadas na lógica, colunas das fontes, valores booleanos e expressões lógicas. Para uma execução leve, sem ZIP, DOCX ou LSS acessórios, use `--somente-dados`. Também é possível pular saídas específicas com `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias` e `--skip-comentarios-gestor`.
+Antes da execução, o script valida o mapa de auditoria de forma bloqueante, incluindo referências a fontes, ações citadas na lógica, colunas das fontes, valores booleanos e expressões lógicas. Para uma execução leve, sem ZIP, DOCX ou LSS acessórios, use `--somente-dados`. Também é possível pular saídas específicas com `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias`, `--skip-comentarios-gestor`, `--skip-comentarios-gestor-lss` e `--skip-comentarios-gestor-anexos`. Use `--jobs-relatorios-procedimentos` e `--jobs-comentarios-gestor-anexos` para ajustar a paralelização dos DOCX.
 
 ### 13. Escrita dos relatórios individuais preliminares
 

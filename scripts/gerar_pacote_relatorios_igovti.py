@@ -31,6 +31,7 @@ DEFAULT_ADMIN_COMENTARIOS_GESTOR = "CAD-TI"
 DEFAULT_EMAIL_COMENTARIOS_GESTOR = "auditoriati@tcerj.tc.br"
 DEFAULT_NUMERO_FISCALIZACAO_COMENTARIOS_GESTOR = "18/2026"
 DEFAULT_NOME_FISCALIZACAO_COMENTARIOS_GESTOR = "iGovTI 2026"
+DEFAULT_AUDITORIA_DOCX_WORKERS = max(1, min(8, os.cpu_count() or 1))
 
 default_tmp_root = Path("C:/tmp") if sys.platform.startswith("win") else Path(tempfile.gettempdir())
 DEFAULT_OUTPUT_DIR = default_tmp_root / "tcerj-igovti-2026-ultima-versao"
@@ -139,6 +140,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--graficos-skip-existing", action="store_true", help="Pula PNG de relatórios já existentes no diretório de saída.")
     parser.add_argument("--gerar-relatorios-procedimentos", action="store_true", help="Gera o ZIP de relatorios de procedimentos individuais. Por padrao, o ZIP nao e gerado.")
     parser.add_argument(
+        "--auditoria-jobs-relatorios-procedimentos",
+        type=int,
+        default=DEFAULT_AUDITORIA_DOCX_WORKERS,
+        help=f"Workers para renderizar DOCX de procedimentos na etapa de auditoria (padrão: {DEFAULT_AUDITORIA_DOCX_WORKERS}).",
+    )
+    parser.add_argument(
+        "--auditoria-jobs-comentarios-gestor-anexos",
+        type=int,
+        default=DEFAULT_AUDITORIA_DOCX_WORKERS,
+        help=f"Workers para renderizar anexos DOCX de comentários do gestor na etapa de auditoria (padrão: {DEFAULT_AUDITORIA_DOCX_WORKERS}).",
+    )
+    parser.add_argument(
         "--tipo-relatorio-individual",
         choices=["preliminar", "final"],
         default="preliminar",
@@ -245,18 +258,22 @@ def main() -> int:
         "--fontes",
         base_final,
         args.painel_avaliacao_evidencias,
-        "--resultado-auditoria-json",
+        "--resultado-json",
         resultado_auditoria,
-        "--tabelas-auditoria-xlsx",
+        "--tabelas-xlsx",
         tabelas_auditoria,
-        "--out-proc-zip",
+        "--relatorios-procedimentos-zip",
         relatorios_procedimentos,
-        "--out-evidencias-docx",
+        "--anexo-evidencias-docx",
         anexo_evidencias,
-        "--out-lss",
+        "--comentarios-gestor-lss",
         comentarios_lss,
-        "--out-comentarios-zip",
+        "--comentarios-gestor-anexos-zip",
         comentarios_zip,
+        "--jobs-relatorios-procedimentos",
+        str(args.auditoria_jobs_relatorios_procedimentos),
+        "--jobs-comentarios-gestor-anexos",
+        str(args.auditoria_jobs_comentarios_gestor_anexos),
         "--email-contato-comentarios-gestor",
         args.email_contato_comentarios_gestor,
         "--admin-responsavel-comentarios-gestor",

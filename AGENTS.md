@@ -152,17 +152,17 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
   --fontes \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
-  --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --tabelas-auditoria-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
+  --resultado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --tabelas-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
   --data-final-preenchimento-comentarios-gestor 06/07/2026 \
   --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
   --numero-fiscalizacao-comentarios-gestor 18/2026 \
   --nome-fiscalizacao-comentarios-gestor "iGovTI 2026"
 ```
 
-`resultado_auditoria.json` is compact by default and omits the full list of evaluated actions. Use `--resultado-auditoria-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json` only when a detailed debugging trace is required.
+`resultado_auditoria.json` is compact by default and omits the full list of evaluated actions. Use `--resultado-detalhado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria_detalhado.json` only when a detailed debugging trace is required.
 
-The audit CLI validates the map before execution and fails on missing sources/actions/columns, invalid booleans, and malformed finding logic. Use `--somente-dados` for a data-only run, or `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias`, and `--skip-comentarios-gestor` to skip specific accessory outputs.
+The audit CLI validates the map before execution and fails on missing sources/actions/columns, invalid booleans, and malformed finding logic. Use `--somente-dados` for a data-only run, or `--skip-relatorios-procedimentos`, `--skip-anexo-evidencias`, `--skip-comentarios-gestor`, `--skip-comentarios-gestor-lss`, and `--skip-comentarios-gestor-anexos` to skip specific accessory outputs. Use `--jobs-relatorios-procedimentos` and `--jobs-comentarios-gestor-anexos` to tune DOCX parallelism.
 
 Generate individual report charts:
 
