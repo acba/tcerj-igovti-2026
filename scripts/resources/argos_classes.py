@@ -1336,8 +1336,6 @@ def gerar_tabela_achados(auditados):
             linha = {achado: ('X' if achado in achados_auditado else '') for achado in nomes_todos_achados}
             linha["Auditado"] = auditado.sigla  # Adiciona o identificador do auditado
             dados_tabela.append(linha)
-        else:
-            print(f'{auditado.sigla} ainda não foi auditado')
 
     # Cria o DataFrame com os dados coletados
     df_achados = pd.DataFrame(dados_tabela)
@@ -1374,8 +1372,6 @@ def gerar_tabela_encaminhamentos(auditados):
 
             linha["Auditado"] = auditado.sigla  # Adiciona o identificador do auditado
             dados_tabela.append(linha)
-        else:
-            print(f'{auditado.sigla} ainda não foi auditado')
 
     # Cria o DataFrame com os dados coletados
     df_encaminhamentos = pd.DataFrame(dados_tabela)
@@ -1420,8 +1416,6 @@ def gerar_tabela_situacoes_inconformes(auditados):
 
             linha["Auditado"] = auditado.sigla  # Adiciona o identificador do auditado
             dados_tabela.append(linha)
-        else:
-            print(f'{auditado.sigla} ainda não foi auditado')
 
     # Cria o DataFrame com os dados coletados
     df_situacoes = pd.DataFrame(dados_tabela)

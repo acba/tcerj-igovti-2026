@@ -3,8 +3,9 @@
 
 from __future__ import annotations
 
-import os
 import json
+import logging
+import os
 import zipfile
 import xml.etree.ElementTree as ET
 import textwrap
@@ -26,6 +27,9 @@ COLOR_ESTADUAL = "#3B6EA8"   # Steel Blue
 COLOR_MUNICIPAL = "#167D8D"  # Teal
 COLOR_GRID = "#D1D5DB"       # Cinza claro
 COLOR_TEXT = "#1F2937"       # Cinza escuro
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 
 def iter_organizacoes(data):
@@ -155,17 +159,17 @@ def main(argv: list[str] | None = None):
     xlsx_path = args.auditados
     json_path = args.resultado_auditoria_json
 
-    print("Iniciando geração de gráficos dos achados...")
+    logger.info("Iniciando geração de gráficos dos achados...")
     
     # 1. Carrega mapeamento de esferas
     if not xlsx_path.exists():
-        print(f"Erro: Arquivo Excel não encontrado em {xlsx_path}")
+        logger.error("Arquivo Excel não encontrado em %s", xlsx_path)
         return
     sigla_to_esfera = parse_excel_spheres(xlsx_path)
     
     # 2. Carrega resultados da auditoria
     if not json_path.exists():
-        print(f"Erro: Arquivo JSON não encontrado em {json_path}")
+        logger.error("Arquivo JSON não encontrado em %s", json_path)
         return
     with open(json_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -194,7 +198,7 @@ def main(argv: list[str] | None = None):
     ]
 
     if not organizacoes_avaliadas:
-        print("Aviso: Nenhuma organização com procedimentos executados foi encontrada no JSON.")
+        logger.warning("Nenhuma organização com procedimentos executados foi encontrada no JSON.")
         return
 
     desconhecidas = sorted(
@@ -205,10 +209,7 @@ def main(argv: list[str] | None = None):
         }
     )
     if desconhecidas:
-        print(
-            "Aviso: Organizações avaliadas sem esfera em bd_auditados.xlsx: "
-            + ", ".join(desconhecidas)
-        )
+        logger.warning("Organizações avaliadas sem esfera em bd_auditados.xlsx: %s", ", ".join(desconhecidas))
 
     # Denominador dos percentuais: somente organizações efetivamente avaliadas.
     # Não respondentes constam no JSON, mas não possuem procedimentos executados.
@@ -247,7 +248,7 @@ def main(argv: list[str] | None = None):
                         counts[sit]['M'] += 1
 
         if not counts:
-            print(f"Aviso: Nenhuma ocorrência registrada para o Achado {num_find}")
+            logger.warning("Nenhuma ocorrência registrada para o Achado %s", num_find)
             continue
 
         # Ordena situações pelo total (decrescente)
@@ -317,7 +318,7 @@ def main(argv: list[str] | None = None):
         fig.savefig(save_path_img, dpi=180, bbox_inches="tight", facecolor="white")
         plt.close(fig)
         
-        print(f"Gráfico gerado com sucesso: {filename}")
+        logger.info("Gráfico gerado com sucesso: %s", filename)
 
 if __name__ == "__main__":
     main()

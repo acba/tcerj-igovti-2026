@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import re
 import sys
@@ -28,26 +29,25 @@ from argos_utils import (
     evitar_quebra_elementos,
 )
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
+
 # Tenta importar as bibliotecas necessárias
 try:
     import pypandoc
 except ImportError:
-    print(
-        "Erro: pypandoc não está instalado neste ambiente Python.\n"
-        "Execute o script utilizando o ambiente virtual do projeto:\n"
-        "  scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py",
-        file=sys.stderr
+    logger.error(
+        "pypandoc não está instalado neste ambiente Python. Execute o script utilizando o ambiente virtual do projeto: "
+        "  scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py"
     )
     sys.exit(1)
 
 try:
     import docx
 except ImportError:
-    print(
-        "Erro: python-docx não está instalado neste ambiente Python.\n"
-        "Execute o script utilizando o ambiente virtual do projeto:\n"
-        "  scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py",
-        file=sys.stderr
+    logger.error(
+        "python-docx não está instalado neste ambiente Python. Execute o script utilizando o ambiente virtual do projeto: "
+        "  scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py"
     )
     sys.exit(1)
 
@@ -116,14 +116,14 @@ def main() -> int:
     ref_path = Path(args.reference_docx)
 
     if not input_path.exists():
-        print(f"Erro: Arquivo de entrada não encontrado: {input_path}", file=sys.stderr)
+        logger.error("Arquivo de entrada não encontrado: %s", input_path)
         return 1
 
     if not ref_path.exists():
-        print(f"Erro: Documento de referência de estilos não encontrado: {ref_path}", file=sys.stderr)
+        logger.error("Documento de referência de estilos não encontrado: %s", ref_path)
         return 1
 
-    print(f"Lendo markdown: {input_path}")
+    logger.info("Lendo markdown: %s", input_path)
     conteudo = input_path.read_text(encoding="utf-8")
 
     # 1. Resolve variáveis de contexto para renderização Jinja2
@@ -131,10 +131,10 @@ def main() -> int:
     if args.context_json:
         context_json_path = Path(args.context_json)
         if context_json_path.exists():
-            print(f"Carregando variáveis do arquivo JSON: {context_json_path}")
+            logger.info("Carregando variáveis do arquivo JSON: %s", context_json_path)
             contexto.update(json.loads(context_json_path.read_text(encoding="utf-8")))
         else:
-            print(f"Aviso: Arquivo JSON de contexto não encontrado: {context_json_path}", file=sys.stderr)
+            logger.warning("Arquivo JSON de contexto não encontrado: %s", context_json_path)
 
     if args.context_vars:
         for item in args.context_vars:
@@ -144,13 +144,13 @@ def main() -> int:
 
     # 2. Renderiza como Jinja2 se houver tags de template
     if "{{" in conteudo or "{%" in conteudo:
-        print("Renderizando variáveis do template com Jinja2...")
+        logger.info("Renderizando variáveis do template com Jinja2...")
         try:
             from jinja2 import Template
             template = Template(conteudo)
             conteudo = template.render(contexto)
         except Exception as e:
-            print(f"Erro ao renderizar template Jinja2: {e}", file=sys.stderr)
+            logger.error("Erro ao renderizar template Jinja2: %s", e)
             return 1
 
     # 3. Aplica os processamentos de marcação herdados do Argos
@@ -173,7 +173,7 @@ def main() -> int:
         import shutil
         
         script_gerais = os.path.join(os.path.dirname(__file__), "gerar_graficos_relatorios_consolidado_individuais_igovti.py")
-        print("Executando a geração de gráficos gerais consolidados no diretório temporário...")
+        logger.info("Executando a geração de gráficos gerais consolidados no diretório temporário...")
         try:
             cmd_graficos_gerais = [sys.executable, script_gerais, "--somente-consolidados", "--output-root", temp_resources_dir]
             for option, value in [
@@ -192,12 +192,12 @@ def main() -> int:
                 stdout=subprocess.DEVNULL
             )
         except Exception as e:
-            print(f"Erro ao gerar gráficos gerais: {e}", file=sys.stderr)
+            logger.error("Erro ao gerar gráficos gerais: %s", e)
             return 1
 
         # Executa a geração de gráficos de achados diretamente para a pasta temporária
         script_achados = os.path.join(os.path.dirname(__file__), "gerar_graficos_achados_consolidado.py")
-        print("Executando a geração de gráficos de achados no diretório temporário...")
+        logger.info("Executando a geração de gráficos de achados no diretório temporário...")
         try:
             cmd_graficos_achados = [sys.executable, script_achados, "--output-dir", temp_resources_dir]
             if args.auditados_xlsx:
@@ -210,7 +210,7 @@ def main() -> int:
                 stdout=subprocess.DEVNULL
             )
         except Exception as e:
-            print(f"Erro ao gerar gráficos de achados: {e}", file=sys.stderr)
+            logger.error("Erro ao gerar gráficos de achados: %s", e)
             return 1
             
         # 5. Copia imagens de contexto de outros locais (se existirem / especificados) para consolidar na pasta temporária
@@ -237,7 +237,7 @@ def main() -> int:
                 if expanded:
                     resolved_paths.extend([p for p in expanded if os.path.exists(p)])
                 else:
-                    print(f"Aviso: Nenhum recurso encontrado para o padrão: '{r_path}'", file=sys.stderr)
+                    logger.warning("Nenhum recurso encontrado para o padrão: %r", r_path)
             else:
                 resolved_paths.append(r_path)
 
@@ -266,7 +266,7 @@ def main() -> int:
                                     if not os.path.exists(dest_file):
                                         shutil.copy2(src_file, dest_file)
                 except Exception as e:
-                    print(f"Erro ao extrair zip de recursos '{r_path}': {e}", file=sys.stderr)
+                    logger.error("Erro ao extrair zip de recursos %r: %s", r_path, e)
             else:
                 # Arquivo normal
                 filename = os.path.basename(r_path)
@@ -290,7 +290,7 @@ def main() -> int:
 
 
         try:
-            print(f"Compilando com Pandoc para DOCX usando template de referência: {ref_path}")
+            logger.info("Compilando com Pandoc para DOCX usando template de referência: %s", ref_path)
             
             # Garante diretórios de recursos para o Pandoc
             resource_paths = [
@@ -316,17 +316,17 @@ def main() -> int:
                 extra_args=extra_args
             )
 
-            print(f"Aplicando estilos de tabela pós-conversão no DOCX...")
+            logger.info("Aplicando estilos de tabela pós-conversão no DOCX...")
             aplicar_estilo_tabelas(str(output_path))
 
-            print(f"Ajustando layout para evitar quebras órfãs de figuras, tabelas e fontes...")
+            logger.info("Ajustando layout para evitar quebras órfãs de figuras, tabelas e fontes...")
             evitar_quebra_elementos(str(output_path))
 
-            print(f"[OK] Relatório DOCX gerado com sucesso em: {output_path}")
+            logger.info("Relatório DOCX gerado com sucesso em: %s", output_path)
             return 0
 
         except Exception as e:
-            print(f"Erro durante a geração do relatório: {e}", file=sys.stderr)
+            logger.error("Erro durante a geração do relatório: %s", e)
             return 1
         finally:
             if os.path.exists(temp_md_name):

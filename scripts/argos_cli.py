@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -37,6 +38,45 @@ LOG_DIR = STATE_DIR / "logs"
 DEFAULT_DOCX_WORKERS = max(1, min(8, os.cpu_count() or 1))
 
 console = Console()
+
+LOG_LINE_RE = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} - (DEBUG|INFO|WARNING|ERROR|CRITICAL) - .+")
+ANSI_RE = re.compile(r"\x1b\[[0-9;?]*[ -/]*[@-~]")
+
+
+def log_timestamp() -> str:
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")[:-3]
+
+
+def strip_ansi(value: str) -> str:
+    return ANSI_RE.sub("", value).replace("\r", "").rstrip("\n")
+
+
+def infer_log_level(message: str, *, returncode: int | None = None) -> str:
+    lowered = message.lower()
+    if returncode is not None and returncode != 0:
+        return "ERROR"
+    if any(token in lowered for token in ["traceback", "exception", "erro", "error", "falha", "failed"]):
+        return "ERROR"
+    if any(token in lowered for token in ["warning", "aviso", "deprecationwarning"]):
+        return "WARNING"
+    if "debug" in lowered:
+        return "DEBUG"
+    return "INFO"
+
+
+def format_log_message(message: str, *, level: str | None = None, returncode: int | None = None) -> str:
+    cleaned = strip_ansi(message)
+    if LOG_LINE_RE.match(cleaned):
+        return cleaned
+    resolved_level = level or infer_log_level(cleaned, returncode=returncode)
+    return f"{log_timestamp()} - {resolved_level} - {cleaned}"
+
+
+def emit_log(log_file, message: str, *, level: str | None = None, returncode: int | None = None) -> None:
+    formatted = format_log_message(message, level=level, returncode=returncode)
+    print(formatted, flush=True)
+    log_file.write(formatted + "\n")
+    log_file.flush()
 
 
 @dataclass(frozen=True)
@@ -744,13 +784,13 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
     log_path = log_path_for(routine)
     started = now_iso()
     started_monotonic = time.monotonic()
-    console.print(Panel(shlex.join(cmd), title="Comando", border_style="yellow"))
-    console.print(f"[dim]Log: {log_path}[/dim]\n")
 
     env = os.environ.copy()
     env.setdefault("PYTHONUNBUFFERED", "1")
     with log_path.open("w", encoding="utf-8") as log:
-        log.write(f"$ {shlex.join(cmd)}\n\n")
+        emit_log(log, f"Iniciando rotina: {routine.name}")
+        emit_log(log, f"Comando: {shlex.join(cmd)}")
+        emit_log(log, f"Arquivo de log: {log_path}")
         try:
             proc = subprocess.Popen(
                 cmd,
@@ -763,8 +803,7 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
             )
         except OSError as exc:
             message = f"Erro ao iniciar processo: {exc}"
-            console.print(f"[red]{message}[/red]")
-            log.write(message + "\n")
+            emit_log(log, message, level="ERROR")
             return {
                 "status": "failed",
                 "started_at": started,
@@ -776,15 +815,19 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
             }
         assert proc.stdout is not None
         for line in proc.stdout:
-            console.print(line.rstrip("\n"), markup=False, highlight=False)
-            log.write(line)
+            cleaned = strip_ansi(line)
+            if cleaned:
+                emit_log(log, cleaned)
         returncode = proc.wait()
+        duration = round(time.monotonic() - started_monotonic, 2)
+        if returncode == 0:
+            emit_log(log, f"Rotina finalizada com sucesso em {duration_text(duration)}.")
+        else:
+            emit_log(log, f"Rotina finalizada com erro: código {returncode} em {duration_text(duration)}.", level="ERROR")
 
     finished = now_iso()
     duration = round(time.monotonic() - started_monotonic, 2)
     status = "success" if returncode == 0 else "failed"
-    style = "green" if status == "success" else "red"
-    console.print(Panel(f"{routine.name}: {status} (codigo {returncode}) em {duration_text(duration)}", border_style=style))
     return {
         "status": status,
         "started_at": started,

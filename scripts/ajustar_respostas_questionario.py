@@ -14,12 +14,16 @@ Aplica as seguintes regras para itens com avaliação final "não conforme":
 import argparse
 import sys
 import re
+import logging
 from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
 
 from xlsx_utils import dataframe_to_xlsx_se_diferente
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 NA_VALUES_PRESERVANDO_NA = [
     "",
@@ -99,7 +103,7 @@ def main():
     # Validação dos arquivos de entrada
     for path_name, path in [("respostas", args.respostas), ("ajustes", args.ajustes)]:
         if not path.exists():
-            print(f"Erro: O arquivo de {path_name} em '{path}' não existe.", file=sys.stderr)
+            logger.error("O arquivo de %s em %r não existe.", path_name, str(path))
             sys.exit(1)
 
     # Definir arquivo de saída
@@ -109,15 +113,15 @@ def main():
         suffix = "_pos_ajustes_avaliacao_evidencias"
         output_path = args.respostas.parent / f"{args.respostas.stem}{suffix}.xlsx"
 
-    print(f"Lendo respostas de: {args.respostas}")
+    logger.info("Lendo respostas de: %s", args.respostas)
     df_respostas = read_excel_preservando_na(args.respostas)
 
     # Garantir que a coluna 'firstname' exista
     if "firstname" not in df_respostas.columns:
-        print("Erro: A coluna 'firstname' (com o nome do auditado) não foi encontrada na planilha de respostas.", file=sys.stderr)
+        logger.error("A coluna 'firstname' (com o nome do auditado) não foi encontrada na planilha de respostas.")
         sys.exit(1)
 
-    print(f"Lendo ajustes de: {args.ajustes}")
+    logger.info("Lendo ajustes de: %s", args.ajustes)
     df_ajustes = read_excel_preservando_na(args.ajustes)
 
     # Ordenar por auditado e depois por item (ordem alfabética case-insensitive)
@@ -139,7 +143,7 @@ def main():
     orgaos_afetados = set()
     changes = []
 
-    print("\nProcessando ajustes...")
+    logger.info("Processando ajustes...")
     for idx, row in df_ajustes.iterrows():
         auditado = row.get("Auditado")
         
@@ -157,7 +161,7 @@ def main():
         # Encontrar a linha correspondente do órgão comparando com a coluna 'firstname'
         rows_mask = df_respostas["firstname"].astype(str).str.strip().str.upper() == auditado.upper()
         if not rows_mask.any():
-            print(f"Aviso: Órgão '{auditado}' não encontrado na coluna 'firstname' das respostas.")
+            logger.warning("Órgão %r não encontrado na coluna 'firstname' das respostas.", auditado)
             continue
 
         # Verificar se o item código está na planilha
@@ -202,7 +206,7 @@ def main():
                             new_val = matched_opt
 
             if col_name is None:
-                print(f"Aviso: Coluna '{item_codigo}' não encontrada nas respostas para '{auditado}'.")
+                logger.warning("Coluna %r não encontrada nas respostas para %r.", item_codigo, auditado)
                 continue
 
             old_val = df_respostas.loc[rows_mask, col_name].values[0]
@@ -221,7 +225,7 @@ def main():
         else:
             # Caso seja o fluxo normal de "Não Conforme" do painel de revisões
             if col_name is None:
-                print(f"Aviso: Coluna '{item_codigo}' não encontrada nas respostas para '{auditado}'.")
+                logger.warning("Coluna %r não encontrada nas respostas para %r.", item_codigo, auditado)
                 continue
 
             revisor_val = row.get("Avaliação do auditor revisor")
@@ -336,18 +340,20 @@ def main():
                 print(f"{c['auditado']:<15} | {c['item']:<15} | {c['antes']:<15} | {c['ajustado']:<15} | {just_display:<100}")
             print("=" * 168)
     else:
-        print("\nNenhuma alteração foi realizada nas respostas.")
+        logger.info("Nenhuma alteração foi realizada nas respostas.")
 
     # Salvar resultado final
-    print(f"\nSalvando resultado ajustado em: {output_path}")
+    logger.info("Salvando resultado ajustado em: %s", output_path)
     dataframe_to_xlsx_se_diferente(df_respostas, output_path, index=False)
 
-    print("\n--- Resumo de Execução ---")
-    print(f"Total de itens avaliados no arquivo de ajustes: {total_lidos}")
-    print(f"Total de itens identificados como 'Não Conforme': {total_nao_conforme}")
-    print(f"Total de células ajustadas com sucesso: {total_ajustes_aplicados}")
-    print(f"Total de órgãos impactados: {len(orgaos_afetados)} ({', '.join(sorted(orgaos_afetados)) if orgaos_afetados else 'Nenhum'})")
-    print("--------------------------")
+    logger.info("Resumo de execução: itens avaliados no arquivo de ajustes: %s", total_lidos)
+    logger.info("Resumo de execução: itens identificados como 'Não Conforme': %s", total_nao_conforme)
+    logger.info("Resumo de execução: células ajustadas com sucesso: %s", total_ajustes_aplicados)
+    logger.info(
+        "Resumo de execução: órgãos impactados: %s (%s)",
+        len(orgaos_afetados),
+        ", ".join(sorted(orgaos_afetados)) if orgaos_afetados else "Nenhum",
+    )
 
 if __name__ == "__main__":
     main()

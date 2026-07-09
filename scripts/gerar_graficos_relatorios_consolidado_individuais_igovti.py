@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import logging
 import math
 import os
 import re
@@ -39,6 +40,9 @@ from igovti_dados_utils import (
     carregar_resultados_2026,
     consolidar_pareamentos,
 )
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -429,7 +433,7 @@ def plot_dimension_distribution(results: pd.DataFrame) -> None:
     values = [results[key].astype(float).to_numpy() for key in keys]
     positions = np.arange(1, len(values) + 1)
     fig, ax = plt.subplots(figsize=(10.5, 6.6))
-    box = ax.boxplot(values, positions=positions, vert=False, widths=0.55, patch_artist=True, showfliers=False,
+    box = ax.boxplot(values, positions=positions, orientation="horizontal", widths=0.55, patch_artist=True, showfliers=False,
                      medianprops={"color": "#111827", "linewidth": 1.7})
     for patch, key in zip(box["boxes"], keys):
         color = LEVEL_COLORS[maturity(float(results[key].mean()))]
@@ -859,7 +863,7 @@ def generate_individual(results: pd.DataFrame, raw: pd.DataFrame, profiles: pd.D
     if jobs == 1:
         for index, (_, record) in enumerate(records.iterrows(), start=1):
             sigla, quantidade = _generate_one_individual(results, raw_by_key, pairs_by_key, record)
-            print(f"[{index}/{total}] {sigla}: {quantidade} gráficos individuais")
+            logger.info("[%s/%s] %s: %s gráficos individuais", index, total, sigla, quantidade)
         return total
 
     record_dicts = [record.to_dict() for _, record in records.iterrows()]
@@ -871,7 +875,7 @@ def generate_individual(results: pd.DataFrame, raw: pd.DataFrame, profiles: pd.D
         futures = [executor.submit(_generate_one_individual_worker, record) for record in record_dicts]
         for index, future in enumerate(concurrent.futures.as_completed(futures), start=1):
             sigla, quantidade = future.result()
-            print(f"[{index}/{total}] {sigla}: {quantidade} gráficos individuais")
+            logger.info("[%s/%s] %s: %s gráficos individuais", index, total, sigla, quantidade)
     return len(records)
 
 
@@ -930,9 +934,14 @@ def main() -> None:
     individual_count = 0
     if not args.somente_consolidados:
         individual_count = generate_individual(results, raw, profiles, pairs, category_scores, args.auditados, args.jobs)
-    print(f"OK: {consolidated_count} gráficos consolidados e gráficos para {individual_count} organizações gerados em {DPI} dpi.")
-    print(f"Gráficos consolidados: {CONSOLIDATED_IMG}")
-    print(f"Gráficos individuais: {INDIVIDUAL_IMG}")
+    logger.info(
+        "Gráficos gerados com sucesso: %s consolidados e gráficos para %s organizações em %s dpi.",
+        consolidated_count,
+        individual_count,
+        DPI,
+    )
+    logger.info("Gráficos consolidados: %s", CONSOLIDATED_IMG)
+    logger.info("Gráficos individuais: %s", INDIVIDUAL_IMG)
 
 
 if __name__ == "__main__":

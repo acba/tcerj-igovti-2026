@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import sys
 import tempfile
 from pathlib import Path
@@ -61,6 +62,9 @@ from igovti_dados_utils import (
     normalizar_sigla,
     to_relative,
 )
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 
 def parse_args() -> argparse.Namespace:
@@ -152,8 +156,8 @@ def gerar_comparacao(
 
     escrever_xlsx_se_diferente(caminho_saida, _writer)
 
-    print(f"Comparação gerada: {to_relative(caminho_saida)}")
-    print(f"  Organizações pareadas: {len(pareados)}")
+    logger.info("Comparação gerada: %s", to_relative(caminho_saida))
+    logger.info("Organizações pareadas: %s", len(pareados))
 
 
 def _adicionar_comparacao(contexto: pd.DataFrame, pareados: pd.DataFrame) -> pd.DataFrame:
@@ -233,9 +237,9 @@ def gerar_contexto(
     caminho_estatisticas.parent.mkdir(parents=True, exist_ok=True)
     caminho_estatisticas.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"Contexto gerado: {to_relative(caminho_contexto)}")
-    print(f"Memória de cálculo: {to_relative(caminho_estatisticas)}")
-    print(f"  Organizações em 2026: {len(contexto)}; pareadas com 2023: {len(pareados)}")
+    logger.info("Contexto gerado: %s", to_relative(caminho_contexto))
+    logger.info("Memória de cálculo: %s", to_relative(caminho_estatisticas))
+    logger.info("Organizações em 2026: %s; pareadas com 2023: %s", len(contexto), len(pareados))
 
 
 def main() -> None:
@@ -245,9 +249,9 @@ def main() -> None:
     if not args.sem_mapeamento:
         if args.mapeamento_id.exists():
             mapeamento = carregar_mapeamento_id(args.mapeamento_id)
-            print(f"Mapeamento carregado: {len(mapeamento)} órgãos.")
+            logger.info("Mapeamento carregado: %s órgãos.", len(mapeamento))
         else:
-            print(f"Aviso: mapeamento não encontrado em {args.mapeamento_id}; usando ids originais.")
+            logger.warning("Mapeamento não encontrado em %s; usando ids originais.", args.mapeamento_id)
 
     coluna_id = args.coluna_id or None
     prefixo = args.prefixo
@@ -262,15 +266,14 @@ def main() -> None:
     saida_contexto = dir_resultados / f"{prefixo}-contexto-relatorios-igovti-2026.xlsx"
     saida_estatisticas = dir_resultados / f"{prefixo}-estatisticas-relatorios-igovti-2026.json"
 
-    print(f"Respostas: {args.respostas}")
-    print(f"Prefixo: {prefixo}")
+    logger.info("Respostas: %s", args.respostas)
+    logger.info("Prefixo: %s", prefixo)
 
     df_respostas = pd.read_excel(args.respostas)
     df_dedup = deduplicar_respostas(df_respostas, mapeamento)
     removidos = len(df_respostas) - len(df_dedup)
     if removidos:
-        print(f"Deduplicação: {removidos} envio(s) antigo(s) removido(s); {len(df_dedup)} órgão(s) restante(s).")
-    print()
+        logger.info("Deduplicação: %s envio(s) antigo(s) removido(s); %s órgão(s) restante(s).", removidos, len(df_dedup))
 
     with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
         caminho_temp = Path(tmp.name)
@@ -284,7 +287,7 @@ def main() -> None:
             coluna_id=coluna_id,
             mapeamento_id=mapeamento,
         )
-        print(f"Oficial gerado: {to_relative(saida_oficial)}")
+        logger.info("Oficial gerado: %s", to_relative(saida_oficial))
 
         calcular_igovti(
             caminho_temp,
@@ -293,7 +296,7 @@ def main() -> None:
             coluna_id=coluna_id,
             mapeamento_id=mapeamento,
         )
-        print(f"Comparável gerado: {to_relative(saida_comparavel)}")
+        logger.info("Comparável gerado: %s", to_relative(saida_comparavel))
     finally:
         caminho_temp.unlink(missing_ok=True)
 
@@ -307,7 +310,7 @@ def main() -> None:
         saida_estatisticas,
     )
 
-    print("\nConjunto iGovTI atualizado com sucesso.")
+    logger.info("Conjunto iGovTI atualizado com sucesso.")
 
 
 if __name__ == "__main__":
