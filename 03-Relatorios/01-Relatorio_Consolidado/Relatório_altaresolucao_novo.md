@@ -14,7 +14,7 @@ figure-caption-position: above
 | Modalidade: | AUDITORIA DE CONFORMIDADE |
 | Forma de autorização: | ORDINÁRIA |
 | Ato originário: | PROCESSO TCE-RJ nº 303.389-0/2025 |
-| Jurisdicionados: | AGENERSA, AGERIO, AGETRANSP, CEASA, CECIERJ, CEDAE, CEHAB, CENTRAL, CEPERJ, CODERTE, CODIN, CGE, DEGASE, DERRJ, DETRAN, DETRO, DPGE, DRM, EMATER, EMOP, FAETEC, FAPERJ, FIA, FIPERJ, FLXIII, FMIS, FS, FSC, FTM, FUNARJ, GSI, IEEA, INEA, IRM, IO, IPEM, ITERJ, IVB, JUCERJA, LOTERJ, MPE, PESAGRO, PGE, PMAR, PMA, PMAB, PMAC, PMBP, PMBR, PMCF, PMCG, PMCA, PMDC, PMG, PMI, PMJ, PMM, PMM, PMM, PMM, PMN, PMNF, PMNI, PMP, PMP, PMPR, PMQ, PMQ, PMQ, PMRO, PMSJB, PMSJM, PMSPA, PMS, PMS, PMSG, PMT, PMVR, PROCON, PRODERJ, RIOTRILHOS, RJ PREV, SEAP, SEAPA, SECTI, SECEC, SECC, SECID, SEDEC, SEDCON, SEDEICS, SEDSODH, SEEDUC, SEENEMAR, SEENVS, SEELJE, SEFAZ, SEGOV, SEHIS, SEIOP, SEPLAG, SEPOL, SEPM, SES, SETD, SETRANS, SETUR, SUDERJ, TCE, TJERJ, TURISRIO, UENF, UERJ. |
+| Jurisdicionados: | 119 organizações do Estado e Municípios do Rio de Janeiro. |
 | Objetivo da fiscalização: | Avaliar o grau de adoção dos jurisdicionados às boas práticas de governança e gestão de TI. |
 | Ofícios de apresentação: | AUD/SGE/GAP 3232/25 a 3241/25, 3243/25 a 3268/25 todos de 06/08/2025. |
 | Período abrangido: | janeiro/24 a julho/26 |
@@ -24,13 +24,31 @@ figure-caption-position: above
 
 \newpage
 
+# LISTA DE ANEXOS
+
+| **ANEXOS** | |
+| --- | --- |
+| **Documento nº** | **Descrição** |
+| AN01 | **Ofícios de Apresentação**  (arquivo digital “*AN01 - Ofícios de Apresentação.zip*”) |
+| AN02 | **Matriz de Planejamento**  (arquivo digital “AN02 - Matriz de Planejamento.pdf”) |
+| AN03 | **Questionário iGovTI 2026, metodologia e resultado**  (arquivo digital “AN03 – Questionário iGovTI 2026 e informações.zip”) |
+| AN04 | **Evidências** (arquivo digital “AN04 – Evidências dos achados.pdf”) |
+| AN05 | **Respostas aos Questionários (avaliação de respostas e comentários do gestor) e planilhas de ajustes**  (arquivo digital “*AN05 – Respostas aos questionários e ajustes.zip*”) |
+| AN06 | Matriz de Achados  (arquivo digital “AN06 – Matriz de Achados.pdf”) |
+| AN07 | Relatório Público  (arquivo digital “AN07 – Relatório Público.pdf”) |
+| AN08 | **Informações das organizações (TSIDs, Respostas e evidências enviadas, Relatório Individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)*  *\* Os anexos 08 a 43 consolidam as informações de cada organização auditada, seus TSIDs, respostas, evidências encaminhadas, comentários do gestor e relatórios individuais.* |
+| AN44 | Planos de Ação  (arquivo digital “AN44 –Planos de Ação.zip”) |
+
+
+\newpage
+
 # 1. RESUMO
 
 #### O que o TCE-RJ fiscalizou?
 
 O TCE-RJ realizou auditoria de conformidade, com contornos operacionais, para avaliar a adoção de boas práticas de governança e gestão de TIC nas organizações públicas sob sua jurisdição, traçando o panorama de maturidade e a evolução temporal em relação a 2023.
 
-A fiscalização abrangeu 120 organizações estaduais e municipais de todos os poderes e esferas. Desse total, 114 apresentaram resposta válida ao questionário e foram avaliadas nos resultados do iGovTI e nos achados consolidados; as outras 6 foram classificadas como não respondentes[^nao_respondentes_obstrucao]. 
+A fiscalização abrangeu 119 organizações estaduais e municipais de todos os poderes e esferas. Desse total, 113 apresentaram resposta válida ao questionário e foram avaliadas nos resultados do iGovTI e nos achados consolidados; as outras 6 foram classificadas como não respondentes[^nao_respondentes_obstrucao].
 
 A avaliação cobriu seis temas: formalização da área de TI, governança e comitês, planejamento (PDTI), força de trabalho, gestão de serviços e controle de contratações. As respostas ao questionário eletrônico de autoavaliação foram validadas por análise documental, servindo de base para o cálculo do Índice de Governança e Gestão de TI (iGovTI 2026) e classificação em quatro níveis de maturidade (Inexpressivo, Iniciando, Intermediário e Aprimorado). Realizou-se ainda comparação longitudinal para 69 entidades pareadas com a fiscalização de 2023.
 
@@ -73,11 +91,11 @@ Os trabalhos foram conduzidos em conformidade com as Normas Brasileiras de Audit
 
 ## 2.1 Antecedentes
 
-A presente fiscalização insere-se no conjunto de ações de controle externo planejadas por esta Corte de Contas para avaliar e induzir a maturidade da governança e da gestão de Tecnologia da Informação e Comunicação (TIC) sob sua jurisdição. 
+A presente fiscalização insere-se no conjunto de ações de controle externo planejadas por esta Corte de Contas para avaliar e induzir a maturidade da governança e da gestão de Tecnologia da Informação e Comunicação (TIC) sob sua jurisdição.
 
 Um importante marco nesse tema foi o levantamento realizado no âmbito do Processo nº 105.096-3/2020, que avaliou aspectos-chave da governança de TI das principais entidades da esfera estadual que utilizam soluções de tecnologia da informação, mensurando suas práticas pelo Índice de Governança de TI (iGovTI).
 
-Posteriormente, no ano de 2023, o Tribunal realizou duas auditorias de conformidade com o escopo de verificar as políticas de governança e gestão de TI como norteadoras das contratações de TIC. A primeira delas, autuada no Processo nº 205.089-9/2023, avaliou a maturidade dessas práticas em nível municipal, alcançando as prefeituras de Maricá, Rio das Ostras, Saquarema e Volta Redonda. A segunda, processada sob o nº 109.009-4/2023, concentrou-se nas organizações que compõem o Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC) do Executivo Estadual. 
+Posteriormente, no ano de 2023, o Tribunal realizou duas auditorias de conformidade com o escopo de verificar as políticas de governança e gestão de TI como norteadoras das contratações de TIC. A primeira delas, autuada no Processo nº 205.089-9/2023, avaliou a maturidade dessas práticas em nível municipal, alcançando as prefeituras de Maricá, Rio das Ostras, Saquarema e Volta Redonda. A segunda, processada sob o nº 109.009-4/2023, concentrou-se nas organizações que compõem o Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC) do Executivo Estadual.
 
 Paralelamente às avaliações gerais de governança, este Tribunal realizou fiscalizações dedicadas a aspectos específicos de segurança. Nesse sentido, a auditoria de conformidade do Processo nº 105.895-5/2024 e 107.097-5/2025 verificaram a adoção de controles e a aderência das organizações públicas estaduais às boas práticas de segurança da informação, como a ISO 27001/2022 e os Controles CIS v8.
 
@@ -85,7 +103,7 @@ Em virtude de a temática de Segurança da Informação (SI) e Segurança Cibern
 
 ## 2.2 Objetivo e escopo
 
-O objeto do presente trabalho consiste nas práticas de governança e gestão de TI de 126 jurisdicionados estaduais e municipais do Estado do Rio de Janeiro. 
+O objeto do presente trabalho consiste nas práticas de governança e gestão de TI de 119 jurisdicionados estaduais e municipais do Estado do Rio de Janeiro.
 
 Os objetivos específicos da fiscalização compreendem:
 
@@ -93,13 +111,13 @@ Os objetivos específicos da fiscalização compreendem:
 * Analisar a evolução temporal das capacidades de TIC por meio da comparação dos resultados de 2026 com os levantados em 2023;
 * Propor recomendações de melhoria de controles internos de governança e gestão nos auditados.
 
-O escopo da auditoria abrangeu 120 (cento e vinte) organizações das Administrações Públicas Estadual e Municipal. Desse total, 114 (cento e quatorze) apresentaram resposta válida ao questionário e foram consideradas nos resultados do iGovTI e nos achados consolidados. As seis organizações sem resposta válida foram tratadas como não respondentes. O período de execução dos trabalhos de campo ocorreu entre fevereiro e julho de 2026.
+O escopo da auditoria abrangeu 119 (cento e dezenove) organizações das Administrações Públicas Estadual e Municipal. Desse total, 113 (cento e treze) apresentaram resposta válida ao questionário e foram consideradas nos resultados do iGovTI e nos achados consolidados. As seis organizações sem resposta válida foram tratadas como não respondentes. O período de execução dos trabalhos de campo ocorreu entre fevereiro e julho de 2026.
 
 ## 2.3 Limitações
 
-A principal limitação metodológica do trabalho reside no caráter predominantemente autodeclaratório das informações fornecidas pelas organizações por meio do questionário eletrônico. 
+A principal limitação metodológica do trabalho reside no caráter predominantemente autodeclaratório das informações fornecidas pelas organizações por meio do questionário eletrônico.
 
-Visando mitigar os riscos de assimetria informacional, a Equipe de Auditoria requereu dos auditados o envio de evidências documentais correspondentes às respostas prestadas. A análise limitou-se ao confronto das declarações com os documentos encaminhados, sem a realização de testes locais de validação de controles. 
+Visando mitigar os riscos de assimetria informacional, a Equipe de Auditoria requereu dos auditados o envio de evidências documentais correspondentes às respostas prestadas. A análise limitou-se ao confronto das declarações com os documentos encaminhados, sem a realização de testes locais de validação de controles.
 
 A limitação não obstou o atingimento dos objetivos propostos.
 
@@ -135,7 +153,7 @@ A apuração do iGovTI permitiu comparar o grau de adoção das práticas avalia
 
 Paralelamente ao cálculo do índice, a Equipe de Auditoria executou procedimentos específicos para identificar achados. Esses procedimentos cruzaram o banco de auditados, as respostas ajustadas pelo painel de avaliação de evidências e a lista de procedimentos de auditoria definidos. Como resultado, foram consolidados achados, situações inconformes, evidências e propostas de encaminhamento para cada organização avaliada.
 
-Ao final da fase de execução, foram elaborados relatórios individuais preliminares. Para as organizações avaliadas, esses relatórios apresentaram a nota do iGovTI, a posição relativa no conjunto de jurisdicionados, os achados identificados, as situações encontradas, os ajustes decorrentes da análise documental e o plano de ação proposto. Para os não respondentes, foi registrada a ausência de resposta válida. 
+Ao final da fase de execução, foram elaborados relatórios individuais preliminares. Para as organizações avaliadas, esses relatórios apresentaram a nota do iGovTI, a posição relativa no conjunto de jurisdicionados, os achados identificados, as situações encontradas, os ajustes decorrentes da análise documental e o plano de ação proposto. Para os não respondentes, foi registrada a ausência de resposta válida.
 
 As manifestações dos gestores foram posteriormente apreciadas pela Equipe de Auditoria e consideradas na consolidação dos dados e das conclusões apresentados neste relatório.
 
@@ -263,7 +281,7 @@ A distribuição contínua da [@fig:distribuicao_continua_igovti_2026] complemen
 
 ### 4.1.1. Relação entre Governança e Gestão de TIC
 
-A decomposição do iGovTI 2026 entre seus dois componentes principais — Governança de TIC (peso de 47,8%) e Gestão de TIC (iGestTI, peso de 52,2%) — revela assimetrias relevantes entre a capacidade de direção e a capacidade operacional das organizações. 
+A decomposição do iGovTI 2026 entre seus dois componentes principais — Governança de TIC (peso de 47,8%) e Gestão de TIC (iGestTI, peso de 52,2%) — revela assimetrias relevantes entre a capacidade de direção e a capacidade operacional das organizações.
 
 Os indicadores descritivos apresentados na [@tbl:estatisticas_componentes_igovti] mostram que os resultados operacionais de gestão foram ligeiramente superiores aos de governança no conjunto avaliado. A média da Gestão de TIC foi **0,208**, ante **0,164** para Governança de TIC; as medianas foram, respectivamente, **0,153** e **0,117**. As duas médias situaram-se no nível Iniciando, enquanto a mediana de Governança de TIC permaneceu no nível Inexpressivo e a mediana de Gestão de TIC, no nível Iniciando.
 
@@ -706,19 +724,19 @@ Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consol
 
 # 7. PROPOSTA DE ENCAMINHAMENTO
 
-**CONSIDERANDO** o pleno atendimento ao objetivo proposto pela auditoria, qual seja, o de verificar a adoção de controles e sua aderência às boas práticas de segurança da informação;
+**CONSIDERANDO** o pleno atendimento ao objetivo proposto pela auditoria, qual seja, o de avaliar o grau de adoção de boas práticas de governança e gestão de tecnologia da informação e comunicação pelos jurisdicionados;
 
-**CONSIDERANDO** que o foco do presente trabalho é induzir os jurisdicionados a uma maior adoção de medidas de higiene cibernética;
+**CONSIDERANDO** que o foco do presente trabalho é induzir os jurisdicionados a maior maturidade em governança e gestão de TIC, em alinhamento com modelos consagrados como o COBIT 2019 e o ITIL 4;
 
-**CONSIDERANDO** que a higiene cibernética não se esgota nos controles abordados nessa auditoria, e que deve ser encarada como um processo de melhoria contínua, norteado por um sistema de segurança da informação centrado na gestão de riscos e no uso de boas práticas consolidadas;
+**CONSIDERANDO** que a governança e a gestão de TIC não se esgotam nas práticas abordadas nesta auditoria, e que devem ser encaradas como um processo de melhoria contínua, norteado por mecanismos de direção, avaliação e monitoramento, centrados na definição de papéis, responsabilidades, indicadores e metas;
 
 **CONSIDERANDO** o caráter orientador e dialógico do presente trabalho, assim como o alinhamento à diretriz de incremento de eficiência e efetividade na gestão administrativa;
 
-**CONSIDERANDO** as informações sensíveis à segurança de informação dos jurisdicionados presentes nos autos do processo;
+**CONSIDERANDO** o caráter sigiloso dos relatórios individuais anexos, justificado pelo detalhamento das fragilidades de governança e gestão de TIC de cada organização avaliada;
 
 **CONSIDERANDO** que os resultados decorrentes das ações previstas no Plano de Ação poderão ser objeto de avaliação futura por meio de Monitoramento, considerando os preceitos definidos na Resolução TCE-RJ nº 422/2023;
 
-**CONSIDERANDO** que a metodologia empregada neste trabalho não abordou as causas específicas dos problemas identificados e que as recomendações focam na implementação de medidas estabelecidas pelos controles CIS e pelas normas ABNT, conforme observado durante o processo de auditoria.
+**CONSIDERANDO** que a metodologia empregada neste trabalho não abordou as causas específicas dos problemas identificados e que as recomendações focam na implementação de medidas de governança e gestão de TIC baseadas no COBIT 2019, no ITIL 4, conforme observado durante o processo de auditoria.
 
 Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes propostas:
 
