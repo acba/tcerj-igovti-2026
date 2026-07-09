@@ -114,7 +114,7 @@ ROUTINES: list[Routine] = [
             Param(
                 "respostas",
                 "--respostas",
-                "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx",
+                "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-01-pos-ajuste-inicial.xlsx",
                 "Planilha de respostas original.",
             ),
             Param(
@@ -126,7 +126,7 @@ ROUTINES: list[Routine] = [
             Param(
                 "output",
                 "--output",
-                p(OUTPUT_ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx"),
+                p(OUTPUT_ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx"),
                 "Planilha ajustada de saida.",
             ),
         ],
@@ -157,7 +157,7 @@ ROUTINES: list[Routine] = [
         description="Gera resultados, comparacao longitudinal e contexto estatistico do iGovTI.",
         script=ROOT / "scripts/gerar_artefatos_igovti.py",
         params=[
-            Param("respostas", "--respostas", "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx", "Planilha de respostas."),
+            Param("respostas", "--respostas", "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx", "Planilha de respostas."),
             Param("prefixo", "--prefixo", "20260621", "Prefixo AAAAMMDD dos artefatos."),
             Param("output_dir", "--output-dir", p(OUTPUT_ROOT / "02-Execucao"), "Diretorio base dos artefatos."),
         ],
@@ -173,7 +173,7 @@ ROUTINES: list[Routine] = [
             Param(
                 "fontes",
                 "--fontes",
-                f"{OUTPUT_ROOT}/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx "
+                f"{OUTPUT_ROOT}/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx "
                 "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx",
                 "Fontes de informacao separadas por espaco.",
                 is_list=True,
@@ -209,7 +209,7 @@ ROUTINES: list[Routine] = [
         params=[
             Param("output_root", "--output-root", p(OUTPUT_ROOT), "Raiz dos artefatos."),
             Param("resultados_2026", "--resultados-2026", p(OUTPUT_ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx"), "Resultados oficiais 2026."),
-            Param("respostas_2026", "--respostas-2026", p(OUTPUT_ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx"), "Respostas 2026."),
+            Param("respostas_2026", "--respostas-2026", p(OUTPUT_ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx"), "Respostas 2026."),
             Param("comparavel_2026", "--comparavel-2026", p(OUTPUT_ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx"), "Resultado comparavel 2026."),
             Param("jobs", "--jobs", "1", "Processos paralelos. Use 1 em sandbox."),
             Param("dpi", "--dpi", "300", "Resolucao dos PNG."),
@@ -257,7 +257,7 @@ ROUTINES: list[Routine] = [
                 is_list=True,
             ),
             Param("resultados_2026", "--resultados-2026", "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx", "Resultados iGovTI 2026."),
-            Param("respostas_2026", "--respostas-2026", "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx", "Respostas 2026."),
+            Param("respostas_2026", "--respostas-2026", "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx", "Respostas 2026."),
             Param("comparavel_2026", "--comparavel-2026", "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx", "Comparavel 2026."),
             Param("setic_2023", "--setic-2023", "02-Execucao/02-Questionario iGovTI 2023/iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx", "Comparavel SETIC 2023."),
             Param("municipios_2023", "--municipios-2023", "02-Execucao/02-Questionario iGovTI 2023/iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx", "Comparavel municipios 2023."),
@@ -273,7 +273,7 @@ ROUTINES: list[Routine] = [
         params=[
             Param("respostas_bruto", "--respostas-bruto", "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx", "Exportacao bruta LimeSurvey."),
             Param("output_dir", "--output-dir", p(OUTPUT_LATEST), "Diretorio base dos artefatos."),
-            Param("graficos_jobs", "--graficos-jobs", "1", "Processos paralelos para graficos."),
+            Param("graficos_jobs", "--graficos-jobs", "8", "Processos paralelos para graficos."),
             Param("auditoria_jobs_relatorios_procedimentos", "--auditoria-jobs-relatorios-procedimentos", str(DEFAULT_DOCX_WORKERS), "Workers para relatorios de procedimentos na auditoria."),
             Param("auditoria_jobs_comentarios_gestor_anexos", "--auditoria-jobs-comentarios-gestor-anexos", str(DEFAULT_DOCX_WORKERS), "Workers para anexos de comentarios na auditoria."),
             Param("data_final", "--data-final-preenchimento-comentarios-gestor", "06/07/2026", "Data final dos comentarios do gestor."),

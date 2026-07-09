@@ -19,3 +19,4 @@ rarfile
 matplotlib
 pypandoc_binary
 scipy
+xlsx2csv

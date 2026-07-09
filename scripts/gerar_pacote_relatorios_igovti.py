@@ -176,8 +176,8 @@ def main() -> int:
     relatorios_dir = output_dir / "relatorios-individuais"
     consolidado_dir = output_dir / "relatorio-consolidado"
 
-    base_inicial = respostas_dir / f"{prefixo}-respostas-questionario.xlsx"
-    base_final = respostas_dir / f"{prefixo}-respostas-questionario-pos-avaliacao-evidencias.xlsx"
+    base_inicial = respostas_dir / f"{prefixo}-respostas-questionario-01-pos-ajuste-inicial.xlsx"
+    base_final = respostas_dir / f"{prefixo}-respostas-questionario-02-pos-avaliacao-evidencias.xlsx"
     resultado_oficial = resultados_igovti_dir / f"{prefixo}-iGovTI-2026.xlsx"
     resultado_comparavel = resultados_igovti_dir / f"{prefixo}-iGovTI-2026-Ajustado-Comparavel.xlsx"
     contexto_relatorios = resultados_igovti_dir / f"{prefixo}-contexto-relatorios-igovti-2026.xlsx"
