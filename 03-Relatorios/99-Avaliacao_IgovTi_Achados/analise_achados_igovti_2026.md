@@ -1,10 +1,14 @@
-# Relatório técnico - relação entre achados de auditoria e notas do iGovTI 2026
+---
+title: "ANEXO - Relação entre achados de auditoria e notas do iGovTI 2026"
+lang: pt-BR
+figure-caption-position: above
+---
 
-## 1. Objetivo
+# 1. Objetivo
 
 Este relatório examina a relação entre os achados de auditoria registrados na execução dos procedimentos e as notas do iGovTI 2026 das organizações avaliadas. A análise foi atualizada com os artefatos informados na execução do script, contemplando resultados do índice, resultado estruturado da auditoria e tabelas consolidadas de achados, situações inconformes e encaminhamentos.
 
-## 2. Fontes e método
+# 2. Fontes e método
 
 Foram cruzadas três fontes: `02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx`, aba `resultados`; `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json`; e `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx`, abas `Achados por Auditado`, `Situações Inconformes`, `Encaminhamentos por Auditado` e `Ranking de Auditados`.
 
@@ -12,7 +16,7 @@ A unidade de análise foi a organização auditada. Entraram no cruzamento **114
 
 A correlação de Spearman foi priorizada porque a quantidade de achados é discreta e limitada a seis categorias. Essa limitação cria efeito de teto e exige cautela na interpretação. O arquivo JSON estruturado foi usado como conferência cruzada da contagem de achados; foram identificadas **0 divergências** entre a contagem derivada das tabelas consolidadas e a contagem dos procedimentos no JSON.
 
-## 3. Resultado executivo
+# 3. Resultado executivo
 
 O resultado central da análise é que **na base atualizada a correlação entre iGovTI e a carga de achados é negativa**. Considerando todas as organizações, a correlação de Spearman entre `iGovTI` e `qtd_achados` foi **-0.341** (p = **0.0002**) e entre `iGovTI` e `qtd_situacoes` foi **-0.586** (p = **< 0.0001**).
 
@@ -20,7 +24,7 @@ Essa evidência é coerente com a expectativa de auditoria: organizações com m
 
 Em termos de controle externo, o principal insight é que **o iGovTI se relaciona com a carga de fragilidades, mas a quantidade de achados distintos perdeu poder discriminatório por efeito de teto**. A quantidade de situações inconformes é mais granular e informativa, pois diferencia organizações que materializam os mesmos achados em poucas ou muitas fragilidades concretas.
 
-## 4. Visão geral da base
+# 4. Visão geral da base
 
 - iGovTI médio: **0.187**; mediana: **0.135**.
 - Média de achados distintos: **5.535**; mediana: **6.0**.
@@ -34,9 +38,9 @@ Em termos de controle externo, o principal insight é que **o iGovTI se relacion
 
 A alta concentração em 5 a 6 achados mostra forte efeito de teto. Nessa configuração, a simples contagem de achados distingue mal as organizações em situação crítica. A quantidade de situações inconformes recupera parte da granularidade, pois diferencia organizações que materializam os mesmos achados em poucas ou muitas fragilidades concretas.
 
-## 5. Correlações principais
+# 5. Correlações principais
 
-### 5.1. Quantidade de achados
+# 5.1. Quantidade de achados
 
 | Indicador | Spearman r | p Spearman | Pearson r | p Pearson | n |
 | --- | --- | --- | --- | --- | --- |
@@ -47,7 +51,7 @@ A alta concentração em 5 a 6 achados mostra forte efeito de teto. Nessa config
 | EstruturaSegInfo | -0.278 | 0.0027 | -0.367 | < 0.0001 | 114 |
 | ProcessoSegInfo | -0.278 | 0.0027 | -0.455 | < 0.0001 | 114 |
 
-### 5.2. Quantidade de situações inconformes
+# 5.2. Quantidade de situações inconformes
 
 | Indicador | Spearman r | p Spearman | Pearson r | p Pearson | n |
 | --- | --- | --- | --- | --- | --- |
@@ -66,7 +70,7 @@ As correlações mais fortes com situações inconformes aparecem em `Planejamen
 ![Matriz de correlação entre achados e notas](img/correlacao_achados_notas_igovti_2026.png){#fig:correlacao_achados_notas_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nos artefatos de execução do iGovTI 2026)</div>
 
-## 6. Análise de sensibilidade
+# 6. Análise de sensibilidade
 
 | Recorte | n | Spearman iGovTI x achados | p achados | Spearman iGovTI x situações | p situações |
 | --- | --- | --- | --- | --- | --- |
@@ -78,9 +82,9 @@ As correlações mais fortes com situações inconformes aparecem em `Planejamen
 
 A sensibilidade confirma a robustez da relação negativa. A associação permanece estatisticamente relevante na base completa, quando se excluem organizações com iGovTI igual a zero, quando se restringe a análise a iGovTI igual ou superior a 0,10 e quando se observa apenas a metade superior da distribuição. Ainda assim, a magnitude é maior e mais estável para situações inconformes do que para achados distintos, reforçando que **a quantidade de situações deve ser usada como medida principal de intensidade das fragilidades**.
 
-## 7. Quartis e níveis de maturidade
+# 7. Quartis e níveis de maturidade
 
-### 7.1. Quartis de iGovTI
+## 7.1. Quartis de iGovTI
 
 | Quartil iGovTI | Organizações | Mín. iGovTI | Máx. iGovTI | Média iGovTI | Média de achados | Média de situações | % com 5 ou 6 achados | % com até 3 achados |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -94,7 +98,7 @@ A sensibilidade confirma a robustez da relação negativa. A associação perman
 
 O primeiro quartil concentra a maior média de situações inconformes e praticamente todos os auditados dos três primeiros quartis têm 5 ou 6 achados. O quarto quartil apresenta redução da média de achados e, sobretudo, da média de situações. Isso sugere que a maturidade medida pelo iGovTI está associada a menor intensidade de fragilidades, mas a saturação dos achados faz com que a melhora apareça de forma mais clara nas situações inconformes.
 
-### 7.2. Níveis de maturidade declarados pelo iGovTI
+## 7.2. Níveis de maturidade declarados pelo iGovTI
 
 | Nível de maturidade | Organizações | Média iGovTI | Média de achados | Média de situações | % com 6 achados | % com 5 ou 6 achados |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -105,9 +109,9 @@ O primeiro quartil concentra a maior média de situações inconformes e pratica
 
 O recorte por nível de maturidade reforça que a distribuição de achados não segue uma relação linear simples. Mesmo nos níveis superiores da amostra, a média de achados permanece elevada, o que recomenda separar a comunicação do índice da comunicação dos achados. O índice informa maturidade relativa; os achados indicam descumprimentos, fragilidades ou lacunas verificadas nos critérios da fiscalização.
 
-## 8. Achados e situações mais informativos
+# 8. Achados e situações mais informativos
 
-### 8.1. Prevalência dos achados
+## 8.1. Prevalência dos achados
 
 | Achado | n com achado | n sem achado | % | Média iGovTI com | Média iGovTI sem | Diferença sem - com | r ponto-bisserial | p-valor |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -120,7 +124,7 @@ O recorte por nível de maturidade reforça que a distribuição de achados não
 
 O achado mais disseminado foi **Achado 5 - Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes**, presente em **114 organizações** (**100.0%**). Mesmo o achado menos frequente, **Achado 1 - Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.**, alcançou **72 organizações** (**63.2%**), o que demonstra amplitude sistêmica das fragilidades encontradas.
 
-### 8.2. Situações inconformes mais frequentes
+## 8.2. Situações inconformes mais frequentes
 
 | Achado | Situação inconforme | n | % |
 | --- | --- | --- | --- |
@@ -142,7 +146,7 @@ O achado mais disseminado foi **Achado 5 - Gestão de serviços de TIC insuficie
 
 A situação inconforme mais frequente foi **"Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC."**, registrada em **113 organizações** (**99.1%**). Esse tipo de leitura é especialmente útil para o corpo deliberativo porque indica problemas transversais, cuja resposta pode exigir orientação normativa, indução de boas práticas, priorização de capacitação ou monitoramento em bloco, e não apenas recomendações atomizadas por jurisdicionado.
 
-### 8.3. Coocorrência de achados
+## 8.3. Coocorrência de achados
 
 Os pares de achados com maior coocorrência foram:
 
@@ -154,9 +158,9 @@ Os pares de achados com maior coocorrência foram:
 
 A coocorrência elevada mostra que as fragilidades não aparecem isoladamente. Em especial, deficiências de capacidade institucional, gestão de serviços e contratações tendem a compor o mesmo quadro de baixa capacidade de sustentação da TIC. Para a fiscalização, isso sugere que recomendações pontuais podem ter menor efetividade se não forem acompanhadas de medidas estruturantes de governança, força de trabalho, planejamento e responsabilização.
 
-## 9. Casos divergentes
+# 9. Casos divergentes
 
-### 9.1. Mais achados do que o esperado pela nota iGovTI
+## 9.1. Mais achados do que o esperado pela nota iGovTI
 
 | Auditado | iGovTI | Maturidade | Achados | Situações | Achados esperados | Diferença |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -173,7 +177,7 @@ A coocorrência elevada mostra que as fragilidades não aparecem isoladamente. E
 | CEPERJ | 0.258 | Iniciando | 6 | 15 | 5.39 | 0.61 |
 | CODIN | 0.246 | Iniciando | 6 | 17 | 5.41 | 0.59 |
 
-### 9.2. Menos achados do que o esperado pela nota iGovTI
+## 9.2. Menos achados do que o esperado pela nota iGovTI
 
 | Auditado | iGovTI | Maturidade | Achados | Situações | Achados esperados | Diferença |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -192,7 +196,7 @@ A coocorrência elevada mostra que as fragilidades não aparecem isoladamente. E
 
 Esses casos são úteis para revisão qualitativa. Organizações com muitos achados acima do esperado podem ter pontuação global que mascara fragilidades procedimentais relevantes. Organizações com poucos achados abaixo do esperado podem ter iGovTI muito baixo por ausência de práticas, mas menor número de categorias distintas de achados geradas pelas regras de execução. Nesses casos, a ausência relativa de achados não deve ser confundida com suficiência de controles.
 
-## 10. Insights para controle externo
+# 10. Insights para controle externo
 
 1. **O iGovTI é um sinalizador relevante de maturidade, mas não substitui a execução dos procedimentos.** A relação encontrada é negativa e estatisticamente relevante, sobretudo quando se observa a quantidade de situações inconformes.
 2. **Há forte efeito de teto na quantidade de achados.** Como 99.1% das organizações têm 4 ou mais achados e 93.0% têm 5 ou 6, a contagem de achados perde poder discriminatório. A quantidade de situações inconformes deve ser usada como medida complementar.
@@ -202,7 +206,7 @@ Esses casos são úteis para revisão qualitativa. Organizações com muitos ach
 6. **Para seleção de fiscalizações futuras, recomenda-se combinar quatro variáveis:** iGovTI, quantidade de situações inconformes, natureza dos achados e divergência entre nota e achados esperados. Usar apenas a nota pode deixar de priorizar casos relevantes.
 7. **Para comunicação do resultado, convém evitar reduzir a análise à nota do índice.** A evidência desta base aponta uma dinâmica mais completa: maior iGovTI está associado a menos fragilidades, mas a saturação dos achados exige olhar a quantidade e a natureza das situações inconformes.
 
-## 11. Limitações
+# 11. Limitações
 
 - A análise é transversal e não demonstra causalidade.
 - A quantidade de achados é limitada a seis categorias, o que cria efeito de teto.
@@ -210,7 +214,17 @@ Esses casos são úteis para revisão qualitativa. Organizações com muitos ach
 - As avaliações de evidências e os artefatos de execução automatizada devem ser tratados como insumos sujeitos à revisão humana da equipe de auditoria.
 - As correlações foram calculadas sobre os dados consolidados disponíveis; alterações posteriores nos ajustes de resposta, comentários do gestor ou reavaliações de evidência podem modificar os resultados.
 
-## 12. Artefatos gerados
+# 12. Conclusão
+
+A análise evidencia associação consistente entre a maturidade mensurada pelo iGovTI 2026 e a intensidade das fragilidades identificadas pelos procedimentos de auditoria. Em geral, organizações com maior pontuação apresentaram menor quantidade de situações inconformes. Essa relação permaneceu nos diferentes recortes examinados, mas não permite concluir que a elevação do índice, isoladamente, cause a redução das inconformidades.
+
+A quantidade de achados distintos mostrou capacidade limitada para diferenciar as organizações, pois quase toda a amostra apresentou cinco ou seis dos achados avaliados. A quantidade e a natureza das situações inconformes forneceram medida mais sensível da extensão das fragilidades, especialmente nos temas de capacidade institucional, gestão de serviços, planejamento e contratações de TIC.
+
+Os resultados também demonstram que o iGovTI e os procedimentos de auditoria cumprem funções complementares. O índice sintetiza a maturidade relativa das práticas de governança e gestão de TIC, enquanto os procedimentos verificam fragilidades concretas à luz dos critérios e das evidências examinadas. Por essa razão, a nota do índice não deve ser utilizada isoladamente para concluir pela suficiência dos controles ou para afastar situações inconformes.
+
+Conclui-se que a priorização das ações de controle externo deve considerar conjuntamente o iGovTI, a quantidade e a relevância das situações inconformes, a natureza dos achados e os casos que divergem da tendência geral. Essa leitura integrada permite distinguir problemas sistêmicos de fragilidades específicas, orientar o acompanhamento dos jurisdicionados e direcionar futuras fiscalizações para as situações de maior risco e impacto institucional.
+
+# 13. Artefatos gerados
 
 - Script reexecutável: `scripts/analisar_achados_igovti_2026.py`.
 - Planilha de apoio: `03-Relatorios/99-Avaliacao_IgovTi_Achados/analise_achados_igovti_2026.xlsx`.
