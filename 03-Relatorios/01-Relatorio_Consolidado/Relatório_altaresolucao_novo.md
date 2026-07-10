@@ -45,7 +45,7 @@ toc-title: SUMÁRIO
 | AN07 | **Impacto da avaliação das evidências**  (arquivo digital “AN07 – Impacto da avaliação das evidências.pdf”) |
 | AN08 | **Avaliação da relação entre iGovTI 2026 e achados de auditoria**  (arquivo digital “AN08 – Avaliação iGovTI 2026 e achados de auditoria.pdf”) |
 | AN09 | **Cenário de utilização de inteligência artificial no ERJ**  (arquivo digital “AN09 – Cenário de utilização de IA no ERJ.pdf”) |
-| AN10 a AN123 | **Informações das organizações (TSIDs, respostas, evidências enviadas, comentários do gestor e relatório individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)* |
+| AN10 a AN122 | **Informações das organizações (TSIDs, respostas, evidências enviadas, comentários do gestor e relatório individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)* |
 
 
 
@@ -188,28 +188,28 @@ O presente relatório de auditoria consolidado está organizado da seguinte form
 
 # 3. VISÃO GERAL DO OBJETO
 
-O uso de tecnologia da informação é capaz de impulsionar de forma significativa os resultados das organizações. A governança de TI cumpre papel fundamental para garantir que os recursos digitais tragam os melhores benefícios.
+O uso de tecnologia da informação e comunicação é capaz de impulsionar de forma significativa os resultados das organizações. A governança de TI cumpre papel fundamental para assegurar que os recursos de tecnologia da informação e comunicação (TIC) gerem valor público, mitigando riscos e promovendo o alinhamento estratégico com os objetivos organizacionais.
 
 Nesse sentido, a governança é responsável por garantir que as necessidades das partes interessadas sejam avaliadas para determinar objetivos institucionais equilibrados e acordados. Além disso, a governança define a direção por meio de priorizações e tomadas de decisão, monitorando o desempenho e a conformidade em relação à direção definida.
 
-A ABNT NBR ISO/IEC 38500:2025 estabelece o modelo de governança de TI, ilustrado na [@fig:modelo_governanca_ti_iso_38500], que apresenta as três atividades da governança: avaliar, dirigir e monitorar. Avaliar consiste em estabelecer o ambiente interno e externo e determinar como a organização é atualmente apoiada e habilitada por meio do uso de TI. Dirigir significa definir como a organização deve ser apoiada e habilitada por meio do uso adequado da TI. Por fim, monitorar é a atividade que verifica se o que foi planejado e direcionado está realmente sendo executado.
+A ABNT NBR ISO/IEC 38500:2025 estabelece o modelo de governança de TIC, ilustrado na [@fig:modelo_governanca_ti_iso_38500], que apresenta as três atividades da governança: avaliar, dirigir e monitorar. Avaliar consiste em estabelecer o ambiente interno e externo e determinar como a organização é atualmente apoiada e habilitada por meio do uso de TIC. Dirigir significa definir como a organização deve ser apoiada e habilitada por meio do uso adequado da TIC. Por fim, monitorar é a atividade que verifica se o que foi planejado e direcionado está realmente sendo executado.
 
-![Modelo de Governança de TI segundo a ABNT NBR ISO/IEC 38500](img/modelo_governanca_ti_iso_38500.png){ width=90% }{#fig:modelo_governanca_ti_iso_38500#}
+![Modelo de Governança de TIC segundo a ABNT NBR ISO/IEC 38500](img/modelo_governanca_ti_iso_38500.png){#fig:modelo_governanca_ti_iso_38500 width=90%}
 <div custom-style="FonteImagem">(Fonte: elaboração própria, adaptado da ABNT NBR ISO/IEC 38500:2025)</div>
 
-## 3.1. O Papel e os Mecanismos da Governança de TI
+## 3.1. O Papel e os Mecanismos da Governança de TIC
 
-A governança no setor público baseia-se na teoria da agência, visando reduzir a assimetria de informação entre a sociedade (o principal) e os gestores públicos (os agentes). Ela opera por meio de três mecanismos fundamentais:
+A governança no setor público pode ser compreendida, entre outras perspectivas, como mecanismo de redução da assimetria de informação entre a sociedade e os gestores públicos. Ela opera por meio de três mecanismos fundamentais:
 
 * Liderança: Compreende práticas de integridade, competência, responsabilidade e motivação exercidas pela alta administração para assegurar a boa governança;
 * Estratégia: Envolve a definição de objetivos, diretrizes e planos, além do alinhamento entre as partes interessadas para o alcance dos resultados;
 * Controle: Consiste em processos estruturados para gerenciar riscos e garantir a execução eficiente, eficaz e ética das atividades.
 
-A alta administração é a principal responsável pela governança, cabendo a ela estabelecer políticas, objetivos e conduzir a estratégia institucional. Na área de TI, o estabelecimento de um Comitê Gestor Multidisciplinar é uma prática essencial para priorizar investimentos e garantir que a TI suporte efetivamente os objetivos institucionais.
+A alta administração é a principal responsável pela governança, cabendo a ela estabelecer políticas, objetivos e conduzir a estratégia institucional. Na área de TIC, a instituição de comitê de TIC ou instância equivalente, compatível com o porte e a complexidade da organização, constitui prática relevante para priorizar investimentos e garantir que a TIC suporte efetivamente os objetivos institucionais.
 
 ## 3.2. Princípios e Responsabilidades na Governança Pública
 
-Para assegurar a legitimidade e a eficácia, a governança deve pautar-se por princípios fundamentais, conforme estabelecido pelo Decreto Federal nº 9.203/2017 e pelo Referencial Básico de Governança adotado pelo Tribunal de Contas da União (TCU):
+Para assegurar a legitimidade e a eficácia, a governança deve pautar-se por princípios fundamentais, conforme o Decreto Federal nº 9.203/2017 e, complementarmente, o Referencial Básico de Governança adotado pelo Tribunal de Contas da União (TCU):
 
 * Capacidade de resposta: Responder de forma tempestiva e inovadora às demandas da sociedade;
 * Integridade: Priorizar o interesse público sobre os privados, sustentando padrões éticos;
@@ -219,47 +219,47 @@ Para assegurar a legitimidade e a eficácia, a governança deve pautar-se por pr
 * Transparência: Disponibilizar informações sobre decisões e desempenho além do que exige a lei;
 * Equidade e participação: Tratar todas as partes interessadas de forma justa e participativa.
 
-## 3.3. Gestão de TI
+## 3.3. Gestão de TIC
 
-A gestão é a função encarregada de planejar, construir, executar e monitorar as atividades em alinhamento com a direção estabelecida pelo órgão de governança para atingir os objetivos da organização. Enquanto a governança avalia e direciona, a gestão executa as operações diárias de tecnologia e informação.
+A gestão é a função encarregada de planejar, construir, executar e monitorar as atividades em alinhamento com a direção estabelecida pelo órgão de governança para atingir os objetivos da organização. Enquanto a governança avalia, dirige e monitora, a gestão planeja, constrói, executa e acompanha os processos e serviços de TIC.
 
-As instâncias de gestão podem ser táticas (coordenando áreas setoriais como a TI) ou operacionais (executando processos de apoio ou finalísticos).
+As instâncias de gestão podem ser táticas (coordenando áreas setoriais como a TIC) ou operacionais (executando processos de apoio ou finalísticos).
 
-As funções típicas da gestão de TI incluem o gerenciamento de serviços, a segurança da informação, a gestão de riscos e a continuidade dos serviços. A gestão deve operar em um ciclo de melhoria contínua (como o modelo PDCA), garantindo a conformidade com as normas e o reporte sistemático do progresso em relação aos objetivos estratégicos.
+As funções típicas da gestão de TIC incluem o gerenciamento de serviços, a segurança da informação, a gestão de riscos e a continuidade dos serviços. A gestão deve operar em um ciclo de melhoria contínua (como o modelo PDCA), garantindo a conformidade com as normas e o reporte sistemático do progresso em relação aos objetivos estratégicos.
 
-## 3.4. Instrumentos de Integração: PETI e PDTI
+## 3.4. Instrumentos de Integração: Planos de TIC
 
-A integração entre governança e gestão materializa-se em instrumentos de planejamento. O Plano Estratégico de TI (PETI) e o Plano Diretor de TI (PDTI) são os principais documentos que vinculam a alocação de recursos de tecnologia aos objetivos organizacionais.
+A integração entre governança e gestão materializa-se em instrumentos de planejamento. O Plano Estratégico de TIC e o Plano Diretor de TIC, usualmente referidos pelas siglas PETI e PDTI, são documentos que vinculam a alocação de recursos de tecnologia aos objetivos organizacionais.
 
-O PDTI, aprovado pela alta administração, deve conter o inventário de necessidades, planos de metas, ações, orçamento e gestão de riscos. É por meio desses instrumentos que a governança exerce seu papel de direcionamento, enquanto a gestão utiliza-os como guia para a execução eficiente das soluções de TIC.
+O plano de TIC, como PDTI, PDTIC, PEDTIC ou instrumento equivalente, aprovado pela alta administração, deve conter o inventário de necessidades, planos de metas, ações, orçamento e gestão de riscos. É por meio desses instrumentos que a governança exerce seu papel de direcionamento, enquanto a gestão utiliza-os como guia para a execução eficiente das soluções de TIC.
 
-## 3.5 Modelos de governança e gestão de TI dos auditados
+## 3.5 Modelos de governança e gestão de TIC dos auditados
 
-Os auditados deste trabalho seguem modelos distintos de governança e gestão de TI. Observa-se que as organizações estaduais exibem, em média, maior maturidade nessa seara em comparação àquelas municipais[^maturidade_estadual_municipal]. Nesse sentido, destaca-se a estruturação do Poder Executivo e Judiciário do Estado do Rio de Janeiro.
+Os auditados deste trabalho seguem modelos distintos de governança e gestão de TIC. Trabalhos anteriores indicam que existem diferenças de maturidade entre os grupos avaliados. Observa-se que as organizações estaduais exibem, em média, maior maturidade nessa seara em comparação àquelas municipais[^maturidade_estadual_municipal]. Nesse sentido, destaca-se a estruturação do Poder Executivo e Judiciário do Estado do Rio de Janeiro.
 
-O Decreto Estadual nº 48.997/2024 é o normativo que define o atual modelo de gestão e governança de TI no âmbito do Poder Executivo do Estado do Rio de Janeiro.
+O Decreto Estadual nº 48.997/2024 é o normativo que define o atual modelo de gestão e governança de TIC no âmbito do Poder Executivo do Estado do Rio de Janeiro.
 
 Esse normativo estabelece que o Sistema Estadual de Tecnologia da Informação e Comunicação - SETIC é composto pelo conjunto de recursos humanos, tecnológicos e de equipamentos voltados para o estabelecimento e a implementação de políticas para a informação e a comunicação pública, organizando-se em dois níveis: Direção Geral, sob competência do PRODERJ; e nível setorial, representado pelas assessorias de informática, ou setores equivalentes, de todos os órgãos da administração direta e indireta do Estado do Rio de Janeiro.
 
-O modelo do SETIC atribuiu ao PRODERJ competências relevantes, como a coordenação e supervisão do Sistema, a normatização de aspectos de TI, a elaboração e disponibilização de atas de registro de preço para contratação de bens e serviços de TI, e a avaliação e consolidação dos planos de TI dos órgãos do nível setorial do sistema.
+O modelo do SETIC atribuiu ao PRODERJ competências relevantes, como a coordenação e supervisão do Sistema, a normatização de aspectos de TIC, a elaboração e disponibilização de atas de registro de preço para contratação de bens e serviços de TIC, e a avaliação e consolidação dos planos de TIC dos órgãos do nível setorial do sistema.
 
 No Poder Judiciário, a Resolução CNJ nº 370/2021, que estabelece a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário (ENTIC-JUD), dispõe no art. 6º que cada órgão elabore e mantenha o Plano Diretor de Tecnologia da Informação e Comunicação (PDTIC), "o qual deverá elencar as ações que estarão alinhadas ao Planejamento Estratégico Institucional, ao Planejamento Estratégico Nacional do Poder Judiciário e à Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário".
 
-[^maturidade_estadual_municipal]: Os trabalhos de auditoria citados na seção de antecedentes demonstram essa diferença: a fiscalização municipal (Processo TCE-RJ nº 205.089-9/2023) e a fiscalização estadual (Processo TCE-RJ nº 109.009-4/2023) apresentaram, em média, resultados inferiores para os municípios em comparação às organizações estaduais. As fiscalizações sobre a aderência a LGPD aplicada a municípios e Estado (Processos TCE-RJ nº 105.895-5/2024 e nº 107.097-5/2025)também seguem a mesma tendência.
+[^maturidade_estadual_municipal]: Os trabalhos de auditoria citados na seção de antecedentes demonstram essa diferença: a fiscalização municipal (Processo TCE-RJ nº 205.089-9/2023) e a fiscalização estadual (Processo TCE-RJ nº 109.009-4/2023) apresentaram, em média, resultados inferiores para os municípios em comparação às organizações estaduais.
 
-## 3.6. Mensuração da governança e gestão da TI pelos Tribunais de Contas
+## 3.6. Mensuração da governança e gestão da TIC pelos Tribunais de Contas
 
-Desde 2010, o TCU avalia a governança e gestão de TI na administração federal por meio do iGovTI, índice baseado nas respostas das organizações a um questionário específico sobre o tema.
+Desde 2010, o TCU avalia a governança e gestão de TIC na administração federal por meio do iGovTI, índice baseado nas respostas das organizações a um questionário específico sobre o tema.
 
 Atualmente, o iGovTI compõe o iESGo, índice que aborda os temas Liderança, Estratégia, Controle, Gestão de Pessoas, Gestão de Tecnologia da Informação e da Segurança da Informação, Gestão de Contratações, Gestão Orçamentária, Sustentabilidade Ambiental, Sustentabilidade Social.
 
-O Tribunal de Contas de Pernambuco adotou o iGovTI oficialmente por meio da Resolução TC nº 207 de 2023, que dispõe sobre a apuração do índice a cada dois anos. A edição de 2025 utilizou o mesmo questionário aplicado pelo TCU em 2021, mas com algumas adaptações para tornar algumas questões que tratam de mais de uma temática mais focadas na área de tecnologia da informação.
+O Tribunal de Contas de Pernambuco adotou o iGovTI oficialmente por meio da Resolução TC nº 207 de 2023, que dispõe sobre a apuração do índice a cada dois anos. A edição de 2025 utilizou o mesmo questionário aplicado pelo TCU em 2021, com adaptações para delimitar com maior precisão questões que originalmente abrangiam mais de uma temática.
 
-No Tribunal de Contas do Rio de Janeiro, as últimas mensurações do iGovTI foram nas auditorias dos processos TCE-RJ 205.089-9/2023, que abrangeu quatro prefeituras municipais, e TCE-RJ 109.009-4/2023, que abrangeu os órgãos estaduais do Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC). Em ambas as fiscalizações, utilizou-se o questionário de 2021 do TCU com adaptações.
+No Tribunal de Contas do Rio de Janeiro, as mensurações do iGovTI anteriores a esta fiscalização ocorreram nas auditorias dos processos TCE-RJ 205.089-9/2023, que abrangeu quatro prefeituras municipais, e TCE-RJ 109.009-4/2023, que abrangeu os órgãos estaduais do Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC). Em ambas as fiscalizações, utilizou-se o questionário de 2021 do TCU com adaptações.
 
 No contexto do Índice de Efetividade da Gestão Municipal (IEGM) também existe um índice chamado iGovTI. O IEGM foi concebido em 2015 pelo Tribunal de Contas do Estado de São Paulo e disponibilizado aos demais Tribunais de Contas por meio do Instituto Rui Barbosa (IRB). O iGovTI do IEGM é baseado em um questionário que não se confunde com aquele aplicado nos demais trabalhos supracitados.
 
-Esses referenciais conceituais, normativos e históricos fundamentam a metodologia e os critérios aplicados na presente auditoria, cujos resultados são apresentados no capítulo seguinte.
+Esses referenciais conceituais, normativos e históricos contextualizam o objeto e, quando aplicáveis, subsidiam a metodologia e os critérios adotados na presente auditoria, cujos resultados são apresentados no capítulo seguinte.
 
 \newpage
 
@@ -750,8 +750,8 @@ Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consol
 
 Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes propostas:
 
-1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e dos respectivos relatórios individuais (AN10 a AN123) a cada organização auditada, de forma a garantir a ciência efetiva aos jurisdicionados acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada jurisdicionado só deve ter acesso ao seu relatório individual**;
-2. **COMUNICAÇÃO  COM DETERMINAÇÃO** aos órgãos fiscalizados nesta auditoria, nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas nos seus respectivos **RELATÓRIOS INDIVIDUAIS anexos (AN10 a AN123)**, alertando-os de que o não atendimento injustificado os sujeita às sanções previstas no art. 63 da Lei Complementar Estadual n.º 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, já que a verificação quanto ao atendimento poderá ser realizada em auditoria futura desta Corte de Contas.
+1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e dos respectivos relatórios individuais (AN10 a AN122) a cada organização auditada, de forma a garantir a ciência efetiva aos jurisdicionados acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada jurisdicionado só deve ter acesso ao seu relatório individual**;
+2. **COMUNICAÇÃO  COM DETERMINAÇÃO** aos órgãos fiscalizados nesta auditoria, nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas nos seus respectivos **RELATÓRIOS INDIVIDUAIS anexos (AN10 a AN122)**, alertando-os de que o não atendimento injustificado os sujeita às sanções previstas no art. 63 da Lei Complementar Estadual n.º 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, já que a verificação quanto ao atendimento poderá ser realizada em auditoria futura desta Corte de Contas.
 
 |  |  |  |  |  |
 | --- | --- | --- | --- | --- |
@@ -760,18 +760,18 @@ Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes p
 |  |  |  |  |  |
 |  |  |  |  |  |
 
-3. **COMUNICAÇÃO às Unidades de Controle Interno dos órgãos jurisdicionados desta fiscalização,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do respectivo Relatório Individual de seu órgão (AN10 a AN123), e acompanhem a elaboração e execução do plano de ação desenvolvido a fim de assegurar seu efetivo cumprimento;
+3. **COMUNICAÇÃO às Unidades de Controle Interno dos órgãos jurisdicionados desta fiscalização,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do respectivo Relatório Individual de seu órgão (AN10 a AN122), e acompanhem a elaboração e execução do plano de ação desenvolvido a fim de assegurar seu efetivo cumprimento;
 4. **ARQUIVAMENTO** do presente processo.
 
 O presente relatório foi objeto de supervisão conforme as disposições da Portaria SGE n° 05/2019, no Manual de Auditoria Governamental do TCE-RJ, aprovado pela Resolução nº 373, de 16/06/21 e em material armazenado nos assentamentos internos desta Coordenadoria, estando, portanto, **APROVADO** por esta supervisão e encaminhado à sua apreciação para adoção das medidas cabíveis.
 
-**CAD-TI, 11/07/2026**
+**CAD-TI, {{ data_hoje }}**
 
 |  |  |  |
 | --- | --- | --- |
-| **AUGUSTO CÉSAR BENVENUTO DE ALMEIDA**  **Matrícula 02/004823** | Auditor de Controle Externo | Equipe de Auditoria |
-| **JOÃO PAULO DE FREITAS RAMIREZ**  **Matrícula 02/004820** | Auditor de Controle Externo | Equipe de Auditoria |
-| **BRUNO MATTOS SOUZA DE SOUZA MELO**  **Matrícula 02/004258** | Auditor de Controle Externo | Supervisor |
+| **AUGUSTO CÉSAR BENVENUTO DE ALMEIDA**  **Matrícula 02/4823** | Auditor de Controle Externo | Equipe de Auditoria |
+| **JOÃO PAULO DE FREITAS RAMIREZ**  **Matrícula 02/4820** | Auditor de Controle Externo | Equipe de Auditoria |
+| **BRUNO MATTOS SOUZA DE SOUZA MELO**  **Matrícula 02/4258** | Auditor de Controle Externo | Supervisor |
 
 \newpage
 
@@ -785,4 +785,4 @@ O presente relatório foi objeto de supervisão conforme as disposições da Por
 
 **Coordenador-Geral**
 
-**Matrícula 02/004260**
+**Matrícula 02/4260**

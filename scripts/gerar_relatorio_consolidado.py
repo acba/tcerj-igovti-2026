@@ -29,6 +29,8 @@ from argos_utils import (
     evitar_quebra_elementos,
     inserir_campo_sumario_docx,
     marcar_atualizacao_campos_docx,
+    data_hoje_abnt,
+    data_hoje,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -130,7 +132,10 @@ def main() -> int:
     conteudo = input_path.read_text(encoding="utf-8")
 
     # 1. Resolve variáveis de contexto para renderização Jinja2
-    contexto = {}
+    contexto = {
+        "data_hoje_abnt": data_hoje_abnt(),
+        "data_hoje": data_hoje(),
+    }
     if args.context_json:
         context_json_path = Path(args.context_json)
         if context_json_path.exists():
