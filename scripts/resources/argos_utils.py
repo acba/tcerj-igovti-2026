@@ -1,4 +1,8 @@
 import re
+import os
+import io
+import tempfile
+import zipfile
 import pandas as pd
 import jinja2
 from jinja2 import Environment, BaseLoader, StrictUndefined
@@ -513,6 +517,135 @@ def processar_quebras_pagina(template_str: str) -> str:
     regex_newpage = r"\\newpage(?:\{\})?"
 
     return re.sub(regex_newpage, pagebreak_openxml, template_str)
+
+def inserir_campo_sumario_docx(template_str: str, titulo: str = "SUMÁRIO", profundidade: int = 3) -> str:
+    """
+    Substitui o bloco Markdown ``::: {.toc}`` por um campo TOC nativo do Word.
+
+    O Pandoc trata ``::: {.toc}`` como um Div comum e não como marcador de
+    posição do sumário em DOCX. Este pré-processamento materializa o sumário
+    no ponto indicado usando Raw OpenXML.
+    """
+    marcador_toc = r"(?ms)^:::\s*\{\.toc\}\s*\n\s*:::\s*$"
+    if not re.search(marcador_toc, template_str):
+        return template_str
+
+    depth_match = re.search(r"(?m)^toc-depth:\s*(\d+)\s*$", template_str)
+    if depth_match:
+        profundidade = int(depth_match.group(1))
+
+    # Evita que o Pandoc gere um segundo sumário no início do DOCX.
+    template_str = re.sub(r"(?m)^toc:\s*true\s*\n", "", template_str)
+    template_str = re.sub(r"(?m)^table-of-contents:\s*true\s*\n", "", template_str)
+
+    toc_openxml = f"""
+```{{=openxml}}
+<w:p>
+  <w:pPr>
+    <w:pStyle w:val="TOCHeading"/>
+  </w:pPr>
+  <w:r>
+    <w:t>{titulo}</w:t>
+  </w:r>
+</w:p>
+<w:p>
+  <w:r>
+    <w:fldChar w:fldCharType="begin" w:dirty="true"/>
+  </w:r>
+  <w:r>
+    <w:instrText xml:space="preserve">TOC \\o "1-{profundidade}" \\h \\z \\u</w:instrText>
+  </w:r>
+  <w:r>
+    <w:fldChar w:fldCharType="separate"/>
+  </w:r>
+  <w:r>
+    <w:t>O sumário será atualizado ao abrir o documento no Word.</w:t>
+  </w:r>
+  <w:r>
+    <w:fldChar w:fldCharType="end"/>
+  </w:r>
+</w:p>
+```
+""".strip()
+
+    return re.sub(
+        marcador_toc,
+        lambda _: toc_openxml,
+        template_str,
+    )
+
+def _marcar_atualizacao_campos_entries(entries: dict[str, bytes]) -> dict[str, bytes]:
+    settings_name = "word/settings.xml"
+    if settings_name in entries:
+        settings_text = entries[settings_name].decode("utf-8")
+    else:
+        settings_text = (
+            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            '<w:settings xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+            '</w:settings>'
+        )
+
+    update_fields = '<w:updateFields w:val="true"/>'
+    if "<w:updateFields" in settings_text:
+        settings_text = re.sub(
+            r'<w:updateFields\b[^>]*/>',
+            update_fields,
+            settings_text,
+            count=1,
+        )
+        settings_text = re.sub(
+            r'<w:updateFields\b[^>]*>.*?</w:updateFields>',
+            update_fields,
+            settings_text,
+            count=1,
+            flags=re.DOTALL,
+        )
+    elif "</w:settings>" in settings_text:
+        settings_text = settings_text.replace("</w:settings>", update_fields + "</w:settings>", 1)
+    else:
+        raise ValueError(f"settings.xml inválido em {docx_path}: elemento </w:settings> ausente")
+
+    entries[settings_name] = settings_text.encode("utf-8")
+    return entries
+
+def marcar_atualizacao_campos_docx_bytes(docx_bytes: bytes) -> bytes:
+    """
+    Retorna bytes de um DOCX com ``w:updateFields`` marcado.
+    """
+    with zipfile.ZipFile(io.BytesIO(docx_bytes), "r") as source:
+        entries = {name: source.read(name) for name in source.namelist()}
+
+    entries = _marcar_atualizacao_campos_entries(entries)
+
+    output = io.BytesIO()
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as target:
+        for name, data in entries.items():
+            target.writestr(name, data)
+    return output.getvalue()
+
+def marcar_atualizacao_campos_docx(docx_path: str) -> None:
+    """
+    Adiciona ``w:updateFields`` ao DOCX para o Word atualizar campos ao abrir.
+
+    O Pandoc não calcula a paginação final do Word; páginas do sumário dependem
+    do mecanismo de layout do editor. Esta marcação orienta o Word a atualizar
+    o campo TOC quando o arquivo for aberto.
+    """
+    with zipfile.ZipFile(docx_path, "r") as source:
+        entries = {name: source.read(name) for name in source.namelist()}
+
+    entries = _marcar_atualizacao_campos_entries(entries)
+
+    fd, tmp_name = tempfile.mkstemp(suffix=".docx", dir=os.path.dirname(docx_path) or None)
+    os.close(fd)
+    try:
+        with zipfile.ZipFile(tmp_name, "w", compression=zipfile.ZIP_DEFLATED) as target:
+            for name, data in entries.items():
+                target.writestr(name, data)
+        os.replace(tmp_name, docx_path)
+    finally:
+        if os.path.exists(tmp_name):
+            os.remove(tmp_name)
 
 def cross_ref_tabelas(template_str: str) -> str:
     """

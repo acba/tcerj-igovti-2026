@@ -165,7 +165,7 @@ ROUTINES: list[Routine] = [
     Routine(
         key="executar-auditoria",
         name="Executar auditoria",
-        description="Executa procedimentos de auditoria e gera JSON/XLSX/artefatos acessorios.",
+        description="Executa procedimentos de auditoria e gera JSON/XLSX/anexos/relatorios de procedimentos.",
         script=ROOT / "scripts/executa_auditoria.py",
         params=[
             Param("auditados", "--auditados", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx", "Base de auditados."),
@@ -183,9 +183,21 @@ ROUTINES: list[Routine] = [
             Param("tabelas", "--tabelas-xlsx", p(OUTPUT_ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx"), "XLSX consolidado da auditoria."),
             Param("relatorios_procedimentos_zip", "--relatorios-procedimentos-zip", p(OUTPUT_ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/relatorios_procedimentos.zip"), "ZIP de relatorios de procedimentos."),
             Param("anexo_evidencias", "--anexo-evidencias-docx", p(OUTPUT_ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/anexo_evidencias.docx"), "DOCX do anexo de evidencias."),
+            Param("jobs_relatorios_procedimentos", "--jobs-relatorios-procedimentos", str(DEFAULT_DOCX_WORKERS), "Workers para renderizar relatorios de procedimentos."),
+            Param("somente_dados", "--somente-dados", False, "Gera apenas JSON/XLSX da auditoria.", is_bool=True),
+            Param("skip_relatorios_procedimentos", "--skip-relatorios-procedimentos", False, "Nao gera relatorios de procedimentos.", is_bool=True),
+            Param("skip_anexo_evidencias", "--skip-anexo-evidencias", False, "Nao gera o anexo de evidencias.", is_bool=True),
+        ],
+    ),
+    Routine(
+        key="gerar-comentarios-gestor",
+        name="Gerar comentarios do gestor",
+        description="Gera LSS do LimeSurvey e ZIP de anexos DOCX a partir do resultado da auditoria.",
+        script=ROOT / "scripts/gerar_comentarios_gestor.py",
+        params=[
+            Param("resultado_auditoria", "--resultado-auditoria-json", p(OUTPUT_ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json"), "Resultado da auditoria JSON."),
             Param("comentarios_gestor_lss", "--comentarios-gestor-lss", p(OUTPUT_ROOT / "02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss"), "LSS de comentarios do gestor."),
             Param("comentarios_gestor_anexos_zip", "--comentarios-gestor-anexos-zip", p(OUTPUT_ROOT / "02-Execucao/05-Comentarios_Gestor/anexos_docx_comentarios.zip"), "ZIP de anexos de comentarios."),
-            Param("jobs_relatorios_procedimentos", "--jobs-relatorios-procedimentos", str(DEFAULT_DOCX_WORKERS), "Workers para renderizar relatorios de procedimentos."),
             Param("jobs_comentarios_gestor_anexos", "--jobs-comentarios-gestor-anexos", str(DEFAULT_DOCX_WORKERS), "Workers para renderizar anexos de comentarios."),
             Param("data_final", "--data-final-preenchimento-comentarios-gestor", "06/07/2026", "Data final dos comentarios do gestor."),
             Param("email", "--email-contato-comentarios-gestor", "auditoriati@tcerj.tc.br", "E-mail de contato."),
@@ -193,10 +205,6 @@ ROUTINES: list[Routine] = [
             Param("numero", "--numero-fiscalizacao-comentarios-gestor", "18/2026", "Numero da fiscalizacao."),
             Param("nome", "--nome-fiscalizacao-comentarios-gestor", "iGovTI 2026", "Nome da fiscalizacao."),
             Param("ajustes_evidencias", "--ajustes-evidencias-comentarios-gestor", "", "Planilha de ajustes de evidencias para reavaliacao."),
-            Param("somente_dados", "--somente-dados", False, "Gera apenas JSON/XLSX da auditoria.", is_bool=True),
-            Param("skip_relatorios_procedimentos", "--skip-relatorios-procedimentos", False, "Nao gera relatorios de procedimentos.", is_bool=True),
-            Param("skip_anexo_evidencias", "--skip-anexo-evidencias", False, "Nao gera o anexo de evidencias.", is_bool=True),
-            Param("skip_comentarios_gestor", "--skip-comentarios-gestor", False, "Nao gera LSS nem anexos de comentarios.", is_bool=True),
             Param("skip_comentarios_gestor_lss", "--skip-comentarios-gestor-lss", False, "Nao gera o LSS de comentarios.", is_bool=True),
             Param("skip_comentarios_gestor_anexos", "--skip-comentarios-gestor-anexos", False, "Nao gera anexos de comentarios.", is_bool=True),
         ],
@@ -266,6 +274,19 @@ ROUTINES: list[Routine] = [
         ],
     ),
     Routine(
+        key="converter-md-docx",
+        name="Converter Markdown para DOCX",
+        description="Converte arquivos Markdown para DOCX usando o template de estilos do Argos.",
+        script=ROOT / "scripts/converter_markdown_para_docx.py",
+        params=[
+            Param("input", "--input", "README.md", "Arquivo Markdown de entrada."),
+            Param("output_dir", "--output-dir", p(OUTPUT_ROOT / "conversoes-docx"), "Diretorio de saida quando --output nao for informado."),
+            Param("output", "--output", "", "Arquivo DOCX de saida opcional para conversao de arquivo unico."),
+            Param("reference", "--reference-docx", "scripts/resources/template-base-estilos-sigiloso.docx", "DOCX de referencia."),
+            Param("resources", "--resource-files", "", "Arquivos, diretorios ou globs de imagens usados pelo Markdown.", is_list=True),
+        ],
+    ),
+    Routine(
         key="execucao-completa",
         name="Execucao completa",
         description="Executa o pacote completo: ajustes, iGovTI, auditoria, graficos e relatorios.",
@@ -275,7 +296,7 @@ ROUTINES: list[Routine] = [
             Param("output_dir", "--output-dir", p(OUTPUT_LATEST), "Diretorio base dos artefatos."),
             Param("graficos_jobs", "--graficos-jobs", "8", "Processos paralelos para graficos."),
             Param("auditoria_jobs_relatorios_procedimentos", "--auditoria-jobs-relatorios-procedimentos", str(DEFAULT_DOCX_WORKERS), "Workers para relatorios de procedimentos na auditoria."),
-            Param("auditoria_jobs_comentarios_gestor_anexos", "--auditoria-jobs-comentarios-gestor-anexos", str(DEFAULT_DOCX_WORKERS), "Workers para anexos de comentarios na auditoria."),
+            Param("auditoria_jobs_comentarios_gestor_anexos", "--auditoria-jobs-comentarios-gestor-anexos", str(DEFAULT_DOCX_WORKERS), "Workers para anexos de comentarios."),
             Param("data_final", "--data-final-preenchimento-comentarios-gestor", "06/07/2026", "Data final dos comentarios do gestor."),
             Param("email", "--email-contato-comentarios-gestor", "auditoriati@tcerj.tc.br", "E-mail de contato."),
             Param("numero", "--numero-fiscalizacao-comentarios-gestor", "18/2026", "Numero da fiscalizacao."),
@@ -476,6 +497,14 @@ class CompletionState:
     index: int = -1
 
 
+@dataclass
+class FileSearchState:
+    start: int
+    token: str
+    candidates: list[str]
+    selected: int = 0
+
+
 def split_current_token(line: str) -> tuple[int, str]:
     quote: str | None = None
     token_start = 0
@@ -554,6 +583,52 @@ def path_completion_candidates(token: str) -> list[str]:
     return candidates
 
 
+def should_skip_search_dir(path: Path) -> bool:
+    return path.name in {".git", "__pycache__"} or path.name.startswith(".")
+
+
+def filename_search_candidates(token: str, *, limit: int = 200) -> list[str]:
+    raw = unquote_token(token)
+    if not raw.startswith("@"):
+        return []
+    query = raw[1:].strip().lower()
+    if not query:
+        return []
+
+    root = Path.cwd()
+    candidates: list[str] = []
+    for current_root, dirs, files in os.walk(root):
+        current_path = Path(current_root)
+        dirs[:] = [
+            dirname
+            for dirname in dirs
+            if not should_skip_search_dir(current_path / dirname)
+        ]
+        for filename in sorted(files, key=str.lower):
+            if query not in filename.lower():
+                continue
+            path = current_path / filename
+            try:
+                relative_path = path.relative_to(root)
+            except ValueError:
+                relative_path = path
+            candidates.append(quote_completion(str(relative_path)))
+            if len(candidates) >= limit:
+                return candidates
+    return candidates
+
+
+def current_file_search(value: str, previous: FileSearchState | None = None) -> FileSearchState | None:
+    start, token = split_current_token(value)
+    raw = unquote_token(token)
+    if not raw.startswith("@"):
+        return None
+    if previous and previous.start == start and previous.token == token:
+        return previous
+    candidates = filename_search_candidates(token)
+    return FileSearchState(start=start, token=token, candidates=candidates, selected=0)
+
+
 def apply_completion(line: str, state: CompletionState) -> str:
     _, current_token = split_current_token(line)
     if not state.candidates:
@@ -562,25 +637,42 @@ def apply_completion(line: str, state: CompletionState) -> str:
     return line[: state.start] + state.candidates[state.index]
 
 
+def apply_file_search_selection(line: str, state: FileSearchState) -> str:
+    if not state.candidates:
+        return line
+    return line[: state.start] + state.candidates[state.selected]
+
+
 def render_line_editor(
     title: str,
     help_text: str,
     value: str,
     suggestions: list[str],
+    *,
     message: str = "",
+    search_mode: bool = False,
+    selected_index: int = 0,
 ) -> None:
     console.clear()
     console.print(Panel(help_text, title=title, border_style="cyan"))
     console.print("[bold]Valor:[/bold]")
     console.print(Panel(value or "[dim](vazio)[/dim]", border_style="yellow"))
-    console.print("[dim]TAB completa/cicla | Enter confirma | Esc cancela | Backspace apaga[/dim]")
+    if search_mode:
+        console.print("[dim]↑/↓ seleciona | Enter insere | Ctrl+U limpa | Esc cancela | Backspace apaga[/dim]")
+    else:
+        console.print("[dim]TAB completa/cicla | Ctrl+U limpa | Enter confirma | Esc cancela | Backspace apaga[/dim]")
     if message:
         console.print(f"[yellow]{message}[/yellow]")
     if suggestions:
         table = Table(title="Sugestoes", box=box.SIMPLE, show_header=False)
+        table.add_column("", justify="center", no_wrap=True)
         table.add_column("Path")
-        for candidate in suggestions[:8]:
-            table.add_row(candidate)
+        start = 0
+        if search_mode and selected_index >= 12:
+            start = selected_index - 11
+        for offset, candidate in enumerate(suggestions[start : start + 12]):
+            index = start + offset
+            table.add_row(">" if search_mode and index == selected_index else "", candidate)
         console.print(table)
 
 
@@ -588,21 +680,59 @@ def line_input_with_path_completion(title: str, help_text: str, default: str) ->
     value = default
     completion: CompletionState | None = None
     suggestions: list[str] = []
+    search: FileSearchState | None = None
     message = ""
     while True:
-        render_line_editor(title, help_text, value, suggestions, message)
+        search = current_file_search(value, search)
+        active_suggestions = search.candidates if search else suggestions
+        render_line_editor(
+            title,
+            help_text,
+            value,
+            active_suggestions,
+            message=message,
+            search_mode=search is not None,
+            selected_index=search.selected if search else 0,
+        )
         key = read_key()
         message = ""
         if key == "enter":
+            if search and search.candidates:
+                value = apply_file_search_selection(value, search)
+                completion = None
+                suggestions = []
+                search = None
+                continue
             return value
         if key in {"escape", "ctrl-c", "ctrl-d"}:
             return None
+        if key == "\x15":
+            value = ""
+            completion = None
+            suggestions = []
+            search = None
+            continue
+        if key == "up" and search and search.candidates:
+            search.selected = (search.selected - 1) % len(search.candidates)
+            continue
+        if key == "down" and search and search.candidates:
+            search.selected = (search.selected + 1) % len(search.candidates)
+            continue
         if key in {"\x7f", "\b"}:
             value = value[:-1]
             completion = None
             suggestions = []
             continue
         if key == "\t":
+            if search:
+                if search.candidates:
+                    value = apply_file_search_selection(value, search)
+                    completion = None
+                    suggestions = []
+                    search = None
+                else:
+                    message = "Nenhum arquivo encontrado para a busca @."
+                continue
             start, token = split_current_token(value)
             raw_prefix = unquote_token(token)
             if completion and completion.start == start:

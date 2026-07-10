@@ -30,9 +30,13 @@ from argos_utils import (
     data_hoje,
     aplicar_estilo_tabelas,
     evitar_quebra_elementos,
+    inserir_campo_sumario_docx,
+    marcar_atualizacao_campos_docx,
     processar_quebras_pagina,
     substituir_underline_pandoc
 )
+
+TOC_MARKER_FILTER = os.path.join(os.path.dirname(__file__), "resources", "toc-marker.lua")
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -493,6 +497,7 @@ def main():
 
                     template_content_local = cross_ref_figuras(template_content)
                     template_content_local = cross_ref_tabelas(template_content_local)
+                    template_content_local = inserir_campo_sumario_docx(template_content_local)
                     template_content_local = processar_quebras_pagina(template_content_local)
                     template_content_local = substituir_underline_pandoc(template_content_local)
 
@@ -515,6 +520,8 @@ def main():
                         '--reference-doc=' + args.reference_docx,
                         resource_path_arg
                     ]
+                    if os.path.exists(TOC_MARKER_FILTER):
+                        args_docx.append('--lua-filter=' + TOC_MARKER_FILTER)
 
                     # Convert to Docx
                     pypandoc.convert_file(md_filename, to='docx', outputfile=docx_filename, extra_args=args_docx)
@@ -522,6 +529,7 @@ def main():
                     # Apply styles to tables in Docx
                     aplicar_estilo_tabelas(docx_filename)
                     evitar_quebra_elementos(docx_filename)
+                    marcar_atualizacao_campos_docx(docx_filename)
                     logger.info(f"[{sigla}] Relatório Word gerado em: {docx_filename}")
 
                 except Exception as e:
@@ -543,6 +551,7 @@ def main():
                     # Apply styling to tables
                     aplicar_estilo_tabelas(docx_filename)
                     evitar_quebra_elementos(docx_filename)
+                    marcar_atualizacao_campos_docx(docx_filename)
                     logger.info(f"[{sigla}] Relatório Word (.docx) gerado em: {docx_filename}")
                 except Exception as e:
                     logger.error(f"[{sigla}] Falha ao processar relatório DocxTemplate: {e}", exc_info=True)

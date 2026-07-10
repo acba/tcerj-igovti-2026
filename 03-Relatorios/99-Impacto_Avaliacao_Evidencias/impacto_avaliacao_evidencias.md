@@ -4,6 +4,8 @@ lang: pt-BR
 figure-caption-position: above
 ---
 
+\newpage
+
 # 1. Objetivo
 
 Este anexo apresenta a análise do impacto da avaliação de evidências sobre as respostas ao questionário iGovTI 2026 e, consequentemente, sobre o cálculo do índice. A análise busca distinguir o resultado que seria obtido apenas com os ajustes iniciais de saneamento das respostas daquele efetivamente apurado após a verificação das evidências apresentadas pelos auditados.
@@ -23,40 +25,40 @@ Os valores apresentados neste anexo utilizam a diferença **resultado final meno
 
 Para avaliar o efeito da avaliação de evidências também sobre os achados e situações inconformes, a rotina de execução dos procedimentos de auditoria foi executada em dois cenários. No primeiro, utilizou-se a base de respostas brutas com os ajustes iniciais e apenas a fonte de informação do questionário. Nesse cenário, as ações de verificação originalmente dependentes do painel de avaliação de evidências foram neutralizadas em mapa temporário, utilizado apenas para a execução comparativa, para que não produzissem inconformidade sem a respectiva fonte probatória. No segundo, utilizou-se a base final pós-evidência, com a fonte de respostas ajustadas e o painel consolidado de avaliação de evidências. Desse modo, a comparação reflete o acréscimo produzido pela etapa de avaliação de evidências na execução dos procedimentos de auditoria.
 
-: Síntese da base comparada {#tbl:impacto_evidencias_base}
+: Síntese da base comparada {#tbl:impacto_evidencias_base#}
 
 | Elemento analisado | Resultado |
 |---|---:|
-| Organizações no cenário com ajuste inicial | 114 |
-| Organizações no cenário final | 114 |
+| Organizações no cenário com ajuste inicial | 113 |
+| Organizações no cenário final | 113 |
 | Registros de não conformidade no arquivo pós-evidência | 1.966 |
 | Células efetivamente alteradas pelo ajuste pós-evidência | 1.964 |
 | Organizações com pelo menos uma célula alterada | 103 |
 | Organizações com redução no iGovTI | 90 |
-| Organizações sem variação no iGovTI | 24 |
+| Organizações sem variação no iGovTI | 23 |
 | Organizações com aumento no iGovTI | 0 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas respostas ao questionário iGovTI 2026 e nos ajustes decorrentes da avaliação de evidências)</div>
 
 # 3. Impacto agregado no iGovTI
 
-A avaliação de evidências teve impacto material sobre o resultado agregado do iGovTI 2026. A média do índice passou de **0,237**, no cenário com apenas o ajuste inicial, para **0,187**, no cenário final, redução média de **0,050 ponto**. A mediana passou de **0,178** para **0,135**, redução de **0,043 ponto**.
+A avaliação de evidências teve impacto material sobre o resultado agregado do iGovTI 2026. A média do índice passou de **0,235**, no cenário com apenas o ajuste inicial, para **0,184**, no cenário final, redução média de **0,051 ponto**. A mediana passou de **0,175** para **0,134**, redução de **0,041 ponto**.
 
-Esse comportamento indica que a avaliação de evidências não produziu efeito pontual restrito a poucos auditados. Ao contrário, houve redução no iGovTI de **90 das 114 organizações**, equivalentes a **78,9%** do universo avaliado. Nenhuma organização apresentou aumento no índice em razão dos ajustes pós-evidência.
+Esse comportamento indica que a avaliação de evidências não produziu efeito pontual restrito a poucos auditados. Ao contrário, houve redução no iGovTI de **90 das 113 organizações**, equivalentes a **79,6%** do universo avaliado. Nenhuma organização apresentou aumento no índice em razão dos ajustes pós-evidência.
 
-: Impacto agregado por indicador {#tbl:impacto_evidencias_indicadores}
+: Impacto agregado por indicador {#tbl:impacto_evidencias_indicadores#}
 
 | Indicador | Média com ajuste inicial | Média final | Redução média | Organizações com redução |
 |---|---:|---:|---:|---:|
-| iGovTI | 0,237 | 0,187 | -0,050 | 90 |
-| Governança de TI | 0,211 | 0,164 | -0,046 | 42 |
-| Gestão de TI | 0,262 | 0,207 | -0,054 | 87 |
-| Planejamento de TI | 0,382 | 0,293 | -0,090 | 44 |
-| Serviços de TI | 0,236 | 0,143 | -0,094 | 53 |
-| Gestão de riscos de TI e segurança da informação | 0,190 | 0,168 | -0,022 | 10 |
-| Estrutura de segurança da informação | 0,277 | 0,260 | -0,017 | 11 |
-| Processos de segurança da informação | 0,276 | 0,202 | -0,074 | 62 |
-| Gestão de soluções de TI | 0,216 | 0,196 | -0,020 | 12 |
+| iGovTI | 0,235 | 0,184 | -0,051 | 90 |
+| Governança de TI | 0,208 | 0,161 | -0,047 | 42 |
+| Gestão de TI | 0,259 | 0,205 | -0,054 | 87 |
+| Planejamento de TI | 0,381 | 0,291 | -0,091 | 44 |
+| Serviços de TI | 0,234 | 0,140 | -0,094 | 53 |
+| Gestão de riscos de TI e segurança da informação | 0,187 | 0,165 | -0,022 | 10 |
+| Estrutura de segurança da informação | 0,275 | 0,258 | -0,017 | 11 |
+| Processos de segurança da informação | 0,274 | 0,200 | -0,075 | 62 |
+| Gestão de soluções de TI | 0,213 | 0,193 | -0,020 | 12 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na memória de cálculo do iGovTI 2026)</div>
 
@@ -66,15 +68,15 @@ O impacto foi menor nas dimensões **Estrutura de segurança da informação**, 
 
 # 4. Efeito nos níveis de maturidade
 
-A avaliação de evidências também alterou a distribuição dos níveis de maturidade. No cenário com ajuste inicial, havia **50 organizações** no nível "Inexpressivo"; no cenário final, esse quantitativo subiu para **61 organizações**. O número de organizações em níveis iguais ou superiores a "Intermediário" caiu de **21** para **14**.
+A avaliação de evidências também alterou a distribuição dos níveis de maturidade. No cenário com ajuste inicial, havia **50 organizações** no nível "Inexpressivo"; no cenário final, esse quantitativo subiu para **61 organizações**. O número de organizações em níveis iguais ou superiores a "Intermediário" caiu de **20** para **13**.
 
-: Distribuição dos níveis de maturidade {#tbl:impacto_evidencias_maturidade}
+: Distribuição dos níveis de maturidade {#tbl:impacto_evidencias_maturidade#}
 
 | Nível de maturidade | Cenário com ajuste inicial | Cenário final | Variação |
 |---|---:|---:|---:|
 | Inexpressivo | 50 | 61 | +11 |
 | Iniciando | 43 | 39 | -4 |
-| Intermediário | 15 | 10 | -5 |
+| Intermediário | 14 | 9 | -5 |
 | Aprimorado | 6 | 4 | -2 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na memória de cálculo do iGovTI 2026)</div>
@@ -87,7 +89,7 @@ Esse deslocamento reforça a conclusão de que a avaliação documental afetou n
 
 As maiores reduções concentraram-se em organizações que apresentavam pontuação inicial relativamente alta e tiveram quantidade expressiva de respostas ajustadas após a avaliação de evidências. A redução mais acentuada ocorreu no DETRAN, cujo iGovTI passou de **0,843** para **0,149**, com queda de **0,694 ponto** e reclassificação de "Aprimorado" para "Inexpressivo".
 
-: Organizações com maiores reduções no iGovTI {#tbl:impacto_evidencias_maiores_reducoes}
+: Organizações com maiores reduções no iGovTI {#tbl:impacto_evidencias_maiores_reducoes#}
 
 | Organização | iGovTI com ajuste inicial | iGovTI final | Redução | Maturidade inicial | Maturidade final | Registros pós-evidência |
 |---|---:|---:|---:|---|---|---:|
@@ -110,7 +112,7 @@ Esses resultados devem ser interpretados com cautela. A existência de muitos re
 
 Os registros pós-evidência concentraram-se em práticas ligadas à segurança dos recursos de processamento da informação, às contratações de tecnologia da informação, ao catálogo e níveis de serviço, ao planejamento de TI e ao modelo de gestão de TI.
 
-: Itens-base com maior quantidade de registros pós-evidência {#tbl:impacto_evidencias_itens}
+: Itens-base com maior quantidade de registros pós-evidência {#tbl:impacto_evidencias_itens#}
 
 | Item-base | Tema avaliado | Registros | Auditados afetados |
 |---|---|---:|---:|
@@ -137,7 +139,7 @@ Além da análise das reduções, foi examinada a taxa de conformidade dos parec
 
 Houve **4 organizações** em que todas as conclusões avaliadas foram consideradas conformes: **BARRA DO PIRAÍ**, **PETRÓPOLIS**, **SUDERJ** e **ARARUAMA**. A interpretação desse resultado deve considerar, contudo, que essas organizações tiveram baixo volume de itens avaliados, variando de 4 a 9 conclusões. Assim, o percentual de 100% indica consistência integral no conjunto analisado, mas não deve ser comparado diretamente com organizações que apresentaram dezenas de itens submetidos à avaliação.
 
-: Organizações com todas as conclusões de evidência consideradas conformes {#tbl:impacto_evidencias_todas_conformes}
+: Organizações com todas as conclusões de evidência consideradas conformes {#tbl:impacto_evidencias_todas_conformes#}
 
 | Organização | Conclusões avaliadas | Conclusões conformes | Conclusões não conformes | Taxa de conformidade |
 |---|---:|---:|---:|---:|
@@ -150,7 +152,7 @@ Houve **4 organizações** em que todas as conclusões avaliadas foram considera
 
 Considerando organizações com pelo menos 10 conclusões avaliadas, as maiores taxas de conformidade foram observadas em **SEPLAG**, **TCE-RJ**, **TJRJ**, **PRODERJ** e **NITERÓI**. Nesse grupo, a quantidade maior de itens avaliados torna a taxa mais informativa para comparação relativa, embora ainda dependa do perfil das práticas declaradas e do conjunto de evidências submetido por cada auditado.
 
-: Organizações com maior taxa de conformidade, entre aquelas com pelo menos 10 conclusões avaliadas {#tbl:impacto_evidencias_maior_conformidade}
+: Organizações com maior taxa de conformidade, entre aquelas com pelo menos 10 conclusões avaliadas {#tbl:impacto_evidencias_maior_conformidade#}
 
 | Organização | Conclusões avaliadas | Conclusões conformes | Conclusões não conformes | Taxa de conformidade |
 |---|---:|---:|---:|---:|
@@ -171,51 +173,51 @@ Esses resultados mostram que a avaliação de evidências não produziu apenas r
 
 # 8. Impacto nos achados e situações inconformes
 
-Quando a auditoria é comparada no critério metodologicamente adequado, isto é, cenário inicial com apenas a fonte de respostas contra cenário final com respostas ajustadas e painel de avaliação de evidências, observa-se impacto relevante sobre os achados. No cenário com ajuste inicial e sem painel de evidências, foram identificadas **604 marcações de achados por auditado**. No cenário final, esse total passou para **631**, acréscimo de **27 marcações**.
+Quando a auditoria é comparada no critério metodologicamente adequado, isto é, cenário inicial com apenas a fonte de respostas contra cenário final com respostas ajustadas e painel de avaliação de evidências, observa-se impacto relevante sobre os achados. No cenário com ajuste inicial e sem painel de evidências, foram identificadas **598 marcações de achados por auditado**. No cenário final, esse total passou para **625**, acréscimo de **27 marcações**.
 
-O impacto foi ainda mais expressivo nas situações inconformes. O total passou de **1.909**, no cenário inicial, para **2.162**, no cenário final, com acréscimo de **253 situações inconformes**. O mesmo acréscimo ocorreu nos encaminhamentos associados. Não houve remoção de marcações: a avaliação de evidências apenas acrescentou achados, situações inconformes e encaminhamentos que não seriam identificados pela autodeclaração saneada isoladamente.
+O impacto foi ainda mais expressivo nas situações inconformes. O total passou de **1.887**, no cenário inicial, para **2.140**, no cenário final, com acréscimo de **253 situações inconformes**. O mesmo acréscimo ocorreu nos encaminhamentos associados. Não houve remoção de marcações: a avaliação de evidências apenas acrescentou achados, situações inconformes e encaminhamentos que não seriam identificados pela autodeclaração saneada isoladamente.
 
-: Impacto dos ajustes pós-evidência nos achados e situações inconformes {#tbl:impacto_evidencias_achados_situacoes}
+: Impacto dos ajustes pós-evidência nos achados e situações inconformes {#tbl:impacto_evidencias_achados_situacoes#}
 
 | Medida | Cenário com ajuste inicial | Cenário final | Variação | Organizações com aumento | Organizações sem variação | Organizações com redução |
 |---|---:|---:|---:|---:|---:|---:|
-| Marcações de achados por auditado | 604 | 631 | +27 | 21 | 93 | 0 |
-| Situações inconformes | 1.909 | 2.162 | +253 | 82 | 32 | 0 |
-| Encaminhamentos associados | 1.909 | 2.162 | +253 | 82 | 32 | 0 |
+| Marcações de achados por auditado | 598 | 625 | +27 | 21 | 92 | 0 |
+| Situações inconformes | 1.887 | 2.140 | +253 | 82 | 31 | 0 |
+| Encaminhamentos associados | 1.887 | 2.140 | +253 | 82 | 31 | 0 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na execução comparativa dos procedimentos de auditoria)</div>
 
-O acréscimo concentrou-se nos achados relativos a contratações de TIC e planejamento de TIC. O Achado 6 passou de **103** para **113** organizações, e o Achado 3 passou de **101** para **110**. Também houve aumento nos achados de estrutura de TIC, governança de TIC e gestão de serviços de TIC.
+O acréscimo concentrou-se nos achados relativos a contratações de TIC e planejamento de TIC. O Achado 6 passou de **102** para **112** organizações, e o Achado 3 passou de **100** para **109**. Também houve aumento nos achados de estrutura de TIC, governança de TIC e gestão de serviços de TIC.
 
-: Impacto por achado {#tbl:impacto_evidencias_por_achado}
+: Impacto por achado {#tbl:impacto_evidencias_por_achado#}
 
 | Achado | Cenário com ajuste inicial | Cenário final | Variação |
 |---|---:|---:|---:|
-| 1. Estrutura de TIC insuficiente | 68 | 72 | +4 |
-| 2. Governança de TIC insuficiente | 105 | 108 | +3 |
-| 3. Planejamento de TIC insuficiente | 101 | 110 | +9 |
-| 4. Capacidade institucional insuficiente | 114 | 114 | 0 |
-| 5. Gestão de serviços de TIC insuficiente | 113 | 114 | +1 |
-| 6. Fragilidades na fase preparatória das contratações de TIC | 103 | 113 | +10 |
+| 1. Estrutura de TIC insuficiente | 67 | 71 | +4 |
+| 2. Governança de TIC insuficiente | 104 | 107 | +3 |
+| 3. Planejamento de TIC insuficiente | 100 | 109 | +9 |
+| 4. Capacidade institucional insuficiente | 113 | 113 | 0 |
+| 5. Gestão de serviços de TIC insuficiente | 112 | 113 | +1 |
+| 6. Fragilidades na fase preparatória das contratações de TIC | 102 | 112 | +10 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na execução comparativa dos procedimentos de auditoria)</div>
 
-As situações inconformes com maior acréscimo foram aquelas em que a resposta afirmativa dependia de documentação formal capaz de demonstrar planejamento, aprovação, integração orçamentária, análise técnica ou inventário. O maior impacto ocorreu na situação relativa a contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC, cujo registro passou de **39** para **87** organizações.
+As situações inconformes com maior acréscimo foram aquelas em que a resposta afirmativa dependia de documentação formal capaz de demonstrar planejamento, aprovação, integração orçamentária, análise técnica ou inventário. O maior impacto ocorreu na situação relativa a contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC, cujo registro passou de **38** para **86** organizações.
 
-: Situações inconformes com maior acréscimo {#tbl:impacto_evidencias_situacoes_maior_acrescimo}
+: Situações inconformes com maior acréscimo {#tbl:impacto_evidencias_situacoes_maior_acrescimo#}
 
 | Situação inconforme | Cenário com ajuste inicial | Cenário final | Variação |
 |---|---:|---:|---:|
-| Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC | 39 | 87 | +48 |
-| Ausência de aprovação formal do plano de TIC | 66 | 88 | +22 |
-| Inexistência ou fragilidade do inventário de ativos de TIC | 86 | 107 | +21 |
-| Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC | 90 | 109 | +19 |
-| Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária | 90 | 109 | +19 |
-| Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC | 86 | 100 | +14 |
-| Comitê de TIC ou instância equivalente não instituído formalmente | 76 | 87 | +11 |
-| Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação | 83 | 94 | +11 |
-| Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores | 102 | 113 | +11 |
-| Inexistência ou insuficiência do catálogo de serviços de TIC | 100 | 111 | +11 |
+| Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC | 38 | 86 | +48 |
+| Ausência de aprovação formal do plano de TIC | 65 | 87 | +22 |
+| Inexistência ou fragilidade do inventário de ativos de TIC | 85 | 106 | +21 |
+| Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC | 89 | 108 | +19 |
+| Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária | 89 | 108 | +19 |
+| Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC | 85 | 99 | +14 |
+| Comitê de TIC ou instância equivalente não instituído formalmente | 75 | 86 | +11 |
+| Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação | 82 | 93 | +11 |
+| Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores | 101 | 112 | +11 |
+| Inexistência ou insuficiência do catálogo de serviços de TIC | 99 | 110 | +11 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na execução comparativa dos procedimentos de auditoria)</div>
 
@@ -225,7 +227,7 @@ Esse resultado demonstra que a avaliação de evidências teve dupla função. N
 
 # 9. Interpretação dos resultados
 
-A avaliação de evidências reduziu de forma significativa o resultado do iGovTI 2026. A redução média de **0,050 ponto** no índice geral e a reclassificação de **18 organizações** para níveis inferiores demonstram que a etapa de validação documental teve efeito substantivo sobre as conclusões do trabalho.
+A avaliação de evidências reduziu de forma significativa o resultado do iGovTI 2026. A redução média de **0,051 ponto** no índice geral e a reclassificação de **18 organizações** para níveis inferiores demonstram que a etapa de validação documental teve efeito substantivo sobre as conclusões do trabalho.
 
 O efeito observado indica que parte das práticas declaradas no questionário não estava acompanhada de evidência suficiente para sustentar a pontuação correspondente. Esse achado metodológico é relevante para a interpretação do iGovTI 2026: o resultado final tende a ser mais conservador do que um resultado baseado apenas em autodeclaração, pois privilegia práticas comprovadas em detrimento de declarações não confirmadas documentalmente.
 
@@ -235,7 +237,7 @@ Sob a perspectiva do relatório consolidado, a avaliação de evidências aument
 
 # 10. Conclusão
 
-A avaliação de evidências foi determinante para o resultado final do iGovTI 2026. Sem essa etapa, a média do índice seria **0,237**; com a validação documental, a média final foi **0,187**. A diferença decorreu de **1.964 alterações efetivas** em respostas de **103 organizações**, com redução no iGovTI de **90 organizações** e deslocamento de **18 organizações** para níveis inferiores de maturidade.
+A avaliação de evidências foi determinante para o resultado final do iGovTI 2026. Sem essa etapa, a média do índice seria **0,235**; com a validação documental, a média final foi **0,184**. A diferença decorreu de **1.964 alterações efetivas** em respostas de **103 organizações**, com redução no iGovTI de **90 organizações** e deslocamento de **18 organizações** para níveis inferiores de maturidade.
 
 Os resultados demonstram que a etapa de validação documental não foi acessória. Ela alterou materialmente a leitura do cenário de governança e gestão de tecnologia da informação, sobretudo em serviços de TI, planejamento de TI, processos de segurança da informação e contratações de TI. Também ampliou a matriz de achados, com acréscimo de **27 marcações de achados por auditado** e **253 situações inconformes** quando comparado o cenário de autodeclaração saneada com o cenário final validado por evidências. Dessa forma, o iGovTI 2026 final e os achados consolidados devem ser compreendidos como resultados apurados a partir de respostas submetidas a teste de consistência documental e da análise probatória registrada nas fontes de informação.
 

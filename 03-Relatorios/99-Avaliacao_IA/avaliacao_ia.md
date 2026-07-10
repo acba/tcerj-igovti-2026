@@ -4,6 +4,8 @@ lang: pt-BR
 figure-caption-position: above
 ---
 
+\newpage
+
 # 1. Objetivo
 
 Este anexo apresenta análise das respostas às questões do questionário iGovTI 2026 relacionadas à inteligência artificial, compreendendo as questões 3001 a 3006. O objetivo é oferecer visão consolidada sobre o grau de utilização de IA pelos auditados do TCE-RJ, os usos declarados, as contratações realizadas, as diretrizes existentes, os controles sobre IA generativa e os principais riscos identificados.
@@ -12,7 +14,7 @@ A análise tem caráter diagnóstico. Não substitui fiscalização específica 
 
 # 2. Metodologia
 
-Foram utilizadas as respostas finais ajustadas do questionário iGovTI 2026, constantes da base `20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx`. O universo analisado corresponde a **114 organizações**.
+Foram utilizadas as respostas finais ajustadas do questionário iGovTI 2026. O universo analisado corresponde a **113 organizações**.
 
 As questões avaliadas foram:
 
@@ -31,83 +33,83 @@ A questão 3006 possui natureza descritiva. Suas respostas foram categorizadas d
 
 O cenário geral indica baixa institucionalização do uso de inteligência artificial nos auditados. Embora existam iniciativas relevantes e organizações com sinais de maior maturidade, a maior parte do universo avaliado declarou não adotar IA de forma institucional, não possuir diretrizes específicas e não adotar medidas para identificar ou controlar o uso de IA generativa.
 
-: Síntese do cenário de IA {#tbl:avaliacao_ia_resumo}
+: Síntese do cenário de IA {#tbl:avaliacao_ia_resumo#}
 
 | Indicador | Quantidade | Percentual |
 |---|---:|---:|
-| Organizações respondentes | 114 | 100,0% |
-| Declararam algum grau de uso institucional, decisão formal ou plano para IA | 32 | 28,1% |
-| Declararam adoção efetiva de IA, ainda que em menor parte | 29 | 25,4% |
-| Declararam adoção parcial ou em maior parte/total de IA | 16 | 14,0% |
-| Declararam diretrizes de IA em algum grau, decisão formal ou plano | 23 | 20,2% |
-| Declararam diretrizes parciais ou em maior parte/totais | 11 | 9,6% |
-| Declararam contratação de IA em ao menos uma categoria | 19 | 16,7% |
-| Declararam controles de IA generativa em algum grau, decisão formal ou plano | 22 | 19,3% |
-| Declararam controles de IA generativa parciais ou em maior parte/totais | 11 | 9,6% |
+| Organizações respondentes | 113 | 100,0% |
+| Declararam algum grau de uso institucional, decisão formal ou plano para IA | 32 | 28,3% |
+| Declararam adoção efetiva de IA, ainda que em menor parte | 29 | 25,7% |
+| Declararam adoção parcial ou em maior parte/total de IA | 16 | 14,2% |
+| Declararam diretrizes de IA em algum grau, decisão formal ou plano | 23 | 20,4% |
+| Declararam diretrizes parciais ou em maior parte/totais | 11 | 9,7% |
+| Declararam contratação de IA em ao menos uma categoria | 19 | 16,8% |
+| Declararam controles de IA generativa em algum grau, decisão formal ou plano | 22 | 19,5% |
+| Declararam controles de IA generativa parciais ou em maior parte/totais | 11 | 9,7% |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas respostas finais ajustadas do questionário iGovTI 2026)</div>
 
-O dado mais relevante é o descompasso entre a disponibilidade prática de ferramentas de IA, especialmente generativa, e a baixa formalização de controles institucionais. Apenas **11 organizações (9,6%)** declararam diretrizes de IA em nível parcial ou superior, e apenas **11 organizações (9,6%)** declararam controles de IA generativa em nível parcial ou superior. Esse cenário sugere que, na maioria dos auditados, o tema ainda não foi incorporado de forma estruturada à governança de TI, à segurança da informação, à gestão de riscos ou às contratações.
+O dado mais relevante é o descompasso entre a disponibilidade prática de ferramentas de IA, especialmente generativa, e a baixa formalização de controles institucionais. Apenas **11 organizações (9,7%)** declararam diretrizes de IA em nível parcial ou superior, e apenas **11 organizações (9,7%)** declararam controles de IA generativa em nível parcial ou superior. Esse cenário sugere que, na maioria dos auditados, o tema ainda não foi incorporado de forma estruturada à governança de TI, à segurança da informação, à gestão de riscos ou às contratações.
 
 # 4. Grau de utilização institucional
 
-Na questão 3001, **80 organizações (70,2%)** declararam não adotar inteligência artificial de forma institucional. Outras **2 organizações (1,8%)** indicaram que a questão não se aplica. Entre as demais, há diferentes estágios de maturidade: 13 declararam adoção em menor parte, 9 adoção parcial, 7 adoção em maior parte ou total, e 3 indicaram decisão formal ou plano aprovado para adoção.
+Na questão 3001, **79 organizações (69,9%)** declararam não adotar inteligência artificial de forma institucional. Outras **2 organizações (1,8%)** indicaram que a questão não se aplica. Entre as demais, há diferentes estágios de maturidade: 13 declararam adoção em menor parte, 9 adoção parcial, 7 adoção em maior parte ou total, e 3 indicaram decisão formal ou plano aprovado para adoção.
 
-: Distribuição do uso institucional de IA {#tbl:avaliacao_ia_q3001}
+: Distribuição do uso institucional de IA {#tbl:avaliacao_ia_q3001#}
 
 | Resposta à 3001 | Quantidade | Percentual |
 |---|---:|---:|
-| Não adota | 80 | 70,2% |
-| Adota em menor parte | 13 | 11,4% |
-| Adota parcialmente | 9 | 7,9% |
-| Adota em maior parte ou totalmente | 7 | 6,1% |
-| Há decisão formal ou plano aprovado para adotá-lo | 3 | 2,6% |
+| Não adota | 79 | 69,9% |
+| Adota em menor parte | 13 | 11,5% |
+| Adota parcialmente | 9 | 8,0% |
+| Adota em maior parte ou totalmente | 7 | 6,2% |
+| Há decisão formal ou plano aprovado para adotá-lo | 3 | 2,7% |
 | Não se aplica | 2 | 1,8% |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas respostas finais ajustadas do questionário iGovTI 2026)</div>
 
-Os subitens da 3001 demonstram que a adoção ainda é incipiente mesmo entre organizações que declararam algum uso ou planejamento. Apenas **12 organizações (10,5%)** afirmaram identificar e avaliar continuamente oportunidades de IA; **11 (9,6%)** declararam executar projetos-piloto ou provas de conceito; **9 (7,9%)** declararam desenvolver internamente soluções de IA; **9 (7,9%)** afirmaram possuir IA em produção em processos administrativos internos; **11 (9,6%)** em atividades finalísticas ou serviços ao cidadão; e **8 (7,0%)** indicaram equipe, comitê ou responsáveis técnicos formalmente designados.
+Os subitens da 3001 demonstram que a adoção ainda é incipiente mesmo entre organizações que declararam algum uso ou planejamento. Apenas **12 organizações (10,6%)** afirmaram identificar e avaliar continuamente oportunidades de IA; **11 (9,7%)** declararam executar projetos-piloto ou provas de conceito; **9 (8,0%)** declararam desenvolver internamente soluções de IA; **9 (8,0%)** afirmaram possuir IA em produção em processos administrativos internos; **11 (9,7%)** em atividades finalísticas ou serviços ao cidadão; e **8 (7,1%)** indicaram equipe, comitê ou responsáveis técnicos formalmente designados.
 
 Esses números indicam que as iniciativas existentes parecem concentrar-se em grupos restritos de organizações. Também sugerem risco de fragmentação: parte dos auditados declara uso ou projetos de IA, mas nem sempre há estrutura formal de governança, responsáveis designados ou controles correspondentes.
 
 # 5. Diretrizes, governança e controles
 
-A governança do uso de IA ainda é menos disseminada que a própria adoção. Na 3002, **88 organizações (77,2%)** declararam não possuir diretrizes para uso de IA. Apenas **8 organizações (7,0%)** declararam adotar diretrizes em maior parte ou totalmente, e **3 (2,6%)** declararam adoção parcial.
+A governança do uso de IA ainda é menos disseminada que a própria adoção. Na 3002, **87 organizações (77,0%)** declararam não possuir diretrizes para uso de IA. Apenas **8 organizações (7,1%)** declararam adotar diretrizes em maior parte ou totalmente, e **3 (2,7%)** declararam adoção parcial.
 
-: Distribuição das diretrizes para uso de IA {#tbl:avaliacao_ia_q3002}
+: Distribuição das diretrizes para uso de IA {#tbl:avaliacao_ia_q3002#}
 
 | Resposta à 3002 | Quantidade | Percentual |
 |---|---:|---:|
-| Não adota | 88 | 77,2% |
-| Adota em maior parte ou totalmente | 8 | 7,0% |
-| Há decisão formal ou plano aprovado para adotá-lo | 7 | 6,1% |
+| Não adota | 87 | 77,0% |
+| Adota em maior parte ou totalmente | 8 | 7,1% |
+| Há decisão formal ou plano aprovado para adotá-lo | 7 | 6,2% |
 | Adota em menor parte | 5 | 4,4% |
-| Adota parcialmente | 3 | 2,6% |
-| Não se aplica | 3 | 2,6% |
+| Adota parcialmente | 3 | 2,7% |
+| Não se aplica | 3 | 2,7% |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas respostas finais ajustadas do questionário iGovTI 2026)</div>
 
-Entre os controles específicos declarados, os percentuais também são baixos no universo total. Somente **10 organizações (8,8%)** declararam regras sobre o uso de dados institucionais, pessoais ou sensíveis em prompts; **6 (5,3%)** declararam obrigatoriedade de avaliação de riscos antes da implantação de IA; **7 (6,1%)** declararam mecanismos de revisão humana; e **8 (7,0%)** declararam testes, validações ou avaliações antes do uso institucional.
+Entre os controles específicos declarados, os percentuais também são baixos no universo total. Somente **10 organizações (8,8%)** declararam regras sobre o uso de dados institucionais, pessoais ou sensíveis em prompts; **6 (5,3%)** declararam obrigatoriedade de avaliação de riscos antes da implantação de IA; **7 (6,2%)** declararam mecanismos de revisão humana; e **8 (7,1%)** declararam testes, validações ou avaliações antes do uso institucional.
 
 Esses resultados são relevantes porque os riscos de IA decorrem menos da tecnologia isoladamente e mais do seu uso sem salvaguardas. A ausência de regras sobre dados em prompts, avaliação de riscos, validação prévia e revisão humana aumenta a probabilidade de exposição de dados, decisões inadequadas, dependência de fornecedores, uso de respostas incorretas e dificuldade de responsabilização.
 
 # 6. Contratações e dificuldades declaradas
 
-Na 3003, **19 organizações (16,7%)** declararam ter contratado soluções SaaS ou plataformas com funcionalidades de IA; **8 (7,0%)** declararam contratação de soluções de IA generativa; e **10 (8,8%)** declararam contratação de serviços especializados relacionados à IA, como consultoria, treinamento, desenvolvimento ou sustentação.
+Na 3003, **19 organizações (16,8%)** declararam ter contratado soluções SaaS ou plataformas com funcionalidades de IA; **8 (7,1%)** declararam contratação de soluções de IA generativa; e **10 (8,8%)** declararam contratação de serviços especializados relacionados à IA, como consultoria, treinamento, desenvolvimento ou sustentação.
 
-: Contratações relacionadas à IA {#tbl:avaliacao_ia_q3003}
+: Contratações relacionadas à IA {#tbl:avaliacao_ia_q3003#}
 
 | Tipo de contratação declarada | Quantidade | Percentual |
 |---|---:|---:|
-| SaaS ou plataforma com funcionalidade de IA | 19 | 16,7% |
-| Solução de IA generativa | 8 | 7,0% |
+| SaaS ou plataforma com funcionalidade de IA | 19 | 16,8% |
+| Solução de IA generativa | 8 | 7,1% |
 | Serviço especializado relacionado à IA | 10 | 8,8% |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas respostas finais ajustadas do questionário iGovTI 2026)</div>
 
 Entre os respondentes da 3004, as dificuldades mais recorrentes foram: integrar soluções de IA aos sistemas corporativos existentes, indicada por **12 organizações**; identificar e comparar soluções disponíveis no mercado, indicada por **9**; definir objeto, escopo, entregas e responsabilidades, indicada por **8**; estimar preços, quantitativos ou consumo, indicada por **8**; planejar implantação, integração, treinamento ou gestão da mudança, indicada por **8**; e definir exigências de proteção de dados e LGPD, indicada por **8**.
 
-: Principais dificuldades de contratação de IA indicadas na 3004 {#tbl:avaliacao_ia_q3004}
+: Principais dificuldades de contratação de IA indicadas na 3004 {#tbl:avaliacao_ia_q3004#}
 
 | Dificuldade declarada | Quantidade |
 |---|---:|
@@ -124,14 +126,14 @@ O conjunto dessas respostas indica que a contratação de IA ainda apresenta des
 
 # 7. Uso de IA generativa e risco de uso não mapeado
 
-A 3005 trata de medidas para identificar e controlar o uso não autorizado ou não mapeado de IA generativa. O resultado é crítico: **90 organizações (78,9%)** declararam não adotar tais medidas. Apenas **4 organizações (3,5%)** declararam adotar controles em maior parte ou totalmente, e **7 (6,1%)** indicaram adoção parcial.
+A 3005 trata de medidas para identificar e controlar o uso não autorizado ou não mapeado de IA generativa. O resultado é crítico: **89 organizações (78,8%)** declararam não adotar tais medidas. Apenas **4 organizações (3,5%)** declararam adotar controles em maior parte ou totalmente, e **7 (6,2%)** indicaram adoção parcial.
 
-: Controles sobre uso não autorizado ou não mapeado de IA generativa {#tbl:avaliacao_ia_q3005}
+: Controles sobre uso não autorizado ou não mapeado de IA generativa {#tbl:avaliacao_ia_q3005#}
 
 | Resposta à 3005 | Quantidade | Percentual |
 |---|---:|---:|
-| Não adota | 90 | 78,9% |
-| Adota parcialmente | 7 | 6,1% |
+| Não adota | 89 | 78,8% |
+| Adota parcialmente | 7 | 6,2% |
 | Há decisão formal ou plano aprovado para adotá-lo | 6 | 5,3% |
 | Adota em menor parte | 5 | 4,4% |
 | Adota em maior parte ou totalmente | 4 | 3,5% |
@@ -139,29 +141,29 @@ A 3005 trata de medidas para identificar e controlar o uso não autorizado ou n�
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas respostas finais ajustadas do questionário iGovTI 2026)</div>
 
-Os subitens da 3005 confirmam a fragilidade. Apenas **3 organizações (2,6%)** declararam identificar ferramentas públicas de IA generativa acessadas na rede corporativa; **6 (5,3%)** declararam definir ferramentas autorizadas, restritas ou vedadas; **5 (4,4%)** declararam controles técnicos para reduzir o uso de ferramentas não homologadas; e **5 (4,4%)** declararam processo de avaliação e homologação de novas ferramentas.
+Os subitens da 3005 confirmam a fragilidade. Apenas **3 organizações (2,7%)** declararam identificar ferramentas públicas de IA generativa acessadas na rede corporativa; **6 (5,3%)** declararam definir ferramentas autorizadas, restritas ou vedadas; **5 (4,4%)** declararam controles técnicos para reduzir o uso de ferramentas não homologadas; e **5 (4,4%)** declararam processo de avaliação e homologação de novas ferramentas.
 
 Esse é um dos pontos de maior risco do diagnóstico. Mesmo organizações que não reconhecem formalmente o uso institucional de IA podem estar expostas ao uso individual de ferramentas generativas por servidores, colaboradores ou terceirizados. Sem mapeamento, orientação, restrição, homologação ou monitoramento, aumenta o risco de inserção de dados pessoais, informações sigilosas, minutas, pareceres, documentos internos ou bases institucionais em plataformas externas sem avaliação de segurança, privacidade e conformidade.
 
 # 8. Usos declarados na questão aberta
 
-A questão 3006 recebeu **91 respostas não vazias (79,8%)**. Contudo, parte expressiva dessas respostas apenas informou ausência de uso, não institucionalização ou inexistência de solução formal. Por isso, a leitura das respostas abertas deve ser feita com cautela.
+A questão 3006 recebeu **90 respostas não vazias (79,6%)**. Contudo, parte expressiva dessas respostas apenas informou ausência de uso, não institucionalização ou inexistência de solução formal. Por isso, a leitura das respostas abertas deve ser feita com cautela.
 
 A categorização interpretativa das respostas abertas indicou os seguintes temas recorrentes:
 
-: Categorias identificadas nas respostas abertas da 3006 {#tbl:avaliacao_ia_q3006}
+: Categorias identificadas nas respostas abertas da 3006 {#tbl:avaliacao_ia_q3006#}
 
 | Categoria | Quantidade | Percentual |
 |---|---:|---:|
-| Ausência de uso declarada ou não institucionalização | 36 | 31,6% |
-| Contratação ou solução de terceiro | 32 | 28,1% |
-| Apoio textual, pesquisa e produtividade | 28 | 24,6% |
-| Automação administrativa ou processual | 25 | 21,9% |
-| Desenvolvimento de software ou suporte técnico | 23 | 20,2% |
-| Análise de dados, BI ou apoio à decisão | 22 | 19,3% |
-| Projeto-piloto, estudo ou prova de conceito | 17 | 14,9% |
-| Assistente virtual, chatbot ou atendimento | 15 | 13,2% |
-| Segurança, fraude ou fiscalização | 8 | 7,0% |
+| Ausência de uso declarada ou não institucionalização | 35 | 31,0% |
+| Contratação ou solução de terceiro | 32 | 28,3% |
+| Apoio textual, pesquisa e produtividade | 28 | 24,8% |
+| Automação administrativa ou processual | 25 | 22,1% |
+| Desenvolvimento de software ou suporte técnico | 23 | 20,4% |
+| Análise de dados, BI ou apoio à decisão | 22 | 19,5% |
+| Projeto-piloto, estudo ou prova de conceito | 17 | 15,0% |
+| Assistente virtual, chatbot ou atendimento | 15 | 13,3% |
+| Segurança, fraude ou fiscalização | 8 | 7,1% |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na categorização interpretativa das respostas abertas da 3006)</div>
 
@@ -173,18 +175,18 @@ Esse padrão é compatível com estágio inicial de adoção: há experimentaç�
 
 A análise das respostas aponta riscos indicativos que merecem atenção prioritária em futuras ações de controle. Esses riscos não constituem achados individualizados neste anexo, mas sinalizam áreas em que a exposição institucional pode ser relevante.
 
-: Riscos indicativos derivados das respostas de IA {#tbl:avaliacao_ia_riscos}
+: Riscos indicativos derivados das respostas de IA {#tbl:avaliacao_ia_riscos#}
 
 | Risco indicativo | Quantidade | Percentual |
 |---|---:|---:|
-| Medidas de IA generativa sem identificação de acessos na rede | 19 | 16,7% |
-| Diretrizes sem avaliação prévia de riscos | 17 | 14,9% |
-| Diretrizes sem revisão humana prevista | 16 | 14,0% |
-| Uso ou plano de IA sem controle de IA generativa | 15 | 13,2% |
-| Diretrizes sem regra para dados em prompts | 13 | 11,4% |
-| Uso ou plano de IA sem diretrizes formais | 12 | 10,5% |
-| Contratação de IA sem controle de IA generativa | 11 | 9,6% |
-| Contratação de IA sem diretrizes formais | 9 | 7,9% |
+| Medidas de IA generativa sem identificação de acessos na rede | 19 | 16,8% |
+| Diretrizes sem avaliação prévia de riscos | 17 | 15,0% |
+| Diretrizes sem revisão humana prevista | 16 | 14,2% |
+| Uso ou plano de IA sem controle de IA generativa | 15 | 13,3% |
+| Diretrizes sem regra para dados em prompts | 13 | 11,5% |
+| Uso ou plano de IA sem diretrizes formais | 12 | 10,6% |
+| Contratação de IA sem controle de IA generativa | 11 | 9,7% |
+| Contratação de IA sem diretrizes formais | 9 | 8,0% |
 | IA generativa contratada sem diretrizes robustas | 5 | 4,4% |
 | IA em produção sem diretrizes robustas | 5 | 4,4% |
 
@@ -230,7 +232,7 @@ Por fim, pode-se avaliar a construção de uma **agenda de controle orientada po
 
 # 12. Conclusão
 
-O diagnóstico evidencia que a inteligência artificial ainda se encontra em estágio inicial de institucionalização na maior parte dos auditados do TCE-RJ. Apenas **28,1%** declararam algum grau de uso institucional, decisão formal ou plano para IA, e somente **14,0%** declararam adoção parcial ou em maior parte/total. As diretrizes e controles aparecem em proporções ainda menores: **9,6%** declararam diretrizes de IA em nível parcial ou superior, e **9,6%** declararam controles de IA generativa em nível parcial ou superior.
+O diagnóstico evidencia que a inteligência artificial ainda se encontra em estágio inicial de institucionalização na maior parte dos auditados do TCE-RJ. Apenas **28,3%** declararam algum grau de uso institucional, decisão formal ou plano para IA, e somente **14,2%** declararam adoção parcial ou em maior parte/total. As diretrizes e controles aparecem em proporções ainda menores: **9,7%** declararam diretrizes de IA em nível parcial ou superior, e **9,7%** declararam controles de IA generativa em nível parcial ou superior.
 
 Esse cenário combina dois movimentos relevantes: de um lado, há baixa maturidade formal; de outro, as respostas abertas indicam usos, experimentações, contratações, ferramentas de apoio textual, assistentes, automações e projetos em desenvolvimento. A principal preocupação decorre justamente dessa combinação: a IA pode estar sendo utilizada ou experimentada antes da consolidação de políticas, inventários, regras de dados, controles técnicos, avaliação de riscos e supervisão humana.
 

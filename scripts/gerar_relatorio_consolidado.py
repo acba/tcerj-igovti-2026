@@ -27,10 +27,13 @@ from argos_utils import (
     substituir_underline_pandoc,
     aplicar_estilo_tabelas,
     evitar_quebra_elementos,
+    inserir_campo_sumario_docx,
+    marcar_atualizacao_campos_docx,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+TOC_MARKER_FILTER = Path(__file__).resolve().parent / "resources" / "toc-marker.lua"
 
 # Tenta importar as bibliotecas necessárias
 try:
@@ -156,6 +159,7 @@ def main() -> int:
     # 3. Aplica os processamentos de marcação herdados do Argos
     conteudo_processado = cross_ref_figuras(conteudo)
     conteudo_processado = cross_ref_tabelas(conteudo_processado)
+    conteudo_processado = inserir_campo_sumario_docx(conteudo_processado)
     conteudo_processado = processar_quebras_pagina(conteudo_processado)
     conteudo_processado = substituir_underline_pandoc(conteudo_processado)
 
@@ -306,6 +310,8 @@ def main() -> int:
                 '--reference-doc=' + str(ref_path),
                 resource_path_arg
             ]
+            if TOC_MARKER_FILTER.exists():
+                extra_args.append('--lua-filter=' + str(TOC_MARKER_FILTER))
 
             # Executa conversão
             output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -321,6 +327,9 @@ def main() -> int:
 
             logger.info("Ajustando layout para evitar quebras órfãs de figuras, tabelas e fontes...")
             evitar_quebra_elementos(str(output_path))
+
+            logger.info("Marcando campos do DOCX para atualização ao abrir no Word...")
+            marcar_atualizacao_campos_docx(str(output_path))
 
             logger.info("Relatório DOCX gerado com sucesso em: %s", output_path)
             return 0

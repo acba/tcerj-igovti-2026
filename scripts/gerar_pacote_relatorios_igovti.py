@@ -149,7 +149,7 @@ def parse_args() -> argparse.Namespace:
         "--auditoria-jobs-comentarios-gestor-anexos",
         type=int,
         default=DEFAULT_AUDITORIA_DOCX_WORKERS,
-        help=f"Workers para renderizar anexos DOCX de comentários do gestor na etapa de auditoria (padrão: {DEFAULT_AUDITORIA_DOCX_WORKERS}).",
+        help=f"Workers para renderizar anexos DOCX de comentários do gestor (padrão: {DEFAULT_AUDITORIA_DOCX_WORKERS}).",
     )
     parser.add_argument(
         "--tipo-relatorio-individual",
@@ -200,7 +200,7 @@ def main() -> int:
     logging.info("Diretório de saída: %s", output_dir)
 
     run_step(
-        "1/7 Aplicando ajustes iniciais sobre a base bruta.",
+        "1/8 Aplicando ajustes iniciais sobre a base bruta.",
         [
             python,
             ROOT / "scripts/ajustar_respostas_questionario.py",
@@ -215,7 +215,7 @@ def main() -> int:
     )
 
     run_step(
-        "2/7 Aplicando ajustes pós-avaliação de evidências.",
+        "2/8 Aplicando ajustes pós-avaliação de evidências.",
         [
             python,
             ROOT / "scripts/ajustar_respostas_questionario.py",
@@ -232,7 +232,7 @@ def main() -> int:
     validar_cadastro_respostas(args.auditados, base_final)
 
     run_step(
-        "3/7 Gerando artefatos iGovTI, comparação longitudinal e contexto estatístico.",
+        "3/8 Gerando artefatos iGovTI, comparação longitudinal e contexto estatístico.",
         [
             python,
             ROOT / "scripts/gerar_artefatos_igovti.py",
@@ -266,12 +266,23 @@ def main() -> int:
         relatorios_procedimentos,
         "--anexo-evidencias-docx",
         anexo_evidencias,
+        "--jobs-relatorios-procedimentos",
+        str(args.auditoria_jobs_relatorios_procedimentos),
+    ]
+    if not args.gerar_relatorios_procedimentos:
+        auditoria_cmd.append("--skip-relatorios-procedimentos")
+
+    run_step("4/8 Executando procedimentos de auditoria.", auditoria_cmd, ROOT)
+
+    comentarios_cmd = [
+        python,
+        ROOT / "scripts/gerar_comentarios_gestor.py",
+        "--resultado-auditoria-json",
+        resultado_auditoria,
         "--comentarios-gestor-lss",
         comentarios_lss,
         "--comentarios-gestor-anexos-zip",
         comentarios_zip,
-        "--jobs-relatorios-procedimentos",
-        str(args.auditoria_jobs_relatorios_procedimentos),
         "--jobs-comentarios-gestor-anexos",
         str(args.auditoria_jobs_comentarios_gestor_anexos),
         "--email-contato-comentarios-gestor",
@@ -286,14 +297,12 @@ def main() -> int:
         args.nome_fiscalizacao_comentarios_gestor,
     ]
     if args.ajustes_evidencias_comentarios_gestor:
-        auditoria_cmd.extend([
+        comentarios_cmd.extend([
             "--ajustes-evidencias-comentarios-gestor",
             args.ajustes_evidencias_comentarios_gestor,
         ])
-    if not args.gerar_relatorios_procedimentos:
-        auditoria_cmd.append("--skip-relatorios-procedimentos")
 
-    run_step("4/7 Executando procedimentos de auditoria.", auditoria_cmd, ROOT)
+    run_step("5/8 Gerando questionário e anexos de comentários do gestor.", comentarios_cmd, ROOT)
 
     graficos_cmd = [
         python,
@@ -316,7 +325,7 @@ def main() -> int:
     if args.auditados_select:
         graficos_cmd.extend(["--auditados", *args.auditados_select])
 
-    run_step("5/7 Gerando gráficos consolidados e individuais.", graficos_cmd, ROOT)
+    run_step("6/8 Gerando gráficos consolidados e individuais.", graficos_cmd, ROOT)
 
     relatorios_cmd = [
         python,
@@ -342,10 +351,10 @@ def main() -> int:
     if args.auditados_select:
         relatorios_cmd.extend(["--auditados-select", *args.auditados_select])
 
-    run_step("6/7 Gerando relatórios individuais.", relatorios_cmd, ROOT)
+    run_step("7/8 Gerando relatórios individuais.", relatorios_cmd, ROOT)
 
     run_step(
-        "7/7 Gerando relatório consolidado.",
+        "8/8 Gerando relatório consolidado.",
         [
             python,
             ROOT / "scripts/gerar_relatorio_consolidado.py",

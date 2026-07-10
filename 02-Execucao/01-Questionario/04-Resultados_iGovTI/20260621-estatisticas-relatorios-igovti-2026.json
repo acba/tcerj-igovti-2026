@@ -1,9 +1,9 @@
 {
   "fontes": {
-    "resultados_2026": "02-Execucao\\01-Questionario\\04-Resultados_iGovTI\\20260621-iGovTI-2026.xlsx",
-    "comparavel_2026": "02-Execucao\\01-Questionario\\04-Resultados_iGovTI\\20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
-    "setic_2023": "02-Execucao\\02-Questionario iGovTI 2023\\iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx",
-    "municipios_2023": "02-Execucao\\02-Questionario iGovTI 2023\\iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx"
+    "resultados_2026": "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx",
+    "comparavel_2026": "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
+    "setic_2023": "02-Execucao/02-Questionario iGovTI 2023/iGovTI-2023-SETIC-Ajustado-Comparavel.xlsx",
+    "municipios_2023": "02-Execucao/02-Questionario iGovTI 2023/iGovTI-2023-Municipios-Ajustado-Comparavel.xlsx"
   },
   "estatisticas_2026": {
     "universo_2026_n": 113,

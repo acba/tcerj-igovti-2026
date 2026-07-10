@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+  <title id="title">Modelo de Governança de TI segundo a ISO/IEC 38500</title>
+  <desc id="desc">Diagrama em português do Brasil com a estrutura de governança de TI, suas entradas, as atividades avaliar, dirigir e monitorar, os gestores e os sistemas de gestão do uso de TI.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0.5 0.5 L 6.5 3.5 L 0.5 6.5 z" fill="#1d4f91"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0.5 0.5 L 6.5 3.5 L 0.5 6.5 z" fill="#28745a"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0.5 0.5 L 6.5 3.5 L 0.5 6.5 z" fill="#a55a14"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0.5 0.5 L 6.5 3.5 L 0.5 6.5 z" fill="#46515c"/>
+    </marker>
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#1d2530" flood-opacity="0.18"/>
+    </filter>
+    <linearGradient id="gov-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fbff"/>
+      <stop offset="100%" stop-color="#edf5ff"/>
+    </linearGradient>
+    <style>
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 42px; font-weight: 700; fill: #17212b; }
+      .subtitle { font-family: Arial, Helvetica, sans-serif; font-size: 24px; fill: #46515c; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 30px; font-weight: 700; fill: #17212b; }
+      .small { font-family: Arial, Helvetica, sans-serif; font-size: 23px; fill: #26323f; }
+      .tiny { font-family: Arial, Helvetica, sans-serif; font-size: 20px; fill: #46515c; }
+      .box-title { font-family: Arial, Helvetica, sans-serif; font-size: 28px; font-weight: 700; fill: #ffffff; }
+      .box-sub { font-family: Arial, Helvetica, sans-serif; font-size: 19px; fill: #eef6ff; }
+      .pill { fill: #ffffff; stroke-width: 4; filter: url(#soft-shadow); }
+      .callout { fill: #ffffff; stroke: #bac5d1; stroke-width: 3; filter: url(#soft-shadow); }
+      .muted-line { stroke: #8a97a5; stroke-width: 4; fill: none; }
+      .gov-line { stroke: #1d4f91; stroke-width: 7; fill: none; stroke-linejoin: round; }
+      .flow-blue { stroke: #1d4f91; stroke-width: 4; fill: none; marker-end: url(#arrow-blue); }
+      .flow-green { stroke: #28745a; stroke-width: 4; fill: none; marker-end: url(#arrow-green); }
+      .flow-orange { stroke: #a55a14; stroke-width: 4; fill: none; marker-end: url(#arrow-orange); }
+      .flow-gray { stroke: #46515c; stroke-width: 4; fill: none; marker-end: url(#arrow-gray); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1050" fill="#ffffff"/>
+  <text x="800" y="70" text-anchor="middle" class="title">Modelo de Governança de TI</text>
+  <text x="800" y="110" text-anchor="middle" class="subtitle">ISO/IEC 38500: avaliar, dirigir e monitorar o uso atual e futuro da TI</text>
+
+  <g id="authority">
+    <rect x="600" y="145" width="400" height="68" rx="12" class="callout"/>
+    <text x="800" y="187" text-anchor="middle" class="label">Fonte de autoridade</text>
+    <path d="M800 218 L800 278" class="flow-gray"/>
+  </g>
+
+  <g id="external-inputs">
+    <rect x="62" y="245" width="330" height="82" rx="12" class="callout"/>
+    <text x="227" y="278" text-anchor="middle" class="small">Obrigações</text>
+    <text x="227" y="307" text-anchor="middle" class="small">regulatórias</text>
+    <path d="M392 286 C485 292 535 322 597 380" class="flow-gray"/>
+
+    <rect x="95" y="445" width="330" height="82" rx="12" class="callout"/>
+    <text x="260" y="478" text-anchor="middle" class="small">Pressões</text>
+    <text x="260" y="507" text-anchor="middle" class="small">institucionais</text>
+    <path d="M425 486 C510 486 555 496 623 526" class="flow-gray"/>
+
+    <rect x="1208" y="245" width="330" height="82" rx="12" class="callout"/>
+    <text x="1373" y="278" text-anchor="middle" class="small">Expectativas das</text>
+    <text x="1373" y="307" text-anchor="middle" class="small">partes interessadas</text>
+    <path d="M1208 286 C1115 292 1065 322 1003 380" class="flow-gray"/>
+
+    <rect x="1175" y="445" width="330" height="82" rx="12" class="callout"/>
+    <text x="1340" y="478" text-anchor="middle" class="small">Necessidades</text>
+    <text x="1340" y="507" text-anchor="middle" class="small">institucionais</text>
+    <path d="M1175 486 C1090 486 1045 496 977 526" class="flow-gray"/>
+  </g>
+
+  <g id="governance-body">
+    <path d="M800 262 L480 650 L1120 650 Z" fill="url(#gov-fill)" stroke="#1d4f91" stroke-width="7" stroke-linejoin="round" filter="url(#soft-shadow)"/>
+    <text x="800" y="370" text-anchor="middle" class="label">Estrutura de governança</text>
+    <text x="800" y="402" text-anchor="middle" class="tiny">responsável pelo uso de TI na organização</text>
+
+    <rect x="665" y="438" width="270" height="88" rx="16" class="pill" stroke="#1d4f91"/>
+    <text x="800" y="491" text-anchor="middle" class="label">Avaliar</text>
+
+    <rect x="520" y="560" width="230" height="82" rx="16" class="pill" stroke="#28745a"/>
+    <text x="635" y="611" text-anchor="middle" class="label">Dirigir</text>
+
+    <rect x="850" y="560" width="230" height="82" rx="16" class="pill" stroke="#a55a14"/>
+    <text x="965" y="611" text-anchor="middle" class="label">Monitorar</text>
+
+    <path d="M705 526 C685 546 667 557 646 563" class="flow-blue"/>
+    <path d="M895 526 C915 546 933 557 954 563" class="flow-blue"/>
+    <path d="M750 603 C800 635 850 603 850 603" class="muted-line"/>
+  </g>
+
+  <g id="managers">
+    <text x="800" y="718" text-anchor="middle" class="label">Gestores</text>
+    <rect x="245" y="750" width="1110" height="190" rx="10" fill="#f4f7fa" stroke="#46515c" stroke-width="4"/>
+    <text x="800" y="823" text-anchor="middle" class="label">Sistemas de gestão do uso de TI</text>
+    <text x="800" y="864" text-anchor="middle" class="small">processos, controles, projetos, serviços e operações de tecnologia</text>
+    <text x="800" y="904" text-anchor="middle" class="tiny">A gestão executa planos e informa resultados; a governança define direção e acompanha conformidade.</text>
+  </g>
+
+  <g id="vertical-flows">
+    <path d="M635 644 L635 735" class="flow-green"/>
+    <rect x="438" y="675" width="180" height="52" rx="8" fill="#ffffff" stroke="#d2dbe4" stroke-width="2"/>
+    <text x="528" y="696" text-anchor="middle" class="tiny">Estratégias</text>
+    <text x="528" y="719" text-anchor="middle" class="tiny">e políticas</text>
+
+    <path d="M800 735 L800 540" class="flow-blue"/>
+    <rect x="682" y="650" width="185" height="52" rx="8" fill="#ffffff" stroke="#d2dbe4" stroke-width="2"/>
+    <text x="774" y="671" text-anchor="middle" class="tiny">Propostas</text>
+    <text x="774" y="694" text-anchor="middle" class="tiny">e planos</text>
+
+    <path d="M965 735 L965 650" class="flow-orange"/>
+    <rect x="988" y="675" width="220" height="52" rx="8" fill="#ffffff" stroke="#d2dbe4" stroke-width="2"/>
+    <text x="1098" y="696" text-anchor="middle" class="tiny">Desempenho</text>
+    <text x="1098" y="719" text-anchor="middle" class="tiny">e conformidade</text>
+  </g>
+
+  <g id="principles">
+    <rect x="125" y="965" width="1350" height="46" rx="10" fill="#eef3f7" stroke="#bac5d1" stroke-width="2"/>
+    <text x="800" y="996" text-anchor="middle" class="tiny">Princípios associados: responsabilidade, estratégia, aquisição, desempenho, conformidade e comportamento humano.</text>
+  </g>
+</svg>
