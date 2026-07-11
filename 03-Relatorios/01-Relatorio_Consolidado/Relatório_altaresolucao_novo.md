@@ -20,7 +20,7 @@ toc-title: SUMÁRIO
 | Objetivo da fiscalização: | Avaliar o grau de adoção dos jurisdicionados às boas práticas de governança e gestão de TI. |
 | Ofícios de apresentação: | AUD/SGE/GAP 3232/25 a 3241/25, 3243/25 a 3268/25 todos de 06/08/2025. |
 | Período abrangido: | janeiro/24 a julho/26 |
-| Período de execução: | 02/02/26 à 03/07/26 |
+| Período de execução: | 02/02/26 a 03/07/26 |
 | Equipe: | Augusto César Benvenuto de Almeida, mat. 02/4823;  João Paulo de Freitas Ramirez, mat. 02/4820 |
 | Supervisão: | Bruno Mattos Souza de Souza Melo, mat. 02/4258 |
 
@@ -178,7 +178,7 @@ O presente relatório de auditoria consolidado está organizado da seguinte form
 
 * **Capítulo 1 (Resumo):** apresenta uma síntese da fiscalização, incluindo os objetivos, a relevância do tema, os principais resultados obtidos e as conclusões gerais do trabalho;
 * **Capítulo 2 (Introdução):** descreve a contextualização da auditoria, os objetivos, a delimitação do escopo, as diretrizes de fiscalização, a metodologia adotada e a estrutura do relatório;
-* **Capítulo 3 (Visão Geral do Objeto):** detalha os conceitos de governança e gestão de TI, o modelo de governança, seus princípios e responsabilidades no setor público, bem como as mensurações anteriores do iGovTI;
+* **Capítulo 3 (Visão Geral do Objeto):** descreve as características do objeto auditado, incluindo o universo de jurisdicionados, os conceitos de governança e gestão de TIC, os arranjos institucionais relevantes, a relevância e os riscos associados e as mensurações anteriores do iGovTI;
 * **Capítulo 4 (Resultados da Auditoria):** apresenta os resultados gerais do iGovTI 2026, a comparação longitudinal temporal com o ciclo de 2023, a consolidação dos achados de auditoria resultantes da validação probatória, a análise da relação entre o iGovTI e os achados e o cenário de utilização de inteligência artificial;
 * **Capítulo 5 (Comentários do Gestor e Análise da Equipe):** consolida as manifestações enviadas pelos gestores sobre os achados de auditoria e a respectiva avaliação técnica da equipe acerca das concordâncias e discordâncias apresentadas;
 * **Capítulo 6 (Considerações Finais):** expõe as conclusões gerais obtidas ao término da fiscalização, destacando o diagnóstico consolidado da maturidade em governança e gestão tecnológica;
@@ -188,78 +188,80 @@ O presente relatório de auditoria consolidado está organizado da seguinte form
 
 # 3. VISÃO GERAL DO OBJETO
 
-O uso de tecnologia da informação e comunicação é capaz de impulsionar de forma significativa os resultados das organizações. A governança de TI cumpre papel fundamental para assegurar que os recursos de tecnologia da informação e comunicação (TIC) gerem valor público, mitigando riscos e promovendo o alinhamento estratégico com os objetivos organizacionais.
+O objeto desta fiscalização são as práticas de governança e de gestão de Tecnologia da Informação e Comunicação (TIC) adotadas pelas organizações da Administração Pública Estadual e Municipal do Estado do Rio de Janeiro sob jurisdição deste Tribunal. A TIC apoia a execução de políticas públicas, a prestação de serviços, a gestão de informações e a realização de contratações; por isso, a forma como cada organização direciona, estrutura, planeja, opera e controla a TIC integra o interesse do controle externo.
 
-Nesse sentido, a governança é responsável por garantir que as necessidades das partes interessadas sejam avaliadas para determinar objetivos institucionais equilibrados e acordados. Além disso, a governança define a direção por meio de priorizações e tomadas de decisão, monitorando o desempenho e a conformidade em relação à direção definida.
+O escopo abrangeu 119 organizações jurisdicionadas, das quais 84 da esfera estadual e 35 da esfera municipal, compreendendo órgãos e entidades de distintos poderes e naturezas jurídicas. Desse total, 113 apresentaram resposta válida ao questionário e integraram as análises de maturidade e os achados consolidados; as demais foram classificadas como não respondentes, conforme registrado na Introdução.
 
-A ABNT NBR ISO/IEC 38500:2025 estabelece o modelo de governança de TIC, ilustrado na [@fig:modelo_governanca_ti_iso_38500], que apresenta as três atividades da governança: avaliar, dirigir e monitorar. Avaliar consiste em estabelecer o ambiente interno e externo e determinar como a organização é atualmente apoiada e habilitada por meio do uso de TIC. Dirigir significa definir como a organização deve ser apoiada e habilitada por meio do uso adequado da TIC. Por fim, monitorar é a atividade que verifica se o que foi planejado e direcionado está realmente sendo executado.
+A presente seção descreve as características do objeto necessárias à compreensão do relatório: o conteúdo das práticas avaliadas, os arranjos institucionais mais relevantes no Estado do Rio de Janeiro, os instrumentos de planejamento de TIC e a forma como a mensuração da maturidade tem sido realizada por Tribunais de Contas. Os resultados da avaliação constam do capítulo seguinte.
+
+## 3.1. Governança e gestão de TIC
+
+No setor público, a governança de TIC compreende o conjunto de estruturas, processos e práticas pelos quais a alta administração avalia as necessidades institucionais e das partes interessadas, define a direção do uso da tecnologia e monitora o desempenho e a conformidade em relação a essa direção. Seu propósito é assegurar que a TIC gere valor público, mitigue riscos relevantes e permaneça alinhada aos objetivos organizacionais.
+
+A ABNT NBR ISO/IEC 38500:2025 estabelece modelo de governança de TIC estruturado em três atividades — avaliar, dirigir e monitorar —, ilustradas na [@fig:modelo_governanca_ti_iso_38500]. Avaliar consiste em compreender o ambiente interno e externo e o grau em que a organização é apoiada e habilitada pelo uso de TIC. Dirigir consiste em definir como a organização deve ser apoiada e habilitada pelo uso adequado da TIC, inclusive por meio de priorizações e decisões. Monitorar consiste em verificar se o que foi planejado e direcionado está sendo executado e se os resultados e a conformidade permanecem adequados.
 
 ![Modelo de Governança de TIC segundo a ABNT NBR ISO/IEC 38500](img/modelo_governanca_ti_iso_38500.png){#fig:modelo_governanca_ti_iso_38500 width=90%}
 <div custom-style="FonteImagem">(Fonte: elaboração própria, adaptado da ABNT NBR ISO/IEC 38500:2025)</div>
 
-## 3.1. O Papel e os Mecanismos da Governança de TIC
+A gestão de TIC, por sua vez, é a função encarregada de planejar, construir, executar e acompanhar processos e serviços em alinhamento com a direção estabelecida pela governança. Enquanto a governança define e supervisiona o rumo, a gestão realiza a operação e a entrega. As instâncias de gestão podem ser táticas — por exemplo, a área de TIC — ou operacionais, quando executam processos de apoio ou finalísticos dependentes de tecnologia.
 
-A governança no setor público pode ser compreendida, entre outras perspectivas, como mecanismo de redução da assimetria de informação entre a sociedade e os gestores públicos. Ela opera por meio de três mecanismos fundamentais:
+No âmbito desta fiscalização, a distinção entre governança e gestão é operacionalmente relevante: o iGovTI 2026 mensura, em blocos distintos, o grau de adoção de práticas de direção e de práticas operacionais; e os achados de auditoria examinaram fragilidades em estrutura de TIC, governança, planejamento, capacidade institucional, gestão de serviços e contratações de TIC.
 
-* Liderança: Compreende práticas de integridade, competência, responsabilidade e motivação exercidas pela alta administração para assegurar a boa governança;
-* Estratégia: Envolve a definição de objetivos, diretrizes e planos, além do alinhamento entre as partes interessadas para o alcance dos resultados;
-* Controle: Consiste em processos estruturados para gerenciar riscos e garantir a execução eficiente, eficaz e ética das atividades.
+## 3.2. Mecanismos, princípios e responsabilidades na Governança Pública
 
-A alta administração é a principal responsável pela governança, cabendo a ela estabelecer políticas, objetivos e conduzir a estratégia institucional. Na área de TIC, a instituição de comitê de TIC ou instância equivalente, compatível com o porte e a complexidade da organização, constitui prática relevante para priorizar investimentos e garantir que a TIC suporte efetivamente os objetivos institucionais.
+A governança pública opera, entre outras perspectivas, por meio de mecanismos de liderança, estratégia e controle. A liderança compreende práticas de integridade, competência, responsabilidade e motivação exercidas pela alta administração. A estratégia envolve a definição de objetivos, diretrizes e planos, bem como o alinhamento entre partes interessadas. O controle compreende processos estruturados para gerenciar riscos e assegurar a execução ordenada, ética, eficiente e eficaz das atividades.
 
-## 3.2. Princípios e Responsabilidades na Governança Pública
+Esses mecanismos, previstos no Decreto Federal nº 9.203/2017 para a administração pública federal, são adotados neste trabalho como referencial conceitual de boa governança, em conjunto com o Referencial Básico de Governança do Tribunal de Contas da União (TCU). Não se lhes atribui, por si sós, eficácia normativa vinculante sobre os jurisdicionados estaduais e municipais do Estado do Rio de Janeiro, sem prejuízo das normas próprias de cada esfera e organização.
 
-Para assegurar a legitimidade e a eficácia, a governança deve pautar-se por princípios fundamentais, conforme o Decreto Federal nº 9.203/2017 e, complementarmente, o Referencial Básico de Governança adotado pelo Tribunal de Contas da União (TCU):
+No mesmo sentido, os princípios de governança pública do art. 3º do Decreto nº 9.203/2017 — capacidade de resposta, integridade, confiabilidade, melhoria regulatória, prestação de contas e responsabilidade, e transparência — orientam a leitura do objeto sob a perspectiva do interesse público e da *accountability*. Complementarmente, o Referencial Básico de Governança do TCU reforça a necessidade de tratamento equitativo e participativo das partes interessadas.
 
-* Capacidade de resposta: Responder de forma tempestiva e inovadora às demandas da sociedade;
-* Integridade: Priorizar o interesse público sobre os privados, sustentando padrões éticos;
-* Confiabilidade: Minimizar incertezas e manter consistência com a missão institucional;
-* Melhoria regulatória: Elaborar políticas baseadas em evidências e consultas públicas;
-* Prestação de contas e responsabilidade (*Accountability*): Agentes públicos devem responder por seus atos e omissões de forma clara e transparente;
-* Transparência: Disponibilizar informações sobre decisões e desempenho além do que exige a lei;
-* Equidade e participação: Tratar todas as partes interessadas de forma justa e participativa.
+A alta administração é a principal responsável pela governança, inclusive da TIC. Cabe a ela estabelecer políticas e objetivos, decidir sobre prioridades e recursos e acompanhar resultados. Na área de TIC, a instituição de comitê de TIC ou instância equivalente, compatível com o porte e a complexidade da organização, constitui prática relevante para priorizar investimentos, integrar áreas de negócio e técnica e assegurar que a TIC suporte os objetivos institucionais.
 
-## 3.3. Gestão de TIC
+Além dos referenciais de governança pública, os exames desta auditoria fundamentam-se em padrões consagrados de governança e gestão de TIC — em especial o *COBIT 2019*, o *ITIL 4* e a ABNT NBR ISO/IEC 38500:2025 —, utilizados como critérios técnicos de avaliação das práticas, conforme a Introdução e a matriz de planejamento.
 
-A gestão é a função encarregada de planejar, construir, executar e monitorar as atividades em alinhamento com a direção estabelecida pelo órgão de governança para atingir os objetivos da organização. Enquanto a governança avalia, dirige e monitora, a gestão planeja, constrói, executa e acompanha os processos e serviços de TIC.
+## 3.3. Planejamento de TIC e integração entre governança e gestão
 
-As instâncias de gestão podem ser táticas (coordenando áreas setoriais como a TIC) ou operacionais (executando processos de apoio ou finalísticos).
+A integração entre governança e gestão materializa-se, de forma recorrente, em instrumentos de planejamento de TIC. O Plano Estratégico de TIC e o Plano Diretor de TIC, usualmente referidos pelas siglas PETI e PDTI — ou por denominações equivalentes, como PDTIC e PEDTIC —, vinculam necessidades, prioridades, ações, prazos, recursos e riscos de tecnologia aos objetivos organizacionais.
 
-As funções típicas da gestão de TIC incluem o gerenciamento de serviços, a segurança da informação, a gestão de riscos e a continuidade dos serviços. A gestão deve operar em um ciclo de melhoria contínua (como o modelo PDCA), garantindo a conformidade com as normas e o reporte sistemático do progresso em relação aos objetivos estratégicos.
+O plano de TIC, quando aprovado pela alta administração e efetivamente utilizado, deve conter, no mínimo, o inventário de necessidades, metas e ações, a dimensão orçamentária e a gestão de riscos associados. Por meio desses instrumentos, a governança exerce o papel de direcionamento, e a gestão dispõe de referência para a execução, o monitoramento e a priorização de contratações e iniciativas de TIC.
 
-## 3.4. Instrumentos de Integração: Planos de TIC
+A experiência de fiscalizações anteriores deste Tribunal indica que a mera existência formal de plano de TIC não assegura, por si só, o uso do instrumento como base de decisão. São aspectos críticos a qualidade do planejamento, a vinculação com orçamento e contratações, a atuação efetiva de instâncias colegiadas e a atualização periódica do plano. Esses elementos orientaram a priorização do tema de planejamento na presente fiscalização e a formulação dos procedimentos relacionados ao Achado 3.
 
-A integração entre governança e gestão materializa-se em instrumentos de planejamento. O Plano Estratégico de TIC e o Plano Diretor de TIC, usualmente referidos pelas siglas PETI e PDTI, são documentos que vinculam a alocação de recursos de tecnologia aos objetivos organizacionais.
+## 3.4. Arranjos institucionais e diversidade do universo auditado
 
-O plano de TIC, como PDTI, PDTIC, PEDTIC ou instrumento equivalente, aprovado pela alta administração, deve conter o inventário de necessidades, planos de metas, ações, orçamento e gestão de riscos. É por meio desses instrumentos que a governança exerce seu papel de direcionamento, enquanto a gestão utiliza-os como guia para a execução eficiente das soluções de TIC.
+Os jurisdicionados abrangidos por este trabalho adotam arranjos distintos de governança e gestão de TIC, conforme a esfera, o poder, o porte e a natureza jurídica da organização. Não há um único modelo normativo aplicável a todo o conjunto de 119 entidades. A fiscalização considerou essa heterogeneidade ao adotar questionário comum de práticas, critérios técnicos de referência e análise proporcional à realidade declarada e documentada por cada organização.
 
-## 3.5 Modelos de governança e gestão de TIC dos auditados
+No Poder Executivo do Estado do Rio de Janeiro, o Decreto Estadual nº 48.997/2024 define o modelo atual de gestão e governança de TIC e organiza o Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC). O SETIC compreende o conjunto de recursos humanos, tecnológicos e de equipamentos voltados ao estabelecimento e à implementação de políticas de informação e comunicação pública, estruturando-se em dois níveis: Direção Geral, sob competência do PRODERJ; e nível setorial, representado pelas assessorias de informática, ou setores equivalentes, dos órgãos da administração direta e indireta.
 
-Os auditados deste trabalho seguem modelos distintos de governança e gestão de TIC. Trabalhos anteriores indicam que existem diferenças de maturidade entre os grupos avaliados. Observa-se que as organizações estaduais exibem, em média, maior maturidade nessa seara em comparação àquelas municipais[^maturidade_estadual_municipal]. Nesse sentido, destaca-se a estruturação do Poder Executivo e Judiciário do Estado do Rio de Janeiro.
+No modelo do SETIC, o PRODERJ exerce competências de coordenação e supervisão do Sistema, normatização de aspectos de TIC, elaboração e disponibilização de atas de registro de preços para contratação de bens e serviços de TIC, bem como avaliação e consolidação dos planos de TIC dos órgãos do nível setorial.
 
-O Decreto Estadual nº 48.997/2024 é o normativo que define o atual modelo de gestão e governança de TIC no âmbito do Poder Executivo do Estado do Rio de Janeiro.
+No Poder Judiciário, a Resolução CNJ nº 370/2021, que estabelece a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário (ENTIC-JUD), dispõe que cada órgão elabore e mantenha o Plano Diretor de Tecnologia da Informação e Comunicação (PDTIC), alinhado ao Planejamento Estratégico Institucional, ao Planejamento Estratégico Nacional do Poder Judiciário e à própria ENTIC-JUD.
 
-Esse normativo estabelece que o Sistema Estadual de Tecnologia da Informação e Comunicação - SETIC é composto pelo conjunto de recursos humanos, tecnológicos e de equipamentos voltados para o estabelecimento e a implementação de políticas para a informação e a comunicação pública, organizando-se em dois níveis: Direção Geral, sob competência do PRODERJ; e nível setorial, representado pelas assessorias de informática, ou setores equivalentes, de todos os órgãos da administração direta e indireta do Estado do Rio de Janeiro.
+Em relação aos municípios e às demais organizações não abrangidas por esses marcos específicos, a ausência de modelo setorial único não dispensa a adoção de práticas básicas de estrutura, governança, planejamento, gestão de pessoas, serviços e contratações de TIC. Nesses casos, o parâmetro de avaliação desta fiscalização são as boas práticas de referência e a estrutura do iGovTI 2026, consideradas as evidências apresentadas e o porte da organização.
 
-O modelo do SETIC atribuiu ao PRODERJ competências relevantes, como a coordenação e supervisão do Sistema, a normatização de aspectos de TIC, a elaboração e disponibilização de atas de registro de preço para contratação de bens e serviços de TIC, e a avaliação e consolidação dos planos de TIC dos órgãos do nível setorial do sistema.
+Fiscalizações anteriores deste Tribunal, com escopos e conjuntos de auditados distintos — em especial a avaliação de quatro prefeituras no Processo TCE-RJ nº 205.089-9/2023 e a avaliação de organizações do SETIC no Processo TCE-RJ nº 109.009-4/2023 —, já haviam registrado heterogeneidade de práticas e fragilidades recorrentes em governança e gestão de TIC. A presente auditoria, com base ampliada de 113 organizações respondentes, apresenta no capítulo 4 o diagnóstico consolidado atualizado, sem extrapolar, a partir daqueles trabalhos, hierarquia geral de maturidade entre esferas.
 
-No Poder Judiciário, a Resolução CNJ nº 370/2021, que estabelece a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário (ENTIC-JUD), dispõe no art. 6º que cada órgão elabore e mantenha o Plano Diretor de Tecnologia da Informação e Comunicação (PDTIC), "o qual deverá elencar as ações que estarão alinhadas ao Planejamento Estratégico Institucional, ao Planejamento Estratégico Nacional do Poder Judiciário e à Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário".
+## 3.5. Relevância do objeto e riscos associados
 
-[^maturidade_estadual_municipal]: Os trabalhos de auditoria citados na seção de antecedentes demonstram essa diferença: a fiscalização municipal (Processo TCE-RJ nº 205.089-9/2023) e a fiscalização estadual (Processo TCE-RJ nº 109.009-4/2023) apresentaram, em média, resultados inferiores para os municípios em comparação às organizações estaduais.
+A relevância da governança e da gestão de TIC decorre do papel da tecnologia na continuidade dos serviços públicos, na proteção de informações, na eficiência do gasto e na qualidade das contratações. Fragilidades na formalização da área de TIC, na direção pela alta administração, no planejamento, na capacidade de pessoal, na gestão de serviços e ativos e no controle da fase preparatória das contratações elevam riscos de desperdício, de dependência crítica de terceiros, de interrupção de serviços, de baixa entrega de valor e de decisões de investimento desalinhadas das prioridades institucionais.
 
-## 3.6. Mensuração da governança e gestão da TIC pelos Tribunais de Contas
+Estudos e fiscalizações de referência reforçam a materialidade desses riscos no contexto fluminense. No iGovTI do IEGM 2024, mensuração distinta da adotada neste trabalho, a maior parte dos municípios do Estado do Rio de Janeiro apresentou baixa incidência declarada de PDTI/PDTIC, em contraste com maior presença declarada de elementos de presença digital. O censo de acompanhamento de contratações de TIC da Coordenadoria de Auditoria de Tecnologia da Informação (CAD-TI), de 2025, apontou, em bases próprias e com caráter indicativo, fragilidades recorrentes no papel da TI no planejamento e na fiscalização contratual, sobretudo na esfera municipal. As auditorias deste Tribunal sobre contratações de TIC no SETIC e sobre segurança da informação e segurança cibernética, realizadas entre 2024 e 2025, aprofundaram, em escopos específicos, problemas de planejamento, de capacidade instalada e de formalização de controles.
 
-Desde 2010, o TCU avalia a governança e gestão de TIC na administração federal por meio do iGovTI, índice baseado nas respostas das organizações a um questionário específico sobre o tema.
+Esses elementos não substituem os resultados da presente fiscalização; servem para contextualizar o objeto e a priorização dos temas avaliados. O diagnóstico desta auditoria fundamenta-se nas respostas ajustadas ao questionário iGovTI 2026, na análise das evidências documentais e na execução dos procedimentos de auditoria descritos na Introdução.
 
-Atualmente, o iGovTI compõe o iESGo, índice que aborda os temas Liderança, Estratégia, Controle, Gestão de Pessoas, Gestão de Tecnologia da Informação e da Segurança da Informação, Gestão de Contratações, Gestão Orçamentária, Sustentabilidade Ambiental, Sustentabilidade Social.
+## 3.6. Mensuração da governança e gestão de TIC pelos Tribunais de Contas
 
-O Tribunal de Contas de Pernambuco adotou o iGovTI oficialmente por meio da Resolução TC nº 207 de 2023, que dispõe sobre a apuração do índice a cada dois anos. A edição de 2025 utilizou o mesmo questionário aplicado pelo TCU em 2021, com adaptações para delimitar com maior precisão questões que originalmente abrangiam mais de uma temática.
+Desde 2010, o TCU avalia a governança e a gestão de TIC na administração pública federal por meio do iGovTI, índice baseado em questionário específico sobre práticas do tema. Em edições mais recentes, o iGovTI integra o iESGo, instrumento mais amplo de avaliação de governança e gestão públicas.
 
-No Tribunal de Contas do Rio de Janeiro, as mensurações do iGovTI anteriores a esta fiscalização ocorreram nas auditorias dos processos TCE-RJ 205.089-9/2023, que abrangeu quatro prefeituras municipais, e TCE-RJ 109.009-4/2023, que abrangeu os órgãos estaduais do Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC). Em ambas as fiscalizações, utilizou-se o questionário de 2021 do TCU com adaptações.
+Outros Tribunais de Contas também têm utilizado questionários, levantamentos e índices para diagnosticar a maturidade de TIC em suas jurisdições. O Tribunal de Contas de Pernambuco formalizou a apuração periódica do iGovTI e, em 2025, utilizou base derivada do questionário do TCU de 2021, com adaptações para restringir o escopo à área de TIC. 
 
-No contexto do Índice de Efetividade da Gestão Municipal (IEGM) também existe um índice chamado iGovTI. O IEGM foi concebido em 2015 pelo Tribunal de Contas do Estado de São Paulo e disponibilizado aos demais Tribunais de Contas por meio do Instituto Rui Barbosa (IRB). O iGovTI do IEGM é baseado em um questionário que não se confunde com aquele aplicado nos demais trabalhos supracitados.
+O Tribunal de Contas do Estado do Rio Grande do Sul realizou, em 2025, levantamento de governança de TI voltado aos executivos municipais, com diagnóstico estruturado em dimensões como estrutura/equipe de TI e governança de TI. No âmbito do IEGM, há também um índice denominado iGovTI, voltado a aspectos de tecnologia, governo digital e transparência municipal, com questionário, escala e objetivos próprios.
 
-Esses referenciais conceituais, normativos e históricos contextualizam o objeto e, quando aplicáveis, subsidiam a metodologia e os critérios adotados na presente auditoria, cujos resultados são apresentados no capítulo seguinte.
+No TCE-RJ, as mensurações do iGovTI anteriores a esta fiscalização ocorreram nas auditorias dos Processos nº 205.089-9/2023, relativa a quatro prefeituras municipais, e nº 109.009-4/2023, relativa a organizações do SETIC. Em ambas, utilizou-se questionário baseado no modelo do TCU de 2021, com adaptações. O núcleo de práticas de governança e gestão de TIC foi preservado como base de comparabilidade; itens adicionais de cada fiscalização foram tratados como módulos complementares, sem integrar o cômputo do índice.
+
+O iGovTI 2026 do TCE-RJ preserva a lógica de mensuração de maturidade em governança e gestão de TIC, com adaptações destinadas a reforçar o foco na área de TIC, a qualidade das respostas e a vinculação com evidências documentais, mantendo base comparável com o ciclo de 2023 na estrutura ajustada de itens. A composição do índice, os níveis de maturidade e a forma de cálculo constam da Introdução; os resultados constam do capítulo seguinte.
+
+Esses referenciais conceituais, normativos e históricos contextualizam o objeto e subsidiam a compreensão da metodologia e dos critérios adotados. A avaliação das 113 organizações respondentes, a comparação longitudinal e os achados de auditoria são apresentados a seguir.
 
 \newpage
 
@@ -779,7 +781,7 @@ O presente relatório foi objeto de supervisão conforme as disposições da Por
 
 À **SUB-CIDADANIA**, em prosseguimento.
 
-**CAD-TI, 03/06/2026**
+**CAD-TI, {{ data_hoje }}**
 
 **ALBERTO DE FONTES TAVARES NETO**
 
