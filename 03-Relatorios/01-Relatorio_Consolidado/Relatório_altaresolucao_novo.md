@@ -45,7 +45,8 @@ toc-title: SUMÁRIO
 | AN07 | **Impacto da avaliação das evidências**  (arquivo digital “AN07 – Impacto da avaliação das evidências.pdf”) |
 | AN08 | **Avaliação da relação entre iGovTI 2026 e achados de auditoria**  (arquivo digital “AN08 – Avaliação iGovTI 2026 e achados de auditoria.pdf”) |
 | AN09 | **Cenário de utilização de inteligência artificial no ERJ**  (arquivo digital “AN09 – Cenário de utilização de IA no ERJ.pdf”) |
-| AN10 a AN122 | **Informações das organizações (TSIDs, respostas, evidências enviadas, comentários do gestor e relatório individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)* |
+| AN10 | **Comunicações da fiscalização e registros de ciência dos não respondentes** (arquivo digital “AN10 – Comunicações da fiscalização e registros de ciência dos não respondentes.pdf”) |
+| AN11 a AN123 | **Informações das organizações (TSIDs, respostas, evidências enviadas, comentários do gestor e relatório individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)* |
 
 
 
@@ -88,7 +89,7 @@ Propõem-se recomendações transversais direcionadas aos gestores, fundamentada
 
 Após o contraditório, o relatório e os encaminhamentos serão submetidos à deliberação do Plenário do TCE-RJ. Com a aprovação, as recomendações transversais serão notificadas e os relatórios individuais com planos de ação serão enviados às organizações avaliadas, sob monitoramento posterior do Tribunal.
 
-[^nao_respondentes_obstrucao]: Para as organizações não respondentes, será sugerida a abertura de processo de obstrução de auditoria em razão da não entrega das informações solicitadas pela Equipe de Auditoria.
+[^nao_respondentes_obstrucao]: Para as organizações que não apresentaram resposta válida ao questionário eletrônico, será sugerida a abertura de processos apartados para apuração das circunstâncias da ausência de resposta, assegurada aos responsáveis a oportunidade de apresentar razões de defesa.
 
 \newpage
 
@@ -132,7 +133,9 @@ A limitação não obstou o atingimento dos objetivos propostos.
 
 ## 2.4 Critérios aplicados
 
-Os exames fundamentaram-se em modelos e padrões internacionalmente consagrados de governança e gestão de TIC, especificamente o *COBIT 2019* e o *ITIL 4*, em conjunto com as diretrizes do Decreto Federal nº 9.203/2017 e com a jurisprudência desta Corte de Contas.
+Os exames fundamentaram-se em normas legais aplicáveis, jurisprudência e referenciais de controle externo, padrões técnicos de governança e gestão de TIC e boas práticas reconhecidas, conforme a natureza de cada questão de auditoria.
+
+Entre os principais critérios, destacam-se a Lei nº 14.133/2021, a Lei nº 13.709/2018, os Acórdãos TCE-RJ nº 44.490/2024-PLEN e TCU nº 1.411/2014-Plenário, o COBIT 2019, o ITIL 4 e as normas ABNT NBR ISO/IEC 38500:2025, 27002:2022 e 20000-1:2020. O Decreto Federal nº 9.203/2017, o Decreto Federal nº 12.198/2024, a Portaria SGD/ME nº 778/2019 e a Instrução Normativa SGD/ME nº 94/2022 foram utilizados como referenciais de boa prática quando não vinculantes ao jurisdicionado avaliado.
 
 ## 2.5 Metodologia utilizada
 
@@ -200,7 +203,7 @@ No setor público, a governança de TIC compreende o conjunto de estruturas, pro
 
 A ABNT NBR ISO/IEC 38500:2025 estabelece modelo de governança de TIC estruturado em três atividades — avaliar, dirigir e monitorar —, ilustradas na [@fig:modelo_governanca_ti_iso_38500]. Avaliar consiste em compreender o ambiente interno e externo e o grau em que a organização é apoiada e habilitada pelo uso de TIC. Dirigir consiste em definir como a organização deve ser apoiada e habilitada pelo uso adequado da TIC, inclusive por meio de priorizações e decisões. Monitorar consiste em verificar se o que foi planejado e direcionado está sendo executado e se os resultados e a conformidade permanecem adequados.
 
-![Modelo de Governança de TIC segundo a ABNT NBR ISO/IEC 38500](img/modelo_governanca_ti_iso_38500.png){#fig:modelo_governanca_ti_iso_38500 width=90%}
+![Modelo de Governança de TIC segundo a ABNT NBR ISO/IEC 38500](modelo_governanca_ti_iso_38500.png){#fig:modelo_governanca_ti_iso_38500 width=90%}
 <div custom-style="FonteImagem">(Fonte: elaboração própria, adaptado da ABNT NBR ISO/IEC 38500:2025)</div>
 
 A gestão de TIC, por sua vez, é a função encarregada de planejar, construir, executar e acompanhar processos e serviços em alinhamento com a direção estabelecida pela governança. Enquanto a governança define e supervisiona o rumo, a gestão realiza a operação e a entrega. As instâncias de gestão podem ser táticas — por exemplo, a área de TIC — ou operacionais, quando executam processos de apoio ou finalísticos dependentes de tecnologia.
@@ -576,6 +579,16 @@ O cenário apurado indica baixa institucionalização. Das 113 organizações av
 
 O principal risco identificado é a possibilidade de uso difuso de ferramentas de IA, especialmente generativa, sem inventário, regras para dados em prompts, avaliação prévia de riscos, validação, transparência e revisão humana. Esse cenário recomenda atuação preventiva e orientativa, sem prejuízo de fiscalizações específicas quando o uso de IA envolver dados sensíveis, serviços críticos, contratações relevantes ou decisões que afetem direitos de cidadãos. A análise detalhada consta no anexo **"AN09 – Cenário de utilização de IA no ERJ.pdf"**.
 
+## 4.6. Ausência de resposta ao questionário e necessidade de apuração específica
+
+Das 119 organizações abrangidas pela fiscalização, seis não apresentaram resposta válida ao questionário eletrônico encaminhado na segunda etapa de solicitação de informações. Por essa razão, não integraram o cálculo do iGovTI 2026 nem a apuração dos achados consolidados.
+
+A comunicação inicial ocorreu mediante envio do ofício de apresentação e do TSID 1, oportunidade em que as organizações indicaram tempestivamente seus pontos focais para interlocução com a Equipe de Auditoria. Posteriormente, o TSID 2, contendo o link individualizado para preenchimento do questionário, foi encaminhado aos pontos focais indicados. Apesar das reiterações realizadas pela Equipe, não foi apresentada resposta válida ao instrumento.
+
+Na fase de comentários do gestor, foi encaminhado o TSID 3 também às organizações sem resposta válida, para que pudessem confirmar a não participação, prestar esclarecimentos ou apresentar justificativas. Algumas organizações confirmaram que não participaram da coleta; outras não apresentaram manifestação.
+
+Os registros de envio, ciência e recebimento das comunicações, com indicação de data e hora, encontram-se reunidos no Anexo AN10 – Comunicações da fiscalização e registros de ciência. Esses elementos justificam a abertura de processos apartados para apuração das circunstâncias da ausência de resposta ao questionário, assegurando-se aos responsáveis a oportunidade de apresentar razões de defesa. A proposta constante do capítulo 7 não pressupõe reconhecimento antecipado de responsabilidade nem aplicação automática de sanção.
+
 \newpage
 
 # 5. COMENTÁRIOS DO GESTOR E ANÁLISE DA EQUIPE
@@ -750,20 +763,26 @@ Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consol
 
 **CONSIDERANDO** que a metodologia empregada neste trabalho não abordou as causas específicas dos problemas identificados e que as recomendações focam na implementação de medidas de governança e gestão de TIC baseadas no COBIT 2019, no ITIL 4, conforme observado durante o processo de auditoria.
 
+As propostas a seguir devem ser lidas em conjunto com os relatórios individuais, nos quais as determinações e recomendações são individualizadas por organização, e com os cinco eixos transversais de melhoria identificados nesta auditoria: estrutura e governança, planejamento, capacidade institucional, serviços e ativos, e contratações.
+
 Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes propostas:
 
-1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e dos respectivos relatórios individuais (AN10 a AN122) a cada organização auditada, de forma a garantir a ciência efetiva aos jurisdicionados acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada jurisdicionado só deve ter acesso ao seu relatório individual**;
-2. **COMUNICAÇÃO  COM DETERMINAÇÃO** aos órgãos fiscalizados nesta auditoria, nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas nos seus respectivos **RELATÓRIOS INDIVIDUAIS anexos (AN10 a AN122)**, alertando-os de que o não atendimento injustificado os sujeita às sanções previstas no art. 63 da Lei Complementar Estadual n.º 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, já que a verificação quanto ao atendimento poderá ser realizada em auditoria futura desta Corte de Contas.
+1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e dos respectivos relatórios individuais (AN11 a AN123) a cada organização auditada, de forma a garantir a ciência efetiva aos jurisdicionados acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada jurisdicionado só deve ter acesso ao seu relatório individual**;
+2. **COMUNICAÇÃO  COM DETERMINAÇÃO** aos órgãos fiscalizados nesta auditoria, nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas nos seus respectivos **RELATÓRIOS INDIVIDUAIS anexos (AN11 a AN123)**, alertando-os de que o não atendimento injustificado os sujeita às sanções previstas no art. 63 da Lei Complementar Estadual n.º 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, já que a verificação quanto ao atendimento poderá ser realizada em auditoria futura desta Corte de Contas.
 
-|  |  |  |  |  |
-| --- | --- | --- | --- | --- |
-| **Plano de Ação** | | | | |
-| **Determinação / Recomendação** | **O que fazer** | **Como fazer** | **Quem vai fazer** | **Quando fazer** |
-|  |  |  |  |  |
-|  |  |  |  |  |
+Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao]. O jurisdicionado deverá adaptá-lo às determinações e recomendações constantes de seu relatório individual, indicando medidas, responsáveis e prazos compatíveis com sua realidade institucional.
 
-3. **COMUNICAÇÃO às Unidades de Controle Interno dos órgãos jurisdicionados desta fiscalização,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do respectivo Relatório Individual de seu órgão (AN10 a AN122), e acompanhem a elaboração e execução do plano de ação desenvolvido a fim de assegurar seu efetivo cumprimento;
-4. **ARQUIVAMENTO** do presente processo.
+: Modelo referencial de plano de ação {#tbl:modelo_plano_acao#}
+
+| Determinação ou recomendação | Medida a adotar | Etapas ou providências | Unidade e responsável | Prazo | Indicador ou evidência de conclusão |
+|---|---|---|---|---|---|
+| [Indicar o item do relatório individual] | [Descrever a medida] | [Informar as principais etapas] | [Indicar a unidade e o responsável] | [Indicar a data ou o período] | [Indicar o documento, ato, registro ou resultado esperado] |
+
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+3. **ABERTURA DE PROCESSO APARTADO PARA APURAÇÃO DE POSSÍVEL OBSTRUÇÃO À AUDITORIA**, para cada uma das organizações fiscalizadas que não apresentaram resposta válida ao questionário eletrônico, apesar das comunicações e reiterações registradas no Anexo AN10, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa acerca da ausência de resposta válida às solicitações da fiscalização, conduta passível de aplicação de multa, nos termos do art. 63, incisos V e VI, da Lei Complementar Estadual n.º 63/1990;
+4. **COMUNICAÇÃO às Unidades de Controle Interno dos órgãos jurisdicionados desta fiscalização,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do respectivo Relatório Individual de seu órgão (AN11 a AN123), e acompanhem a elaboração e execução do plano de ação desenvolvido a fim de assegurar seu efetivo cumprimento;
+5. **ARQUIVAMENTO** do presente processo.
 
 O presente relatório foi objeto de supervisão conforme as disposições da Portaria SGE n° 05/2019, no Manual de Auditoria Governamental do TCE-RJ, aprovado pela Resolução nº 373, de 16/06/21 e em material armazenado nos assentamentos internos desta Coordenadoria, estando, portanto, **APROVADO** por esta supervisão e encaminhado à sua apreciação para adoção das medidas cabíveis.
 
