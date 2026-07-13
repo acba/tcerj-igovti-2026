@@ -262,6 +262,28 @@ scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
 
 Use `scripts/avaliar_comentarios_gestor.py` to reassess items previously marked `Não conforme` after the audited organization submits manager comments and optional new PDF/ZIP evidence in the comments survey. The script reuses the evidence-evaluation prompts and produces `analyses*.jsonl` compatible with `scripts.avaliacao_evidencias.consolidacao`.
 
+Before reassessment, capture the dynamic LimeSurvey response PDF for each audited organization with `scripts/exportar_respostas_comentarios_gestor_pdf.py`. The exporter reads the group `grelevance` expressions from the comments survey LSS, matches them to the organization stored in `TOKEN:FIRSTNAME`, and requests a PDF containing only the groups applicable to that organization. Use the LimeSurvey XLSX response export as `--participantes`; it must contain the columns `id`, `orgao`, `datestamp`, and `completed`.
+
+Validate the organization-to-group selection without accessing LimeSurvey:
+
+```bash
+scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
+  --lss C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss \
+  --participantes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --dry-run
+```
+
+Then run the download while authenticated in the LimeSurvey administration interface:
+
+```bash
+scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
+  --lss C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss \
+  --participantes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --output-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/PDF_Respostas
+```
+
+If neither `LIMESURVEY_COOKIE` nor `--cookie-file` is supplied, the script requests the session Cookie without echoing it. It extracts `YII_CSRF_TOKEN` from that Cookie or requests the token separately. Never store the Cookie, CSRF token, or a cookie file in the repository. By default, the exporter processes only completed responses and only the latest response for each organization; use `--include-incomplete`, `--all-responses`, `--orgao`, or `--response-id` only when the audit procedure requires a different selection. Existing nonempty PDFs are preserved unless `--overwrite` is passed. Treat the downloaded PDFs as auditable source records and report their output directory.
+
 Generate individual reassessments from the LimeSurvey comments export and extracted attachments:
 
 ```bash
@@ -307,6 +329,26 @@ scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
 ```
 
 The reverse-adjustment XLSX intentionally includes only items whose consolidated reassessment is `Conforme`; each row restores the original `Resposta afirmada` through the `Resposta ajustada` column. Treat the generated adjustments as a draft subject to audit review before using them as the definitive response base. On Linux/macOS, replace `C:/tmp/tcerj-igovti-2026` with `/tmp/tcerj-igovti-2026`.
+
+### Manager Comments Statistics and Charts
+
+After exporting the completed manager-comments survey responses from LimeSurvey, generate the statistical consolidation, calculation workbook, JSON summary, and charts with the project Conda environment on Windows:
+
+```powershell
+conda run -n igovti python 03-Relatorios/99-Avaliacao_Comentarios_Gestor/calcular_dados_comentarios_gestor.py --respostas C:/path/results-survey796352.xlsx
+```
+
+The script uses these repository inputs by default:
+
+- `02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss` for question and finding-situation metadata;
+- `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json` for the audited population and nonrespondents;
+- `02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx` for evidence-reassessment eligibility.
+
+Use `--lss`, `--resultado-auditoria`, `--ajustes-evidencias`, or `--output-dir` only when alternate inputs or destinations are required. The default outputs are the calculation workbook and JSON summary under `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/`, plus charts under `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/`.
+
+The chart set includes the overall four-category view modeled after Figure 30 of the prior information-security report and `achado-1-situacoes.png` through `achado-6-situacoes.png`. Each finding chart groups its nonconforming situations and completes the respondent population with the gray `Situação encontrada inexistente` category. Interpret that category as organizations whose individual report did not contain the corresponding situation, not as a response option selected by the manager.
+
+The script keeps only completed submissions, removes explicit test records, and retains the latest submission for duplicated tokens. It must not generate or edit `anexo-avaliacao-comentarios-gestor.md`. Draft and revise the appendix manually from the validated calculation outputs, and do not treat a disagreement or reassessment request as accepted until the supporting evidence receives technical audit review.
 
 The orchestrators support Gemini key rotation when `GEMINI_API_KEY` contains multiple comma-separated keys. On 429, they rotate keys, pause only when all keys are exhausted, and avoid recording rate-limit failures for items that can be retried after the pause.
 

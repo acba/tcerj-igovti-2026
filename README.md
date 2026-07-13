@@ -355,6 +355,51 @@ O script gera `02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/pai
 
 Quando o survey de comentários do gestor coletar comentários e novas evidências para itens avaliados como `Não conforme`, a reavaliação deve usar o mesmo conjunto de prompts da avaliação de evidências. O pipeline específico para essa fase lê a exportação XLSX do LimeSurvey de comentários, a pasta de anexos já extraídos e a planilha de ajustes pós-avaliação de evidências. Ele avalia apenas os itens originalmente não conformes para cada auditado e questão base.
 
+#### Captura das respostas dinâmicas em PDF
+
+O LimeSurvey pode gerar um PDF por auditado contendo somente os grupos que lhe são aplicáveis no questionário de comentários do gestor. Essa seleção não é feita por uma lista fixa: `scripts/exportar_respostas_comentarios_gestor_pdf.py` lê do LSS as expressões `grelevance` dos grupos, identifica as condições baseadas em `TOKEN:FIRSTNAME` e monta dinamicamente a relação de campos enviada ao exportador do LimeSurvey.
+
+Primeiro, exporte pela interface administrativa do LimeSurvey a planilha XLSX das respostas do questionário de comentários do gestor. A planilha informada em `--participantes` deve conter, no mínimo, as colunas `id`, `orgao`, `datestamp` e `completed`. Use o mesmo LSS que originou o survey publicado.
+
+Antes de acessar o LimeSurvey, valide quais grupos e campos serão selecionados para cada auditado:
+
+```bash
+scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
+  --lss C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss \
+  --participantes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --dry-run
+```
+
+O modo `--dry-run` não faz acesso de rede. Ele mostra, para cada resposta, os grupos condicionais e a quantidade de campos que seriam incluídos. Verifique especialmente avisos de órgão sem grupo correspondente, pois a comparação usa o nome do órgão registrado na coluna `orgao` e os valores previstos nas condições `TOKEN:FIRSTNAME` do LSS.
+
+Para baixar os PDFs, mantenha uma sessão válida aberta na administração do LimeSurvey e execute:
+
+```bash
+scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
+  --lss C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss \
+  --participantes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --output-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/PDF_Respostas
+```
+
+Se a autenticação não for fornecida por `LIMESURVEY_COOKIE` nem por `--cookie-file`, o script solicita no terminal, sem eco, o cabeçalho `Cookie` da sessão administrativa. Esse cabeçalho pode ser copiado de uma requisição autenticada nas ferramentas de desenvolvimento do navegador. O `YII_CSRF_TOKEN` é extraído do Cookie quando presente; caso contrário, também é solicitado sem eco. Não grave Cookie, token CSRF ou arquivo de cookie no repositório. Se usar `--cookie-file`, mantenha o arquivo fora do repositório e com acesso restrito.
+
+Por padrão, são processadas somente respostas concluídas e apenas a resposta mais recente de cada órgão. As opções principais são:
+
+- `--orgao SIGLA`: restringe a um órgão e pode ser repetida;
+- `--response-id ID`: restringe a um identificador de resposta e pode ser repetida;
+- `--include-incomplete`: inclui respostas ainda não concluídas;
+- `--all-responses`: exporta todas as respostas, não apenas a mais recente de cada órgão;
+- `--overwrite`: substitui PDFs existentes; sem essa opção, arquivos não vazios são preservados;
+- `--base-url URL`: altera a URL da instalação do LimeSurvey, se necessário.
+
+Cada arquivo recebe o padrão `<orgao>_id<id>_comentarios_gestor.pdf`. O script rejeita respostas que não comecem com a assinatura `%PDF` e informa redirecionamento para login como sessão expirada. A saída padrão no Windows é:
+
+```text
+C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/PDF_Respostas/
+```
+
+Esses PDFs registram a manifestação efetivamente apresentada por cada auditado e devem ser preservados como fonte auditável da fase de comentários do gestor. Em Linux/macOS, substitua `C:/tmp/tcerj-igovti-2026` por `/tmp/tcerj-igovti-2026`.
+
 Geração das avaliações individuais:
 
 ```bash
@@ -402,6 +447,28 @@ scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
 ```
 
 Em Linux/macOS, substitua `C:/tmp/tcerj-igovti-2026` por `/tmp/tcerj-igovti-2026`. Use `provider fake` e `judge-provider fake` apenas para validação estrutural; a reavaliação substantiva exige os provedores reais configurados.
+
+### 10.2. Consolidação dos dados e gráficos dos comentários do gestor
+
+Após exportar as respostas concluídas do LimeSurvey para XLSX, execute o consolidador para calcular a participação, as concordâncias, as discordâncias, os pedidos de reavaliação e as manifestações das organizações sem resposta válida ao iGovTI. No Windows, use o ambiente Conda `igovti`:
+
+```powershell
+conda run -n igovti python 03-Relatorios/99-Avaliacao_Comentarios_Gestor/calcular_dados_comentarios_gestor.py --respostas C:/caminho/results-survey796352.xlsx
+```
+
+O script usa, por padrão, o questionário `02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss`, o resultado compacto da auditoria e a planilha de ajustes pós-avaliação de evidências. Caminhos alternativos podem ser informados com `--lss`, `--resultado-auditoria`, `--ajustes-evidencias` e `--output-dir`.
+
+A consolidação considera apenas submissões concluídas, elimina registros de teste e, em caso de reenvio do mesmo token, mantém somente a resposta mais recente. Os resultados são gravados em:
+
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/memoria-calculo-comentarios-gestor.xlsx`: memória detalhada das submissões válidas, exclusões, manifestações por situação, pedidos de reavaliação e temas textuais;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/resumo-execucao.json`: totais principais da execução;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/02-panorama-geral.png`: panorama geral no modelo da Figura 30 do relatório de segurança da informação;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/achado-1-situacoes.png` a `achado-6-situacoes.png`: barras empilhadas das situações inconformes de cada achado;
+- demais arquivos em `img/`: participação, consolidação por achado e pedidos de reavaliação por questão-base.
+
+Nas figuras por achado, cada barra representa uma situação inconforme. A parcela cinza, `Situação encontrada inexistente`, corresponde às organizações respondentes para as quais aquela situação não constava do relatório individual. O denominador é, portanto, o total de organizações com manifestação válida sobre os relatórios individuais.
+
+O script não gera nem altera `anexo-avaliacao-comentarios-gestor.md`. A redação do anexo e a análise de procedência das discordâncias e novas evidências permanecem atividades editoriais e técnicas da Equipe de Auditoria.
 
 ### 11. Cálculo de estatísticas, índices e comparação longitudinal
 
