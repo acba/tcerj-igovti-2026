@@ -298,7 +298,11 @@ Use `--rpm N` para limitar a taxa de chamadas aos providers remotos. Por exemplo
 
 O valor padrao e `12`, equivalente a uma chamada a cada 5 segundos. Use `--rpm 0` para desativar o limite. O provider `fake` nao e limitado por RPM.
 
-Quando o provider retorna erro transiente (`429`, `500`, `502`, `503` ou `504`), o pipeline tenta novamente antes de gravar erro no checkpoint. Se houver header `Retry-After`, esse tempo e respeitado; sem o header, sao usados intervalos de `30s`, `60s` e `120s`. Se todas as tentativas falharem, o item recebe `status = error` e o processamento segue para o proximo item.
+Quando o provider retorna erro transiente (`429`, `500`, `502`, `503` ou `504`), o pipeline tenta novamente antes de gravar erro no checkpoint. Se houver header `Retry-After`, seu valor é limitado a no máximo `180s`; sem o header, são usados intervalos de `30s`, `60s` e `120s`. Se todas as tentativas falharem, o item recebe `status = error` e o processamento segue para o próximo item.
+
+No Gemini, um `429` não aciona espera na chave corrente: ela é imediatamente marcada como indisponível no ciclo e a próxima chave de `GEMINI_API_KEY` é tentada. Somente depois de todas as chaves retornarem `429` o pipeline informa a indisponibilidade total, aguarda `180s`, limpa as marcações do ciclo e volta a tentar as chaves uma a uma. Não há abandono definitivo de chave por sucessivos `429`; enquanto todas continuarem indisponíveis, repetem-se ciclos de rotação e espera de três minutos.
+
+A mesma política de ciclos é aplicada a `OPENAI_API_KEY`, `OPENROUTER_API_KEY` e `OPENCODEGO_API_KEY` quando a variável contém várias chaves separadas por vírgula. Com apenas uma chave, um `429` esgota imediatamente o ciclo, gera a mensagem de indisponibilidade total e inicia uma nova tentativa depois de `180s`.
 
 ## Listar analises sem processar
 
@@ -431,6 +435,72 @@ Saidas:
 ```
 
 O parecer consolidado continua sendo pre-analise de auditoria e deve ser revisado por auditor humano.
+
+## Produtos pós-comentários do gestor
+
+O catálogo ativo `igovti_2026_comentarios_gestor_atual_v2.yml` avalia a
+posição corrente informada pelo gestor. A seção 1 reaproveita os checkpoints
+compatíveis e classifica a situação como mantida, afastada ou corrigida; a
+seção 2 reavalia também itens do questionário que não geram achado. Mudanças no
+prompt da seção 2 produzem nova identidade lógica e não reutilizam resposta de
+um prompt anterior.
+
+Depois da consolidação, execute o fluxo pós-comentários com uma data de
+referência explícita:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
+  --data-referencia 16/07/2026 \
+  --respostas-base 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
+  --respostas-comentarios 02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260715-respostas-bruto.xlsx \
+  --avaliacao-comentarios-dir 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor \
+  --resultado-auditoria-anterior 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --contexto-igovti-anterior 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
+  --output-root . \
+  --auditados-select AGENERSA \
+  --jobs-graficos 8
+```
+
+O comando aplica apenas valores originalmente declarados e restauráveis,
+recalcula o iGovTI, reexecuta a auditoria com o painel saneado, materializa a
+planilha revisável `avaliacao_comentarios_gestor.xlsx`, gera o contexto JSON e
+produz os relatórios individuais finais. Casos que exigiriam elevar a resposta
+além do valor originalmente declarado permanecem na aba `Pendências` para
+tratamento final da equipe.
+
+Os três produtos são:
+
+1. quadro de avaliação das manifestações, em
+   `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`;
+2. memória de ajustes e impactos, formada pela base pós-comentários, pelos
+   artefatos correntes do iGovTI, pela auditoria reexecutada e pela comparação
+   antes/depois;
+3. manifestação da Equipe de Auditoria na Seção 4 do relatório individual
+   final.
+
+O contexto usado pelos relatórios fica em
+`02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`.
+A base ajustada recebe o prefixo da data de referência em
+`02-Execucao/01-Questionario/03-Respostas_Processadas/`; a auditoria corrente
+fica em
+`02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria-pos-comentarios/`;
+e os relatórios finais são gravados em
+`03-Relatorios/03-Relatorios_Individuais_Finais/gerados/`.
+
+`--auditados-select` limita somente gráficos e relatórios. A aplicação dos
+ajustes, o recálculo do iGovTI e a auditoria usam a base completa. Para aplicar
+somente um subconjunto de ajustes, prepare uma cópia revisada e informe-a por
+`--ajustes-comentarios`.
+
+Não é necessário chamar novamente os modelos para revisar a redação. Edite as
+colunas `Decisão revisada` e `Manifestação revisada da equipe` na planilha de
+pareceres e repita o comando com `--revisoes-pareceres`. Para alterar os valores
+aplicados à base, use uma cópia revisada da planilha de ajustes em
+`--ajustes-comentarios`.
+
+Esta etapa não lê chaves de provedores nem requer `.env`. O uso de `taskset` é
+opcional e serve apenas para limitar a afinidade de CPU durante recálculo,
+auditoria, gráficos e geração dos relatórios.
 
 ## Manutencao de prompts
 

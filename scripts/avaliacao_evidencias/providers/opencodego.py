@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from .base import GenericProvider, ProviderContext, conteudo_provider_textual, imagem_para_data_url
-from .http_utils import arquivos_imagem_do_pacote, executar_com_retry_transiente
+from .http_utils import arquivos_imagem_do_pacote, executar_com_retry_transiente, status_from_exception
 from .response import json_schema_response_format
 
 
@@ -22,6 +22,7 @@ class OpencodeGoProvider(GenericProvider):
     supports_images = True
     needs_api_key = True
     env_key = "OPENCODEGO_API_KEY"
+    rotate_comma_separated_keys = True
 
     def _build_content(self, ctx: ProviderContext) -> str | list[dict[str, Any]]:
         pacote_textual = ctx.pacote_textual
@@ -32,6 +33,7 @@ class OpencodeGoProvider(GenericProvider):
             coluna_evidencia=ctx.coluna_evidencia,
             itens_afirmados=ctx.itens_afirmados,
             pacote=pacote_textual,
+            response_profile=ctx.response_profile,
         )
         arquivos_imagem = arquivos_imagem_do_pacote(ctx.pacote)
         if not arquivos_imagem:
@@ -46,7 +48,7 @@ class OpencodeGoProvider(GenericProvider):
         body = {
             "model": self.model,
             "messages": [{"role": "user", "content": content}],
-            "response_format": json_schema_response_format(),
+            "response_format": json_schema_response_format(response_profile=ctx.response_profile),
         }
         request = urllib.request.Request(
             "https://opencode.ai/zen/go/v1/chat/completions",
@@ -64,11 +66,15 @@ class OpencodeGoProvider(GenericProvider):
                 with urllib.request.urlopen(request, timeout=120) as response:
                     return json.loads(response.read().decode("utf-8"))
 
-            payload = executar_com_retry_transiente(call_opencodego)
+            payload = executar_com_retry_transiente(call_opencodego, exclude_429=True)
             raw_content = payload["choices"][0]["message"]["content"]
             return raw_content
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
-            result = {"status": "error", "error": f"erro ao chamar OpencodeGo: {exc}"}
+            result = {
+                "status": "error",
+                "error": f"erro ao chamar OpencodeGo: {exc}",
+                "http_status": status_from_exception(exc),
+            }
             if raw_content:
                 result["raw_response_excerpt"] = raw_content[:2000]
             return result

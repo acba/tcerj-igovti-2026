@@ -313,7 +313,82 @@ ROUTINES: list[Routine] = [
     ),
 ]
 
-ROUTINE_BY_KEY = {routine.key: routine for routine in ROUTINES}
+COMMENTS_OUT = OUTPUT_ROOT / "02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor"
+COMMENTS_INPUT = OUTPUT_ROOT / "02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx"
+COMMENTS_EVIDENCE = OUTPUT_ROOT / "02-Execucao/05-Comentarios_Gestor/evidencias_extraidas"
+COMMENTS_MODELS_CONFIG = ROOT / "scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json"
+
+
+def comments_params() -> list[Param]:
+    return [
+        Param("respostas_comentarios", "--respostas-comentarios", p(COMMENTS_INPUT), "Exportação XLSX do survey de comentários."),
+        Param("evidencias_comentarios", "--evidencias-comentarios-root", p(COMMENTS_EVIDENCE), "Raiz dos anexos já extraídos por organização."),
+        Param("lss", "--lss", "02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss", "LSS que originou o survey."),
+        Param("resultado_auditoria", "--resultado-auditoria", "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json", "Resultado compacto da auditoria."),
+        Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx", "Mapa de verificação e achados."),
+        Param("ajustes", "--ajustes-pos-avaliacao-evidencias", "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx", "Avaliação consolidada anterior e itens elegíveis."),
+        Param("respostas_base", "--respostas-questionario-base", "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx", "Base pós-avaliação de evidências sobre a qual serão propostos ajustes."),
+        Param("painel_evidencias", "--painel-avaliacao-evidencias", "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx", "Painel de evidências que será saneado para a auditoria final."),
+        Param("models_config", "--models-config", p(COMMENTS_MODELS_CONFIG), "JSON com avaliadores, juiz, quórum e paralelismo."),
+        Param("out_dir", "--out-dir", p(COMMENTS_OUT), "Diretório temporário dos checkpoints e pareceres."),
+        Param("auditados", "--auditados", "", "Filtro opcional de siglas separadas por vírgula."),
+        Param("fake", "--fake", False, "Substitui os modelos configurados por providers fake.", is_bool=True),
+        Param("preflight_only", "--preflight-only", False, "Valida entradas e anexos sem chamar modelos.", is_bool=True),
+    ]
+
+
+COMMENTS_ROUTINES = [
+    Routine(
+        key="avaliar-comentarios-gestor-secao-1",
+        name="Avaliar seção 1",
+        description="Avalia manifestações sobre situações inconformes com os modelos do JSON configurado.",
+        script=ROOT / "scripts/run_comentarios_gestor.py",
+        fixed_args=["avaliar", "--secao", "1"],
+        params=comments_params(),
+    ),
+    Routine(
+        key="avaliar-comentarios-gestor-secao-2",
+        name="Avaliar seção 2",
+        description="Reavalia afirmações não conformes com comentários e novos anexos.",
+        script=ROOT / "scripts/run_comentarios_gestor.py",
+        fixed_args=["avaliar", "--secao", "2"],
+        params=comments_params(),
+    ),
+    Routine(
+        key="consolidar-comentarios-gestor",
+        name="Consolidar avaliações",
+        description="Consolida as duas seções com o juiz e o quórum definidos no JSON.",
+        script=ROOT / "scripts/run_comentarios_gestor.py",
+        fixed_args=["consolidar", "--secao", "ambas"],
+        params=comments_params(),
+    ),
+    Routine(
+        key="pipeline-comentarios-gestor",
+        name="Executar pipeline completo",
+        description="Executa preflight, avaliações configuradas, juiz e minuta de ajustes reversos.",
+        script=ROOT / "scripts/run_comentarios_gestor.py",
+        fixed_args=["completo"],
+        params=comments_params(),
+    ),
+    Routine(
+        key="gerar-ajustes-comentarios-gestor",
+        name="Gerar ajustes combinados",
+        description="Combina os saneamentos das seções 1 e 2 e gera a minuta e o painel de evidências final.",
+        script=ROOT / "scripts/run_comentarios_gestor.py",
+        fixed_args=["gerar-ajustes"],
+        params=comments_params(),
+    ),
+]
+
+COMMENTS_GROUP = Routine(
+    key="grupo-avaliacao-comentarios-gestor",
+    name="Avaliação de comentários do gestor",
+    description="Abre as rotinas das seções 1 e 2, consolidação, ajustes e pipeline completo.",
+    script=ROOT / "scripts/run_comentarios_gestor.py",
+)
+HOME_ROUTINES = [*ROUTINES, COMMENTS_GROUP]
+ALL_RUNNABLE_ROUTINES = [*ROUTINES, *COMMENTS_ROUTINES]
+ROUTINE_BY_KEY = {routine.key: routine for routine in ALL_RUNNABLE_ROUTINES}
 
 
 def now_iso() -> str:
@@ -442,11 +517,18 @@ def render_home(state: dict, selected_index: int) -> None:
     table.add_column("Status", justify="center")
     table.add_column("Ultima execucao")
     table.add_column("Duracao")
-    for index, routine in enumerate(ROUTINES):
-        data = state.get("routines", {}).get(routine.key, {})
+    for index, routine in enumerate(HOME_ROUTINES):
+        if routine.key == COMMENTS_GROUP.key:
+            children = [state.get("routines", {}).get(child.key, {}) for child in COMMENTS_ROUTINES]
+            children = [item for item in children if item.get("finished_at")]
+            data = max(children, key=lambda item: item.get("finished_at", ""), default={})
+        else:
+            data = state.get("routines", {}).get(routine.key, {})
         status = data.get("status")
         if status == "success":
             marker = "[green]✓[/green]"
+        elif status == "partial":
+            marker = "[yellow]![/yellow]"
         elif status == "failed":
             marker = "[red]✗[/red]"
         else:
@@ -952,12 +1034,14 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
         duration = round(time.monotonic() - started_monotonic, 2)
         if returncode == 0:
             emit_log(log, f"Rotina finalizada com sucesso em {duration_text(duration)}.")
+        elif returncode == 2:
+            emit_log(log, f"Rotina finalizada parcialmente em {duration_text(duration)}.", level="WARNING")
         else:
             emit_log(log, f"Rotina finalizada com erro: código {returncode} em {duration_text(duration)}.", level="ERROR")
 
     finished = now_iso()
     duration = round(time.monotonic() - started_monotonic, 2)
-    status = "success" if returncode == 0 else "failed"
+    status = "success" if returncode == 0 else ("partial" if returncode == 2 else "failed")
     return {
         "status": status,
         "started_at": started,
@@ -976,7 +1060,7 @@ def update_routine_state(state: dict, routine: Routine, result: dict) -> None:
 
 def show_last_log(state: dict) -> None:
     rows = []
-    for routine in ROUTINES:
+    for routine in ALL_RUNNABLE_ROUTINES:
         data = state.get("routines", {}).get(routine.key)
         if data:
             rows.append((routine, data))
@@ -1030,6 +1114,33 @@ def run_routine_interactive(routine: Routine, state: dict) -> None:
     Prompt.ask("Pressione Enter para voltar a tela inicial", default="")
 
 
+def run_comments_group_interactive(state: dict) -> None:
+    selected_index = 0
+
+    def render_group(index_selected: int) -> None:
+        console.clear()
+        console.print(Panel("Selecione uma etapa do pipeline.", title="Avaliação de comentários do gestor", border_style="cyan"))
+        table = Table(box=box.SIMPLE_HEAVY)
+        table.add_column("")
+        table.add_column("Rotina")
+        table.add_column("Descrição")
+        table.add_column("Status")
+        for index, routine in enumerate(COMMENTS_ROUTINES):
+            data = state.get("routines", {}).get(routine.key, {})
+            marker = {"success": "[green]✓[/green]", "partial": "[yellow]![/yellow]", "failed": "[red]✗[/red]"}.get(data.get("status"), "[dim]-[/dim]")
+            table.add_row(">" if index == index_selected else "", routine.name, routine.description, marker, style="reverse" if index == index_selected else None)
+        console.print(table)
+        console.print("[bold]Opções:[/bold] [cyan]↑/↓[/cyan] mover | [cyan]Enter[/cyan] configurar | [cyan]q[/cyan] voltar")
+
+    while True:
+        key, selected_index = selectable_loop(len(COMMENTS_ROUTINES), render_group, initial_index=selected_index)
+        if key in {"q", "escape", "ctrl-c", "ctrl-d"}:
+            return
+        run_routine_interactive(COMMENTS_ROUTINES[selected_index], state)
+        state.clear()
+        state.update(load_state())
+
+
 def interactive() -> int:
     if not ensure_interactive_tty():
         return 2
@@ -1037,7 +1148,7 @@ def interactive() -> int:
     selected_index = 0
     while True:
         key, selected_index = selectable_loop(
-            len(ROUTINES),
+            len(HOME_ROUTINES),
             lambda index: render_home(state, index),
             initial_index=selected_index,
             extra_keys={"l", "c"},
@@ -1053,8 +1164,11 @@ def interactive() -> int:
                 state = {"routines": {}}
                 save_state(state)
             continue
-        routine = ROUTINES[selected_index]
-        run_routine_interactive(routine, state)
+        routine = HOME_ROUTINES[selected_index]
+        if routine.key == COMMENTS_GROUP.key:
+            run_comments_group_interactive(state)
+        else:
+            run_routine_interactive(routine, state)
         state = load_state()
 
 
@@ -1063,7 +1177,7 @@ def list_routines() -> None:
     table.add_column("Chave")
     table.add_column("Nome")
     table.add_column("Descricao")
-    for routine in ROUTINES:
+    for routine in ALL_RUNNABLE_ROUTINES:
         table.add_row(routine.key, routine.name, routine.description)
     console.print(table)
 

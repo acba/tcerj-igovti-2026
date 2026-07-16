@@ -17,7 +17,8 @@ Os principais produtos do trabalho são:
 - índice iGovTI 2026, inclusive versão ajustada para comparação longitudinal;
 - avaliação de conformidade das respostas e evidências apresentadas;
 - achados, recomendações e determinações por organização auditada;
-- relatórios individuais preliminares e relatório consolidado.
+- relatórios individuais preliminares e finais, com manifestação da Equipe de Auditoria sobre os comentários do gestor;
+- relatório consolidado.
 
 ## Estrutura do Repositório
 
@@ -31,10 +32,12 @@ Os principais produtos do trabalho são:
 │   ├── 01-Questionario/
 │   ├── 02-Questionario iGovTI 2023/
 │   ├── 03-Execucao_Procedimentos/
-│   └── 04-Matriz_Achados/
+│   ├── 04-Matriz_Achados/
+│   └── 05-Comentarios_Gestor/
 ├── 03-Relatorios/
 │   ├── 01-Relatorio_Consolidado/
-│   └── 02-Relatorios_Individuais_Preliminares/
+│   ├── 02-Relatorios_Individuais_Preliminares/
+│   └── 03-Relatorios_Individuais_Finais/
 ├── 04-Portal_iGovTI/
 └── scripts/
 ```
@@ -46,16 +49,21 @@ Os principais produtos do trabalho são:
 - `01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml`: estrutura oficial de cálculo do iGovTI 2026.
 - `01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026-ajustado-comparavel.yaml`: estrutura ajustada para comparação com 2023.
 - `01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md`: matriz de planejamento em formato estruturado.
-- `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx`: base de respostas tratada.
-- `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
+- `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-01-pos-ajuste-inicial.xlsx`: base após os ajustes iniciais.
+- `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
 - `02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx`: matriz que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos.
 - `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json`: resultado compacto da execução dos procedimentos de auditoria.
+- `02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/`: avaliações individuais, pareceres consolidados, ajustes e painel saneado dos comentários do gestor.
+- `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/`: quadro revisável e contexto dos produtos pós-comentários.
 - `03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md`: fonte Markdown do relatório consolidado.
 - `03-Relatorios/02-Relatorios_Individuais_Preliminares/relatorio-individual-preliminar-template.md`: template dos relatórios individuais.
+- `03-Relatorios/03-Relatorios_Individuais_Finais/relatorio-individual-template.md`: template final com a análise dos comentários do gestor.
 - `scripts/calcula-igovti.html`: calculadora interativa para aplicar uma estrutura YAML de índice a uma fonte de informação e analisar resultados.
 - `scripts/dashboard_avaliacao_evidencias.html`: dashboard para revisão humana das avaliações de evidências e exportação da consolidação por auditado e item.
 - `scripts/montar_tabela_download_anexos_limesurvey.js`: script de apoio para gerar, a partir da tabela de respostas do LimeSurvey, a planilha com URLs de anexos e de respostas.
 - `scripts/gerar_pacote_relatorios_igovti.py`: orquestrador do fluxo completo de geração dos artefatos, auditoria, gráficos e relatórios.
+- `scripts/run_comentarios_gestor.py`: avaliação e consolidação integrada das Seções 1 e 2 dos comentários do gestor.
+- `scripts/gerar_produtos_pos_comentarios_gestor.py`: aplicação dos ajustes, recálculo corrente, reexecução da auditoria e geração dos produtos e relatórios finais.
 
 ## Metodologia Sequencial
 
@@ -340,7 +348,7 @@ Aplicação dos ajustes:
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
   --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
   --ajustes 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
-  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
+  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx
 ```
 
 Fonte derivada para uso nos procedimentos de auditoria:
@@ -353,7 +361,95 @@ O script gera `02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/pai
 
 ### 10.1. Reavaliação dos comentários do gestor e ajustes reversos
 
-Quando o survey de comentários do gestor coletar comentários e novas evidências para itens avaliados como `Não conforme`, a reavaliação deve usar o mesmo conjunto de prompts da avaliação de evidências. O pipeline específico para essa fase lê a exportação XLSX do LimeSurvey de comentários, a pasta de anexos já extraídos e a planilha de ajustes pós-avaliação de evidências. Ele avalia apenas os itens originalmente não conformes para cada auditado e questão base.
+Embora os comandos estejam agrupados nesta seção por tratarem de ajustes de respostas, a etapa de comentários do gestor ocorre após a emissão dos relatórios individuais preliminares. Seus resultados alimentam o recálculo corrente, a reexecução da auditoria e os relatórios individuais finais.
+
+O pipeline integrado avalia: (i) manifestações sobre as situações inconformes e seus motivos; e (ii) pedidos de reavaliação de respostas ajustadas por insuficiência de evidência. A terceira seção do survey, destinada às organizações sem resposta válida, permanece fora da avaliação por modelos.
+
+Os avaliadores, o juiz, o quórum e o paralelismo não ficam codificados no orquestrador. A configuração padrão está em `scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json`. As rotas habilitadas atualmente são `gemini/gemini-3.1-flash-lite`, `openai/gpt-5.6-luna`, `opencodego/minimax-m3` e `opencodego/qwen3.7-plus`; rotas alternativas permanecem declaradas com `enabled: false`. O juiz padrão é `gemini/gemini-3.1-flash-lite`, com quórum mínimo de duas opiniões válidas.
+
+Para acrescentar ou remover modelos, altere a lista `evaluators` do JSON. Cada entrada declara `name`, `enabled`, `provider`, `model`, `model_key`, `rpm`, `reasoning`, `pdf2md` e `docx2html`. Use `enabled: false` para manter uma rota disponível sem executá-la. Rotas de providers diferentes que representam o mesmo modelo devem compartilhar o mesmo `model_key`, e somente uma delas pode estar habilitada por vez. O cache e o quórum usam `model_key`: a troca de provider reaproveita uma avaliação concluída quando prompt, contexto, evidências, reasoning e modo de conversão permanecem iguais. O objeto `judge` usa os parâmetros de execução e acrescenta `min_valid_opinions`. Também é possível manter configurações alternativas fora do repositório e selecioná-las com `--models-config /caminho/config.json`. A configuração efetivamente usada em cada execução é copiada para `configuracao-modelos-efetiva.json` no diretório de saída.
+
+O juiz recebe todas as opiniões válidas encontradas entre os avaliadores configurados, não apenas o número mínimo do quórum. Se uma nova opinião for produzida posteriormente, a identidade do conjunto muda e o juiz refaz o parecer, mantendo a versão anterior apenas no checkpoint histórico. Para a seção 1, o schema distingue `mantida`, `afastada_na_data_base`, `corrigida_posteriormente` e `inconclusiva` e exige conclusão estruturada para cada motivo ativo.
+
+No Argos CLI, selecione **Avaliação de comentários do gestor** e escolha avaliação da seção 1, avaliação da seção 2, consolidação ou pipeline completo. O equivalente não interativo é:
+
+```bash
+scripts/.venv/bin/python scripts/argos_cli.py --run pipeline-comentarios-gestor --yes \
+  --extra "--respostas-comentarios /caminho/respostas-comentarios.xlsx --evidencias-comentarios-root /caminho/evidencias_extraidas"
+```
+
+Também é possível chamar o orquestrador diretamente:
+
+```bash
+scripts/.venv/bin/python scripts/run_comentarios_gestor.py completo \
+  --respostas-comentarios /caminho/respostas-comentarios.xlsx \
+  --evidencias-comentarios-root /caminho/evidencias_extraidas \
+  --catalog-comentarios scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v2.yml \
+  --models-config scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json
+```
+
+Use `--fake` para validar toda a estrutura sem chamadas remotas e `--preflight-only` para validar somente planilha, deduplicação, contextos, prompts e anexos. O preflight é bloqueante: nenhum modelo remoto é chamado enquanto houver anexo informado não localizado.
+
+No modo `completo`, a seção 1 é avaliada e consolidada antes da preparação da seção 2. Itens associados a situações `afastada_na_data_base` ou `corrigida_posteriormente`, quando possuem valor positivo inequívoco, são registrados como saneados e retirados da reavaliação da seção 2. A exclusão ocorre por auditado e item; outros subitens da mesma questão-base continuam sendo avaliados. Campos categóricos, quantitativos ou derivados sem valor positivo seguro permanecem como pendências e não são retirados do escopo.
+
+O catálogo ativo `igovti_2026_comentarios_gestor_atual_v2.yml` orienta a Seção 2 para a situação corrente. A identidade lógica inclui o hash do prompt: avaliações antigas incompatíveis não são reutilizadas, enquanto checkpoints compatíveis da Seção 1 podem ser preservados.
+
+As saídas padrão ficam em `/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor/` no Linux/macOS e no caminho correspondente sob `C:/tmp` no Windows. Além dos JSONL auditáveis, cada seção recebe `avaliacoes_modelos.xlsx`, com avaliações, motivos, erros e escopo. A consolidação gera `pareceres_consolidados.xlsx`. O diretório raiz recebe:
+
+- `ajustes_respostas_questionario_pos_comentarios_gestor.xlsx`, com as abas `Ajustes`, `Pendências` e `Saneados seção 1`;
+- `fontes-auditoria-pos-comentarios/painel-avaliacao-evidencias.xlsx`, no qual itens saneados deixam de acionar novamente as ações baseadas na avaliação de evidências;
+- `resumo-execucao.json`, com contagens e caminhos dos artefatos.
+
+A planilha de ajustes combina a seção 1 e a seção 2. Ela é uma minuta e não é aplicada automaticamente à base de respostas. A primeira aba permanece compatível com `scripts/ajustar_respostas_questionario.py`.
+
+Para regenerar somente a minuta e o painel a partir de consolidações existentes:
+
+```bash
+scripts/.venv/bin/python scripts/run_comentarios_gestor.py gerar-ajustes \
+  --out-dir /tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor
+```
+
+As variáveis necessárias são `GEMINI_API_KEY` e `OPENROUTER_API_KEY`. O provider OpenAI usa `OPENAI_BASE_URL` e `OPENAI_API_KEY` quando a API oficial é empregada; sem alteração, preserva o proxy local configurado pelo projeto.
+
+O comando legado `scripts/avaliar_comentarios_gestor.py avaliar` permanece disponível apenas para compatibilidade da seção 2. Para novas execuções, use o pipeline integrado acima, que aplica deduplicação do survey, rota especial de `q2804`, índice global de uploads, prompts próprios da etapa de comentários e supressão de reavaliações já saneadas na seção 1.
+
+#### Produtos pós-comentários, recálculo e relatório individual final
+
+Depois de concluir e consolidar as duas seções, execute `scripts/gerar_produtos_pos_comentarios_gestor.py`. Essa etapa não chama provedores de IA. Ela exige `--data-referencia DD/MM/AAAA`, aplica a planilha de ajustes sobre a base pós-avaliação de evidências, recalcula o iGovTI, reexecuta a auditoria com o painel saneado e gera os três produtos da etapa:
+
+1. `avaliacao_comentarios_gestor.xlsx`: quadro revisável das manifestações, decisões, justificativas e impactos;
+2. memória de ajustes e impactos: base pós-comentários, novo iGovTI, auditoria corrente e comparação antes/depois;
+3. Seção 4, **Análise dos comentários do gestor**, no relatório individual final.
+
+Para salvar os artefatos na estrutura do projeto e gerar gráficos e relatório somente para a AGENERSA:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
+  --data-referencia 16/07/2026 \
+  --respostas-base 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
+  --respostas-comentarios 02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260715-respostas-bruto.xlsx \
+  --avaliacao-comentarios-dir 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor \
+  --resultado-auditoria-anterior 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --contexto-igovti-anterior 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
+  --output-root . \
+  --auditados-select AGENERSA \
+  --jobs-graficos 8
+```
+
+`--auditados-select` restringe a geração de gráficos e relatórios, mas a aplicação da planilha de ajustes, o recálculo e a reexecução da auditoria abrangem a base completa. Para limitar os valores aplicados, forneça em `--ajustes-comentarios` uma cópia revisada da planilha contendo somente os ajustes autorizados.
+
+Os principais resultados são:
+
+- `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`;
+- `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`;
+- `02-Execucao/01-Questionario/03-Respostas_Processadas/<AAAAMMDD>-respostas-questionario-pos-comentarios-gestor.xlsx`;
+- `02-Execucao/01-Questionario/04-Resultados_iGovTI/<AAAAMMDD>-iGovTI-2026.xlsx`;
+- `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria-pos-comentarios/resultado_auditoria.json`;
+- `03-Relatorios/03-Relatorios_Individuais_Finais/gerados/Relatório Individual - <SIGLA>.docx`.
+
+A automação restaura somente valores originalmente declarados e comprovados. Ela não infere grau de adoção superior. Casos sem valor restaurável seguro permanecem na aba `Pendências`. Os produtos são minutas para revisão final da Equipe de Auditoria, mas não há bloqueio humano intermediário no fluxo.
+
+Para revisar a redação sem repetir avaliações dos modelos, edite `Decisão revisada` e `Manifestação revisada da equipe` em uma cópia de `avaliacao_comentarios_gestor.xlsx` e repita o comando com `--revisoes-pareceres /caminho/avaliacao-revisada.xlsx`. Para mudar os valores aplicados à base, revise separadamente a planilha de ajustes e informe-a com `--ajustes-comentarios`.
 
 #### Captura das respostas dinâmicas em PDF
 
@@ -435,16 +531,18 @@ scripts/.venv/bin/python scripts/avaliar_comentarios_gestor.py gerar-ajustes \
   --output C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx
 ```
 
-O arquivo gerado contém apenas itens que o parecer consolidado classificou como `Conforme`. Para esses casos, a coluna `Resposta ajustada` restaura a `Resposta afirmada` original, permitindo desfazer o ajuste negativo aplicado após a primeira avaliação de evidências.
+No pipeline integrado, o arquivo combina os itens `Conforme` da seção 2 com os itens binários saneados na seção 1. A coluna `Resposta ajustada` restaura a afirmação original ou registra o valor positivo validado. Use a aba `Pendências` para tratar manualmente campos sem conversão inequívoca.
 
 Aplicação dos ajustes reversos sobre a base já ajustada por evidências:
 
 ```bash
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
-  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
-  --ajustes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx \
-  --output C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-comentarios-gestor.xlsx
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
+  --ajustes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx \
+  --output C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor/fontes-auditoria-pos-comentarios/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx
 ```
+
+Na reexecução da auditoria, use conjuntamente os dois arquivos de `fontes-auditoria-pos-comentarios/`. Os nomes são preservados porque o mapa identifica as fontes pelos respectivos `filepath`. Alterar apenas a planilha de respostas não é suficiente para ações cuja fonte é `avaliacao_evidencias_ajustes`.
 
 Em Linux/macOS, substitua `C:/tmp/tcerj-igovti-2026` por `/tmp/tcerj-igovti-2026`. Use `provider fake` e `judge-provider fake` apenas para validação estrutural; a reavaliação substantiva exige os provedores reais configurados.
 
@@ -478,7 +576,7 @@ Regeneração completa recomendada:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_artefatos_igovti.py \
-  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
   --prefixo 20260621 \
   --output-dir C:/tmp/tcerj-igovti-2026
 ```
@@ -520,7 +618,7 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
   --auditados 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
   --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
   --fontes \
-    02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+    02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
   --resultado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
   --tabelas-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
@@ -579,7 +677,7 @@ scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py \
   --output C:/tmp/tcerj-igovti-2026/relatorio-consolidado/Relatório_altaresolucao_novo.docx \
   --resource-files "C:/tmp/tcerj-igovti-2026/relatorio-consolidado/img/**/*" "C:/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" \
   --resultados-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx \
-  --respostas-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --respostas-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
   --comparavel-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx \
   --auditados-xlsx 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
   --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json

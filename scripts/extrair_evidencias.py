@@ -3,17 +3,16 @@ import re
 import zipfile
 from pathlib import Path, PurePosixPath
 
-# Resolve repo root relative to the script location
 repo_root = Path(__file__).resolve().parent.parent
-
-src_dir = repo_root / "02-Execucao" / "01-Questionario" / "Evidencias_Coletadas" / "evidencias"
-dest_dir = Path("C:/evidencias_extraidas")
-
-if not src_dir.exists():
-    print(f"Diretório de origem de evidências não encontrado: {src_dir}")
-    exit(1)
-
-dest_dir.mkdir(parents=True, exist_ok=True)
+DEFAULT_SRC_DIR = (
+    repo_root
+    / "02-Execucao"
+    / "01-Questionario"
+    / "01-Coleta_LimeSurvey"
+    / "Evidencias_Coletadas"
+    / "evidencias"
+)
+DEFAULT_DEST_DIR = DEFAULT_SRC_DIR.parent / "evidencias_extraidas"
 
 # Caracteres inválidos em nomes de arquivo Windows
 _INVALID_CHARS = re.compile(r'[<>:"|?*\x00-\x1f]')
@@ -78,19 +77,55 @@ def extract_zip(zip_path: Path, target_dir: Path) -> None:
                 dst.write(src.read())
 
 
-zip_files = list(src_dir.glob("*.zip"))
-print(f"Encontrados {len(zip_files)} arquivos ZIP para extrair...")
+def main(argv: list[str] | None = None) -> None:
+    import argparse
 
-for idx, zip_path in enumerate(zip_files):
-    # The prefix before the first '_' identifies the audited organization (e.g. FTM, ALERJ)
-    auditado = zip_path.name.split("_")[0]
-    auditado_dir = dest_dir / auditado
-    auditado_dir.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(
+        description="Extrai os ZIPs de evidências do LimeSurvey em uma pasta por auditado."
+    )
+    parser.add_argument(
+        "--input-dir",
+        "-i",
+        type=Path,
+        default=DEFAULT_SRC_DIR,
+        help=f"Diretório com os ZIPs baixados (padrão: {DEFAULT_SRC_DIR}).",
+    )
+    parser.add_argument(
+        "--output-dir",
+        "-o",
+        type=Path,
+        default=DEFAULT_DEST_DIR,
+        help=f"Diretório para as evidências extraídas (padrão: {DEFAULT_DEST_DIR}).",
+    )
+    args = parser.parse_args(argv)
 
-    print(f"[{idx+1}/{len(zip_files)}] Extraindo {zip_path.name} para {auditado_dir}...")
-    try:
-        extract_zip(zip_path, auditado_dir)
-    except Exception as e:
-        print(f"Erro ao extrair {zip_path.name}: {e}")
+    src_dir = args.input_dir
+    dest_dir = args.output_dir
+    if not src_dir.is_dir():
+        parser.error(f"diretório de origem de evidências não encontrado: {src_dir}")
 
-print("Extração concluída com sucesso!")
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    zip_files = sorted(src_dir.glob("*.zip"))
+    print(f"Encontrados {len(zip_files)} arquivos ZIP para extrair...")
+
+    erros = 0
+    for idx, zip_path in enumerate(zip_files):
+        # O prefixo anterior ao primeiro '_' identifica o auditado.
+        auditado = zip_path.name.split("_")[0]
+        auditado_dir = dest_dir / auditado
+        auditado_dir.mkdir(parents=True, exist_ok=True)
+
+        print(f"[{idx + 1}/{len(zip_files)}] Extraindo {zip_path.name} para {auditado_dir}...")
+        try:
+            extract_zip(zip_path, auditado_dir)
+        except Exception as exc:
+            erros += 1
+            print(f"Erro ao extrair {zip_path.name}: {exc}")
+
+    if erros:
+        raise SystemExit(f"Extração concluída com erro em {erros} arquivo(s).")
+    print("Extração concluída com sucesso!")
+
+
+if __name__ == "__main__":
+    main()

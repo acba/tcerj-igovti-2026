@@ -1,5 +1,7 @@
 from pathlib import Path
 from urllib.parse import urljoin
+import getpass
+import os
 import re
 import requests
 import pandas as pd
@@ -15,11 +17,15 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
 }
 
-COOKIES = {
-    "cookieconsent_status": "allow",
-    "PHPSESSID": "72r0i1r4ovnh3cdm8erc0312jm",
-    "YII_CSRF_TOKEN": "eH5QNzRqVVAzN1lYUzMybTZRQk9lcXNGM1Uyb0tWdVi_xsYNYL63LJCGG40kUb0JpO7KhItdPxusdLlaHRrZKA%3D%3D",
-}
+
+def normalizar_url_download(valor) -> str:
+    """Retorna URL utilizável ou vazio quando a resposta não possui anexo."""
+    if pd.isna(valor):
+        return ""
+    url = str(valor).strip()
+    if url.lower() in {"", "nan", "none", "<na>"}:
+        return ""
+    return url
 
 def limpar_texto(texto: str) -> str:
     texto = "" if pd.isna(texto) else str(texto).strip()
@@ -53,7 +59,10 @@ def baixar_arquivo(session, url, destino):
             texto = resp.text.lower()
 
             if "login" in texto or "username" in texto or "password" in texto or "loginform" in texto:
-                raise RuntimeError("Sessão expirada (LimeSurvey redirecionou para tela de login). Atualize PHPSESSID/YII_CSRF_TOKEN no script.")
+                raise RuntimeError(
+                    "Sessão expirada (LimeSurvey redirecionou para tela de login). "
+                    "Forneça novos valores por argumento ou variável de ambiente."
+                )
 
             # Tenta capturar o título da página HTML para melhor debug
             title_match = re.search(r"<title>(.*?)</title>", resp.text, re.IGNORECASE | re.DOTALL)
@@ -83,7 +92,22 @@ def main(argv: list[str] | None = None):
         default=str(repo_root / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias"),
         help="Diretorio de destino para os downloads."
     )
+    parser.add_argument(
+        "--phpsessid",
+        default=os.environ.get("LIMESURVEY_PHPSESSID", ""),
+        help="PHPSESSID da sessão administrativa. Alternativa: LIMESURVEY_PHPSESSID.",
+    )
+    parser.add_argument(
+        "--yii-csrf-token",
+        default=os.environ.get("LIMESURVEY_YII_CSRF_TOKEN", ""),
+        help="YII_CSRF_TOKEN da sessão administrativa. Alternativa: LIMESURVEY_YII_CSRF_TOKEN.",
+    )
     args = parser.parse_args(argv)
+
+    phpsessid = args.phpsessid.strip() or getpass.getpass("PHPSESSID: ").strip()
+    yii_csrf_token = args.yii_csrf_token.strip() or getpass.getpass("YII_CSRF_TOKEN: ").strip()
+    if not phpsessid or not yii_csrf_token:
+        parser.error("PHPSESSID e YII_CSRF_TOKEN são obrigatórios")
 
     planilha_path = Path(args.planilha)
     pasta_destino = Path(args.output_dir)
@@ -97,14 +121,28 @@ def main(argv: list[str] | None = None):
     if faltantes:
         raise ValueError(f"Colunas ausentes na planilha: {faltantes}")
 
-    # Identificar o envio mais recente de cada órgão
-    df["parsed_date"] = pd.to_datetime(df["datestamp"], format="%d.%m.%Y %H:%M:%S", errors="coerce")
+    # Identificar o envio mais recente de cada órgão. Exportações do
+    # LimeSurvey podem usar tanto DD.MM.AAAA quanto DD/MM/AAAA.
+    datestamps_normalizados = df["datestamp"].astype("string").str.replace(".", "/", regex=False)
+    df["parsed_date"] = pd.to_datetime(
+        datestamps_normalizados,
+        format="%d/%m/%Y %H:%M:%S",
+        errors="coerce",
+    )
+    datas_invalidas = df["parsed_date"].isna()
+    if datas_invalidas.any():
+        exemplos = ", ".join(df.loc[datas_invalidas, "datestamp"].astype(str).head(5))
+        raise ValueError(f"Datas inválidas na coluna datestamp: {exemplos}")
     latest_idx_by_orgao = df.groupby("orgao")["parsed_date"].idxmax()
     latest_indices_set = set(latest_idx_by_orgao.values)
 
     session = requests.Session()
     session.headers.update(HEADERS)
-    session.cookies.update(COOKIES)
+    session.cookies.update({
+        "cookieconsent_status": "allow",
+        "PHPSESSID": phpsessid,
+        "YII_CSRF_TOKEN": yii_csrf_token,
+    })
 
     total = len(df)
 
@@ -113,7 +151,7 @@ def main(argv: list[str] | None = None):
         orgao = row["orgao"]
         datestamp = row["datestamp"]
         completed = str(row["completed"]).strip().lower()
-        url = str(row["url"]).strip()
+        url = normalizar_url_download(row["url"])
 
         destino = nome_destino(orgao, datestamp, id_resposta, pasta_destino)
 
@@ -129,6 +167,12 @@ def main(argv: list[str] | None = None):
         # 2. Verificar se o questionário está concluído
         if completed != "sim":
             print(f"  PULANDO -> questionário não concluído (completed = '{row['completed']}')")
+            continue
+
+        # Uma célula sem URL significa que o auditado concluiu o survey sem
+        # enviar anexos. Isso é uma condição normal, não um erro de download.
+        if not url:
+            print("  PULANDO -> nenhum anexo informado no survey")
             continue
 
         if destino.exists() and destino.stat().st_size > 0:

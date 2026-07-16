@@ -1,69 +1,98 @@
 """Provider Gemini via google-genai: upload de arquivos por File API,
 contagem exata de tokens e rotacao automatica de chaves em caso de 429.
 
-Quando ha arquivos para upload (PDFs/imagens), suprime os documentos de texto
-do pacote no prompt — o modelo processa os arquivos diretamente via File API,
-evitando duplicacao redundante.
+Quando ha arquivos para upload (PDFs/imagens), suprime do prompt apenas os
+documentos que correspondem a esses anexos. Comentarios, justificativas e
+outros documentos contextuais permanecem no pacote textual.
 """
 from __future__ import annotations
 
 import re
 import shutil
+import sys
 import tempfile
 import time
 from pathlib import Path
 from typing import Any, Callable
 
-from .base import GenericProvider, ProviderContext, conteudo_provider_textual
+from .base import (
+    GenericProvider,
+    ProviderContext,
+    conteudo_provider_textual,
+    pacote_textual_sem_documentos_de_arquivos_nativos,
+)
 from .http_utils import executar_com_retry_transiente, retry_after_from_exception
+from .response import json_schema_response_format
 from ..utils import nome_upload_seguro
 
 
 _GEMINI_MAX_TOKENS = 1_048_576
+GEMINI_ALL_KEYS_429_WAIT_SECONDS = 180.0
 
 
 class GeminiKeyRotationManager:
-    """Gerencia rotacao de chaves de API Gemini com backoff por chave.
+    """Gerencia ciclos de rotação imediata das chaves Gemini.
 
-    Quando uma chave recebe 429 (RESOURCE_EXHAUSTED), ela e marcada como
-    exaurida por um tempo. A proxima chamada usa outra chave disponivel
-    imediatamente, sem esperar. Se todas as chaves estao exauridas, retorna
-    o menor tempo de espera entre todas.
+    Cada chave que retorna 429 fica indisponível apenas no ciclo corrente. A
+    próxima chave é tentada imediatamente. Depois que todas retornarem 429, o
+    chamador espera três minutos, inicia um novo ciclo e volta à primeira chave.
     """
 
     def __init__(self, keys: list[str]):
         self.keys = keys
-        self.exhausted_until: dict[str, float] = {}
-        self.consecutive_429: dict[str, int] = {}
+        self.exhausted_in_cycle: set[str] = set()
+        self.reported_retry_after: dict[str, float] = {}
 
     def next_available_key(self) -> tuple[str | None, float]:
-        now = time.monotonic()
         for key in self.keys:
-            until = self.exhausted_until.get(key, 0.0)
-            if now >= until:
+            if key not in self.exhausted_in_cycle:
                 return key, 0.0
-        waits = [self.exhausted_until[k] - now for k in self.keys if k in self.exhausted_until]
-        min_wait = min(waits) if waits else 60.0
-        return None, max(0.0, min_wait)
+        return None, GEMINI_ALL_KEYS_429_WAIT_SECONDS
 
     def mark_exhausted(self, key: str, retry_after_seconds: float) -> None:
-        self.exhausted_until[key] = time.monotonic() + max(5.0, retry_after_seconds)
-        self.consecutive_429[key] = self.consecutive_429.get(key, 0) + 1
+        self.exhausted_in_cycle.add(key)
+        self.reported_retry_after[key] = retry_after_seconds
 
     def reset_key(self, key: str) -> None:
-        self.exhausted_until.pop(key, None)
-        self.consecutive_429[key] = 0
+        self.exhausted_in_cycle.discard(key)
+        self.reported_retry_after.pop(key, None)
 
-    def should_abandon_key(self, key: str, *, threshold: int = 5) -> bool:
-        return self.consecutive_429.get(key, 0) >= threshold
+    def start_new_cycle(self) -> None:
+        self.exhausted_in_cycle.clear()
+        self.reported_retry_after.clear()
 
     def all_exhausted(self) -> bool:
-        now = time.monotonic()
-        return all(now < self.exhausted_until.get(k, 0.0) for k in self.keys) if self.keys else True
+        return all(k in self.exhausted_in_cycle for k in self.keys) if self.keys else True
 
     def available_count(self) -> int:
-        now = time.monotonic()
-        return sum(1 for k in self.keys if now >= self.exhausted_until.get(k, 0.0))
+        return sum(1 for k in self.keys if k not in self.exhausted_in_cycle)
+
+
+def wait_and_restart_key_cycle(
+    manager: GeminiKeyRotationManager,
+    *,
+    emit: Callable[..., None],
+    sleeper: Callable[[float], None] = time.sleep,
+    stream: Any = None,
+) -> float:
+    """Informa indisponibilidade total, espera no máximo 180s e reinicia."""
+    wait = GEMINI_ALL_KEYS_429_WAIT_SECONDS
+    message = (
+        "Todas as chaves Gemini estão indisponíveis por erro 429. "
+        f"Aguardando {wait:.0f}s antes de iniciar um novo ciclo de rotação."
+    )
+    output = stream or sys.stderr
+    output.write(f"\n[AVISO] {message}\n")
+    output.flush()
+    emit(
+        "gemini_all_keys_429_wait",
+        message=message,
+        retry_after_seconds=wait,
+        available_keys=0,
+    )
+    sleeper(wait)
+    manager.start_new_cycle()
+    return wait
 
 
 def _extract_retry_delay_from_gemini_error(exc: BaseException) -> float:
@@ -134,7 +163,6 @@ class GeminiProvider(GenericProvider):
 
             manager = GeminiKeyRotationManager(keys)
             clients: dict[str, Any] = {}
-            abandoned: set[str] = set()
             key_rotations: list[dict[str, Any]] = []
 
             def get_client(key: str) -> Any:
@@ -148,11 +176,14 @@ class GeminiProvider(GenericProvider):
             arquivos_upload = ctx.arquivos_upload
             pacote_prompt = ctx.pacote_textual
             if arquivos_upload:
-                pacote_prompt = dict(pacote_prompt)
-                pacote_prompt["documentos"] = []
+                extensoes_anexadas = {Path(arquivo).suffix.lower() for arquivo in arquivos_upload}
+                pacote_prompt = pacote_textual_sem_documentos_de_arquivos_nativos(
+                    ctx.pacote,
+                    extensoes_anexadas,
+                )
                 pacote_prompt["_observacao"] = (
-                    "O conteudo da evidencia foi enviado como arquivo anexado via File API. "
-                    "Analise diretamente o conteudo dos arquivos anexados."
+                    "Os arquivos de evidencia foram enviados como anexos via File API. "
+                    "Analise diretamente os anexos e preserve o restante do contexto textual."
                 )
 
             contents_base = [
@@ -163,46 +194,26 @@ class GeminiProvider(GenericProvider):
                     coluna_evidencia=ctx.coluna_evidencia,
                     itens_afirmados=ctx.itens_afirmados,
                     pacote=pacote_prompt,
+                    response_profile=ctx.response_profile,
                 )
             ]
-            config = types.GenerateContentConfig(response_mime_type="application/json")
+            response_schema = json_schema_response_format(
+                response_profile=ctx.response_profile
+            )["json_schema"]["schema"]
+            config = types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_json_schema=response_schema,
+            )
             if ctx.reasoning_effort:
                 config.thinking_config = types.ThinkingConfig(thinking_level=ctx.reasoning_effort)
 
-            max_pausas = 10
-            pausas_consecutivas = 0
-
             while True:
-                available_keys = [k for k in keys if k not in abandoned]
-                if not available_keys:
-                    return {
-                        "status": "error",
-                        "error": "todas as chaves Gemini foram abandonadas apos 429 excessivo",
-                        "key_rotations": key_rotations,
-                    }
-                manager.keys = available_keys
-
                 key, wait = manager.next_available_key()
                 if key is None:
-                    pausas_consecutivas += 1
-                    if pausas_consecutivas > max_pausas:
-                        return {
-                            "status": "error",
-                            "error": f"todas as chaves Gemini exauridas apos {max_pausas} pausas consecutivas",
-                            "all_keys_exhausted": True,
-                            "retry_after_seconds": wait,
-                            "key_rotations": key_rotations,
-                        }
-                    return {
-                        "status": "error",
-                        "error": f"todas as chaves Gemini exauridas — pausando por {wait:.0f}s",
-                        "all_keys_exhausted": True,
-                        "retry_after_seconds": wait,
-                        "key_rotations": key_rotations,
-                    }
+                    wait_and_restart_key_cycle(manager, emit=emit)
+                    continue
 
                 client = get_client(key)
-                pausas_consecutivas = 0
 
                 uploaded = []
                 upload_ok = True
@@ -238,9 +249,6 @@ class GeminiProvider(GenericProvider):
                             key_rotations.append(rotation)
                             emit("gemini_key_rotation", from_key=rotation["from_key"], reason="429_no_upload",
                                  retry_after_seconds=delay, available_keys=manager.available_count())
-                            if manager.should_abandon_key(key):
-                                abandoned.add(key)
-                                emit("gemini_key_abandoned", key=key_label(key), reason="consecutive_429_exceeded")
                             upload_ok = False
                             break
                         return {
@@ -267,8 +275,25 @@ class GeminiProvider(GenericProvider):
                             "tokens_counted": total_tokens_gemini,
                             "key_rotations": key_rotations,
                         }
-                except Exception:
-                    pass
+                except Exception as exc:
+                    if _is_gemini_429(exc):
+                        delay = _extract_retry_delay_from_gemini_error(exc)
+                        manager.mark_exhausted(key, delay)
+                        rotation = {
+                            "from_key": key_label(key),
+                            "reason": "429_no_count_tokens",
+                            "retry_after_seconds": delay,
+                            "available_keys": manager.available_count(),
+                        }
+                        key_rotations.append(rotation)
+                        emit(
+                            "gemini_key_rotation",
+                            from_key=rotation["from_key"],
+                            reason="429_no_count_tokens",
+                            retry_after_seconds=delay,
+                            available_keys=manager.available_count(),
+                        )
+                        continue
 
                 try:
                     response = executar_com_retry_transiente(
@@ -281,7 +306,10 @@ class GeminiProvider(GenericProvider):
                     )
                     raw_text = response.text
                     manager.reset_key(key)
-                    result = self._interpretar_resposta(raw_text)
+                    result = self._interpretar_resposta(
+                        raw_text,
+                        response_profile=ctx.response_profile,
+                    )
                     if key_rotations:
                         result["key_rotations"] = key_rotations
                     return result
@@ -298,9 +326,6 @@ class GeminiProvider(GenericProvider):
                         key_rotations.append(rotation)
                         emit("gemini_key_rotation", from_key=rotation["from_key"], reason="429_no_generate",
                              retry_after_seconds=delay, available_keys=manager.available_count())
-                        if manager.should_abandon_key(key):
-                            abandoned.add(key)
-                            emit("gemini_key_abandoned", key=key_label(key), reason="consecutive_429_exceeded")
                         continue
                     result = {"status": "error", "error": f"erro ao chamar Gemini: {exc}"}
                     if key_rotations:

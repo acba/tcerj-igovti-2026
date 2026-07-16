@@ -56,6 +56,19 @@ def valor_texto(val, vazio=""):
         return vazio
     return str(val).strip()
 
+def justificativa_pos_comentarios_exibicao(valor):
+    """Remove da comunicação final digressões sobre a antiga data-base."""
+    texto_original = valor_texto(valor)
+    frases = re.split(r"(?<=[.!?])\s+", texto_original)
+    marca_historica = re.compile(
+        r"data[- ]base|período da auditoria|época da auditoria|correç(?:ão|ao) posterior|regulariza(?:ção|cao) após",
+        re.IGNORECASE,
+    )
+    limpas = [frase for frase in frases if not marca_historica.search(frase)]
+    resultado = " ".join(limpas).strip()
+    resultado = re.sub(r"^Ajuste pós-comentários do gestor:\s*situação\s+\S+\.\s*", "", resultado, flags=re.I)
+    return resultado or "Ajuste decorrente da avaliação dos comentários e evidências apresentados pelo gestor."
+
 def normalizar_valor_contexto(val):
     if isinstance(val, (list, tuple, dict, set)):
         return val
@@ -117,6 +130,8 @@ def carregar_ajustes_respostas(path):
             justificativa = row.get("Justificativa")
             if pd.isna(justificativa):
                 justificativa = row.get("observacao")
+            if valor_texto(row.get("Origem")).startswith("secao_"):
+                justificativa = justificativa_pos_comentarios_exibicao(justificativa)
 
         resposta_afirmada = row.get("Resposta afirmada")
         ajuste = {
@@ -132,6 +147,24 @@ def carregar_ajustes_respostas(path):
 
     logger.info(f"Carregados ajustes de respostas para {len(ajustes_por_auditado)} auditado(s) a partir de '{path}'.")
     return ajustes_por_auditado
+
+def carregar_contexto_comentarios_gestor(path):
+    """Carrega o produto de comunicação pós-comentários indexado pela sigla."""
+    if not path:
+        return {}
+    if not os.path.exists(path):
+        logger.warning("Contexto de comentários do gestor '%s' não encontrado.", path)
+        return {}
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            dados = json.load(f)
+    except Exception as e:
+        logger.error("Erro ao ler contexto de comentários do gestor '%s': %s", path, e)
+        return {}
+    if not isinstance(dados, dict):
+        logger.error("Contexto de comentários do gestor deve ser um objeto indexado por sigla.")
+        return {}
+    return {str(k).strip().upper(): v for k, v in dados.items() if isinstance(v, dict)}
 
 def consolidar_templates(base_content, all_files_content, template_paths, processed_files=None):
     """
@@ -228,11 +261,17 @@ def main():
         help='Planilha XLSX de ajustes aplicados às respostas para preencher o Apêndice B.'
     )
     parser.add_argument(
+        '--contexto-comentarios-gestor',
+        default=None,
+        help='JSON pós-comentários indexado por sigla, usado na seção de manifestações do relatório final.'
+    )
+    parser.add_argument(
         '--nome-base-docx',
         default='Relatório Individual Preliminar',
         help='Nome base dos arquivos DOCX gerados, antes da sigla do auditado.'
     )
     args = parser.parse_args()
+    contexto_comentarios_por_auditado = carregar_contexto_comentarios_gestor(args.contexto_comentarios_gestor)
 
     # 1. Load auditados from JSON
     if not os.path.exists(args.auditados):
@@ -471,6 +510,14 @@ def main():
             ajustes_respostas = ajustes_respostas_por_auditado.get(sigla.upper(), [])
             contexto['ajustes_respostas'] = ajustes_respostas
             contexto['teve_ajuste'] = bool(ajustes_respostas)
+            contexto['comentarios_gestor'] = contexto_comentarios_por_auditado.get(sigla, {
+                'data_referencia': 'não informada',
+                'respondeu': False,
+                'situacoes': [],
+                'itens_questionario': [],
+                'resumo_impacto': {},
+            })
+            contexto['teve_comentarios_gestor'] = bool(contexto['comentarios_gestor'].get('respondeu'))
 
             # Fill missing variables in context with empty lists so Jinja rendering doesn't crash
             vars_faltantes = set(vars_contexto_template) - set(contexto.keys())

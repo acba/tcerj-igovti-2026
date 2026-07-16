@@ -30,6 +30,7 @@ htmlcov/
 # LimeSurvey evidence payloads can be large/sensitive; keep the index workbook tracked.
 /02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias/
 /02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas/
+02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias*/
 
 # Project local outputs
 scripts/benchmark_results.json
@@ -43,3 +44,4 @@ dist/
 relatorio-consolidado/
 relatorios-individuais/
 .argos-cli/
+.env

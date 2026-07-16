@@ -28,8 +28,7 @@ class FakeProvider(GenericProvider):
         ]
         conclusoes = []
         for item in ctx.itens_afirmados:
-            conclusoes.append(
-                {
+            conclusao = {
                     "item_codigo": valor_item(item, "codigo"),
                     "item_texto": valor_item(item, "texto"),
                     "afirmacao_auditado": valor_item(item, "afirmacao"),
@@ -41,5 +40,19 @@ class FakeProvider(GenericProvider):
                     "paginas_ou_localizacao": [],
                     "coluna_evidencia": ctx.coluna_evidencia,
                 }
-            )
-        return validar_resultado_ia({"status": "completed", "conclusoes": conclusoes})
+            if ctx.response_profile == "manager_comments_temporal":
+                conclusao.update(
+                    {
+                        "estado_temporal": "inconclusiva",
+                        "conclusoes_motivos": [],
+                        "providencias_informadas": [],
+                        "comentarios_encaminhamento": "",
+                        "consequencias_praticas": [],
+                        "alternativas_propostas": [],
+                    }
+                )
+            conclusoes.append(conclusao)
+        return validar_resultado_ia(
+            {"status": "completed", "conclusoes": conclusoes},
+            response_profile=ctx.response_profile,
+        )

@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "token": "lV1fBy5X1fM0V0R",
+    "auditado": "FMIS",
+    "submitdate": "2026-07-08 17:39:41.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 9,
+    "token": "XTAHFsGwTaUrj2P",
+    "auditado": "SEINFRA",
+    "submitdate": "2026-07-07 15:06:51.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 14,
+    "token": "uRFN66w3MCtgycN",
+    "auditado": "FUNARJ",
+    "submitdate": "2026-07-09 21:38:42.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 27,
+    "token": "l10STF7wzciHaQG",
+    "auditado": "SEDEC",
+    "submitdate": "2026-07-08 16:16:37.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 49,
+    "token": "yWeJZH5rLCN1rhB",
+    "auditado": "RIOPREVIDENCIA",
+    "submitdate": "2026-07-10 16:42:34.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  }
+]

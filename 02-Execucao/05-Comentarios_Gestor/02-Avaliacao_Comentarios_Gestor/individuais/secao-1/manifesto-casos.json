@@ -1,0 +1,198 @@
+{
+  "secao": "1",
+  "casos_ia": [
+    {
+      "case_id": "6e5206c553b3ec92fe1e1cb2cfe5dfde47b7a705efe034729a3aaa49d502eea5",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "335f0f97453d8197cfe096d3452bf678a9992ce28bfccd054e094fa0ec62b72e",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "a9830e94d44e6e534c257e2719cd135d9946d1dc3bf38f8de76cdfee0993628d",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "fbc2f736a220babe50a521c4b4060d649b01b1dcb3295cb72d5a6c233bd755a6",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "2ac0c748d128a5fe1b7a82a64d185b999637c68799772c0c268e8e0eafb5e48b",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "e705b59468e9ed5864a6bd945faf09183836b566f0f3ba07d5582fbcd1d545ff",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "234d394e47db16ff6ecc945d81a266f9496e888a2557aed7dab78af974779e1f",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "26663498b4d3224e28ee234325b4ede53e45e2464d604bfe733c861f7edd5eca",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "9a163fc1f52f3f3479d6d2a455e2107b4a67c85b1bea58fd4e7677a71ac550ae",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "ce654e309523d35056abc24a9725b14077bd4b3a2b5c81f01f88241d54a8832b",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "ce91ddce20630c8e43f0b76d6622482e5fff67c521c92d32a76d07b946742222",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "594fa8889e416b37345b4e7d4cb356ceacb131c72fa10b1db9cbdc0917f04cc8",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    },
+    {
+      "case_id": "6deefff370a5ee4da443898875e6f45506f091239bf41a22da051bab94291ac8",
+      "prompt_hash": "a5d8b8f4441072089ffe88abfce91f708fc2f0bf8fed660ee7051c7d9c9d89e8",
+      "prompt_version": "igovti_2026_comentarios_gestor_atual_v2"
+    }
+  ],
+  "case_ids_ia": [
+    "6e5206c553b3ec92fe1e1cb2cfe5dfde47b7a705efe034729a3aaa49d502eea5",
+    "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
+    "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
+    "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
+    "335f0f97453d8197cfe096d3452bf678a9992ce28bfccd054e094fa0ec62b72e",
+    "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
+    "a9830e94d44e6e534c257e2719cd135d9946d1dc3bf38f8de76cdfee0993628d",
+    "fbc2f736a220babe50a521c4b4060d649b01b1dcb3295cb72d5a6c233bd755a6",
+    "2ac0c748d128a5fe1b7a82a64d185b999637c68799772c0c268e8e0eafb5e48b",
+    "e705b59468e9ed5864a6bd945faf09183836b566f0f3ba07d5582fbcd1d545ff",
+    "234d394e47db16ff6ecc945d81a266f9496e888a2557aed7dab78af974779e1f",
+    "26663498b4d3224e28ee234325b4ede53e45e2464d604bfe733c861f7edd5eca",
+    "9a163fc1f52f3f3479d6d2a455e2107b4a67c85b1bea58fd4e7677a71ac550ae",
+    "62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e",
+    "ce654e309523d35056abc24a9725b14077bd4b3a2b5c81f01f88241d54a8832b",
+    "ce91ddce20630c8e43f0b76d6622482e5fff67c521c92d32a76d07b946742222",
+    "594fa8889e416b37345b4e7d4cb356ceacb131c72fa10b1db9cbdc0917f04cc8",
+    "6deefff370a5ee4da443898875e6f45506f091239bf41a22da051bab94291ac8"
+  ],
+  "case_ids_deterministicos": [],
+  "identidades_esperadas_por_modelo": {
+    "gemini-3.1-flash-lite": [
+      "3e384dfad41c928aaabbb7a4bae02ee48fb6dc8d828005827b1a79624b3608ef",
+      "51a6b5e74f299f24b1b06b81517dd12c6c267c3a830a1db8e501a9fe5674793f",
+      "0ca7b0bceb287d23cab46ba19743d7bbfe8254d29428ce50230718218106e98a",
+      "4007b29ae7f6a2798c139ce131b1692fd3c746e5521cf2a54b05eaad7dc8334b",
+      "79c58e3a27075c01a8639055d87fe0b136a0b83bd32de416af55691ab6e77e2d",
+      "6ad987c2a737993e2b42516660686e8de8605bdc31887298d8a4d18c082d48e0",
+      "137e4a8ad7171db9331fb189c4a842dcefd4a9d519a8a2ce32b315e0b63a616f",
+      "5e90a92b87a65635b23f7f8cd91eb40e2fec156d2e83d92cf49a9a333f259ea8",
+      "ccbb275ec6761c672a5b96e8950e852e3878cef2e86080d28de906409356cbf9",
+      "df143741a1bb2c41661ffd08017ea2741622907567988f26c973fd2b039078c6",
+      "14e1d5a551f8bff7a5aa77b55b7587a5af10f3df7123738ce16c89899c32d898",
+      "84b8a6d5f14bd46389975280192f8ffad215d40aea1440a1fa649b5b323fe29d",
+      "098e6a9d3a93b0268e60e02123c9b3c5ce5b968f61cb15d18bf111c193fcf1a9",
+      "230115da70907de0a61b4521a4e73e92923b1b720389517c718b89605606e151",
+      "5c88b48187347955ab4a1b83475f1c199db477325b107a9cbda2fa74b7e7ef63",
+      "b89188992e486be04bfac5f7f6677c3202bcb062e3d317932e690fb2b939a434",
+      "15383d0727a65a16d9ce357906b44b63831f6a1cb8503b9f06d7d2d12fb93bd9",
+      "681e514d67f2ebc5d89cc1ba698d5ba5e291a2658183a217a882f16c8ab82021"
+    ],
+    "gpt-5.6-luna": [
+      "1169959f80b2d1cc5e40d70aa2c656262a79c2620efa49c3bcdd5efdfb0abe7c",
+      "b81d09a18c8df30fc5b9062a262487aeb2ebd25baffc591b73a305c8a58d7da0",
+      "251644b11b54e8b7abbec8043e036c057334961f1c09e7e91976990e194a41ad",
+      "00ff81f7c7cd4b5f3a34a6e651109d0d7394a1857c02d10942c0d981918fb47e",
+      "8f7ba266035623d120770af7851e6f5e731cecac33ce5fe6f5ca5df3a79ecb2c",
+      "36e4debbf1a13984aa96cb9d103c007d2af96ab5a4aa577acf130d0a736f9c49",
+      "3482f2106d742649fc7e9f8814192931613f410b80bef6c58cec191583ec041f",
+      "dea936e7cec617979beaa03195df66aef8f0a0eb97b82f72824af150b9c9eff3",
+      "152d9e6a5009a39eee255b4207ab0b1b59a0487d3795b2ebcc83dcba76b2116f",
+      "10ad68b074991e13ed06c0db52e1165e63f9ad2c5288a97ff6c642a200578af5",
+      "8a7152c51320b350064c199c27feafba0f9a2d352354b70595a1f3bc3f2e04e2",
+      "66995b40893e197e4358dd66feac7e0ac1f42f6263bb34d8fc039a2c93bb267f",
+      "20f470eaaf57689318caf16e7749f45a4b3439c7cde6e56c618a91a82022adf2",
+      "a1a5c073e524402d34e51eebb349b6771a50b3c8a64384ac8a7000d87df5ece8",
+      "6e46c6bf825fc61adb28d1ee7e1b3ff1108f5040a823760d2fa8165c04ada42a",
+      "8a74cd2cab3a49705fc11669dfd69fb31b373590758b4f572ff6f96a2dda08a3",
+      "8168d1b7f44e91726de63f1ae91d19e68c85615a40edf82de86eb0a1e94cfb06",
+      "65a44b978d39b64d40f2e13c964fc4f090d309d922df85b24c0cd47ade71e13a"
+    ],
+    "minimax-m3": [
+      "e174fbd67fbf0eed389e62b906d68f981514f4efae314bddd3eb436726f71faa",
+      "fa995548c5d4bafbdf623a2a80409361c9d52306548eee4c39b416a25d52e090",
+      "de251a777325c0fdff5f77459bf51bdbddb8d8717d5ea93a2bfac3e3ecf869db",
+      "592c9b6e154b1f1a4804ec37bb1dd67f401080d0a58207bccdd2b4461279af6c",
+      "81c80188733619c2a1c2c8d2b426549e01dae2138eba7b0f0e5d6fd850ac1e99",
+      "c8d5801a2b0a9fc91a4c0e84b6beec10cd7575de7818a87824e9ec973a72f407",
+      "0271efc7bf45591c696beee20b989bc8627ce30240a5bfdefad128393ac6e5f7",
+      "d61ebd0f831bacc3a7c54b3612108c3cc5fa897850a3f1e030ab585311922ab1",
+      "16ab11feb7e243340c523773cafa3434d6aedf70eb41be6faa926fc0e72d0fc6",
+      "bf911aac83fde8c42bc4d0260809c4d618cf12ef14a1fa64308b65fd01730d80",
+      "d6df370942026f40c53ba540ef25681de1dee8a169620ad6a8b4c9382759ba3f",
+      "417f392b38cd5076da5aea9d4e0c5eb91dd9f0fde4f755d48890647cba20b6ef",
+      "2a9623e168dd907b5e14245ebde45de3897d6f38e80022b2a9f05f5db0ff138d",
+      "5c2b1b38374475192f63842d1d9d8741022c6bc3019de1149df6c06cdbb52989",
+      "adf8850b712cfcadf5433523bb70541acf79b82e9e0964260e189bbf0708bb15",
+      "6734e9a5c1158a06f13eaff7b24dbae513ffc69045cc53cedca6f2395c9377ef",
+      "518a7da0b8a4d87430f24f68e61b498df92ca44d03d7fcc9ae5991fe0858b8bb",
+      "07931055ef8295e3ccd7dd4e537a7258a85e207732c823cc54ceb0b62b06a626"
+    ],
+    "qwen3.7-plus": [
+      "b3f5e0cefb31855ec6863d62464ee3d9722f47af605d15f25a8615434cd68f7b",
+      "6b4f484434cc27bb5baa85bfc76aa26eec685702a388af59087ce87cc5285206",
+      "cc1f5e930eefe3684a440a77ff2da85a6837461b6512f31b28b849157e4b2b54",
+      "d8b1723c52a0efe25946941e63e3884b922f49a22d6ac4991b6d049cc5ab4aa2",
+      "9fa2c98da3b3160b90a2175a61cee90e24a399fbafa5aaa72fa2a8d2885a5b9f",
+      "d70f8b9d868a20172edc02eed453024d82f73a2727cc40d21ee03172de05e905",
+      "4239525ad5a2795e43e443e7b5a0be40a90c773e5ff16efa49cd55d18622996a",
+      "aaeaab71462013df6dab4ee7ef5fb8bddf51a5095c96195479d1bfd4346baf96",
+      "f3e7b6c2ba52bbd1fbaa1a59cef020902e67c12d8c9a45d7fd8e42131e9e178c",
+      "4ed603648d8cf636a5c4835e69fad37012221fc7d265eb6a0b93b86d44f66e27",
+      "3ad7843efcf09bd5a5d61a928ca7ce546027bc9c2bbd7dfa12d0d23787fc5de6",
+      "2e3e3368e18e28bf63247637d89f4536a46a5a0389fdc8e4208a614345e8f3cd",
+      "ac86fb5e7e666a8b9fbd7d9256dcfc2d16aff7924c869b9124a55eebd83f61e6",
+      "70d09a90cec6ae4894b11b03efa7f5aab4fc422dab6ffe2f6af3753f54e45e96",
+      "7aa0053adc1ea25ea1a45c78706da82878f95788c63816c0df8dd4e7ceccd4da",
+      "03c18632e7360a8e6e9199da29436894304e531f0aacf58234eaad58ab88e5aa",
+      "d04a0195b11f36671012606cd8ae330d63778be4dd7857df608911ce00be573e",
+      "2a1b50328834951a372c6c00da1ebd0f5bae23430522571828055f479928cd48"
+    ]
+  }
+}

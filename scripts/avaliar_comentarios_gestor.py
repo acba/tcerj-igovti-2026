@@ -678,6 +678,11 @@ def cmd_gerar_ajustes(args: argparse.Namespace) -> int:
                     ),
                     "observacao": normalizar_texto(conclusao.get("justificativa")),
                     "Fonte": "comentarios_gestor",
+                    "Case ID": normalizar_texto(registro.get("case_id")),
+                    "Identidade do parecer": normalizar_texto(registro.get("identity")),
+                    "Opiniões válidas": registro.get("opinioes_validas", ""),
+                    "Avaliadores ausentes": "; ".join(registro.get("avaliadores_ausentes") or []),
+                    "Data do parecer": normalizar_texto(registro.get("finished_at")),
                 }
             )
 
@@ -695,6 +700,11 @@ def cmd_gerar_ajustes(args: argparse.Namespace) -> int:
             "Justificativa",
             "observacao",
             "Fonte",
+            "Case ID",
+            "Identidade do parecer",
+            "Opiniões válidas",
+            "Avaliadores ausentes",
+            "Data do parecer",
         ],
     )
     dataframe_to_xlsx_se_diferente(

@@ -38,8 +38,10 @@ When explaining or changing workflow documentation, keep the methodology in this
 11. Statistics, iGovTI indexes, charts, and longitudinal comparison.
 12. Audit procedure execution and finding consolidation.
 13. Individual preliminary report drafting.
-14. Consolidated report drafting.
-15. Portal/publication preparation.
+14. Manager-comments collection, two-section evaluation, and consolidation.
+15. Post-comments response adjustment, current iGovTI recalculation, audit replay, and individual final report generation.
+16. Consolidated report drafting.
+17. Portal/publication preparation.
 
 `README.md` is the user-facing reference for this sequence. Keep AGENTS.md focused on operational guidance for agents.
 
@@ -126,7 +128,7 @@ Apply response adjustments:
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
   --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx \
   --ajustes 02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx \
-  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx
+  --output 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx
 ```
 
 Generate the derived evidence-adjustment source used by audit procedures:
@@ -150,7 +152,7 @@ scripts/.venv/bin/python scripts/executa_auditoria.py \
   --auditados 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
   --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
   --fontes \
-    02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+    02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
   --resultado-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
   --tabelas-xlsx C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/tabelas_consolidadas_auditoria.xlsx \
@@ -262,6 +264,19 @@ scripts/.venv/bin/python scripts/agregar_analyses_por_item.py \
 
 Use `scripts/avaliar_comentarios_gestor.py` to reassess items previously marked `Não conforme` after the audited organization submits manager comments and optional new PDF/ZIP evidence in the comments survey. The script reuses the evidence-evaluation prompts and produces `analyses*.jsonl` compatible with `scripts.avaliacao_evidencias.consolidacao`.
 
+For new executions, prefer the integrated two-section pipeline:
+
+```bash
+scripts/.venv/bin/python scripts/run_comentarios_gestor.py completo \
+  --respostas-comentarios /tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --evidencias-comentarios-root /tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/evidencias_extraidas \
+  --catalog-comentarios scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v2.yml
+```
+
+It loads evaluators, judge, quorum, and parallelism from `scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json`. In the complete flow, section 1 is consolidated first; safely mapped items from situations classified as `afastada_na_data_base` or `corrigida_posteriormente` are removed from section 2 before model calls. The pipeline writes human-readable evaluation workbooks, a combined draft adjustment workbook, and a post-comments evidence panel. Use `--models-config` for an alternate JSON, `--fake` for structural end-to-end validation, and `--preflight-only` to validate inputs and attachments without model calls. The effective model configuration is copied to the output directory. The older `avaliar_comentarios_gestor.py avaliar` command below is retained for section-2 compatibility only.
+
+The active current-state catalog is `scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v2.yml`. Logical identities include the prompt hash: incompatible section-2 checkpoints must not be reused, while compatible section-1 checkpoints may be preserved.
+
 Before reassessment, capture the dynamic LimeSurvey response PDF for each audited organization with `scripts/exportar_respostas_comentarios_gestor_pdf.py`. The exporter reads the group `grelevance` expressions from the comments survey LSS, matches them to the organization stored in `TOKEN:FIRSTNAME`, and requests a PDF containing only the groups applicable to that organization. Use the LimeSurvey XLSX response export as `--participantes`; it must contain the columns `id`, `orgao`, `datestamp`, and `completed`.
 
 Validate the organization-to-group selection without accessing LimeSurvey:
@@ -323,12 +338,45 @@ Apply reverse adjustments over the post-evidence-adjusted response base:
 
 ```bash
 scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
-  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-avaliacao-evidencias.xlsx \
+  --respostas 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
   --ajustes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Reavaliacao_Evidencias/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx \
   --output C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-pos-comentarios-gestor.xlsx
 ```
 
-The reverse-adjustment XLSX intentionally includes only items whose consolidated reassessment is `Conforme`; each row restores the original `Resposta afirmada` through the `Resposta ajustada` column. Treat the generated adjustments as a draft subject to audit review before using them as the definitive response base. On Linux/macOS, replace `C:/tmp/tcerj-igovti-2026` with `/tmp/tcerj-igovti-2026`.
+The integrated adjustment XLSX combines section-2 items whose consolidated reassessment is `Conforme` with safely mapped section-1 items. Its first sheet is compatible with `ajustar_respostas_questionario.py`; ambiguous or derived fields are listed as pending instead of receiving an invented value. Treat the generated adjustments as a draft subject to audit review before using them as the definitive response base. When rerunning the audit, also use the generated post-comments evidence panel so that actions backed by `avaliacao_evidencias_ajustes` do not recreate a sane finding. On Linux/macOS, replace `C:/tmp/tcerj-igovti-2026` with `/tmp/tcerj-igovti-2026`.
+
+### Post-Comments Products, Current iGovTI, and Final Reports
+
+After the integrated two-section pipeline finishes, use `scripts/gerar_produtos_pos_comentarios_gestor.py` to materialize the current-state products. This command does not call AI providers. It applies the combined adjustments, recalculates iGovTI, reexecutes the audit with the post-comments evidence panel, compares the previous and current audit states, and generates the final individual reports.
+
+`--data-referencia DD/MM/AAAA` is mandatory and identifies the date represented by the current-state products. Automation may restore only an originally declared value recorded in the post-evidence adjustment source; it must not infer or assign a higher adoption level. Unsafe conversions remain in the `Pendências` sheet.
+
+When the user explicitly requests repository outputs, run from the repository root with `--output-root .`:
+
+```bash
+scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
+  --data-referencia 16/07/2026 \
+  --respostas-base 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
+  --respostas-comentarios 02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260715-respostas-bruto.xlsx \
+  --avaliacao-comentarios-dir 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor \
+  --resultado-auditoria-anterior 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
+  --contexto-igovti-anterior 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
+  --output-root . \
+  --auditados-select AGENERSA \
+  --jobs-graficos 8
+```
+
+The three user-facing products are:
+
+1. `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`, a reviewable table of manager manifestations, audit-team decisions, standardized justifications, and impacts;
+2. the adjustment and impact memory, comprising the post-comments response base, current iGovTI artifacts, replayed audit, and before/after comparison;
+3. Section 4, **Análise dos comentários do gestor**, in `03-Relatorios/03-Relatorios_Individuais_Finais/relatorio-individual-template.md` and the generated final DOCX.
+
+The report context is written to `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`. The current audit is written under `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria-pos-comentarios/`, and final individual reports under `03-Relatorios/03-Relatorios_Individuais_Finais/gerados/`.
+
+`--auditados-select` limits only chart and report generation; adjustment application, iGovTI calculation, and audit replay still use the complete input base. To restrict applied changes, pass a reviewed adjustment workbook with `--ajustes-comentarios`.
+
+Do not rerun models merely to revise the institutional wording. Reviewers may edit `Decisão revisada` and `Manifestação revisada da equipe` in a copy of `avaliacao_comentarios_gestor.xlsx`, then regenerate with `--revisoes-pareceres`. Changes to applied response values must be made in a reviewed copy of the adjustment workbook passed through `--ajustes-comentarios`. Generated opinions and products remain drafts for the audit team's final review, but the workflow has no mandatory intermediate human gate.
 
 ### Manager Comments Statistics and Charts
 

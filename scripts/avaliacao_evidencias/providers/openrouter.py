@@ -26,6 +26,7 @@ from .http_utils import (
     executar_com_retry_transiente,
     formatar_erro_http,
     modelo_openrouter_suporta_pdf_nativo,
+    status_from_exception,
 )
 from .response import json_schema_response_format
 
@@ -36,6 +37,7 @@ class OpenRouterProvider(GenericProvider):
     supports_images = True
     needs_api_key = True
     env_key = "OPENROUTER_API_KEY"
+    rotate_comma_separated_keys = True
 
     def _build_content(self, ctx: ProviderContext) -> list[dict[str, Any]]:
         arquivos_pdf = arquivos_pdf_do_pacote(ctx.pacote)
@@ -58,6 +60,7 @@ class OpenRouterProvider(GenericProvider):
             coluna_evidencia=ctx.coluna_evidencia,
             itens_afirmados=ctx.itens_afirmados,
             pacote=pacote_textual,
+            response_profile=ctx.response_profile,
         )
 
         message_content: list[dict[str, Any]] = [{"type": "text", "text": prompt_textual}]
@@ -83,7 +86,7 @@ class OpenRouterProvider(GenericProvider):
         body: dict[str, Any] = {
             "model": self.model,
             "messages": [{"role": "user", "content": content}],
-            "response_format": json_schema_response_format(),
+            "response_format": json_schema_response_format(response_profile=ctx.response_profile),
         }
         if ctx.reasoning_effort:
             body["reasoning"] = {"effort": ctx.reasoning_effort}
@@ -107,7 +110,7 @@ class OpenRouterProvider(GenericProvider):
                 with urllib.request.urlopen(request, timeout=120) as response:
                     return json.loads(response.read().decode("utf-8"))
 
-            payload = executar_com_retry_transiente(call_openrouter)
+            payload = executar_com_retry_transiente(call_openrouter, exclude_429=True)
             raw_response = json.dumps(payload, ensure_ascii=False)[:2000]
             content_field = payload["choices"][0]["message"]["content"]
             if content_field is None:
@@ -115,7 +118,11 @@ class OpenRouterProvider(GenericProvider):
             raw_content = content_field
             return raw_content
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
-            result = {"status": "error", "error": f"erro ao chamar OpenRouter: {formatar_erro_http(exc)}"}
+            result = {
+                "status": "error",
+                "error": f"erro ao chamar OpenRouter: {formatar_erro_http(exc)}",
+                "http_status": status_from_exception(exc),
+            }
             if raw_content:
                 result["raw_response_excerpt"] = raw_content[:2000]
             elif raw_response:

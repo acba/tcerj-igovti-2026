@@ -15,6 +15,7 @@ from typing import Any, Callable
 
 RETRYABLE_PROVIDER_STATUSES = {429, 500, 502, 503, 504}
 DEFAULT_TRANSIENT_RETRY_DELAYS = (30.0, 60.0, 120.0)
+MAX_TRANSIENT_RETRY_DELAY_SECONDS = 180.0
 
 
 def parse_retry_after(value: str | None, *, now: Callable[[], float] = time.time) -> float | None:
@@ -106,6 +107,10 @@ def executar_com_retry_transiente(
                 raise
             retry_after = retry_after_from_exception(exc)
             delay = retry_after if retry_after is not None else actual_delays[min(tentativa, len(actual_delays) - 1)]
+            # Retry-After pode representar a renovação de uma cota diária e
+            # chegar a vários dias. Uma execução local nunca deve ficar presa
+            # por mais de três minutos em uma única espera.
+            delay = min(MAX_TRANSIENT_RETRY_DELAY_SECONDS, max(0.0, delay))
             status_code = status_from_exception(exc)
             sys.stderr.write(
                 f"\n[AVISO] Provedor retornou erro temporario {status_code}. "

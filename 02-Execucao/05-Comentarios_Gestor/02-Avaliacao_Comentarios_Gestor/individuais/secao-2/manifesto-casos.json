@@ -1,0 +1,12 @@
+{
+  "secao": "2",
+  "casos_ia": [],
+  "case_ids_ia": [],
+  "case_ids_deterministicos": [],
+  "identidades_esperadas_por_modelo": {
+    "gemini-3.1-flash-lite": [],
+    "gpt-5.6-luna": [],
+    "minimax-m3": [],
+    "qwen3.7-plus": []
+  }
+}

@@ -15,6 +15,7 @@ from typing import Callable
 
 import pandas as pd
 from openpyxl import load_workbook
+from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
 
 
 def _normalizar_valor_celula(valor):
@@ -25,6 +26,15 @@ def _normalizar_valor_celula(valor):
     if pd.isna(valor) and not isinstance(valor, (str, bytes)):
         return None
     return valor
+
+
+def sanitizar_workbook_para_excel(workbook) -> None:
+    """Remove controles inválidos para XML somente do artefato XLSX."""
+    for worksheet in workbook.worksheets:
+        for row in worksheet.iter_rows():
+            for cell in row:
+                if isinstance(cell.value, str):
+                    cell.value = ILLEGAL_CHARACTERS_RE.sub("", cell.value)
 
 
 def xlsx_logicamente_iguais(a: Path | str, b: Path | str) -> bool:

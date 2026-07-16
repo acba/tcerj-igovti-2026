@@ -1,12 +1,12 @@
 {
-  "fonte": "C:\\Users\\augustocba\\Downloads\\results-survey796352.xlsx",
-  "submissoes_brutas": 66,
-  "submissoes_validas": 62,
-  "submissoes_excluidas": 4,
-  "manifestacoes_situacoes": 1134,
-  "discordancias": 172,
-  "arquivos_achados": 188,
-  "reavaliacoes_submetidas": 283,
-  "arquivos_reavaliacao": 78,
+  "fonte": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx",
+  "submissoes_brutas": 85,
+  "submissoes_validas": 78,
+  "submissoes_excluidas": 7,
+  "manifestacoes_situacoes": 1431,
+  "discordancias": 233,
+  "arquivos_achados": 266,
+  "reavaliacoes_submetidas": 341,
+  "arquivos_reavaliacao": 117,
   "organizacoes_nao_respondentes_que_manifestaram": 2
 }

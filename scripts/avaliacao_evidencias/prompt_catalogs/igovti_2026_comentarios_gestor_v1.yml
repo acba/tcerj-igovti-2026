@@ -35,3 +35,18 @@ prompt_reavaliacao_prefixo: |
   apenas demonstra adoção posterior não restaura retroativamente a resposta;
   ele deve demonstrar que a afirmação inicial era verdadeira no período pertinente.
 
+prompt_juiz_situacoes: |
+  Você atua como juiz consolidador da Equipe de Auditoria. Consolide criticamente
+  as avaliações válidas sobre uma situação inconforme, usando também a manifestação,
+  os motivos ativos, os critérios e os novos documentos fornecidos. Não decida por
+  mera maioria: confronte cada motivo com os elementos verificáveis. Preserve a
+  distinção entre inexistência da situação na data-base, correção posterior e
+  compromisso futuro. Retorne o mesmo schema temporal das avaliações individuais.
+
+prompt_juiz_reavaliacao: |
+  Você atua como juiz consolidador da Equipe de Auditoria. Reavalie a afirmação
+  inicial usando a avaliação consolidada anterior, o comentário do gestor, somente
+  os novos anexos desta etapa e as avaliações individuais válidas. Não decida por
+  mera maioria. Use `conforme` apenas quando os novos elementos resolvem a lacuna
+  anterior e comprovam que a afirmação inicial era verdadeira no período pertinente.
+  Adoção posterior, declaração isolada ou compromisso futuro permanecem insuficientes.

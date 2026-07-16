@@ -132,16 +132,17 @@ class LimeSurveyGenerator:
             auditados_nao_respondentes,
             fiscalizacao_nome,
         )        # 2. groups
-        questions_xml, upload_qids = self._build_questions(
+        questions_xml, upload_qids, ciencia_qid, ciencia_gid = self._build_questions(
             sorted_keys,
             reavaliacao_entries,
             auditados_nao_respondentes,
             fiscalizacao_nome,
         )
         xml += questions_xml     # 3. questions
-        xml += self._build_question_attributes(upload_qids) # 4. question_attributes
-        xml += self._build_surveys(admin_name, admin_email, expires)              # 4. surveys
-        xml += self._build_surveys_lang(admin_email, fiscalizacao_numero, fiscalizacao_nome) # 5. surveys_languagesettings
+        xml += self._build_subquestions(ciencia_qid, ciencia_gid) # 4. subquestions
+        xml += self._build_question_attributes(upload_qids) # 5. question_attributes
+        xml += self._build_surveys(admin_name, admin_email, expires)              # 6. surveys
+        xml += self._build_surveys_lang(admin_email, fiscalizacao_numero, fiscalizacao_nome) # 7. surveys_languagesettings
 
         xml += '</document>'
         return xml
@@ -274,6 +275,18 @@ class LimeSurveyGenerator:
             xml += f'    <grelevance><![CDATA[{grelevance}]]></grelevance>\n'
             xml += '   </row>\n'
 
+            gid += 1
+            group_order += 1
+
+        xml += '   <row>\n'
+        xml += f'    <gid><![CDATA[{gid}]]></gid>\n    <sid><![CDATA[0]]></sid>\n'
+        xml += '    <group_name><![CDATA[Ciência]]></group_name>\n'
+        xml += f'    <group_order><![CDATA[{group_order}]]></group_order>\n'
+        xml += '    <description/>\n'
+        xml += '    <language><![CDATA[pt-BR]]></language>\n'
+        xml += '    <randomization_group/>\n    <grelevance/>\n'
+        xml += '   </row>\n'
+
         xml += '  </rows>\n </groups>\n'
         return xml
 
@@ -283,7 +296,7 @@ class LimeSurveyGenerator:
         reavaliacao_entries: list[dict[str, object]],
         auditados_nao_respondentes: List[Auditado],
         fiscalizacao_nome: str,
-    ) -> tuple[str, list[int]]:
+    ) -> tuple[str, list[int], int, int]:
         xml = ' <questions>\n  <fields>\n'
         xml += '   <fieldname>qid</fieldname>\n   <fieldname>parent_qid</fieldname>\n'
         xml += '   <fieldname>sid</fieldname>\n   <fieldname>gid</fieldname>\n'
@@ -358,6 +371,7 @@ class LimeSurveyGenerator:
                 '|', 'N', q_order,
                 'É aceito arquivo com extensão PDF ou ZIP. Caso haja mais de um arquivo, compactar em formato ZIP.',
                 relevance=relevance_evi)
+            upload_qids.append(qid)
             qid += 1
             q_order += 1
 
@@ -405,9 +419,56 @@ class LimeSurveyGenerator:
                 relevance=relevance_texto)
             upload_qids.append(qid)
             qid += 1
+            gid += 1
+
+        ciencia_qid = qid
+        ciencia_gid = gid
+        xml += self._q_row(
+            ciencia_qid,
+            ciencia_gid,
+            'qciencia',
+            '',
+            'M',
+            'Y',
+            0,
+        )
 
         xml += '  </rows>\n </questions>\n'
-        return xml, upload_qids
+        return xml, upload_qids, ciencia_qid, ciencia_gid
+
+    def _build_subquestions(self, ciencia_qid: int, ciencia_gid: int) -> str:
+        subquestion_qid = ciencia_qid + 1
+        declaracao = (
+            'Declaro estar ciente de que a responsabilidade pelas respostas dadas ao questionário '
+            'é do dirigente máximo da organização, com base nas respostas providas pelos diversos '
+            'setores da organização e reunidas por mim.'
+        )
+        xml = ' <subquestions>\n  <fields>\n'
+        xml += '   <fieldname>qid</fieldname>\n   <fieldname>parent_qid</fieldname>\n'
+        xml += '   <fieldname>sid</fieldname>\n   <fieldname>gid</fieldname>\n'
+        xml += '   <fieldname>type</fieldname>\n   <fieldname>title</fieldname>\n'
+        xml += '   <fieldname>question</fieldname>\n   <fieldname>help</fieldname>\n'
+        xml += '   <fieldname>other</fieldname>\n   <fieldname>question_order</fieldname>\n'
+        xml += '   <fieldname>language</fieldname>\n   <fieldname>scale_id</fieldname>\n'
+        xml += '   <fieldname>same_default</fieldname>\n   <fieldname>relevance</fieldname>\n'
+        xml += '  </fields>\n  <rows>\n'
+        xml += '   <row>\n'
+        xml += f'    <qid><![CDATA[{subquestion_qid}]]></qid>\n'
+        xml += f'    <parent_qid><![CDATA[{ciencia_qid}]]></parent_qid>\n'
+        xml += '    <sid><![CDATA[0]]></sid>\n'
+        xml += f'    <gid><![CDATA[{ciencia_gid}]]></gid>\n'
+        xml += '    <type><![CDATA[T]]></type>\n'
+        xml += '    <title><![CDATA[SQ001]]></title>\n'
+        xml += f'    <question><![CDATA[{declaracao}]]></question>\n'
+        xml += '    <help/>\n    <other><![CDATA[N]]></other>\n'
+        xml += '    <question_order><![CDATA[1]]></question_order>\n'
+        xml += '    <language><![CDATA[pt-BR]]></language>\n'
+        xml += '    <scale_id><![CDATA[0]]></scale_id>\n'
+        xml += '    <same_default><![CDATA[0]]></same_default>\n'
+        xml += '    <relevance><![CDATA[1]]></relevance>\n'
+        xml += '   </row>\n'
+        xml += '  </rows>\n </subquestions>\n'
+        return xml
 
     def _q_row(self, qid: int, gid: int, title: str, question: str, qtype: str,
                mandatory: str, order: int, help_text: str = '', relevance: str = '1') -> str:

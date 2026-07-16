@@ -12,7 +12,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .base import GenericProvider, ProviderContext, conteudo_provider_textual
+from .base import (
+    GenericProvider,
+    ProviderContext,
+    conteudo_provider_textual,
+    pacote_textual_sem_documentos_de_arquivos_nativos,
+)
 from .fake import FakeProvider
 from .gemini import GeminiProvider
 from .http_utils import arquivos_imagem_do_pacote, arquivos_pdf_do_pacote
@@ -72,6 +77,7 @@ def estimar_tokens_payload(
     itens_afirmados: list[Any],
     pacote: dict[str, Any],
     provider: str = "",
+    response_profile: str = "evidence",
 ) -> dict[str, int]:
     """Estima tokens do payload enviado ao provider.
 
@@ -88,10 +94,12 @@ def estimar_tokens_payload(
     """
     arquivos_upload = pacote.get("arquivos_upload", []) if isinstance(pacote, dict) else []
     pacote_estimado = {k: v for k, v in pacote.items() if k != "arquivos_upload"}
-    has_pdfs = any(Path(str(a)).suffix.lower() == ".pdf" for a in arquivos_upload)
-    if has_pdfs and provider.lower() == "gemini":
-        pacote_estimado = dict(pacote_estimado)
-        pacote_estimado["documentos"] = []
+    if arquivos_upload and provider.lower() == "gemini":
+        extensoes_anexadas = {Path(str(a)).suffix.lower() for a in arquivos_upload}
+        pacote_estimado = pacote_textual_sem_documentos_de_arquivos_nativos(
+            pacote,
+            extensoes_anexadas,
+        )
 
     texto = conteudo_provider_textual(
         prompt=prompt,
@@ -100,6 +108,7 @@ def estimar_tokens_payload(
         coluna_evidencia=coluna_evidencia,
         itens_afirmados=itens_afirmados,
         pacote=pacote_estimado,
+        response_profile=response_profile,
     )
     chars_texto = len(texto)
     tokens_texto = int(chars_texto / 3.5)
@@ -151,6 +160,7 @@ def executar_provider(
     pacote: dict[str, Any],
     reasoning_effort: str = "",
     on_event: Any = None,
+    response_profile: str = "evidence",
 ) -> dict[str, Any]:
     """Ponto de entrada compativel com a API antiga do ``executar_provider``.
 
@@ -169,6 +179,7 @@ def executar_provider(
         pacote=pacote,
         reasoning_effort=reasoning_effort,
         on_event=on_event,
+        response_profile=response_profile,
     )
     try:
         instance = get_provider(provider, model)

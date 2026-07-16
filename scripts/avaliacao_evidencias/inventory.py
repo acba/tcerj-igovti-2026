@@ -169,13 +169,13 @@ def resolver_evidencia(
             evidence_index=evidence_index,
         )
         if exportado:
-            return ResolucaoEvidencia(caminho=exportado, nome_decodificado=nome_decodificado)
+            return ResolucaoEvidencia(caminho=exportado.resolve(), nome_decodificado=nome_decodificado)
         return ResolucaoEvidencia(
             caminho=None,
             nome_decodificado=nome_decodificado,
             erro=f"arquivo de evidencia nao encontrado: {caminho}",
         )
-    return ResolucaoEvidencia(caminho=caminho, nome_decodificado=nome_decodificado)
+    return ResolucaoEvidencia(caminho=caminho.resolve(), nome_decodificado=nome_decodificado)
 
 
 def _resolver_evidencia_exportada_limesurvey(

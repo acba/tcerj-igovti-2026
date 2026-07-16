@@ -20,7 +20,13 @@ from .base import (
     pacote_textual_sem_documentos_de_arquivos_nativos,
     pdf_para_data_url,
 )
-from .http_utils import arquivos_imagem_do_pacote, arquivos_pdf_do_pacote, executar_com_retry_transiente, formatar_erro_http
+from .http_utils import (
+    arquivos_imagem_do_pacote,
+    arquivos_pdf_do_pacote,
+    executar_com_retry_transiente,
+    formatar_erro_http,
+    status_from_exception,
+)
 from .response import json_schema_responses_format
 
 
@@ -33,6 +39,7 @@ class OpenAIProvider(GenericProvider):
     supports_images = True
     needs_api_key = False
     env_key = "OPENAI_API_KEY"
+    rotate_comma_separated_keys = True
 
     def _build_content(self, ctx: ProviderContext) -> list[dict[str, Any]]:
         # PDFs e imagens sao enviados nativamente; remove-los dos documentos
@@ -48,6 +55,7 @@ class OpenAIProvider(GenericProvider):
             coluna_evidencia=ctx.coluna_evidencia,
             itens_afirmados=ctx.itens_afirmados,
             pacote=pacote_textual,
+            response_profile=ctx.response_profile,
         )
         prompt_textual = (
             "Os arquivos PDF e imagens anexados nesta mesma mensagem sao parte integrante da evidencia. "
@@ -69,7 +77,7 @@ class OpenAIProvider(GenericProvider):
             "model": self.model,
             "input": [{"role": "user", "content": content}],
             "stream": True,
-            "text": json_schema_responses_format(),
+            "text": json_schema_responses_format(response_profile=ctx.response_profile),
         }
         if ctx.reasoning_effort:
             body["reasoning"] = {"effort": ctx.reasoning_effort}
@@ -85,11 +93,15 @@ class OpenAIProvider(GenericProvider):
                     timeout=120,
                 )
 
-            payload = executar_com_retry_transiente(call_openai)
+            payload = executar_com_retry_transiente(call_openai, exclude_429=True)
             raw_content = _extrair_texto_openai_responses(payload)
             return raw_content
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
-            result = {"status": "error", "error": f"erro ao chamar OpenAI: {formatar_erro_http(exc)}"}
+            result = {
+                "status": "error",
+                "error": f"erro ao chamar OpenAI: {formatar_erro_http(exc)}",
+                "http_status": status_from_exception(exc),
+            }
             if raw_content:
                 result["raw_response_excerpt"] = raw_content[:2000]
             return result

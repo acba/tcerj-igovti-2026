@@ -1223,23 +1223,24 @@ def _tentar_extrair_markdown_pdf(
     else:
         pages = None
     caminho_absoluto = caminho.resolve()
-    cwd = Path.cwd()
+    imagens_absolutas = imagens_dir.resolve()
     try:
-        os.chdir(raiz)
         kwargs: dict[str, Any] = {
             "write_images": True,
-            "image_path": "img",
+            "image_path": str(imagens_absolutas),
             "image_format": "png",
             "dpi": dpi,
         }
         if pages is not None:
             kwargs["pages"] = pages
         markdown = pymupdf4llm.to_markdown(str(caminho_absoluto), **kwargs)
+        # O caminho absoluto é necessário somente para a gravação concorrente.
+        # No Markdown persistido, mantenha referências portáveis sob ``img/``.
+        prefixo_absoluto = imagens_absolutas.as_posix().rstrip("/") + "/"
+        markdown = markdown.replace(prefixo_absoluto, "img/")
         return markdown, ""
     except Exception as exc:
         return "", f"erro ao extrair PDF com pymupdf4llm: {exc}"
-    finally:
-        os.chdir(cwd)
 
 
 def extrair_pdf_markdown_imagens(

@@ -593,143 +593,162 @@ Os registros de envio, ciência e recebimento das comunicações, com indicaçã
 
 # 5. COMENTÁRIOS DO GESTOR E ANÁLISE DA EQUIPE
 
-Visando fortalecer o caráter dialógico da fiscalização e assegurar o contraditório, foram encaminhados relatórios individuais preliminares às organizações auditadas, com indicação das situações inconformes identificadas, das evidências consideradas e dos encaminhamentos propostos. 
+Visando fortalecer o caráter dialógico da fiscalização e assegurar o contraditório, foram encaminhados relatórios individuais preliminares às organizações auditadas, com indicação das situações inconformes identificadas, das evidências consideradas e dos encaminhamentos propostos. Também foi oportunizada manifestação às seis organizações que não apresentaram resposta válida ao questionário iGovTI 2026.
 
-Essa etapa permite o esclarecimento de pontos obscuros, a correção de informações imprecisas ou inconsistentes e o aperfeiçoamento das medidas propostas. As manifestações recebidas devem ser confrontadas com o conjunto probatório produzido na fase de execução, de modo a verificar se os argumentos ou documentos apresentados são suficientes para afastar, ajustar ou manter as situações encontradas.
+Os dados desta seção foram apurados a partir da exportação do *LimeSurvey* recebida em 16/07/2026. Foram consideradas somente submissões concluídas e, nos casos de reenvio com o mesmo *token*, preservou-se a manifestação mais recente. A consolidação abrange os comentários sobre os achados e encaminhamentos, os pedidos de reavaliação de respostas ajustadas por insuficiência ou não conformidade das evidências e as manifestações das organizações sem resposta válida ao questionário.
 
-Nas subseções a seguir, apresenta-se modelo de consolidação da avaliação dos comentários dos gestores, segregado por achado de auditoria.
+As categorias de resposta informam a posição declarada pelo gestor e não constituem, isoladamente, juízo da Equipe de Auditoria sobre a procedência da manifestação. Discordâncias, justificativas e documentos adicionais devem ser confrontados com a situação existente na data-base, os critérios aplicáveis e o conjunto probatório reunido durante a execução.
 
-## 5.1. Achado 1 - Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação
+## 5.1. Participação e panorama geral
 
-Este achado trata da existência de área, unidade, setor ou função de TIC formalmente instituída, com atribuições suficientes e posicionamento compatível com suas responsabilidades institucionais. A consolidação das manifestações dos gestores deverá indicar, para cada situação encontrada, se houve concordância, discordância, apresentação de providências em curso ou envio de evidência adicional.
+Foram recebidas 78 manifestações organizacionais válidas, correspondentes a 65,5% das 119 organizações abrangidas. Entre as 113 organizações que responderam ao iGovTI 2026 e receberam relatório individual, 76 participaram da etapa de comentários (67,3%). Entre as seis organizações sem resposta válida, duas se manifestaram (33,3%). Das 103 organizações habilitadas a contestar ajustes decorrentes da avaliação de evidências, 70 concluíram a etapa e 55 apresentaram comentário ou arquivo em pelo menos uma questão-base.
 
-Figura XX - Comentários dos gestores sobre as situações encontradas do Achado 1
+![Participação na etapa de comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/01-participacao.png){#fig:comentarios_gestor_participacao#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-*[Gráfico a ser inserido após consolidação dos comentários do gestor.]*
+O índice de participação deve ser considerado na interpretação dos resultados: as proporções apresentadas descrevem as situações sobre as quais houve manifestação e não podem ser extrapoladas, isoladamente, para a totalidade das organizações fiscalizadas.
 
-(Fonte: elaboração própria)
+Foram registradas 1.431 manifestações individualizadas sobre situações inconformes. Houve concordância em 1.198 casos (83,7%) e discordância em 233 (16,3%). Entre as concordâncias, 584 informaram providências em curso, 589 reconheceram a situação sem medida adotada e somente 25 declararam atendimento concluído. Foram ainda informados 266 arquivos associados a essa seção do questionário.
 
-Na análise das discordâncias, a Equipe deverá verificar se os atos normativos, organogramas, regimentos, portarias ou documentos equivalentes apresentados comprovam a formalização da função de TIC, a suficiência de suas atribuições e a adequação de seu posicionamento organizacional. Providências futuras ou planos ainda não implementados devem ser registrados como compromisso de aprimoramento, mas não afastam, por si só, situação inconforme existente na data-base da auditoria.
+![Cenário geral das manifestações sobre as situações encontradas](../99-Avaliacao_Comentarios_Gestor/img/02-panorama-geral.png){#fig:comentarios_gestor_panorama_geral#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Figura XX - Resultado da análise das discordâncias do Achado 1
+: Distribuição geral das manifestações dos gestores {#tbl:comentarios_gestor_distribuicao_geral#}
 
-*[Tabela a ser inserida após análise das discordâncias do Achado 1.]*
+| Manifestação | Quantidade | Percentual |
+|---|---:|---:|
+| Concorda e já atendeu | 25 | 1,7% |
+| Concorda e está atendendo | 584 | 40,8% |
+| Concorda, sem medida adotada | 589 | 41,2% |
+| Discorda | 233 | 16,3% |
 
-(Fonte: elaboração própria)
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Concluída a análise das manifestações, a Equipe deverá registrar se os apontamentos foram mantidos, ajustados ou afastados, com indicação objetiva dos fundamentos adotados e dos reflexos sobre os encaminhamentos propostos.
+Os resultados demonstram elevada convergência dos gestores com o diagnóstico preliminar, mas o reconhecimento das fragilidades não equivale à sua correção. Apenas 1,7% das manifestações declarou atendimento concluído, enquanto 41,2% reconheceu a situação sem indicar medida adotada e 40,8% informou providências ainda em curso. As medidas anunciadas deverão, portanto, ser acompanhadas quanto à formalização, ao prazo, à abrangência e à efetiva implementação.
 
-## 5.2. Achado 2 - Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação
+A leitura estruturada dos campos livres identificou como temas mais recorrentes: formalização, normas e governança; ferramentas, ativos e processos operacionais; planejamento e planos de ação; força de trabalho e competências; documentos e evidências adicionais; e orçamento, recursos e contratações. Também foram mencionadas dependência de terceiros ou de estruturas compartilhadas e solicitações de orientação. Essa classificação é auxiliar, admite que uma mesma manifestação seja associada a mais de um tema e não representa juízo de procedência.
 
-Este achado trata da existência de modelo básico de governança e gestão de TIC e da instituição e atuação efetiva de Comitê de TIC ou instância equivalente. A consolidação das manifestações deverá distinguir argumentos relativos à existência formal dos mecanismos daqueles relacionados ao seu funcionamento efetivo.
+## 5.2. Manifestações por achado
 
-Figura XX - Comentários dos gestores sobre as situações encontradas do Achado 2
+A distribuição das manifestações por achado consta da [@fig:comentarios_gestor_por_achado] e da [@tbl:comentarios_gestor_por_achado_tabela]. O Achado 6 apresentou a maior proporção de discordâncias (26,3%), seguido dos Achados 3 (17,3%) e 2 (16,7%). O Achado 1 registrou a maior convergência, com três discordâncias em 52 manifestações.
 
-*[Gráfico a ser inserido após consolidação dos comentários do gestor.]*
+![Manifestações dos gestores por achado](../99-Avaliacao_Comentarios_Gestor/img/03-manifestacoes-por-achado.png){#fig:comentarios_gestor_por_achado#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-(Fonte: elaboração própria)
+: Manifestações dos gestores por achado {#tbl:comentarios_gestor_por_achado_tabela#}
 
-Na análise das discordâncias, a Equipe deverá verificar se os documentos apresentados demonstram papéis, responsabilidades, objetivos, indicadores, metas, acompanhamento e deliberações efetivas. A mera existência de comitê ou ato de designação, desacompanhada de registros de atuação, deve ser tratada com cautela, pois não comprova necessariamente funcionamento regular da governança de TIC.
+| Achado | Total | Atendido | Em atendimento | Sem medida | Discordância | % discordância |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 52 | 4 | 25 | 20 | 3 | 5,8% |
+| 2 | 144 | 6 | 63 | 51 | 24 | 16,7% |
+| 3 | 313 | 8 | 131 | 120 | 54 | 17,3% |
+| 4 | 329 | 1 | 130 | 164 | 34 | 10,3% |
+| 5 | 365 | 1 | 155 | 151 | 58 | 15,9% |
+| 6 | 228 | 5 | 80 | 83 | 60 | 26,3% |
 
-Figura XX - Resultado da análise das discordâncias do Achado 2
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-*[Tabela a ser inserida após análise das discordâncias do Achado 2.]*
+Nos gráficos a seguir, a categoria "Situação encontrada inexistente" representa as organizações respondentes cujo relatório individual não continha a situação correspondente. Não se trata de alternativa selecionada pelo gestor.
 
-(Fonte: elaboração própria)
+### 5.2.1. Achado 1 - Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação
 
-Concluída a análise das manifestações, a Equipe deverá explicitar eventuais ajustes na caracterização do achado e preservar a distinção entre formalização documental e efetividade dos mecanismos de direção, priorização, acompanhamento e responsabilização.
+No Achado 1, foram recebidas 52 manifestações: quatro registraram atendimento concluído, 25 informaram providências em curso, 20 reconheceram a situação sem medida adotada e três discordaram dos apontamentos. A taxa de discordância foi de 5,8%, a menor entre os seis achados. As discordâncias se referiram ao posicionamento organizacional da área de TIC e à suficiência de suas atribuições formais.
 
-## 5.3. Achado 3 - Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
+![Manifestações sobre as situações encontradas do Achado 1](../99-Avaliacao_Comentarios_Gestor/img/achado-1-situacoes.png){#fig:comentarios_gestor_achado_1#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Este achado trata da existência de processo formal de planejamento, plano de TIC vigente e aprovado, alinhamento ao planejamento institucional, integração com orçamento e contratações e acompanhamento periódico. A consolidação das manifestações deverá evidenciar se os gestores apresentaram planos, atas, aprovações, vínculos orçamentários, planos de contratações ou registros de monitoramento suficientes para alterar a avaliação inicial.
+Os atos normativos, organogramas, regimentos, portarias e documentos equivalentes eventualmente apresentados devem demonstrar, de forma conjugada, a formalização da função de TIC, a suficiência de suas atribuições e a adequação de seu posicionamento. Providências futuras ou planos ainda não implementados evidenciam compromisso de aprimoramento, mas não afastam, por si só, a situação existente na data-base.
 
-Figura XX - Comentários dos gestores sobre as situações encontradas do Achado 3
+### 5.2.2. Achado 2 - Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação
 
-*[Gráfico a ser inserido após consolidação dos comentários do gestor.]*
+No Achado 2, foram recebidas 144 manifestações, das quais 120 expressaram concordância e 24 discordância (16,7%). A situação relativa ao Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva apresentou a maior taxa de discordância do achado: seis de 15 manifestações (40,0%). A não instituição formal do comitê recebeu 11 discordâncias em 58 manifestações (19,0%).
 
-(Fonte: elaboração própria)
+![Manifestações sobre as situações encontradas do Achado 2](../99-Avaliacao_Comentarios_Gestor/img/achado-2-situacoes.png){#fig:comentarios_gestor_achado_2#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Na análise das discordâncias, a Equipe deverá diferenciar a existência de documento de planejamento da comprovação de processo formal, aprovado, alinhado, integrado ao orçamento e periodicamente acompanhado. Planos elaborados após a data-base da fiscalização podem demonstrar providência corretiva, mas devem ser avaliados separadamente da situação existente no período auditado.
+A análise técnica deve distinguir a existência formal dos mecanismos de governança de sua atuação efetiva. Atos de instituição ou designação, desacompanhados de registros de deliberações, priorização, acompanhamento e responsabilização, não comprovam necessariamente o funcionamento regular da governança de TIC.
 
-Figura XX - Resultado da análise das discordâncias do Achado 3
+### 5.2.3. Achado 3 - Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
 
-*[Tabela a ser inserida após análise das discordâncias do Achado 3.]*
+No Achado 3, foram recebidas 313 manifestações: oito informaram atendimento concluído, 131 providências em curso, 120 concordância sem medida adotada e 54 discordância (17,3%). As maiores taxas de discordância se referiram ao plano de TIC sem vínculo demonstrado com o orçamento e as contratações, com 17 discordâncias em 73 manifestações (23,3%), e à ausência de aprovação formal do plano, com 12 discordâncias em 61 manifestações (19,7%).
 
-(Fonte: elaboração própria)
+![Manifestações sobre as situações encontradas do Achado 3](../99-Avaliacao_Comentarios_Gestor/img/achado-3-situacoes.png){#fig:comentarios_gestor_achado_3#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Concluída a análise das manifestações, a Equipe deverá indicar se os elementos apresentados modificam a situação encontrada, recomendam ajuste de redação ou apenas demonstram início de saneamento posterior.
+A existência isolada de documento de planejamento não comprova que o processo esteja formalizado, aprovado, alinhado ao planejamento institucional, integrado ao orçamento e às contratações e periodicamente acompanhado. Planos elaborados ou aprovados após a data-base podem demonstrar providência corretiva, mas devem ser diferenciados da situação existente no período auditado.
 
-## 5.4. Achado 4 - Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
+### 5.2.4. Achado 4 - Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
 
-Este achado trata da força de trabalho, perfis, competências, funções, vínculos e capacidade interna necessários para sustentar a TIC e a segurança da informação. A consolidação das manifestações deverá identificar argumentos relacionados à suficiência de pessoal, definição de perfis, tratamento de lacunas de competências e capacidade de coordenação e fiscalização de terceiros.
+No Achado 4, foram recebidas 329 manifestações, das quais 295 expressaram concordância e 34 discordância (10,3%). Em 164 manifestações, equivalentes a 49,8% do total do achado, o gestor reconheceu a situação sem indicar medida adotada. A maior taxa de discordância ocorreu na situação de dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC, com duas discordâncias em nove manifestações (22,2%).
 
-Figura XX - Comentários dos gestores sobre as situações encontradas do Achado 4
+![Manifestações sobre as situações encontradas do Achado 4](../99-Avaliacao_Comentarios_Gestor/img/achado-4-situacoes.png){#fig:comentarios_gestor_achado_4#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-*[Gráfico a ser inserido após consolidação dos comentários do gestor.]*
+Estudos de dimensionamento, descrições de cargos ou funções, matrizes de competências, planos de capacitação e designações formais devem ser examinados quanto à vigência, abrangência e efetiva aplicação. Alegações de escassez de pessoal, ausência de cargos especializados ou restrição orçamentária contextualizam as dificuldades enfrentadas, mas não afastam automaticamente a insuficiência de capacidade institucional.
 
-(Fonte: elaboração própria)
+### 5.2.5. Achado 5 - Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes
 
-Na análise das discordâncias, a Equipe deverá verificar se foram apresentados estudos de dimensionamento, descrições de cargos ou funções, matrizes de competências, planos de capacitação, designações formais e evidências de capacidade interna suficiente. Alegações genéricas de escassez de pessoal ou restrição orçamentária podem contextualizar a dificuldade enfrentada, mas não afastam automaticamente a fragilidade constatada.
+No Achado 5, foram recebidas 365 manifestações: uma informou atendimento concluído, 155 providências em curso, 151 concordância sem medida adotada e 58 discordância (15,9%). A situação relativa à inexistência ou fragilidade do inventário de ativos de TIC concentrou 16 discordâncias em 71 manifestações (22,5%). Nas demais situações do achado, as taxas de discordância variaram de 13,3% a 15,3%.
 
-Figura XX - Resultado da análise das discordâncias do Achado 4
+![Manifestações sobre as situações encontradas do Achado 5](../99-Avaliacao_Comentarios_Gestor/img/achado-5-situacoes.png){#fig:comentarios_gestor_achado_5#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-*[Tabela a ser inserida após análise das discordâncias do Achado 4.]*
+Catálogos de serviços, inventários, registros de configuração, definições de níveis de serviço e registros de incidentes devem demonstrar formalização, atualização, abrangência e uso efetivo. Relações incompletas de ativos, controles informais ou documentos sem data e responsabilidade definida devem ser avaliados com cautela, pois podem demonstrar atividade parcial sem comprovar o processo requerido.
 
-(Fonte: elaboração própria)
+### 5.2.6. Achado 6 - Fragilidades na governança técnica da fase preparatória das contratações de TIC
 
-Concluída a análise das manifestações, a Equipe deverá registrar se houve comprovação suficiente para ajuste dos apontamentos e se os encaminhamentos devem permanecer voltados à avaliação da força de trabalho, à definição de perfis mínimos e ao tratamento de lacunas de competências.
+No Achado 6, foram recebidas 228 manifestações: cinco informaram atendimento concluído, 80 providências em curso, 83 concordância sem medida adotada e 60 discordância (26,3%). Foi a maior proporção de discordâncias entre os seis achados. As situações mais contestadas foram as contratações sem análise prévia e aprovação técnica obrigatória da área de TIC, com 18 discordâncias em 57 manifestações (31,6%); as contratações sem alinhamento demonstrado ao planejamento, ao plano de contratações ou à proposta orçamentária, com 20 em 73 (27,4%); e a inexistência ou fragilidade de processo formal e padronizado para contratações de TIC, com 18 em 68 (26,5%).
 
-## 5.5. Achado 5 - Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes
+![Manifestações sobre as situações encontradas do Achado 6](../99-Avaliacao_Comentarios_Gestor/img/achado-6-situacoes.png){#fig:comentarios_gestor_achado_6#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Este achado trata de catálogo de serviços, níveis mínimos de serviço, inventário de ativos, gestão de configuração e gestão de incidentes. A consolidação das manifestações deverá separar as situações relativas à existência de instrumentos formais daquelas relacionadas à execução, atualização e monitoramento dos processos.
+A análise das discordâncias deve verificar se as contratações de TIC foram submetidas a processo padronizado e proporcional ao risco, à complexidade e ao valor, com participação da área técnica e vínculo demonstrado com o planejamento, o plano de contratações e a proposta orçamentária. A regularidade formal do procedimento licitatório, isoladamente, não comprova a suficiência da governança técnica da contratação de TIC.
 
-Figura XX - Comentários dos gestores sobre as situações encontradas do Achado 5
+## 5.3. Pedidos de reavaliação de evidências
 
-*[Gráfico a ser inserido após consolidação dos comentários do gestor.]*
+Os pedidos de reavaliação de evidências constituem universo distinto das discordâncias sobre os achados. Enquanto estas questionam as situações e os encaminhamentos constantes dos relatórios individuais, os pedidos de reavaliação pretendem rever respostas anteriormente ajustadas em razão da insuficiência ou não conformidade das evidências apresentadas.
 
-(Fonte: elaboração própria)
+Foram identificadas 103 organizações elegíveis, com 714 combinações organização/questão-base disponíveis para contestação e 1.966 itens ou subitens originalmente avaliados como não conformes. Houve pedido de reavaliação em 341 combinações (47,8%), apresentado por 55 organizações. Foram recebidos 334 comentários e 117 arquivos.
 
-Na análise das discordâncias, a Equipe deverá verificar se os catálogos, inventários, registros de configuração, acordos de nível de serviço e registros de incidentes apresentados estão formalizados, atualizados e em uso. Relações incompletas de ativos, controles informais ou evidências sem data e responsabilidade definida devem ser avaliados com cautela.
+![Questões-base com maior número de pedidos de reavaliação](../99-Avaliacao_Comentarios_Gestor/img/04-reavaliacoes-por-questao.png){#fig:comentarios_gestor_reavaliacoes#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Figura XX - Resultado da análise das discordâncias do Achado 5
+As questões q2504, q2802, q2708, q2801, q2804 e q2102 concentraram o maior número absoluto de pedidos. A frequência indica onde deve ser priorizada a triagem, mas não implica maior probabilidade de acolhimento. As novas evidências devem ser examinadas individualmente para verificar se comprovam a afirmação original, se demonstram providência posterior à data-base ou se permanecem insuficientes.
 
-*[Tabela a ser inserida após análise das discordâncias do Achado 5.]*
+: Questões-base com maior número de pedidos de reavaliação {#tbl:comentarios_gestor_reavaliacoes_tabela#}
 
-(Fonte: elaboração própria)
+| Questão-base | Elegíveis | Pedidos | % dos elegíveis | Arquivos |
+|---|---:|---:|---:|---:|
+| Q2504 | 56 | 27 | 48,2% | 10 |
+| Q2802 | 55 | 25 | 45,5% | 11 |
+| Q2708 | 38 | 21 | 55,3% | 8 |
+| Q2801 | 32 | 20 | 62,5% | 4 |
+| Q2804 | 48 | 20 | 41,7% | 7 |
+| Q2102 | 39 | 19 | 48,7% | 9 |
+| Q2201 | 30 | 15 | 50,0% | 5 |
+| Q2501 | 30 | 14 | 46,7% | 6 |
+| Q2701 | 28 | 14 | 50,0% | 3 |
+| Q1001 | 30 | 13 | 43,3% | 7 |
 
-Concluída a análise das manifestações, a Equipe deverá indicar se a documentação apresentada comprova a existência e a operação dos controles ou se apenas demonstra iniciativas pontuais ainda insuficientes para afastar as situações encontradas.
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-## 5.6. Achado 6 - Fragilidades na governança técnica da fase preparatória das contratações de TIC
+Até a conclusão da revisão técnica, a existência do pedido não autoriza, por si só, a alteração dos índices, achados ou encaminhamentos. Eventuais ajustes deverão manter a rastreabilidade entre a evidência analisada, a resposta do questionário, o procedimento de auditoria e a situação encontrada.
 
-Este achado trata da governança técnica da fase preparatória das contratações de TIC, incluindo processo formal de contratação, análise prévia e aprovação técnica pela área de TIC, alinhamento ao planejamento e designação formal de equipe de planejamento. A consolidação das manifestações deverá evidenciar se os gestores apresentaram fluxos, normas internas, estudos técnicos, aprovações, vínculos com planejamento e orçamento ou designações formais suficientes para reavaliar os apontamentos.
+## 5.4. Manifestações das organizações sem resposta válida
 
-Figura XX - Comentários dos gestores sobre as situações encontradas do Achado 6
+Das seis organizações sem resposta válida ao questionário iGovTI 2026, EMOP e PESAGRO responderam à etapa de comentários e confirmaram a ausência de resposta válida, sem apresentar justificativa textual ou arquivo comprobatório. CEHAB, SEDCON, SEPOL e SESP não apresentaram manifestação.
 
-*[Gráfico a ser inserido após consolidação dos comentários do gestor.]*
+As duas confirmações corroboram a inexistência de resposta válida nas bases processadas, mas não constituem, por si mesmas, análise de responsabilidade. Para as quatro organizações sem manifestação, permanece a ausência de esclarecimentos nesta etapa. Conforme exposto na Seção 4.6, eventual apuração deverá considerar os registros de comunicação, ciência, prazos e circunstâncias individualizadas, com garantia do contraditório.
 
-(Fonte: elaboração própria)
+## 5.5. Análise da Equipe de Auditoria
 
-Na análise das discordâncias, a Equipe deverá verificar se as contratações de TIC foram submetidas a processo padronizado e proporcional ao risco, complexidade e valor, com participação da área técnica e vinculação demonstrada ao planejamento, ao plano de contratações e à proposta orçamentária. A existência de processos licitatórios regulares, isoladamente, não comprova governança técnica suficiente da contratação de TIC.
+As manifestações demonstram convergência relevante com os achados preliminares: 83,7% das 1.431 respostas individualizadas reconheceram as situações apontadas. Contudo, somente 1,7% declarou atendimento concluído. Assim, a concordância do gestor reforça a pertinência do diagnóstico, mas a informação sobre providência adotada ou em curso deve ser comprovada e avaliada quanto à sua suficiência antes de produzir reflexo sobre o achado ou o encaminhamento.
 
-Figura XX - Resultado da análise das discordâncias do Achado 6
+As 233 discordâncias e os 341 pedidos de reavaliação demandam exame documental individualizado. Para esse fim, a Equipe deverá distinguir: (i) evidência nova relativa à situação existente na data-base; (ii) correção implementada posteriormente; (iii) providência ainda em curso; (iv) compromisso futuro; e (v) documento que demonstre apenas atividade parcial ou não abranja integralmente o critério avaliado.
 
-*[Tabela a ser inserida após análise das discordâncias do Achado 6.]*
+Restrições orçamentárias, escassez de pessoal, dependência de prestadores ou de estruturas compartilhadas e dificuldades de formalização contextualizam as fragilidades relatadas e devem ser consideradas na proporcionalidade das medidas. Tais circunstâncias, entretanto, não afastam automaticamente as situações inconformes. Do mesmo modo, a apresentação de atos, processos administrativos, planos ou outros documentos adicionais somente altera a conclusão quando seu conteúdo, vigência e abrangência comprovarem o atendimento ao critério aplicável.
 
-(Fonte: elaboração própria)
-
-Concluída a análise das manifestações, a Equipe deverá registrar se houve ajuste das situações encontradas e se os encaminhamentos devem ser mantidos para assegurar análise técnica prévia, integração ao planejamento e designação formal de equipe responsável pelo planejamento das contratações.
-
-## 5.7. Avaliação dos gestores sobre a fiscalização
-
-Como parte do processo de melhoria contínua do controle externo, poderá ser consolidada a avaliação dos gestores sobre a qualidade e a condução da fiscalização, caso essa informação tenha sido coletada. A análise deve distinguir comentários sobre clareza do escopo, adequação dos prazos, compreensão das solicitações de evidência, utilidade dos relatórios individualizados e sugestões de aprimoramento para ciclos futuros.
-
-Figura XX - Avaliação dos gestores quanto à qualidade e condução da fiscalização
-
-*[Gráfico a ser inserido após consolidação da avaliação dos gestores.]*
-
-(Fonte: elaboração própria)
-
-As oportunidades de melhoria eventualmente apontadas pelos gestores deverão ser consideradas no planejamento de futuras fiscalizações, sem prejuízo da manutenção dos achados quando as manifestações não afastarem as situações inconformes constatadas na execução dos procedimentos de auditoria.
+Por conseguinte, esta consolidação estatística não atribui procedência automática às discordâncias nem aos pedidos de reavaliação. A decisão de manter, ajustar ou afastar situações, bem como os eventuais reflexos sobre respostas, índices e encaminhamentos, deve ser formalizada após a revisão técnica das evidências e preservada na documentação de auditoria.
 
 # 6. CONSIDERAÇÕES FINAIS
 
