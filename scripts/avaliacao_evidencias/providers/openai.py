@@ -65,26 +65,58 @@ class OpenAIProvider(GenericProvider):
         )
         content: list[dict[str, Any]] = []
         for path in arquivos_pdf_do_pacote(ctx.pacote):
-            content.append({"type": "input_file", "filename": path.name, "file_data": pdf_para_data_url(path)})
+            content.append(
+                {
+                    "type": "input_file",
+                    "filename": path.name,
+                    "file_data": pdf_para_data_url(path),
+                    "detail": ctx.pdf_detail,
+                }
+            )
         for path in arquivos_imagem_do_pacote(ctx.pacote):
             content.append({"type": "input_text", "text": f"Imagem extraida da evidencia: {path.name}"})
             content.append(imagem_para_data_url(path, format_openai=True))
         content.append({"type": "input_text", "text": prompt_textual})
         return content
 
-    def _call(self, ctx: ProviderContext, content: list[dict[str, Any]]) -> Any:
-        body: dict[str, Any] = {
-            "model": self.model,
-            "input": [{"role": "user", "content": content}],
-            "stream": True,
-            "text": json_schema_responses_format(response_profile=ctx.response_profile),
-        }
-        if ctx.reasoning_effort:
-            body["reasoning"] = {"effort": ctx.reasoning_effort}
+    def _build_content_pdf_text_fallback(self, ctx: ProviderContext) -> list[dict[str, Any]]:
+        """Monta alternativa textual quando o proxy rejeita o PDF inline.
 
+        O pacote preparado pelo pipeline ja contem o texto extraido do PDF.
+        Este caminho perde informacao visual e, por isso, so e usado depois de
+        uma resposta HTTP 413 ao envio nativo.
+        """
+        prompt_textual = conteudo_provider_textual(
+            prompt=ctx.prompt,
+            auditado=ctx.auditado,
+            questao_base=ctx.questao_base,
+            coluna_evidencia=ctx.coluna_evidencia,
+            itens_afirmados=ctx.itens_afirmados,
+            pacote=ctx.pacote_textual,
+            response_profile=ctx.response_profile,
+        )
+        aviso = (
+            "AVISO DE PROCESSAMENTO: o transporte do PDF nativo excedeu o limite HTTP do proxy. "
+            "Avalie o texto extraido localmente presente em pacote_evidencia.documentos. "
+            "Considere como lacuna qualquer elemento que dependa exclusivamente de layout, imagem, "
+            "assinatura visual, grafico ou outra caracteristica nao preservada na extracao textual.\n\n"
+        )
+        return [{"type": "input_text", "text": aviso + prompt_textual}]
+
+    def _call(self, ctx: ProviderContext, content: list[dict[str, Any]]) -> Any:
         base_url = os.environ.get("OPENAI_BASE_URL", DEFAULT_OPENAI_BASE_URL).rstrip("/")
         raw_content = ""
-        try:
+
+        def request_content(request_content: list[dict[str, Any]]) -> str:
+            body: dict[str, Any] = {
+                "model": self.model,
+                "input": [{"role": "user", "content": request_content}],
+                "stream": True,
+                "text": json_schema_responses_format(response_profile=ctx.response_profile),
+            }
+            if ctx.reasoning_effort:
+                body["reasoning"] = {"effort": ctx.reasoning_effort}
+
             def call_openai() -> dict[str, Any]:
                 return _request_openai_responses_stream(
                     url=f"{base_url}/responses",
@@ -94,9 +126,38 @@ class OpenAIProvider(GenericProvider):
                 )
 
             payload = executar_com_retry_transiente(call_openai, exclude_429=True)
-            raw_content = _extrair_texto_openai_responses(payload)
+            return _extrair_texto_openai_responses(payload)
+
+        try:
+            raw_content = request_content(content)
             return raw_content
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
+            if status_from_exception(exc) == 413 and arquivos_pdf_do_pacote(ctx.pacote):
+                if ctx.on_event is not None:
+                    try:
+                        ctx.on_event(
+                            "openai_pdf_text_fallback",
+                            {
+                                "provider": self.name,
+                                "model": self.model,
+                                "reason": "http_413_payload_too_large",
+                            },
+                        )
+                    except Exception:
+                        pass
+                try:
+                    raw_content = request_content(self._build_content_pdf_text_fallback(ctx))
+                    return raw_content
+                except (
+                    urllib.error.URLError,
+                    TimeoutError,
+                    KeyError,
+                    IndexError,
+                    TypeError,
+                    json.JSONDecodeError,
+                    ValueError,
+                ) as fallback_exc:
+                    exc = fallback_exc
             result = {
                 "status": "error",
                 "error": f"erro ao chamar OpenAI: {formatar_erro_http(exc)}",

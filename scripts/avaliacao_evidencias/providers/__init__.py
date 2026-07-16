@@ -62,6 +62,8 @@ def limite_tokens_provider(provider: str, model: str) -> int:
             return 1_000_000
         return 400_000
     if provider == "openai":
+        if "gpt-5.6" in model:
+            return 1_048_576
         return 400_000
     if provider == "opencodego":
         return 1_000_000
@@ -88,14 +90,22 @@ def estimar_tokens_payload(
     - Imagens PNG/JPG: ~258 tokens por imagem (independente do tamanho).
     - PDFs:
         * Gemini: File API (upload separado), estimado por conteudo.
-        * OpenRouter / OpenAI: PDF como base64 inline (~1 token / 3.5 chars
-          do base64, que e ~1.33x o tamanho do PDF).
+        * OpenRouter: PDF como base64 inline (~1 token / 3.5 chars do
+          base64, que e ~1.33x o tamanho do PDF).
+        * OpenAI: ``file_data`` e transporte, nao texto do prompt. O PDF e
+          processado como texto extraido e imagens de pagina; o tamanho do
+          base64 nao e usado como estimativa de tokens.
         * OpencodeGo: PDFs nao sao enviados; contribuicao zero.
     """
     arquivos_upload = pacote.get("arquivos_upload", []) if isinstance(pacote, dict) else []
     pacote_estimado = {k: v for k, v in pacote.items() if k != "arquivos_upload"}
-    if arquivos_upload and provider.lower() == "gemini":
-        extensoes_anexadas = {Path(str(a)).suffix.lower() for a in arquivos_upload}
+    provider_lower = provider.lower()
+    if arquivos_upload and provider_lower in {"gemini", "openai"}:
+        extensoes_anexadas = (
+            {Path(str(a)).suffix.lower() for a in arquivos_upload}
+            if provider_lower == "gemini"
+            else {".pdf", ".png", ".jpg", ".jpeg"}
+        )
         pacote_estimado = pacote_textual_sem_documentos_de_arquivos_nativos(
             pacote,
             extensoes_anexadas,
@@ -118,8 +128,8 @@ def estimar_tokens_payload(
 
     n_pdfs = sum(1 for a in arquivos_upload if Path(str(a)).suffix.lower() == ".pdf")
     tokens_pdfs = 0
-    provider_lower = provider.lower()
     is_gemini = provider_lower == "gemini"
+    is_openai = provider_lower == "openai"
     is_opencodego = provider_lower == "opencodego"
     for a in arquivos_upload:
         if Path(str(a)).suffix.lower() == ".pdf":
@@ -128,7 +138,7 @@ def estimar_tokens_payload(
                     size = Path(str(a)).stat().st_size
                     chars_estimados = size // 1024 * 1500
                     tokens_pdfs += int(chars_estimados / 3.5)
-                elif is_opencodego:
+                elif is_opencodego or is_openai:
                     pass
                 else:
                     size = Path(str(a)).stat().st_size
@@ -161,6 +171,7 @@ def executar_provider(
     reasoning_effort: str = "",
     on_event: Any = None,
     response_profile: str = "evidence",
+    pdf_detail: str = "auto",
 ) -> dict[str, Any]:
     """Ponto de entrada compativel com a API antiga do ``executar_provider``.
 
@@ -180,6 +191,7 @@ def executar_provider(
         reasoning_effort=reasoning_effort,
         on_event=on_event,
         response_profile=response_profile,
+        pdf_detail=pdf_detail,
     )
     try:
         instance = get_provider(provider, model)

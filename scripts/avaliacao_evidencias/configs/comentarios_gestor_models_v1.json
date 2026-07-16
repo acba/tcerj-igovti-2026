@@ -33,7 +33,8 @@
       "rpm": 12,
       "reasoning": "high",
       "pdf2md": false,
-      "docx2html": true
+      "docx2html": true,
+      "pdf_detail": "auto"
     },
     {
       "name": "opencodego-minimax-m3",

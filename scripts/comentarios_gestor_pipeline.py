@@ -397,6 +397,7 @@ def executar_caso(
     reasoning: str,
     pdf2md: bool,
     docx2html: bool,
+    pdf_detail: str = "auto",
 ) -> dict[str, Any]:
     started = dt.datetime.now(dt.timezone.utc)
     tokens_info: dict[str, int] = {}
@@ -443,6 +444,7 @@ def executar_caso(
                 pacote=pacote,
                 reasoning_effort=reasoning,
                 response_profile=caso.get("response_profile", "evidence"),
+                pdf_detail=pdf_detail,
             )
         erro_tecnico = resultado_indica_erro_tecnico(result)
         if erro_tecnico:
@@ -825,19 +827,24 @@ def _identidade_logica_analise(
     docx2html: bool,
     contexto: Any,
     evidence_paths: Iterable[str | Path],
+    pdf_detail: str = "auto",
 ) -> str:
-    return _hash_json(
-        {
-            "case_id": case_id_value,
-            "model_key": model_key,
-            "prompt_hash": prompt_hash,
-            "reasoning": reasoning,
-            "pdf2md": pdf2md,
-            "docx2html": docx2html,
-            "contexto_hash": _hash_json(contexto),
-            "evidencias_hash": [hash_arquivo(Path(path)) for path in evidence_paths],
-        }
-    )
+    payload = {
+        "case_id": case_id_value,
+        "model_key": model_key,
+        "prompt_hash": prompt_hash,
+        "reasoning": reasoning,
+        "pdf2md": pdf2md,
+        "docx2html": docx2html,
+        "contexto_hash": _hash_json(contexto),
+        "evidencias_hash": [hash_arquivo(Path(path)) for path in evidence_paths],
+    }
+    # ``auto`` ja era o comportamento implicito da API antes de o campo ser
+    # exposto na configuracao. Omiti-lo preserva checkpoints historicos.
+    detail_normalizado = texto(pdf_detail).lower() or "auto"
+    if detail_normalizado != "auto":
+        payload["pdf_detail"] = detail_normalizado
+    return _hash_json(payload)
 
 
 def _model_key_registro(registro: dict[str, Any], routes: Iterable[dict[str, Any]]) -> str:
@@ -859,7 +866,9 @@ def _normalizar_registro_legado(
     if registro.get("status") != "completed" or not registro.get("case_id"):
         return None
     logical_identity = texto(registro.get("logical_identity"))
-    if not logical_identity:
+    # Registros gerados na curta versao que incluiu ``pdf_detail=auto`` no
+    # hash precisam ser recanonizados para o formato retrocompativel.
+    if not logical_identity or "pdf_detail" in registro:
         mode = {part for part in texto(registro.get("evidence_processing_mode")).split("+") if part}
         try:
             logical_identity = _identidade_logica_analise(
@@ -871,6 +880,7 @@ def _normalizar_registro_legado(
                 docx2html="docx2html" in mode,
                 contexto=registro.get("contexto", {}),
                 evidence_paths=registro.get("evidence_paths") or [],
+                pdf_detail=texto(registro.get("pdf_detail")) or "auto",
             )
         except (OSError, ValueError):
             return None
@@ -949,6 +959,7 @@ def avaliar_casos(
     rpm: int = 0,
     pdf2md: bool = False,
     docx2html: bool = False,
+    pdf_detail: str = "auto",
     skip_errors: bool = False,
     quiet: bool = False,
 ) -> dict[str, Any]:
@@ -979,6 +990,7 @@ def avaliar_casos(
                 docx2html=docx2html,
                 contexto=caso.get("contexto", {}),
                 evidence_paths=caso["evidence_paths"],
+                pdf_detail=pdf_detail,
             )
             identidades_esperadas.add(identity)
             anterior = por_identidade.get(identity)
@@ -1008,6 +1020,7 @@ def avaliar_casos(
                 reasoning=reasoning,
                 pdf2md=pdf2md,
                 docx2html=docx2html,
+                pdf_detail=pdf_detail,
             )
             registro["identity"] = identity
             registro["logical_identity"] = identity
@@ -1015,6 +1028,7 @@ def avaliar_casos(
             registro["questao"] = caso["codigo"]
             registro["evidencia"] = "; ".join(texto(u.get("name")) for u in caso.get("evidencias", []))
             registro["reasoning_effort"] = reasoning
+            registro["pdf_detail"] = pdf_detail
             registro["evidence_processing_mode"] = "+".join(x for x, ativo in [("pdf2md", pdf2md), ("docx2html", docx2html)] if ativo)
             registro["prompt_version"] = caso.get("prompt_version", "")
             registro["pacote_contexto_consolidacao"] = {
@@ -1044,6 +1058,7 @@ def avaliar_casos(
                 "result": {"status": "error", "error": str(exc)},
                 "prompt_hash": caso.get("prompt_hash", ""),
                 "reasoning_effort": reasoning,
+                "pdf_detail": pdf_detail,
                 "evidence_processing_mode": "+".join(
                     x for x, active in [("pdf2md", pdf2md), ("docx2html", docx2html)] if active
                 ),
@@ -1674,6 +1689,7 @@ def consolidar_casos(
     rpm: int = 0,
     pdf2md: bool = False,
     docx2html: bool = False,
+    pdf_detail: str = "auto",
     catalog_comentarios: Path = DEFAULT_CATALOG_COMENTARIOS,
     deterministic_path: Path | None = None,
     expected_case_ids: set[str] | None = None,
@@ -1723,6 +1739,7 @@ def consolidar_casos(
                 "reasoning": reasoning,
                 "pdf2md": pdf2md,
                 "docx2html": docx2html,
+                "pdf_detail": pdf_detail,
             }
         )
         if por_identidade.get(identity, {}).get("status") == "completed":
@@ -1767,6 +1784,7 @@ def consolidar_casos(
                     pacote=pacote,
                     reasoning_effort=reasoning,
                     response_profile=response_profile,
+                    pdf_detail=pdf_detail,
                 )
                 if secao == "1" and judge_provider == "fake" and result.get("status") == "completed":
                     result = _resultado_fake_temporal(result, (primeira.get("contexto") or {}).get("motivos", []))

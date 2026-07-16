@@ -138,6 +138,17 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
             loaded = carregar_configuracao_modelos(path)
         self.assertTrue(loaded["evaluators"][0]["enabled"])
         self.assertEqual(loaded["evaluators"][0]["model_key"], loaded["evaluators"][0]["model"])
+        self.assertEqual(loaded["evaluators"][0]["pdf_detail"], "auto")
+        self.assertEqual(loaded["judge"]["pdf_detail"], "auto")
+
+    def test_models_configuration_rejects_invalid_pdf_detail(self) -> None:
+        config = json.loads(DEFAULT_MODELS_CONFIG.read_text(encoding="utf-8"))
+        config["evaluators"][0]["pdf_detail"] = "medium"
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "models.json"
+            path.write_text(json.dumps(config), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "pdf_detail"):
+                carregar_configuracao_modelos(path)
 
     def test_models_configuration_allows_alternative_disabled_route(self) -> None:
         config = json.loads(DEFAULT_MODELS_CONFIG.read_text(encoding="utf-8"))
@@ -195,8 +206,10 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
             first = _identidade_logica_analise(**kwargs)
             second = _identidade_logica_analise(**kwargs)
             changed = _identidade_logica_analise(**{**kwargs, "pdf2md": True})
+            changed_detail = _identidade_logica_analise(**{**kwargs, "pdf_detail": "low"})
         self.assertEqual(first, second)
         self.assertNotEqual(first, changed)
+        self.assertNotEqual(first, changed_detail)
 
     def test_provider_switch_reuses_canonical_model_checkpoint(self) -> None:
         case = {

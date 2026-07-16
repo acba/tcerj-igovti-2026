@@ -45,6 +45,7 @@ class ProviderContext:
     reasoning_effort: str = ""
     on_event: Callable[[str, dict[str, Any]], None] | None = None
     response_profile: str = "evidence"
+    pdf_detail: str = "auto"
 
     @property
     def arquivos_upload(self) -> list[str]:

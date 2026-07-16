@@ -91,10 +91,14 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
             raise ValueError(f"evaluators[{index}].reasoning deve ser string")
         if not isinstance(evaluator["pdf2md"], bool) or not isinstance(evaluator["docx2html"], bool):
             raise ValueError(f"evaluators[{index}].pdf2md e docx2html devem ser booleanos")
+        pdf_detail = str(evaluator.get("pdf_detail", "auto")).strip().lower()
+        if pdf_detail not in {"auto", "low", "high"}:
+            raise ValueError(f"evaluators[{index}].pdf_detail deve ser auto, low ou high")
         names.add(name)
         pairs.add((provider, model))
         evaluator["enabled"] = enabled
         evaluator["model_key"] = model_key
+        evaluator["pdf_detail"] = pdf_detail
 
     active = [evaluator for evaluator in evaluators if evaluator["enabled"]]
     if not active:
@@ -122,6 +126,10 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
         raise ValueError("judge.reasoning deve ser string")
     if not isinstance(judge["pdf2md"], bool) or not isinstance(judge["docx2html"], bool):
         raise ValueError("judge.pdf2md e judge.docx2html devem ser booleanos")
+    judge_pdf_detail = str(judge.get("pdf_detail", "auto")).strip().lower()
+    if judge_pdf_detail not in {"auto", "low", "high"}:
+        raise ValueError("judge.pdf_detail deve ser auto, low ou high")
+    judge["pdf_detail"] = judge_pdf_detail
     max_workers = config.get("max_parallel_evaluators", len(evaluators))
     if not isinstance(max_workers, int) or max_workers < 1:
         raise ValueError("max_parallel_evaluators deve ser inteiro positivo")
@@ -219,6 +227,7 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
                         reasoning=cfg["reasoning"],
                         pdf2md=cfg["pdf2md"],
                         docx2html=cfg["docx2html"],
+                        pdf_detail=cfg["pdf_detail"],
                         contexto=caso.get("contexto", {}),
                         evidence_paths=caso["evidence_paths"],
                     )
@@ -236,7 +245,7 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
                 provider=cfg["provider"], model=cfg["model"], model_key=cfg["model_key"],
                 out_dir=individual_dir, routes=args.models_runtime_config["evaluators"],
                 reasoning=cfg["reasoning"], rpm=cfg["rpm"], pdf2md=cfg["pdf2md"],
-                docx2html=cfg["docx2html"], quiet=args.quiet,
+                docx2html=cfg["docx2html"], pdf_detail=cfg["pdf_detail"], quiet=args.quiet,
             ): cfg
             for cfg in configs
         }
@@ -316,6 +325,7 @@ def consolidate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
         rpm=judge["rpm"],
         pdf2md=judge["pdf2md"],
         docx2html=judge["docx2html"],
+        pdf_detail=judge["pdf_detail"],
         catalog_comentarios=args.catalog_comentarios,
         deterministic_path=(args.out_dir / "individuais/secao-1/deterministicos.jsonl") if secao == "1" else None,
         expected_case_ids=set(manifesto.get("case_ids_ia") or []),
