@@ -1,4 +1,128 @@
 # Handoff — integridade dos comentários do gestor e relatório final iGovTI 2026
+> Atualização mais recente: 20/07/2026, após interrupção controlada do reparo no Windows. Leia primeiro a seção seguinte. Quando houver divergência, ela prevalece sobre números, modelos e comandos históricos mais abaixo.
+
+## Estado operacional atualizado — 20/07/2026
+
+### Situação no momento do handoff
+
+- O usuário pediu para parar o reparo. Os dois processos Python dessa execução, PIDs `18936` e `23496`, iniciados às `16:32:13`, foram encerrados. A verificação retornou zero processos remanescentes desses PIDs.
+- Depois da parada foi executado `validar-integridade`, sem chamadas a modelos.
+- Estado autoritativo atual: `status = reparo_necessario`, `25` casos da seção 1, `16` casos da seção 2, total de `41` casos para reparo.
+- Universo validado: `1.814` casos; `1.522` casos de IA integralmente válidos, além dos casos determinísticos tratados separadamente pela rotina.
+- Há `445` avisos individuais históricos e `503` violações diagnósticas. Esses números não são quantidades de casos problemáticos: um mesmo caso pode gerar várias violações, e avisos isolados não exigem reparo quando ainda existe quórum e parecer consolidado válido.
+- O arquivo autoritativo é `02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/preflight/validacao-integridade.json`, atualizado após a interrupção.
+- Não gere ajustes ou produtos finais enquanto o status não for `conforme` e as duas contagens de reparo não forem zero.
+
+### Coleta e preparação dos anexos concluídas
+
+- A relação de respostas usada é `02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx`.
+- Foram coletados os anexos faltantes das respostas LimeSurvey da IRM (`response id 79`) e da SETUR (`response id 97`) com a sessão fornecida pelo usuário. Cookies e tokens não foram persistidos no repositório nem devem ser incluídos em logs ou neste handoff.
+- Foram extraídos `50` ZIPs em `02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas`.
+- Dois nomes excediam o limite de caminho do Windows; foram criados aliases curtos acessíveis. O preflight dos anexos passou depois desse ajuste.
+- Uma cópia filtrada dos casos então considerados problemáticos foi criada para inspeção em `C:/tmp/tcerj-igovti-2026/comentarios-gestor-casos-problematicos-20260720-141530`, com o arquivo principal `casos-problematicos.xlsx`. Essa cópia é histórica; use o manifesto atual de 41 casos para qualquer nova análise.
+
+### Correção da falsa reclassificação de casos
+
+Foi corrigido `scripts/comentarios_gestor_integridade.py`. Antes, a validação selecionava simplesmente o registro mais recente por caso/modelo. Assim, uma resposta válida antiga era descartada quando vinha depois um `error` ou uma resposta concluída fora do escopo. A consolidação já preservava a resposta válida, mas o relatório de integridade não, inflando os “problemáticos”.
+
+A rotina agora agrupa os registros e seleciona o registro concluído, válido e pertencente à identidade esperada mais recente. Somente quando não há nenhum registro válido ela reporta o erro ou registro inválido mais recente. Isso vale para avaliações individuais e consolidadas.
+
+Arquivos principais dessa correção:
+
+- `scripts/comentarios_gestor_integridade.py`;
+- `scripts/tests/test_comentarios_gestor_integridade.py`.
+
+Os dois testes de regressão cobrem erro posterior e resposta fora do escopo posterior. Antes da mudança de configuração de execução, a suíte completa tinha `74` testes aprovados.
+
+### GPT indisponível sem alterar o quórum histórico
+
+O usuário informou que o GPT falha em todas as consultas nesta máquina. Isso foi confirmado nos 20 registros mais recentes do checkpoint: todos retornavam `HTTP 502 Bad Gateway`, `upstream_failure`/`fetch failed`.
+
+Desabilitar o GPT com `enabled: false` elevou artificialmente o manifesto de `44` para `434` casos, pois o quórum continuava em três e os três modelos restantes passaram a ser exigidos por unanimidade. Essa alteração foi desfeita.
+
+Foi implementada em `scripts/run_comentarios_gestor.py` a distinção entre:
+
+- `enabled: true`: a identidade do modelo continua elegível para o quórum e opiniões históricas válidas são preservadas;
+- `execute: false`: nenhuma nova chamada é enviada a esse modelo.
+
+A configuração atual em `scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json` é:
+
+- Gemini 3.1 Flash Lite: `enabled: true`, execução ativa;
+- GPT 5.6 Luna: `enabled: true`, `execute: false`;
+- MiniMax M3: `enabled: true`, execução ativa;
+- Qwen 3.7 Plus: `enabled: true`, execução ativa;
+- Gemini 3.5 Flash permanece desabilitado conforme decisão do usuário.
+
+O quórum permanece `3 de 4`: opiniões válidas antigas do GPT contam, mas ele não recebe novas chamadas. `evaluate_section` executa apenas as rotas com `execute: true`; manifesto, materialização dos checkpoints, consolidação e validação continuam considerando todos os modelos `enabled`.
+
+Arquivos dessa mudança:
+
+- `scripts/run_comentarios_gestor.py`;
+- `scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json`;
+- `scripts/tests/test_comentarios_gestor_pipeline.py`.
+
+Foram adicionados testes para preservar um modelo apenas para histórico e rejeitar `execute: true` com `enabled: false`. Os `46` testes diretamente relacionados a comentários do gestor e integridade passaram fora da limitação de escrita temporária do sandbox. O próximo agente deve executar a suíte completa para obter a nova contagem global.
+
+### Progresso das tentativas de reparo
+
+- Após a correção do seletor de registros, o manifesto caiu para `44` casos: 28 da seção 1 e 16 da seção 2.
+- A primeira retomada saneou dois casos antes de ser interrompida para retirar o GPT das novas chamadas: restaram `42` (26 + 16).
+- A retomada com `execute: false` para o GPT saneou mais um caso antes da parada solicitada: restam `41` (25 + 16).
+- Os checkpoints são append-only; não apague nem trunque arquivos `analyses*.jsonl`.
+- Na última retomada o arquivo bruto do GPT permaneceu inalterado desde `16:24:42`, confirmando que não houve novas chamadas. Qwen e MiniMax gravaram resultados da seção 1; a seção 2 não chegou a ser retomada nessa execução.
+- O Qwen apresentou chamadas longas e já produziu respostas inválidas de escopo/coerência em tentativas anteriores. MiniMax também apresentou timeouts em ocasiões anteriores. A rotina deve terminar a fila, reconsolidar e então recalcular o manifesto; não avalie progresso apenas pelo volume de linhas anexadas.
+
+### Como o próximo agente deve continuar
+
+Ambiente Windows funcional nesta máquina:
+
+```powershell
+$env:TEMP=(Resolve-Path -LiteralPath '.tmp-tests').Path
+$env:TMP=$env:TEMP
+$env:TMPDIR=$env:TEMP
+$python='C:\Users\augustocba\AppData\Local\anaconda3\envs\igovti\python.exe'
+```
+
+O Python de `scripts/.venv` foi bloqueado por política de grupo; use o Python Conda acima. As chaves estão em `.env`; carregue-as com `python -m dotenv run` e nunca exiba o arquivo.
+
+1. Confirme que não existe reparo ativo e execute a suíte completa:
+
+```powershell
+Get-Process python -ErrorAction SilentlyContinue
+& $python -m unittest discover -s scripts/tests -p 'test_*.py'
+```
+
+2. Revalide antes de chamar modelos e confirme que o ponto de partida ainda é 25 + 16:
+
+```powershell
+& $python scripts/run_comentarios_gestor.py validar-integridade `
+  --respostas-comentarios '02-Execucao\05-Comentarios_Gestor\01-Coleta_LimeSurvey\20260716-respostas-bruto.xlsx' `
+  --evidencias-comentarios-root '02-Execucao\05-Comentarios_Gestor\01-Coleta_LimeSurvey\Evidencias_Coletadas\evidencias_extraidas' `
+  --out-dir '02-Execucao\05-Comentarios_Gestor\02-Avaliacao_Comentarios_Gestor'
+```
+
+3. Retome somente o reparo dirigido. Não use `completo`:
+
+```powershell
+& $python -m dotenv run -- $python scripts/run_comentarios_gestor.py reparar-integridade `
+  --respostas-comentarios '02-Execucao\05-Comentarios_Gestor\01-Coleta_LimeSurvey\20260716-respostas-bruto.xlsx' `
+  --evidencias-comentarios-root '02-Execucao\05-Comentarios_Gestor\01-Coleta_LimeSurvey\Evidencias_Coletadas\evidencias_extraidas' `
+  --out-dir '02-Execucao\05-Comentarios_Gestor\02-Avaliacao_Comentarios_Gestor'
+```
+
+4. Ao término, execute `validar-integridade` novamente. A porta obrigatória continua sendo `status = conforme`, seção 1 = 0 e seção 2 = 0. Se houver pendências, examine `casos-reprocessamento.json` e exemplos de `violacoes` antes de repetir; não volte a reavaliar todo o universo.
+
+5. Somente depois da porta conforme, prossiga para `gerar-ajustes` e para as etapas de produtos e relatórios já descritas nas seções históricas abaixo.
+
+### Cuidados para o próximo agente
+
+- Preserve as alterações existentes e os checkpoints; o worktree contém mudanças do usuário e produtos de execução.
+- Não reative Gemini 3.5 Flash.
+- Não transforme `execute` do GPT em `true` enquanto persistirem os 502 nesta máquina.
+- Não use `enabled: false` para o GPT sem também rediscutir o quórum/metodologia; isso foi o que criou os 434 falsos pendentes.
+- Não interprete `qtd. violações` como quantidade de organizações ou casos: é quantidade de regras diagnósticas infringidas.
+- O relatório de integridade corrigido preserva avaliações válidas anteriores a erros posteriores; não reverta essa seleção para “último registro”.
+- Trate avaliações e ajustes gerados por IA como minutas sujeitas à revisão da equipe de auditoria.
 
 ## Objetivo da próxima sessão
 

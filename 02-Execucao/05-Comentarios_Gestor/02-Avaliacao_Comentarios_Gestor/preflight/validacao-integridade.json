@@ -2,10 +2,10 @@
   "schema_version": 1,
   "status": "reparo_necessario",
   "total_casos": 1814,
-  "casos_integralmente_validos": 1482,
-  "casos_reprocessamento_secao_1": 65,
+  "casos_integralmente_validos": 1522,
+  "casos_reprocessamento_secao_1": 25,
   "casos_reprocessamento_secao_2": 16,
-  "avisos_avaliacoes_individuais": 518,
+  "avisos_avaliacoes_individuais": 445,
   "violacoes": [
     {
       "Seção": "1",
@@ -13,29 +13,9 @@
       "Auditado": "AGENERSA",
       "Código": "A1G3",
       "Case ID": "008c1214f1d8b1c38e4b3684bd4d50bd5a572606d873b37dfb671179536b7b6a",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR002', 'MR005']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGENERSA",
-      "Código": "A1G3",
-      "Case ID": "008c1214f1d8b1c38e4b3684bd4d50bd5a572606d873b37dfb671179536b7b6a",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "AGENERSA",
-      "Código": "A1G3",
-      "Case ID": "008c1214f1d8b1c38e4b3684bd4d50bd5a572606d873b37dfb671179536b7b6a",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -74,28 +54,8 @@
       "Código": "A2G4",
       "Case ID": "6e5206c553b3ec92fe1e1cb2cfe5dfde47b7a705efe034729a3aaa49d502eea5",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A2G4",
-      "Case ID": "6e5206c553b3ec92fe1e1cb2cfe5dfde47b7a705efe034729a3aaa49d502eea5",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR017']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A2G5",
-      "Case ID": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
-      "Modelo": "gemini-3.5-flash",
       "Status": "error",
-      "Violação": "status error: erro ao fazer upload Gemini de /home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas/AGERIO/00034_02_2-3-ata-comti.pdf: 400 Bad Request. {'message': 'Upload has already been terminated.', 'status': 'Bad Request'}"
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -104,18 +64,8 @@
       "Código": "A2G5",
       "Case ID": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A2G5",
-      "Case ID": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR019', 'MR021']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -124,8 +74,8 @@
       "Código": "A2G5",
       "Case ID": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -135,17 +85,7 @@
       "Case ID": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A2G6",
-      "Case ID": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -154,18 +94,8 @@
       "Código": "A2G6",
       "Case ID": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A2G6",
-      "Case ID": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR011', 'MR012', 'MR014']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -174,8 +104,8 @@
       "Código": "A2G6",
       "Case ID": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
     },
     {
       "Seção": "1",
@@ -185,17 +115,7 @@
       "Case ID": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A3G8",
-      "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
-      "Modelo": "gemini-3.5-flash",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -204,38 +124,8 @@
       "Código": "A3G8",
       "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A3G8",
-      "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR030']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A3G8",
-      "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "conclusoes_ausentes: resultado não contém conclusões"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "AGERIO",
-      "Código": "A3G8",
-      "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -253,39 +143,9 @@
       "Auditado": "AGERIO",
       "Código": "A3G10",
       "Case ID": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A3G10",
-      "Case ID": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR032']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A3G10",
-      "Case ID": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR032']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "AGERIO",
-      "Código": "A3G10",
-      "Case ID": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -333,19 +193,9 @@
       "Auditado": "AGERIO",
       "Código": "A5G20",
       "Case ID": "62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A5G20",
-      "Case ID": "62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=['MR075', 'MR077', ':']; coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -363,19 +213,9 @@
       "Auditado": "AGERIO",
       "Código": "A6G24",
       "Case ID": "594fa8889e416b37345b4e7d4cb356ceacb131c72fa10b1db9cbdc0917f04cc8",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR102']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGERIO",
-      "Código": "A6G24",
-      "Case ID": "594fa8889e416b37345b4e7d4cb356ceacb131c72fa10b1db9cbdc0917f04cc8",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -416,36 +256,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGETRANSP",
-      "Código": "A3G11",
-      "Case ID": "dd3cb4b7908803ad86988b6ba24a0b863e75d554698761b7197e77c502dda02c",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "AGETRANSP",
-      "Código": "A3G11",
-      "Case ID": "dd3cb4b7908803ad86988b6ba24a0b863e75d554698761b7197e77c502dda02c",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR034', 'MR037', 'MR038']; recebidos=['MR034', 'MR037', ':']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "AGETRANSP",
-      "Código": "A3G11",
-      "Case ID": "dd3cb4b7908803ad86988b6ba24a0b863e75d554698761b7197e77c502dda02c",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -503,19 +313,9 @@
       "Auditado": "ANGRA DOS REIS",
       "Código": "A1G3",
       "Case ID": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "ANGRA DOS REIS",
-      "Código": "A1G3",
-      "Case ID": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -524,8 +324,8 @@
       "Código": "A1G3",
       "Case ID": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR002', 'MR005']; recebidos=[]"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -535,7 +335,7 @@
       "Case ID": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -603,29 +403,9 @@
       "Auditado": "ANGRA DOS REIS",
       "Código": "A4G17",
       "Case ID": "d09802ab909120f5ea59d13193f350ab8e63613cd4c9d4eb810bf87b5d701194",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "ANGRA DOS REIS",
-      "Código": "A4G17",
-      "Case ID": "d09802ab909120f5ea59d13193f350ab8e63613cd4c9d4eb810bf87b5d701194",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR051', 'MR053', 'MR055']; recebidos=['MR051', 'MR053', ':']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "ANGRA DOS REIS",
-      "Código": "A4G17",
-      "Case ID": "d09802ab909120f5ea59d13193f350ab8e63613cd4c9d4eb810bf87b5d701194",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -773,39 +553,9 @@
       "Auditado": "ARRAIAL DO CABO",
       "Código": "A1G3",
       "Case ID": "2f3d6d468c05e76b78bd45ae3ae08652551b7f8dca492ae6800080f3aed9e8c6",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "ARRAIAL DO CABO",
-      "Código": "A1G3",
-      "Case ID": "2f3d6d468c05e76b78bd45ae3ae08652551b7f8dca492ae6800080f3aed9e8c6",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "ARRAIAL DO CABO",
-      "Código": "A1G3",
-      "Case ID": "2f3d6d468c05e76b78bd45ae3ae08652551b7f8dca492ae6800080f3aed9e8c6",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR002', 'MR004']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "ARRAIAL DO CABO",
-      "Código": "A1G3",
-      "Case ID": "2f3d6d468c05e76b78bd45ae3ae08652551b7f8dca492ae6800080f3aed9e8c6",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -854,38 +604,8 @@
       "Código": "A4G13",
       "Case ID": "a63b94109d512da659b6d5e4b70279122138c2a81e2140e0b2a8f04a791949bd",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "BELFORD ROXO",
-      "Código": "A4G13",
-      "Case ID": "a63b94109d512da659b6d5e4b70279122138c2a81e2140e0b2a8f04a791949bd",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "BELFORD ROXO",
-      "Código": "A4G13",
-      "Case ID": "a63b94109d512da659b6d5e4b70279122138c2a81e2140e0b2a8f04a791949bd",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "BELFORD ROXO",
-      "Código": "A4G13",
-      "Case ID": "a63b94109d512da659b6d5e4b70279122138c2a81e2140e0b2a8f04a791949bd",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -966,36 +686,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=['MR075', 'MR077', ':']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "CABO FRIO",
-      "Código": "A5G21",
-      "Case ID": "9a34e84d96e0c07aeecb28457ef7859e5ced5b0d09d69704acc1e59f9ff5bf9c",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "CABO FRIO",
-      "Código": "A5G21",
-      "Case ID": "9a34e84d96e0c07aeecb28457ef7859e5ced5b0d09d69704acc1e59f9ff5bf9c",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; escopo_motivos: motivos esperados=['MR085', 'MR087', 'MR089']; recebidos=['MR085', 'MR087', ':']; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "CABO FRIO",
-      "Código": "A5G21",
-      "Case ID": "9a34e84d96e0c07aeecb28457ef7859e5ced5b0d09d69704acc1e59f9ff5bf9c",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -1204,28 +894,8 @@
       "Código": "A4G17",
       "Case ID": "c161de28eda93e86df557d6ff75edde6204c9ffd9b33404343c1c37e5936a736",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "CECIERJ",
-      "Código": "A4G17",
-      "Case ID": "c161de28eda93e86df557d6ff75edde6204c9ffd9b33404343c1c37e5936a736",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "CECIERJ",
-      "Código": "A4G17",
-      "Case ID": "c161de28eda93e86df557d6ff75edde6204c9ffd9b33404343c1c37e5936a736",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -1274,28 +944,8 @@
       "Código": "A3G11",
       "Case ID": "0b7c3638c72e76ee253feaf7cfab80d13e869e4810ed45bee5ebd0607f5db8a5",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "CEDAE",
-      "Código": "A3G11",
-      "Case ID": "0b7c3638c72e76ee253feaf7cfab80d13e869e4810ed45bee5ebd0607f5db8a5",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "CEDAE",
-      "Código": "A3G11",
-      "Case ID": "0b7c3638c72e76ee253feaf7cfab80d13e869e4810ed45bee5ebd0607f5db8a5",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -1383,29 +1033,9 @@
       "Auditado": "CENTRAL",
       "Código": "A4G16",
       "Case ID": "989f6270be0b81fa5447d6e2ce635b5037c3f46fd53e10d77f4ac580abc2c2e4",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR057', 'MR058', 'MR059', 'MR060']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "CENTRAL",
-      "Código": "A4G16",
-      "Case ID": "989f6270be0b81fa5447d6e2ce635b5037c3f46fd53e10d77f4ac580abc2c2e4",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR057', 'MR058', 'MR059', 'MR060']; recebidos=['MR057', 'MR058', ':', 'MR060']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "CENTRAL",
-      "Código": "A4G16",
-      "Case ID": "989f6270be0b81fa5447d6e2ce635b5037c3f46fd53e10d77f4ac580abc2c2e4",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: escopo_motivos: motivos esperados=['MR057', 'MR058', 'MR059', 'MR060']; recebidos=['MR057', 'MR058', ':', 'MR060']"
     },
     {
       "Seção": "1",
@@ -1843,29 +1473,9 @@
       "Auditado": "FMIS",
       "Código": "A3G7",
       "Case ID": "9f8ecb43c5dc88473e9af068ba76dccb9a1adf1b63ad9fd2129db12e690a2fe2",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "FMIS",
-      "Código": "A3G7",
-      "Case ID": "9f8ecb43c5dc88473e9af068ba76dccb9a1adf1b63ad9fd2129db12e690a2fe2",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR041']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "FMIS",
-      "Código": "A3G7",
-      "Case ID": "9f8ecb43c5dc88473e9af068ba76dccb9a1adf1b63ad9fd2129db12e690a2fe2",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -1963,39 +1573,9 @@
       "Auditado": "FUNARJ",
       "Código": "A3G8",
       "Case ID": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "FUNARJ",
-      "Código": "A3G8",
-      "Case ID": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "FUNARJ",
-      "Código": "A3G8",
-      "Case ID": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR030']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "FUNARJ",
-      "Código": "A3G8",
-      "Case ID": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -2053,29 +1633,9 @@
       "Auditado": "FUNARJ",
       "Código": "A5G22",
       "Case ID": "595602798009065a3a0a9cc1d995e335a6515d0b1f786d693866e4e8bd9ffab7",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "FUNARJ",
-      "Código": "A5G22",
-      "Case ID": "595602798009065a3a0a9cc1d995e335a6515d0b1f786d693866e4e8bd9ffab7",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "FUNARJ",
-      "Código": "A5G22",
-      "Case ID": "595602798009065a3a0a9cc1d995e335a6515d0b1f786d693866e4e8bd9ffab7",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -2096,36 +1656,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "GUAPIMIRIM",
-      "Código": "A2G5",
-      "Case ID": "3214194ff65a94e334131ce13fb9cda7da41fc5ae27039c9e6b588ffe2b13cab",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "GUAPIMIRIM",
-      "Código": "A2G5",
-      "Case ID": "3214194ff65a94e334131ce13fb9cda7da41fc5ae27039c9e6b588ffe2b13cab",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "GUAPIMIRIM",
-      "Código": "A2G5",
-      "Case ID": "3214194ff65a94e334131ce13fb9cda7da41fc5ae27039c9e6b588ffe2b13cab",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -2184,28 +1714,8 @@
       "Código": "A2G4",
       "Case ID": "de4c9ddc143f2b55d7135aa3d8a08bdad72f98f4ffa50dc413d9f77d96928cf9",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "IPEM",
-      "Código": "A2G4",
-      "Case ID": "de4c9ddc143f2b55d7135aa3d8a08bdad72f98f4ffa50dc413d9f77d96928cf9",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR016']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "IPEM",
-      "Código": "A2G4",
-      "Case ID": "de4c9ddc143f2b55d7135aa3d8a08bdad72f98f4ffa50dc413d9f77d96928cf9",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -2214,8 +1724,8 @@
       "Código": "A2G6",
       "Case ID": "d65e396df67f7f9a86b2ebdf1bde42ea065cfde3a8cbffcc4cc67cf2ae9e22cb",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -2224,8 +1734,8 @@
       "Código": "A2G6",
       "Case ID": "d65e396df67f7f9a86b2ebdf1bde42ea065cfde3a8cbffcc4cc67cf2ae9e22cb",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -2244,28 +1754,8 @@
       "Código": "A3G8",
       "Case ID": "1ca03b06161ad16e2fbe02e5909136b940244b5dc2201fb5c25b8e82499ebab8",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "IPEM",
-      "Código": "A3G8",
-      "Case ID": "1ca03b06161ad16e2fbe02e5909136b940244b5dc2201fb5c25b8e82499ebab8",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR031']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "IPEM",
-      "Código": "A3G8",
-      "Case ID": "1ca03b06161ad16e2fbe02e5909136b940244b5dc2201fb5c25b8e82499ebab8",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
     },
     {
       "Seção": "1",
@@ -2274,28 +1764,8 @@
       "Código": "A3G9",
       "Case ID": "43ba2190a1b495b0eafd783655b03e4973b2f44c81c005f37c0db8ad9d68b383",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "IPEM",
-      "Código": "A3G9",
-      "Case ID": "43ba2190a1b495b0eafd783655b03e4973b2f44c81c005f37c0db8ad9d68b383",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR025', 'MR027']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "IPEM",
-      "Código": "A3G9",
-      "Case ID": "43ba2190a1b495b0eafd783655b03e4973b2f44c81c005f37c0db8ad9d68b383",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -2363,39 +1833,9 @@
       "Auditado": "ISP",
       "Código": "A2G4",
       "Case ID": "0b7019066ac30dafcfa9a7b717accfa4f0f166c3bd6f6fe81b773d22bc1bdada",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "ISP",
-      "Código": "A2G4",
-      "Case ID": "0b7019066ac30dafcfa9a7b717accfa4f0f166c3bd6f6fe81b773d22bc1bdada",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "ISP",
-      "Código": "A2G4",
-      "Case ID": "0b7019066ac30dafcfa9a7b717accfa4f0f166c3bd6f6fe81b773d22bc1bdada",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "ISP",
-      "Código": "A2G6",
-      "Case ID": "4ab3d5cfb0534455ed935e86a8f9b10ac348eda14dc3ee89f3bf5868a4e69af1",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -2404,18 +1844,8 @@
       "Código": "A2G6",
       "Case ID": "4ab3d5cfb0534455ed935e86a8f9b10ac348eda14dc3ee89f3bf5868a4e69af1",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "ISP",
-      "Código": "A2G6",
-      "Case ID": "4ab3d5cfb0534455ed935e86a8f9b10ac348eda14dc3ee89f3bf5868a4e69af1",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -2454,8 +1884,8 @@
       "Código": "A6G23",
       "Case ID": "1e242c11aef36be7093cf59e54ceec1788be60a54ff480afe76889674d39197a",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpencodeGo: The read operation timed out"
     },
     {
       "Seção": "1",
@@ -2633,19 +2063,9 @@
       "Auditado": "JAPERI",
       "Código": "A2G4",
       "Case ID": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "JAPERI",
-      "Código": "A2G4",
-      "Case ID": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -2654,8 +2074,8 @@
       "Código": "A2G4",
       "Case ID": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -2665,7 +2085,7 @@
       "Case ID": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -2734,28 +2154,8 @@
       "Código": "A5G18",
       "Case ID": "2e8892349fd28f1f68ee89fc8dc339c080e3cd55fffa1d200326f2b8505cea9c",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "JUCERJA",
-      "Código": "A5G18",
-      "Case ID": "2e8892349fd28f1f68ee89fc8dc339c080e3cd55fffa1d200326f2b8505cea9c",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR084']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "JUCERJA",
-      "Código": "A5G18",
-      "Case ID": "2e8892349fd28f1f68ee89fc8dc339c080e3cd55fffa1d200326f2b8505cea9c",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -2774,8 +2174,8 @@
       "Código": "A6G23",
       "Case ID": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -2784,8 +2184,8 @@
       "Código": "A6G23",
       "Case ID": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
     },
     {
       "Seção": "1",
@@ -2823,29 +2223,9 @@
       "Auditado": "LOTERJ",
       "Código": "A2G4",
       "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "LOTERJ",
-      "Código": "A2G4",
-      "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "LOTERJ",
-      "Código": "A2G4",
-      "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -2854,8 +2234,8 @@
       "Código": "A2G4",
       "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR016']; recebidos=[]"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: codigo_item_duplicado: itens duplicados: A2G4; escopo_itens: itens esperados=['A2G4']; recebidos=['A2G4', 'A2G4']; coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados; coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -2863,39 +2243,19 @@
       "Auditado": "LOTERJ",
       "Código": "A2G4",
       "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "0 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "LOTERJ",
-      "Código": "A2G6",
-      "Case ID": "f27b669006f08a7e14b1bd11964be34298c3997ab1b0c7fc748b74f266fbc334",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR008', 'MR010', 'MR012', 'MR014']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "LOTERJ",
-      "Código": "A2G6",
-      "Case ID": "f27b669006f08a7e14b1bd11964be34298c3997ab1b0c7fc748b74f266fbc334",
-      "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR008', 'MR010', 'MR012', 'MR014']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "LOTERJ",
-      "Código": "A2G6",
-      "Case ID": "f27b669006f08a7e14b1bd11964be34298c3997ab1b0c7fc748b74f266fbc334",
       "Modelo": "",
       "Status": "insuficiente",
       "Violação": "2 avaliações válidas; mínimo=3"
+    },
+    {
+      "Seção": "1",
+      "Nível": "avaliação individual",
+      "Auditado": "LOTERJ",
+      "Código": "A2G6",
+      "Case ID": "f27b669006f08a7e14b1bd11964be34298c3997ab1b0c7fc748b74f266fbc334",
+      "Modelo": "qwen3.7-plus",
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -2953,29 +2313,9 @@
       "Auditado": "LOTERJ",
       "Código": "A5G20",
       "Case ID": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "LOTERJ",
-      "Código": "A5G20",
-      "Case ID": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
       "Modelo": "qwen3.7-plus",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "LOTERJ",
-      "Código": "A5G20",
-      "Case ID": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
     },
     {
       "Seção": "1",
@@ -3083,16 +2423,6 @@
       "Auditado": "MPERJ",
       "Código": "A5G18",
       "Case ID": "402899cac25701bfabd680fb1256dc34b19cdc0686577f46cef4f7e5053173af",
-      "Modelo": "minimax-m3",
-      "Status": "error",
-      "Violação": "status error: erro ao chamar OpencodeGo: HTTP Error 503: Service Unavailable"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "MPERJ",
-      "Código": "A5G18",
-      "Case ID": "402899cac25701bfabd680fb1256dc34b19cdc0686577f46cef4f7e5053173af",
       "Modelo": "qwen3.7-plus",
       "Status": "error",
       "Violação": "status error: erro ao chamar OpencodeGo: HTTP Error 503: Service Unavailable"
@@ -3106,16 +2436,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "error",
       "Violação": "status error: erro ao chamar OpencodeGo: The read operation timed out"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "MPERJ",
-      "Código": "A5G22",
-      "Case ID": "8d925d5237887e57e31b795b34166bd32fff1d92f79425454d08b58b030eb0e2",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -3154,8 +2474,8 @@
       "Código": "A3G10",
       "Case ID": "3569c22f42020a7f8176d85ed4e6d2b6faf734cdcb849f22f1d70d05b62c20c9",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -3244,8 +2564,8 @@
       "Código": "A2G6",
       "Case ID": "1336a392a480903a0905bd0217860b2e61f3b958739e8d77260406291b2cb6f8",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -3293,29 +2613,9 @@
       "Auditado": "NOVA IGUAÇU",
       "Código": "A3G10",
       "Case ID": "bbaebf04f2d7a3e940a42c6e84b20e70bc7a45a7d028a2be6c5ba9a68f71759c",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A3G10",
-      "Case ID": "bbaebf04f2d7a3e940a42c6e84b20e70bc7a45a7d028a2be6c5ba9a68f71759c",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR032']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A3G10",
-      "Case ID": "bbaebf04f2d7a3e940a42c6e84b20e70bc7a45a7d028a2be6c5ba9a68f71759c",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -3393,49 +2693,9 @@
       "Auditado": "NOVA IGUAÇU",
       "Código": "A6G23",
       "Case ID": "765f95e6c662106ffa2a2806e8df699ec4dfc01bd36d4d81226ca3d644ceb81d",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A6G23",
-      "Case ID": "765f95e6c662106ffa2a2806e8df699ec4dfc01bd36d4d81226ca3d644ceb81d",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR103', 'MR105', 'MR107', 'MR109']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A6G23",
-      "Case ID": "765f95e6c662106ffa2a2806e8df699ec4dfc01bd36d4d81226ca3d644ceb81d",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A6G23",
-      "Case ID": "765f95e6c662106ffa2a2806e8df699ec4dfc01bd36d4d81226ca3d644ceb81d",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A6G26",
-      "Case ID": "ce98a6aa8519ccf3f4c8ea210681380a5cab64edcdb090c37fb70554975da1a8",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -3446,16 +2706,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR091', 'MR093', 'MR095', 'MR097', 'MR099']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "NOVA IGUAÇU",
-      "Código": "A6G26",
-      "Case ID": "ce98a6aa8519ccf3f4c8ea210681380a5cab64edcdb090c37fb70554975da1a8",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -3496,16 +2746,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "PORTO REAL",
-      "Código": "A4G14",
-      "Case ID": "4c8cce8e909f2a0c6816050d84758d486f11ebe6c2efeff8a5de22cd75d94eef",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR044']; recebidos=['MR044', 'AV29', 'AV33', 'AV34', 'AV36', 'AV38', 'AV39', 'AV40', 'AV41', 'AV42']"
     },
     {
       "Seção": "1",
@@ -3583,29 +2823,9 @@
       "Auditado": "QUEIMADOS",
       "Código": "A5G21",
       "Case ID": "8d6cef7c634c6681356b2ee95e61ae33d4c3eb4cb8dd0767697b8d2aaf979953",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR086', 'MR087', 'MR090']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "QUEIMADOS",
-      "Código": "A5G21",
-      "Case ID": "8d6cef7c634c6681356b2ee95e61ae33d4c3eb4cb8dd0767697b8d2aaf979953",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR086', 'MR087', 'MR090']; recebidos=['MR086', 'MR087', ':']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "QUEIMADOS",
-      "Código": "A5G21",
-      "Case ID": "8d6cef7c634c6681356b2ee95e61ae33d4c3eb4cb8dd0767697b8d2aaf979953",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -3643,39 +2863,9 @@
       "Auditado": "RIO DAS OSTRAS",
       "Código": "A2G5",
       "Case ID": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "RIO DAS OSTRAS",
-      "Código": "A2G5",
-      "Case ID": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "RIO DAS OSTRAS",
-      "Código": "A2G5",
-      "Case ID": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "RIO DAS OSTRAS",
-      "Código": "A2G5",
-      "Case ID": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -3723,29 +2913,9 @@
       "Auditado": "RIO DAS OSTRAS",
       "Código": "A3G10",
       "Case ID": "dd76e28b8e11c84d2e1432126771e24a33a1c15ecfd20b13e3413ea11cc88e59",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "RIO DAS OSTRAS",
-      "Código": "A3G10",
-      "Case ID": "dd76e28b8e11c84d2e1432126771e24a33a1c15ecfd20b13e3413ea11cc88e59",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR032']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "RIO DAS OSTRAS",
-      "Código": "A3G10",
-      "Case ID": "dd76e28b8e11c84d2e1432126771e24a33a1c15ecfd20b13e3413ea11cc88e59",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -3873,29 +3043,9 @@
       "Auditado": "RJPREV",
       "Código": "A5G20",
       "Case ID": "366eeab4b76f38e378d22994d6df11ce6f333b089439139c864156c4c3311829",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "RJPREV",
-      "Código": "A5G20",
-      "Case ID": "366eeab4b76f38e378d22994d6df11ce6f333b089439139c864156c4c3311829",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=['MR075', 'MR077', ':']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "RJPREV",
-      "Código": "A5G20",
-      "Case ID": "366eeab4b76f38e378d22994d6df11ce6f333b089439139c864156c4c3311829",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -3934,8 +3084,8 @@
       "Código": "A1G3",
       "Case ID": "fcc7c0714d8fc70feb4fe5c177a3cfaae61634c4ee21e21f10935698d36e315b",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -3963,42 +3113,12 @@
       "Auditado": "SÃO JOÃO DE MERITI",
       "Código": "A2G6",
       "Case ID": "e3d14900cb0a59c5c63bee4f9c1654dfcfd652837b15f9e59fa119dc3ad3a20d",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR008', 'MR010', 'MR012', 'MR014']; recebidos=['MR008', 'MR010', 'MR012', 'MR014', 'AV11 (comitê de TI)']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SÃO JOÃO DE MERITI",
-      "Código": "A2G6",
-      "Case ID": "e3d14900cb0a59c5c63bee4f9c1654dfcfd652837b15f9e59fa119dc3ad3a20d",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
     },
     {
       "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SÃO JOÃO DE MERITI",
-      "Código": "A2G6",
-      "Case ID": "e3d14900cb0a59c5c63bee4f9c1654dfcfd652837b15f9e59fa119dc3ad3a20d",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SÃO JOÃO DE MERITI",
-      "Código": "A4G12",
-      "Case ID": "4c202302c27af6bb12bbcc3ca1d0bad370a35ce94ee90449eeda9446957c15a5",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
       "Nível": "avaliação individual",
       "Auditado": "SÃO JOÃO DE MERITI",
       "Código": "A4G12",
@@ -4006,16 +3126,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SÃO JOÃO DE MERITI",
-      "Código": "A4G12",
-      "Case ID": "4c202302c27af6bb12bbcc3ca1d0bad370a35ce94ee90449eeda9446957c15a5",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4063,19 +3173,9 @@
       "Auditado": "SÃO PEDRO DA ALDEIA",
       "Código": "A2G4",
       "Case ID": "6bcd318d42529bb6f7e25de38a682cbb68bd10b2f88b7e7676c59a4037f50d0d",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SÃO PEDRO DA ALDEIA",
-      "Código": "A2G4",
-      "Case ID": "6bcd318d42529bb6f7e25de38a682cbb68bd10b2f88b7e7676c59a4037f50d0d",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -4095,7 +3195,7 @@
       "Case ID": "6bcd318d42529bb6f7e25de38a682cbb68bd10b2f88b7e7676c59a4037f50d0d",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4144,18 +3244,8 @@
       "Código": "A5G20",
       "Case ID": "ad5828c6c9051df8f774ab86b180180849e5e37ab169470e5aa153cdf2329933",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SÃO PEDRO DA ALDEIA",
-      "Código": "A5G20",
-      "Case ID": "ad5828c6c9051df8f774ab86b180180849e5e37ab169470e5aa153cdf2329933",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -4175,7 +3265,7 @@
       "Case ID": "ad5828c6c9051df8f774ab86b180180849e5e37ab169470e5aa153cdf2329933",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4253,29 +3343,9 @@
       "Auditado": "SEAPPA",
       "Código": "A6G26",
       "Case ID": "f734dd02c01c0b91af5331996872a4ef726778954c23380d99d7a8086e829f1a",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR091', 'MR093', 'MR096', 'MR097', 'MR099']; recebidos=['MR091']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SEAPPA",
-      "Código": "A6G26",
-      "Case ID": "f734dd02c01c0b91af5331996872a4ef726778954c23380d99d7a8086e829f1a",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR091', 'MR093', 'MR096', 'MR097', 'MR099']; recebidos=['MR091', 'MR093', ':', 'MR097', 'MR099']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SEAPPA",
-      "Código": "A6G26",
-      "Case ID": "f734dd02c01c0b91af5331996872a4ef726778954c23380d99d7a8086e829f1a",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4363,29 +3433,9 @@
       "Auditado": "SEDEICS",
       "Código": "A3G9",
       "Case ID": "d8a476526c8ec49fd24423d42fb8ee35dd64c65ab9bb6852d2a32c272787e869",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SEDEICS",
-      "Código": "A3G9",
-      "Case ID": "d8a476526c8ec49fd24423d42fb8ee35dd64c65ab9bb6852d2a32c272787e869",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "conclusoes_ausentes: resultado não contém conclusões"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SEDEICS",
-      "Código": "A3G9",
-      "Case ID": "d8a476526c8ec49fd24423d42fb8ee35dd64c65ab9bb6852d2a32c272787e869",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4514,8 +3564,8 @@
       "Código": "A2G4",
       "Case ID": "b614e4deeab2509e70b7ab78e0ac43ead02f2d0c9033cb0b1ea9522de8952b99",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -4613,29 +3663,9 @@
       "Auditado": "SEGOV",
       "Código": "A3G7",
       "Case ID": "54e2579550f66bba00fd851ee3e016f97c5cf2af1358c89b0d1b9c65930c6ed0",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SEGOV",
-      "Código": "A3G7",
-      "Case ID": "54e2579550f66bba00fd851ee3e016f97c5cf2af1358c89b0d1b9c65930c6ed0",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR041']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SEGOV",
-      "Código": "A3G7",
-      "Case ID": "54e2579550f66bba00fd851ee3e016f97c5cf2af1358c89b0d1b9c65930c6ed0",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4694,38 +3724,8 @@
       "Código": "A2G6",
       "Case ID": "9ef624e690c3ef3dced030f26e38cbfa5c9e2384f2d7d5717cb88c31f74dd873",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SEINFRA",
-      "Código": "A2G6",
-      "Case ID": "9ef624e690c3ef3dced030f26e38cbfa5c9e2384f2d7d5717cb88c31f74dd873",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR013', 'MR015']; recebidos=['MR013', 'MR015', 'AV11']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SEINFRA",
-      "Código": "A2G6",
-      "Case ID": "9ef624e690c3ef3dced030f26e38cbfa5c9e2384f2d7d5717cb88c31f74dd873",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SEINFRA",
-      "Código": "A3G8",
-      "Case ID": "b70442d4af7372609b9e8991301dfa258a7b0908c0db3b7d6c7e963881dded79",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -4736,16 +3736,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SEINFRA",
-      "Código": "A3G8",
-      "Case ID": "b70442d4af7372609b9e8991301dfa258a7b0908c0db3b7d6c7e963881dded79",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4813,29 +3803,9 @@
       "Auditado": "SEPM",
       "Código": "A2G4",
       "Case ID": "015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; escopo_motivos: motivos esperados=['MR016']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SEPM",
-      "Código": "A2G4",
-      "Case ID": "015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SEPM",
-      "Código": "A2G4",
-      "Case ID": "015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -4973,29 +3943,9 @@
       "Auditado": "SES",
       "Código": "A5G21",
       "Case ID": "d76bfac5e35903c86f4bd5ac1592c828d4f01c8a83309674f46394c2db40a285",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo; coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SES",
-      "Código": "A5G21",
-      "Case ID": "d76bfac5e35903c86f4bd5ac1592c828d4f01c8a83309674f46394c2db40a285",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR086', 'MR090']; recebidos=[]"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SES",
-      "Código": "A5G21",
-      "Case ID": "d76bfac5e35903c86f4bd5ac1592c828d4f01c8a83309674f46394c2db40a285",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -5043,39 +3993,9 @@
       "Auditado": "SETD",
       "Código": "A4G13",
       "Case ID": "b130174fdfb23f755f6cda1a9ece89bb504de35bb85040f3de9b5edbc3c0573a",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SETD",
-      "Código": "A4G13",
-      "Case ID": "b130174fdfb23f755f6cda1a9ece89bb504de35bb85040f3de9b5edbc3c0573a",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SETD",
-      "Código": "A4G13",
-      "Case ID": "b130174fdfb23f755f6cda1a9ece89bb504de35bb85040f3de9b5edbc3c0573a",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SETD",
-      "Código": "A4G13",
-      "Case ID": "b130174fdfb23f755f6cda1a9ece89bb504de35bb85040f3de9b5edbc3c0573a",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -5094,8 +4014,8 @@
       "Código": "A5G21",
       "Case ID": "99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -5283,29 +4203,9 @@
       "Auditado": "SETUR",
       "Código": "A5G22",
       "Case ID": "81546a310f3b1f38fed57768419b1769132073be63c58309e8629d03cefbe8b1",
-      "Modelo": "minimax-m3",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR065', 'MR067', 'MR069']; recebidos=['MR065']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "SETUR",
-      "Código": "A5G22",
-      "Case ID": "81546a310f3b1f38fed57768419b1769132073be63c58309e8629d03cefbe8b1",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "SETUR",
-      "Código": "A5G22",
-      "Case ID": "81546a310f3b1f38fed57768419b1769132073be63c58309e8629d03cefbe8b1",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -5373,19 +4273,9 @@
       "Auditado": "TCE-RJ",
       "Código": "A3G10",
       "Case ID": "cae0c4dcc262727d54a42e9015efda671c11e1ca7d619a04be9b670a294f35d4",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "TCE-RJ",
-      "Código": "A3G10",
-      "Case ID": "cae0c4dcc262727d54a42e9015efda671c11e1ca7d619a04be9b670a294f35d4",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -5405,17 +4295,7 @@
       "Case ID": "cae0c4dcc262727d54a42e9015efda671c11e1ca7d619a04be9b670a294f35d4",
       "Modelo": "",
       "Status": "insuficiente",
-      "Violação": "1 avaliações válidas; mínimo=3"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "TCE-RJ",
-      "Código": "A3G11",
-      "Case ID": "dd39d77f0e0d0c380eff2c1d32b75cab7710dd2ea93473c7d7647ccca4af91d8",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -5426,16 +4306,6 @@
       "Modelo": "qwen3.7-plus",
       "Status": "error",
       "Violação": "status error: erro ao chamar OpencodeGo: HTTP Error 400: Bad Request; body: {\"error\":{\"message\":\"Error from provider (Alibaba): <400> InternalError.Algo.InvalidParameter: The image length and width do not meet the model restrictions. [height:5 or width:155 must be larger than 10]\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_parameter_error\"},\"id\":\"chatcmpl-db4a4a81-6fff-41f8-a74b-2de5753a31ac\",\"request_id\":\"db4a4a81-6fff-41f8-a74b-2de5753a31ac\"}"
-    },
-    {
-      "Seção": "1",
-      "Nível": "quórum",
-      "Auditado": "TCE-RJ",
-      "Código": "A3G11",
-      "Case ID": "dd39d77f0e0d0c380eff2c1d32b75cab7710dd2ea93473c7d7647ccca4af91d8",
-      "Modelo": "",
-      "Status": "insuficiente",
-      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "1",
@@ -5494,8 +4364,8 @@
       "Código": "A3G11",
       "Case ID": "c3bc055f30269aa723bbb963323320f4946b741763a70ee0704e92df09ad4a30",
       "Modelo": "gpt-5.6-luna",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+      "Status": "error",
+      "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
     },
     {
       "Seção": "1",
@@ -5563,16 +4433,6 @@
       "Auditado": "UERJ",
       "Código": "A2G6",
       "Case ID": "8640281c5f426759000892053baaa7c629a0ee57e83e86945f6bde4170dccf57",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "escopo_itens: itens esperados=['A2G6']; recebidos=['A2G6', 'Achado 3', 'Achado 5']; escopo_motivos: motivos esperados=['MR008', 'MR010', 'MR012', 'MR014']; recebidos=['Planejamento_Formal', 'Vinculo_Orcamentario']; escopo_motivos: motivos esperados=['MR008', 'MR010', 'MR012', 'MR014']; recebidos=['Inventario_Ativos', 'Gestao_Incidentes']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "UERJ",
-      "Código": "A2G6",
-      "Case ID": "8640281c5f426759000892053baaa7c629a0ee57e83e86945f6bde4170dccf57",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "conclusoes_ausentes: resultado não contém conclusões"
@@ -5613,39 +4473,9 @@
       "Auditado": "UERJ",
       "Código": "A5G20",
       "Case ID": "5e5d2b29b820db96a49c59122ed15b34d76bd11aa4adbed3f146ed1bef9a4b88",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "escopo_itens: itens esperados=['A5G20']; recebidos=['A5G20', 'Q2708']; escopo_motivos: motivos esperados=['MR076', 'MR077', 'MR079']; recebidos=['Q2708_a', 'Q2708_b']"
-    },
-    {
-      "Seção": "1",
-      "Nível": "avaliação individual",
-      "Auditado": "UERJ",
-      "Código": "A5G20",
-      "Case ID": "5e5d2b29b820db96a49c59122ed15b34d76bd11aa4adbed3f146ed1bef9a4b88",
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_motivos: motivos esperados=['MR076', 'MR077', 'MR079']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "AGERIO",
-      "Código": "A3G8",
-      "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "ANGRA DOS REIS",
-      "Código": "A1G3",
-      "Case ID": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
     },
     {
       "Seção": "1",
@@ -5670,59 +4500,9 @@
     {
       "Seção": "1",
       "Nível": "parecer consolidado",
-      "Auditado": "ISP",
-      "Código": "A6G23",
-      "Case ID": "1e242c11aef36be7093cf59e54ceec1788be60a54ff480afe76889674d39197a",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "JAPERI",
-      "Código": "A2G4",
-      "Case ID": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "JUCERJA",
-      "Código": "A6G23",
-      "Case ID": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
       "Auditado": "LOTERJ",
       "Código": "A2G4",
       "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "LOTERJ",
-      "Código": "A5G20",
-      "Case ID": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "MPERJ",
-      "Código": "A5G19",
-      "Case ID": "d20605948e3bfe41c1505cd2f9629aee86295dab1f8e63dfd7b8f487bd036238",
       "Modelo": "gemini-3.1-flash-lite",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
@@ -5736,16 +4516,6 @@
       "Modelo": "gemini-3.1-flash-lite",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "PORTO REAL",
-      "Código": "A4G14",
-      "Case ID": "4c8cce8e909f2a0c6816050d84758d486f11ebe6c2efeff8a5de22cd75d94eef",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "escopo_motivos: motivos esperados=['MR044']; recebidos=['MR044', 'AV29', 'AV33', 'AV34', 'AV36', 'AV38', 'AV39', 'AV40', 'AV41', 'AV42']"
     },
     {
       "Seção": "1",
@@ -5773,16 +4543,6 @@
       "Auditado": "SÃO JOÃO DE MERITI",
       "Código": "A4G12",
       "Case ID": "4c202302c27af6bb12bbcc3ca1d0bad370a35ce94ee90449eeda9446957c15a5",
-      "Modelo": "gemini-3.1-flash-lite",
-      "Status": "completed",
-      "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
-    },
-    {
-      "Seção": "1",
-      "Nível": "parecer consolidado",
-      "Auditado": "SEDEC",
-      "Código": "A5G20",
-      "Case ID": "0d6767c8b7e4d020c44d79e7ae122d84dd84737f8897c75bddbbe47a8258e4bf",
       "Modelo": "gemini-3.1-flash-lite",
       "Status": "completed",
       "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
@@ -5976,6 +4736,16 @@
       "Modelo": "qwen3.7-plus",
       "Status": "completed",
       "Violação": "escopo_itens: itens esperados=['q2203', 'q2203ext[A]', 'q2203ext[B]']; recebidos=['q2203', 'q2203ext[A]', 'q2203ext[B]', 'q2203ext[C]']"
+    },
+    {
+      "Seção": "2",
+      "Nível": "quórum",
+      "Auditado": "MPERJ",
+      "Código": "q2203",
+      "Case ID": "96a850cf85ec953fe1948efc89d29f5d6039068d584194a642a6bfcc33d6ce84",
+      "Modelo": "",
+      "Status": "insuficiente",
+      "Violação": "2 avaliações válidas; mínimo=3"
     },
     {
       "Seção": "2",
@@ -6271,44 +5041,9 @@
   "casos_reprocessamento": {
     "1": [
       {
-        "case_id": "008c1214f1d8b1c38e4b3684bd4d50bd5a572606d873b37dfb671179536b7b6a",
-        "auditado": "AGENERSA",
-        "codigo": "A1G3"
-      },
-      {
-        "case_id": "015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65",
-        "auditado": "SEPM",
-        "codigo": "A2G4"
-      },
-      {
-        "case_id": "0b7019066ac30dafcfa9a7b717accfa4f0f166c3bd6f6fe81b773d22bc1bdada",
-        "auditado": "ISP",
-        "codigo": "A2G4"
-      },
-      {
-        "case_id": "0b7c3638c72e76ee253feaf7cfab80d13e869e4810ed45bee5ebd0607f5db8a5",
-        "auditado": "CEDAE",
-        "codigo": "A3G11"
-      },
-      {
-        "case_id": "0d6767c8b7e4d020c44d79e7ae122d84dd84737f8897c75bddbbe47a8258e4bf",
-        "auditado": "SEDEC",
-        "codigo": "A5G20"
-      },
-      {
         "case_id": "1336a392a480903a0905bd0217860b2e61f3b958739e8d77260406291b2cb6f8",
         "auditado": "NOVA IGUAÇU",
         "codigo": "A2G6"
-      },
-      {
-        "case_id": "1ca03b06161ad16e2fbe02e5909136b940244b5dc2201fb5c25b8e82499ebab8",
-        "auditado": "IPEM",
-        "codigo": "A3G8"
-      },
-      {
-        "case_id": "1e242c11aef36be7093cf59e54ceec1788be60a54ff480afe76889674d39197a",
-        "auditado": "ISP",
-        "codigo": "A6G23"
       },
       {
         "case_id": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
@@ -6316,29 +5051,9 @@
         "codigo": "A2G4"
       },
       {
-        "case_id": "2e8892349fd28f1f68ee89fc8dc339c080e3cd55fffa1d200326f2b8505cea9c",
-        "auditado": "JUCERJA",
-        "codigo": "A5G18"
-      },
-      {
-        "case_id": "2f3d6d468c05e76b78bd45ae3ae08652551b7f8dca492ae6800080f3aed9e8c6",
-        "auditado": "ARRAIAL DO CABO",
-        "codigo": "A1G3"
-      },
-      {
-        "case_id": "3214194ff65a94e334131ce13fb9cda7da41fc5ae27039c9e6b588ffe2b13cab",
-        "auditado": "GUAPIMIRIM",
-        "codigo": "A2G5"
-      },
-      {
         "case_id": "3569c22f42020a7f8176d85ed4e6d2b6faf734cdcb849f22f1d70d05b62c20c9",
         "auditado": "NITERÓI",
         "codigo": "A3G10"
-      },
-      {
-        "case_id": "366eeab4b76f38e378d22994d6df11ce6f333b089439139c864156c4c3311829",
-        "auditado": "RJPREV",
-        "codigo": "A5G20"
       },
       {
         "case_id": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
@@ -6346,49 +5061,14 @@
         "codigo": "A1G3"
       },
       {
-        "case_id": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
-        "auditado": "AGERIO",
-        "codigo": "A3G8"
-      },
-      {
-        "case_id": "43ba2190a1b495b0eafd783655b03e4973b2f44c81c005f37c0db8ad9d68b383",
-        "auditado": "IPEM",
-        "codigo": "A3G9"
-      },
-      {
         "case_id": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
         "auditado": "RIO DAS OSTRAS",
         "codigo": "A2G5"
       },
       {
-        "case_id": "4ab3d5cfb0534455ed935e86a8f9b10ac348eda14dc3ee89f3bf5868a4e69af1",
-        "auditado": "ISP",
-        "codigo": "A2G6"
-      },
-      {
         "case_id": "4c202302c27af6bb12bbcc3ca1d0bad370a35ce94ee90449eeda9446957c15a5",
         "auditado": "SÃO JOÃO DE MERITI",
         "codigo": "A4G12"
-      },
-      {
-        "case_id": "4c8cce8e909f2a0c6816050d84758d486f11ebe6c2efeff8a5de22cd75d94eef",
-        "auditado": "PORTO REAL",
-        "codigo": "A4G14"
-      },
-      {
-        "case_id": "54e2579550f66bba00fd851ee3e016f97c5cf2af1358c89b0d1b9c65930c6ed0",
-        "auditado": "SEGOV",
-        "codigo": "A3G7"
-      },
-      {
-        "case_id": "595602798009065a3a0a9cc1d995e335a6515d0b1f786d693866e4e8bd9ffab7",
-        "auditado": "FUNARJ",
-        "codigo": "A5G22"
-      },
-      {
-        "case_id": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
-        "auditado": "LOTERJ",
-        "codigo": "A5G20"
       },
       {
         "case_id": "5e5d2b29b820db96a49c59122ed15b34d76bd11aa4adbed3f146ed1bef9a4b88",
@@ -6406,29 +5086,9 @@
         "codigo": "A2G4"
       },
       {
-        "case_id": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
-        "auditado": "AGERIO",
-        "codigo": "A3G10"
-      },
-      {
-        "case_id": "765f95e6c662106ffa2a2806e8df699ec4dfc01bd36d4d81226ca3d644ceb81d",
-        "auditado": "NOVA IGUAÇU",
-        "codigo": "A6G23"
-      },
-      {
-        "case_id": "81546a310f3b1f38fed57768419b1769132073be63c58309e8629d03cefbe8b1",
-        "auditado": "SETUR",
-        "codigo": "A5G22"
-      },
-      {
         "case_id": "8640281c5f426759000892053baaa7c629a0ee57e83e86945f6bde4170dccf57",
         "auditado": "UERJ",
         "codigo": "A2G6"
-      },
-      {
-        "case_id": "8d6cef7c634c6681356b2ee95e61ae33d4c3eb4cb8dd0767697b8d2aaf979953",
-        "auditado": "QUEIMADOS",
-        "codigo": "A5G21"
       },
       {
         "case_id": "8d925d5237887e57e31b795b34166bd32fff1d92f79425454d08b58b030eb0e2",
@@ -6436,18 +5096,8 @@
         "codigo": "A5G22"
       },
       {
-        "case_id": "989f6270be0b81fa5447d6e2ce635b5037c3f46fd53e10d77f4ac580abc2c2e4",
-        "auditado": "CENTRAL",
-        "codigo": "A4G16"
-      },
-      {
         "case_id": "99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9",
         "auditado": "SETD",
-        "codigo": "A5G21"
-      },
-      {
-        "case_id": "9a34e84d96e0c07aeecb28457ef7859e5ced5b0d09d69704acc1e59f9ff5bf9c",
-        "auditado": "CABO FRIO",
         "codigo": "A5G21"
       },
       {
@@ -6456,29 +5106,14 @@
         "codigo": "A2G6"
       },
       {
-        "case_id": "9f8ecb43c5dc88473e9af068ba76dccb9a1adf1b63ad9fd2129db12e690a2fe2",
-        "auditado": "FMIS",
-        "codigo": "A3G7"
-      },
-      {
         "case_id": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
         "auditado": "JUCERJA",
         "codigo": "A6G23"
       },
       {
-        "case_id": "a63b94109d512da659b6d5e4b70279122138c2a81e2140e0b2a8f04a791949bd",
-        "auditado": "BELFORD ROXO",
-        "codigo": "A4G13"
-      },
-      {
         "case_id": "ad5828c6c9051df8f774ab86b180180849e5e37ab169470e5aa153cdf2329933",
         "auditado": "SÃO PEDRO DA ALDEIA",
         "codigo": "A5G20"
-      },
-      {
-        "case_id": "b130174fdfb23f755f6cda1a9ece89bb504de35bb85040f3de9b5edbc3c0573a",
-        "auditado": "SETD",
-        "codigo": "A4G13"
       },
       {
         "case_id": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
@@ -6489,16 +5124,6 @@
         "case_id": "b614e4deeab2509e70b7ab78e0ac43ead02f2d0c9033cb0b1ea9522de8952b99",
         "auditado": "SEENEMAR",
         "codigo": "A2G4"
-      },
-      {
-        "case_id": "b70442d4af7372609b9e8991301dfa258a7b0908c0db3b7d6c7e963881dded79",
-        "auditado": "SEINFRA",
-        "codigo": "A3G8"
-      },
-      {
-        "case_id": "bbaebf04f2d7a3e940a42c6e84b20e70bc7a45a7d028a2be6c5ba9a68f71759c",
-        "auditado": "NOVA IGUAÇU",
-        "codigo": "A3G10"
       },
       {
         "case_id": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
@@ -6526,69 +5151,14 @@
         "codigo": "A2G4"
       },
       {
-        "case_id": "ce98a6aa8519ccf3f4c8ea210681380a5cab64edcdb090c37fb70554975da1a8",
-        "auditado": "NOVA IGUAÇU",
-        "codigo": "A6G26"
-      },
-      {
-        "case_id": "d09802ab909120f5ea59d13193f350ab8e63613cd4c9d4eb810bf87b5d701194",
-        "auditado": "ANGRA DOS REIS",
-        "codigo": "A4G17"
-      },
-      {
-        "case_id": "d20605948e3bfe41c1505cd2f9629aee86295dab1f8e63dfd7b8f487bd036238",
-        "auditado": "MPERJ",
-        "codigo": "A5G19"
-      },
-      {
         "case_id": "d65e396df67f7f9a86b2ebdf1bde42ea065cfde3a8cbffcc4cc67cf2ae9e22cb",
         "auditado": "IPEM",
         "codigo": "A2G6"
       },
       {
-        "case_id": "d76bfac5e35903c86f4bd5ac1592c828d4f01c8a83309674f46394c2db40a285",
-        "auditado": "SES",
-        "codigo": "A5G21"
-      },
-      {
-        "case_id": "d8a476526c8ec49fd24423d42fb8ee35dd64c65ab9bb6852d2a32c272787e869",
-        "auditado": "SEDEICS",
-        "codigo": "A3G9"
-      },
-      {
-        "case_id": "dd39d77f0e0d0c380eff2c1d32b75cab7710dd2ea93473c7d7647ccca4af91d8",
-        "auditado": "TCE-RJ",
-        "codigo": "A3G11"
-      },
-      {
-        "case_id": "dd3cb4b7908803ad86988b6ba24a0b863e75d554698761b7197e77c502dda02c",
-        "auditado": "AGETRANSP",
-        "codigo": "A3G11"
-      },
-      {
-        "case_id": "dd76e28b8e11c84d2e1432126771e24a33a1c15ecfd20b13e3413ea11cc88e59",
-        "auditado": "RIO DAS OSTRAS",
-        "codigo": "A3G10"
-      },
-      {
-        "case_id": "de4c9ddc143f2b55d7135aa3d8a08bdad72f98f4ffa50dc413d9f77d96928cf9",
-        "auditado": "IPEM",
-        "codigo": "A2G4"
-      },
-      {
         "case_id": "e3d14900cb0a59c5c63bee4f9c1654dfcfd652837b15f9e59fa119dc3ad3a20d",
         "auditado": "SÃO JOÃO DE MERITI",
         "codigo": "A2G6"
-      },
-      {
-        "case_id": "f27b669006f08a7e14b1bd11964be34298c3997ab1b0c7fc748b74f266fbc334",
-        "auditado": "LOTERJ",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "f734dd02c01c0b91af5331996872a4ef726778954c23380d99d7a8086e829f1a",
-        "auditado": "SEAPPA",
-        "codigo": "A6G26"
       },
       {
         "case_id": "fcc7c0714d8fc70feb4fe5c177a3cfaae61634c4ee21e21f10935698d36e315b",

@@ -45,3 +45,4 @@ relatorio-consolidado/
 relatorios-individuais/
 .argos-cli/
 .env
+.tmp-tests/

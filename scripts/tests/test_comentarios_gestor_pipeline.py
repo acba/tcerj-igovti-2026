@@ -456,6 +456,30 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
         self.assertEqual(loaded["evaluators"][0]["pdf_detail"], "auto")
         self.assertEqual(loaded["judge"]["pdf_detail"], "auto")
 
+    def test_models_configuration_keeps_historical_model_without_executing_it(self) -> None:
+        config = json.loads(DEFAULT_MODELS_CONFIG.read_text(encoding="utf-8"))
+        target = next(item for item in config["evaluators"] if item.get("enabled", True))
+        target["execute"] = False
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "models.json"
+            path.write_text(json.dumps(config), encoding="utf-8")
+            loaded = carregar_configuracao_modelos(path)
+        self.assertIn(target["model_key"], {item["model_key"] for item in models(loaded, False)})
+        self.assertNotIn(
+            target["model_key"],
+            {item["model_key"] for item in models(loaded, False, execute_only=True)},
+        )
+
+    def test_models_configuration_rejects_execution_of_disabled_model(self) -> None:
+        config = json.loads(DEFAULT_MODELS_CONFIG.read_text(encoding="utf-8"))
+        config["evaluators"][0]["enabled"] = False
+        config["evaluators"][0]["execute"] = True
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "models.json"
+            path.write_text(json.dumps(config), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "execute exige enabled=true"):
+                carregar_configuracao_modelos(path)
+
     def test_models_configuration_rejects_invalid_pdf_detail(self) -> None:
         config = json.loads(DEFAULT_MODELS_CONFIG.read_text(encoding="utf-8"))
         config["evaluators"][0]["pdf_detail"] = "medium"

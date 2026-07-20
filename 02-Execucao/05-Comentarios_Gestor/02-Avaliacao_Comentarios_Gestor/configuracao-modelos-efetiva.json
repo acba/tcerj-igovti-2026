@@ -12,11 +12,12 @@
       "reasoning": "high",
       "pdf2md": false,
       "docx2html": true,
+      "execute": true,
       "pdf_detail": "auto"
     },
     {
       "name": "gemini-3.5-flash",
-      "enabled": true,
+      "enabled": false,
       "provider": "gemini",
       "model": "gemini-3.5-flash",
       "model_key": "gemini-3.5-flash",
@@ -24,11 +25,13 @@
       "reasoning": "high",
       "pdf2md": false,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     },
     {
       "name": "gpt-5.6-luna",
       "enabled": true,
+      "execute": false,
       "provider": "openai",
       "model": "gpt-5.6-luna",
       "model_key": "gpt-5.6-luna",
@@ -48,6 +51,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": true,
       "pdf_detail": "auto"
     },
     {
@@ -60,6 +64,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     },
     {
@@ -72,6 +77,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": true,
       "pdf_detail": "auto"
     },
     {
@@ -84,6 +90,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     },
     {
@@ -96,6 +103,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     },
     {
@@ -108,6 +116,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     },
     {
@@ -120,6 +129,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     },
     {
@@ -132,6 +142,7 @@
       "reasoning": "high",
       "pdf2md": true,
       "docx2html": true,
+      "execute": false,
       "pdf_detail": "auto"
     }
   ],

@@ -78,11 +78,16 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
         provider = str(evaluator["provider"]).strip()
         model = str(evaluator["model"]).strip()
         enabled = evaluator.get("enabled", True)
+        execute = evaluator.get("execute", enabled)
         model_key = str(evaluator.get("model_key", model)).strip()
         if not name or not provider or not model:
             raise ValueError(f"evaluators[{index}] possui name/provider/model vazio")
         if not isinstance(enabled, bool):
             raise ValueError(f"evaluators[{index}].enabled deve ser booleano")
+        if not isinstance(execute, bool):
+            raise ValueError(f"evaluators[{index}].execute deve ser booleano")
+        if execute and not enabled:
+            raise ValueError(f"evaluators[{index}].execute exige enabled=true")
         if not model_key:
             raise ValueError(f"evaluators[{index}].model_key não pode ser vazio")
         if name in names:
@@ -101,12 +106,15 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
         names.add(name)
         pairs.add((provider, model))
         evaluator["enabled"] = enabled
+        evaluator["execute"] = execute
         evaluator["model_key"] = model_key
         evaluator["pdf_detail"] = pdf_detail
 
     active = [evaluator for evaluator in evaluators if evaluator["enabled"]]
     if not active:
         raise ValueError("a configuração deve conter ao menos um avaliador habilitado")
+    if not any(evaluator["execute"] for evaluator in active):
+        raise ValueError("a configuração deve conter ao menos um avaliador habilitado para execução")
     active_by_model: dict[str, list[str]] = {}
     for evaluator in active:
         active_by_model.setdefault(evaluator["model_key"], []).append(evaluator["name"])
@@ -141,8 +149,8 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
     return config
 
 
-def models(config: dict[str, Any], fake: bool) -> list[dict[str, Any]]:
-    configured = [cfg for cfg in config["evaluators"] if cfg["enabled"]]
+def models(config: dict[str, Any], fake: bool, *, execute_only: bool = False) -> list[dict[str, Any]]:
+    configured = [cfg for cfg in config["evaluators"] if cfg["enabled"] and (not execute_only or cfg["execute"])]
     if not fake:
         return configured
     return [
@@ -219,6 +227,7 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
     if secao == "1":
         gravar_deterministicos(deterministicos, individual_dir)
     configs = models(args.models_runtime_config, args.fake)
+    execution_configs = models(args.models_runtime_config, args.fake, execute_only=True)
     for cfg in configs:
         identidades: list[str] = []
         for caso in casos:
@@ -244,7 +253,7 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
     if args.preflight_only:
         return {"secao": secao, "preflight": preflight, "modelos": []}
     resultados: list[dict[str, Any]] = []
-    max_workers = min(args.models_runtime_config["max_parallel_evaluators"], len(configs))
+    max_workers = min(args.models_runtime_config["max_parallel_evaluators"], len(execution_configs))
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
             executor.submit(
@@ -255,7 +264,7 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
                 reasoning=cfg["reasoning"], rpm=cfg["rpm"], pdf2md=cfg["pdf2md"],
                 docx2html=cfg["docx2html"], pdf_detail=cfg["pdf_detail"], quiet=args.quiet,
             ): cfg
-            for cfg in configs
+            for cfg in execution_configs
         }
         for future in as_completed(futures):
             cfg = futures[future]
@@ -272,11 +281,8 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
                 }
             resultados.append(resultado)
             print(json.dumps({"event": "comments_model_finished", "secao": secao, **resultado}, ensure_ascii=False), flush=True)
-    checkpoints = [
-        Path(resultado["clean"])
-        for resultado in resultados
-        if resultado.get("clean") and Path(resultado["clean"]).is_file()
-    ]
+    checkpoints = _analysis_files(args, secao, ignore_manifest=filtro_reparo is not None)
+
     xlsx = individual_dir / "avaliacoes_modelos.xlsx"
     gravar_avaliacoes_modelos_xlsx(
         xlsx,

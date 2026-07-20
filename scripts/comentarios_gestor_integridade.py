@@ -32,6 +32,57 @@ def _mais_recente(registros: list[dict[str, Any]], chave_modelo: bool) -> dict[t
     return atuais
 
 
+def _agrupar_registros(
+    registros: list[dict[str, Any]],
+    *,
+    chave_modelo: bool,
+) -> dict[tuple[str, str], list[dict[str, Any]]]:
+    grupos: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for registro in registros:
+        cid = str(registro.get("case_id") or "")
+        modelo = str(registro.get("model_key") or registro.get("model") or "") if chave_modelo else ""
+        if cid:
+            grupos[(cid, modelo)].append(registro)
+    for candidatos in grupos.values():
+        candidatos.sort(key=lambda item: str(item.get("finished_at") or ""), reverse=True)
+    return grupos
+
+
+def _selecionar_registro_valido(
+    candidatos: list[dict[str, Any]],
+    *,
+    caso: dict[str, Any],
+    validar_temporal: bool,
+) -> tuple[dict[str, Any] | None, str]:
+    """Preserva o registro valido mais recente diante de falhas posteriores."""
+    for registro in candidatos:
+        if registro.get("status") != "completed":
+            continue
+        violacao = formatar_violacoes(
+            validar_resultado_no_escopo(
+                {**caso, "result": registro.get("result")},
+                registro.get("result"),
+                validar_temporal=validar_temporal,
+            )
+        )
+        if not violacao:
+            return registro, ""
+
+    if not candidatos:
+        return None, ""
+    registro = candidatos[0]
+    if registro.get("status") != "completed":
+        return registro, f"status {registro.get('status')}: {registro.get('error', '')}"
+    violacao = formatar_violacoes(
+        validar_resultado_no_escopo(
+            {**caso, "result": registro.get("result")},
+            registro.get("result"),
+            validar_temporal=validar_temporal,
+        )
+    )
+    return registro, violacao
+
+
 def _gravar_xlsx(path: Path, linhas: list[dict[str, Any]], resumo: dict[str, Any]) -> None:
     wb = Workbook()
     ws = wb.active
@@ -80,30 +131,21 @@ def validar_integridade_comentarios(
         registros_individuais: list[dict[str, Any]] = []
         for arquivo in individual_dir.glob("analyses_model_*.jsonl"):
             registros_individuais.extend(_ler_jsonl(arquivo))
-        atuais = _mais_recente(registros_individuais, True)
+        registros_por_caso_modelo = _agrupar_registros(registros_individuais, chave_modelo=True)
         afetados: set[str] = set()
         validos_por_caso: dict[str, int] = defaultdict(int)
         for cid, caso in por_id.items():
             for modelo in modelos_esperados:
-                registro = atuais.get((cid, modelo))
+                registro, violacao = _selecionar_registro_valido(
+                    registros_por_caso_modelo.get((cid, modelo), []),
+                    caso=caso,
+                    validar_temporal=secao == "1",
+                )
                 if registro is None:
                     # A configuração define o conjunto possível de avaliadores,
                     # mas o método admite consolidação com quórum. Ausência isolada
                     # não torna o caso inválido; será tratada pela regra de quórum.
                     continue
-                elif registro.get("status") != "completed":
-                    violacao = f"status {registro.get('status')}: {registro.get('error', '')}"
-                else:
-                    registro_escopo = {
-                        **caso,
-                        "result": registro.get("result"),
-                    }
-                    violacoes = validar_resultado_no_escopo(
-                        registro_escopo,
-                        registro.get("result"),
-                        validar_temporal=secao == "1",
-                    )
-                    violacao = formatar_violacoes(violacoes)
                 if violacao:
                     linhas.append({
                         "Seção": secao, "Nível": "avaliação individual",
@@ -124,20 +166,15 @@ def validar_integridade_comentarios(
                 })
 
         consolidado = out_dir / "consolidado" / ("secao-1" if secao == "1" else "secao-2") / "consolidated.jsonl"
-        pareceres = _mais_recente(_ler_jsonl(consolidado), False)
+        pareceres = _agrupar_registros(_ler_jsonl(consolidado), chave_modelo=False)
         for cid, caso in por_id.items():
-            registro = pareceres.get((cid, ""))
+            registro, violacao = _selecionar_registro_valido(
+                pareceres.get((cid, ""), []),
+                caso=caso,
+                validar_temporal=secao == "1",
+            )
             if registro is None:
                 violacao = "parecer consolidado ausente"
-            elif registro.get("status") != "completed":
-                violacao = f"status {registro.get('status')}: {registro.get('error', '')}"
-            else:
-                violacoes = validar_resultado_no_escopo(
-                    {**caso, "result": registro.get("result")},
-                    registro.get("result"),
-                    validar_temporal=secao == "1",
-                )
-                violacao = formatar_violacoes(violacoes)
             if violacao:
                 afetados.add(cid)
                 linhas.append({
