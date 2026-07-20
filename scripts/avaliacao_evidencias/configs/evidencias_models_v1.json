@@ -1,0 +1,58 @@
+{
+  "version": "evidencias_models_v1",
+  "evaluators": [
+    {
+      "name": "gemini-3.1-flash-lite",
+      "enabled": true,
+      "provider": "gemini",
+      "model": "gemini-3.1-flash-lite",
+      "rpm": 12,
+      "reasoning": "high",
+      "pdf2md": false,
+      "docx2html": true
+    },
+    {
+      "name": "gpt-5.6-luna",
+      "enabled": true,
+      "provider": "openai",
+      "model": "gpt-5.6-luna",
+      "rpm": 12,
+      "reasoning": "high",
+      "pdf2md": false,
+      "docx2html": true
+    },
+    {
+      "name": "minimax-m3",
+      "enabled": true,
+      "provider": "opencodego",
+      "model": "minimax-m3",
+      "rpm": 0,
+      "reasoning": "high",
+      "pdf2md": true,
+      "docx2html": true
+    },
+    {
+      "name": "qwen3.7-plus",
+      "enabled": false,
+      "provider": "opencodego",
+      "model": "qwen3.7-plus",
+      "rpm": 0,
+      "reasoning": "high",
+      "pdf2md": true,
+      "docx2html": true
+    }
+  ],
+  "judges": [
+    {
+      "name": "gemini-3.1-flash-lite",
+      "enabled": true,
+      "judge_provider": "gemini",
+      "judge_model": "gemini-3.1-flash-lite",
+      "rpm": 12,
+      "reasoning": "high",
+      "pdf2md": false,
+      "docx2html": true
+    }
+  ],
+  "min_valid_opinions": 3
+}

@@ -47,6 +47,11 @@ from scripts.avaliacao_evidencias.questionnaire import (
     ItemAfirmado,
     carregar_contexto_questionario,
 )
+from scripts.avaliacao_evidencias.scope_validation import (
+    formatar_violacoes,
+    motivos_ativos_registro,
+    validar_resultado_no_escopo,
+)
 from scripts.avaliacao_evidencias.utils import RequestsPerMinuteLimiter, hash_arquivo, log_event
 from scripts.resources.xlsx_utils import sanitizar_workbook_para_excel
 
@@ -56,11 +61,13 @@ DEFAULT_RESULTADO = ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_
 DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
 DEFAULT_AJUSTES = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 DEFAULT_RESPOSTAS_BASE = ROOT / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx"
+DEFAULT_RESPOSTAS_ORIGINAIS = ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx"
 DEFAULT_PAINEL_EVIDENCIAS = ROOT / "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx"
+DEFAULT_REVISOES_RESPOSTAS = ROOT / "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_respostas.yml"
 DEFAULT_QUESTIONARIO = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 DEFAULT_PROMPTS = ROOT / "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 DEFAULT_CATALOG = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
-DEFAULT_CATALOG_COMENTARIOS = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v2.yml"
+DEFAULT_CATALOG_COMENTARIOS = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v3.yml"
 
 ENV_PROVIDER_KEYS = {
     "gemini": "GEMINI_API_KEY",
@@ -73,7 +80,6 @@ ESTADOS_TEMPORAIS = {
     "mantida",
     "afastada_na_data_base",
     "corrigida_posteriormente",
-    "inconclusiva",
 }
 
 # Conversões pdf2md/docx2html são intensivas e algumas bibliotecas auxiliares
@@ -373,11 +379,11 @@ def case_id(secao: str, auditado: str, codigo: str, resposta_id: Any, extra: str
 
 def _resultado_fake_temporal(result: dict[str, Any], motivos: list[dict[str, Any]]) -> dict[str, Any]:
     for conclusao in result.get("conclusoes") or []:
-        conclusao["estado_temporal"] = "inconclusiva"
+        conclusao["estado_temporal"] = "mantida"
         conclusao["conclusoes_motivos"] = [
             {
                 "id_motivo": texto(m.get("id")),
-                "estado_motivo": "inconclusivo",
+                "estado_motivo": "mantido",
                 "justificativa": "Provider fake não emite conclusão substantiva.",
             }
             for m in motivos
@@ -387,6 +393,46 @@ def _resultado_fake_temporal(result: dict[str, Any], motivos: list[dict[str, Any
         conclusao["consequencias_praticas"] = []
         conclusao["alternativas_propostas"] = []
     return result
+
+
+def _registrar_anexo_nao_processado(
+    avisos: list[dict[str, str]],
+    caminho: Path,
+    erro: str,
+) -> None:
+    """Registra anexo ilegível sem atribuir a ele valor probatório."""
+    avisos.append(
+        {
+            "arquivo": caminho.name,
+            "caminho": str(caminho),
+            "erro": erro,
+            "tratamento": (
+                "O anexo não foi enviado ao modelo nem considerado como evidência. "
+                "A avaliação deve usar somente os demais elementos processáveis."
+            ),
+        }
+    )
+
+
+def _adicionar_avisos_anexos_ao_pacote(
+    pacote: dict[str, Any],
+    avisos: list[dict[str, str]],
+) -> None:
+    if not avisos:
+        return
+    documento = _documento(
+        "avisos_processamento_anexos.json",
+        "aviso_tecnico_processamento",
+        {
+            "orientacao": (
+                "Os anexos abaixo não puderam ser processados e não constituem prova. "
+                "Não presuma seu conteúdo nem extraia conclusão favorável de sua mera existência."
+            ),
+            "anexos": avisos,
+        },
+    )
+    pacote["documentos"].append(documento)
+    pacote["inventario"].append(documento["nome"])
 
 
 def executar_caso(
@@ -401,6 +447,7 @@ def executar_caso(
 ) -> dict[str, Any]:
     started = dt.datetime.now(dt.timezone.utc)
     tokens_info: dict[str, int] = {}
+    avisos_processamento: list[dict[str, str]] = []
     with tempfile.TemporaryDirectory() as tmp:
         pacote = {
             "documentos": list(caso["documentos_contexto"]),
@@ -415,13 +462,23 @@ def executar_caso(
                     Path(caminho), tmp, pdf2md=pdf2md, docx2html=docx2html, dpi=150
                 )
                 if erro:
-                    raise ValueError(f"erro ao preparar {caminho}: {erro}")
+                    _registrar_anexo_nao_processado(
+                        avisos_processamento, Path(caminho), f"erro ao preparar: {erro}"
+                    )
+                    continue
                 bloqueante = erro_tecnico_bloqueante_pacote(preparado, arquivos)
                 if bloqueante:
-                    raise ValueError(f"erro técnico ao processar {caminho}: {bloqueante}")
+                    _registrar_anexo_nao_processado(
+                        avisos_processamento, Path(caminho), bloqueante
+                    )
+                    continue
                 pacote["documentos"].extend(preparado.documentos)
                 pacote["inventario"].extend(preparado.inventario)
                 pacote["arquivos_upload"].extend(arquivos)
+
+        if not pacote["documentos"] and not pacote["arquivos_upload"]:
+            raise ValueError("caso sem comentário, contexto ou evidência processável para avaliação")
+        _adicionar_avisos_anexos_ao_pacote(pacote, avisos_processamento)
 
         tokens_info = estimar_tokens_payload(
             prompt=caso["prompt"], auditado=caso["auditado"], questao_base=caso["codigo"],
@@ -446,11 +503,28 @@ def executar_caso(
                 response_profile=caso.get("response_profile", "evidence"),
                 pdf_detail=pdf_detail,
             )
-        erro_tecnico = resultado_indica_erro_tecnico(result)
+        erro_tecnico = "" if avisos_processamento else resultado_indica_erro_tecnico(result)
         if erro_tecnico:
             result = {"status": "error", "error": erro_tecnico}
         if caso["secao"] == "situacoes" and provider == "fake" and result.get("status") == "completed":
             result = _resultado_fake_temporal(result, caso["contexto"].get("motivos", []))
+        if result.get("status") == "completed":
+            registro_escopo = {
+                "secao": caso["secao"],
+                "codigo": caso["codigo"],
+                "itens": caso["itens"],
+                "contexto": caso["contexto"],
+            }
+            violacoes = validar_resultado_no_escopo(
+                registro_escopo,
+                result,
+                validar_temporal=caso["secao"] == "situacoes",
+            )
+            if violacoes:
+                result = {
+                    "status": "error",
+                    "error": "resposta fora do escopo lógico do caso: " + formatar_violacoes(violacoes),
+                }
 
     return {
         "identity": hashlib.sha256(
@@ -486,6 +560,7 @@ def executar_caso(
         "itens": [asdict(i) if hasattr(i, "__dataclass_fields__") else dict(i) for i in caso["itens"]],
         "prompt_hash": caso["prompt_hash"],
         "payload_tokens": tokens_info,
+        "avisos_processamento_evidencias": avisos_processamento,
     }
 
 
@@ -916,7 +991,16 @@ def _carregar_historico_modelo(
                 continue
             identity = normalized["identity"]
             current = records.get(identity)
-            if current is None or texto(normalized.get("finished_at")) >= texto(current.get("finished_at")):
+            current_valid = _registro_avaliacao_utilizavel(current) if current is not None else False
+            normalized_valid = _registro_avaliacao_utilizavel(normalized)
+            if (
+                current is None
+                or (normalized_valid and not current_valid)
+                or (
+                    normalized_valid == current_valid
+                    and texto(normalized.get("finished_at")) >= texto(current.get("finished_at"))
+                )
+            ):
                 records[identity] = normalized
     return records
 
@@ -995,7 +1079,7 @@ def avaliar_casos(
             identidades_esperadas.add(identity)
             anterior = por_identidade.get(identity)
             if anterior and (
-                anterior.get("status") == "completed"
+                _registro_avaliacao_utilizavel(anterior)
                 or (skip_errors and anterior.get("status") == "error")
             ):
                 pulados += 1
@@ -1100,9 +1184,6 @@ def gravar_deterministicos(registros: list[dict[str, Any]], out_dir: Path) -> Pa
     return path
 
 
-ESTADOS_TEMPORAIS_AJUSTAVEIS = {"afastada_na_data_base", "corrigida_posteriormente"}
-
-
 def _lookup_ajustes_evidencias(path: Path) -> dict[tuple[str, str], dict[str, Any]]:
     _, rows = ler_xlsx(path)
     lookup: dict[tuple[str, str], dict[str, Any]] = {}
@@ -1131,15 +1212,27 @@ def _resolver_valor_positivo(
     codigo: str,
     fonte: str,
     ajustes_evidencias: dict[tuple[str, str], dict[str, Any]],
+    resposta_original: Any = None,
 ) -> tuple[str, str]:
+    original = texto(resposta_original)
+    if codigo.casefold() == "q0101":
+        if original and not original.casefold().startswith("f)"):
+            return original, "Resposta categórica original preservada conforme a coleta LimeSurvey."
+        return "", "A alternativa original f) exige classificação manual em uma das alternativas a) a e)."
+    if codigo.casefold() == "q0103[d]":
+        return "Sim", "Atribuição de governança, planejamento ou gestão de TIC reconhecida pelo saneamento da situação."
+    if codigo.casefold() == "q0103[g]" and original.casefold() == "sim":
+        return "Não", "Negativa de atribuições formais revertida após o saneamento da situação."
     anterior = ajustes_evidencias.get((auditado, codigo))
     resposta = texto((anterior or {}).get("Resposta afirmada"))
     if resposta:
         return resposta, "Resposta originalmente afirmada restaurada, sem majoração além da declaração do gestor."
+    if re.fullmatch(r"q\d{4}ext\[[^]]+\]", codigo, flags=re.I):
+        return "Sim", "Detalhamento ajustado para Sim porque a situação inconforme correspondente foi saneada."
+    if re.fullmatch(r"q\d{4}\[[^]]+\]", codigo, flags=re.I) and original.casefold() in {"sim", "não", "nao"}:
+        return "Sim", "Subitem binário ajustado para Sim porque a situação inconforme correspondente foi saneada."
     if fonte == "avaliacao_evidencias_ajustes":
         return "", "Resposta afirmada não localizada na planilha de avaliação de evidências."
-    if re.fullmatch(r"q\d{4}ext\[[^]]+\]", codigo, flags=re.I):
-        return "", "Detalhamento sem resposta originalmente afirmada que possa ser restaurada com segurança."
     if re.fullmatch(r"q\d{4}\[[^]]+\]", codigo, flags=re.I):
         return "", "Subitem sem resposta originalmente afirmada que possa ser restaurada com segurança."
     if re.fullmatch(r"q\d{4}", codigo, flags=re.I):
@@ -1155,11 +1248,13 @@ def mapear_ajustes_secao1(
     lss: Path,
     ajustes_pos_avaliacao_evidencias: Path,
     respostas_base: Path,
+    respostas_originais: Path = DEFAULT_RESPOSTAS_ORIGINAIS,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Converte situações saneadas em propostas seguras de ajuste por item."""
     registros = _ler_jsonl(consolidado)
     ajustes_evidencias = _lookup_ajustes_evidencias(ajustes_pos_avaliacao_evidencias)
     respostas, colunas = _lookup_respostas_base(respostas_base)
+    respostas_brutas, colunas_brutas = _lookup_respostas_base(respostas_originais)
     contextos = carregar_contextos_situacoes(resultado_auditoria, mapa)
     situacoes = carregar_situacoes_lss(lss)
     propostas: list[dict[str, Any]] = []
@@ -1168,13 +1263,40 @@ def mapear_ajustes_secao1(
     for registro in registros:
         if registro.get("status") != "completed":
             continue
+        violacoes = validar_resultado_no_escopo(
+            registro,
+            registro.get("result"),
+            validar_temporal=True,
+        )
+        if violacoes:
+            pendencias.append({
+                "Auditado": texto(registro.get("auditado")).upper(),
+                "Código do item avaliado": "",
+                "Código da situação": texto(registro.get("codigo")),
+                "Situação": "",
+                "Estado temporal": "",
+                "Motivo da pendência": "Parecer rejeitado por violação de escopo: " + formatar_violacoes(violacoes),
+                "Case ID": registro.get("case_id", ""),
+                "Identidade do parecer": registro.get("identity", ""),
+            })
+            continue
         conclusoes = (registro.get("result") or {}).get("conclusoes") or []
         for conclusao in conclusoes:
             estado_temporal = texto(conclusao.get("estado_temporal"))
-            if estado_temporal not in ESTADOS_TEMPORAIS_AJUSTAVEIS:
-                continue
             auditado = texto(registro.get("auditado")).upper()
             codigo_situacao = texto(registro.get("codigo"))
+            if texto(conclusao.get("item_codigo")) != codigo_situacao:
+                pendencias.append({
+                    "Auditado": auditado,
+                    "Código do item avaliado": "",
+                    "Código da situação": codigo_situacao,
+                    "Situação": "",
+                    "Estado temporal": estado_temporal,
+                    "Motivo da pendência": "Código da conclusão não pertence à situação avaliada.",
+                    "Case ID": registro.get("case_id", ""),
+                    "Identidade do parecer": registro.get("identity", ""),
+                })
+                continue
             contexto = registro.get("contexto") if isinstance(registro.get("contexto"), dict) else None
             if not contexto:
                 definicao = situacoes.get(codigo_situacao)
@@ -1190,7 +1312,16 @@ def mapear_ajustes_secao1(
                     "Case ID": registro.get("case_id", ""), "Identidade do parecer": registro.get("identity", ""),
                 })
                 continue
+            conclusoes_motivos = {
+                texto(motivo.get("id_motivo")): motivo
+                for motivo in conclusao.get("conclusoes_motivos") or []
+                if isinstance(motivo, dict) and texto(motivo.get("id_motivo"))
+            }
             for motivo in motivos:
+                id_motivo = texto(motivo.get("id"))
+                conclusao_motivo = conclusoes_motivos.get(id_motivo)
+                if not conclusao_motivo or texto(conclusao_motivo.get("estado_motivo")) != "afastado":
+                    continue
                 for acao in motivo.get("acoes") or []:
                     codigo_item = texto(acao.get("informacao_requerida"))
                     fonte = texto(acao.get("id_fonte_informacao"))
@@ -1202,21 +1333,55 @@ def mapear_ajustes_secao1(
                         "Código da situação": codigo_situacao,
                         "Situação": contexto.get("situacao") or conclusao.get("item_texto", ""),
                         "Estado temporal": estado_temporal,
+                        "Estado do motivo": "afastado",
                         "IDs dos motivos": texto(motivo.get("id")),
                         "IDs das ações": texto(acao.get("id")),
                         "Fonte da ação": fonte,
                         "Resultado da avaliação do juiz": conclusao.get("estado", ""),
                         "Justificativa do juiz": conclusao.get("justificativa", ""),
+                        "Justificativa do motivo": conclusao_motivo.get("justificativa", ""),
                         "Case ID": registro.get("case_id", ""),
                         "Identidade do parecer": registro.get("identity", ""),
                         "Data do parecer": registro.get("finished_at", ""),
                         "Origem": "secao_1_situacao",
                     }
+                    if codigo_item == "total_SI" and auditado == "SÃO JOÃO DE MERITI":
+                        codigo_fonte = "q0105[SI_comissionados]"
+                        coluna_fonte = colunas.get(codigo_fonte.casefold())
+                        resposta_auditado = respostas.get(auditado)
+                        if coluna_fonte and resposta_auditado is not None:
+                            propostas.append({
+                                **base,
+                                "Código do item avaliado": codigo_fonte,
+                                "Questão-base": base_item(codigo_fonte),
+                                "Resposta anterior": texto(resposta_auditado.get(coluna_fonte)) or "0",
+                                "Resposta afirmada": 5,
+                                "Resposta ajustada": 5,
+                                "Origem do valor positivo": (
+                                    "Decomposição de total_SI: 1 Agente Estratégico e 4 Assessores Executivos "
+                                    "de Segurança da Informação, cargos comissionados criados pela LC municipal 233/2026."
+                                ),
+                                "Justificativa": (
+                                    f"Ajuste da fonte de total_SI após comentários do gestor: situação {estado_temporal}. "
+                                    f"{texto(conclusao.get('justificativa'))}"
+                                ),
+                                "observacao": texto(conclusao.get("justificativa")),
+                                "Avaliação do auditor revisor": "",
+                                "Justificativa do auditor revisor": "",
+                            })
+                        else:
+                            pendencias.append({**base, "Motivo da pendência": "Fonte q0105[SI_comissionados] não localizada."})
+                        continue
+                    resposta_original = None
+                    coluna_original = colunas_brutas.get(codigo_item.casefold())
+                    if coluna_original and respostas_brutas.get(auditado) is not None:
+                        resposta_original = respostas_brutas[auditado].get(coluna_original)
                     valor, origem_valor = _resolver_valor_positivo(
                         auditado=auditado,
                         codigo=codigo_item,
                         fonte=fonte,
                         ajustes_evidencias=ajustes_evidencias,
+                        resposta_original=resposta_original,
                     )
                     coluna_real = colunas.get(codigo_item.casefold())
                     resposta_auditado = respostas.get(auditado)
@@ -1246,6 +1411,29 @@ def mapear_ajustes_secao1(
                         "Avaliação do auditor revisor": "",
                         "Justificativa do auditor revisor": "",
                     })
+                    if codigo_item.casefold() == "q0103[g]" and texto(resposta_original).casefold() == "sim":
+                        codigo_companheiro = "q0103[D]"
+                        coluna_companheira = colunas.get(codigo_companheiro.casefold())
+                        if coluna_companheira and resposta_auditado is not None:
+                            propostas.append({
+                                **base,
+                                "Código do item avaliado": codigo_companheiro,
+                                "Questão-base": base_item(codigo_companheiro),
+                                "Resposta anterior": texto(resposta_auditado.get(coluna_companheira)) or "Vazio",
+                                "Resposta afirmada": "Sim",
+                                "Resposta ajustada": "Sim",
+                                "Origem do valor positivo": (
+                                    "Ajuste complementar: a reversão de q0103[G] exige reconhecer em q0103[D] "
+                                    "as atribuições formais de governança, planejamento ou gestão de TIC."
+                                ),
+                                "Justificativa": (
+                                    f"Ajuste complementar pós-comentários do gestor: situação {estado_temporal}. "
+                                    f"{texto(conclusao.get('justificativa'))}"
+                                ),
+                                "observacao": texto(conclusao.get("justificativa")),
+                                "Avaliação do auditor revisor": "",
+                                "Justificativa do auditor revisor": "",
+                            })
     return propostas, pendencias
 
 
@@ -1261,6 +1449,8 @@ def mapear_ajustes_secao2(
     propostas: list[dict[str, Any]] = []
     for registro in _ler_jsonl(consolidado):
         if registro.get("status") != "completed":
+            continue
+        if validar_resultado_no_escopo(registro, registro.get("result")):
             continue
         auditado = texto(registro.get("auditado")).upper()
         for conclusao in (registro.get("result") or {}).get("conclusoes") or []:
@@ -1289,6 +1479,93 @@ def mapear_ajustes_secao2(
                 "Data do parecer": registro.get("finished_at", ""),
             })
     return propostas
+
+
+def carregar_revisoes_respostas(
+    *,
+    path: Path,
+    consolidado_secao1: Path,
+    respostas_base: Path,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Materializa decisões técnicas humanas explicitamente aprovadas e rastreáveis."""
+    if not path.is_file():
+        return [], []
+    payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    revisoes = payload.get("revisoes")
+    if not isinstance(revisoes, list):
+        raise ValueError(f"revisões de respostas sem lista 'revisoes': {path}")
+    respostas, colunas = _lookup_respostas_base(respostas_base)
+    pareceres = {
+        (texto(item.get("auditado")).upper(), texto(item.get("codigo")), texto(item.get("case_id"))): item
+        for item in _ler_jsonl(consolidado_secao1)
+        if item.get("status") == "completed"
+    }
+    propostas: list[dict[str, Any]] = []
+    pendencias: list[dict[str, Any]] = []
+    for revisao in revisoes:
+        if not isinstance(revisao, dict) or revisao.get("aprovada") is not True:
+            continue
+        auditado = texto(revisao.get("auditado")).upper()
+        codigo_situacao = texto(revisao.get("codigo_situacao"))
+        cid = texto(revisao.get("case_id"))
+        parecer = pareceres.get((auditado, codigo_situacao, cid))
+        ajustes = revisao.get("ajustes") if isinstance(revisao.get("ajustes"), list) else []
+        if not parecer:
+            pendencias.append({
+                "Auditado": auditado, "Código do item avaliado": "",
+                "Código da situação": codigo_situacao, "Case ID": cid,
+                "Motivo da pendência": "Revisão humana não corresponde a parecer consolidado vigente.",
+            })
+            continue
+        for ajuste in ajustes:
+            if not isinstance(ajuste, dict):
+                continue
+            codigo = texto(ajuste.get("codigo_item"))
+            valor = texto(ajuste.get("resposta_ajustada"))
+            coluna = colunas.get(codigo.casefold())
+            linha = respostas.get(auditado)
+            if not codigo or not valor or not coluna or linha is None:
+                pendencias.append({
+                    "Auditado": auditado, "Código do item avaliado": codigo,
+                    "Código da situação": codigo_situacao, "Case ID": cid,
+                    "Motivo da pendência": "Revisão humana sem item, valor ou coluna válida na base de respostas.",
+                })
+                continue
+            fundamento = texto(ajuste.get("fundamento"))
+            referencias = ajuste.get("referencias")
+            if not isinstance(referencias, list):
+                referencias = revisao.get("referencias") if isinstance(revisao.get("referencias"), list) else []
+            conclusoes_parecer = (parecer.get("result") or {}).get("conclusoes") or []
+            justificativa_parecer = texto(conclusoes_parecer[0].get("justificativa")) if conclusoes_parecer else ""
+            propostas.append({
+                "Auditado": auditado,
+                "Código do item avaliado": codigo,
+                "Questão-base": base_item(codigo),
+                "Resposta anterior": texto(linha.get(coluna)) or "Vazio",
+                "Resposta afirmada": valor,
+                "Resposta ajustada": valor,
+                "Achado": revisao.get("achado", ""),
+                "Código da situação": codigo_situacao,
+                "Situação": texto(revisao.get("situacao")),
+                "Estado temporal": "mantida com fundamento parcialmente afastado",
+                "Estado do motivo": "decisão técnica revisada",
+                "IDs dos motivos": texto(ajuste.get("id_motivo")),
+                "IDs das ações": "",
+                "Fonte da ação": "revisao_tecnica_documentada",
+                "Origem": "revisao_tecnica_documentada",
+                "Origem do valor positivo": fundamento,
+                "Resultado da avaliação do juiz": "revisão humana aprovada",
+                "Justificativa do juiz": justificativa_parecer,
+                "Justificativa": fundamento,
+                "observacao": fundamento,
+                "Referências documentais": json.dumps(referencias, ensure_ascii=False),
+                "Case ID": cid,
+                "Identidade do parecer": parecer.get("identity", ""),
+                "Data do parecer": parecer.get("finished_at", ""),
+                "Avaliação do auditor revisor": "Aprovada",
+                "Justificativa do auditor revisor": fundamento,
+            })
+    return propostas, pendencias
 
 
 def _agregar_propostas_ajuste(
@@ -1400,6 +1677,24 @@ def gerar_painel_evidencias_pos_comentarios(
     return alteracoes
 
 
+def _registro_avaliacao_utilizavel(registro: dict[str, Any] | None) -> bool:
+    if not registro or registro.get("status") != "completed":
+        return False
+    result = registro.get("result") if isinstance(registro.get("result"), dict) else {}
+    estrutura_valida = (
+        result.get("status", "completed") == "completed"
+        and isinstance(result.get("conclusoes"), list)
+        and bool(result.get("conclusoes"))
+    )
+    if not estrutura_valida:
+        return False
+    return not validar_resultado_no_escopo(
+        registro,
+        result,
+        validar_temporal=texto(registro.get("secao")) in {"1", "situacoes"},
+    )
+
+
 def _latest_by_case_model(
     paths: list[Path],
     *,
@@ -1408,10 +1703,7 @@ def _latest_by_case_model(
     grupos: dict[str, dict[str, dict[str, Any]]] = defaultdict(dict)
     for path in paths:
         for registro in _ler_jsonl(path):
-            if registro.get("status") != "completed" or not registro.get("case_id"):
-                continue
-            result = registro.get("result") if isinstance(registro.get("result"), dict) else {}
-            if result.get("status", "completed") != "completed" or not isinstance(result.get("conclusoes"), list):
+            if not _registro_avaliacao_utilizavel(registro) or not registro.get("case_id"):
                 continue
             model_key = texto(registro.get("model_key")) or texto(registro.get("model"))
             if expected_models is not None and model_key not in expected_models:
@@ -1422,18 +1714,61 @@ def _latest_by_case_model(
     return grupos
 
 
-def _itens_de_opinioes(opinioes: list[dict[str, Any]]) -> list[ItemAfirmado]:
-    itens: dict[str, ItemAfirmado] = {}
+def _itens_autoritativos_caso(opiniao: dict[str, Any]) -> list[ItemAfirmado]:
+    """Reconstrói o escopo do juiz a partir do caso, nunca da união de opiniões."""
+    itens: list[ItemAfirmado] = []
+    for item in opiniao.get("itens") or []:
+        codigo = texto(item.get("codigo") if isinstance(item, dict) else getattr(item, "codigo", ""))
+        if not codigo:
+            continue
+        itens.append(
+            ItemAfirmado(
+                codigo=codigo,
+                texto=texto(item.get("texto") if isinstance(item, dict) else getattr(item, "texto", "")),
+                afirmacao=texto(
+                    item.get("afirmacao") if isinstance(item, dict) else getattr(item, "afirmacao", "")
+                ),
+            )
+        )
+    if itens:
+        return itens
+    codigo = texto(opiniao.get("codigo"))
+    if texto(opiniao.get("secao")) in {"1", "situacoes"} and codigo:
+        return [ItemAfirmado(codigo=codigo, texto="", afirmacao="")]
+    return []
+
+
+def _itens_para_consolidacao(opinioes: list[dict[str, Any]]) -> list[ItemAfirmado]:
+    if not opinioes:
+        return []
+    autoritativos = _itens_autoritativos_caso(opinioes[0])
+    if autoritativos:
+        return autoritativos
+    # Compatibilidade fechada para checkpoints antigos: somente aceita o escopo
+    # quando todas as opiniões trazem exatamente o mesmo conjunto de códigos.
+    conjuntos: list[list[str]] = []
+    primeira_por_codigo: dict[str, dict[str, Any]] = {}
     for opiniao in opinioes:
-        for conclusao in (opiniao.get("result") or {}).get("conclusoes") or []:
-            codigo = texto(conclusao.get("item_codigo"))
-            if codigo and codigo not in itens:
-                itens[codigo] = ItemAfirmado(
-                    codigo=codigo,
-                    texto=texto(conclusao.get("item_texto")),
-                    afirmacao=texto(conclusao.get("afirmacao_auditado")),
-                )
-    return list(itens.values())
+        conclusoes = (opiniao.get("result") or {}).get("conclusoes") or []
+        codigos = [texto(item.get("item_codigo")) for item in conclusoes if isinstance(item, dict)]
+        codigos = [codigo for codigo in codigos if codigo]
+        if not codigos or len(codigos) != len(set(codigos)):
+            return []
+        conjuntos.append(codigos)
+        if not primeira_por_codigo:
+            primeira_por_codigo = {
+                texto(item.get("item_codigo")): item for item in conclusoes if isinstance(item, dict)
+            }
+    if any(set(codigos) != set(conjuntos[0]) for codigos in conjuntos[1:]):
+        return []
+    return [
+        ItemAfirmado(
+            codigo=codigo,
+            texto=texto(primeira_por_codigo[codigo].get("item_texto")),
+            afirmacao=texto(primeira_por_codigo[codigo].get("afirmacao_auditado")),
+        )
+        for codigo in conjuntos[0]
+    ]
 
 
 def _materializar_consolidado(
@@ -1441,10 +1776,22 @@ def _materializar_consolidado(
     clean: Path,
     *,
     deterministicos: list[dict[str, Any]] | None = None,
+    expected_case_ids: set[str] | None = None,
 ) -> list[dict[str, Any]]:
     vigentes: dict[str, dict[str, Any]] = {}
     for registro in [*_ler_jsonl(checkpoint), *(deterministicos or [])]:
         if registro.get("status") != "completed" or not registro.get("case_id"):
+            continue
+        if expected_case_ids is not None and registro["case_id"] not in expected_case_ids:
+            continue
+        origem = texto(registro.get("origem_decisao"))
+        resultado = registro.get("result")
+        possui_resultado = isinstance(resultado, dict) and isinstance(resultado.get("conclusoes"), list)
+        if possui_resultado and origem != "regra_deterministica" and validar_resultado_no_escopo(
+            registro,
+            resultado,
+            validar_temporal=texto(registro.get("secao")) in {"1", "situacoes"},
+        ):
             continue
         atual = vigentes.get(registro["case_id"])
         if atual is None or texto(registro.get("finished_at")) >= texto(atual.get("finished_at")):
@@ -1693,6 +2040,7 @@ def consolidar_casos(
     catalog_comentarios: Path = DEFAULT_CATALOG_COMENTARIOS,
     deterministic_path: Path | None = None,
     expected_case_ids: set[str] | None = None,
+    selected_case_ids: set[str] | None = None,
     quiet: bool = False,
 ) -> dict[str, Any]:
     """Consolida opiniões por case_id e refaz o parecer quando o conjunto muda."""
@@ -1720,6 +2068,8 @@ def consolidar_casos(
     pendencias: list[dict[str, Any]] = []
 
     for index, (cid, por_modelo) in enumerate(sorted(grupos.items()), start=1):
+        if selected_case_ids is not None and cid not in selected_case_ids:
+            continue
         opinioes = list(por_modelo.values())
         presentes = set(por_modelo)
         ausentes = sorted(modelos_esperados - presentes)
@@ -1742,7 +2092,7 @@ def consolidar_casos(
                 "pdf_detail": pdf_detail,
             }
         )
-        if por_identidade.get(identity, {}).get("status") == "completed":
+        if _registro_avaliacao_utilizavel(por_identidade.get(identity)):
             pulados += 1
             continue
         pacote_contexto = primeira.get("pacote_contexto_consolidacao") or {}
@@ -1754,24 +2104,48 @@ def consolidar_casos(
             }
             for r in opinioes
         ]))
-        evidence_paths = [Path(p) for p in primeira.get("evidence_paths") or []]
+        # Avaliações do mesmo caso podem ter sido produzidas antes de uma nova
+        # extração dos anexos, que altera apenas o prefixo LimeSurvey do nome.
+        # Use todos os caminhos ainda existentes, sem deixar que a primeira
+        # opinião imponha ao juiz uma referência histórica já removida.
+        evidence_paths: list[Path] = []
+        caminhos_vistos: set[Path] = set()
+        for opiniao in opinioes:
+            for valor in opiniao.get("evidence_paths") or []:
+                caminho = Path(valor)
+                if caminho.is_file() and caminho not in caminhos_vistos:
+                    caminhos_vistos.add(caminho)
+                    evidence_paths.append(caminho)
         started = dt.datetime.now(dt.timezone.utc)
+        avisos_processamento: list[dict[str, str]] = []
         try:
             with tempfile.TemporaryDirectory() as tmp:
                 pacote = {"documentos": documentos, "inventario": [d.get("nome", "") for d in documentos], "erro": "", "arquivos_upload": []}
                 for caminho in evidence_paths:
                     preparado, arquivos, erro = preparar_evidencia_para_provider(caminho, tmp, pdf2md=pdf2md, docx2html=docx2html, dpi=150)
                     if erro:
-                        raise ValueError(erro)
+                        _registrar_anexo_nao_processado(
+                            avisos_processamento, caminho, f"erro ao preparar: {erro}"
+                        )
+                        continue
                     bloqueante = erro_tecnico_bloqueante_pacote(preparado, arquivos)
                     if bloqueante:
-                        raise ValueError(bloqueante)
+                        _registrar_anexo_nao_processado(
+                            avisos_processamento, caminho, bloqueante
+                        )
+                        continue
                     pacote["documentos"].extend(preparado.documentos)
                     pacote["inventario"].extend(preparado.inventario)
                     pacote["arquivos_upload"].extend(arquivos)
+                if not pacote["documentos"] and not pacote["arquivos_upload"]:
+                    raise ValueError("consolidação sem opiniões, contexto ou evidência processável")
+                _adicionar_avisos_anexos_ao_pacote(pacote, avisos_processamento)
                 if judge_provider != "fake" and rpm:
                     espera = limiter.wait_seconds()
                     limiter.wait_and_mark(espera)
+                itens_autoritativos = _itens_para_consolidacao(opinioes)
+                if not itens_autoritativos:
+                    raise ValueError("caso sem itens autoritativos para consolidação")
                 result = executar_provider(
                     provider=judge_provider,
                     model=judge_model,
@@ -1780,7 +2154,7 @@ def consolidar_casos(
                     auditado=texto(primeira.get("auditado")),
                     questao_base=texto(primeira.get("codigo")),
                     coluna_evidencia=texto(primeira.get("coluna_evidencia")),
-                    itens_afirmados=_itens_de_opinioes(opinioes),
+                    itens_afirmados=itens_autoritativos,
                     pacote=pacote,
                     reasoning_effort=reasoning,
                     response_profile=response_profile,
@@ -1788,6 +2162,23 @@ def consolidar_casos(
                 )
                 if secao == "1" and judge_provider == "fake" and result.get("status") == "completed":
                     result = _resultado_fake_temporal(result, (primeira.get("contexto") or {}).get("motivos", []))
+                if result.get("status") == "completed":
+                    registro_escopo = {
+                        "secao": secao,
+                        "codigo": primeira.get("codigo"),
+                        "itens": [asdict(item) for item in itens_autoritativos],
+                        "contexto": primeira.get("contexto", {}),
+                    }
+                    violacoes = validar_resultado_no_escopo(
+                        registro_escopo,
+                        result,
+                        validar_temporal=secao == "1",
+                    )
+                    if violacoes:
+                        result = {
+                            "status": "error",
+                            "error": "parecer fora do escopo lógico do caso: " + formatar_violacoes(violacoes),
+                        }
             status = result.get("status", "error")
             error = result.get("error", "")
         except Exception as exc:
@@ -1811,7 +2202,9 @@ def consolidar_casos(
                 for r in opinioes
             ],
             "contexto": primeira.get("contexto", {}),
+            "itens": [asdict(item) for item in _itens_para_consolidacao(opinioes)],
             "evidence_paths": primeira.get("evidence_paths", []),
+            "avisos_processamento_evidencias": avisos_processamento,
             "started_at": started.isoformat(), "finished_at": finished.isoformat(),
             "duration_seconds": round((finished - started).total_seconds(), 3),
             "supersedes_identity": por_caso_anterior.get(cid, {}).get("identity", ""),
@@ -1830,7 +2223,20 @@ def consolidar_casos(
             opinioes=len(opinioes), avaliadores_ausentes=ausentes, error=error,
         )
     deterministicos = _ler_jsonl(deterministic_path) if deterministic_path else []
-    vigentes = _materializar_consolidado(checkpoint, clean, deterministicos=deterministicos)
+    ids_vigentes = None
+    if expected_case_ids is not None:
+        ids_vigentes = set(expected_case_ids)
+        ids_vigentes.update(
+            registro["case_id"]
+            for registro in deterministicos
+            if registro.get("case_id")
+        )
+    vigentes = _materializar_consolidado(
+        checkpoint,
+        clean,
+        deterministicos=deterministicos,
+        expected_case_ids=ids_vigentes,
+    )
     xlsx = out_dir / "pareceres_consolidados.xlsx"
     _gravar_pareceres_xlsx(xlsx, vigentes, grupos=grupos)
     pendencias_path = out_dir / "pendencias_quorum.json"

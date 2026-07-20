@@ -74,10 +74,10 @@ scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
   --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
   --numero-fiscalizacao-comentarios-gestor 18/2026 \
   --nome-fiscalizacao-comentarios-gestor "iGovTI 2026" \
-  --output-dir C:/tmp/tcerj-igovti-2026-ultima-versao
+  --output-root .
 ```
 
-This applies recorded adjustments, recalculates iGovTI artifacts, executes the audit, generates charts, individual reports, and the consolidated report. The script logs each stage and command to the terminal.
+This executes the complete traceable workflow across the initial, post-evidence, and post-comments scenarios. It records hashes and logs under `02-Execucao/00-Controle_Execucao/`, resumes completed stages, and does not overwrite divergent products. Use `--adopt-existing` once to register legacy workpapers in the manifest. If manager-comments inputs are absent, it exits with `awaiting_input` after generating the survey.
 
 Generate the planning matrix DOCX:
 
@@ -345,9 +345,9 @@ scripts/.venv/bin/python scripts/ajustar_respostas_questionario.py \
 
 The integrated adjustment XLSX combines section-2 items whose consolidated reassessment is `Conforme` with safely mapped section-1 items. Its first sheet is compatible with `ajustar_respostas_questionario.py`; ambiguous or derived fields are listed as pending instead of receiving an invented value. Treat the generated adjustments as a draft subject to audit review before using them as the definitive response base. When rerunning the audit, also use the generated post-comments evidence panel so that actions backed by `avaliacao_evidencias_ajustes` do not recreate a sane finding. On Linux/macOS, replace `C:/tmp/tcerj-igovti-2026` with `/tmp/tcerj-igovti-2026`.
 
-### Post-Comments Products, Current iGovTI, and Final Reports
+### Post-Comments Basic Products
 
-After the integrated two-section pipeline finishes, use `scripts/gerar_produtos_pos_comentarios_gestor.py` to materialize the current-state products. This command does not call AI providers. It applies the combined adjustments, recalculates iGovTI, reexecutes the audit with the post-comments evidence panel, compares the previous and current audit states, and generates the final individual reports.
+After the integrated two-section pipeline finishes, use `scripts/gerar_produtos_pos_comentarios_gestor.py` only to materialize the post-comments response base, review workbook, and report-context JSON. It does not calculate iGovTI, execute the audit, calculate impacts, generate charts, or generate reports; those responsibilities remain in their dedicated scripts and are composed by the complete orchestrator.
 
 `--data-referencia DD/MM/AAAA` is mandatory and identifies the date represented by the current-state products. Automation may restore only an originally declared value recorded in the post-evidence adjustment source; it must not infer or assign a higher adoption level. Unsafe conversions remain in the `Pendências` sheet.
 
@@ -359,24 +359,19 @@ scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
   --respostas-base 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
   --respostas-comentarios 02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260715-respostas-bruto.xlsx \
   --avaliacao-comentarios-dir 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor \
-  --resultado-auditoria-anterior 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --contexto-igovti-anterior 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
-  --output-root . \
-  --auditados-select AGENERSA \
-  --jobs-graficos 8
+  --revisoes-pareceres 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml \
+  --output-root .
 ```
 
 The three user-facing products are:
 
-1. `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`, a reviewable table of manager manifestations, audit-team decisions, standardized justifications, and impacts;
-2. the adjustment and impact memory, comprising the post-comments response base, current iGovTI artifacts, replayed audit, and before/after comparison;
-3. Section 4, **Análise dos comentários do gestor**, in `03-Relatorios/03-Relatorios_Individuais_Finais/relatorio-individual-template.md` and the generated final DOCX.
+1. `02-Execucao/01-Questionario/03-Respostas_Processadas/<AAAAMMDD>-respostas-questionario-pos-comentarios-gestor.xlsx`;
+2. `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`;
+3. `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`.
 
-The report context is written to `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`. The current audit is written under `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria-pos-comentarios/`, and final individual reports under `03-Relatorios/03-Relatorios_Individuais_Finais/gerados/`.
+The separate impact routine writes JSON and XLSX under `03-Produtos_Pos_Comentarios`; final reports receive the context and impact JSON separately.
 
-`--auditados-select` limits only chart and report generation; adjustment application, iGovTI calculation, and audit replay still use the complete input base. To restrict applied changes, pass a reviewed adjustment workbook with `--ajustes-comentarios`.
-
-Do not rerun models merely to revise the institutional wording. Reviewers may edit `Decisão revisada` and `Manifestação revisada da equipe` in a copy of `avaliacao_comentarios_gestor.xlsx`, then regenerate with `--revisoes-pareceres`. Changes to applied response values must be made in a reviewed copy of the adjustment workbook passed through `--ajustes-comentarios`. Generated opinions and products remain drafts for the audit team's final review, but the workflow has no mandatory intermediate human gate.
+Do not rerun models merely to revise institutional wording. Record deterministic revisions in `revisoes_pareceres.yml`, keyed by audited organization, section, and code. Changes to applied response values remain in the reviewed adjustment workbook. Generated opinions and products remain drafts for final audit-team review.
 
 ### Manager Comments Statistics and Charts
 
@@ -390,11 +385,14 @@ The script uses these repository inputs by default:
 
 - `02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss` for question and finding-situation metadata;
 - `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json` for the audited population and nonrespondents;
-- `02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx` for evidence-reassessment eligibility.
+- `02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx` for evidence-reassessment eligibility;
+- `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx` for the final decisions on sections 1 and 2;
+- `02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx` for the applied adjustments and pending-item count;
+- `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.xlsx` for the before/after comparison of situations, findings, and iGovTI.
 
-Use `--lss`, `--resultado-auditoria`, `--ajustes-evidencias`, or `--output-dir` only when alternate inputs or destinations are required. The default outputs are the calculation workbook and JSON summary under `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/`, plus charts under `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/`.
+Use `--lss`, `--resultado-auditoria`, `--ajustes-evidencias`, `--avaliacao-final`, `--ajustes-comentarios`, `--impactos`, or `--output-dir` only when alternate inputs or destinations are required. The default outputs are the calculation workbook and JSON summary under `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/`, plus charts under `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/`.
 
-The chart set includes the overall four-category view modeled after Figure 30 of the prior information-security report and `achado-1-situacoes.png` through `achado-6-situacoes.png`. Each finding chart groups its nonconforming situations and completes the respondent population with the gray `Situação encontrada inexistente` category. Interpret that category as organizations whose individual report did not contain the corresponding situation, not as a response option selected by the manager.
+The chart set includes the overall four-category view modeled after Figure 30 of the prior information-security report; `achado-1-situacoes.png` through `achado-6-situacoes.png`; the consolidated decisions for sections 1 and 2; the number of organizations affected; the before/after situation and finding totals; and the change in mean iGovTI. Each finding chart groups its nonconforming situations and completes the respondent population with the gray `Situação encontrada inexistente` category. Interpret that category as organizations whose individual report did not contain the corresponding situation, not as a response option selected by the manager.
 
 The script keeps only completed submissions, removes explicit test records, and retains the latest submission for duplicated tokens. It must not generate or edit `anexo-avaliacao-comentarios-gestor.md`. Draft and revise the appendix manually from the validated calculation outputs, and do not treat a disagreement or reassessment request as accepted until the supporting evidence receives technical audit review.
 

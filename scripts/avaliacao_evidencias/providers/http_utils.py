@@ -78,6 +78,8 @@ def executar_com_retry_transiente(
     fallback_delays: tuple[float, ...] = DEFAULT_TRANSIENT_RETRY_DELAYS,
     sleeper: Callable[[float], None] | None = None,
     exclude_429: bool = False,
+    provider: str = "",
+    model: str = "",
 ) -> Any:
     env_max = os.environ.get("AI_MAX_RETRIES")
     if env_max is not None:
@@ -112,8 +114,11 @@ def executar_com_retry_transiente(
             # por mais de três minutos em uma única espera.
             delay = min(MAX_TRANSIENT_RETRY_DELAY_SECONDS, max(0.0, delay))
             status_code = status_from_exception(exc)
+            par_provider_modelo = (
+                f" [{provider}/{model}]" if provider and model else ""
+            )
             sys.stderr.write(
-                f"\n[AVISO] Provedor retornou erro temporario {status_code}. "
+                f"\n[AVISO] Provedor{par_provider_modelo} retornou erro temporario {status_code}. "
                 f"Aguardando {delay:.1f}s antes da tentativa {tentativa + 1}/{actual_max}...\n"
             )
             sys.stderr.flush()
@@ -123,13 +128,21 @@ def executar_com_retry_transiente(
 
 def formatar_erro_http(exc: BaseException) -> str:
     if isinstance(exc, urllib.error.HTTPError):
+        detalhe_cache = getattr(exc, "_igovti_detalhe_formatado", "")
+        if detalhe_cache:
+            return detalhe_cache
         detalhe = ""
         try:
             detalhe = exc.read().decode("utf-8", errors="replace").strip()
         except Exception:
             detalhe = ""
         if detalhe:
-            return f"HTTP Error {exc.code}: {exc.reason}; body: {detalhe[:2000]}"
+            formatado = f"HTTP Error {exc.code}: {exc.reason}; body: {detalhe[:2000]}"
+            try:
+                setattr(exc, "_igovti_detalhe_formatado", formatado)
+            except Exception:
+                pass
+            return formatado
     return str(exc)
 
 

@@ -7,6 +7,14 @@ Este repositório reúne os papéis de trabalho digitais da Fiscalização nº 1
 
 O trabalho combina matriz de planejamento, questionário estruturado no LimeSurvey, cálculo do índice iGovTI 2026, avaliação de evidências, execução automatizada dos procedimentos de auditoria e geração de relatórios individuais e consolidado.
 
+## Visão geral do fluxo
+
+O diagrama abaixo apresenta o ciclo completo da fiscalização, desde os estudos preliminares até a revisão final e a preparação para publicação. Ele evidencia os três estados preservados da base — pós-ajuste inicial, pós-avaliação de evidências e pós-comentários do gestor — e as 25 etapas do orquestrador rastreável.
+
+[![Fluxo completo da Fiscalização 18/2026 — iGovTI 2026](fluxo-execucao-auditoria.svg)](fluxo-execucao-auditoria.svg)
+
+Consulte também o [SVG em tamanho integral](fluxo-execucao-auditoria.svg).
+
 ## Objetivo
 
 Avaliar se as estruturas, práticas e controles de governança e gestão de TIC dos jurisdicionados são suficientes para apoiar o alinhamento estratégico, a conformidade normativa, a segurança da informação, a gestão de serviços, a gestão de contratações e a melhoria contínua da administração pública.
@@ -61,9 +69,10 @@ Os principais produtos do trabalho são:
 - `scripts/calcula-igovti.html`: calculadora interativa para aplicar uma estrutura YAML de índice a uma fonte de informação e analisar resultados.
 - `scripts/dashboard_avaliacao_evidencias.html`: dashboard para revisão humana das avaliações de evidências e exportação da consolidação por auditado e item.
 - `scripts/montar_tabela_download_anexos_limesurvey.js`: script de apoio para gerar, a partir da tabela de respostas do LimeSurvey, a planilha com URLs de anexos e de respostas.
-- `scripts/gerar_pacote_relatorios_igovti.py`: orquestrador do fluxo completo de geração dos artefatos, auditoria, gráficos e relatórios.
+- `scripts/gerar_pacote_relatorios_igovti.py`: orquestrador rastreável do fluxo completo, com três cenários, retomada e manifesto de hashes.
+- `scripts/argos_cli.py`: interface interativa e não interativa para o fluxo completo e suas principais rotinas individuais.
 - `scripts/run_comentarios_gestor.py`: avaliação e consolidação integrada das Seções 1 e 2 dos comentários do gestor.
-- `scripts/gerar_produtos_pos_comentarios_gestor.py`: aplicação dos ajustes, recálculo corrente, reexecução da auditoria e geração dos produtos e relatórios finais.
+- `scripts/gerar_produtos_pos_comentarios_gestor.py`: geração exclusiva da base ajustada, do quadro revisável e do contexto pós-comentários; cálculos, auditoria e relatórios permanecem em rotinas próprias.
 
 ## Metodologia Sequencial
 
@@ -80,24 +89,33 @@ scripts/.venv/bin/python scripts/gerar_pacote_relatorios_igovti.py \
   --email-contato-comentarios-gestor auditoriati@tcerj.tc.br \
   --numero-fiscalizacao-comentarios-gestor 18/2026 \
   --nome-fiscalizacao-comentarios-gestor "iGovTI 2026" \
-  --output-dir C:/tmp/tcerj-igovti-2026-ultima-versao
+  --output-root .
 ```
 
-O script infere o prefixo `20260621` a partir do nome da planilha bruta, aplica os ajustes registrados pela equipe, recalcula o iGovTI, executa a auditoria, gera gráficos, relatórios individuais e relatório consolidado. Cada etapa é exibida na tela com logs e o comando executado. Use `--auditados-select SIGLA...` para restringir a geração dos relatórios individuais a auditados específicos.
+O script infere o prefixo `20260621` a partir do nome da planilha bruta e preserva separadamente os cenários `01-pos-ajuste-inicial`, `02-pos-avaliacao-evidencias` e `03-pos-comentarios-gestor`. Ele avalia evidências, exige ao menos três avaliações válidas por caso, recalcula o iGovTI em cada cenário, reexecuta a auditoria, mensura impactos e gera os relatórios preliminares, finais e consolidado.
+
+O manifesto fica em `02-Execucao/00-Controle_Execucao/manifesto-pipeline-auditoria.json`; os eventos, logs, validação final e inventários JSON/XLSX ficam no mesmo diretório. Uma nova chamada retoma a primeira etapa incompleta e não sobrescreve produtos divergentes. Use `--adopt-existing` uma vez para incorporar papéis de trabalho legados ao manifesto sem regravá-los.
+
+Se as respostas ou as evidências dos comentários do gestor não estiverem disponíveis, o fluxo termina com estado `awaiting_input` após gerar o survey. Informe `--respostas-comentarios` e `--evidencias-comentarios-root` para continuar. `--from-stage`, `--until-stage`, `--status-only` e `--dry-run` apoiam execução parcial e diagnóstico.
 
 Os parâmetros `--email-contato-comentarios-gestor`, `--numero-fiscalizacao-comentarios-gestor` e `--nome-fiscalizacao-comentarios-gestor` são repassados ao gerador do questionário LimeSurvey de comentários do gestor e usados no texto de boas-vindas, encerramento, título, descrição e assunto do convite. Os padrões são `auditoriati@tcerj.tc.br`, `18/2026` e `iGovTI 2026`.
 
-Principais sa?das no Windows:
+Os cálculos e auditorias dos três estados ficam, respectivamente, sob:
 
 ```text
-C:/tmp/tcerj-igovti-2026-ultima-versao/02-Execucao/01-Questionario/
-C:/tmp/tcerj-igovti-2026-ultima-versao/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/
-C:/tmp/tcerj-igovti-2026-ultima-versao/02-Execucao/05-Comentarios_Gestor/
-C:/tmp/tcerj-igovti-2026-ultima-versao/relatorios-individuais/
-C:/tmp/tcerj-igovti-2026-ultima-versao/relatorio-consolidado/
+02-Execucao/01-Questionario/04-Resultados_iGovTI/<cenario>/
+02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/<cenario>/
+03-Relatorios/00-Recursos_Gerados/<cenario>/
 ```
 
-Em Linux/macOS, o mesmo pacote ? gerado sob `/tmp/tcerj-igovti-2026-ultima-versao`.
+O Argos expõe a mesma execução e as rotinas individuais mais importantes:
+
+```bash
+scripts/.venv/bin/python scripts/argos_cli.py --list
+scripts/.venv/bin/python scripts/argos_cli.py --run execucao-completa --yes
+scripts/.venv/bin/python scripts/argos_cli.py --run calcular-igovti --cenario 02-pos-avaliacao-evidencias --yes
+scripts/.venv/bin/python scripts/argos_cli.py --run ajustar-respostas --param respostas=/caminho/base.xlsx --param ajustes=/caminho/ajustes.xlsx --param output=/caminho/saida.xlsx --yes
+```
 
 ### 1. Estudos preliminares e definição da abordagem
 
@@ -413,15 +431,15 @@ As variáveis necessárias são `GEMINI_API_KEY` e `OPENROUTER_API_KEY`. O provi
 
 O comando legado `scripts/avaliar_comentarios_gestor.py avaliar` permanece disponível apenas para compatibilidade da seção 2. Para novas execuções, use o pipeline integrado acima, que aplica deduplicação do survey, rota especial de `q2804`, índice global de uploads, prompts próprios da etapa de comentários e supressão de reavaliações já saneadas na seção 1.
 
-#### Produtos pós-comentários, recálculo e relatório individual final
+#### Produtos básicos e rotinas pós-comentários
 
-Depois de concluir e consolidar as duas seções, execute `scripts/gerar_produtos_pos_comentarios_gestor.py`. Essa etapa não chama provedores de IA. Ela exige `--data-referencia DD/MM/AAAA`, aplica a planilha de ajustes sobre a base pós-avaliação de evidências, recalcula o iGovTI, reexecuta a auditoria com o painel saneado e gera os três produtos da etapa:
+Depois de concluir e consolidar as duas seções, execute `scripts/gerar_produtos_pos_comentarios_gestor.py`. Essa etapa não chama provedores de IA e gera somente:
 
-1. `avaliacao_comentarios_gestor.xlsx`: quadro revisável das manifestações, decisões, justificativas e impactos;
-2. memória de ajustes e impactos: base pós-comentários, novo iGovTI, auditoria corrente e comparação antes/depois;
-3. Seção 4, **Análise dos comentários do gestor**, no relatório individual final.
+1. a base de respostas pós-comentários;
+2. `avaliacao_comentarios_gestor.xlsx`;
+3. `contexto-relatorios-comentarios-gestor.json`.
 
-Para salvar os artefatos na estrutura do projeto e gerar gráficos e relatório somente para a AGENERSA:
+Para salvar os três artefatos básicos na estrutura do projeto:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
@@ -429,22 +447,19 @@ scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
   --respostas-base 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
   --respostas-comentarios 02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260715-respostas-bruto.xlsx \
   --avaliacao-comentarios-dir 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor \
-  --resultado-auditoria-anterior 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --contexto-igovti-anterior 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
-  --output-root . \
-  --auditados-select AGENERSA \
-  --jobs-graficos 8
+  --revisoes-pareceres 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml \
+  --output-root .
 ```
 
-`--auditados-select` restringe a geração de gráficos e relatórios, mas a aplicação da planilha de ajustes, o recálculo e a reexecução da auditoria abrangem a base completa. Para limitar os valores aplicados, forneça em `--ajustes-comentarios` uma cópia revisada da planilha contendo somente os ajustes autorizados.
+O recálculo do cenário 03 usa `gerar_artefatos_igovti.py`; a auditoria usa `executa_auditoria.py`; os impactos usam `calcular_impactos_comentarios_gestor.py`; gráficos e relatórios usam seus geradores próprios. O orquestrador completo chama essas rotinas na ordem correta.
 
 Os principais resultados são:
 
 - `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`;
 - `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`;
 - `02-Execucao/01-Questionario/03-Respostas_Processadas/<AAAAMMDD>-respostas-questionario-pos-comentarios-gestor.xlsx`;
-- `02-Execucao/01-Questionario/04-Resultados_iGovTI/<AAAAMMDD>-iGovTI-2026.xlsx`;
-- `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria-pos-comentarios/resultado_auditoria.json`;
+- `02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/<AAAAMMDD>-iGovTI-2026.xlsx`;
+- `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json`;
 - `03-Relatorios/03-Relatorios_Individuais_Finais/gerados/Relatório Individual - <SIGLA>.docx`.
 
 A automação restaura somente valores originalmente declarados e comprovados. Ela não infere grau de adoção superior. Casos sem valor restaurável seguro permanecem na aba `Pendências`. Os produtos são minutas para revisão final da Equipe de Auditoria, mas não há bloqueio humano intermediário no fluxo.
@@ -548,20 +563,24 @@ Em Linux/macOS, substitua `C:/tmp/tcerj-igovti-2026` por `/tmp/tcerj-igovti-2026
 
 ### 10.2. Consolidação dos dados e gráficos dos comentários do gestor
 
-Após exportar as respostas concluídas do LimeSurvey para XLSX, execute o consolidador para calcular a participação, as concordâncias, as discordâncias, os pedidos de reavaliação e as manifestações das organizações sem resposta válida ao iGovTI. No Windows, use o ambiente Conda `igovti`:
+Após concluir a avaliação das duas seções, aplicar os ajustes e gerar a comparação anterior/posterior, execute o consolidador para calcular a participação, as concordâncias, as discordâncias, os pedidos de reavaliação, as decisões finais, os impactos e as manifestações das organizações sem resposta válida ao iGovTI. No Windows, use o ambiente Conda `igovti`:
 
 ```powershell
 conda run -n igovti python 03-Relatorios/99-Avaliacao_Comentarios_Gestor/calcular_dados_comentarios_gestor.py --respostas C:/caminho/results-survey796352.xlsx
 ```
 
-O script usa, por padrão, o questionário `02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss`, o resultado compacto da auditoria e a planilha de ajustes pós-avaliação de evidências. Caminhos alternativos podem ser informados com `--lss`, `--resultado-auditoria`, `--ajustes-evidencias` e `--output-dir`.
+O script usa, por padrão, o questionário de comentários do gestor, o resultado compacto da auditoria, os ajustes pós-avaliação de evidências, a avaliação final das seções 1 e 2, os ajustes pós-comentários e a comparação dos impactos. Caminhos alternativos podem ser informados com `--lss`, `--resultado-auditoria`, `--ajustes-evidencias`, `--avaliacao-final`, `--ajustes-comentarios`, `--impactos` e `--output-dir`.
 
 A consolidação considera apenas submissões concluídas, elimina registros de teste e, em caso de reenvio do mesmo token, mantém somente a resposta mais recente. Os resultados são gravados em:
 
-- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/memoria-calculo-comentarios-gestor.xlsx`: memória detalhada das submissões válidas, exclusões, manifestações por situação, pedidos de reavaliação e temas textuais;
-- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/resumo-execucao.json`: totais principais da execução;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/memoria-calculo-comentarios-gestor.xlsx`: memória detalhada das submissões válidas, exclusões, manifestações por situação, pedidos de reavaliação, decisões finais, ajustes e impactos;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/resumo-execucao.json`: totais da coleta, avaliação, ajustes e comparação anterior/posterior;
 - `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/02-panorama-geral.png`: panorama geral no modelo da Figura 30 do relatório de segurança da informação;
 - `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/achado-1-situacoes.png` a `achado-6-situacoes.png`: barras empilhadas das situações inconformes de cada achado;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/05-resultados-avaliacao.png`: decisões consolidadas das seções 1 e 2;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/06-impactos-organizacoes.png`: organizações alcançadas por cada dimensão de impacto;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/07-saldo-situacoes-achados.png`: comparação dos estoques de situações e achados;
+- `03-Relatorios/99-Avaliacao_Comentarios_Gestor/img/08-evolucao-igovti.png`: evolução da média do iGovTI;
 - demais arquivos em `img/`: participação, consolidação por achado e pedidos de reavaliação por questão-base.
 
 Nas figuras por achado, cada barra representa uma situação inconforme. A parcela cinza, `Situação encontrada inexistente`, corresponde às organizações respondentes para as quais aquela situação não constava do relatório individual. O denominador é, portanto, o total de organizações com manifestação válida sobre os relatórios individuais.

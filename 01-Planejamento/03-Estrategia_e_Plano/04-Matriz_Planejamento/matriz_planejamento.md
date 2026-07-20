@@ -6,7 +6,7 @@ title: "Fiscalização TCE-RJ nº 18/2026 - iGovTI 2026"
 
 ## Questão Geral de Auditoria
 
-questao_geral: As práticas de governança e gestão de TIC da organização, à luz da legislação vigente, das boas práticas de governança e gestão e dos padrões internacionalmente reconhecidos, evidenciam nível adequado de maturidade em governança e gestão de TIC, medido pelo iGovTI?
+questao_geral: Qual é o grau de adoção das práticas de governança e gestão de TIC das organizações avaliadas, segundo o iGovTI 2026, e quais fragilidades relevantes estão presentes?
 ---
 
 ## Questão 01 - Estrutura de TIC

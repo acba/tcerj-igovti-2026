@@ -58,6 +58,10 @@ EXTENSOES_COMPACTADOS = {".zip", ".rar"}
 
 MAX_PAGINAS_PDF = 100
 MAX_PROFUNDIDADE_RECURSIVIDADE = 5
+MAX_LINHAS_XLSX_POR_ABA = 1000
+MIN_LADO_IMAGEM_PDF_RELEVANTE_PX = 32
+MIN_AREA_IMAGEM_PDF_RELEVANTE_PX = 4096
+MAX_BYTES_IMAGEM_PDF_SEM_RELEVANCIA = 25_000
 
 # ---------------------------------------------------------------------------
 # Tratamento de atalhos .url (download seguro de recursos .gov.br)
@@ -800,11 +804,39 @@ def _extrair_texto_ods(caminho: Path) -> tuple[str, str]:
         return _extrair_xlsx_abas_visiveis(xlsx_path)
 
 
+def _dataframe_para_markdown_compacto(df: Any, pd: Any) -> str:
+    """Serializa um DataFrame como tabela Markdown sem padding de colunas."""
+
+    def valor_celula(valor: Any) -> str:
+        if pd.isna(valor):
+            return ""
+        return (
+            str(valor)
+            .replace("\\", "\\\\")
+            .replace("|", "\\|")
+            .replace("\r\n", "<br>")
+            .replace("\r", "<br>")
+            .replace("\n", "<br>")
+        )
+
+    cabecalho = [valor_celula(coluna) for coluna in df.columns]
+    linhas = [
+        "|" + "|".join(cabecalho) + "|",
+        "|" + "|".join("---" for _ in cabecalho) + "|",
+    ]
+    linhas.extend(
+        "|" + "|".join(valor_celula(valor) for valor in valores) + "|"
+        for valores in df.itertuples(index=False, name=None)
+    )
+    return "\n".join(linhas)
+
+
 def _extrair_xlsx_abas_visiveis(caminho: Path) -> tuple[str, str]:
     """Extrai markdown de um XLSX considerando apenas abas visiveis.
 
     Reproduz o formato do MarkItDown (## nome_aba + tabela em markdown), mas
-    filtra abas ocultas (sheet_state != 'visible') usando openpyxl.
+    filtra abas ocultas (sheet_state != 'visible') usando openpyxl e limita
+    cada aba às primeiras 1.000 linhas da planilha, incluindo o cabeçalho.
     """
     try:
         import pandas as pd
@@ -819,9 +851,25 @@ def _extrair_xlsx_abas_visiveis(caminho: Path) -> tuple[str, str]:
             return "", "xlsx sem abas visiveis"
         partes: list[str] = []
         for nome_aba in abas_visiveis:
-            df = pd.read_excel(caminho, sheet_name=nome_aba, engine="openpyxl")
+            # O pandas trata a primeira linha como cabeçalho. Lê uma linha de
+            # dados além do limite efetivo para detectar truncamento sem carregar
+            # a aba inteira; somente 999 registros, mais o cabeçalho, seguem
+            # para o Markdown.
+            df_amostra = pd.read_excel(
+                caminho,
+                sheet_name=nome_aba,
+                engine="openpyxl",
+                nrows=MAX_LINHAS_XLSX_POR_ABA,
+            )
+            truncada = len(df_amostra.index) >= MAX_LINHAS_XLSX_POR_ABA
+            df = df_amostra.head(MAX_LINHAS_XLSX_POR_ABA - 1)
             partes.append(f"## {nome_aba}\n")
-            partes.append(df.to_markdown(index=False))
+            if truncada:
+                partes.append(
+                    f"> Conteúdo truncado: somente as primeiras {MAX_LINHAS_XLSX_POR_ABA} "
+                    "linhas da aba, incluindo o cabeçalho, foram convertidas para Markdown.\n\n"
+                )
+            partes.append(_dataframe_para_markdown_compacto(df, pd))
             partes.append("\n\n")
         return "".join(partes).strip(), ""
     except Exception as exc:
@@ -1198,6 +1246,47 @@ def _tentar_reconstrucao_imagens(caminho: Path, destino_dir: Path, data: bytes) 
 # ---------------------------------------------------------------------------
 
 
+def _motivo_filtro_imagem_pdf(caminho: Path) -> str:
+    """Classifica derivados pequenos ou sem resolução útil como irrelevantes.
+
+    O ``pymupdf4llm`` pode materializar como PNG pequenos trechos que já
+    pertencem à camada textual do PDF (numeração de cláusulas, letras de
+    alternativas e outros glifos). Além da regra dimensional conjuntiva, não
+    são enviados derivados com até 25 kB, conforme a política do pipeline.
+    """
+    tamanho = caminho.stat().st_size
+    if tamanho <= MAX_BYTES_IMAGEM_PDF_SEM_RELEVANCIA:
+        return f"arquivo_derivado_ate_25kb: {tamanho} bytes"
+
+    try:
+        from PIL import Image
+
+        with Image.open(caminho) as imagem:
+            largura, altura = imagem.size
+    except Exception:
+        # Se os metadados não puderem ser lidos, preserve o derivado para que
+        # a falha não provoque perda silenciosa de uma possível evidência.
+        return ""
+
+    area = largura * altura
+    if (
+        min(largura, altura) < MIN_LADO_IMAGEM_PDF_RELEVANTE_PX
+        and area < MIN_AREA_IMAGEM_PDF_RELEVANTE_PX
+    ):
+        return (
+            "fragmento_sem_resolucao_util: "
+            f"{largura}x{altura}px, area={area}px"
+        )
+    return ""
+
+
+def _remover_referencia_imagem_markdown(markdown: str, nome_imagem: str) -> str:
+    """Remove do Markdown a referência a um derivado que não será enviado."""
+    nome = re.escape(nome_imagem)
+    padrao = rf"!\[[^\]]*\]\((?:\./)?img/{nome}(?:\s+[^)]*)?\)"
+    return re.sub(padrao, "", markdown)
+
+
 def _tentar_extrair_markdown_pdf(
     caminho: Path,
     raiz: Path,
@@ -1308,6 +1397,17 @@ def extrair_pdf_markdown_imagens(
         for img_dup in dedup_map:
             Path(img_dup).unlink()
 
+    imagens_filtradas: list[dict[str, str]] = []
+    for imagem in sorted(path for path in imagens_dir.glob("*") if path.is_file()):
+        motivo = _motivo_filtro_imagem_pdf(imagem)
+        if not motivo:
+            continue
+        markdown = _remover_referencia_imagem_markdown(markdown, imagem.name)
+        imagens_filtradas.append({"nome": imagem.name, "motivo": motivo})
+        imagem.unlink()
+    if imagens_filtradas:
+        markdown_path.write_text(markdown, encoding="utf-8")
+
     imagens_unicas = sorted(path for path in imagens_dir.glob("*") if path.is_file())
     imagens_relativas = [str(path.relative_to(raiz).as_posix()) for path in imagens_unicas]
     documentos = [
@@ -1318,6 +1418,7 @@ def extrair_pdf_markdown_imagens(
             "texto": markdown,
             "imagens_extraidas": imagens_relativas,
             "duplicadas_removidas": duplicadas_removidas,
+            "imagens_filtradas_sem_relevancia": imagens_filtradas,
         }
     ]
     inventario = [nome_base, markdown_nome, *imagens_relativas]

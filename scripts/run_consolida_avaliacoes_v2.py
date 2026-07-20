@@ -121,6 +121,8 @@ CATALOG = "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_bina
 
 # Padrão glob para encontrar os arquivos analyses*.jsonl de entrada.
 ANALYSES_GLOB = f"{BASE_OUT}/analyses_clean*.jsonl"
+CONSOLIDATED_OUT = f"{BASE_OUT}/consolidado"
+MIN_OPINIONS = 1
 
 # Lista de juízes para executar em paralelo.
 # Cada juiz consolida todos os analyses*.jsonl em pareceres.
@@ -225,11 +227,21 @@ def resolve_analyses_files() -> list[str]:
     files = sorted(glob.glob(ANALYSES_GLOB))
     if not files:
         return []
-    return [str(Path(f).relative_to(REPO)) if Path(f).is_absolute() else f for f in files]
+    resolved: list[str] = []
+    for value in files:
+        path = Path(value)
+        if path.is_absolute():
+            try:
+                resolved.append(str(path.relative_to(REPO)))
+            except ValueError:
+                resolved.append(str(path))
+        else:
+            resolved.append(value)
+    return resolved
 
 
 def build_command(cfg: dict, analyses_files: list[str], evidencias_root: str = EVIDENCIAS_ROOT_DEFAULT, only_achados: bool = True) -> list[str]:
-    out_dir = f"{BASE_OUT}/consolidado"
+    out_dir = CONSOLIDATED_OUT
     cmd = [
         VENV_PYTHON,
         "-m",
@@ -248,6 +260,7 @@ def build_command(cfg: dict, analyses_files: list[str], evidencias_root: str = E
     ]
     if only_achados or cfg.get("only_achados"):
         cmd.append("--only-achados")
+    cmd += ["--min-opinions", str(MIN_OPINIONS)]
     rpm = cfg.get("rpm", 0)
     if rpm:
         cmd += ["--rpm", str(rpm)]
@@ -338,7 +351,7 @@ def reader_thread(proc: subprocess.Popen, jp: JudgeProgress) -> None:
 
 
 def checkpoint_path(cfg: dict) -> Path:
-    return REPO / BASE_OUT / "consolidado" / "consolidated.jsonl"
+    return REPO / CONSOLIDATED_OUT / "consolidated.jsonl"
 
 
 # A thread fallback_count_thread foi desativada pois causava leituras
@@ -363,6 +376,7 @@ def _format_current(jp: JudgeProgress) -> str:
 
 
 def run() -> int:
+    global ANALYSES_GLOB, CONSOLIDATED_OUT, CATALOG, JUDGES, MIN_OPINIONS
     parser = argparse.ArgumentParser(
         description="Orquestra a consolidação de avaliações de evidências por juiz IA (v2 — refatorado)."
     )
@@ -376,7 +390,27 @@ def run() -> int:
         action="store_true",
         help="Consolida apenas os itens que geram achados (default: todos os itens).",
     )
+    parser.add_argument("--analyses-glob", default=ANALYSES_GLOB, help="Glob dos JSONL dos avaliadores.")
+    parser.add_argument("--out-dir", default=CONSOLIDATED_OUT, help="Diretório da consolidação.")
+    parser.add_argument("--catalog", default=CATALOG)
+    parser.add_argument("--min-opinions", type=int, default=MIN_OPINIONS, help="Quórum mínimo de avaliações válidas por evidência.")
+    parser.add_argument(
+        "--judges-config",
+        type=Path,
+        help="JSON opcional com lista em 'judges'; substitui a configuração embutida.",
+    )
     args = parser.parse_args()
+
+    ANALYSES_GLOB = args.analyses_glob
+    CONSOLIDATED_OUT = args.out_dir
+    CATALOG = args.catalog
+    MIN_OPINIONS = args.min_opinions
+    if args.judges_config:
+        payload = json.loads(args.judges_config.read_text(encoding="utf-8"))
+        configured = payload.get("judges")
+        if not isinstance(configured, list):
+            parser.error("--judges-config deve conter uma lista em 'judges'.")
+        JUDGES = configured
 
     analyses_files = resolve_analyses_files()
     if not analyses_files:

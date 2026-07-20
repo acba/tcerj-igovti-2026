@@ -81,11 +81,11 @@ def conteudo_provider_textual(
     if response_profile == "manager_comments_temporal":
         conclusao_saida.update(
             {
-                "estado_temporal": "mantida|afastada_na_data_base|corrigida_posteriormente|inconclusiva",
+                "estado_temporal": "mantida|afastada_na_data_base|corrigida_posteriormente",
                 "conclusoes_motivos": [
                     {
                         "id_motivo": "...",
-                        "estado_motivo": "mantido|afastado|inconclusivo",
+                        "estado_motivo": "mantido|afastado",
                         "justificativa": "...",
                     }
                 ],

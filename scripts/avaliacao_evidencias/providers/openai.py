@@ -33,6 +33,23 @@ from .response import json_schema_responses_format
 DEFAULT_OPENAI_BASE_URL = "http://127.0.0.1:10531/v1"
 
 
+class _OpenAIContextWindowExceeded(ValueError):
+    """Sinaliza rejeicao de contexto mascarada por um status HTTP transiente."""
+
+
+def _mensagem_indica_contexto_excedido(message: str) -> bool:
+    normalizada = message.casefold()
+    return any(
+        trecho in normalizada
+        for trecho in (
+            "exceeds the context window",
+            "context window exceeded",
+            "maximum context length",
+            "context_length_exceeded",
+        )
+    )
+
+
 class OpenAIProvider(GenericProvider):
     name = "openai"
     supports_pdf_file_upload = True
@@ -118,21 +135,37 @@ class OpenAIProvider(GenericProvider):
                 body["reasoning"] = {"effort": ctx.reasoning_effort}
 
             def call_openai() -> dict[str, Any]:
-                return _request_openai_responses_stream(
-                    url=f"{base_url}/responses",
-                    api_key=ctx.api_key,
-                    body=body,
-                    timeout=120,
-                )
+                try:
+                    return _request_openai_responses_stream(
+                        url=f"{base_url}/responses",
+                        api_key=ctx.api_key,
+                        body=body,
+                        timeout=120,
+                    )
+                except urllib.error.HTTPError as exc:
+                    # Alguns proxies devolvem excesso da janela de contexto como
+                    # 500/502. Converta-o em erro nao transiente para evitar
+                    # retries inuteis e permitir o fallback textual do PDF.
+                    detalhe = formatar_erro_http(exc)
+                    if _mensagem_indica_contexto_excedido(detalhe):
+                        raise _OpenAIContextWindowExceeded(detalhe) from exc
+                    raise
 
-            payload = executar_com_retry_transiente(call_openai, exclude_429=True)
+            payload = executar_com_retry_transiente(
+                call_openai,
+                exclude_429=True,
+                provider=self.name,
+                model=self.model,
+            )
             return _extrair_texto_openai_responses(payload)
 
         try:
             raw_content = request_content(content)
             return raw_content
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
-            if status_from_exception(exc) == 413 and arquivos_pdf_do_pacote(ctx.pacote):
+            contexto_excedido = isinstance(exc, _OpenAIContextWindowExceeded)
+            if (status_from_exception(exc) == 413 or contexto_excedido) and arquivos_pdf_do_pacote(ctx.pacote):
+                fallback_reason = "context_window_exceeded" if contexto_excedido else "http_413_payload_too_large"
                 if ctx.on_event is not None:
                     try:
                         ctx.on_event(
@@ -140,7 +173,7 @@ class OpenAIProvider(GenericProvider):
                             {
                                 "provider": self.name,
                                 "model": self.model,
-                                "reason": "http_413_payload_too_large",
+                                "reason": fallback_reason,
                             },
                         )
                     except Exception:

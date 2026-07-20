@@ -498,6 +498,7 @@ def load_checkpoint_status(cfg: dict) -> tuple[dict[str, str], dict[str, dict]]:
 
 
 def run() -> int:
+    global RESPOSTAS, BASE_OUT, QUESTIONARIO, PROMPTS_DIR, PROMPT_VERSION, CATALOG, AUDITADOS, MODELS
     parser = argparse.ArgumentParser(
         description="Orquestra pipelines de avaliação de evidências em paralelo (v2 — refatorado)."
     )
@@ -512,7 +513,33 @@ def run() -> int:
         help="Filtra e processa apenas os itens que geram achados. "
         "Por padrao, processa todos os itens.",
     )
+    parser.add_argument("--respostas", default=RESPOSTAS, help="Planilha de respostas usada na avaliação.")
+    parser.add_argument("--out-dir", default=BASE_OUT, help="Diretório dos checkpoints individuais.")
+    parser.add_argument("--questionario", default=QUESTIONARIO)
+    parser.add_argument("--prompts-dir", default=PROMPTS_DIR)
+    parser.add_argument("--prompt-version", default=PROMPT_VERSION)
+    parser.add_argument("--catalog", default=CATALOG)
+    parser.add_argument("--auditados", default=AUDITADOS, help="Siglas separadas por vírgula.")
+    parser.add_argument(
+        "--models-config",
+        type=Path,
+        help="JSON opcional com lista em 'evaluators' ou 'models'; substitui a configuração embutida.",
+    )
     args = parser.parse_args()
+
+    RESPOSTAS = args.respostas
+    BASE_OUT = args.out_dir
+    QUESTIONARIO = args.questionario
+    PROMPTS_DIR = args.prompts_dir
+    PROMPT_VERSION = args.prompt_version
+    CATALOG = args.catalog
+    AUDITADOS = args.auditados
+    if args.models_config:
+        payload = json.loads(args.models_config.read_text(encoding="utf-8"))
+        configured = payload.get("evaluators") or payload.get("models")
+        if not isinstance(configured, list):
+            parser.error("--models-config deve conter uma lista em 'evaluators' ou 'models'.")
+        MODELS = configured
 
     active = [m for m in MODELS if m.get("enabled")]
     if not active:

@@ -1,0 +1,36 @@
+schema_version: 1
+revisoes:
+  - auditado: CECIERJ
+    secao: "1"
+    codigo: A4G17
+    decisao: parcialmente acolhida
+    situacao_atual: Situação mantida com alteração parcial de fundamentos
+    manifestacao_equipe: >-
+      A manifestação foi parcialmente acolhida. A documentação apresentada
+      demonstra a definição de responsabilidades, atribuições e perfis para
+      ocupações de TIC, afastando os fundamentos relativos à inexistência
+      dessas definições. Contudo, não comprova que os perfis tenham sido
+      efetivamente utilizados na seleção ou designação dos gestores, razão
+      pela qual a situação permanece caracterizada com alteração parcial de
+      seus fundamentos.
+  - auditado: JUCERJA
+    secao: "1"
+    codigo: A6G23
+    decisao: não acolhida
+    situacao_atual: Situação mantida
+    manifestacao_equipe: >-
+      A manifestação não foi acolhida. O PEDTIC e o Plano Anual de
+      Contratações demonstram a existência de instrumentos de planejamento,
+      mas não comprovam a rastreabilidade exigida entre cada contratação de
+      TIC, as dotações orçamentárias e os instrumentos PPA, LDO e LOA. As
+      inconsistências temporais identificadas também impedem reconhecer o
+      atendimento do critério, permanecendo caracterizada a situação.
+  - auditado: SÃO JOÃO DE MERITI
+    secao: "1"
+    codigo: A4G14
+    decisao: acolhida
+    manifestacao_equipe: >-
+      A manifestação foi acolhida. A Lei Complementar municipal nº 233/2026
+      constitui evidência normativa suficiente da existência dos cargos de
+      Segurança da Informação, compreendendo um cargo de Agente de Segurança
+      da Informação e quatro cargos de Assessor de Segurança da Informação.

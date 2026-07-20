@@ -23,9 +23,12 @@ from scripts.comentarios_gestor_pipeline import (
     DEFAULT_PROMPTS,
     DEFAULT_QUESTIONARIO,
     DEFAULT_RESPOSTAS_BASE,
+    DEFAULT_RESPOSTAS_ORIGINAIS,
     DEFAULT_RESULTADO,
+    DEFAULT_REVISOES_RESPOSTAS,
     _identidade_logica_analise,
     avaliar_casos,
+    carregar_revisoes_respostas,
     consolidar_casos,
     gravar_deterministicos,
     gravar_ajustes_combinados_xlsx,
@@ -36,6 +39,7 @@ from scripts.comentarios_gestor_pipeline import (
     materializar_checkpoint_limpo_modelo,
     preparar_casos_comentarios,
 )
+from scripts.comentarios_gestor_integridade import validar_integridade_comentarios
 
 TMP_ROOT = Path("/tmp/tcerj-igovti-2026") if sys.platform != "win32" else Path("C:/tmp/tcerj-igovti-2026")
 DEFAULT_OUT = TMP_ROOT / "02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor"
@@ -197,6 +201,10 @@ def prepare(args: argparse.Namespace, secao: str) -> tuple[list[dict[str, Any]],
 
 def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
     casos, deterministicos, preflight = prepare(args, secao)
+    casos_execucao = casos
+    filtro_reparo = getattr(args, "repair_case_ids", {}).get(secao)
+    if filtro_reparo is not None:
+        casos_execucao = [caso for caso in casos if caso["case_id"] in filtro_reparo]
     individual_dir = args.out_dir / "individuais" / section_name(secao)
     manifesto = {
         "secao": secao,
@@ -210,10 +218,6 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
     }
     if secao == "1":
         gravar_deterministicos(deterministicos, individual_dir)
-    _write_json(individual_dir / "manifesto-casos.json", manifesto)
-    if args.preflight_only:
-        return {"secao": secao, "preflight": preflight, "modelos": []}
-    resultados: list[dict[str, Any]] = []
     configs = models(args.models_runtime_config, args.fake)
     for cfg in configs:
         identidades: list[str] = []
@@ -235,13 +239,17 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
             except (OSError, ValueError):
                 continue
         manifesto["identidades_esperadas_por_modelo"][cfg["model_key"]] = identidades
-    _write_json(individual_dir / "manifesto-casos.json", manifesto)
+    if filtro_reparo is None:
+        _write_json(individual_dir / "manifesto-casos.json", manifesto)
+    if args.preflight_only:
+        return {"secao": secao, "preflight": preflight, "modelos": []}
+    resultados: list[dict[str, Any]] = []
     max_workers = min(args.models_runtime_config["max_parallel_evaluators"], len(configs))
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
             executor.submit(
                 avaliar_casos,
-                casos,
+                casos_execucao,
                 provider=cfg["provider"], model=cfg["model"], model_key=cfg["model_key"],
                 out_dir=individual_dir, routes=args.models_runtime_config["evaluators"],
                 reasoning=cfg["reasoning"], rpm=cfg["rpm"], pdf2md=cfg["pdf2md"],
@@ -259,7 +267,7 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
                     "model": cfg["model"],
                     "erros": 0,
                     "falha_global": True,
-                    "casos_nao_processados": len(casos),
+                    "casos_nao_processados": len(casos_execucao),
                     "error": str(exc),
                 }
             resultados.append(resultado)
@@ -274,18 +282,18 @@ def evaluate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
         xlsx,
         checkpoints,
         expected_models=[cfg["model_key"] for cfg in configs],
-        expected_case_ids={caso["case_id"] for caso in casos},
+        expected_case_ids={caso["case_id"] for caso in casos_execucao},
         itens_excluidos=preflight.get("itens_excluidos_secao1") or [],
     )
     return {"secao": secao, "preflight": preflight, "modelos": resultados, "xlsx": str(xlsx)}
 
 
-def _analysis_files(args: argparse.Namespace, secao: str) -> list[Path]:
+def _analysis_files(args: argparse.Namespace, secao: str, *, ignore_manifest: bool = False) -> list[Path]:
     directory = args.out_dir / "individuais" / section_name(secao)
     configs = models(args.models_runtime_config, args.fake)
     manifesto_path = directory / "manifesto-casos.json"
     manifesto = json.loads(manifesto_path.read_text(encoding="utf-8")) if manifesto_path.is_file() else {}
-    expected_by_model = manifesto.get("identidades_esperadas_por_modelo") or {}
+    expected_by_model = {} if ignore_manifest else (manifesto.get("identidades_esperadas_por_modelo") or {})
     files = []
     for cfg in configs:
         files.append(
@@ -306,7 +314,13 @@ def _analysis_files(args: argparse.Namespace, secao: str) -> list[Path]:
     return existentes
 
 
-def consolidate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
+def consolidate_section(
+    args: argparse.Namespace,
+    secao: str,
+    *,
+    selected_case_ids: set[str] | None = None,
+    expected_case_ids: set[str] | None = None,
+) -> dict[str, Any]:
     configs = models(args.models_runtime_config, args.fake)
     judge = args.models_runtime_config["judge"]
     judge_provider = "fake" if args.fake else judge["provider"]
@@ -314,7 +328,7 @@ def consolidate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
     manifesto_path = args.out_dir / "individuais" / section_name(secao) / "manifesto-casos.json"
     manifesto = json.loads(manifesto_path.read_text(encoding="utf-8")) if manifesto_path.is_file() else {}
     result = consolidar_casos(
-        analyses_files=_analysis_files(args, secao),
+        analyses_files=_analysis_files(args, secao, ignore_manifest=selected_case_ids is not None),
         out_dir=args.out_dir / "consolidado" / section_name(secao),
         secao=secao,
         expected_models=[c["model_key"] for c in configs],
@@ -328,7 +342,8 @@ def consolidate_section(args: argparse.Namespace, secao: str) -> dict[str, Any]:
         pdf_detail=judge["pdf_detail"],
         catalog_comentarios=args.catalog_comentarios,
         deterministic_path=(args.out_dir / "individuais/secao-1/deterministicos.jsonl") if secao == "1" else None,
-        expected_case_ids=set(manifesto.get("case_ids_ia") or []),
+        expected_case_ids=expected_case_ids or set(manifesto.get("case_ids_ia") or []),
+        selected_case_ids=selected_case_ids,
         quiet=args.quiet,
     )
     print(json.dumps({"event": "comments_consolidation_finished", **result}, ensure_ascii=False), flush=True)
@@ -348,7 +363,15 @@ def _carregar_saneados_secao1(
         lss=args.lss,
         ajustes_pos_avaliacao_evidencias=args.ajustes_pos_avaliacao_evidencias,
         respostas_base=args.respostas_questionario_base,
+        respostas_originais=args.respostas_questionario_originais,
     )
+    revisoes, pendencias_revisoes = carregar_revisoes_respostas(
+        path=args.revisoes_respostas,
+        consolidado_secao1=consolidated,
+        respostas_base=args.respostas_questionario_base,
+    )
+    ajustes.extend(revisoes)
+    pendencias.extend(pendencias_revisoes)
     saneados = {
         (str(item.get("Auditado", "")).strip().upper(), str(item.get("Código do item avaliado", "")).strip()): item
         for item in ajustes
@@ -394,6 +417,57 @@ def generate_adjustments(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+def validate_integrity(args: argparse.Namespace) -> dict[str, Any]:
+    casos_por_secao: dict[str, list[dict[str, Any]]] = {}
+    deterministicos_por_secao: dict[str, list[dict[str, Any]]] = {}
+    for secao in ("1", "2"):
+        casos, deterministicos, _ = prepare(args, secao)
+        casos_por_secao[secao] = casos
+        deterministicos_por_secao[secao] = deterministicos
+    configs = models(args.models_runtime_config, args.fake)
+    return validar_integridade_comentarios(
+        out_dir=args.out_dir,
+        casos_por_secao=casos_por_secao,
+        deterministicos_por_secao=deterministicos_por_secao,
+        modelos_esperados=[item["model_key"] for item in configs],
+        quorum=args.models_runtime_config["judge"]["min_valid_opinions"],
+    )
+
+
+def repair_integrity(args: argparse.Namespace) -> dict[str, Any]:
+    validacao = validate_integrity(args)
+    manifest_path = Path(validacao["manifesto_reparo"])
+    manifesto = json.loads(manifest_path.read_text(encoding="utf-8"))
+    filtros = {
+        secao: {str(item["case_id"]) for item in manifesto.get("secoes", {}).get(secao, [])}
+        for secao in ("1", "2")
+    }
+    args.repair_case_ids = filtros
+    resultados: list[dict[str, Any]] = []
+    for secao in ("1", "2"):
+        if not filtros[secao]:
+            continue
+        casos, _, _ = prepare(args, secao)
+        esperados = {str(caso["case_id"]) for caso in casos}
+        resultados.append(evaluate_section(args, secao))
+        resultados.append(
+            consolidate_section(
+                args,
+                secao,
+                selected_case_ids=filtros[secao],
+                expected_case_ids=esperados,
+            )
+        )
+    args.repair_case_ids = {}
+    validacao_final = validate_integrity(args)
+    return {
+        "validacao_inicial": validacao,
+        "casos_reprocessados": {secao: len(ids) for secao, ids in filtros.items()},
+        "resultados": resultados,
+        "validacao_final": validacao_final,
+    }
+
+
 def run(args: argparse.Namespace) -> int:
     resumo: dict[str, Any] = {"action": args.action, "fake": args.fake, "resultados": []}
     try:
@@ -429,9 +503,23 @@ def run(args: argparse.Namespace) -> int:
             resumo["resultados"].append(evaluate_section(args, "2"))
             if not args.preflight_only:
                 resumo["resultados"].append(consolidate_section(args, "2"))
+                resumo["integridade"] = validate_integrity(args)
+                if resumo["integridade"]["status"] != "conforme":
+                    raise ValueError(
+                        "validação de integridade reprovada; execute 'reparar-integridade' antes de gerar ajustes"
+                    )
                 resumo["ajustes"] = generate_adjustments(args)
         elif args.action == "gerar-ajustes":
+            resumo["integridade"] = validate_integrity(args)
+            if resumo["integridade"]["status"] != "conforme":
+                raise ValueError(
+                    "validação de integridade reprovada; execute 'reparar-integridade' antes de gerar ajustes"
+                )
             resumo["ajustes"] = generate_adjustments(args)
+        elif args.action == "validar-integridade":
+            resumo["integridade"] = validate_integrity(args)
+        elif args.action == "reparar-integridade":
+            resumo["reparo"] = repair_integrity(args)
         else:
             raise ValueError(f"ação desconhecida: {args.action}")
     except Exception as exc:
@@ -458,7 +546,10 @@ def run(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["avaliar", "consolidar", "gerar-ajustes", "completo"])
+    parser.add_argument(
+        "action",
+        choices=["avaliar", "consolidar", "gerar-ajustes", "validar-integridade", "reparar-integridade", "completo"],
+    )
     parser.add_argument("--secao", choices=["1", "2", "ambas"], default="ambas")
     parser.add_argument("--respostas-comentarios", type=Path, default=DEFAULT_RESPOSTAS)
     parser.add_argument("--evidencias-comentarios-root", type=Path, default=DEFAULT_EVIDENCIAS)
@@ -468,7 +559,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ajustes-pos-avaliacao-evidencias", type=Path, default=DEFAULT_AJUSTES)
     parser.add_argument("--questionario", type=Path, default=DEFAULT_QUESTIONARIO)
     parser.add_argument("--respostas-questionario-base", type=Path, default=DEFAULT_RESPOSTAS_BASE)
+    parser.add_argument("--respostas-questionario-originais", type=Path, default=DEFAULT_RESPOSTAS_ORIGINAIS)
     parser.add_argument("--painel-avaliacao-evidencias", type=Path, default=DEFAULT_PAINEL_EVIDENCIAS)
+    parser.add_argument("--revisoes-respostas", type=Path, default=DEFAULT_REVISOES_RESPOSTAS)
     parser.add_argument("--prompts-dir", type=Path, default=DEFAULT_PROMPTS)
     parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     parser.add_argument("--catalog-comentarios", type=Path, default=DEFAULT_CATALOG_COMENTARIOS)

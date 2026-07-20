@@ -10,7 +10,15 @@ from scripts.avaliacao_evidencias.providers.response import (
     json_schema_response_format,
     validar_resultado_ia,
 )
-from scripts.avaliacao_evidencias.evidence_processing import _tentar_extrair_markdown_pdf
+from scripts.avaliacao_evidencias.evidence_processing import (
+    MAX_LINHAS_XLSX_POR_ABA,
+    PacoteEvidencia,
+    _dataframe_para_markdown_compacto,
+    _extrair_xlsx_abas_visiveis,
+    _motivo_filtro_imagem_pdf,
+    _remover_referencia_imagem_markdown,
+    _tentar_extrair_markdown_pdf,
+)
 from scripts.avaliacao_evidencias.providers.base import (
     GenericProvider,
     conteudo_provider_textual,
@@ -26,11 +34,14 @@ from scripts.comentarios_gestor_pipeline import (
     ItemAnterior,
     _agregar_propostas_ajuste,
     _identidade_logica_analise,
+    _latest_by_case_model,
+    _materializar_consolidado,
     _resolver_valor_positivo,
     _selecionar_situacao,
     avaliar_casos,
     carregar_rotas_catalogo,
     consolidar_casos,
+    executar_caso,
     filtrar_itens_saneados_secao1,
     gerar_painel_evidencias_pos_comentarios,
     gravar_avaliacoes_modelos_xlsx,
@@ -78,12 +89,250 @@ def opinion(case_id: str, provider: str, model: str) -> dict:
 
 
 class ComentariosGestorPipelineTest(unittest.TestCase):
-    def test_ajuste_corrente_nao_majora_item_sem_resposta_original_restauravel(self) -> None:
+    def test_xlsx_markdown_is_compact_and_escapes_cell_content(self) -> None:
+        import pandas as pd
+
+        dataframe = pd.DataFrame(
+            [
+                ["curto", "a|b", "linha 1\nlinha 2"],
+                ["x", "y", "z"],
+            ],
+            columns=["codigo", "com|pipe", "multilinha"],
+        )
+
+        markdown = _dataframe_para_markdown_compacto(dataframe, pd)
+
+        self.assertEqual(
+            markdown.splitlines(),
+            [
+                r"|codigo|com\|pipe|multilinha|",
+                "|---|---|---|",
+                r"|curto|a\|b|linha 1<br>linha 2|",
+                "|x|y|z|",
+            ],
+        )
+        self.assertNotIn("| codigo ", markdown)
+
+    def test_xlsx_markdown_limits_visible_sheet_to_first_thousand_rows(self) -> None:
+        from openpyxl import Workbook
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "planilha-grande.xlsx"
+            wb = Workbook()
+            visible = wb.active
+            visible.title = "Visivel"
+            visible.append(["codigo", "valor"])
+            for index in range(MAX_LINHAS_XLSX_POR_ABA + 5):
+                visible.append([index, f"linha-{index}"])
+            hidden = wb.create_sheet("Oculta")
+            hidden.sheet_state = "hidden"
+            hidden.append(["segredo"])
+            hidden.append(["nao-deve-aparecer"])
+            wb.save(path)
+            wb.close()
+
+            markdown, error = _extrair_xlsx_abas_visiveis(path)
+
+        self.assertEqual(error, "")
+        self.assertIn("## Visivel", markdown)
+        self.assertIn("Conteúdo truncado", markdown)
+        self.assertIn("linha-998", markdown)
+        self.assertNotIn("linha-999", markdown)
+        self.assertNotIn("Oculta", markdown)
+        self.assertNotIn("nao-deve-aparecer", markdown)
+
+    def test_individual_evaluation_uses_context_when_attachment_is_unprocessable(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            attachment = Path(tmp) / "anexo-vazio.pdf"
+            attachment.write_bytes(b"")
+            case = {
+                "case_id": "case-warning",
+                "secao": "situacoes",
+                "auditado": "ORG",
+                "codigo": "A1G1",
+                "coluna_evidencia": "A1G1Evi",
+                "resposta_id": 1,
+                "prompt": "Avalie o comentário e não presuma o conteúdo de anexos ilegíveis.",
+                "prompt_hash": "prompt-hash",
+                "response_profile": "manager_comments_temporal",
+                "itens": [],
+                "contexto": {"motivos": []},
+                "documentos_contexto": [
+                    {"nome": "manifestacao_gestor.json", "tipo": "manifestacao_gestor", "texto": "Compromisso futuro."},
+                    {"nome": "contexto_situacao.json", "tipo": "contexto_auditoria", "texto": "Situação encontrada."},
+                ],
+                "evidence_paths": [attachment],
+                "evidencias": [{"name": attachment.name}],
+            }
+            pacote_invalido = PacoteEvidencia(
+                caminho=attachment,
+                tipo="pdf",
+                documentos=[],
+                inventario=[],
+                erro="evidencia sem conteudo processavel para avaliacao",
+            )
+            resultado_provider = {
+                "status": "completed",
+                "conclusoes": [{
+                    "item_codigo": "A1G1",
+                    "estado": "nao_conforme",
+                    "justificativa": (
+                        "O conteúdo do arquivo está inacessível, mas o comentário descreve "
+                        "somente compromisso futuro e não afasta a situação."
+                    ),
+                }],
+            }
+            with patch(
+                "scripts.comentarios_gestor_pipeline.preparar_evidencia_para_provider",
+                return_value=(pacote_invalido, [], ""),
+            ), patch(
+                "scripts.comentarios_gestor_pipeline.executar_provider",
+                return_value=resultado_provider,
+            ) as provider:
+                registro = executar_caso(
+                    case,
+                    provider="fake",
+                    model="fake",
+                    reasoning="high",
+                    pdf2md=True,
+                    docx2html=True,
+                )
+
+        self.assertEqual(registro["status"], "completed")
+        self.assertEqual(len(registro["avisos_processamento_evidencias"]), 1)
+        pacote_enviado = provider.call_args.kwargs["pacote"]
+        nomes = [documento["nome"] for documento in pacote_enviado["documentos"]]
+        self.assertIn("manifestacao_gestor.json", nomes)
+        self.assertIn("avisos_processamento_anexos.json", nomes)
+        self.assertEqual(pacote_enviado["arquivos_upload"], [])
+
+    def test_judge_uses_valid_opinions_when_attachment_is_unprocessable(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            attachment = root / "anexo-vazio.pdf"
+            attachment.write_bytes(b"")
+            paths = []
+            for provider_name, model in (("p1", "m1"), ("p2", "m2")):
+                record = opinion("case-warning", provider_name, model)
+                record["evidence_paths"] = [str(attachment)]
+                path = root / f"{provider_name}.jsonl"
+                path.write_text(json.dumps(record) + "\n", encoding="utf-8")
+                paths.append(path)
+            pacote_invalido = PacoteEvidencia(
+                caminho=attachment,
+                tipo="pdf",
+                documentos=[],
+                inventario=[],
+                erro="evidencia sem conteudo processavel para avaliacao",
+            )
+            resultado_provider = {
+                "status": "completed",
+                "conclusoes": [{"item_codigo": "q1001[A]", "estado": "nao_conforme"}],
+            }
+            with patch(
+                "scripts.comentarios_gestor_pipeline.preparar_evidencia_para_provider",
+                return_value=(pacote_invalido, [], ""),
+            ), patch(
+                "scripts.comentarios_gestor_pipeline.executar_provider",
+                return_value=resultado_provider,
+            ) as provider:
+                result = consolidar_casos(
+                    analyses_files=paths,
+                    out_dir=root / "out",
+                    secao="2",
+                    expected_models=["m1", "m2"],
+                    judge_provider="fake",
+                    judge_model="judge",
+                    min_opinions=2,
+                    quiet=True,
+                )
+            clean = [
+                json.loads(line)
+                for line in (root / "out/consolidated_clean.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
+
+        self.assertEqual(result["concluidos"], 1)
+        self.assertEqual(clean[0]["status"], "completed")
+        self.assertEqual(len(clean[0]["avisos_processamento_evidencias"]), 1)
+        pacote_enviado = provider.call_args.kwargs["pacote"]
+        nomes = [documento["nome"] for documento in pacote_enviado["documentos"]]
+        self.assertIn("avaliacoes_individuais.json", nomes)
+        self.assertIn("avisos_processamento_anexos.json", nomes)
+
+    def test_judge_prefers_existing_attachment_path_from_any_opinion(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            missing = root / "extracao-antiga.pdf"
+            current = root / "extracao-atual.pdf"
+            current.write_bytes(b"pdf")
+            first = opinion("case-path", "p1", "m1")
+            second = opinion("case-path", "p2", "m2")
+            first["evidence_paths"] = [str(missing)]
+            second["evidence_paths"] = [str(current)]
+            paths = []
+            for index, record in enumerate([first, second], start=1):
+                path = root / f"p{index}.jsonl"
+                path.write_text(json.dumps(record) + "\n", encoding="utf-8")
+                paths.append(path)
+            pacote = PacoteEvidencia(
+                caminho=current,
+                tipo="pdf",
+                documentos=[{"nome": "atual", "tipo": "texto", "conteudo": "ok"}],
+                inventario=["atual"],
+                erro="",
+            )
+            with patch(
+                "scripts.comentarios_gestor_pipeline.preparar_evidencia_para_provider",
+                return_value=(pacote, [], ""),
+            ) as preparar:
+                result = consolidar_casos(
+                    analyses_files=paths,
+                    out_dir=root / "out",
+                    secao="2",
+                    expected_models=["m1", "m2"],
+                    judge_provider="fake",
+                    judge_model="judge",
+                    min_opinions=2,
+                    quiet=True,
+                )
+        self.assertEqual(result["concluidos"], 1)
+        self.assertEqual(preparar.call_args.args[0], current)
+
+    def test_saneamento_ajusta_detalhamento_sem_resposta_original_para_sim(self) -> None:
         valor, motivo = _resolver_valor_positivo(
             auditado="ORG", codigo="q1001ext[A]", fonte="questionario", ajustes_evidencias={},
         )
-        self.assertEqual(valor, "")
-        self.assertIn("originalmente afirmada", motivo)
+        self.assertEqual(valor, "Sim")
+        self.assertIn("saneada", motivo)
+
+    def test_saneamento_converte_detalhamento_e_subitem_binario(self) -> None:
+        detalhe, _ = _resolver_valor_positivo(
+            auditado="ORG", codigo="q2101ext[C]", fonte="questionario",
+            ajustes_evidencias={}, resposta_original="Não",
+        )
+        subitem, _ = _resolver_valor_positivo(
+            auditado="ORG", codigo="q2708[D]", fonte="questionario",
+            ajustes_evidencias={}, resposta_original="Não",
+        )
+        self.assertEqual(detalhe, "Sim")
+        self.assertEqual(subitem, "Sim")
+
+    def test_q0101_preserva_original_e_q0103_aplica_regras_especificas(self) -> None:
+        q0101, _ = _resolver_valor_positivo(
+            auditado="ORG", codigo="q0101", fonte="questionario",
+            ajustes_evidencias={}, resposta_original="e) Híbrida",
+        )
+        q0103d, _ = _resolver_valor_positivo(
+            auditado="ORG", codigo="q0103[D]", fonte="questionario",
+            ajustes_evidencias={}, resposta_original="Não",
+        )
+        q0103g, _ = _resolver_valor_positivo(
+            auditado="ORG", codigo="q0103[G]", fonte="questionario",
+            ajustes_evidencias={}, resposta_original="Sim",
+        )
+        self.assertEqual(q0101, "e) Híbrida")
+        self.assertEqual(q0103d, "Sim")
+        self.assertEqual(q0103g, "Não")
 
     def test_checkpoint_limpo_exclui_identidade_de_prompt_anterior(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -100,11 +349,66 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
             vigentes = [json.loads(line) for line in clean.read_text(encoding="utf-8").splitlines()]
         self.assertEqual([r["logical_identity"] for r in vigentes], ["nova"])
 
+    def test_opiniao_sem_conclusao_nao_conta_para_quorum(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "analyses.jsonl"
+            valida = opinion("caso", "gemini", "modelo-valido")
+            vazia = opinion("caso", "opencodego", "modelo-vazio")
+            vazia["result"]["conclusoes"] = []
+            path.write_text(
+                "\n".join(json.dumps(r) for r in [valida, vazia]) + "\n",
+                encoding="utf-8",
+            )
+            grupos = _latest_by_case_model([path])
+        self.assertEqual(set(grupos["caso"]), {"modelo-valido"})
+
+    def test_checkpoint_preserva_parecer_valido_anterior_a_resposta_vazia(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            valida = opinion("caso", "opencodego", "qwen")
+            valida.update({"identity": "identidade", "logical_identity": "identidade", "model_key": "qwen"})
+            vazia = json.loads(json.dumps(valida))
+            vazia["finished_at"] = "2026-07-14T10:00:00+00:00"
+            vazia["result"]["conclusoes"] = []
+            (root / "analyses_model_qwen.jsonl").write_text(
+                "\n".join(json.dumps(r) for r in [valida, vazia]) + "\n",
+                encoding="utf-8",
+            )
+            clean = materializar_checkpoint_limpo_modelo(
+                root,
+                model_key="qwen",
+                routes=[],
+                expected_identities={"identidade"},
+            )
+            vigente = json.loads(clean.read_text(encoding="utf-8").strip())
+        self.assertTrue(vigente["result"]["conclusoes"])
+        self.assertEqual(vigente["finished_at"], valida["finished_at"])
+
+    def test_consolidado_limpo_exclui_caso_historico_fora_do_manifesto(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            checkpoint = root / "consolidated.jsonl"
+            clean = root / "consolidated_clean.jsonl"
+            registros = [
+                {"case_id": "vigente", "status": "completed", "finished_at": "2026-07-01"},
+                {"case_id": "obsoleto", "status": "completed", "finished_at": "2026-07-02"},
+            ]
+            checkpoint.write_text(
+                "\n".join(json.dumps(r) for r in registros) + "\n",
+                encoding="utf-8",
+            )
+            vigentes = _materializar_consolidado(
+                checkpoint,
+                clean,
+                expected_case_ids={"vigente"},
+            )
+        self.assertEqual([r["case_id"] for r in vigentes], ["vigente"])
+
     def test_default_models_configuration_is_external_and_includes_glm(self) -> None:
         config = carregar_configuracao_modelos(DEFAULT_MODELS_CONFIG)
         pairs = {(item["provider"], item["model"]) for item in config["evaluators"]}
         self.assertIn(("openrouter", "z-ai/glm-5.2"), pairs)
-        self.assertEqual(config["judge"]["min_valid_opinions"], 2)
+        self.assertEqual(config["judge"]["min_valid_opinions"], 3)
 
     def test_models_configuration_rejects_duplicate_pairs(self) -> None:
         config = json.loads(DEFAULT_MODELS_CONFIG.read_text(encoding="utf-8"))
@@ -306,6 +610,29 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
             self.assertEqual(markdown, "![imagem](img/pagina.png)")
             self.assertTrue(Path(convert.call_args.kwargs["image_path"]).is_absolute())
 
+    def test_pdf2md_filters_small_files_and_tiny_fragments(self) -> None:
+        from PIL import Image
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            tiny = root / "clausula.png"
+            small_file = root / "icone.png"
+            narrow_but_useful = root / "cabecalho.png"
+            Image.new("RGB", (78, 22), "white").save(tiny)
+            Image.new("RGB", (200, 200), "white").save(small_file)
+            Image.effect_noise((2000, 100), 100).save(narrow_but_useful)
+
+            self.assertIn("arquivo_derivado_ate_25kb", _motivo_filtro_imagem_pdf(tiny))
+            self.assertIn("arquivo_derivado_ate_25kb", _motivo_filtro_imagem_pdf(small_file))
+            self.assertGreater(narrow_but_useful.stat().st_size, 25_000)
+            self.assertEqual(_motivo_filtro_imagem_pdf(narrow_but_useful), "")
+
+            markdown = "antes ![cláusula](img/clausula.png) depois"
+            self.assertEqual(
+                _remover_referencia_imagem_markdown(markdown, tiny.name),
+                "antes  depois",
+            )
+
     def test_provider_switch_reuses_legacy_provider_checkpoint(self) -> None:
         case = {
             "case_id": "case", "secao": "reavaliacao", "auditado": "ORG", "codigo": "q1",
@@ -461,6 +788,10 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
                     "item_codigo": code, "item_texto": f"Situação {code}",
                     "afirmacao_auditado": "Discorda", "estado": "nao_conforme",
                     "estado_temporal": "corrigida_posteriormente", "justificativa": "Sanada.",
+                    "conclusoes_motivos": [{
+                        "id_motivo": f"MR-{code}", "estado_motivo": "afastado",
+                        "justificativa": "Fundamento afastado.",
+                    }],
                 }]},
             }
 

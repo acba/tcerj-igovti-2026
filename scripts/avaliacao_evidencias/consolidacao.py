@@ -87,6 +87,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--prompt-version", default="juiz-v2")
     parser.add_argument("--rpm", type=validar_rpm, default=0)
     parser.add_argument("--skip-errors", action="store_true")
+    parser.add_argument(
+        "--min-opinions", type=int, default=1,
+        help="Quantidade mínima de avaliações válidas por evidência; abaixo disso a consolidação falha.",
+    )
     parser.add_argument("--list-only", action="store_true")
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument(
@@ -138,6 +142,8 @@ def main(argv: list[str] | None = None) -> int:
         help="DPI para extracao de imagens no pdf2md (default: 150).",
     )
     args = parser.parse_args(argv)
+    if args.min_opinions < 1:
+        parser.error("--min-opinions deve ser maior ou igual a 1")
 
     log_event(
         "consolidation_started",
@@ -207,6 +213,7 @@ def main(argv: list[str] | None = None) -> int:
     total_pulados = 0
     total_erros = 0
     total_concluidos = 0
+    total_sem_quorum = 0
 
     for index, grupo in enumerate(grupos, start=1):
         chave = grupo.chave
@@ -225,6 +232,22 @@ def main(argv: list[str] | None = None) -> int:
                     opinioes_erro.append(opiniao)
                 else:
                     opinioes_validas.append(opiniao)
+
+        if len(opinioes_validas) < args.min_opinions:
+            total_sem_quorum += 1
+            log_event(
+                "consolidation_below_quorum",
+                "Evidência sem o número mínimo de avaliações válidas; juiz não executado.",
+                level="error",
+                quiet=args.quiet,
+                auditado=chave.auditado,
+                questao=chave.questao,
+                coluna_evidencia=chave.coluna_evidencia,
+                evidencia=chave.evidencia,
+                opinioes_validas=len(opinioes_validas),
+                minimo=args.min_opinions,
+            )
+            continue
 
         if opinioes_erro and opinioes_validas:
             erros_desc = []
@@ -577,12 +600,13 @@ def main(argv: list[str] | None = None) -> int:
         pulados=total_pulados,
         concluidos=total_concluidos,
         erros=total_erros,
+        sem_quorum=total_sem_quorum,
         checkpoint=str(checkpoint),
         checkpoint_limpo=str(checkpoint_limpo),
         relatorio=str(relatorio),
         linhas=linhas,
     )
-    return 0
+    return 1 if total_sem_quorum else 0
 
 
 if __name__ == "__main__":

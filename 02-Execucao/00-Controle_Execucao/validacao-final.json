@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-07-19T01:51:23.801482+00:00",
+  "status": "ok",
+  "required_files": 26,
+  "missing_or_empty": [],
+  "report_counts": {
+    "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/02-Relatorios_Individuais_Preliminares/gerados": 119,
+    "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/gerados": 119
+  },
+  "expected_report_count": 119,
+  "empty_report_dirs": [],
+  "incomplete_report_dirs": [],
+  "resource_warnings": [],
+  "execution_failures": []
+}

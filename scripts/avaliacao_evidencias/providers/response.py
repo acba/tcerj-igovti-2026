@@ -11,8 +11,8 @@ from typing import Any, Mapping
 
 
 ESTADOS_CONFORMIDADE = {"conforme", "nao_conforme", "erro"}
-ESTADOS_TEMPORAIS = {"mantida", "afastada_na_data_base", "corrigida_posteriormente", "inconclusiva"}
-ESTADOS_MOTIVO = {"mantido", "afastado", "inconclusivo"}
+ESTADOS_TEMPORAIS = {"mantida", "afastada_na_data_base", "corrigida_posteriormente"}
+ESTADOS_MOTIVO = {"mantido", "afastado"}
 CAMPOS_MOTIVO_OBRIGATORIOS = {"id_motivo", "estado_motivo", "justificativa"}
 ALIASES_CAMPOS_MOTIVO = {
     "id_motivo": ("motivo_id",),

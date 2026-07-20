@@ -116,6 +116,34 @@ def agrupar_opinioes_por_evidencia(registros: Iterable[dict[str, Any]]) -> list[
 
 
 def itens_afirmados_do_grupo(opinioes: list[dict[str, Any]]) -> list[ItemAfirmado]:
+    """Obtém o escopo autoritativo do caso antes de recorrer a registros legados."""
+    for opiniao in opinioes:
+        itens_registro = opiniao.get("itens")
+        if not isinstance(itens_registro, list) or not itens_registro:
+            continue
+        itens: list[ItemAfirmado] = []
+        for item in itens_registro:
+            if not isinstance(item, dict) or not str(item.get("codigo") or "").strip():
+                continue
+            itens.append(
+                ItemAfirmado(
+                    codigo=str(item.get("codigo") or ""),
+                    texto=str(item.get("texto") or ""),
+                    afirmacao=str(item.get("afirmacao") or ""),
+                )
+            )
+        if itens:
+            return itens
+
+    for opiniao in opinioes:
+        if str(opiniao.get("secao") or "") not in {"1", "situacoes"}:
+            continue
+        codigo = str(opiniao.get("codigo") or opiniao.get("questao") or "").strip()
+        if codigo:
+            return [ItemAfirmado(codigo=codigo, texto="", afirmacao="")]
+
+    # Compatibilidade com checkpoints históricos da avaliação de evidências,
+    # que ainda não gravavam os itens autoritativos no registro.
     por_codigo: dict[str, ItemAfirmado] = {}
     for opiniao in opinioes:
         result = opiniao.get("result") if isinstance(opiniao.get("result"), dict) else {}

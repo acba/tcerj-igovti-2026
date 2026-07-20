@@ -1,12 +1,46 @@
 {
   "fonte": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx",
-  "submissoes_brutas": 85,
-  "submissoes_validas": 78,
-  "submissoes_excluidas": 7,
-  "manifestacoes_situacoes": 1431,
-  "discordancias": 233,
-  "arquivos_achados": 266,
-  "reavaliacoes_submetidas": 341,
-  "arquivos_reavaliacao": 117,
-  "organizacoes_nao_respondentes_que_manifestaram": 2
+  "submissoes_brutas": 88,
+  "submissoes_validas": 80,
+  "submissoes_excluidas": 8,
+  "manifestacoes_situacoes": 1471,
+  "discordancias": 236,
+  "arquivos_achados": 268,
+  "reavaliacoes_submetidas": 343,
+  "arquivos_reavaliacao": 118,
+  "organizacoes_nao_respondentes_que_manifestaram": 2,
+  "avaliacao_secao_1": {
+    "Não acolhida": 1404,
+    "Acolhida": 52,
+    "Parcialmente acolhida": 15
+  },
+  "avaliacao_secao_2": {
+    "Não acolhida": 296,
+    "Acolhida": 22,
+    "Parcialmente acolhida": 22
+  },
+  "ajustes_aplicados": 157,
+  "organizacoes_com_ajustes": 42,
+  "itens_ajustados_distintos": 71,
+  "pendencias_ajustes": 0,
+  "impactos": {
+    "universo": 119,
+    "situacoes_antes": 2140,
+    "situacoes_atuais": 2083,
+    "situacoes_removidas": 64,
+    "organizacoes_com_situacoes_removidas": 32,
+    "achados_antes": 625,
+    "achados_atuais": 619,
+    "achados_removidos": 6,
+    "organizacoes_com_achados_removidos": 6,
+    "organizacoes_com_igovti_alterado": 22,
+    "organizacoes_com_igovti_aumentado": 22,
+    "organizacoes_com_igovti_reduzido": 0,
+    "igovti_medio_anterior": 0.184109684154109,
+    "igovti_medio_atual": 0.18769214176646734,
+    "variacao_media_igovti": 0.0035824576123583535,
+    "variacao_media_entre_alterados": 0.018400805008931542,
+    "variacao_maxima_igovti": 0.06037577546328621,
+    "organizacoes_com_algum_impacto": 37
+  }
 }

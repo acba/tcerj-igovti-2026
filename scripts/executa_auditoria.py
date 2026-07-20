@@ -296,8 +296,12 @@ def main():
         help='Caminho para o mapa de verificação e achados (.xlsx) (ex: mapa-verificacao-achados.xlsx).'
     )
     parser.add_argument(
-        '-f', '--fontes', nargs='+', required=True,
+        '-f', '--fontes', nargs='+', default=[],
         help='Caminho para um ou mais arquivos de fontes de informação/respostas (.xlsx).'
+    )
+    parser.add_argument(
+        '--fonte', action='append', default=[], metavar='ID=CAMINHO',
+        help='Mapeia explicitamente um id da aba Fontes de Informação para um arquivo; pode ser repetido.'
     )
     parser.add_argument(
         '--resultado-json',
@@ -390,11 +394,24 @@ def main():
     # 3. Mapeia e carrega as fontes de informação
     logger.info("Carregando fontes de informação...")
     fontes_path_map = {os.path.basename(f): f for f in args.fontes}
+    fontes_id_map = {}
+    for mapping in args.fonte:
+        if '=' not in mapping:
+            parser.error("--fonte deve usar o formato ID=CAMINHO")
+        fonte_id, fonte_path = mapping.split('=', 1)
+        fonte_id = fonte_id.strip()
+        if not fonte_id or not fonte_path.strip():
+            parser.error("--fonte deve usar o formato ID=CAMINHO")
+        if fonte_id in fontes_id_map:
+            parser.error(f"Fonte mapeada mais de uma vez: {fonte_id}")
+        fontes_id_map[fonte_id] = fonte_path.strip()
+    if not args.fontes and not fontes_id_map:
+        parser.error("informe --fontes ou ao menos um --fonte ID=CAMINHO")
     fontes = {}
 
     for _, row in df_fontes.iterrows():
         nome_arquivo_fonte = os.path.basename(row['filepath'])
-        actual_path = fontes_path_map.get(nome_arquivo_fonte)
+        actual_path = fontes_id_map.get(str(row['id']).strip()) or fontes_path_map.get(nome_arquivo_fonte)
 
         if not actual_path:
             if len(args.fontes) == 1:

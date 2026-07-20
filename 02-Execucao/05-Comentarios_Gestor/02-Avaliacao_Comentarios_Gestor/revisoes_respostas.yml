@@ -1,0 +1,31 @@
+schema_version: 1
+descricao: >-
+  Decisões técnicas humanas sobre valores de resposta que não podem ser inferidos
+  automaticamente apenas do vínculo entre motivo e ação de verificação.
+revisoes:
+  - auditado: UERJ
+    codigo_situacao: A4G13
+    case_id: dfee0e6edc470cabdb55c7070d22a1b830e88e5e3c68a71a10478babccf6d40b
+    achado: 4
+    situacao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação
+    aprovada: true
+    ajustes:
+      - codigo_item: q2708[A]
+        resposta_ajustada: Sim
+        id_motivo: MR048
+        fundamento: >-
+          A legislação e o Manual de Cargos apresentados comprovam a existência
+          formal de cargos efetivos de tecnologia da informação na estrutura da UERJ.
+      - codigo_item: q2708[B]
+        resposta_ajustada: Sim
+        id_motivo: MR048
+        fundamento: >-
+          Os atos normativos e o Manual de Cargos apresentados comprovam cargos e
+          funções formalmente atribuídos à área de tecnologia da informação.
+    referencias:
+      - arquivo: 00095_01_anexo-comprovações-dirtec.pdf
+        localizacao: Manual de Cargos, páginas 93 a 98 do arquivo processado
+        elemento: AEDA 020/1994 e legislação estadual indicada no Manual
+    observacao: >-
+      Os itens q2708[C] e q2708[D] permanecem Não. A situação A4G13 permanece
+      caracterizada pelo fundamento relativo à segurança da informação.

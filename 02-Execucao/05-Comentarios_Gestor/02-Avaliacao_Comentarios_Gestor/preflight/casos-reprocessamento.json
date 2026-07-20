@@ -1,0 +1,414 @@
+{
+  "schema_version": 1,
+  "secoes": {
+    "1": [
+      {
+        "case_id": "008c1214f1d8b1c38e4b3684bd4d50bd5a572606d873b37dfb671179536b7b6a",
+        "auditado": "AGENERSA",
+        "codigo": "A1G3"
+      },
+      {
+        "case_id": "015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65",
+        "auditado": "SEPM",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "0b7019066ac30dafcfa9a7b717accfa4f0f166c3bd6f6fe81b773d22bc1bdada",
+        "auditado": "ISP",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "0b7c3638c72e76ee253feaf7cfab80d13e869e4810ed45bee5ebd0607f5db8a5",
+        "auditado": "CEDAE",
+        "codigo": "A3G11"
+      },
+      {
+        "case_id": "0d6767c8b7e4d020c44d79e7ae122d84dd84737f8897c75bddbbe47a8258e4bf",
+        "auditado": "SEDEC",
+        "codigo": "A5G20"
+      },
+      {
+        "case_id": "1336a392a480903a0905bd0217860b2e61f3b958739e8d77260406291b2cb6f8",
+        "auditado": "NOVA IGUAÇU",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "1ca03b06161ad16e2fbe02e5909136b940244b5dc2201fb5c25b8e82499ebab8",
+        "auditado": "IPEM",
+        "codigo": "A3G8"
+      },
+      {
+        "case_id": "1e242c11aef36be7093cf59e54ceec1788be60a54ff480afe76889674d39197a",
+        "auditado": "ISP",
+        "codigo": "A6G23"
+      },
+      {
+        "case_id": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
+        "auditado": "LOTERJ",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "2e8892349fd28f1f68ee89fc8dc339c080e3cd55fffa1d200326f2b8505cea9c",
+        "auditado": "JUCERJA",
+        "codigo": "A5G18"
+      },
+      {
+        "case_id": "2f3d6d468c05e76b78bd45ae3ae08652551b7f8dca492ae6800080f3aed9e8c6",
+        "auditado": "ARRAIAL DO CABO",
+        "codigo": "A1G3"
+      },
+      {
+        "case_id": "3214194ff65a94e334131ce13fb9cda7da41fc5ae27039c9e6b588ffe2b13cab",
+        "auditado": "GUAPIMIRIM",
+        "codigo": "A2G5"
+      },
+      {
+        "case_id": "3569c22f42020a7f8176d85ed4e6d2b6faf734cdcb849f22f1d70d05b62c20c9",
+        "auditado": "NITERÓI",
+        "codigo": "A3G10"
+      },
+      {
+        "case_id": "366eeab4b76f38e378d22994d6df11ce6f333b089439139c864156c4c3311829",
+        "auditado": "RJPREV",
+        "codigo": "A5G20"
+      },
+      {
+        "case_id": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
+        "auditado": "ANGRA DOS REIS",
+        "codigo": "A1G3"
+      },
+      {
+        "case_id": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
+        "auditado": "AGERIO",
+        "codigo": "A3G8"
+      },
+      {
+        "case_id": "43ba2190a1b495b0eafd783655b03e4973b2f44c81c005f37c0db8ad9d68b383",
+        "auditado": "IPEM",
+        "codigo": "A3G9"
+      },
+      {
+        "case_id": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
+        "auditado": "RIO DAS OSTRAS",
+        "codigo": "A2G5"
+      },
+      {
+        "case_id": "4ab3d5cfb0534455ed935e86a8f9b10ac348eda14dc3ee89f3bf5868a4e69af1",
+        "auditado": "ISP",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "4c202302c27af6bb12bbcc3ca1d0bad370a35ce94ee90449eeda9446957c15a5",
+        "auditado": "SÃO JOÃO DE MERITI",
+        "codigo": "A4G12"
+      },
+      {
+        "case_id": "4c8cce8e909f2a0c6816050d84758d486f11ebe6c2efeff8a5de22cd75d94eef",
+        "auditado": "PORTO REAL",
+        "codigo": "A4G14"
+      },
+      {
+        "case_id": "54e2579550f66bba00fd851ee3e016f97c5cf2af1358c89b0d1b9c65930c6ed0",
+        "auditado": "SEGOV",
+        "codigo": "A3G7"
+      },
+      {
+        "case_id": "595602798009065a3a0a9cc1d995e335a6515d0b1f786d693866e4e8bd9ffab7",
+        "auditado": "FUNARJ",
+        "codigo": "A5G22"
+      },
+      {
+        "case_id": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
+        "auditado": "LOTERJ",
+        "codigo": "A5G20"
+      },
+      {
+        "case_id": "5e5d2b29b820db96a49c59122ed15b34d76bd11aa4adbed3f146ed1bef9a4b88",
+        "auditado": "UERJ",
+        "codigo": "A5G20"
+      },
+      {
+        "case_id": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
+        "auditado": "AGERIO",
+        "codigo": "A2G5"
+      },
+      {
+        "case_id": "6bcd318d42529bb6f7e25de38a682cbb68bd10b2f88b7e7676c59a4037f50d0d",
+        "auditado": "SÃO PEDRO DA ALDEIA",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "6c33854e953d2e55cdf399d1294fd82b4c2f533e47830d25d37ac2f04df57892",
+        "auditado": "AGERIO",
+        "codigo": "A3G10"
+      },
+      {
+        "case_id": "765f95e6c662106ffa2a2806e8df699ec4dfc01bd36d4d81226ca3d644ceb81d",
+        "auditado": "NOVA IGUAÇU",
+        "codigo": "A6G23"
+      },
+      {
+        "case_id": "81546a310f3b1f38fed57768419b1769132073be63c58309e8629d03cefbe8b1",
+        "auditado": "SETUR",
+        "codigo": "A5G22"
+      },
+      {
+        "case_id": "8640281c5f426759000892053baaa7c629a0ee57e83e86945f6bde4170dccf57",
+        "auditado": "UERJ",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "8d6cef7c634c6681356b2ee95e61ae33d4c3eb4cb8dd0767697b8d2aaf979953",
+        "auditado": "QUEIMADOS",
+        "codigo": "A5G21"
+      },
+      {
+        "case_id": "8d925d5237887e57e31b795b34166bd32fff1d92f79425454d08b58b030eb0e2",
+        "auditado": "MPERJ",
+        "codigo": "A5G22"
+      },
+      {
+        "case_id": "989f6270be0b81fa5447d6e2ce635b5037c3f46fd53e10d77f4ac580abc2c2e4",
+        "auditado": "CENTRAL",
+        "codigo": "A4G16"
+      },
+      {
+        "case_id": "99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9",
+        "auditado": "SETD",
+        "codigo": "A5G21"
+      },
+      {
+        "case_id": "9a34e84d96e0c07aeecb28457ef7859e5ced5b0d09d69704acc1e59f9ff5bf9c",
+        "auditado": "CABO FRIO",
+        "codigo": "A5G21"
+      },
+      {
+        "case_id": "9ef624e690c3ef3dced030f26e38cbfa5c9e2384f2d7d5717cb88c31f74dd873",
+        "auditado": "SEINFRA",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "9f8ecb43c5dc88473e9af068ba76dccb9a1adf1b63ad9fd2129db12e690a2fe2",
+        "auditado": "FMIS",
+        "codigo": "A3G7"
+      },
+      {
+        "case_id": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
+        "auditado": "JUCERJA",
+        "codigo": "A6G23"
+      },
+      {
+        "case_id": "a63b94109d512da659b6d5e4b70279122138c2a81e2140e0b2a8f04a791949bd",
+        "auditado": "BELFORD ROXO",
+        "codigo": "A4G13"
+      },
+      {
+        "case_id": "ad5828c6c9051df8f774ab86b180180849e5e37ab169470e5aa153cdf2329933",
+        "auditado": "SÃO PEDRO DA ALDEIA",
+        "codigo": "A5G20"
+      },
+      {
+        "case_id": "b130174fdfb23f755f6cda1a9ece89bb504de35bb85040f3de9b5edbc3c0573a",
+        "auditado": "SETD",
+        "codigo": "A4G13"
+      },
+      {
+        "case_id": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
+        "auditado": "AGERIO",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "b614e4deeab2509e70b7ab78e0ac43ead02f2d0c9033cb0b1ea9522de8952b99",
+        "auditado": "SEENEMAR",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "b70442d4af7372609b9e8991301dfa258a7b0908c0db3b7d6c7e963881dded79",
+        "auditado": "SEINFRA",
+        "codigo": "A3G8"
+      },
+      {
+        "case_id": "bbaebf04f2d7a3e940a42c6e84b20e70bc7a45a7d028a2be6c5ba9a68f71759c",
+        "auditado": "NOVA IGUAÇU",
+        "codigo": "A3G10"
+      },
+      {
+        "case_id": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
+        "auditado": "FUNARJ",
+        "codigo": "A3G8"
+      },
+      {
+        "case_id": "c161de28eda93e86df557d6ff75edde6204c9ffd9b33404343c1c37e5936a736",
+        "auditado": "CECIERJ",
+        "codigo": "A4G17"
+      },
+      {
+        "case_id": "c3bc055f30269aa723bbb963323320f4946b741763a70ee0704e92df09ad4a30",
+        "auditado": "TJRJ",
+        "codigo": "A3G11"
+      },
+      {
+        "case_id": "cae0c4dcc262727d54a42e9015efda671c11e1ca7d619a04be9b670a294f35d4",
+        "auditado": "TCE-RJ",
+        "codigo": "A3G10"
+      },
+      {
+        "case_id": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
+        "auditado": "JAPERI",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "ce98a6aa8519ccf3f4c8ea210681380a5cab64edcdb090c37fb70554975da1a8",
+        "auditado": "NOVA IGUAÇU",
+        "codigo": "A6G26"
+      },
+      {
+        "case_id": "d09802ab909120f5ea59d13193f350ab8e63613cd4c9d4eb810bf87b5d701194",
+        "auditado": "ANGRA DOS REIS",
+        "codigo": "A4G17"
+      },
+      {
+        "case_id": "d20605948e3bfe41c1505cd2f9629aee86295dab1f8e63dfd7b8f487bd036238",
+        "auditado": "MPERJ",
+        "codigo": "A5G19"
+      },
+      {
+        "case_id": "d65e396df67f7f9a86b2ebdf1bde42ea065cfde3a8cbffcc4cc67cf2ae9e22cb",
+        "auditado": "IPEM",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "d76bfac5e35903c86f4bd5ac1592c828d4f01c8a83309674f46394c2db40a285",
+        "auditado": "SES",
+        "codigo": "A5G21"
+      },
+      {
+        "case_id": "d8a476526c8ec49fd24423d42fb8ee35dd64c65ab9bb6852d2a32c272787e869",
+        "auditado": "SEDEICS",
+        "codigo": "A3G9"
+      },
+      {
+        "case_id": "dd39d77f0e0d0c380eff2c1d32b75cab7710dd2ea93473c7d7647ccca4af91d8",
+        "auditado": "TCE-RJ",
+        "codigo": "A3G11"
+      },
+      {
+        "case_id": "dd3cb4b7908803ad86988b6ba24a0b863e75d554698761b7197e77c502dda02c",
+        "auditado": "AGETRANSP",
+        "codigo": "A3G11"
+      },
+      {
+        "case_id": "dd76e28b8e11c84d2e1432126771e24a33a1c15ecfd20b13e3413ea11cc88e59",
+        "auditado": "RIO DAS OSTRAS",
+        "codigo": "A3G10"
+      },
+      {
+        "case_id": "de4c9ddc143f2b55d7135aa3d8a08bdad72f98f4ffa50dc413d9f77d96928cf9",
+        "auditado": "IPEM",
+        "codigo": "A2G4"
+      },
+      {
+        "case_id": "e3d14900cb0a59c5c63bee4f9c1654dfcfd652837b15f9e59fa119dc3ad3a20d",
+        "auditado": "SÃO JOÃO DE MERITI",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "f27b669006f08a7e14b1bd11964be34298c3997ab1b0c7fc748b74f266fbc334",
+        "auditado": "LOTERJ",
+        "codigo": "A2G6"
+      },
+      {
+        "case_id": "f734dd02c01c0b91af5331996872a4ef726778954c23380d99d7a8086e829f1a",
+        "auditado": "SEAPPA",
+        "codigo": "A6G26"
+      },
+      {
+        "case_id": "fcc7c0714d8fc70feb4fe5c177a3cfaae61634c4ee21e21f10935698d36e315b",
+        "auditado": "SÃO JOÃO DE MERITI",
+        "codigo": "A1G3"
+      }
+    ],
+    "2": [
+      {
+        "case_id": "106bcb1bd945edcc8b8fb6be9cbd11e76f87114eaf74c13d6a3f06077d4e7f90",
+        "auditado": "TJRJ",
+        "codigo": "q2708"
+      },
+      {
+        "case_id": "19fe180c06035e633a037ddc4afd1e415e1cb7d4f6cdc04d69f3a53082ce9ae5",
+        "auditado": "MPERJ",
+        "codigo": "q2201"
+      },
+      {
+        "case_id": "235302a19d9856d0c0782d0ac2811f14e5ac9b2db301bee8cf7680f244c7f689",
+        "auditado": "CAMPOS DOS GOYTACAZES",
+        "codigo": "q2702"
+      },
+      {
+        "case_id": "353b74b94e7fb27657b495b9c59d5aece54214d8d15d334107aa528361a55d7e",
+        "auditado": "NOVA IGUAÇU",
+        "codigo": "q1001"
+      },
+      {
+        "case_id": "3576e421522b01fa72ff4d4972945e49168f10ddd46bf837f376f5877640f189",
+        "auditado": "RIOPREVIDENCIA",
+        "codigo": "q2702"
+      },
+      {
+        "case_id": "4232840715c928cf6ee8fe7075f49f09c0d1b1fc4f1c15e8d36d8c2d27945ca8",
+        "auditado": "ARRAIAL DO CABO",
+        "codigo": "q1001"
+      },
+      {
+        "case_id": "48446bedbda36d79b518f1da7ea9892b3baf20ee67e0ae6abc17f1e712711687",
+        "auditado": "ISP",
+        "codigo": "q2802"
+      },
+      {
+        "case_id": "5610c374c926afbb84b45d7828c6bc807190b1f45835a3651f2ff210d572278c",
+        "auditado": "IPEM",
+        "codigo": "q2102"
+      },
+      {
+        "case_id": "630dc1b95e8727983ff2d3f56be56e3b8206743cbd646de29e0e9d1b6d19179b",
+        "auditado": "IPEM",
+        "codigo": "q2101"
+      },
+      {
+        "case_id": "720d7d0873d454336c136deab5fc45929ce79b4ac2965b47beefa088ab70d745",
+        "auditado": "RIOPREVIDENCIA",
+        "codigo": "q2203"
+      },
+      {
+        "case_id": "7fc9ba3846587f5d457419202781016e3b5356eb11a1339d47c52ce307e6d74a",
+        "auditado": "ISP",
+        "codigo": "q2102"
+      },
+      {
+        "case_id": "927e0aa31ea3fb45bfd42331e950faf05b9ed68d759b57a29776dac055ce01da",
+        "auditado": "TJRJ",
+        "codigo": "q2804"
+      },
+      {
+        "case_id": "96a850cf85ec953fe1948efc89d29f5d6039068d584194a642a6bfcc33d6ce84",
+        "auditado": "MPERJ",
+        "codigo": "q2203"
+      },
+      {
+        "case_id": "c0c9b35b1edc837e2a71d9452872c184ca3fd27f6fc10a7fd677be29f1eceed8",
+        "auditado": "RIO DAS OSTRAS",
+        "codigo": "q1001"
+      },
+      {
+        "case_id": "f829bd82e203e63dd268d5a4127d6a3ccc035f6bf999298f35cd8a54b9b2def5",
+        "auditado": "MPERJ",
+        "codigo": "q2102"
+      },
+      {
+        "case_id": "fbd0f7da4b316564db3995960c305bfac3e20e211a8378f8d4b5a3bfb26b80de",
+        "auditado": "SETD",
+        "codigo": "q2204"
+      }
+    ]
+  }
+}

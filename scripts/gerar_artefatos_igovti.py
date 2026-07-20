@@ -128,6 +128,16 @@ def parse_args() -> argparse.Namespace:
         default=ROOT / "02-Execucao",
         help="Diretório base para os arquivos de saída.",
     )
+    parser.add_argument(
+        "--resultados-dir",
+        type=Path,
+        help="Diretório explícito dos resultados iGovTI; prevalece sobre a estrutura de --output-dir.",
+    )
+    parser.add_argument(
+        "--comparacao-dir",
+        type=Path,
+        help="Diretório explícito da comparação 2023-2026.",
+    )
     return parser.parse_args()
 
 
@@ -257,8 +267,8 @@ def main() -> None:
     prefixo = args.prefixo
 
     dir_q1 = args.output_dir / "01-Questionario"
-    dir_resultados = dir_q1 / "04-Resultados_iGovTI"
-    dir_q2 = args.output_dir / "02-Questionario iGovTI 2023"
+    dir_resultados = args.resultados_dir or dir_q1 / "04-Resultados_iGovTI"
+    dir_q2 = args.comparacao_dir or args.output_dir / "02-Questionario iGovTI 2023"
 
     saida_oficial = dir_resultados / f"{prefixo}-iGovTI-2026.xlsx"
     saida_comparavel = dir_resultados / f"{prefixo}-iGovTI-2026-Ajustado-Comparavel.xlsx"

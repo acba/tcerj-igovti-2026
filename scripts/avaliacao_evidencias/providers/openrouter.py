@@ -110,7 +110,12 @@ class OpenRouterProvider(GenericProvider):
                 with urllib.request.urlopen(request, timeout=120) as response:
                     return json.loads(response.read().decode("utf-8"))
 
-            payload = executar_com_retry_transiente(call_openrouter, exclude_429=True)
+            payload = executar_com_retry_transiente(
+                call_openrouter,
+                exclude_429=True,
+                provider=self.name,
+                model=self.model,
+            )
             raw_response = json.dumps(payload, ensure_ascii=False)[:2000]
             content_field = payload["choices"][0]["message"]["content"]
             if content_field is None:

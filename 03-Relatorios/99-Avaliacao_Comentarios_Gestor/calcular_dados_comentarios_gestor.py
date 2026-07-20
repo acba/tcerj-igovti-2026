@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Calcula estatisticas e gera graficos e memoria dos comentarios do gestor."""
+"""Consolida coleta, avaliação e impactos dos comentários do gestor."""
 
 from __future__ import annotations
 
@@ -33,6 +33,18 @@ DEFAULT_AJUSTES = ROOT / (
     "02-Execucao/01-Questionario/02-Ajustes_Respostas/"
     "ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 )
+DEFAULT_AVALIACAO_FINAL = ROOT / (
+    "02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/"
+    "avaliacao_comentarios_gestor.xlsx"
+)
+DEFAULT_AJUSTES_COMENTARIOS = ROOT / (
+    "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/"
+    "ajustes_respostas_questionario_pos_comentarios_gestor.xlsx"
+)
+DEFAULT_IMPACTOS = ROOT / (
+    "02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/"
+    "impactos-comentarios-gestor.xlsx"
+)
 DEFAULT_OUTPUT = Path(__file__).resolve().parent
 
 RESPOSTAS = [
@@ -47,6 +59,11 @@ CORES = {
     "Concorda, sem medida adotada": "#FFA500",
     "Discorda": "#F1613F",
     "Situacao encontrada inexistente": "#D2D3CF",
+}
+CORES_DECISOES = {
+    "Acolhida": "#70AD47",
+    "Parcialmente acolhida": "#FFC000",
+    "Não acolhida": "#D9534F",
 }
 ROTULOS_CATEGORIAS = {
     "Concorda e ja atendeu": "Concorda e j\u00e1 atendeu \u00e0s propostas de encaminhamento",
@@ -308,6 +325,114 @@ def extrair_nao_respondentes(respostas: list[dict[str, Any]], siglas: set[str]) 
     return saida
 
 
+def limpar_registros_dataframe(df: pd.DataFrame) -> list[dict[str, Any]]:
+    return df.astype(object).where(pd.notna(df), None).to_dict(orient="records")
+
+
+def normalizar_decisao(valor: Any) -> str:
+    normalizado = chave(valor)
+    if "parcialmente acolhida" in normalizado:
+        return "Parcialmente acolhida"
+    if "nao acolhida" in normalizado:
+        return "Não acolhida"
+    if "inconclusiva" in normalizado:
+        return "Não acolhida"
+    if "acolhida" in normalizado:
+        return "Acolhida"
+    return texto(valor) or "Sem decisão"
+
+
+def carregar_avaliacao_final(
+    path: Path,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    secoes = pd.read_excel(path, sheet_name=None)
+    if "Seção 1 - situações" not in secoes or "Seção 2 - itens" not in secoes:
+        raise ValueError("A avaliação final deve conter as abas 'Seção 1 - situações' e 'Seção 2 - itens'.")
+
+    secao_1 = limpar_registros_dataframe(secoes["Seção 1 - situações"])
+    secao_2 = limpar_registros_dataframe(secoes["Seção 2 - itens"])
+    manifestacoes = []
+    for row in secao_1:
+        codigo = texto(row.get("codigo") or row.get("Código"))
+        match = re.match(r"^A(\d+)G\d+$", codigo, flags=re.I)
+        if not match:
+            continue
+        decisao = texto(row.get("Decisão revisada")) or texto(row.get("decisao"))
+        manifestacao_equipe = (
+            texto(row.get("Manifestação revisada da equipe"))
+            or texto(row.get("manifestacao_equipe"))
+        )
+        manifestacoes.append(
+            {
+                "organizacao": texto(row.get("Auditado")),
+                "achado": int(match.group(1)),
+                "codigo_situacao": codigo,
+                "situacao": texto(row.get("situacao")),
+                "resposta_original": texto(row.get("manifestacao_gestor")),
+                "categoria": classificar_resposta(row.get("manifestacao_gestor")),
+                "decisao": normalizar_decisao(decisao),
+                "situacao_atual": texto(row.get("situacao_atual")),
+                "manifestacao_equipe": manifestacao_equipe,
+                "case_id": texto(row.get("case_id")),
+            }
+        )
+
+    for row in secao_2:
+        decisao = texto(row.get("Decisão revisada")) or texto(row.get("decisao"))
+        row["decisao_final"] = normalizar_decisao(decisao)
+        row["manifestacao_equipe_final"] = (
+            texto(row.get("Manifestação revisada da equipe"))
+            or texto(row.get("manifestacao_equipe"))
+        )
+    return manifestacoes, secao_1, secao_2
+
+
+def carregar_ajustes_comentarios(path: Path) -> dict[str, list[dict[str, Any]]]:
+    return {
+        nome: limpar_registros_dataframe(df)
+        for nome, df in pd.read_excel(path, sheet_name=None).items()
+    }
+
+
+def carregar_impactos(path: Path) -> list[dict[str, Any]]:
+    return limpar_registros_dataframe(pd.read_excel(path, sheet_name="Impactos"))
+
+
+def resumo_impactos(registros: list[dict[str, Any]]) -> dict[str, Any]:
+    df = pd.DataFrame(registros)
+    variacao = pd.to_numeric(df["variacao_igovti"], errors="coerce")
+    anterior = pd.to_numeric(df["igovti_anterior"], errors="coerce")
+    atual = pd.to_numeric(df["igovti_atual"], errors="coerce")
+    situacoes_antes = pd.to_numeric(df["situacoes_antes"], errors="coerce").fillna(0)
+    situacoes_atuais = pd.to_numeric(df["situacoes_atuais"], errors="coerce").fillna(0)
+    situacoes_removidas = pd.to_numeric(df["situacoes_removidas"], errors="coerce").fillna(0)
+    achados_antes = pd.to_numeric(df["achados_antes"], errors="coerce").fillna(0)
+    achados_atuais = pd.to_numeric(df["achados_atuais"], errors="coerce").fillna(0)
+    achados_removidos = pd.to_numeric(df["achados_removidos"], errors="coerce").fillna(0)
+    algum_impacto = (situacoes_removidas > 0) | (achados_removidos > 0) | (variacao.abs() > 1e-12)
+    alterados = variacao[variacao.abs() > 1e-12]
+    return {
+        "universo": len(df),
+        "situacoes_antes": int(situacoes_antes.sum()),
+        "situacoes_atuais": int(situacoes_atuais.sum()),
+        "situacoes_removidas": int(situacoes_removidas.sum()),
+        "organizacoes_com_situacoes_removidas": int((situacoes_removidas > 0).sum()),
+        "achados_antes": int(achados_antes.sum()),
+        "achados_atuais": int(achados_atuais.sum()),
+        "achados_removidos": int(achados_removidos.sum()),
+        "organizacoes_com_achados_removidos": int((achados_removidos > 0).sum()),
+        "organizacoes_com_igovti_alterado": int((variacao.abs() > 1e-12).sum()),
+        "organizacoes_com_igovti_aumentado": int((variacao > 1e-12).sum()),
+        "organizacoes_com_igovti_reduzido": int((variacao < -1e-12).sum()),
+        "igovti_medio_anterior": float(anterior.mean()),
+        "igovti_medio_atual": float(atual.mean()),
+        "variacao_media_igovti": float(variacao.mean()),
+        "variacao_media_entre_alterados": float(alterados.mean()) if len(alterados) else 0.0,
+        "variacao_maxima_igovti": float(variacao.max()),
+        "organizacoes_com_algum_impacto": int(algum_impacto.sum()),
+    }
+
+
 def textos_significativos(registros: Iterable[dict[str, Any]], campos: tuple[str, ...]) -> list[tuple[str, str]]:
     ignorar = {
         "", "de acordo", "idem", "idem as anteriores", "justificativa em respostas anteriores",
@@ -359,7 +484,7 @@ def salvar_figura(fig: plt.Figure, path: Path) -> None:
 
 
 def grafico_participacao(path: Path, totais: list[tuple[str, int, int]]) -> None:
-    labels = [item[0] for item in totais][::-1]
+    labels = [acentuar_rotulo(item[0]) for item in totais][::-1]
     valores = [100 * item[1] / item[2] if item[2] else 0 for item in totais][::-1]
     fig, ax = plt.subplots(figsize=(9, 3.8))
     bars = ax.barh(labels, valores, color="#4472C4", height=0.55)
@@ -528,6 +653,155 @@ def grafico_reavaliacao(path: Path, cobertura: list[dict[str, Any]]) -> None:
     salvar_figura(fig, path)
 
 
+def grafico_resultados_avaliacao(
+    path: Path, decisoes_secao_1: Counter, decisoes_secao_2: Counter
+) -> None:
+    categorias = list(CORES_DECISOES)
+    linhas = [
+        ("Situações encontradas", decisoes_secao_1),
+        ("Reavaliação de respostas e evidências", decisoes_secao_2),
+    ]
+    labels = [f"{nome}\n(n={sum(contagem.values())})" for nome, contagem in linhas][::-1]
+    fig, ax = plt.subplots(figsize=(11.5, 3.8))
+    esquerda = np.zeros(len(linhas))
+    for categoria in categorias:
+        valores = np.array(
+            [
+                100 * contagem[categoria] / sum(contagem.values())
+                if sum(contagem.values()) else 0
+                for _, contagem in linhas[::-1]
+            ]
+        )
+        ax.barh(
+            labels,
+            valores,
+            left=esquerda,
+            color=CORES_DECISOES[categoria],
+            label=categoria,
+            height=0.52,
+        )
+        for indice, valor in enumerate(valores):
+            quantidade = linhas[::-1][indice][1][categoria]
+            if valor >= 4:
+                ax.text(
+                    esquerda[indice] + valor / 2,
+                    indice,
+                    f"{quantidade}\n({str(f'{valor:.1f}').replace('.', ',')}%)",
+                    ha="center",
+                    va="center",
+                    fontsize=8,
+                    color="white" if categoria == "Não acolhida" else "#202020",
+                )
+        esquerda += valores
+    ax.set_xlim(0, 105)
+    ax.set_xlabel("Percentual dos casos avaliados")
+    ax.set_title("Resultado consolidado da avaliação dos comentários do gestor")
+    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    ax.set_axisbelow(True)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=3, frameon=False)
+    salvar_figura(fig, path)
+
+
+def grafico_impactos_organizacoes(path: Path, resumo: dict[str, Any]) -> None:
+    universo = resumo["universo"]
+    linhas = [
+        ("Algum impacto final", resumo["organizacoes_com_algum_impacto"]),
+        ("Situações removidas", resumo["organizacoes_com_situacoes_removidas"]),
+        ("Aumento do iGovTI", resumo["organizacoes_com_igovti_aumentado"]),
+        ("Achados afastados", resumo["organizacoes_com_achados_removidos"]),
+    ][::-1]
+    labels = [item[0] for item in linhas]
+    valores = [item[1] for item in linhas]
+    fig, ax = plt.subplots(figsize=(9.5, 4.2))
+    bars = ax.barh(labels, valores, color=["#A5A5A5", "#5B9BD5", "#70AD47", "#4472C4"])
+    ax.set_xlim(0, max(valores) * 1.35)
+    ax.set_xlabel("Quantidade de organizações")
+    ax.set_title("Organizações alcançadas pelos impactos dos comentários do gestor")
+    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    ax.set_axisbelow(True)
+    for bar, valor in zip(bars, valores):
+        ax.text(
+            valor + 0.5,
+            bar.get_y() + bar.get_height() / 2,
+            f"{valor} de {universo} ({percentual(valor, universo)})",
+            va="center",
+            fontsize=8.5,
+        )
+    salvar_figura(fig, path)
+
+
+def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(10.8, 4.2))
+    paineis = [
+        (
+            axes[0],
+            "Situações encontradas",
+            [resumo["situacoes_antes"], resumo["situacoes_atuais"]],
+            resumo["situacoes_antes"] - resumo["situacoes_atuais"],
+        ),
+        (
+            axes[1],
+            "Achados",
+            [resumo["achados_antes"], resumo["achados_atuais"]],
+            resumo["achados_antes"] - resumo["achados_atuais"],
+        ),
+    ]
+    for ax, titulo, valores, reducao in paineis:
+        bars = ax.bar(["Antes", "Após comentários"], valores, color=["#A5A5A5", "#4472C4"], width=0.55)
+        ax.set_ylim(0, max(valores) * 1.18)
+        ax.set_title(titulo)
+        ax.grid(axis="y", color="#E7E6E6", linewidth=0.8)
+        ax.set_axisbelow(True)
+        for bar, valor in zip(bars, valores):
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                valor + max(valores) * 0.025,
+                f"{valor:,}".replace(",", "."),
+                ha="center",
+                fontsize=9,
+            )
+        ax.text(
+            0.5,
+            max(valores) * 1.10,
+            f"Redução líquida: {reducao}",
+            ha="center",
+            fontsize=8.5,
+            color="#404040",
+        )
+    fig.suptitle("Situações e achados antes e após os comentários do gestor", fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    salvar_figura(fig, path)
+
+
+def grafico_evolucao_igovti(path: Path, resumo: dict[str, Any]) -> None:
+    valores = [100 * resumo["igovti_medio_anterior"], 100 * resumo["igovti_medio_atual"]]
+    fig, ax = plt.subplots(figsize=(7.5, 4.5))
+    bars = ax.bar(["Antes", "Após comentários"], valores, color=["#A5A5A5", "#70AD47"], width=0.5)
+    ax.set_ylim(0, max(valores) * 1.35)
+    ax.set_ylabel("iGovTI médio (%)")
+    ax.set_title("Evolução da média do iGovTI após os comentários do gestor")
+    ax.grid(axis="y", color="#E7E6E6", linewidth=0.8)
+    ax.set_axisbelow(True)
+    for bar, valor in zip(bars, valores):
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,
+            valor + max(valores) * 0.035,
+            f"{valor:.2f}%".replace(".", ","),
+            ha="center",
+            fontsize=10,
+        )
+    variacao = 100 * resumo["variacao_media_igovti"]
+    ax.text(
+        0.5,
+        max(valores) * 1.20,
+        f"Variação média: +{str(f'{variacao:.2f}').replace('.', ',')} ponto percentual",
+        ha="center",
+        fontsize=9,
+        color="#404040",
+    )
+    salvar_figura(fig, path)
+
+
 def ajustar_planilha(ws) -> None:
     ws.freeze_panes = "A2"
     ws.auto_filter.ref = ws.dimensions
@@ -581,10 +855,36 @@ def main() -> int:
     parser.add_argument("--lss", type=Path, default=DEFAULT_LSS)
     parser.add_argument("--resultado-auditoria", type=Path, default=DEFAULT_RESULTADO)
     parser.add_argument("--ajustes-evidencias", type=Path, default=DEFAULT_AJUSTES)
+    parser.add_argument(
+        "--avaliacao-final",
+        type=Path,
+        default=DEFAULT_AVALIACAO_FINAL,
+        help="Avaliação consolidada das seções 1 e 2.",
+    )
+    parser.add_argument(
+        "--ajustes-comentarios",
+        type=Path,
+        default=DEFAULT_AJUSTES_COMENTARIOS,
+        help="Ajustes consolidados decorrentes dos comentários do gestor.",
+    )
+    parser.add_argument(
+        "--impactos",
+        type=Path,
+        default=DEFAULT_IMPACTOS,
+        help="Comparação dos resultados anterior e posterior aos comentários.",
+    )
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
 
-    for path in (args.respostas, args.lss, args.resultado_auditoria, args.ajustes_evidencias):
+    for path in (
+        args.respostas,
+        args.lss,
+        args.resultado_auditoria,
+        args.ajustes_evidencias,
+        args.avaliacao_final,
+        args.ajustes_comentarios,
+        args.impactos,
+    ):
         if not path.exists():
             parser.error(f"Arquivo nao encontrado: {path}")
 
@@ -597,36 +897,50 @@ def main() -> int:
     brutas = ler_xlsx(args.respostas)
     respostas, excluidas = consolidar_submissoes(brutas)
     situacoes, questoes_reavaliacao = metadados_lss(args.lss)
-    manifestacoes = extrair_secao_achados(respostas, situacoes)
+    manifestacoes_coletadas = extrair_secao_achados(respostas, situacoes)
     elegiveis = elegibilidade_reavaliacao(args.ajustes_evidencias)
     reavaliacoes, cobertura = extrair_reavaliacao(respostas, elegiveis, questoes_reavaliacao)
+    manifestacoes_finais, avaliacao_secao_1, avaliacao_secao_2 = carregar_avaliacao_final(
+        args.avaliacao_final
+    )
+    ajustes_comentarios = carregar_ajustes_comentarios(args.ajustes_comentarios)
+    impactos = carregar_impactos(args.impactos)
+    impactos_resumo = resumo_impactos(impactos)
+
+    if len(manifestacoes_coletadas) != len(manifestacoes_finais):
+        raise ValueError(
+            "Divergência entre as manifestações coletadas e avaliadas: "
+            f"{len(manifestacoes_coletadas)} na coleta e {len(manifestacoes_finais)} na avaliação final."
+        )
 
     resultado = json.loads(args.resultado_auditoria.read_text(encoding="utf-8"))
     nao_responderam = {sigla for sigla, item in resultado.items() if not item.get("respondeu_questionario")}
     nao_respondentes = extrair_nao_respondentes(respostas, nao_responderam)
     respondentes_igovti = sum(bool(item.get("respondeu_questionario")) for item in resultado.values())
 
-    temas_achados = analisar_temas(textos_significativos(manifestacoes, ("comentario", "justificativa")))
+    temas_achados = analisar_temas(
+        textos_significativos(manifestacoes_coletadas, ("comentario", "justificativa"))
+    )
     temas_reavaliacao = analisar_temas(textos_significativos(reavaliacoes, ("comentario",)))
 
     configurar_grafico()
-    regulares = sum(not texto(row.get("NRStatus")) for row in respostas)
+    regulares = len({item["organizacao"] for item in manifestacoes_finais})
     elegiveis_que_responderam = len({item["organizacao"] for item in cobertura if item["respondeu_etapa"]})
     orgs_reavaliacao = len({item["organizacao"] for item in reavaliacoes})
     grafico_participacao(
         img_dir / "01-participacao.png",
         [
-            ("Todas as organizacoes", len(respostas), len(resultado)),
+            ("Todas as organizações", len(respostas), len(resultado)),
             ("Respondentes do iGovTI", regulares, respondentes_igovti),
-            ("Elegiveis a reavaliacao: responderam", elegiveis_que_responderam, len(elegiveis)),
-            ("Elegiveis a reavaliacao: apresentaram pedido", orgs_reavaliacao, len(elegiveis)),
-            ("Sem resposta valida ao iGovTI", sum(item["manifestou"] for item in nao_respondentes), len(nao_respondentes)),
+            ("Elegíveis à reavaliação: responderam", elegiveis_que_responderam, len(elegiveis)),
+            ("Elegíveis à reavaliação: apresentaram pedido", orgs_reavaliacao, len(elegiveis)),
+            ("Sem resposta válida ao iGovTI", sum(item["manifestou"] for item in nao_respondentes), len(nao_respondentes)),
         ],
     )
-    geral = Counter(item["categoria"] for item in manifestacoes)
+    geral = Counter(item["categoria"] for item in manifestacoes_finais)
     grafico_panorama_manifestacoes(img_dir / "02-panorama-geral.png", geral)
     por_achado = defaultdict(Counter)
-    for item in manifestacoes:
+    for item in manifestacoes_finais:
         por_achado[item["achado"]][item["categoria"]] += 1
     grafico_empilhado(
         img_dir / "03-manifestacoes-por-achado.png",
@@ -638,10 +952,29 @@ def main() -> int:
             img_dir / f"achado-{numero}-situacoes.png",
             numero,
             situacoes,
-            manifestacoes,
+            manifestacoes_finais,
             regulares,
         )
     grafico_reavaliacao(img_dir / "04-reavaliacoes-por-questao.png", cobertura)
+    decisoes_secao_1 = Counter(item["decisao"] for item in manifestacoes_finais)
+    decisoes_secao_2 = Counter(item["decisao_final"] for item in avaliacao_secao_2)
+    grafico_resultados_avaliacao(
+        img_dir / "05-resultados-avaliacao.png",
+        decisoes_secao_1,
+        decisoes_secao_2,
+    )
+    grafico_impactos_organizacoes(
+        img_dir / "06-impactos-organizacoes.png",
+        impactos_resumo,
+    )
+    grafico_estoques_antes_depois(
+        img_dir / "07-saldo-situacoes-achados.png",
+        impactos_resumo,
+    )
+    grafico_evolucao_igovti(
+        img_dir / "08-evolucao-igovti.png",
+        impactos_resumo,
+    )
 
     respostas_resumo = [
         {
@@ -666,14 +999,21 @@ def main() -> int:
         {
             "Submissoes validas": respostas_resumo,
             "Exclusoes": exclusoes_resumo,
-            "Manifestacoes achados": manifestacoes,
+            "Manifestacoes coletadas": manifestacoes_coletadas,
             "Reavaliacoes submetidas": reavaliacoes,
             "Cobertura reavaliacao": cobertura,
             "Nao respondentes": nao_respondentes,
             "Temas achados": temas_achados,
             "Temas reavaliacao": temas_reavaliacao,
+            "Avaliacao final secao 1": avaliacao_secao_1,
+            "Avaliacao final secao 2": avaliacao_secao_2,
+            "Ajustes pos comentarios": ajustes_comentarios.get("Ajustes", []),
+            "Pendencias ajustes": ajustes_comentarios.get("Pendências", []),
+            "Impactos finais": impactos,
         },
     )
+    ajustes_aplicados = ajustes_comentarios.get("Ajustes", [])
+    pendencias_ajustes = ajustes_comentarios.get("Pendências", [])
     (dados_dir / "resumo-execucao.json").write_text(
         json.dumps(
             {
@@ -681,12 +1021,25 @@ def main() -> int:
                 "submissoes_brutas": len(brutas),
                 "submissoes_validas": len(respostas),
                 "submissoes_excluidas": len(excluidas),
-                "manifestacoes_situacoes": len(manifestacoes),
-                "discordancias": sum(item["categoria"] == "Discorda" for item in manifestacoes),
-                "arquivos_achados": sum(item["arquivos"] for item in manifestacoes),
+                "manifestacoes_situacoes": len(manifestacoes_finais),
+                "discordancias": sum(
+                    item["categoria"] == "Discorda" for item in manifestacoes_finais
+                ),
+                "arquivos_achados": sum(item["arquivos"] for item in manifestacoes_coletadas),
                 "reavaliacoes_submetidas": len(reavaliacoes),
                 "arquivos_reavaliacao": sum(item["arquivos"] for item in reavaliacoes),
                 "organizacoes_nao_respondentes_que_manifestaram": sum(item["manifestou"] for item in nao_respondentes),
+                "avaliacao_secao_1": dict(decisoes_secao_1),
+                "avaliacao_secao_2": dict(decisoes_secao_2),
+                "ajustes_aplicados": len(ajustes_aplicados),
+                "organizacoes_com_ajustes": len(
+                    {texto(item.get("Auditado")) for item in ajustes_aplicados}
+                ),
+                "itens_ajustados_distintos": len(
+                    {texto(item.get("Código do item avaliado")) for item in ajustes_aplicados}
+                ),
+                "pendencias_ajustes": len(pendencias_ajustes),
+                "impactos": impactos_resumo,
             },
             ensure_ascii=False,
             indent=2,

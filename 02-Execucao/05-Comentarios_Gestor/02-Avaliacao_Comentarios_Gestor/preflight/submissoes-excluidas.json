@@ -33,5 +33,26 @@
     "auditado": "RIOPREVIDENCIA",
     "submitdate": "2026-07-10 16:42:34.000",
     "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 85,
+    "token": "LAuLs2Oayoda3Oz",
+    "auditado": "DETRO",
+    "submitdate": "2026-07-15 14:54:41.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 87,
+    "token": "xWF5E8ypVL3t5Ux",
+    "auditado": "JAPERI",
+    "submitdate": "2026-07-15 13:10:43.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
+  },
+  {
+    "id": 88,
+    "token": "gpGwU8WPgDnCbGN",
+    "auditado": "SETUR",
+    "submitdate": "2026-07-15 14:51:48.000",
+    "motivo_exclusao": "Substituída por reenvio posterior do mesmo token"
   }
 ]

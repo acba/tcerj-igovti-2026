@@ -43,7 +43,7 @@ class FakeProvider(GenericProvider):
             if ctx.response_profile == "manager_comments_temporal":
                 conclusao.update(
                     {
-                        "estado_temporal": "inconclusiva",
+                        "estado_temporal": "mantida",
                         "conclusoes_motivos": [],
                         "providencias_informadas": [],
                         "comentarios_encaminhamento": "",

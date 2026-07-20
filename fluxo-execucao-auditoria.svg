@@ -1,0 +1,258 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="3560" viewBox="0 0 1800 3560" role="img" aria-labelledby="title desc">
+  <title id="title">Fluxo completo da Fiscalização 18/2026 — iGovTI 2026</title>
+  <desc id="desc">Visão geral do planejamento, coleta, três cenários de cálculo e auditoria, avaliação de evidências, comentários do gestor, relatórios e controles de rastreabilidade.</desc>
+  <defs>
+    <linearGradient id="header" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b2948"/>
+      <stop offset="1" stop-color="#155e75"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#49657a"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 z" fill="#0f766e"/>
+    </marker>
+    <style>
+      .phase-title { font: 700 26px 'Inter', 'Segoe UI', sans-serif; fill: #0f2740; letter-spacing: .3px; }
+      .phase-sub { font: 400 16px 'Inter', 'Segoe UI', sans-serif; fill: #52677a; }
+      .step-no { font: 700 16px 'Inter', 'Segoe UI', sans-serif; fill: #fff; text-anchor: middle; dominant-baseline: middle; }
+      .card-title { font: 700 18px 'Inter', 'Segoe UI', sans-serif; fill: #102a43; text-anchor: middle; }
+      .card-text { font: 400 14px 'Inter', 'Segoe UI', sans-serif; fill: #52677a; text-anchor: middle; }
+      .output { font: 600 13px 'Inter', 'Segoe UI', sans-serif; fill: #0f766e; text-anchor: middle; }
+      .small { font: 400 13px 'Inter', 'Segoe UI', sans-serif; fill: #52677a; }
+      .label { font: 700 13px 'Inter', 'Segoe UI', sans-serif; fill: #475569; letter-spacing: 1.2px; }
+      .arrow { fill: none; stroke: #49657a; stroke-width: 3; marker-end: url(#arrow); }
+      .arrow-teal { fill: none; stroke: #0f766e; stroke-width: 3; marker-end: url(#arrowTeal); }
+      .dash { fill: none; stroke: #94a3b8; stroke-width: 2.5; stroke-dasharray: 8 8; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="3560" fill="#f5f8fb"/>
+  <rect x="0" y="0" width="1800" height="190" fill="url(#header)"/>
+  <text x="90" y="72" font-family="Inter, Segoe UI, sans-serif" font-size="39" font-weight="750" fill="#fff">Fiscalização 18/2026 · iGovTI 2026</text>
+  <text x="90" y="120" font-family="Inter, Segoe UI, sans-serif" font-size="24" fill="#cce9ef">Fluxo completo — dos estudos preliminares à publicação</text>
+  <text x="1710" y="82" text-anchor="end" font-family="Inter, Segoe UI, sans-serif" font-size="16" fill="#b7dce5">TCE-RJ · Auditoria temática de governança e gestão de TIC</text>
+  <text x="1710" y="116" text-anchor="end" font-family="Inter, Segoe UI, sans-serif" font-size="14" fill="#8dc5d2">Visão do processo e dos papéis de trabalho</text>
+
+  <!-- legenda -->
+  <g transform="translate(90 220)">
+    <rect width="1620" height="86" rx="18" fill="#fff" stroke="#d9e2ec"/>
+    <text x="28" y="34" class="label">LEGENDA</text>
+    <rect x="150" y="20" width="25" height="25" rx="6" fill="#e7eef8" stroke="#4c6a92"/><text x="187" y="38" class="small">planejamento e coleta</text>
+    <rect x="375" y="20" width="25" height="25" rx="6" fill="#e8f6f3" stroke="#0f766e"/><text x="412" y="38" class="small">cálculo e auditoria</text>
+    <rect x="595" y="20" width="25" height="25" rx="6" fill="#f1edfb" stroke="#7656a8"/><text x="632" y="38" class="small">avaliação assistida por IA</text>
+    <rect x="870" y="20" width="25" height="25" rx="6" fill="#fff3df" stroke="#b7791f"/><text x="907" y="38" class="small">interação com o gestor</text>
+    <rect x="1120" y="20" width="25" height="25" rx="6" fill="#fdecec" stroke="#b44b4b"/><text x="1157" y="38" class="small">revisão humana</text>
+    <path d="M1390 33 H1460" class="arrow"/><text x="1480" y="38" class="small">ordem</text>
+    <text x="150" y="67" class="small">Cada cenário preserva sua própria base, índices, estatísticas e resultado de auditoria.</text>
+  </g>
+
+  <!-- fase A -->
+  <g transform="translate(90 340)">
+    <rect width="1620" height="570" rx="28" fill="#eef3f9" stroke="#c7d5e5" stroke-width="2"/>
+    <text x="42" y="51" class="phase-title">A · Preparação, desenho e coleta</text>
+    <text x="42" y="80" class="phase-sub">Fundamentação metodológica e formação das fontes primárias da auditoria</text>
+
+    <g transform="translate(42 115)" filter="url(#shadow)">
+      <rect width="360" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">1</text>
+      <text x="180" y="46" class="card-title">Estudos preliminares</text>
+      <text x="180" y="76" class="card-text"><tspan x="180">Antecedentes, referenciais, riscos,</tspan><tspan x="180" dy="20">escopo e abordagem da fiscalização</tspan></text>
+      <text x="180" y="125" class="output">01-Planejamento/01-Estudos_Preliminares</text>
+    </g>
+    <path d="M402 187 H437" class="arrow"/>
+    <g transform="translate(447 115)" filter="url(#shadow)">
+      <rect width="360" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">2</text>
+      <text x="180" y="46" class="card-title">Matriz de planejamento</text>
+      <text x="180" y="76" class="card-text"><tspan x="180">Questões, riscos, critérios, fontes,</tspan><tspan x="180" dy="20">procedimentos e possíveis achados</tspan></text>
+      <text x="180" y="125" class="output">matriz_planejamento.md</text>
+    </g>
+    <path d="M807 187 H842" class="arrow"/>
+    <g transform="translate(852 115)" filter="url(#shadow)">
+      <rect width="360" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">3</text>
+      <text x="180" y="46" class="card-title">Metodologia iGovTI</text>
+      <text x="180" y="76" class="card-text"><tspan x="180">Questionário, estrutura YAML do índice</tspan><tspan x="180" dy="20">e regras de comparabilidade com 2023</tspan></text>
+      <text x="180" y="125" class="output">igovti_2026.md · estruturas YAML</text>
+    </g>
+    <path d="M1212 187 H1247" class="arrow"/>
+    <g transform="translate(1257 115)" filter="url(#shadow)">
+      <rect width="321" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">4</text>
+      <text x="161" y="46" class="card-title">Mapa de verificação</text>
+      <text x="161" y="76" class="card-text"><tspan x="161">Fontes, ações, lógica de achados</tspan><tspan x="161" dy="20">e encaminhamentos rastreáveis</tspan></text>
+      <text x="161" y="125" class="output">mapa-verificacao-achados.xlsx</text>
+    </g>
+
+    <path d="M1418 260 V292 H222 V315" class="arrow"/>
+    <g transform="translate(42 325)" filter="url(#shadow)">
+      <rect width="360" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">5</text>
+      <text x="180" y="46" class="card-title">Questionário e LimeSurvey</text>
+      <text x="180" y="76" class="card-text"><tspan x="180">Conversão do Markdown, validações</tspan><tspan x="180" dy="20">e publicação do instrumento eletrônico</tspan></text>
+      <text x="180" y="125" class="output">igovti_2026.lss</text>
+    </g>
+    <path d="M402 397 H437" class="arrow"/>
+    <g transform="translate(447 325)" filter="url(#shadow)">
+      <rect width="360" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">6</text>
+      <text x="180" y="46" class="card-title">Comunicação formal</text>
+      <text x="180" y="76" class="card-text"><tspan x="180">Ofícios e links individualizados</tspan><tspan x="180" dy="20">para as organizações auditadas</tspan></text>
+      <text x="180" y="125" class="output">universo de auditados</text>
+    </g>
+    <path d="M807 397 H842" class="arrow"/>
+    <g transform="translate(852 325)" filter="url(#shadow)">
+      <rect width="360" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">7</text>
+      <text x="180" y="46" class="card-title">Coleta de respostas</text>
+      <text x="180" y="76" class="card-text"><tspan x="180">Exportação bruta do LimeSurvey</tspan><tspan x="180" dy="20">e recebimento dos anexos</tspan></text>
+      <text x="180" y="125" class="output">respostas-bruto.xlsx · ZIPs</text>
+    </g>
+    <path d="M1212 397 H1247" class="arrow"/>
+    <g transform="translate(1257 325)" filter="url(#shadow)">
+      <rect width="321" height="145" rx="18" fill="#fff" stroke="#9fb3ca"/>
+      <circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">8</text>
+      <text x="161" y="46" class="card-title">Extração e saneamento</text>
+      <text x="161" y="76" class="card-text"><tspan x="161">Extração dos anexos e registro</tspan><tspan x="161" dy="20">de retificações e erros do survey</tspan></text>
+      <text x="161" y="125" class="output">evidências extraídas · ajustes iniciais</text>
+    </g>
+  </g>
+
+  <path d="M900 910 V950" class="arrow-teal"/>
+
+  <!-- cenário 1 -->
+  <g transform="translate(90 960)">
+    <rect width="1620" height="390" rx="28" fill="#e8f6f3" stroke="#84c5bb" stroke-width="2"/>
+    <text x="42" y="51" class="phase-title">B · Cenário 01 — pós-ajuste inicial</text>
+    <text x="42" y="80" class="phase-sub">Primeiro retrato reprodutível da base: índice e achados antes da avaliação técnica das evidências</text>
+    <g transform="translate(42 120)" filter="url(#shadow)">
+      <rect width="360" height="170" rx="18" fill="#fff" stroke="#63a99e"/>
+      <circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">01</text>
+      <text x="180" y="48" class="card-title">Aplicar ajustes iniciais</text>
+      <text x="180" y="78" class="card-text"><tspan x="180">Retificações, bugs do questionário</tspan><tspan x="180" dy="20">e saneamento previamente registrados</tspan></text>
+      <text x="180" y="137" class="output">base 01 pós-ajuste inicial</text>
+    </g>
+    <path d="M402 205 H437" class="arrow-teal"/>
+    <g transform="translate(447 120)" filter="url(#shadow)">
+      <rect width="360" height="170" rx="18" fill="#fff" stroke="#63a99e"/>
+      <circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">02</text>
+      <text x="180" y="48" class="card-title">Calcular cenário 01</text>
+      <text x="180" y="78" class="card-text"><tspan x="180">iGovTI, comparável 2023–2026,</tspan><tspan x="180" dy="20">estatísticas e contexto de relatórios</tspan></text>
+      <text x="180" y="137" class="output">04-Resultados_iGovTI/01-...</text>
+    </g>
+    <path d="M807 205 H842" class="arrow-teal"/>
+    <g transform="translate(852 120)" filter="url(#shadow)">
+      <rect width="360" height="170" rx="18" fill="#fff" stroke="#63a99e"/>
+      <circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">03</text>
+      <text x="180" y="48" class="card-title">Criar painel neutro</text>
+      <text x="180" y="78" class="card-text"><tspan x="180">Fonte sem ajustes de evidências para</tspan><tspan x="180" dy="20">estabelecer a linha de base da auditoria</tspan></text>
+      <text x="180" y="137" class="output">painel-evidências-neutro.xlsx</text>
+    </g>
+    <path d="M1212 205 H1247" class="arrow-teal"/>
+    <g transform="translate(1257 120)" filter="url(#shadow)">
+      <rect width="321" height="170" rx="18" fill="#fff" stroke="#63a99e"/>
+      <circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">04</text>
+      <text x="161" y="48" class="card-title">Executar auditoria 01</text>
+      <text x="161" y="78" class="card-text"><tspan x="161">Aplicar o mapa de verificação à base</tspan><tspan x="161" dy="20">e consolidar situações e achados</tspan></text>
+      <text x="161" y="137" class="output">02-Resultados_Auditoria/01-...</text>
+    </g>
+  </g>
+
+  <path d="M900 1350 V1390" class="arrow"/>
+
+  <!-- evidências e cenário 2 -->
+  <g transform="translate(90 1400)">
+    <rect width="1620" height="830" rx="28" fill="#f1edfb" stroke="#baa7da" stroke-width="2"/>
+    <text x="42" y="51" class="phase-title">C · Avaliação de evidências e Cenário 02</text>
+    <text x="42" y="80" class="phase-sub">Contraste entre afirmações e documentos, consolidação com quórum e repercussão nos índices e achados</text>
+
+    <g transform="translate(42 115)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#8f73ba"/><circle cx="31" cy="31" r="19" fill="#7656a8"/><text x="31" y="31" class="step-no">05</text><text x="180" y="48" class="card-title">Avaliar evidências</text><text x="180" y="78" class="card-text"><tspan x="180">Modelos independentes analisam apenas</tspan><tspan x="180" dy="20">itens e arquivos tecnicamente válidos</tspan></text><text x="180" y="132" class="output">avaliações individuais JSONL</text></g>
+    <path d="M402 195 H437" class="arrow"/>
+    <g transform="translate(447 115)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#8f73ba"/><circle cx="31" cy="31" r="19" fill="#7656a8"/><text x="31" y="31" class="step-no">06</text><text x="180" y="48" class="card-title">Consolidar avaliações</text><text x="180" y="78" class="card-text"><tspan x="180">Juiz considera todas as opiniões válidas</tspan><tspan x="180" dy="20">com quórum mínimo de três modelos</tspan></text><text x="180" y="132" class="output">pareceres consolidados</text></g>
+    <path d="M807 195 H842" class="arrow"/>
+    <g transform="translate(852 115)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#8f73ba"/><circle cx="31" cy="31" r="19" fill="#7656a8"/><text x="31" y="31" class="step-no">07</text><text x="180" y="48" class="card-title">Gerar minuta de ajustes</text><text x="180" y="78" class="card-text"><tspan x="180">Não conformidades comprovadas viram</tspan><tspan x="180" dy="20">ajustes; ambiguidades ficam pendentes</tspan></text><text x="180" y="132" class="output">ajustes pós-evidências.xlsx</text></g>
+    <path d="M1212 195 H1247" class="arrow"/>
+    <g transform="translate(1257 115)" filter="url(#shadow)"><rect width="321" height="160" rx="18" fill="#fff" stroke="#8f73ba"/><circle cx="31" cy="31" r="19" fill="#7656a8"/><text x="31" y="31" class="step-no">08</text><text x="161" y="48" class="card-title">Gerar painel de auditoria</text><text x="161" y="78" class="card-text"><tspan x="161">Materializar a fonte larga usada</tspan><tspan x="161" dy="20">pelas ações de verificação</tspan></text><text x="161" y="132" class="output">painel-avaliação-evidências.xlsx</text></g>
+
+    <path d="M1418 275 V307 H222 V325" class="arrow"/>
+    <g transform="translate(42 335)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">09</text><text x="180" y="48" class="card-title">Aplicar ajustes</text><text x="180" y="78" class="card-text"><tspan x="180">Produzir nova base sem alterar</tspan><tspan x="180" dy="20">o cenário anterior</tspan></text><text x="180" y="132" class="output">base 02 pós-evidências</text></g>
+    <path d="M402 415 H437" class="arrow-teal"/>
+    <g transform="translate(447 335)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">10</text><text x="180" y="48" class="card-title">Recalcular cenário 02</text><text x="180" y="78" class="card-text"><tspan x="180">Novos índices, estatísticas, contexto</tspan><tspan x="180" dy="20">e comparação longitudinal</tspan></text><text x="180" y="132" class="output">04-Resultados_iGovTI/02-...</text></g>
+    <path d="M807 415 H842" class="arrow-teal"/>
+    <g transform="translate(852 335)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">11</text><text x="180" y="48" class="card-title">Reexecutar auditoria 02</text><text x="180" y="78" class="card-text"><tspan x="180">Reavaliar situações e achados usando</tspan><tspan x="180" dy="20">a base e o painel pós-evidências</tspan></text><text x="180" y="132" class="output">02-Resultados_Auditoria/02-...</text></g>
+    <path d="M1212 415 H1247" class="arrow-teal"/>
+    <g transform="translate(1257 335)" filter="url(#shadow)"><rect width="321" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">12</text><text x="161" y="48" class="card-title">Mensurar impacto</text><text x="161" y="78" class="card-text"><tspan x="161">Comparar respostas, iGovTI,</tspan><tspan x="161" dy="20">situações e achados 01 × 02</tspan></text><text x="161" y="132" class="output">memória de impacto das evidências</text></g>
+
+    <path d="M1418 495 V527 H425 V545" class="arrow"/>
+    <g transform="translate(245 555)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">13</text><text x="180" y="48" class="card-title">Gerar gráficos preliminares</text><text x="180" y="78" class="card-text"><tspan x="180">Recursos consolidados e individuais</tspan><tspan x="180" dy="20">preservados no diretório do cenário 02</tspan></text><text x="180" y="132" class="output">00-Recursos_Gerados/02-...</text></g>
+    <path d="M605 635 H650" class="arrow-teal"/>
+    <g transform="translate(660 555)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">14</text><text x="180" y="48" class="card-title">Relatórios preliminares</text><text x="180" y="78" class="card-text"><tspan x="180">Achados, recomendações e determinações</tspan><tspan x="180" dy="20">individualizados para contraditório</tspan></text><text x="180" y="132" class="output">DOCX individuais preliminares</text></g>
+    <path d="M1020 635 H1065" class="arrow"/>
+    <g transform="translate(1075 555)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#c79548"/><circle cx="31" cy="31" r="19" fill="#b7791f"/><text x="31" y="31" class="step-no">15</text><text x="180" y="48" class="card-title">Preparar contraditório</text><text x="180" y="78" class="card-text"><tspan x="180">Gerar survey LimeSurvey e anexos</tspan><tspan x="180" dy="20">individualizados para os gestores</tspan></text><text x="180" y="132" class="output">questionário LSS · anexos DOCX/ZIP</text></g>
+  </g>
+
+  <path d="M900 2230 V2270" class="arrow"/>
+
+  <!-- comentários e cenário 3 -->
+  <g transform="translate(90 2280)">
+    <rect width="1620" height="850" rx="28" fill="#fff3df" stroke="#dbb36f" stroke-width="2"/>
+    <text x="42" y="51" class="phase-title">D · Contraditório, comentários do gestor e Cenário 03</text>
+    <text x="42" y="80" class="phase-sub">Coleta, avaliação em duas seções, saneamentos comprovados e formação do estado final da auditoria</text>
+
+    <g transform="translate(42 120)">
+      <path d="M180 0 L340 80 L180 160 L20 80 Z" fill="#fff" stroke="#b7791f" stroke-width="2" filter="url(#shadow)"/>
+      <text x="180" y="61" class="card-title">Respostas recebidas?</text>
+      <text x="180" y="89" class="card-text">Comentários e evidências</text>
+      <text x="180" y="112" class="card-text">do gestor disponíveis</text>
+    </g>
+    <path d="M382 200 H437" class="arrow"/><text x="405" y="188" class="small">sim</text>
+    <path d="M222 280 V313 H42" class="dash"/>
+    <rect x="42" y="310" width="360" height="55" rx="14" fill="#fff" stroke="#b7791f" stroke-dasharray="6 5"/>
+    <text x="222" y="344" class="card-text">não → awaiting_input; retomar sem perder histórico</text>
+
+    <g transform="translate(447 120)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#c79548"/><circle cx="31" cy="31" r="19" fill="#b7791f"/><text x="31" y="31" class="step-no">16</text><text x="180" y="48" class="card-title">Consolidar participação</text><text x="180" y="78" class="card-text"><tspan x="180">Validar respostas concluídas, deduplicar</tspan><tspan x="180" dy="20">e calcular estatísticas do contraditório</tspan></text><text x="180" y="132" class="output">memória, resumo e gráficos</text></g>
+    <path d="M807 200 H842" class="arrow"/>
+    <g transform="translate(852 120)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#8f73ba"/><circle cx="31" cy="31" r="19" fill="#7656a8"/><text x="31" y="31" class="step-no">17</text><text x="180" y="48" class="card-title">Avaliar em duas seções</text><text x="180" y="78" class="card-text"><tspan x="180">Situações/justificativas e reavaliação</tspan><tspan x="180" dy="20">de respostas com novas evidências</tspan></text><text x="180" y="132" class="output">juiz · quórum · ajustes combinados</text></g>
+    <path d="M1212 200 H1247" class="arrow"/>
+    <g transform="translate(1257 120)" filter="url(#shadow)"><rect width="321" height="160" rx="18" fill="#fff" stroke="#b44b4b"/><circle cx="31" cy="31" r="19" fill="#b44b4b"/><text x="31" y="31" class="step-no">18</text><text x="161" y="48" class="card-title">Materializar decisões</text><text x="161" y="78" class="card-text"><tspan x="161">Aplicar ajustes seguros e revisões</tspan><tspan x="161" dy="20">institucionais reproduzíveis</tspan></text><text x="161" y="132" class="output">base 03 · pareceres · contexto</text></g>
+
+    <path d="M1418 280 V407 H222 V425" class="arrow"/>
+    <g transform="translate(42 435)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">19</text><text x="180" y="48" class="card-title">Recalcular cenário 03</text><text x="180" y="78" class="card-text"><tspan x="180">iGovTI atual, comparabilidade,</tspan><tspan x="180" dy="20">estatísticas e contexto final</tspan></text><text x="180" y="132" class="output">04-Resultados_iGovTI/03-...</text></g>
+    <path d="M402 515 H437" class="arrow-teal"/>
+    <g transform="translate(447 435)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">20</text><text x="180" y="48" class="card-title">Reexecutar auditoria 03</text><text x="180" y="78" class="card-text"><tspan x="180">Usar base e painel pós-comentários</tspan><tspan x="180" dy="20">para consolidar os achados finais</tspan></text><text x="180" y="132" class="output">02-Resultados_Auditoria/03-...</text></g>
+    <path d="M807 515 H842" class="arrow-teal"/>
+    <g transform="translate(852 435)" filter="url(#shadow)"><rect width="360" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">21</text><text x="180" y="48" class="card-title">Mensurar impacto</text><text x="180" y="78" class="card-text"><tspan x="180">Comparar auditoria e iGovTI</tspan><tspan x="180" dy="20">dos cenários 02 × 03</tspan></text><text x="180" y="132" class="output">impactos JSON e XLSX</text></g>
+    <path d="M1212 515 H1247" class="arrow-teal"/>
+    <g transform="translate(1257 435)" filter="url(#shadow)"><rect width="321" height="160" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">22</text><text x="161" y="48" class="card-title">Gerar gráficos finais</text><text x="161" y="78" class="card-text"><tspan x="161">Recursos visuais derivados</tspan><tspan x="161" dy="20">exclusivamente do cenário 03</tspan></text><text x="161" y="132" class="output">00-Recursos_Gerados/03-...</text></g>
+
+    <path d="M1418 595 V627 H425 V645" class="arrow"/>
+    <g transform="translate(245 655)" filter="url(#shadow)"><rect width="520" height="130" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">23</text><text x="260" y="47" class="card-title">Relatórios individuais finais</text><text x="260" y="78" class="card-text"><tspan x="260">Achados finais + análise dos comentários + impactos</tspan></text><text x="260" y="108" class="output">03-Relatorios/03-Relatorios_Individuais_Finais</text></g>
+    <path d="M765 720 H830" class="arrow-teal"/>
+    <g transform="translate(840 655)" filter="url(#shadow)"><rect width="520" height="130" rx="18" fill="#fff" stroke="#63a99e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">24</text><text x="260" y="47" class="card-title">Relatório consolidado</text><text x="260" y="78" class="card-text"><tspan x="260">Síntese institucional, estatísticas, achados e encaminhamentos</tspan></text><text x="260" y="108" class="output">Relatório_altaresolucao_novo.md → DOCX</text></g>
+  </g>
+
+  <path d="M900 3130 V3170" class="arrow"/>
+
+  <!-- encerramento -->
+  <g transform="translate(90 3180)">
+    <rect width="1620" height="300" rx="28" fill="#e9f0f6" stroke="#9eb5c9" stroke-width="2"/>
+    <text x="42" y="49" class="phase-title">E · Validação, revisão e publicação</text>
+    <g transform="translate(42 85)" filter="url(#shadow)"><rect width="450" height="150" rx="18" fill="#fff" stroke="#4c6a92"/><circle cx="31" cy="31" r="19" fill="#4c6a92"/><text x="31" y="31" class="step-no">25</text><text x="225" y="47" class="card-title">Validação automática final</text><text x="225" y="78" class="card-text"><tspan x="225">Produtos obrigatórios, DOCX, recursos e logs</tspan><tspan x="225" dy="20">sem referências ausentes</tspan></text><text x="225" y="128" class="output">validacao-final.json</text></g>
+    <path d="M492 160 H545" class="arrow"/>
+    <g transform="translate(555 85)" filter="url(#shadow)"><rect width="450" height="150" rx="18" fill="#fff" stroke="#b44b4b"/><circle cx="31" cy="31" r="19" fill="#b44b4b"/><text x="31" y="31" class="step-no">R</text><text x="225" y="47" class="card-title">Revisão humana da auditoria</text><text x="225" y="78" class="card-text"><tspan x="225">Validar pareceres assistidos por IA, achados,</tspan><tspan x="225" dy="20">encaminhamentos e redação institucional</tspan></text><text x="225" y="128" class="output">aprovação pela Equipe de Auditoria</text></g>
+    <path d="M1005 160 H1058" class="arrow"/>
+    <g transform="translate(1068 85)" filter="url(#shadow)"><rect width="510" height="150" rx="18" fill="#fff" stroke="#0f766e"/><circle cx="31" cy="31" r="19" fill="#0f766e"/><text x="31" y="31" class="step-no">P</text><text x="255" y="47" class="card-title">Submissão, portal e publicação</text><text x="255" y="78" class="card-text"><tspan x="255">Relatórios, base histórica e produtos de transparência</tspan><tspan x="255" dy="20">preparados para tramitação e divulgação</tspan></text><text x="255" y="128" class="output">03-Relatorios · 04-Portal_iGovTI</text></g>
+  </g>
+
+  <!-- trilho persistente -->
+  <g transform="translate(1740 340)">
+    <rect x="0" y="0" width="42" height="2790" rx="21" fill="#0b2948" opacity="0.96"/>
+    <text transform="translate(27 1395) rotate(-90)" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" letter-spacing="2" fill="#d9eef3">RASTREABILIDADE CONTÍNUA · MANIFESTO · HASHES SHA-256 · LOGS POR ETAPA · INVENTÁRIO JSON/XLSX · RETOMADA SEM SOBRESCRITA</text>
+  </g>
+
+  <text x="90" y="3530" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#64748b">Fonte: metodologia sequencial do repositório e etapas implementadas em scripts/gerar_pacote_relatorios_igovti.py. Avaliações por IA são minutas sujeitas à revisão técnica humana.</text>
+</svg>

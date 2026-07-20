@@ -10,27 +10,27 @@ figure-caption-position: above
 
 Este anexo apresenta a análise do impacto da avaliação de evidências sobre as respostas ao questionário iGovTI 2026 e, consequentemente, sobre o cálculo do índice. A análise busca distinguir o resultado que seria obtido apenas com os ajustes iniciais de saneamento das respostas daquele efetivamente apurado após a verificação das evidências apresentadas pelos auditados.
 
-A comparação é relevante porque o iGovTI 2026 não se limitou à autodeclaração dos respondentes. As respostas afirmativas que exigiam comprovação foram submetidas a avaliação de evidências, e as situações em que a evidência não confirmou a prática declarada foram ajustadas na base de respostas. Assim, o índice final reflete, em maior medida, práticas demonstradas documentalmente, e não apenas práticas declaradas.
+A comparação é relevante porque o iGovTI 2026 não se limitou à autodeclaração dos respondentes. As respostas afirmativas que exigiam comprovação foram submetidas a avaliação de evidências, e as situações em que a evidência não confirmou a prática declarada foram ajustadas na base de respostas. Assim, o cenário pós-evidência reflete, em maior medida, práticas demonstradas documentalmente, e não apenas práticas declaradas.
 
 # 2. Metodologia da comparação
 
 Foram considerados dois cenários:
 
 * **Cenário com ajuste inicial**: base de respostas brutas do LimeSurvey, com aplicação exclusiva do arquivo `ajustes_respostas_questionario_inicial.xlsx`;
-* **Cenário final pós-evidência**: resultado oficial do iGovTI 2026, calculado após todos os ajustes, inclusive os decorrentes da avaliação de evidências registrada em `ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx`.
+* **Cenário pós-evidência**: resultado intermediário do iGovTI 2026, calculado após os ajustes decorrentes da avaliação de evidências e antes dos ajustes provenientes dos comentários do gestor.
 
-O primeiro cenário foi gerado a partir da aplicação do ajuste inicial sobre a base `20260621-respostas-questionario-bruto.xlsx`. Em seguida, o iGovTI foi recalculado com a mesma metodologia aplicada ao resultado oficial. Como validação, aplicou-se também o ajuste pós-evidência sobre o cenário inicial e recalculou-se o índice; o resultado reproduziu exatamente o iGovTI final oficial, tanto nos valores dos indicadores quanto nos níveis de maturidade.
+O primeiro cenário foi gerado a partir da aplicação do ajuste inicial sobre a base bruta de respostas. Em seguida, o iGovTI foi recalculado com a mesma metodologia aplicada ao cenário pós-evidência. Como validação, aplicou-se também o ajuste pós-evidência sobre o cenário inicial e recalculou-se o índice; o resultado reproduziu exatamente o cenário pós-evidência, tanto nos valores dos indicadores quanto nos níveis de maturidade.
 
-Os valores apresentados neste anexo utilizam a diferença **resultado final menos resultado com ajuste inicial**. Portanto, diferenças negativas indicam redução de pontuação após a avaliação das evidências.
+Os valores apresentados neste anexo utilizam a diferença **resultado pós-evidência menos resultado com ajuste inicial**. Portanto, diferenças negativas indicam redução de pontuação após a avaliação das evidências.
 
-Para avaliar o efeito da avaliação de evidências também sobre os achados e situações inconformes, a rotina de execução dos procedimentos de auditoria foi executada em dois cenários. No primeiro, utilizou-se a base de respostas brutas com os ajustes iniciais e apenas a fonte de informação do questionário. Nesse cenário, as ações de verificação originalmente dependentes do painel de avaliação de evidências foram neutralizadas em mapa temporário, utilizado apenas para a execução comparativa, para que não produzissem inconformidade sem a respectiva fonte probatória. No segundo, utilizou-se a base final pós-evidência, com a fonte de respostas ajustadas e o painel consolidado de avaliação de evidências. Desse modo, a comparação reflete o acréscimo produzido pela etapa de avaliação de evidências na execução dos procedimentos de auditoria.
+Para avaliar o efeito da avaliação de evidências também sobre os achados e situações inconformes, a rotina de execução dos procedimentos de auditoria foi executada em dois cenários. No primeiro, utilizou-se a base de respostas brutas com os ajustes iniciais e apenas a fonte de informação do questionário. Nesse cenário, as ações de verificação originalmente dependentes do painel de avaliação de evidências foram neutralizadas em mapa temporário, utilizado apenas para a execução comparativa, para que não produzissem inconformidade sem a respectiva fonte probatória. No segundo, utilizou-se a base pós-evidência, com a fonte de respostas ajustadas e o painel consolidado de avaliação de evidências. Desse modo, a comparação reflete o acréscimo produzido pela etapa de avaliação de evidências na execução dos procedimentos de auditoria.
 
 : Síntese da base comparada {#tbl:impacto_evidencias_base#}
 
 | Elemento analisado | Resultado |
 |---|---:|
 | Organizações no cenário com ajuste inicial | 113 |
-| Organizações no cenário final | 113 |
+| Organizações no cenário pós-evidência | 113 |
 | Registros de não conformidade no arquivo pós-evidência | 1.966 |
 | Células efetivamente alteradas pelo ajuste pós-evidência | 1.964 |
 | Organizações com pelo menos uma célula alterada | 103 |
@@ -42,13 +42,13 @@ Para avaliar o efeito da avaliação de evidências também sobre os achados e s
 
 # 3. Impacto agregado no iGovTI
 
-A avaliação de evidências teve impacto material sobre o resultado agregado do iGovTI 2026. A média do índice passou de **0,235**, no cenário com apenas o ajuste inicial, para **0,184**, no cenário final, redução média de **0,051 ponto**. A mediana passou de **0,175** para **0,134**, redução de **0,041 ponto**.
+A avaliação de evidências teve impacto material sobre o resultado agregado do iGovTI 2026. A média do índice passou de **0,235**, no cenário com apenas o ajuste inicial, para **0,184**, no cenário pós-evidência, redução média de **0,051 ponto**. A mediana passou de **0,175** para **0,134**, redução de **0,041 ponto**.
 
 Esse comportamento indica que a avaliação de evidências não produziu efeito pontual restrito a poucos auditados. Ao contrário, houve redução no iGovTI de **90 das 113 organizações**, equivalentes a **79,6%** do universo avaliado. Nenhuma organização apresentou aumento no índice em razão dos ajustes pós-evidência.
 
 : Impacto agregado por indicador {#tbl:impacto_evidencias_indicadores#}
 
-| Indicador | Média com ajuste inicial | Média final | Redução média | Organizações com redução |
+| Indicador | Média com ajuste inicial | Média pós-evidência | Redução média | Organizações com redução |
 |---|---:|---:|---:|---:|
 | iGovTI | 0,235 | 0,184 | -0,051 | 90 |
 | Governança de TI | 0,208 | 0,161 | -0,047 | 42 |
@@ -68,11 +68,11 @@ O impacto foi menor nas dimensões **Estrutura de segurança da informação**, 
 
 # 4. Efeito nos níveis de maturidade
 
-A avaliação de evidências também alterou a distribuição dos níveis de maturidade. No cenário com ajuste inicial, havia **50 organizações** no nível "Inexpressivo"; no cenário final, esse quantitativo subiu para **61 organizações**. O número de organizações em níveis iguais ou superiores a "Intermediário" caiu de **20** para **13**.
+A avaliação de evidências também alterou a distribuição dos níveis de maturidade. No cenário com ajuste inicial, havia **50 organizações** no nível "Inexpressivo"; no cenário pós-evidência, esse quantitativo subiu para **61 organizações**. O número de organizações em níveis iguais ou superiores a "Intermediário" caiu de **20** para **13**.
 
 : Distribuição dos níveis de maturidade {#tbl:impacto_evidencias_maturidade#}
 
-| Nível de maturidade | Cenário com ajuste inicial | Cenário final | Variação |
+| Nível de maturidade | Cenário com ajuste inicial | Cenário pós-evidência | Variação |
 |---|---:|---:|---:|
 | Inexpressivo | 50 | 61 | +11 |
 | Iniciando | 43 | 39 | -4 |
@@ -91,7 +91,7 @@ As maiores reduções concentraram-se em organizações que apresentavam pontua�
 
 : Organizações com maiores reduções no iGovTI {#tbl:impacto_evidencias_maiores_reducoes#}
 
-| Organização | iGovTI com ajuste inicial | iGovTI final | Redução | Maturidade inicial | Maturidade final | Registros pós-evidência |
+| Organização | iGovTI com ajuste inicial | iGovTI pós-evidência | Redução | Maturidade inicial | Maturidade pós-evidência | Registros pós-evidência |
 |---|---:|---:|---:|---|---|---:|
 | DETRAN | 0,843 | 0,149 | -0,694 | Aprimorado | Inexpressivo | 118 |
 | SEFAZ | 0,646 | 0,216 | -0,430 | Intermediário | Iniciando | 69 |
@@ -173,13 +173,13 @@ Esses resultados mostram que a avaliação de evidências não produziu apenas r
 
 # 8. Impacto nos achados e situações inconformes
 
-Quando a auditoria é comparada no critério metodologicamente adequado, isto é, cenário inicial com apenas a fonte de respostas contra cenário final com respostas ajustadas e painel de avaliação de evidências, observa-se impacto relevante sobre os achados. No cenário com ajuste inicial e sem painel de evidências, foram identificadas **598 marcações de achados por auditado**. No cenário final, esse total passou para **625**, acréscimo de **27 marcações**.
+Quando a auditoria é comparada no critério metodologicamente adequado, isto é, cenário inicial com apenas a fonte de respostas contra cenário pós-evidência com respostas ajustadas e painel de avaliação de evidências, observa-se impacto relevante sobre os achados. No cenário com ajuste inicial e sem painel de evidências, foram identificadas **598 marcações de achados por auditado**. No cenário pós-evidência, esse total passou para **625**, acréscimo de **27 marcações**.
 
-O impacto foi ainda mais expressivo nas situações inconformes. O total passou de **1.887**, no cenário inicial, para **2.140**, no cenário final, com acréscimo de **253 situações inconformes**. O mesmo acréscimo ocorreu nos encaminhamentos associados. Não houve remoção de marcações: a avaliação de evidências apenas acrescentou achados, situações inconformes e encaminhamentos que não seriam identificados pela autodeclaração saneada isoladamente.
+O impacto foi ainda mais expressivo nas situações inconformes. O total passou de **1.887**, no cenário inicial, para **2.140**, no cenário pós-evidência, com acréscimo de **253 situações inconformes**. O mesmo acréscimo ocorreu nos encaminhamentos associados. Não houve remoção de marcações: a avaliação de evidências apenas acrescentou achados, situações inconformes e encaminhamentos que não seriam identificados pela autodeclaração saneada isoladamente.
 
 : Impacto dos ajustes pós-evidência nos achados e situações inconformes {#tbl:impacto_evidencias_achados_situacoes#}
 
-| Medida | Cenário com ajuste inicial | Cenário final | Variação | Organizações com aumento | Organizações sem variação | Organizações com redução |
+| Medida | Cenário com ajuste inicial | Cenário pós-evidência | Variação | Organizações com aumento | Organizações sem variação | Organizações com redução |
 |---|---:|---:|---:|---:|---:|---:|
 | Marcações de achados por auditado | 598 | 625 | +27 | 21 | 92 | 0 |
 | Situações inconformes | 1.887 | 2.140 | +253 | 82 | 31 | 0 |
@@ -191,7 +191,7 @@ O acréscimo concentrou-se nos achados relativos a contratações de TIC e plane
 
 : Impacto por achado {#tbl:impacto_evidencias_por_achado#}
 
-| Achado | Cenário com ajuste inicial | Cenário final | Variação |
+| Achado | Cenário com ajuste inicial | Cenário pós-evidência | Variação |
 |---|---:|---:|---:|
 | 1. Estrutura de TIC insuficiente | 67 | 71 | +4 |
 | 2. Governança de TIC insuficiente | 104 | 107 | +3 |
@@ -206,7 +206,7 @@ As situações inconformes com maior acréscimo foram aquelas em que a resposta 
 
 : Situações inconformes com maior acréscimo {#tbl:impacto_evidencias_situacoes_maior_acrescimo#}
 
-| Situação inconforme | Cenário com ajuste inicial | Cenário final | Variação |
+| Situação inconforme | Cenário com ajuste inicial | Cenário pós-evidência | Variação |
 |---|---:|---:|---:|
 | Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC | 38 | 86 | +48 |
 | Ausência de aprovação formal do plano de TIC | 65 | 87 | +22 |
@@ -223,13 +223,13 @@ As situações inconformes com maior acréscimo foram aquelas em que a resposta 
 
 As organizações com maior acréscimo de situações inconformes foram **SEFAZ** (+11), **DETRAN** (+10), **SES** (+10), **CGE** (+10), **RIOPREVIDENCIA** (+8), **FAPERJ** (+7) e **IEEA** (+7). Em termos de achados, o maior acréscimo ocorreu na **SEFAZ**, que passou de 3 para 6 achados. Também se destacaram **DETRAN**, **RJPREV**, **PGE** e **CEPERJ**, com acréscimo de 2 achados cada.
 
-Esse resultado demonstra que a avaliação de evidências teve dupla função. No iGovTI, reduziu a pontuação quando práticas declaradas não foram comprovadas. Na execução dos procedimentos de auditoria, ampliou a identificação de inconformidades, especialmente em temas que exigem documentação institucionalizada e rastreável. Assim, o cenário final representa diagnóstico mais rigoroso e mais aderente à comprovação documental disponível.
+Esse resultado demonstra que a avaliação de evidências teve dupla função. No iGovTI, reduziu a pontuação quando práticas declaradas não foram comprovadas. Na execução dos procedimentos de auditoria, ampliou a identificação de inconformidades, especialmente em temas que exigem documentação institucionalizada e rastreável. Assim, o cenário pós-evidência representa diagnóstico mais rigoroso e mais aderente à comprovação documental disponível.
 
 # 9. Interpretação dos resultados
 
 A avaliação de evidências reduziu de forma significativa o resultado do iGovTI 2026. A redução média de **0,051 ponto** no índice geral e a reclassificação de **18 organizações** para níveis inferiores demonstram que a etapa de validação documental teve efeito substantivo sobre as conclusões do trabalho.
 
-O efeito observado indica que parte das práticas declaradas no questionário não estava acompanhada de evidência suficiente para sustentar a pontuação correspondente. Esse achado metodológico é relevante para a interpretação do iGovTI 2026: o resultado final tende a ser mais conservador do que um resultado baseado apenas em autodeclaração, pois privilegia práticas comprovadas em detrimento de declarações não confirmadas documentalmente.
+O efeito observado indica que parte das práticas declaradas no questionário não estava acompanhada de evidência suficiente para sustentar a pontuação correspondente. Esse achado metodológico é relevante para a interpretação do iGovTI 2026: o resultado pós-evidência tende a ser mais conservador do que um resultado baseado apenas em autodeclaração, pois privilegia práticas comprovadas em detrimento de declarações não confirmadas documentalmente.
 
 Não se deve interpretar a redução de pontuação, por si só, como juízo definitivo sobre inexistência absoluta da prática em todos os casos. O ajuste indica que, no processo de auditoria, a documentação apresentada não demonstrou suficientemente a situação declarada, segundo os critérios de avaliação aplicados. Assim, a conclusão mais adequada é que houve insuficiência de comprovação para fins de pontuação no iGovTI 2026.
 
@@ -237,8 +237,8 @@ Sob a perspectiva do relatório consolidado, a avaliação de evidências aument
 
 # 10. Conclusão
 
-A avaliação de evidências foi determinante para o resultado final do iGovTI 2026. Sem essa etapa, a média do índice seria **0,235**; com a validação documental, a média final foi **0,184**. A diferença decorreu de **1.964 alterações efetivas** em respostas de **103 organizações**, com redução no iGovTI de **90 organizações** e deslocamento de **18 organizações** para níveis inferiores de maturidade.
+A avaliação de evidências foi determinante para o resultado intermediário pós-evidência do iGovTI 2026. Sem essa etapa, a média do índice seria **0,235**; com a validação documental, a média pós-evidência foi **0,184**. A diferença decorreu de **1.964 alterações efetivas** em respostas de **103 organizações**, com redução no iGovTI de **90 organizações** e deslocamento de **18 organizações** para níveis inferiores de maturidade.
 
-Os resultados demonstram que a etapa de validação documental não foi acessória. Ela alterou materialmente a leitura do cenário de governança e gestão de tecnologia da informação, sobretudo em serviços de TI, planejamento de TI, processos de segurança da informação e contratações de TI. Também ampliou a matriz de achados, com acréscimo de **27 marcações de achados por auditado** e **253 situações inconformes** quando comparado o cenário de autodeclaração saneada com o cenário final validado por evidências. Dessa forma, o iGovTI 2026 final e os achados consolidados devem ser compreendidos como resultados apurados a partir de respostas submetidas a teste de consistência documental e da análise probatória registrada nas fontes de informação.
+Os resultados demonstram que a etapa de validação documental não foi acessória. Ela alterou materialmente a leitura do cenário de governança e gestão de tecnologia da informação, sobretudo em serviços de TI, planejamento de TI, processos de segurança da informação e contratações de TI. Também ampliou a matriz de achados, com acréscimo de **27 marcações de achados por auditado** e **253 situações inconformes** quando comparado o cenário de autodeclaração saneada com o cenário validado por evidências. Dessa forma, o resultado pós-evidência e os achados correspondentes devem ser compreendidos como produtos intermediários apurados a partir de respostas submetidas a teste de consistência documental e da análise probatória registrada nas fontes de informação. Os efeitos posteriores dos comentários do gestor são tratados em anexo próprio.
 
 Essa conclusão reforça a necessidade de que as organizações aprimorem não apenas a execução das práticas de governança e gestão de TI, mas também sua formalização, documentação, atualização e capacidade de comprovação perante instâncias de controle.

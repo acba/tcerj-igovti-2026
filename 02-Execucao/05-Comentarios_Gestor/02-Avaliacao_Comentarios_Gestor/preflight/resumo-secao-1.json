@@ -1,9 +1,9 @@
 {
-  "respostas_total": 75,
-  "respostas_validas": 70,
-  "respostas_excluidas": 5,
-  "casos_ia": 18,
-  "casos_deterministicos": 0,
-  "anexos": 13,
+  "respostas_total": 88,
+  "respostas_validas": 80,
+  "respostas_excluidas": 8,
+  "casos_ia": 1220,
+  "casos_deterministicos": 251,
+  "anexos": 268,
   "secao": "1"
 }

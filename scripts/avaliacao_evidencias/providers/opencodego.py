@@ -17,6 +17,19 @@ from .http_utils import arquivos_imagem_do_pacote, executar_com_retry_transiente
 from .response import json_schema_response_format
 
 
+def _formatar_erro_http_completo(exc: BaseException) -> str:
+    """Preserva integralmente o corpo de erros HTTP para diagnostico do gateway."""
+    if isinstance(exc, urllib.error.HTTPError):
+        detalhe = ""
+        try:
+            detalhe = exc.read().decode("utf-8", errors="replace").strip()
+        except Exception:
+            detalhe = ""
+        if detalhe:
+            return f"HTTP Error {exc.code}: {exc.reason}; body: {detalhe}"
+    return str(exc)
+
+
 class OpencodeGoProvider(GenericProvider):
     name = "opencodego"
     supports_images = True
@@ -66,13 +79,18 @@ class OpencodeGoProvider(GenericProvider):
                 with urllib.request.urlopen(request, timeout=120) as response:
                     return json.loads(response.read().decode("utf-8"))
 
-            payload = executar_com_retry_transiente(call_opencodego, exclude_429=True)
+            payload = executar_com_retry_transiente(
+                call_opencodego,
+                exclude_429=True,
+                provider=self.name,
+                model=self.model,
+            )
             raw_content = payload["choices"][0]["message"]["content"]
             return raw_content
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError, TypeError, json.JSONDecodeError, ValueError) as exc:
             result = {
                 "status": "error",
-                "error": f"erro ao chamar OpencodeGo: {exc}",
+                "error": f"erro ao chamar OpencodeGo: {_formatar_erro_http_completo(exc)}",
                 "http_status": status_from_exception(exc),
             }
             if raw_content:

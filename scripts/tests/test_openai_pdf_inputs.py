@@ -12,6 +12,7 @@ from scripts.avaliacao_evidencias.providers import (
     limite_tokens_provider,
 )
 from scripts.avaliacao_evidencias.providers.base import ProviderContext
+from scripts.avaliacao_evidencias.providers.http_utils import formatar_erro_http
 from scripts.avaliacao_evidencias.providers.openai import OpenAIProvider
 
 
@@ -107,9 +108,65 @@ class OpenAIPdfInputsTests(unittest.TestCase):
         self.assertIn("texto extraido duplicado", fallback_content[0]["text"])
         self.assertNotIn("file_data", fallback_content[0])
         self.assertEqual(eventos[0][0], "openai_pdf_text_fallback")
+        self.assertEqual(eventos[0][1]["reason"], "http_413_payload_too_large")
+
+    def test_http_502_context_window_repete_com_texto_sem_retry_transiente(self) -> None:
+        eventos: list[tuple[str, dict]] = []
+        with tempfile.TemporaryDirectory() as tmp:
+            pdf = Path(tmp) / "evidencia.pdf"
+            pdf.write_bytes(b"%PDF-1.7\nconteudo")
+            contexto = self._contexto(pdf)
+            contexto.on_event = lambda nome, dados: eventos.append((nome, dados))
+            provider = OpenAIProvider("gpt-5.6-luna")
+            content = provider._build_content(contexto)
+            erro_502 = urllib.error.HTTPError(
+                "http://127.0.0.1:10531/v1/responses",
+                502,
+                "Bad Gateway",
+                None,
+                io.BytesIO(
+                    b'{"error":{"message":"Your input exceeds the context window of this model."}}'
+                ),
+            )
+            with patch(
+                "scripts.avaliacao_evidencias.providers.openai._request_openai_responses_stream",
+                side_effect=[erro_502, {"output_text": "{}", "response": None, "events": []}],
+            ) as request:
+                result = provider._call(contexto, content)
+
+        self.assertEqual(result, "{}")
+        self.assertEqual(request.call_count, 2)
+        fallback_content = request.call_args_list[1].kwargs["body"]["input"][0]["content"]
+        self.assertTrue(all(item["type"] == "input_text" for item in fallback_content))
+        self.assertIn("texto extraido duplicado", fallback_content[0]["text"])
+        self.assertEqual(eventos, [
+            (
+                "openai_pdf_text_fallback",
+                {
+                    "provider": "openai",
+                    "model": "gpt-5.6-luna",
+                    "reason": "context_window_exceeded",
+                },
+            )
+        ])
 
     def test_limite_gpt_5_6_corresponde_a_janela_documentada(self) -> None:
         self.assertEqual(limite_tokens_provider("openai", "gpt-5.6-luna"), 1_048_576)
+
+    def test_formatacao_http_preserva_corpo_apos_primeira_leitura(self) -> None:
+        erro = urllib.error.HTTPError(
+            "http://127.0.0.1:10531/v1/responses",
+            502,
+            "Bad Gateway",
+            None,
+            io.BytesIO(b'{"error":{"message":"diagnostico upstream"}}'),
+        )
+
+        primeira = formatar_erro_http(erro)
+        segunda = formatar_erro_http(erro)
+
+        self.assertEqual(segunda, primeira)
+        self.assertIn("diagnostico upstream", segunda)
 
 
 if __name__ == "__main__":

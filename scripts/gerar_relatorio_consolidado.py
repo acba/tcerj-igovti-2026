@@ -36,6 +36,28 @@ from argos_utils import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 TOC_MARKER_FILTER = Path(__file__).resolve().parent / "resources" / "toc-marker.lua"
+REFERENCE_LABEL_RE = re.compile(r"\{#(?:fig|tbl):[^#\r\n]+#\}")
+
+
+def proteger_rotulos_referencias(conteudo: str) -> tuple[str, dict[str, str]]:
+    """Protege labels de figuras/tabelas para que o Jinja não os trate como comentários."""
+    rotulos: dict[str, str] = {}
+
+    def substituir(match: re.Match[str]) -> str:
+        token = f"@@ARGOS_REFERENCE_LABEL_{len(rotulos)}@@"
+        if token in conteudo:
+            raise ValueError(f"Token interno de proteção já existe no Markdown: {token}")
+        rotulos[token] = match.group(0)
+        return token
+
+    return REFERENCE_LABEL_RE.sub(substituir, conteudo), rotulos
+
+
+def restaurar_rotulos_referencias(conteudo: str, rotulos: dict[str, str]) -> str:
+    """Restaura os labels que permaneceram após a renderização Jinja."""
+    for token, rotulo in rotulos.items():
+        conteudo = conteudo.replace(token, rotulo)
+    return conteudo
 
 # Tenta importar as bibliotecas necessárias
 try:
@@ -80,7 +102,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--reference-docx",
-        default="scripts/resources/template-base-estilos-sigiloso.docx",
+        default="scripts/resources/template-base-estilos.docx",
         help="Caminho para o documento de estilos do Word usado como referência."
     )
     parser.add_argument(
@@ -150,13 +172,19 @@ def main() -> int:
                 k, v = item.split("=", 1)
                 contexto[k.strip()] = v.strip()
 
-    # 2. Renderiza como Jinja2 se houver tags de template
+    # 2. Renderiza como Jinja2 se houver tags de template. Os labels
+    # {#fig:...#}/{#tbl:...#} precisam ser protegidos porque essa sintaxe
+    # também representa comentários para o Jinja.
     if "{{" in conteudo or "{%" in conteudo:
         logger.info("Renderizando variáveis do template com Jinja2...")
         try:
             from jinja2 import Template
-            template = Template(conteudo)
-            conteudo = template.render(contexto)
+            conteudo_protegido, rotulos_referencias = proteger_rotulos_referencias(conteudo)
+            template = Template(conteudo_protegido)
+            conteudo = restaurar_rotulos_referencias(
+                template.render(contexto),
+                rotulos_referencias,
+            )
         except Exception as e:
             logger.error("Erro ao renderizar template Jinja2: %s", e)
             return 1
@@ -228,7 +256,12 @@ def main() -> int:
         tmp_consolidado_img = str(tmp_pkg / "relatorio-consolidado" / "img")
         tmp_individuais_img = str(tmp_pkg / "relatorios-individuais" / "img")
         
-        resource_inputs = [tmp_consolidado_img, tmp_individuais_img]
+        resource_inputs = [
+            tmp_consolidado_img,
+            tmp_individuais_img,
+            "03-Relatorios/01-Relatorio_Consolidado/img",
+            "03-Relatorios/99-Avaliacao_IA/img",
+        ]
         if args.resource_files:
             resource_inputs.extend(args.resource_files)
             

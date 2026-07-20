@@ -11,7 +11,6 @@ import re
 import shutil
 import sys
 import tempfile
-import time
 from pathlib import Path
 from typing import Any, Callable
 
@@ -27,15 +26,14 @@ from ..utils import nome_upload_seguro
 
 
 _GEMINI_MAX_TOKENS = 1_048_576
-GEMINI_ALL_KEYS_429_WAIT_SECONDS = 180.0
 
 
 class GeminiKeyRotationManager:
-    """Gerencia ciclos de rotação imediata das chaves Gemini.
+    """Gerencia a rotação imediata das chaves Gemini para um item.
 
     Cada chave que retorna 429 fica indisponível apenas no ciclo corrente. A
-    próxima chave é tentada imediatamente. Depois que todas retornarem 429, o
-    chamador espera três minutos, inicia um novo ciclo e volta à primeira chave.
+    próxima chave é tentada imediatamente. Se todas retornarem 429, o item
+    atual é adiado para não bloquear os demais itens da fila.
     """
 
     def __init__(self, keys: list[str]):
@@ -47,7 +45,7 @@ class GeminiKeyRotationManager:
         for key in self.keys:
             if key not in self.exhausted_in_cycle:
                 return key, 0.0
-        return None, GEMINI_ALL_KEYS_429_WAIT_SECONDS
+        return None, 0.0
 
     def mark_exhausted(self, key: str, retry_after_seconds: float) -> None:
         self.exhausted_in_cycle.add(key)
@@ -68,31 +66,41 @@ class GeminiKeyRotationManager:
         return sum(1 for k in self.keys if k not in self.exhausted_in_cycle)
 
 
-def wait_and_restart_key_cycle(
+def resultado_adiar_item_todas_chaves_429(
     manager: GeminiKeyRotationManager,
     *,
     emit: Callable[..., None],
-    sleeper: Callable[[float], None] = time.sleep,
+    key_rotations: list[dict[str, Any]],
     stream: Any = None,
-) -> float:
-    """Informa indisponibilidade total, espera no máximo 180s e reinicia."""
-    wait = GEMINI_ALL_KEYS_429_WAIT_SECONDS
+) -> dict[str, Any]:
+    """Encerra o item com erro transitório para que a fila possa avançar."""
+    retry_after = max(manager.reported_retry_after.values(), default=60.0)
     message = (
         "Todas as chaves Gemini estão indisponíveis por erro 429. "
-        f"Aguardando {wait:.0f}s antes de iniciar um novo ciclo de rotação."
+        "O item atual será pulado e registrado como erro transitório; "
+        "a avaliação seguirá para o próximo item."
     )
     output = stream or sys.stderr
     output.write(f"\n[AVISO] {message}\n")
     output.flush()
     emit(
-        "gemini_all_keys_429_wait",
+        "gemini_all_keys_429_item_deferred",
         message=message,
-        retry_after_seconds=wait,
+        retry_after_seconds=retry_after,
         available_keys=0,
+        retryable=True,
     )
-    sleeper(wait)
-    manager.start_new_cycle()
-    return wait
+    return {
+        "status": "error",
+        "error": (
+            "todas as chaves Gemini retornaram 429 para o item atual; "
+            "item adiado para permitir o avanço da fila"
+        ),
+        "http_status": 429,
+        "retryable": True,
+        "retry_after_seconds": retry_after,
+        "key_rotations": key_rotations,
+    }
 
 
 def _extract_retry_delay_from_gemini_error(exc: BaseException) -> float:
@@ -208,10 +216,13 @@ class GeminiProvider(GenericProvider):
                 config.thinking_config = types.ThinkingConfig(thinking_level=ctx.reasoning_effort)
 
             while True:
-                key, wait = manager.next_available_key()
+                key, _ = manager.next_available_key()
                 if key is None:
-                    wait_and_restart_key_cycle(manager, emit=emit)
-                    continue
+                    return resultado_adiar_item_todas_chaves_429(
+                        manager,
+                        emit=emit,
+                        key_rotations=key_rotations,
+                    )
 
                 client = get_client(key)
 
@@ -234,6 +245,8 @@ class GeminiProvider(GenericProvider):
                             executar_com_retry_transiente(
                                 lambda caminho=caminho_seguro: client.files.upload(file=str(caminho)),
                                 exclude_429=True,
+                                provider=self.name,
+                                model=self.model,
                             )
                         )
                     except Exception as exc:
@@ -303,6 +316,8 @@ class GeminiProvider(GenericProvider):
                             config=config,
                         ),
                         exclude_429=True,
+                        provider=self.name,
+                        model=self.model,
                     )
                     raw_text = response.text
                     manager.reset_key(key)

@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import pandas as pd
+import yaml
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 
@@ -23,6 +24,7 @@ from scripts.comentarios_gestor_pipeline import consolidar_submissoes, ler_xlsx,
 
 
 ESTADOS_SANEADOS = {"afastada_na_data_base", "corrigida_posteriormente"}
+DECISOES_FINAIS = {"acolhida", "parcialmente acolhida", "não acolhida"}
 
 
 def ler_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -66,7 +68,7 @@ def _decisao_secao1(conclusao: dict[str, Any]) -> tuple[str, str]:
         if motivos and any(texto(m.get("estado_motivo")) == "afastado" for m in motivos if isinstance(m, dict)):
             return "parcialmente acolhida", "Situação mantida com alteração parcial de fundamentos"
         return "não acolhida", "Situação mantida"
-    return "inconclusiva", "Elementos insuficientes para conclusão"
+    return "não acolhida", "Situação mantida"
 
 
 def _decisao_secao2(conclusoes: list[dict[str, Any]]) -> str:
@@ -75,9 +77,7 @@ def _decisao_secao2(conclusoes: list[dict[str, Any]]) -> str:
         return "acolhida"
     if "conforme" in estados:
         return "parcialmente acolhida"
-    if estados and all(estado == "nao_conforme" for estado in estados):
-        return "não acolhida"
-    return "inconclusiva"
+    return "não acolhida"
 
 
 def _texto_equipe_secao1(decisao: str, situacao_atual: str, fundamento: str, data: str) -> str:
@@ -85,7 +85,6 @@ def _texto_equipe_secao1(decisao: str, situacao_atual: str, fundamento: str, dat
         "acolhida": "A manifestação foi acolhida.",
         "parcialmente acolhida": "A manifestação foi parcialmente acolhida.",
         "não acolhida": "A manifestação não foi acolhida.",
-        "inconclusiva": "A manifestação não permitiu conclusão definitiva.",
     }[decisao]
     return f"{inicio} Em {data}, a avaliação concluiu: {situacao_atual.lower()}. {fundamento}"
 
@@ -97,7 +96,6 @@ def _texto_equipe_secao2(decisao: str, itens: list[dict[str, Any]], fundamento: 
         "acolhida": "A reavaliação foi acolhida.",
         "parcialmente acolhida": "A reavaliação foi parcialmente acolhida.",
         "não acolhida": "A reavaliação não foi acolhida.",
-        "inconclusiva": "A reavaliação não permitiu conclusão definitiva.",
     }[decisao], f"A posição em {data} foi aferida sem elevar respostas além do valor originalmente declarado."]
     if conformes:
         partes.append("Itens considerados conformes: " + ", ".join(conformes) + ".")
@@ -110,6 +108,36 @@ def _texto_equipe_secao2(decisao: str, itens: list[dict[str, Any]], fundamento: 
 def _carregar_revisoes(path: Path | None) -> dict[tuple[str, str, str], dict[str, str]]:
     if not path or not path.is_file():
         return {}
+    if path.suffix.lower() in {".yml", ".yaml"}:
+        payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        entries = payload.get("revisoes", payload if isinstance(payload, list) else [])
+        if not isinstance(entries, list):
+            raise ValueError("O YAML de revisões deve conter uma lista em 'revisoes'.")
+        revisoes: dict[tuple[str, str, str], dict[str, str]] = {}
+        for entry in entries:
+            if not isinstance(entry, dict):
+                raise ValueError("Cada revisão YAML deve ser um objeto.")
+            key = (
+                texto(entry.get("auditado")).upper(),
+                texto(entry.get("secao")),
+                texto(entry.get("codigo")),
+            )
+            if not all(key):
+                raise ValueError("Revisão YAML sem auditado, secao ou codigo.")
+            if key in revisoes:
+                raise ValueError(f"Revisão YAML duplicada: {key}")
+            decisao = texto(entry.get("decisao"))
+            if decisao and decisao not in DECISOES_FINAIS:
+                raise ValueError(
+                    f"Revisão YAML com decisão inválida para {key}: {decisao!r}. "
+                    f"Use uma de: {', '.join(sorted(DECISOES_FINAIS))}."
+                )
+            revisoes[key] = {
+                "decisao": decisao,
+                "situacao_atual": texto(entry.get("situacao_atual")),
+                "manifestacao_equipe": texto(entry.get("manifestacao_equipe")),
+            }
+        return revisoes
     wb = load_workbook(path, read_only=True, data_only=True)
     revisoes: dict[tuple[str, str, str], dict[str, str]] = {}
     try:
@@ -122,41 +150,16 @@ def _carregar_revisoes(path: Path | None) -> dict[tuple[str, str, str], dict[str
                 fundamento = texto(row.get("Manifestação revisada da equipe"))
                 if decisao or fundamento:
                     key = (texto(row.get("Auditado")).upper(), texto(row.get("Seção")), texto(row.get("Código")))
-                    revisoes[key] = {"decisao": decisao, "manifestacao_equipe": fundamento}
+                    if decisao and decisao not in DECISOES_FINAIS:
+                        raise ValueError(f"Revisão XLSX com decisão inválida para {key}: {decisao!r}.")
+                    revisoes[key] = {
+                        "decisao": decisao,
+                        "situacao_atual": texto(row.get("Situação atual revisada")),
+                        "manifestacao_equipe": fundamento,
+                    }
     finally:
         wb.close()
     return revisoes
-
-
-def _situacoes_auditoria(path: Path | None) -> dict[str, dict[str, set[str]]]:
-    if not path or not path.is_file():
-        return {}
-    dados = json.loads(path.read_text(encoding="utf-8"))
-    result: dict[str, dict[str, set[str]]] = {}
-    for sigla, orgao in dados.items():
-        achados: set[str] = set()
-        situacoes: set[str] = set()
-        for proc in orgao.get("procedimentos_executados") or []:
-            achado = proc.get("achado") or {}
-            if not proc.get("achado_ocorreu") and not achado:
-                continue
-            numero = texto(achado.get("numero") or proc.get("numero_achado"))
-            if numero:
-                achados.add(numero)
-            situacoes.update(texto(item) for item in achado.get("situacoes_encontradas") or [] if texto(item))
-        result[str(sigla).upper()] = {"achados": achados, "situacoes": situacoes}
-    return result
-
-
-def _indices(path: Path | None) -> dict[str, float]:
-    if not path or not path.is_file():
-        return {}
-    df = pd.read_excel(path)
-    sigla = next((c for c in df.columns if str(c).casefold() == "sigla"), None)
-    indice = next((c for c in df.columns if str(c).casefold() == "igovti"), None)
-    if sigla is None or indice is None:
-        return {}
-    return {texto(row[sigla]).upper(): float(row[indice]) for _, row in df.iterrows() if texto(row[sigla]) and pd.notna(row[indice])}
 
 
 def materializar(
@@ -168,10 +171,6 @@ def materializar(
     output_xlsx: Path,
     output_json: Path,
     revisoes_xlsx: Path | None = None,
-    auditoria_anterior: Path | None = None,
-    auditoria_atual: Path | None = None,
-    contexto_igovti_anterior: Path | None = None,
-    contexto_igovti_atual: Path | None = None,
 ) -> dict[str, Any]:
     data_referencia = normalizar_data_referencia(data_referencia)
     respostas_orgao, respondentes = _manifestacoes(respostas)
@@ -201,6 +200,7 @@ def materializar(
         manifestacao_equipe = _texto_equipe_secao1(decisao, situacao_atual, fundamento, data_referencia)
         revisao = revisoes.get((sigla, "1", codigo), {})
         decisao = revisao.get("decisao") or decisao
+        situacao_atual = revisao.get("situacao_atual") or situacao_atual
         manifestacao_equipe = revisao.get("manifestacao_equipe") or manifestacao_equipe
         row_raw = respostas_orgao.get(sigla, {})
         manifestacao_gestor = " ".join(filter(None, [
@@ -250,23 +250,10 @@ def materializar(
         linhas_s2.append({"Auditado": sigla, "Seção": "2", "Código": codigo, **item,
                           "Decisão revisada": "", "Manifestação revisada da equipe": ""})
 
-    anterior, atual = _situacoes_auditoria(auditoria_anterior), _situacoes_auditoria(auditoria_atual)
-    idx_anterior, idx_atual = _indices(contexto_igovti_anterior), _indices(contexto_igovti_atual)
-    universo = set(por_orgao) | respondentes | set(anterior) | set(atual) | set(idx_anterior) | set(idx_atual)
+    universo = set(por_orgao) | respondentes
     for sigla in universo:
         produto = por_orgao[sigla]
         produto["respondeu"] = sigla in respondentes
-        antes = anterior.get(sigla, {"achados": set(), "situacoes": set()})
-        depois = atual.get(sigla, antes)
-        ia, idp = idx_anterior.get(sigla), idx_atual.get(sigla, idx_anterior.get(sigla))
-        produto["resumo_impacto"] = {
-            "situacoes_antes": len(antes["situacoes"]), "situacoes_atuais": len(depois["situacoes"]),
-            "situacoes_removidas": len(antes["situacoes"] - depois["situacoes"]),
-            "achados_antes": len(antes["achados"]), "achados_atuais": len(depois["achados"]),
-            "achados_removidos": len(antes["achados"] - depois["achados"]),
-            "igovti_anterior": ia, "igovti_atual": idp,
-            "variacao_igovti": (idp - ia) if ia is not None and idp is not None else None,
-        }
         produto["situacoes"].sort(key=lambda x: (x["achado"], x["codigo"]))
         produto["itens_questionario"].sort(key=lambda x: x["codigo"])
 
@@ -287,13 +274,6 @@ def _gravar_xlsx(path: Path, s1: list[dict[str, Any]], s2: list[dict[str, Any]],
         for row in rows:
             ws.append([row.get(h, "") for h in headers])
         _formatar(ws)
-    ws = wb.create_sheet("Resumo de impactos")
-    headers = ["Auditado", "Situações antes", "Situações atuais", "Situações removidas", "Achados antes", "Achados atuais", "Achados removidos", "iGovTI anterior", "iGovTI atual", "Variação iGovTI"]
-    ws.append(headers)
-    for sigla, produto in sorted(produtos.items()):
-        r = produto["resumo_impacto"]
-        ws.append([sigla, r["situacoes_antes"], r["situacoes_atuais"], r["situacoes_removidas"], r["achados_antes"], r["achados_atuais"], r["achados_removidos"], r["igovti_anterior"], r["igovti_atual"], r["variacao_igovti"]])
-    _formatar(ws)
     path.parent.mkdir(parents=True, exist_ok=True)
     wb.save(path)
 
@@ -320,11 +300,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--data-referencia", required=True)
     parser.add_argument("--output-xlsx", type=Path, required=True)
     parser.add_argument("--output-json", type=Path, required=True)
-    parser.add_argument("--revisoes-xlsx", type=Path)
-    parser.add_argument("--auditoria-anterior", type=Path)
-    parser.add_argument("--auditoria-atual", type=Path)
-    parser.add_argument("--contexto-igovti-anterior", type=Path)
-    parser.add_argument("--contexto-igovti-atual", type=Path)
+    parser.add_argument("--revisoes-xlsx", type=Path, help="XLSX legado de revisões.")
+    parser.add_argument("--revisoes-yaml", type=Path, help="YAML declarativo de revisões institucionais.")
     return parser
 
 
@@ -333,7 +310,6 @@ if __name__ == "__main__":
     print(json.dumps(materializar(
         respostas=args.respostas_comentarios, consolidado_secao1=args.consolidado_secao1,
         consolidado_secao2=args.consolidado_secao2, data_referencia=args.data_referencia,
-        output_xlsx=args.output_xlsx, output_json=args.output_json, revisoes_xlsx=args.revisoes_xlsx,
-        auditoria_anterior=args.auditoria_anterior, auditoria_atual=args.auditoria_atual,
-        contexto_igovti_anterior=args.contexto_igovti_anterior, contexto_igovti_atual=args.contexto_igovti_atual,
+        output_xlsx=args.output_xlsx, output_json=args.output_json,
+        revisoes_xlsx=args.revisoes_yaml or args.revisoes_xlsx,
     ), ensure_ascii=False))

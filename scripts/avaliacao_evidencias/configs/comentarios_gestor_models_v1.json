@@ -15,7 +15,7 @@
     },
     {
       "name": "gemini-3.5-flash",
-      "enabled": false,
+      "enabled": true,
       "provider": "gemini",
       "model": "gemini-3.5-flash",
       "model_key": "gemini-3.5-flash",
@@ -128,7 +128,7 @@
   "judge": {
     "provider": "gemini",
     "model": "gemini-3.1-flash-lite",
-    "min_valid_opinions": 2,
+    "min_valid_opinions": 3,
     "rpm": 12,
     "reasoning": "high",
     "pdf2md": false,

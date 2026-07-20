@@ -4,9 +4,8 @@ from unittest.mock import patch
 
 from scripts.avaliacao_evidencias.providers.base import GenericProvider, ProviderContext
 from scripts.avaliacao_evidencias.providers.gemini import (
-    GEMINI_ALL_KEYS_429_WAIT_SECONDS,
     GeminiKeyRotationManager,
-    wait_and_restart_key_cycle,
+    resultado_adiar_item_todas_chaves_429,
 )
 from scripts.avaliacao_evidencias.providers.http_utils import (
     MAX_TRANSIENT_RETRY_DELAY_SECONDS,
@@ -18,6 +17,7 @@ class ProviderRetryPolicyTests(unittest.TestCase):
     def test_retry_after_enorme_e_limitado_a_tres_minutos(self):
         esperas = []
         chamadas = 0
+        saida = StringIO()
 
         class TooManyRequests(Exception):
             code = 429
@@ -30,17 +30,21 @@ class ProviderRetryPolicyTests(unittest.TestCase):
                 raise TooManyRequests("Too Many Requests")
             return "ok"
 
-        resultado = executar_com_retry_transiente(
-            operacao,
-            max_retries=1,
-            sleeper=esperas.append,
-        )
+        with patch("scripts.avaliacao_evidencias.providers.http_utils.sys.stderr", new=saida):
+            resultado = executar_com_retry_transiente(
+                operacao,
+                max_retries=1,
+                sleeper=esperas.append,
+                provider="opencodego",
+                model="qwen3.7-plus",
+            )
 
         self.assertEqual(resultado, "ok")
         self.assertEqual(esperas, [MAX_TRANSIENT_RETRY_DELAY_SECONDS])
         self.assertEqual(MAX_TRANSIENT_RETRY_DELAY_SECONDS, 180.0)
+        self.assertIn("Provedor [opencodego/qwen3.7-plus]", saida.getvalue())
 
-    def test_gemini_rotaciona_todas_as_chaves_antes_da_espera(self):
+    def test_gemini_rotaciona_todas_as_chaves_antes_de_adiar_item(self):
         manager = GeminiKeyRotationManager(["chave-1", "chave-2", "chave-3"])
 
         for chave in ["chave-1", "chave-2", "chave-3"]:
@@ -52,7 +56,7 @@ class ProviderRetryPolicyTests(unittest.TestCase):
         self.assertEqual(manager.available_count(), 0)
         self.assertEqual(
             manager.next_available_key(),
-            (None, GEMINI_ALL_KEYS_429_WAIT_SECONDS),
+            (None, 0.0),
         )
 
         manager.start_new_cycle()
@@ -60,25 +64,29 @@ class ProviderRetryPolicyTests(unittest.TestCase):
         self.assertEqual(manager.available_count(), 3)
         self.assertEqual(manager.next_available_key(), ("chave-1", 0.0))
 
-    def test_indisponibilidade_total_emite_mensagem_espera_e_reinicia(self):
+    def test_indisponibilidade_total_adia_item_sem_esperar_ou_reiniciar(self):
         manager = GeminiKeyRotationManager(["chave-1", "chave-2"])
         manager.mark_exhausted("chave-1", 505712.0)
         manager.mark_exhausted("chave-2", 505712.0)
         eventos = []
-        esperas = []
         saida = StringIO()
 
-        wait_and_restart_key_cycle(
+        resultado = resultado_adiar_item_todas_chaves_429(
             manager,
             emit=lambda evento, **campos: eventos.append((evento, campos)),
-            sleeper=esperas.append,
+            key_rotations=[{"from_key": "chave-1"}, {"from_key": "chave-2"}],
             stream=saida,
         )
 
-        self.assertEqual(esperas, [180.0])
         self.assertIn("Todas as chaves Gemini estão indisponíveis por erro 429", saida.getvalue())
-        self.assertEqual(eventos[0][0], "gemini_all_keys_429_wait")
-        self.assertEqual(manager.available_count(), 2)
+        self.assertIn("item atual será pulado", saida.getvalue())
+        self.assertEqual(eventos[0][0], "gemini_all_keys_429_item_deferred")
+        self.assertEqual(manager.available_count(), 0)
+        self.assertEqual(resultado["status"], "error")
+        self.assertEqual(resultado["http_status"], 429)
+        self.assertTrue(resultado["retryable"])
+        self.assertEqual(resultado["retry_after_seconds"], 505712.0)
+        self.assertEqual(len(resultado["key_rotations"]), 2)
 
     def test_provider_generico_rotaciona_e_reinicia_apos_todas_429(self):
         class ProviderTeste(GenericProvider):

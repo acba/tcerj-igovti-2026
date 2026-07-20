@@ -445,7 +445,7 @@ seção 2 reavalia também itens do questionário que não geram achado. Mudanç
 prompt da seção 2 produzem nova identidade lógica e não reutilizam resposta de
 um prompt anterior.
 
-Depois da consolidação, execute o fluxo pós-comentários com uma data de
+Depois da consolidação, materialize os três produtos básicos com uma data de
 referência explícita:
 
 ```bash
@@ -454,43 +454,28 @@ scripts/.venv/bin/python scripts/gerar_produtos_pos_comentarios_gestor.py \
   --respostas-base 02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
   --respostas-comentarios 02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260715-respostas-bruto.xlsx \
   --avaliacao-comentarios-dir 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor \
-  --resultado-auditoria-anterior 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json \
-  --contexto-igovti-anterior 02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx \
-  --output-root . \
-  --auditados-select AGENERSA \
-  --jobs-graficos 8
+  --revisoes-pareceres 02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml \
+  --output-root .
 ```
 
 O comando aplica apenas valores originalmente declarados e restauráveis,
-recalcula o iGovTI, reexecuta a auditoria com o painel saneado, materializa a
-planilha revisável `avaliacao_comentarios_gestor.xlsx`, gera o contexto JSON e
-produz os relatórios individuais finais. Casos que exigiriam elevar a resposta
-além do valor originalmente declarado permanecem na aba `Pendências` para
-tratamento final da equipe.
+materializa a planilha revisável `avaliacao_comentarios_gestor.xlsx` e gera o
+contexto JSON. Casos que exigiriam elevar a resposta além do valor originalmente
+declarado permanecem na aba `Pendências` para tratamento final da equipe.
 
 Os três produtos são:
 
 1. quadro de avaliação das manifestações, em
    `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx`;
-2. memória de ajustes e impactos, formada pela base pós-comentários, pelos
-   artefatos correntes do iGovTI, pela auditoria reexecutada e pela comparação
-   antes/depois;
-3. manifestação da Equipe de Auditoria na Seção 4 do relatório individual
-   final.
+2. base de respostas pós-comentários;
+3. contexto JSON da manifestação da Equipe de Auditoria.
 
 O contexto usado pelos relatórios fica em
 `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json`.
 A base ajustada recebe o prefixo da data de referência em
-`02-Execucao/01-Questionario/03-Respostas_Processadas/`; a auditoria corrente
-fica em
-`02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria-pos-comentarios/`;
-e os relatórios finais são gravados em
-`03-Relatorios/03-Relatorios_Individuais_Finais/gerados/`.
-
-`--auditados-select` limita somente gráficos e relatórios. A aplicação dos
-ajustes, o recálculo do iGovTI e a auditoria usam a base completa. Para aplicar
-somente um subconjunto de ajustes, prepare uma cópia revisada e informe-a por
-`--ajustes-comentarios`.
+`02-Execucao/01-Questionario/03-Respostas_Processadas/`. O iGovTI, a auditoria,
+os impactos e os relatórios são produzidos pelas rotinas independentes ou pelo
+orquestrador completo.
 
 Não é necessário chamar novamente os modelos para revisar a redação. Edite as
 colunas `Decisão revisada` e `Manifestação revisada da equipe` na planilha de

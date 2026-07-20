@@ -266,12 +266,47 @@ def main():
         help='JSON pós-comentários indexado por sigla, usado na seção de manifestações do relatório final.'
     )
     parser.add_argument(
+        '--impactos-comentarios-gestor',
+        default=None,
+        help='JSON de impactos 02×03 indexado por sigla; obrigatório para preencher o resumo de impacto final.'
+    )
+    parser.add_argument(
         '--nome-base-docx',
         default='Relatório Individual Preliminar',
         help='Nome base dos arquivos DOCX gerados, antes da sigla do auditado.'
     )
     args = parser.parse_args()
+    if args.contexto_comentarios_gestor:
+        if not args.impactos_comentarios_gestor:
+            parser.error("--impactos-comentarios-gestor é obrigatório com --contexto-comentarios-gestor")
+        for label, path in (
+            ("contexto", args.contexto_comentarios_gestor),
+            ("impactos", args.impactos_comentarios_gestor),
+        ):
+            if not os.path.isfile(path):
+                parser.error(f"JSON de {label} dos comentários não encontrado: {path}")
     contexto_comentarios_por_auditado = carregar_contexto_comentarios_gestor(args.contexto_comentarios_gestor)
+    impactos_comentarios_por_auditado = carregar_contexto_comentarios_gestor(args.impactos_comentarios_gestor)
+    datas_referencia = {
+        str(item.get('data_referencia')).strip()
+        for item in contexto_comentarios_por_auditado.values()
+        if item.get('data_referencia')
+    }
+    data_referencia_padrao = next(iter(datas_referencia)) if len(datas_referencia) == 1 else 'não informada'
+    for sigla, impacto in impactos_comentarios_por_auditado.items():
+        contexto = contexto_comentarios_por_auditado.setdefault(sigla, {
+            'data_referencia': data_referencia_padrao,
+            'status_produto': 'minuta para revisão final da equipe de auditoria',
+            'respondeu': False,
+            'situacoes': [],
+            'itens_questionario': [],
+            'resumo_impacto': {},
+        })
+        contexto.setdefault('data_referencia', data_referencia_padrao)
+        contexto.setdefault('respondeu', False)
+        contexto.setdefault('situacoes', [])
+        contexto.setdefault('itens_questionario', [])
+        contexto['resumo_impacto'] = impacto
 
     # 1. Load auditados from JSON
     if not os.path.exists(args.auditados):
@@ -480,6 +515,7 @@ def main():
                     logger.error(f"Erro ao copiar '{r_path}' para pasta plana: {e}")
 
         # 8. Generation Loop
+        falhas_relatorios = []
         for sigla in siglas_selecionadas:
             auditado_obj = auditados[sigla]
             logger.info(f"Gerando relatório para: {sigla} - {auditado_obj.nome}")
@@ -552,13 +588,14 @@ def main():
                     conteudo_final_md = template_md.render(contexto)
 
                     # Save intermediate MD report (useful for debugging)
-                    md_filename = os.path.join(args.output_dir, f'Relatorio-{sigla}.md')
+                    nome_relatorio = f'{args.nome_base_docx} - {sigla}'
+                    md_filename = os.path.join(args.output_dir, f'{nome_relatorio}.md')
                     with open(md_filename, 'w', encoding='utf-8') as f:
                         f.write(conteudo_final_md)
 
                     # Build final Docx file using Pandoc
                     import pypandoc
-                    docx_filename = os.path.join(args.output_dir, f'{args.nome_base_docx} - {sigla}.docx')
+                    docx_filename = os.path.join(args.output_dir, f'{nome_relatorio}.docx')
 
                     resource_paths = ['.', args.output_dir, unzip_dir, flat_resources_dir, os.path.dirname(args.templates[0])]
                     resource_path_arg = '--resource-path=' + os.pathsep.join(resource_paths)
@@ -581,6 +618,7 @@ def main():
 
                 except Exception as e:
                     logger.error(f"[{sigla}] Falha ao processar relatório Markdown/Docx: {e}", exc_info=True)
+                    falhas_relatorios.append(sigla)
 
             elif template_type == 'docx':
                 try:
@@ -602,7 +640,15 @@ def main():
                     logger.info(f"[{sigla}] Relatório Word (.docx) gerado em: {docx_filename}")
                 except Exception as e:
                     logger.error(f"[{sigla}] Falha ao processar relatório DocxTemplate: {e}", exc_info=True)
+                    falhas_relatorios.append(sigla)
 
+    if falhas_relatorios:
+        logger.error(
+            "Falha na geração de %d relatório(s): %s",
+            len(falhas_relatorios),
+            ", ".join(falhas_relatorios),
+        )
+        raise SystemExit(1)
     logger.info("Processamento concluído com sucesso!")
 
 if __name__ == '__main__':
