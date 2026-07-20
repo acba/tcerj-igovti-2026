@@ -6,6 +6,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+import yaml
+
 from scripts.avaliacao_evidencias.providers.response import (
     json_schema_response_format,
     validar_resultado_ia,
@@ -89,6 +91,15 @@ def opinion(case_id: str, provider: str, model: str) -> dict:
 
 
 class ComentariosGestorPipelineTest(unittest.TestCase):
+    def test_catalog_v3_preserves_evaluator_prompts_and_changes_only_judge(self) -> None:
+        catalogs = Path("scripts/avaliacao_evidencias/prompt_catalogs")
+        v2 = yaml.safe_load((catalogs / "igovti_2026_comentarios_gestor_atual_v2.yml").read_text(encoding="utf-8"))
+        v3 = yaml.safe_load((catalogs / "igovti_2026_comentarios_gestor_atual_v3.yml").read_text(encoding="utf-8"))
+        self.assertEqual(v3["prompt_situacoes"], v2["prompt_situacoes"])
+        self.assertEqual(v3["prompt_reavaliacao_prefixo"], v2["prompt_reavaliacao_prefixo"])
+        self.assertNotEqual(v3["prompt_juiz_situacoes"], v2["prompt_juiz_situacoes"])
+        self.assertNotEqual(v3["prompt_juiz_reavaliacao"], v2["prompt_juiz_reavaliacao"])
+
     def test_xlsx_markdown_is_compact_and_escapes_cell_content(self) -> None:
         import pandas as pd
 
