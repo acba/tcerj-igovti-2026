@@ -133,15 +133,15 @@ As figuras a seguir detalham as manifestações em cada situação que compõe o
 
 ### 4.1. Manifestações sobre as situações encontradas
 
-Das 1.471 manifestações avaliadas na primeira seção, 52 foram acolhidas integralmente, das quais oito afastaram a situação na data-base e 44 reconheceram correção posterior; 15 foram parcialmente acolhidas e alteraram parte dos fundamentos, sem afastamento integral; e 1.404 não foram acolhidas.
+Das 1.471 manifestações avaliadas na primeira seção, 48 foram acolhidas integralmente, das quais dez afastaram a situação na data-base e 38 reconheceram correção posterior; 13 foram parcialmente acolhidas e alteraram parte dos fundamentos, sem afastamento integral; e 1.410 não foram acolhidas. Entre os acolhimentos parciais, um também comprovou correção posterior.
 
 : Resultado da avaliação das situações encontradas {#tbl:comentarios_resultado_secao_1#}
 
 | Resultado | Efeito sobre a situação da data-base | Quantidade | Percentual |
 |---|---|---:|---:|
-| Acolhida | Situação não caracterizada | 52 | 3,5% |
-| Parcialmente acolhida | Situação mantida com alteração parcial de fundamentos | 15 | 1,0% |
-| Não acolhida | Situação mantida | 1.404 | 95,4% |
+| Acolhida | Situação não caracterizada | 48 | 3,3% |
+| Parcialmente acolhida | Situação mantida com alteração parcial de fundamentos | 13 | 0,9% |
+| Não acolhida | Situação mantida | 1.410 | 95,9% |
 | **Total** |  | **1.471** | **100,0%** |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
@@ -153,26 +153,26 @@ O cruzamento entre a resposta declarada pelo gestor e o resultado da análise co
 | Resposta do gestor | Acolhida | Parcialmente acolhida | Não acolhida | Total |
 |---|---:|---:|---:|---:|
 | Concorda e já fez | 5 (20,0%) | 1 (4,0%) | 19 (76,0%) | 25 |
-| Concorda e está fazendo | 16 (2,7%) | 9 (1,5%) | 559 (95,7%) | 584 |
+| Concorda e está fazendo | 13 (2,2%) | 8 (1,4%) | 563 (96,4%) | 584 |
 | Concorda e ainda não adotou medida[^comentarios_concorda_sem_medida] | 0 | 1 (0,2%) | 625 (99,8%) | 626 |
-| Discorda | 31 (13,1%) | 4 (1,7%) | 201 (85,2%) | 236 |
-| **Total** | **52** | **15** | **1.404** | **1.471** |
+| Discorda | 30 (12,7%) | 3 (1,3%) | 203 (86,0%) | 236 |
+| **Total** | **48** | **13** | **1.410** | **1.471** |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
 
 [^comentarios_concorda_sem_medida]: Corresponde à opção original “Concorda, mas ainda não adotou nenhuma medida para atender às propostas de encaminhamento”.
 
-Das 1.235 manifestações concordantes, 21 foram acolhidas integralmente, 11 parcialmente e 1.203 não foram acolhidas. Entre os 25 gestores que declararam atendimento concluído, seis manifestações foram acolhidas integral ou parcialmente, enquanto 19 não apresentaram elementos suficientes para alterar a conclusão. Entre as 584 manifestações que informaram providências em andamento, 25 foram acolhidas integral ou parcialmente. No grupo de 626 manifestações sem medida adotada, apenas uma foi parcialmente acolhida.
+Das 1.235 manifestações concordantes, 18 foram acolhidas integralmente, dez parcialmente e 1.207 não foram acolhidas. Entre as 25 manifestações que declararam atendimento concluído, seis foram acolhidas integral ou parcialmente, enquanto 19 não apresentaram elementos suficientes para alterar a conclusão. Entre as 584 manifestações que informaram providências em andamento, 21 foram acolhidas integral ou parcialmente. No grupo de 626 manifestações sem medida adotada, apenas uma foi parcialmente acolhida.
 
 Esses resultados não representam contradição entre concordância e acolhimento. A resposta declarada registra a posição do gestor sobre o diagnóstico, enquanto a análise técnica verifica se os esclarecimentos e as evidências modificam a situação na data-base, demonstram correção posterior ou alteram seus fundamentos. Assim, a concordância desacompanhada de comprovação suficiente tende a manter a situação, ao passo que a concordância acompanhada de evidência de saneamento pode justificar o reconhecimento de correção posterior sem invalidar o diagnóstico histórico.
 
-Entre as 236 discordâncias, 31 foram acolhidas integralmente, quatro parcialmente e 201 não foram acolhidas. O conjunto de acolhimentos integrais e parciais alcançou 67 manifestações, ou 4,6% dos casos.
+Entre as 236 discordâncias, 30 foram acolhidas integralmente, três parcialmente e 203 não foram acolhidas. O conjunto de acolhimentos integrais e parciais alcançou 61 manifestações, ou 4,1% dos casos.
 
 As correções posteriores não invalidaram o diagnóstico histórico, mas foram consideradas na atualização das respostas e na mensuração do estado atual.
 
 ### 4.2. Pedidos de reavaliação de respostas e evidências
 
-Foram apresentados 343 pedidos de reavaliação por 56 organizações. Após a validação e a exclusão do que já havia sido saneado de forma segura na primeira seção, 340 casos de 55 organizações foram submetidos à decisão técnica. Desses, 22 foram acolhidos integralmente, 22 parcialmente e 296 não foram acolhidos.
+Foram apresentados 343 pedidos de reavaliação por 56 organizações. Após a validação conjunta das duas seções, todos os 343 casos foram submetidos à decisão técnica. Desses, 27 foram acolhidos integralmente, 23 parcialmente e 293 não foram acolhidos.
 
 A [@fig:comentarios_reavaliacoes] apresenta as questões-base com maior número de pedidos antes da retirada dos casos já saneados pela primeira seção.
 
@@ -183,16 +183,16 @@ A [@fig:comentarios_reavaliacoes] apresenta as questões-base com maior número 
 
 | Resultado | Quantidade | Percentual |
 |---|---:|---:|
-| Acolhida | 22 | 6,5% |
-| Parcialmente acolhida | 22 | 6,5% |
-| Não acolhida | 296 | 87,1% |
-| **Total** | **340** | **100,0%** |
+| Acolhida | 27 | 7,9% |
+| Parcialmente acolhida | 23 | 6,7% |
+| Não acolhida | 293 | 85,4% |
+| **Total** | **343** | **100,0%** |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
 
-Os 44 acolhimentos integrais ou parciais correspondem a 12,9% dos casos reavaliados. Como cada caso podia reunir diversos itens do questionário, o acolhimento parcial permitiu restaurar somente os itens efetivamente comprovados, mantendo os demais como não conformes.
+Os 50 acolhimentos integrais ou parciais correspondem a 14,6% dos casos reavaliados. Como cada caso podia reunir diversos itens do questionário, o acolhimento parcial permitiu restaurar somente os itens efetivamente comprovados, mantendo os demais como não conformes.
 
-A comparação visual entre os resultados das duas seções consta da [@fig:comentarios_resultados_avaliacao]. Os percentuais foram calculados separadamente sobre os 1.471 casos da primeira seção e os 340 casos da segunda.
+A comparação visual entre os resultados das duas seções consta da [@fig:comentarios_resultados_avaliacao]. Os percentuais foram calculados separadamente sobre os 1.471 casos da primeira seção e os 343 casos da segunda.
 
 ![Resultado consolidado da avaliação dos comentários do gestor](img/05-resultados-avaliacao.png){#fig:comentarios_resultados_avaliacao#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
@@ -217,37 +217,37 @@ Por fim, nos pedidos da segunda seção, o ajuste anterior somente poderia ser r
 
 ### 5.1. Ajustes aplicados às respostas
 
-A avaliação da primeira seção originou 89 propostas de ajuste: 13 referentes a situações afastadas na data-base e 76 a correções posteriores. A segunda seção originou 71 propostas. Após a consolidação de três sobreposições, foram aplicados 157 ajustes distintos, distribuídos por 42 organizações e 71 itens do questionário. Não restaram pendências de valor a serem resolvidas antes da aplicação.
+A consolidação das duas seções e das revisões técnicas documentadas resultou em 171 ajustes distintos, distribuídos por 44 organizações e 73 itens do questionário. Não restaram pendências de valor a serem resolvidas antes da aplicação.
 
 Os ajustes restauraram somente valores anteriormente declarados e tecnicamente sustentados, sem atribuir nível de adoção superior ao informado pelo gestor. Nem todo ajuste repercute diretamente em situação, achado ou iGovTI, pois alguns itens não integram determinado cálculo, podem ser redundantes em uma regra composta ou podem não ser suficientes, isoladamente, para alterar a conclusão de um procedimento.
 
 ### 5.2. Redução de situações e achados
 
-Na comparação por identidade, 64 situações deixaram de subsistir em 32 organizações. Como a reexecução integral também atualizou as combinações de condições que formam cada situação, o estoque agregado apresentou redução líquida de 57 registros, passando de 2.140 para 2.083, queda de 2,7%.
+Na comparação por identidade, 63 situações deixaram de subsistir em 31 organizações. Como a reexecução integral também atualizou as combinações de condições que formam cada situação, o estoque agregado apresentou redução líquida de 56 registros, passando de 2.140 para 2.084, queda de 2,6%.
 
-Seis achados foram afastados, cada um em uma organização distinta. O total agregado passou de 625 para 619 achados, redução de 1,0%. A redução de situações foi superior à de achados porque um achado pode permanecer caracterizado por outras situações inconformes ainda existentes na mesma organização.
+Sete achados foram afastados, cada um em uma organização distinta. O total agregado passou de 625 para 618 achados, redução de 1,1%. A redução de situações foi superior à de achados porque um achado pode permanecer caracterizado por outras situações inconformes ainda existentes na mesma organização.
 
 ### 5.3. Melhoria do iGovTI
 
-O iGovTI aumentou em 22 das 113 organizações com resposta válida, sem redução do índice em qualquer organização. A média do grupo passou de 0,1841 para 0,1877, acréscimo de 0,0036, equivalente a 0,36 ponto percentual na escala de zero a um. Entre as 22 organizações cujo índice foi alterado, o aumento médio foi de 0,0184, ou 1,84 ponto percentual, e o maior acréscimo individual foi de 0,0604, ou 6,04 pontos percentuais.
+O iGovTI aumentou em 22 das 113 organizações com resposta válida, sem redução do índice em qualquer organização. A média do grupo passou de 0,1841 para 0,1879, acréscimo de 0,0038, equivalente a 0,38 ponto percentual na escala de zero a um. Entre as 22 organizações cujo índice foi alterado, o aumento médio foi de 0,0193, ou 1,93 ponto percentual, e o maior acréscimo individual foi de 0,0602, ou 6,02 pontos percentuais.
 
 : Síntese dos impactos dos comentários do gestor {#tbl:comentarios_sintese_impactos#}
 
 | Dimensão | Resultado apurado |
 |---|---:|
-| Ajustes distintos aplicados | 157 |
-| Organizações com respostas ajustadas | 42 |
-| Situações removidas por identidade | 64, em 32 organizações |
-| Redução líquida do estoque de situações | 57, de 2.140 para 2.083 |
-| Achados afastados | 6, em 6 organizações |
-| Redução do estoque de achados | de 625 para 619 |
+| Ajustes distintos aplicados | 171 |
+| Organizações com respostas ajustadas | 44 |
+| Situações removidas por identidade | 63, em 31 organizações |
+| Redução líquida do estoque de situações | 56, de 2.140 para 2.084 |
+| Achados afastados | 7, em 7 organizações |
+| Redução do estoque de achados | de 625 para 618 |
 | Organizações com aumento do iGovTI | 22 |
-| Variação da média do iGovTI | de 0,1841 para 0,1877 |
-| Organizações com algum impacto em situação, achado ou iGovTI | 37 |
+| Variação da média do iGovTI | de 0,1841 para 0,1879 |
+| Organizações com algum impacto em situação, achado ou iGovTI | 35 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
-Em 37 das 119 organizações houve impacto em pelo menos uma das três dimensões finais: situação encontrada, achado ou iGovTI. O alcance foi, portanto, material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
+Em 35 das 119 organizações houve impacto em pelo menos uma das três dimensões finais: situação encontrada, achado ou iGovTI. O alcance foi, portanto, material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
 
 Esse alcance organizacional é apresentado na [@fig:comentarios_impactos_organizacoes].
 
@@ -259,7 +259,7 @@ A [@fig:comentarios_saldo_situacoes_achados] evidencia a redução líquida dos 
 ![Situações e achados antes e após os comentários do gestor](img/07-saldo-situacoes-achados.png){#fig:comentarios_saldo_situacoes_achados#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
-A variação da média do iGovTI é apresentada na [@fig:comentarios_evolucao_igovti]. A escala do gráfico parte de zero, de modo a não ampliar visualmente a variação de 0,36 ponto percentual.
+A variação da média do iGovTI é apresentada na [@fig:comentarios_evolucao_igovti]. A escala do gráfico parte de zero, de modo a não ampliar visualmente a variação de 0,38 ponto percentual.
 
 ![Evolução da média do iGovTI após os comentários do gestor](img/08-evolucao-igovti.png){ width=70% }{#fig:comentarios_evolucao_igovti#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir do recálculo do iGovTI)</div>
@@ -287,9 +287,9 @@ Essas organizações não integraram o cálculo do iGovTI nem a apuração dos a
 
 ## 7. Saldo geral da etapa de comentários do gestor
 
-A etapa cumpriu três funções. Em primeiro lugar, confirmou a aderência geral do diagnóstico, pois 84,0% das manifestações concordaram com as situações encontradas. Em segundo, permitiu corrigir conclusões específicas: houve 66 acolhimentos integrais ou parciais na análise das situações e 44 nos pedidos de reavaliação. Em terceiro, reconheceu providências posteriores sem reescrever a situação histórica da auditoria.
+A etapa cumpriu três funções. Em primeiro lugar, confirmou a aderência geral do diagnóstico, pois 84,0% das manifestações concordaram com as situações encontradas. Em segundo, permitiu corrigir conclusões específicas: houve 61 acolhimentos integrais ou parciais na análise das situações e 50 nos pedidos de reavaliação. Em terceiro, reconheceu 39 providências posteriores, uma delas com acolhimento parcial, sem reescrever a situação histórica da auditoria.
 
-O saldo quantitativo foi de 157 ajustes em 42 organizações, com reflexo final em ao menos uma dimensão para 37 organizações. Foram removidas 64 situações por identidade, afastados seis achados e elevados os índices de 22 organizações. Apesar desses efeitos, permaneceram 2.083 situações e 619 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,36 ponto percentual. Os resultados demonstram que o contraditório produziu correções concretas e rastreáveis, mas não alterou substancialmente o panorama de baixa maturidade identificado pela fiscalização.
+O saldo quantitativo foi de 171 ajustes em 44 organizações, com reflexo final em ao menos uma dimensão para 35 organizações. Foram removidas 63 situações por identidade, afastados sete achados e elevados os índices de 22 organizações. Apesar desses efeitos, permaneceram 2.084 situações e 618 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,38 ponto percentual. Os resultados demonstram que o contraditório produziu correções concretas e rastreáveis, mas não alterou substancialmente o panorama de baixa maturidade identificado pela fiscalização.
 
 As manifestações sobre medidas em curso e correções posteriores também possuem valor prospectivo. Ainda que não afastem a situação na data-base, fornecem subsídios para a elaboração e o acompanhamento dos planos de ação, especialmente quanto a responsáveis, prazos, produtos esperados e evidências de conclusão. O acompanhamento deverá verificar a implementação efetiva, e não apenas a existência de compromissos ou documentos preparatórios.
 
@@ -297,6 +297,6 @@ As manifestações sobre medidas em curso e correções posteriores também poss
 
 A análise dos comentários do gestor preservou o contraditório, corrigiu situações para as quais foram apresentados elementos suficientes e manteve os apontamentos cujo suporte probatório permaneceu válido. A predominância de não acolhimentos decorreu principalmente da concordância expressa com as deficiências, da ausência de medidas adotadas, da apresentação de providências ainda em curso ou posteriores à data-base e da insuficiência dos elementos para demonstrar todos os atributos exigidos pelos critérios de auditoria.
 
-Os impactos verificados - 157 ajustes, 64 situações removidas, seis achados afastados e aumento do iGovTI em 22 organizações - confirmam que a etapa não foi meramente formal. Ao mesmo tempo, a permanência da maior parte das situações e dos achados demonstra que as manifestações acolhidas foram pontuais e não afastaram as conclusões estruturais do trabalho.
+Os impactos verificados - 171 ajustes, 63 situações removidas, sete achados afastados e aumento do iGovTI em 22 organizações - confirmam que a etapa não foi meramente formal. Ao mesmo tempo, a permanência da maior parte das situações e dos achados demonstra que as manifestações acolhidas foram pontuais e não afastaram as conclusões estruturais do trabalho.
 
 As decisões consolidadas, os ajustes e seus reflexos constituem papéis de trabalho rastreáveis e devem ser submetidos à validação final da Equipe de Auditoria antes da aprovação do relatório. Para as seis organizações sem resposta válida, a análise deve permanecer apartada dos resultados do iGovTI e dos achados derivados do questionário, sem prejuízo da apuração específica das circunstâncias da não participação.

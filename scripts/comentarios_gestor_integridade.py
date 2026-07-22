@@ -10,6 +10,10 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 
 from scripts.avaliacao_evidencias.scope_validation import formatar_violacoes, validar_resultado_no_escopo
+from scripts.comentarios_gestor_pipeline import (
+    registro_tem_evidencia_documental,
+    validar_justificativa_publicavel,
+)
 
 
 def _ler_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -53,20 +57,40 @@ def _selecionar_registro_valido(
     *,
     caso: dict[str, Any],
     validar_temporal: bool,
+    validar_publicacao_secao: str | None = None,
+    preservar_valido_anterior: bool = True,
 ) -> tuple[dict[str, Any] | None, str]:
     """Preserva o registro valido mais recente diante de falhas posteriores."""
     for registro in candidatos:
         if registro.get("status") != "completed":
             continue
-        violacao = formatar_violacoes(
+        violacoes = formatar_violacoes(
             validar_resultado_no_escopo(
                 {**caso, "result": registro.get("result")},
                 registro.get("result"),
                 validar_temporal=validar_temporal,
             )
         )
+        publicacao = (
+            "; ".join(
+                validar_justificativa_publicavel(
+                    validar_publicacao_secao,
+                    registro.get("result") or {},
+                    evidencia_documental_disponivel=registro_tem_evidencia_documental(registro),
+                )
+            )
+            if validar_publicacao_secao
+            else ""
+        )
+        violacao = " | ".join(parte for parte in (violacoes, publicacao) if parte)
         if not violacao:
             return registro, ""
+        # Respostas externas ao caso continuam podendo ceder lugar ao último
+        # checkpoint de escopo válido. Já um parecer do próprio caso com texto
+        # impróprio para publicação precisa ser reparado, não mascarado por uma
+        # consolidação histórica anterior.
+        if not preservar_valido_anterior and not violacoes and publicacao:
+            return registro, violacao
 
     if not candidatos:
         return None, ""
@@ -172,6 +196,8 @@ def validar_integridade_comentarios(
                 pareceres.get((cid, ""), []),
                 caso=caso,
                 validar_temporal=secao == "1",
+                validar_publicacao_secao=secao,
+                preservar_valido_anterior=False,
             )
             if registro is None:
                 violacao = "parecer consolidado ausente"

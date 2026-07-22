@@ -132,6 +132,12 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
         raise ValueError(f"judge.min_valid_opinions deve estar entre 1 e {len(active_by_model)}")
     if not isinstance(judge["rpm"], int) or judge["rpm"] < 0:
         raise ValueError("judge.rpm deve ser inteiro não negativo")
+    judge_tpm = judge.get("tpm", 0)
+    if not isinstance(judge_tpm, int) or judge_tpm < 0:
+        raise ValueError("judge.tpm deve ser inteiro não negativo")
+    judge_max_parallel = judge.get("max_parallel", 1)
+    if not isinstance(judge_max_parallel, int) or judge_max_parallel < 1:
+        raise ValueError("judge.max_parallel deve ser inteiro positivo")
     if not str(judge["provider"]).strip() or not str(judge["model"]).strip():
         raise ValueError("judge.provider e judge.model não podem ser vazios")
     if not isinstance(judge["reasoning"], str):
@@ -142,6 +148,8 @@ def carregar_configuracao_modelos(path: Path) -> dict[str, Any]:
     if judge_pdf_detail not in {"auto", "low", "high"}:
         raise ValueError("judge.pdf_detail deve ser auto, low ou high")
     judge["pdf_detail"] = judge_pdf_detail
+    judge["tpm"] = judge_tpm
+    judge["max_parallel"] = judge_max_parallel
     max_workers = config.get("max_parallel_evaluators", len(evaluators))
     if not isinstance(max_workers, int) or max_workers < 1:
         raise ValueError("max_parallel_evaluators deve ser inteiro positivo")
@@ -343,6 +351,8 @@ def consolidate_section(
         min_opinions=judge["min_valid_opinions"],
         reasoning=judge["reasoning"],
         rpm=judge["rpm"],
+        tpm=judge["tpm"],
+        max_parallel=judge["max_parallel"],
         pdf2md=judge["pdf2md"],
         docx2html=judge["docx2html"],
         pdf_detail=judge["pdf_detail"],
@@ -350,7 +360,9 @@ def consolidate_section(
         deterministic_path=(args.out_dir / "individuais/secao-1/deterministicos.jsonl") if secao == "1" else None,
         expected_case_ids=expected_case_ids or set(manifesto.get("case_ids_ia") or []),
         selected_case_ids=selected_case_ids,
+        refresh_links=args.refresh_links,
         quiet=args.quiet,
+        verbose=getattr(args, "verbose", False),
     )
     print(json.dumps({"event": "comments_consolidation_finished", **result}, ensure_ascii=False), flush=True)
     return result
@@ -424,9 +436,10 @@ def generate_adjustments(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def validate_integrity(args: argparse.Namespace) -> dict[str, Any]:
-    casos_por_secao: dict[str, list[dict[str, Any]]] = {}
-    deterministicos_por_secao: dict[str, list[dict[str, Any]]] = {}
-    for secao in ("1", "2"):
+    secoes = [args.secao] if args.secao in {"1", "2"} else ["1", "2"]
+    casos_por_secao: dict[str, list[dict[str, Any]]] = {"1": [], "2": []}
+    deterministicos_por_secao: dict[str, list[dict[str, Any]]] = {"1": [], "2": []}
+    for secao in secoes:
         casos, deterministicos, _ = prepare(args, secao)
         casos_por_secao[secao] = casos
         deterministicos_por_secao[secao] = deterministicos
@@ -450,7 +463,8 @@ def repair_integrity(args: argparse.Namespace) -> dict[str, Any]:
     }
     args.repair_case_ids = filtros
     resultados: list[dict[str, Any]] = []
-    for secao in ("1", "2"):
+    secoes = [args.secao] if args.secao in {"1", "2"} else ["1", "2"]
+    for secao in secoes:
         if not filtros[secao]:
             continue
         casos, _, _ = prepare(args, secao)
@@ -576,7 +590,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--auditados", default="", help="Siglas separadas por vírgula.")
     parser.add_argument("--fake", action="store_true", help="Substitui os avaliadores e o juiz configurados por providers fake.")
     parser.add_argument("--preflight-only", action="store_true")
+    parser.add_argument(
+        "--refresh-links",
+        action="store_true",
+        help="Recaptura links das manifestações; por padrão, reutiliza a captura auditável existente.",
+    )
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Exibe eventos detalhados de espera, locação, liberação e cooldown das chaves do juiz.",
+    )
     return parser
 
 

@@ -10,37 +10,37 @@
   "arquivos_reavaliacao": 118,
   "organizacoes_nao_respondentes_que_manifestaram": 2,
   "avaliacao_secao_1": {
-    "Não acolhida": 1404,
-    "Acolhida": 52,
-    "Parcialmente acolhida": 15
+    "Não acolhida": 1410,
+    "Acolhida": 48,
+    "Parcialmente acolhida": 13
   },
   "avaliacao_secao_2": {
-    "Não acolhida": 296,
-    "Acolhida": 22,
-    "Parcialmente acolhida": 22
+    "Não acolhida": 293,
+    "Acolhida": 27,
+    "Parcialmente acolhida": 23
   },
-  "ajustes_aplicados": 157,
-  "organizacoes_com_ajustes": 42,
-  "itens_ajustados_distintos": 71,
+  "ajustes_aplicados": 171,
+  "organizacoes_com_ajustes": 44,
+  "itens_ajustados_distintos": 73,
   "pendencias_ajustes": 0,
   "impactos": {
     "universo": 119,
     "situacoes_antes": 2140,
-    "situacoes_atuais": 2083,
-    "situacoes_removidas": 64,
-    "organizacoes_com_situacoes_removidas": 32,
+    "situacoes_atuais": 2084,
+    "situacoes_removidas": 63,
+    "organizacoes_com_situacoes_removidas": 31,
     "achados_antes": 625,
-    "achados_atuais": 619,
-    "achados_removidos": 6,
-    "organizacoes_com_achados_removidos": 6,
+    "achados_atuais": 618,
+    "achados_removidos": 7,
+    "organizacoes_com_achados_removidos": 7,
     "organizacoes_com_igovti_alterado": 22,
     "organizacoes_com_igovti_aumentado": 22,
     "organizacoes_com_igovti_reduzido": 0,
     "igovti_medio_anterior": 0.184109684154109,
-    "igovti_medio_atual": 0.18769214176646734,
-    "variacao_media_igovti": 0.0035824576123583535,
-    "variacao_media_entre_alterados": 0.018400805008931542,
-    "variacao_maxima_igovti": 0.06037577546328621,
-    "organizacoes_com_algum_impacto": 37
+    "igovti_medio_atual": 0.18787085964492437,
+    "variacao_media_igovti": 0.0037611754908153856,
+    "variacao_media_entre_alterados": 0.0193187650210063,
+    "variacao_maxima_igovti": 0.06020445654168216,
+    "organizacoes_com_algum_impacto": 35
   }
 }

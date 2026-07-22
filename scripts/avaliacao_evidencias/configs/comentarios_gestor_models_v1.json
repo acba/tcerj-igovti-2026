@@ -1,5 +1,5 @@
 {
-  "version": "comentarios_gestor_models_v1",
+  "version": "comentarios_gestor_models_v2",
   "max_parallel_evaluators": 3,
   "evaluators": [
     {
@@ -15,7 +15,8 @@
     },
     {
       "name": "gemini-3.5-flash",
-      "enabled": false,
+      "enabled": true,
+      "execute": false,
       "provider": "gemini",
       "model": "gemini-3.5-flash",
       "model_key": "gemini-3.5-flash",
@@ -27,7 +28,7 @@
     {
       "name": "gpt-5.6-luna",
       "enabled": true,
-      "execute": false,
+      "execute": true,
       "provider": "openai",
       "model": "gpt-5.6-luna",
       "model_key": "gpt-5.6-luna",
@@ -49,65 +50,10 @@
       "docx2html": true
     },
     {
-      "name": "opencodego-mimo-v25",
-      "enabled": false,
-      "provider": "opencodego",
-      "model": "mimo-v2.5",
-      "model_key": "mimo-v2.5",
-      "rpm": 0,
-      "reasoning": "high",
-      "pdf2md": true,
-      "docx2html": true
-    },
-    {
       "name": "opencodego-qwen-3.7-plus",
       "enabled": true,
       "provider": "opencodego",
       "model": "qwen3.7-plus",
-      "model_key": "qwen3.7-plus",
-      "rpm": 0,
-      "reasoning": "high",
-      "pdf2md": true,
-      "docx2html": true
-    },
-    {
-      "name": "openrouter-minimax-m3",
-      "enabled": false,
-      "provider": "openrouter",
-      "model": "minimax/minimax-m3",
-      "model_key": "minimax-m3",
-      "rpm": 0,
-      "reasoning": "high",
-      "pdf2md": true,
-      "docx2html": true
-    },
-    {
-      "name": "openrouter-mimo-v25",
-      "enabled": false,
-      "provider": "openrouter",
-      "model": "xiaomi/mimo-v2.5",
-      "model_key": "mimo-v2.5",
-      "rpm": 0,
-      "reasoning": "high",
-      "pdf2md": true,
-      "docx2html": true
-    },
-    {
-      "name": "openrouter-nex-n2-pro",
-      "enabled": false,
-      "provider": "openrouter",
-      "model": "nex-agi/nex-n2-pro",
-      "model_key": "nex-n2-pro",
-      "rpm": 0,
-      "reasoning": "high",
-      "pdf2md": true,
-      "docx2html": true
-    },
-    {
-      "name": "openrouter-qwen-3.7-plus",
-      "enabled": false,
-      "provider": "openrouter",
-      "model": "qwen/qwen3.7-plus",
       "model_key": "qwen3.7-plus",
       "rpm": 0,
       "reasoning": "high",
@@ -128,9 +74,11 @@
   ],
   "judge": {
     "provider": "gemini",
-    "model": "gemini-3.1-flash-lite",
+    "model": "gemini-3.5-flash-lite",
     "min_valid_opinions": 3,
     "rpm": 12,
+    "tpm": 0,
+    "max_parallel": 2,
     "reasoning": "high",
     "pdf2md": false,
     "docx2html": false

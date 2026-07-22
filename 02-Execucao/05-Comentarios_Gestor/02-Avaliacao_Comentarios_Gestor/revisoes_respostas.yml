@@ -6,6 +6,7 @@ revisoes:
   - auditado: UERJ
     codigo_situacao: A4G13
     case_id: dfee0e6edc470cabdb55c7070d22a1b830e88e5e3c68a71a10478babccf6d40b
+    identidade_parecer: 6b3078eb9b9b83a830cfaa7beea92dabf4e5afe75bab0aa9be84b493a0c6e916
     achado: 4
     situacao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação
     aprovada: true
@@ -29,3 +30,357 @@ revisoes:
     observacao: >-
       Os itens q2708[C] e q2708[D] permanecem Não. A situação A4G13 permanece
       caracterizada pelo fundamento relativo à segurança da informação.
+  - auditado: JUCERJA
+    codigo_situacao: A6G24
+    case_id: ff8c75c99588966a0eebff06f7272a44c61785114d643c985059597bc6a29c67
+    identidade_parecer: 2a012132e54de12713b354a4e8c3d78bbd70c246405103c7d72322d005616bd7
+    achado: 6
+    situacao: Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2804[A]
+        resposta_ajustada: Sim
+        id_motivo: MR101
+        fundamento: >-
+          O procedimento disponibilizado na Wiki institucional e o fluxo BPMN
+          demonstram a participação e a aprovação técnica da área de TIC nas
+          contratações de soluções tecnológicas.
+    referencias:
+      - arquivo: 00016_08_achado-6-contratação-de-tic-wiki-e-bpmn.pdf
+        elemento: Procedimento de contratação de TIC e fluxo BPMN
+    observacao: Acolhimento integral aprovado na revisão humana do parecer A6G24.
+  - auditado: MPERJ
+    codigo_situacao: A5G19
+    case_id: d20605948e3bfe41c1505cd2f9629aee86295dab1f8e63dfd7b8f487bd036238
+    identidade_parecer: 9b5d91af6abb4fef47b748aab1afba084edc751cf51df3b912fc909417b56da9
+    achado: 5
+    situacao: Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2201ext[D]
+        resposta_ajustada: Sim
+        id_motivo: MR072
+        fundamento: >-
+          O Book de Metas de Atendimento e os Relatórios Operacionais foram
+          considerados suficientes para demonstrar a definição dos níveis de
+          serviço praticados.
+      - codigo_item: q2201ext[E]
+        resposta_ajustada: Sim
+        id_motivo: MR074
+        fundamento: >-
+          Os relatórios operacionais comprovam o monitoramento sistemático das
+          metas e dos níveis de serviço.
+    referencias:
+      - arquivo: 00083_02_achado-05.zip
+        elemento: Book de Metas de Atendimento e Relatórios Operacionais
+    observacao: Acolhimento integral aprovado na revisão humana do parecer A5G19.
+  - auditado: NOVA IGUAÇU
+    codigo_situacao: A2G5
+    case_id: b03dff3874bef58f03f7c04245af229af66f922591a3dfdb66006c568d3453ac
+    identidade_parecer: e879e34401954785d77d2bead7a28fb4fdead1cbed46c8f5c8d4c93128ab4460
+    achado: 2
+    situacao: Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva
+    aprovada: true
+    ajustes:
+      - codigo_item: q1001ext[E]
+        resposta_ajustada: Sim
+        id_motivo: MR018
+        fundamento: >-
+          O Decreto Municipal nº 14.033/2025 e a Resolução nº 001/2025-CETI
+          comprovam a instituição formal do comitê de TIC.
+      - codigo_item: q1001ext[F]
+        resposta_ajustada: Sim
+        id_motivo: MR021
+        fundamento: >-
+          As atas apresentadas comprovam a atuação do colegiado por meio de
+          reuniões e deliberações registradas.
+    referencias:
+      - arquivo: 00028_02_atas-e-decretos.pdf
+        elemento: Decreto, resolução e atas do CETI
+    observacao: A existência do comitê e a realização de reuniões foram consideradas suficientes.
+  - auditado: RIO DAS OSTRAS
+    codigo_situacao: A2G5
+    case_id: 48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca
+    identidade_parecer: c5889a832dbe94b2617137bd7f48eb260f0154b3dbfc5151479b0ee662b10c7d
+    achado: 2
+    situacao: Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva
+    aprovada: true
+    ajustes:
+      - codigo_item: q1001ext[E]
+        resposta_ajustada: Sim
+        id_motivo: MR018
+        fundamento: >-
+          A documentação do Comitê Gestor de Tecnologia da Informação comprova
+          sua instituição formal.
+      - codigo_item: q1001ext[F]
+        resposta_ajustada: Sim
+        id_motivo: MR021
+        fundamento: >-
+          As atas publicadas no Jornal Oficial comprovam a realização de
+          reuniões e deliberações relacionadas ao planejamento de TIC.
+    referencias:
+      - arquivo: 00038_05_comentario-diretor-e-comprovacoes.zip
+        elemento: Atas do Comitê Gestor de TIC e Plano Diretor de TIC
+    observacao: A existência do comitê e a realização de reuniões foram consideradas suficientes.
+  - auditado: SETD
+    codigo_situacao: A5G21
+    case_id: 99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9
+    identidade_parecer: 1015b2ed8db8375e03204a0599a1652c80f70580a8eab4087d0e30870a95980c
+    achado: 5
+    situacao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2204ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR086
+        fundamento: >-
+          O Plano de Gestão de Continuidade de Negócios foi considerado
+          suficiente para demonstrar regras de tratamento, priorização e
+          escalamento de incidentes.
+      - codigo_item: q2204ext[D]
+        resposta_ajustada: Sim
+        id_motivo: MR088
+        fundamento: >-
+          O plano aprovado pela Resolução SETD nº 102/2025 comprova a
+          formalização do processo de gestão de incidentes.
+      - codigo_item: q2204ext[E]
+        resposta_ajustada: Sim
+        id_motivo: MR090
+        fundamento: >-
+          A documentação estabelece procedimentos e responsabilidades para
+          notificação, tratamento e resposta a incidentes.
+    referencias:
+      - arquivo: 00096_08_achado-5-gestão-incidentes.zip
+        elemento: Plano de Gestão de Continuidade de Negócios e Resolução SETD nº 102/2025
+    observacao: Acolhimento integral aprovado na revisão humana do parecer A5G21.
+  - auditado: SEPM
+    codigo_situacao: A2G4
+    case_id: 015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65
+    identidade_parecer: c966c7aaa0d1b3dc72a99c51514aad235954e9c709db6bc8cebd3b1be22db468
+    achado: 2
+    situacao: Comitê de TIC ou instância equivalente não instituído formalmente
+    aprovada: true
+    ajustes:
+      - codigo_item: q1001ext[E]
+        resposta_ajustada: Sim
+        id_motivo: MR016
+        fundamento: >-
+          A publicação no Diário Oficial do Estado do Rio de Janeiro nº 214, de
+          22 de novembro de 2023, e o processo SEI-350487/001830/2023 foram
+          considerados suficientes para comprovar a instituição e a composição
+          do Comitê de TIC.
+    referencias:
+      - arquivo: Diário Oficial do Estado do Rio de Janeiro nº 214, de 22/11/2023
+        elemento: Ato de instituição e composição do Comitê de TIC
+      - arquivo: Processo SEI-350487/001830/2023
+        elemento: Processo administrativo de criação do Comitê de TIC
+    observacao: Revisão humana aprovada com base nas referências oficiais informadas pelo gestor.
+  - auditado: CECIERJ
+    codigo_situacao: A2G4
+    case_id: 9d349222b12ac2bfcfef812646713d53ac176b04e82ee12e323593ff0ec986d1
+    identidade_parecer: 4a24b060114cdf53559aa9aa70e3d0a5437bb8529d5ef30d0f731cd668baa4e8
+    achado: 2
+    situacao: Comitê de TIC ou instância equivalente não instituído formalmente
+    aprovada: true
+    ajustes:
+      - codigo_item: q1001ext[E]
+        resposta_ajustada: Sim
+        id_motivo: MR017
+        fundamento: >-
+          As Portarias CECIERJ nº 545/2021 e nº 609/2023 foram consideradas
+          suficientes para comprovar a formalização do Comitê do PEDTIC como
+          instância colegiada de TIC.
+    referencias:
+      - arquivo: Portaria CECIERJ nº 545, de 1º/10/2021
+        elemento: Instituição do Comitê do PEDTIC
+      - arquivo: Portaria CECIERJ nº 609, de 9/10/2023
+        elemento: Comitê do PEDTIC
+    observacao: Revisão humana aprovada com base nos atos formais informados pelo gestor.
+  - auditado: AGERIO
+    codigo_situacao: A5G20
+    case_id: 62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e
+    identidade_parecer: 37e7aac9353ed146964fba95c24e1c989d774ac3cc14b29ba8f86061ad954d41
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR075
+        fundamento: O inventário eletrônico apresentado foi considerado suficiente para comprovar o controle dos ativos de TIC.
+      - codigo_item: q2504ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR077
+        fundamento: Os relatórios automatizados comprovam o inventário e o controle dos dispositivos.
+      - codigo_item: q2504ext[B]
+        resposta_ajustada: Sim
+        id_motivo: MR079
+        fundamento: Os relatórios apresentados comprovam o inventário eletrônico dos softwares.
+    referencias:
+      - arquivo: 00034_09_5-1-merged.pdf
+        elemento: Relatórios automatizados de estações, dispositivos e softwares
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: FUNARJ
+    codigo_situacao: A5G20
+    case_id: 21988138ad6707fd8d5eee4ad23453476d8527079211b197f2a17b95ffaf1ccd
+    identidade_parecer: ed59c92147a521af3296ad48910e8f9cd00fc5ad16beb7bbca61d188f5b2f590
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR075
+        fundamento: O controle de ativos no GLPI foi considerado suficiente para comprovar a existência do inventário de TIC.
+      - codigo_item: q2504ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR077
+        fundamento: A tela do GLPI comprova o registro e o gerenciamento de computadores e dispositivos de rede.
+    referencias:
+      - arquivo: 00081_11_tela-controle-ativos.pdf
+        elemento: Tela de controle de ativos no GLPI
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: IPEM
+    codigo_situacao: A5G20
+    case_id: 6b7b5288bbe09c45c735cf59b072b9ddcf72cd448bdd7773ae7131058e0cfac7
+    identidade_parecer: f8e1dcca02ad0ea6e83de84e57b9773d79a2bc0dbc3150b31cfe1f2f38c5638b
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR076
+        fundamento: O GLPI Inventory foi considerado suficiente para comprovar a manutenção do inventário de ativos de TIC.
+      - codigo_item: q2504ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR078
+        fundamento: O GLPI Inventory comprova o cadastro e o gerenciamento eletrônico dos dispositivos.
+      - codigo_item: q2504ext[B]
+        resposta_ajustada: Sim
+        id_motivo: MR080
+        fundamento: O GLPI Inventory comprova o cadastro e o gerenciamento eletrônico dos softwares.
+    referencias:
+      - arquivo: 00012_07_glpi-inventory.pdf
+        elemento: Relatórios do GLPI Inventory
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: IRM
+    codigo_situacao: A5G20
+    case_id: 0726ebd634f3419de57ed3ffebdfd49a75d76afa0dddeb840b38023ccb285252
+    identidade_parecer: 2e6abd3b6ce8733a8a0dcf7666f58b9163725275c0ad973631130cdd13ddee52
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR075
+        fundamento: A planilha atualizada foi considerada suficiente para comprovar a existência do inventário de ativos de TIC.
+      - codigo_item: q2504ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR077
+        fundamento: A planilha comprova o registro e o acompanhamento dos equipamentos de TIC.
+      - codigo_item: q2504ext[B]
+        resposta_ajustada: Sim
+        id_motivo: MR079
+        fundamento: O acolhimento integral reconhece o inventário apresentado como suficiente para o escopo da situação.
+    referencias:
+      - arquivo: 00079_01_inventário-computadores-iatr-e-próprios-atualizado-01-06-2026.zip
+        elemento: Planilha atualizada de inventário de computadores
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: LOTERJ
+    codigo_situacao: A5G20
+    case_id: 5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c
+    identidade_parecer: e008a0d92f247ba60a4127f12e9b854bea0288f8172fdf2745555392bf83c310
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR075
+        fundamento: A implantação e a utilização do GLPI foram consideradas suficientes para comprovar a existência de inventário eletrônico de ativos.
+    referencias:
+      - arquivo: 00052_06_evidencias-loterj-glpi.pdf
+        elemento: Evidências de implantação e utilização do GLPI
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: RIOPREVIDENCIA
+    codigo_situacao: A5G20
+    case_id: cfa859c86c90ed1cd3e9f928507d677832e047a298b0b9c180c4118f90cd03ee
+    identidade_parecer: c02d384146074d48835746bd3b23818f925c0d656a45710beb13150ca0a75837
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR076
+        fundamento: Os relatórios do GLPI e do Tactical RMM comprovam a manutenção de inventário corporativo de ativos de hardware e software.
+    referencias:
+      - arquivo: 00082_07_gestão-ativos.pdf
+        elemento: Relatórios de gestão de ativos extraídos do GLPI e do Tactical RMM
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: SEDEC
+    codigo_situacao: A5G20
+    case_id: 0d6767c8b7e4d020c44d79e7ae122d84dd84737f8897c75bddbbe47a8258e4bf
+    identidade_parecer: 80151f0465098539f295934844afe52a1fe7bcf1972b60155520b7bf6aa2ff67
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2504ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR078
+        fundamento: As capturas do GLPI e do Tactical RMM comprovam o inventário e o acompanhamento dos dispositivos.
+      - codigo_item: q2504ext[B]
+        resposta_ajustada: Sim
+        id_motivo: MR080
+        fundamento: As ferramentas apresentadas foram consideradas suficientes para comprovar o controle dos softwares inventariados.
+    referencias:
+      - arquivo: 00036_02_imagens-gestao-de-ativos.pdf
+        elemento: Capturas das ferramentas GLPI e Tactical RMM
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: SEINFRA
+    codigo_situacao: A5G20
+    case_id: 831203bf45649159dc72955d117d327976738df3684c2c04bbce64770685aa14
+    identidade_parecer: fb01f40a007e1cc1ace8b114c4b1962d5fcbbf6b3ed99b2a1c8725c3be3bb627
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR075
+        fundamento: O inventário mantido no GLPI foi considerado suficiente para comprovar a existência do controle de ativos de TIC.
+      - codigo_item: q2504ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR078
+        fundamento: As evidências do GLPI e os termos de responsabilidade comprovam o cadastro e o acompanhamento dos equipamentos.
+      - codigo_item: q2504ext[B]
+        resposta_ajustada: Sim
+        id_motivo: MR079
+        fundamento: O acolhimento integral reconhece o inventário eletrônico apresentado como suficiente para o escopo da situação.
+    referencias:
+      - arquivo: 00033_06_evidencias-sobre-ativos-1.pdf
+        elemento: Evidências do GLPI e termos de responsabilidade
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.
+  - auditado: TCE-RJ
+    codigo_situacao: A5G20
+    case_id: 5857a16e188364ce8b97f8207d767963756ed4afb83ca12c37f322838f29aaad
+    identidade_parecer: c4ace63a22aab058158ac91a0a661c385bca314dd73500ce1a88b3fa25092198
+    achado: 5
+    situacao: Inexistência ou fragilidade do inventário de ativos de TIC
+    aprovada: true
+    ajustes:
+      - codigo_item: q2203ext[A]
+        resposta_ajustada: Sim
+        id_motivo: MR075
+        fundamento: O registro extraído da base do GLPI foi considerado suficiente para comprovar a existência de inventário eletrônico de ativos de TIC.
+      - codigo_item: q2504ext[B]
+        resposta_ajustada: Sim
+        id_motivo: MR079
+        fundamento: A estrutura cadastral do GLPI foi considerada suficiente para o controle dos ativos abrangidos pela situação.
+    referencias:
+      - arquivo: 00089_09_glpi.pdf
+        elemento: Registro extraído da base de dados do GLPI
+    observacao: Acolhimento integral da situação de inventário aprovado na revisão humana.

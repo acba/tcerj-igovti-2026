@@ -19,11 +19,20 @@ def _registro(*, status: str, finished_at: str, item_codigo: str = "q1001[A]") -
         "model_key": "model",
         "status": status,
         "finished_at": finished_at,
+        "evidence_paths": ["/tmp/portaria-1.pdf"],
     }
     if status == "completed":
         registro["result"] = {
             "status": "completed",
-            "conclusoes": [{"item_codigo": item_codigo}],
+            "conclusoes": [{
+                "item_codigo": item_codigo,
+                "estado": "conforme",
+                "justificativa": (
+                    "A reavaliação foi acolhida. A organização apresentou como evidência a Portaria 1. "
+                    "A documentação é suficiente para demonstrar a formalização da prática, pois "
+                    f"comprova sua instituição. Assim, o item {item_codigo} passa a ser considerado conforme."
+                ),
+            }],
         }
     else:
         registro["error"] = "falha transitoria"

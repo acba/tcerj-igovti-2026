@@ -15,6 +15,7 @@ import tempfile
 import threading
 import unicodedata
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import nullcontext
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -32,11 +33,18 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.avaliacao_evidencias.evidence_processing import (
+    _url_download_permitida,
+    baixar_recurso_url,
     erro_tecnico_bloqueante_pacote,
     preparar_evidencia_para_provider,
     resultado_indica_erro_tecnico,
 )
 from scripts.avaliacao_evidencias.inventory import resolver_evidencia
+from scripts.avaliacao_evidencias.key_pool import (
+    ExclusiveApiKeyPool,
+    cooldown_429,
+    resultado_429,
+)
 from scripts.avaliacao_evidencias.prompts import (
     filtrar_itens_por_prompt,
     preparar_itens_para_prompt,
@@ -67,7 +75,7 @@ DEFAULT_REVISOES_RESPOSTAS = ROOT / "02-Execucao/05-Comentarios_Gestor/02-Avalia
 DEFAULT_QUESTIONARIO = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 DEFAULT_PROMPTS = ROOT / "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 DEFAULT_CATALOG = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
-DEFAULT_CATALOG_COMENTARIOS = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v3.yml"
+DEFAULT_CATALOG_COMENTARIOS = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v4.yml"
 
 ENV_PROVIDER_KEYS = {
     "gemini": "GEMINI_API_KEY",
@@ -80,6 +88,11 @@ ESTADOS_TEMPORAIS = {
     "mantida",
     "afastada_na_data_base",
     "corrigida_posteriormente",
+}
+
+RESPOSTAS_SECAO1_AVALIAVEIS = {
+    "discorda da sinalizacao de inadequacao",
+    "concorda e ja atendeu as propostas de encaminhamento",
 }
 
 # Conversões pdf2md/docx2html são intensivas e algumas bibliotecas auxiliares
@@ -577,16 +590,103 @@ def _documento(nome: str, tipo: str, valor: Any) -> dict[str, Any]:
     return {"nome": nome, "tipo": tipo, "texto": conteudo}
 
 
+def extrair_urls_manifestacao(documentos: list[dict[str, Any]]) -> list[str]:
+    urls: list[str] = []
+    for documento in documentos:
+        if texto(documento.get("tipo")) not in {"manifestacao_gestor", "comentario_gestor"}:
+            continue
+        for encontrada in re.findall(r"https?://[^\s<>\"']+", texto(documento.get("texto")), flags=re.I):
+            url = encontrada.rstrip(".,;:!?)]}")
+            if url and url not in urls:
+                urls.append(url)
+    return urls
+
+
+def capturar_links_manifestacao(
+    documentos: list[dict[str, Any]],
+    destino: Path,
+    *,
+    refresh: bool = False,
+) -> tuple[list[Path], list[dict[str, Any]], list[str]]:
+    manifesto_path = destino / "manifesto-links.json"
+    anteriores: list[dict[str, Any]] = []
+    if not refresh and manifesto_path.is_file():
+        try:
+            carregado = json.loads(manifesto_path.read_text(encoding="utf-8"))
+            if isinstance(carregado, list):
+                anteriores = [item for item in carregado if isinstance(item, dict)]
+        except (OSError, ValueError, TypeError):
+            anteriores = []
+
+    def captura_reutilizavel(url: str) -> tuple[Path, dict[str, Any]] | None:
+        destino_resolvido = destino.resolve()
+        for registro in anteriores:
+            if registro.get("url_original") != url or registro.get("status") != "capturado":
+                continue
+            caminho_registrado = Path(texto(registro.get("caminho")))
+            candidatos = [caminho_registrado]
+            if not caminho_registrado.is_absolute():
+                candidatos.append(destino / caminho_registrado.name)
+            for candidato in candidatos:
+                try:
+                    resolvido = candidato.resolve()
+                    resolvido.relative_to(destino_resolvido)
+                except (OSError, ValueError):
+                    continue
+                if not resolvido.is_file():
+                    continue
+                hash_registrado = texto(registro.get("sha256"))
+                if not hash_registrado or hash_arquivo(resolvido) != hash_registrado:
+                    continue
+                reutilizado = dict(registro)
+                reutilizado["caminho"] = str(candidato)
+                return candidato, reutilizado
+        return None
+
+    caminhos: list[Path] = []
+    registros: list[dict[str, Any]] = []
+    erros: list[str] = []
+    for url in extrair_urls_manifestacao(documentos):
+        permitido, motivo = _url_download_permitida(url)
+        if not permitido:
+            registros.append({"url_original": url, "status": "ignorado", "motivo": motivo})
+            continue
+        reutilizavel = captura_reutilizavel(url)
+        if reutilizavel is not None:
+            caminho, registro = reutilizavel
+            registros.append(registro)
+            caminhos.append(caminho)
+            continue
+        caminho, erro, metadados = baixar_recurso_url(url, destino)
+        if erro or caminho is None:
+            erros.append(f"{url}: {erro or 'download não materializado'}")
+            registros.append({"url_original": url, "status": "erro", "motivo": erro})
+            continue
+        registro = {
+            **metadados,
+            "status": "capturado",
+            "caminho": str(caminho),
+            "sha256": hash_arquivo(caminho),
+            "capturado_em": dt.datetime.now(dt.timezone.utc).isoformat(),
+        }
+        registros.append(registro)
+        caminhos.append(caminho)
+    if registros:
+        destino.mkdir(parents=True, exist_ok=True)
+        manifesto_path.write_text(
+            json.dumps(registros, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    return caminhos, registros, erros
+
+
 def _hash_json(valor: Any) -> str:
     return hashlib.sha256(json.dumps(valor, ensure_ascii=False, sort_keys=True, default=str).encode("utf-8")).hexdigest()
 
 
 def _selecionar_situacao(resposta: str, comentario: str, justificativa: str, uploads: list[dict[str, Any]]) -> bool:
-    valor = chave(resposta)
-    discordancia = valor.startswith("discorda")
-    atendimento = "ja atendeu" in valor or "ja esta atendendo" in valor
-    manifestacao_adicional = bool(comentario or justificativa or uploads)
-    return discordancia or atendimento or manifestacao_adicional
+    del comentario, justificativa, uploads
+    return chave(resposta) in RESPOSTAS_SECAO1_AVALIAVEIS
 
 
 def _itens_reavaliacao(itens: list[ItemAnterior], rota: dict[str, Any], prompt: Any) -> list[ItemAfirmado]:
@@ -643,6 +743,7 @@ def preparar_casos_comentarios(
     prompts_comentarios = carregar_prompts_comentarios(catalog_comentarios)
     casos: list[dict[str, Any]] = []
     deterministicos: list[dict[str, Any]] = []
+    fora_escopo_secao1: list[dict[str, Any]] = []
     erros: list[str] = []
 
     if secao == "1":
@@ -673,17 +774,15 @@ def preparar_casos_comentarios(
                     continue
                 cid = case_id("situacoes", auditado, codigo, row.get("id"))
                 if not _selecionar_situacao(resposta, comentario, justificativa, uploads):
-                    deterministicos.append(
-                        registro_deterministico_situacao(
-                            case_id_value=cid,
-                            auditado=auditado,
-                            codigo=codigo,
-                            resposta_id=row.get("id"),
-                            situacao=definicao.situacao,
-                            resposta=resposta,
-                            contexto=contexto,
-                        )
-                    )
+                    fora_escopo_secao1.append({
+                        "case_id": cid,
+                        "auditado": auditado,
+                        "codigo": codigo,
+                        "resposta": resposta,
+                        "motivo_exclusao": (
+                            "A alternativa não contesta a situação nem declara atendimento concluído."
+                        ),
+                    })
                     continue
                 caminhos: list[Path] = []
                 if uploads:
@@ -819,6 +918,9 @@ def preparar_casos_comentarios(
     if secao == "2":
         resumo["itens_excluidos_secao1"] = itens_excluidos
         resumo["total_itens_excluidos_secao1"] = len(itens_excluidos)
+    else:
+        resumo["casos_fora_escopo_avaliacao"] = fora_escopo_secao1
+        resumo["total_casos_fora_escopo_avaliacao"] = len(fora_escopo_secao1)
     return casos, deterministicos, excluidas, resumo
 
 
@@ -1517,6 +1619,16 @@ def carregar_revisoes_respostas(
                 "Motivo da pendência": "Revisão humana não corresponde a parecer consolidado vigente.",
             })
             continue
+        identidade_revisada = texto(revisao.get("identidade_parecer"))
+        if not identidade_revisada or identidade_revisada != texto(parecer.get("identity")):
+            pendencias.append({
+                "Auditado": auditado, "Código do item avaliado": "",
+                "Código da situação": codigo_situacao, "Case ID": cid,
+                "Motivo da pendência": (
+                    "Revisão humana ainda não revalidada para a identidade do novo parecer consolidado."
+                ),
+            })
+            continue
         for ajuste in ajustes:
             if not isinstance(ajuste, dict):
                 continue
@@ -1771,18 +1883,134 @@ def _itens_para_consolidacao(opinioes: list[dict[str, Any]]) -> list[ItemAfirmad
     ]
 
 
+def registro_tem_evidencia_documental(registro: dict[str, Any]) -> bool:
+    if "evidencia_documental_processada" in registro:
+        return bool(registro.get("evidencia_documental_processada"))
+    if registro.get("evidence_paths"):
+        return True
+    return any(
+        texto(item.get("status")) == "capturado"
+        for item in registro.get("links_manifestacao") or []
+        if isinstance(item, dict)
+    )
+
+
+def validar_justificativa_publicavel(
+    secao: str,
+    result: dict[str, Any],
+    *,
+    evidencia_documental_disponivel: bool | None = None,
+) -> list[str]:
+    conclusoes = result.get("conclusoes") or []
+    if not conclusoes:
+        return ["resultado sem conclusões para validar a justificativa publicável"]
+    justificativas = [texto(item.get("justificativa")) for item in conclusoes]
+    violacoes: list[str] = []
+    proibidas = re.compile(
+        r"data[- ]base|período auditado|período da auditoria|correç(?:ão|ao) posterior|"
+        r"posterior(?:es)? à data|momento da regularização",
+        flags=re.I,
+    )
+    artefatos_internos = re.compile(
+        r"\b(?:manifestacao_gestor\.json|contexto_situacao\.json|"
+        r"comentario_gestor\.txt|avaliacao_consolidada_anterior\.json|"
+        r"avaliacoes_individuais\.json|avisos_processamento_anexos\.json|"
+        r"nao_conformidade_original\.json)\b",
+        flags=re.I,
+    )
+    marcadores_nao_adaptados = re.compile(r"\b(?:o\s*\(\s*a\s*\)|a\s*\(\s*o\s*\))", flags=re.I)
+    prefixo_tecnico_upload = re.compile(r"\b\d{5}_\d{2}_[^\s,;]+", flags=re.I)
+    for justificativa in justificativas:
+        if proibidas.search(justificativa):
+            violacoes.append("justificativa destinada ao auditado contém referência temporal proibida")
+        if marcadores_nao_adaptados.search(justificativa):
+            violacoes.append("justificativa contém marcador de gênero não adaptado")
+        if prefixo_tecnico_upload.search(justificativa):
+            violacoes.append("justificativa expõe nome técnico de armazenamento do anexo")
+    for conclusao in conclusoes:
+        conteudo_publicavel = json.dumps(conclusao, ensure_ascii=False, default=str)
+        if artefatos_internos.search(conteudo_publicavel):
+            violacoes.append("conclusão destinada ao auditado cita artefato interno")
+        if evidencia_documental_disponivel is False and conclusao.get("arquivos_referenciados"):
+            violacoes.append("conclusão referencia documentos sem anexo ou link comprobatório")
+    if evidencia_documental_disponivel is False:
+        for justificativa in justificativas:
+            normalizada = chave(justificativa)
+            if "a organizacao nao apresentou documentacao comprobatoria" not in normalizada:
+                violacoes.append(
+                    "caso sem anexo ou link deve informar que a organização não apresentou documentação comprobatória"
+                )
+            if "apresentou como evidencia" in normalizada:
+                violacoes.append("caso sem anexo ou link não pode declarar evidência apresentada")
+
+    if secao == "1":
+        motivos = conclusoes[0].get("conclusoes_motivos") or []
+        estados = [texto(item.get("estado_motivo")) for item in motivos]
+        afastados = sum(estado == "afastado" for estado in estados)
+        if estados and afastados == len(estados):
+            abertura = "a manifestacao foi acolhida"
+            encerramento = "a situacao e considerada sanada"
+        elif afastados:
+            abertura = "a manifestacao foi parcialmente acolhida"
+            encerramento = "a inconformidade permanece"
+            if not re.search(r"documentacao(?: apresentada)? e insuficiente", chave(justificativas[0])):
+                violacoes.append(
+                    "acolhimento parcial deve declarar que a documentação é insuficiente para demonstrar integralmente a prática"
+                )
+        else:
+            abertura = "a manifestacao nao foi acolhida"
+            encerramento = "a inconformidade permanece"
+        normalizada = chave(justificativas[0])
+        if not normalizada.startswith(abertura):
+            violacoes.append(f"justificativa deve iniciar com '{abertura}'")
+        if encerramento not in normalizada:
+            violacoes.append(f"justificativa deve concluir que '{encerramento}'")
+    else:
+        if len(set(justificativas)) != 1:
+            violacoes.append("todas as conclusões da seção 2 devem repetir a mesma justificativa consolidada")
+        estados = [texto(item.get("estado")) for item in conclusoes]
+        conformes = sum(estado == "conforme" for estado in estados)
+        if conformes == len(estados):
+            abertura = "a reavaliacao foi acolhida"
+        elif conformes:
+            abertura = "a reavaliacao foi parcialmente acolhida"
+            if not re.search(r"documentacao(?: apresentada)? e insuficiente", chave(justificativas[0])):
+                violacoes.append(
+                    "acolhimento parcial deve declarar que a documentação é insuficiente para demonstrar integralmente a prática"
+                )
+        else:
+            abertura = "a reavaliacao nao foi acolhida"
+        normalizada = chave(justificativas[0])
+        if not normalizada.startswith(abertura):
+            violacoes.append(f"justificativa deve iniciar com '{abertura}'")
+        for conclusao in conclusoes:
+            codigo = chave(conclusao.get("item_codigo"))
+            if codigo and codigo not in normalizada:
+                violacoes.append(
+                    f"justificativa consolidada da seção 2 não menciona o item {conclusao.get('item_codigo')}"
+                )
+    return list(dict.fromkeys(violacoes))
+
+
 def _materializar_consolidado(
     checkpoint: Path,
     clean: Path,
     *,
     deterministicos: list[dict[str, Any]] | None = None,
     expected_case_ids: set[str] | None = None,
+    expected_identities: dict[str, str] | None = None,
 ) -> list[dict[str, Any]]:
     vigentes: dict[str, dict[str, Any]] = {}
     for registro in [*_ler_jsonl(checkpoint), *(deterministicos or [])]:
         if registro.get("status") != "completed" or not registro.get("case_id"):
             continue
         if expected_case_ids is not None and registro["case_id"] not in expected_case_ids:
+            continue
+        if (
+            expected_identities is not None
+            and texto(registro.get("origem_decisao")) != "regra_deterministica"
+            and registro.get("identity") != expected_identities.get(registro["case_id"])
+        ):
             continue
         origem = texto(registro.get("origem_decisao"))
         resultado = registro.get("result")
@@ -1793,6 +2021,18 @@ def _materializar_consolidado(
             validar_temporal=texto(registro.get("secao")) in {"1", "situacoes"},
         ):
             continue
+        if (
+            possui_resultado
+            and origem != "regra_deterministica"
+            and texto(registro.get("provider")) != "fake"
+        ):
+            secao_publicacao = "1" if texto(registro.get("secao")) in {"1", "situacoes"} else "2"
+            if validar_justificativa_publicavel(
+                secao_publicacao,
+                resultado,
+                evidencia_documental_disponivel=registro_tem_evidencia_documental(registro),
+            ):
+                continue
         atual = vigentes.get(registro["case_id"])
         if atual is None or texto(registro.get("finished_at")) >= texto(atual.get("finished_at")):
             vigentes[registro["case_id"]] = registro
@@ -2034,6 +2274,8 @@ def consolidar_casos(
     min_opinions: int = 2,
     reasoning: str = "high",
     rpm: int = 0,
+    tpm: int = 0,
+    max_parallel: int = 1,
     pdf2md: bool = False,
     docx2html: bool = False,
     pdf_detail: str = "auto",
@@ -2041,9 +2283,15 @@ def consolidar_casos(
     deterministic_path: Path | None = None,
     expected_case_ids: set[str] | None = None,
     selected_case_ids: set[str] | None = None,
+    refresh_links: bool = False,
     quiet: bool = False,
+    verbose: bool = False,
 ) -> dict[str, Any]:
     """Consolida opiniões por case_id e refaz o parecer quando o conjunto muda."""
+    if max_parallel < 1:
+        raise ValueError("max_parallel deve ser inteiro positivo")
+    if tpm < 0:
+        raise ValueError("tpm deve ser inteiro não negativo")
     modelos_esperados = set(expected_models)
     grupos = _latest_by_case_model(analyses_files, expected_models=modelos_esperados)
     if expected_case_ids is not None:
@@ -2066,6 +2314,8 @@ def consolidar_casos(
     limiter = RequestsPerMinuteLimiter(rpm)
     processados = concluidos = erros = pulados = pendentes = 0
     pendencias: list[dict[str, Any]] = []
+    identidades_geracao: dict[str, str] = {}
+    tarefas: list[dict[str, Any]] = []
 
     for index, (cid, por_modelo) in enumerate(sorted(grupos.items()), start=1):
         if selected_case_ids is not None and cid not in selected_case_ids:
@@ -2078,6 +2328,13 @@ def consolidar_casos(
             pendencias.append({"case_id": cid, "opinioes_validas": len(opinioes), "avaliadores_ausentes": ausentes})
             continue
         primeira = opinioes[0]
+        pacote_contexto = primeira.get("pacote_contexto_consolidacao") or {}
+        documentos = list(pacote_contexto.get("documentos") or [])
+        links_paths, links_manifestacao, erros_links = capturar_links_manifestacao(
+            documentos,
+            out_dir / "links-manifestacoes" / cid,
+            refresh=refresh_links,
+        )
         identity = _hash_json(
             {
                 "case_id": cid,
@@ -2090,67 +2347,118 @@ def consolidar_casos(
                 "pdf2md": pdf2md,
                 "docx2html": docx2html,
                 "pdf_detail": pdf_detail,
+                "links_manifestacao": [
+                    {
+                        "url_original": item.get("url_original"),
+                        "url_final": item.get("url_final"),
+                        "sha256": item.get("sha256"),
+                        "status": item.get("status"),
+                    }
+                    for item in links_manifestacao
+                ],
             }
         )
-        if _registro_avaliacao_utilizavel(por_identidade.get(identity)):
+        identidades_geracao[cid] = identity
+        # Uma seleção explícita representa reparo do parecer vigente. Nesse caso,
+        # não reutilize o checkpoint que motivou o reparo, ainda que sua identidade
+        # lógica continue a mesma; as avaliações individuais permanecem reutilizadas.
+        if selected_case_ids is None and _registro_avaliacao_utilizavel(por_identidade.get(identity)):
             pulados += 1
             continue
-        pacote_contexto = primeira.get("pacote_contexto_consolidacao") or {}
-        documentos = list(pacote_contexto.get("documentos") or [])
-        documentos.append(_documento("avaliacoes_individuais.json", "avaliacoes_individuais", [
-            {
-                "provider": r.get("provider"), "model": r.get("model"),
-                "model_key": r.get("model_key"), "result": r.get("result"),
-            }
-            for r in opinioes
-        ]))
-        # Avaliações do mesmo caso podem ter sido produzidas antes de uma nova
-        # extração dos anexos, que altera apenas o prefixo LimeSurvey do nome.
-        # Use todos os caminhos ainda existentes, sem deixar que a primeira
-        # opinião imponha ao juiz uma referência histórica já removida.
-        evidence_paths: list[Path] = []
-        caminhos_vistos: set[Path] = set()
-        for opiniao in opinioes:
-            for valor in opiniao.get("evidence_paths") or []:
-                caminho = Path(valor)
-                if caminho.is_file() and caminho not in caminhos_vistos:
-                    caminhos_vistos.add(caminho)
-                    evidence_paths.append(caminho)
-        started = dt.datetime.now(dt.timezone.utc)
-        avisos_processamento: list[dict[str, str]] = []
-        try:
-            with tempfile.TemporaryDirectory() as tmp:
-                pacote = {"documentos": documentos, "inventario": [d.get("nome", "") for d in documentos], "erro": "", "arquivos_upload": []}
-                for caminho in evidence_paths:
-                    preparado, arquivos, erro = preparar_evidencia_para_provider(caminho, tmp, pdf2md=pdf2md, docx2html=docx2html, dpi=150)
-                    if erro:
-                        _registrar_anexo_nao_processado(
-                            avisos_processamento, caminho, f"erro ao preparar: {erro}"
-                        )
-                        continue
-                    bloqueante = erro_tecnico_bloqueante_pacote(preparado, arquivos)
-                    if bloqueante:
-                        _registrar_anexo_nao_processado(
-                            avisos_processamento, caminho, bloqueante
-                        )
-                        continue
-                    pacote["documentos"].extend(preparado.documentos)
-                    pacote["inventario"].extend(preparado.inventario)
-                    pacote["arquivos_upload"].extend(arquivos)
-                if not pacote["documentos"] and not pacote["arquivos_upload"]:
-                    raise ValueError("consolidação sem opiniões, contexto ou evidência processável")
-                _adicionar_avisos_anexos_ao_pacote(pacote, avisos_processamento)
-                if judge_provider != "fake" and rpm:
-                    espera = limiter.wait_seconds()
-                    limiter.wait_and_mark(espera)
-                itens_autoritativos = _itens_para_consolidacao(opinioes)
-                if not itens_autoritativos:
-                    raise ValueError("caso sem itens autoritativos para consolidação")
+        tarefas.append({
+            "index": index,
+            "cid": cid,
+            "opinioes": opinioes,
+            "ausentes": ausentes,
+            "primeira": primeira,
+            "documentos": documentos,
+            "identity": identity,
+            "links_paths": links_paths,
+            "links_manifestacao": links_manifestacao,
+            "erros_links": erros_links,
+        })
+
+    key_pool = None
+    if judge_provider == "gemini" and tarefas:
+        key_pool = ExclusiveApiKeyPool(api_key("gemini"), rpm=rpm, tpm=tpm)
+        effective_workers = min(max_parallel, key_pool.key_count, len(tarefas))
+    elif judge_provider == "fake":
+        effective_workers = min(max_parallel, len(tarefas)) if tarefas else 1
+    else:
+        # O pool exclusivo solicitado e especifico do Gemini. Os demais
+        # providers preservam a execucao sequencial e sua rotacao historica.
+        effective_workers = 1
+
+    def executar_chamada(
+        *,
+        tarefa: dict[str, Any],
+        prompt_atual: str,
+        pacote: dict[str, Any],
+        itens_autoritativos: list[ItemAfirmado],
+    ) -> dict[str, Any]:
+        primeira = tarefa["primeira"]
+        cid = tarefa["cid"]
+        if key_pool is None:
+            if judge_provider != "fake" and rpm:
+                espera = limiter.wait_seconds()
+                limiter.wait_and_mark(espera)
+            return executar_provider(
+                provider=judge_provider,
+                model=judge_model,
+                api_key=api_key(judge_provider),
+                prompt=prompt_atual,
+                auditado=texto(primeira.get("auditado")),
+                questao_base=texto(primeira.get("codigo")),
+                coluna_evidencia=texto(primeira.get("coluna_evidencia")),
+                itens_afirmados=itens_autoritativos,
+                pacote=pacote,
+                reasoning_effort=reasoning,
+                response_profile=response_profile,
+                pdf_detail=pdf_detail,
+            )
+
+        tokens_info = estimar_tokens_payload(
+            prompt=prompt_atual,
+            auditado=texto(primeira.get("auditado")),
+            questao_base=texto(primeira.get("codigo")),
+            coluna_evidencia=texto(primeira.get("coluna_evidencia")),
+            itens_afirmados=itens_autoritativos,
+            pacote=pacote,
+            provider=judge_provider,
+            response_profile=response_profile,
+        )
+        while True:
+            lease = key_pool.acquire(
+                tokens=tokens_info["tokens_total"],
+                on_wait=(
+                    lambda fields: log_event(
+                        "comment_judge_key_wait",
+                        "Aguardando chave Gemini livre dentro dos limites por chave.",
+                        case_id=cid,
+                        index=tarefa["index"],
+                        total=len(grupos),
+                        secao=secao,
+                        rpm=rpm,
+                        tpm=tpm,
+                        **fields,
+                    )
+                ) if verbose and not quiet else None,
+            )
+            if verbose and not quiet:
+                log_event(
+                    "comment_judge_key_acquired",
+                    "Chave Gemini locada exclusivamente para o parecer.",
+                    case_id=cid,
+                    key=lease.label,
+                )
+            result: dict[str, Any] | None = None
+            cooldown = 0.0
+            try:
                 result = executar_provider(
                     provider=judge_provider,
                     model=judge_model,
-                    api_key=api_key(judge_provider),
-                    prompt=prompt,
+                    api_key=lease.key,
+                    prompt=prompt_atual,
                     auditado=texto(primeira.get("auditado")),
                     questao_base=texto(primeira.get("codigo")),
                     coluna_evidencia=texto(primeira.get("coluna_evidencia")),
@@ -2160,25 +2468,152 @@ def consolidar_casos(
                     response_profile=response_profile,
                     pdf_detail=pdf_detail,
                 )
-                if secao == "1" and judge_provider == "fake" and result.get("status") == "completed":
-                    result = _resultado_fake_temporal(result, (primeira.get("contexto") or {}).get("motivos", []))
-                if result.get("status") == "completed":
+                if resultado_429(result):
+                    cooldown = cooldown_429(result)
+            finally:
+                lease.release(cooldown_seconds=cooldown)
+            if not resultado_429(result):
+                if verbose and not quiet:
+                    log_event(
+                        "comment_judge_key_released",
+                        "Chave Gemini liberada após a chamada ao juiz.",
+                        case_id=cid,
+                        key=lease.label,
+                    )
+                return result or {"status": "error", "error": "resultado vazio do provider"}
+            if verbose and not quiet:
+                log_event(
+                    "comment_judge_key_cooldown",
+                    "Chave Gemini recebeu 429 e entrou em cooldown; o caso será repetido.",
+                    level="warning",
+                    case_id=cid,
+                    key=lease.label,
+                    cooldown_seconds=cooldown,
+                )
+
+    def processar_tarefa(tarefa: dict[str, Any]) -> dict[str, Any]:
+        cid = tarefa["cid"]
+        opinioes = tarefa["opinioes"]
+        primeira = tarefa["primeira"]
+        documentos = list(tarefa["documentos"])
+        documentos.append(_documento("avaliacoes_individuais.json", "avaliacoes_individuais", [
+            {
+                "provider": r.get("provider"), "model": r.get("model"),
+                "model_key": r.get("model_key"), "result": r.get("result"),
+            }
+            for r in opinioes
+        ]))
+        evidence_paths: list[Path] = []
+        caminhos_vistos: set[Path] = set()
+        for opiniao in opinioes:
+            for valor in opiniao.get("evidence_paths") or []:
+                caminho = Path(valor)
+                if caminho.is_file() and caminho not in caminhos_vistos:
+                    caminhos_vistos.add(caminho)
+                    evidence_paths.append(caminho)
+        for caminho in tarefa["links_paths"]:
+            if caminho not in caminhos_vistos:
+                caminhos_vistos.add(caminho)
+                evidence_paths.append(caminho)
+
+        started = dt.datetime.now(dt.timezone.utc)
+        avisos_processamento: list[dict[str, str]] = []
+        evidencia_documental_processada = False
+        try:
+            if tarefa["erros_links"]:
+                raise ValueError(
+                    "links .gov.br não puderam ser processados: "
+                    + "; ".join(tarefa["erros_links"])
+                )
+            with tempfile.TemporaryDirectory() as tmp:
+                pacote = {
+                    "documentos": documentos,
+                    "inventario": [d.get("nome", "") for d in documentos],
+                    "erro": "",
+                    "arquivos_upload": [],
+                }
+                conversion_context = _EVIDENCE_CONVERSION_LOCK if (pdf2md or docx2html) else nullcontext()
+                with conversion_context:
+                    for caminho in evidence_paths:
+                        preparado, arquivos, erro = preparar_evidencia_para_provider(
+                            caminho, tmp, pdf2md=pdf2md, docx2html=docx2html, dpi=150
+                        )
+                        if erro:
+                            _registrar_anexo_nao_processado(
+                                avisos_processamento, caminho, f"erro ao preparar: {erro}"
+                            )
+                            continue
+                        bloqueante = erro_tecnico_bloqueante_pacote(preparado, arquivos)
+                        if bloqueante:
+                            _registrar_anexo_nao_processado(
+                                avisos_processamento, caminho, bloqueante
+                            )
+                            continue
+                        if preparado.documentos or arquivos:
+                            evidencia_documental_processada = True
+                        pacote["documentos"].extend(preparado.documentos)
+                        pacote["inventario"].extend(preparado.inventario)
+                        pacote["arquivos_upload"].extend(arquivos)
+                if not pacote["documentos"] and not pacote["arquivos_upload"]:
+                    raise ValueError("consolidação sem opiniões, contexto ou evidência processável")
+                _adicionar_avisos_anexos_ao_pacote(pacote, avisos_processamento)
+                itens_autoritativos = _itens_para_consolidacao(opinioes)
+                if not itens_autoritativos:
+                    raise ValueError("caso sem itens autoritativos para consolidação")
+                prompt_tentativa = prompt
+                for tentativa in range(3):
+                    result = executar_chamada(
+                        tarefa=tarefa,
+                        prompt_atual=prompt_tentativa,
+                        pacote=pacote,
+                        itens_autoritativos=itens_autoritativos,
+                    )
+                    if secao == "1" and judge_provider == "fake" and result.get("status") == "completed":
+                        result = _resultado_fake_temporal(
+                            result, (primeira.get("contexto") or {}).get("motivos", [])
+                        )
+                    if result.get("status") != "completed":
+                        break
                     registro_escopo = {
                         "secao": secao,
                         "codigo": primeira.get("codigo"),
                         "itens": [asdict(item) for item in itens_autoritativos],
                         "contexto": primeira.get("contexto", {}),
                     }
-                    violacoes = validar_resultado_no_escopo(
+                    violacoes_escopo = validar_resultado_no_escopo(
                         registro_escopo,
                         result,
                         validar_temporal=secao == "1",
                     )
-                    if violacoes:
+                    violacoes_publicacao = (
+                        validar_justificativa_publicavel(
+                            secao,
+                            result,
+                            evidencia_documental_disponivel=evidencia_documental_processada,
+                        )
+                        if judge_provider != "fake" and not violacoes_escopo
+                        else []
+                    )
+                    if not violacoes_escopo and not violacoes_publicacao:
+                        break
+                    detalhes = []
+                    if violacoes_escopo:
+                        detalhes.append("escopo lógico: " + formatar_violacoes(violacoes_escopo))
+                    if violacoes_publicacao:
+                        detalhes.append("texto publicável: " + "; ".join(violacoes_publicacao))
+                    erro_validacao = " | ".join(detalhes)
+                    if judge_provider == "fake" or tentativa == 2:
                         result = {
                             "status": "error",
-                            "error": "parecer fora do escopo lógico do caso: " + formatar_violacoes(violacoes),
+                            "error": "parecer inválido após correção: " + erro_validacao,
                         }
+                        break
+                    prompt_tentativa = (
+                        prompt
+                        + "\n\nCORREÇÃO OBRIGATÓRIA: a resposta anterior foi rejeitada por: "
+                        + erro_validacao
+                        + ". Refaça integralmente a consolidação e cumpra exatamente o schema e o padrão textual."
+                    )
             status = result.get("status", "error")
             error = result.get("error", "")
         except Exception as exc:
@@ -2186,14 +2621,14 @@ def consolidar_casos(
             status = "error"
             error = str(exc)
         finished = dt.datetime.now(dt.timezone.utc)
-        registro = {
-            "identity": identity, "case_id": cid, "secao": primeira.get("secao"),
+        return {
+            "identity": tarefa["identity"], "case_id": cid, "secao": primeira.get("secao"),
             "auditado": primeira.get("auditado"), "codigo": primeira.get("codigo"),
             "questao": primeira.get("codigo"), "coluna_evidencia": primeira.get("coluna_evidencia"),
             "evidencia": primeira.get("evidencia", ""), "provider": judge_provider, "model": judge_model,
             "status": status, "error": error, "result": result,
             "opinioes_validas": len(opinioes), "opinioes_esperadas": len(expected_models),
-            "avaliadores_ausentes": ausentes,
+            "avaliadores_ausentes": tarefa["ausentes"],
             "opinioes": [
                 {
                     "identity": r.get("identity"), "provider": r.get("provider"),
@@ -2203,25 +2638,47 @@ def consolidar_casos(
             ],
             "contexto": primeira.get("contexto", {}),
             "itens": [asdict(item) for item in _itens_para_consolidacao(opinioes)],
-            "evidence_paths": primeira.get("evidence_paths", []),
+            "evidence_paths": [str(path) for path in evidence_paths],
+            "evidencia_documental_processada": evidencia_documental_processada,
+            "links_manifestacao": tarefa["links_manifestacao"],
             "avisos_processamento_evidencias": avisos_processamento,
             "started_at": started.isoformat(), "finished_at": finished.isoformat(),
             "duration_seconds": round((finished - started).total_seconds(), 3),
             "supersedes_identity": por_caso_anterior.get(cid, {}).get("identity", ""),
+            "_index": tarefa["index"],
         }
-        _append_jsonl(checkpoint, registro)
-        por_identidade[identity] = registro
-        if status == "completed":
-            por_caso_anterior[cid] = registro
-            concluidos += 1
-        else:
-            erros += 1
-        processados += 1
+
+    if tarefas:
         log_event(
-            "comment_consolidation_recorded", "Parecer de comentário consolidado.", quiet=quiet,
-            case_id=cid, index=index, total=len(grupos), secao=secao, status=status,
-            opinioes=len(opinioes), avaliadores_ausentes=ausentes, error=error,
+            "comment_consolidation_parallel_started",
+            "Consolidação paralela de comentários iniciada.",
+            quiet=quiet,
+            secao=secao,
+            max_parallel=max_parallel,
+            effective_workers=effective_workers,
+            gemini_keys=key_pool.key_count if key_pool is not None else 0,
+            rpm_per_key=rpm if key_pool is not None else 0,
+            tpm_per_key=tpm if key_pool is not None else 0,
         )
+        with ThreadPoolExecutor(max_workers=effective_workers) as executor:
+            futures = {executor.submit(processar_tarefa, tarefa): tarefa for tarefa in tarefas}
+            for future in as_completed(futures):
+                registro = future.result()
+                index = registro.pop("_index")
+                _append_jsonl(checkpoint, registro)
+                por_identidade[registro["identity"]] = registro
+                if registro["status"] == "completed":
+                    por_caso_anterior[registro["case_id"]] = registro
+                    concluidos += 1
+                else:
+                    erros += 1
+                processados += 1
+                log_event(
+                    "comment_consolidation_recorded", "Parecer de comentário consolidado.", quiet=quiet,
+                    case_id=registro["case_id"], index=index, total=len(grupos), secao=secao,
+                    status=registro["status"], opinioes=registro["opinioes_validas"],
+                    avaliadores_ausentes=registro["avaliadores_ausentes"], error=registro["error"],
+                )
     deterministicos = _ler_jsonl(deterministic_path) if deterministic_path else []
     ids_vigentes = None
     if expected_case_ids is not None:
@@ -2236,6 +2693,7 @@ def consolidar_casos(
         clean,
         deterministicos=deterministicos,
         expected_case_ids=ids_vigentes,
+        expected_identities=identidades_geracao if expected_case_ids is not None else None,
     )
     xlsx = out_dir / "pareceres_consolidados.xlsx"
     _gravar_pareceres_xlsx(xlsx, vigentes, grupos=grupos)
@@ -2245,6 +2703,10 @@ def consolidar_casos(
     return {
         "secao": secao, "grupos": len(grupos), "processados": processados, "concluidos": concluidos,
         "erros": erros, "pulados": pulados, "pendentes_quorum": pendentes,
+        "max_parallel": max_parallel, "effective_workers": effective_workers,
+        "gemini_keys": key_pool.key_count if key_pool is not None else 0,
+        "rpm_per_key": rpm if key_pool is not None else 0,
+        "tpm_per_key": tpm if key_pool is not None else 0,
         "checkpoint": str(checkpoint), "clean": str(clean), "xlsx": str(xlsx),
         "vigentes": len(vigentes), "pendencias": str(pendencias_path),
     }

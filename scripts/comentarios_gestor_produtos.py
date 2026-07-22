@@ -20,7 +20,12 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.comentarios_gestor_pipeline import consolidar_submissoes, ler_xlsx, texto
+from scripts.comentarios_gestor_pipeline import (
+    _selecionar_situacao,
+    consolidar_submissoes,
+    ler_xlsx,
+    texto,
+)
 
 
 ESTADOS_SANEADOS = {"afastada_na_data_base", "corrigida_posteriormente"}
@@ -42,12 +47,6 @@ def normalizar_data_referencia(value: str) -> str:
 
 def _limpar_fundamentacao(value: Any) -> str:
     value = re.sub(r"\s+", " ", texto(value)).strip()
-    frases = re.split(r"(?<=[.!?])\s+", value)
-    marcas_historicas = re.compile(
-        r"data[- ]base|período da auditoria|época da auditoria|correç(?:ão|ao) posterior|regulariza(?:ção|cao) após",
-        flags=re.I,
-    )
-    value = " ".join(frase for frase in frases if not marcas_historicas.search(frase)).strip()
     value = re.sub(r"\b(?:modelo|provider|provedor|juiz de ia)\b", "análise técnica", value, flags=re.I)
     return value or "Não foi registrada fundamentação conclusiva."
 
@@ -59,16 +58,24 @@ def _manifestacoes(respostas: Path) -> tuple[dict[str, dict[str, Any]], set[str]
     return por_orgao, set(por_orgao)
 
 
+def _campos_manifestacao_secao1(row: dict[str, Any], codigo: str) -> tuple[str, str, str]:
+    return (
+        texto(row.get(f"{codigo}Conc")),
+        texto(row.get(f"{codigo}Com")),
+        texto(row.get(f"{codigo}Jus")),
+    )
+
+
 def _decisao_secao1(conclusao: dict[str, Any]) -> tuple[str, str]:
     temporal = texto(conclusao.get("estado_temporal"))
     if temporal in ESTADOS_SANEADOS:
-        return "acolhida", "Situação não caracterizada na data de referência"
+        return "acolhida", "Situação não existente"
     if temporal == "mantida":
         motivos = conclusao.get("conclusoes_motivos") or []
         if motivos and any(texto(m.get("estado_motivo")) == "afastado" for m in motivos if isinstance(m, dict)):
-            return "parcialmente acolhida", "Situação mantida com alteração parcial de fundamentos"
-        return "não acolhida", "Situação mantida"
-    return "não acolhida", "Situação mantida"
+            return "parcialmente acolhida", "Situação existente"
+        return "não acolhida", "Situação existente"
+    return "não acolhida", "Situação existente"
 
 
 def _decisao_secao2(conclusoes: list[dict[str, Any]]) -> str:
@@ -80,13 +87,13 @@ def _decisao_secao2(conclusoes: list[dict[str, Any]]) -> str:
     return "não acolhida"
 
 
-def _texto_equipe_secao1(decisao: str, situacao_atual: str, fundamento: str, data: str) -> str:
+def _texto_equipe_secao1(decisao: str, fundamento: str) -> str:
     inicio = {
         "acolhida": "A manifestação foi acolhida.",
         "parcialmente acolhida": "A manifestação foi parcialmente acolhida.",
         "não acolhida": "A manifestação não foi acolhida.",
     }[decisao]
-    return f"{inicio} Em {data}, a avaliação concluiu: {situacao_atual.lower()}. {fundamento}"
+    return f"{inicio} {fundamento}"
 
 
 def _texto_equipe_secao2(decisao: str, itens: list[dict[str, Any]], fundamento: str, data: str) -> str:
@@ -136,6 +143,7 @@ def _carregar_revisoes(path: Path | None) -> dict[tuple[str, str, str], dict[str
                 "decisao": decisao,
                 "situacao_atual": texto(entry.get("situacao_atual")),
                 "manifestacao_equipe": texto(entry.get("manifestacao_equipe")),
+                "identidade_parecer": texto(entry.get("identidade_parecer")),
             }
         return revisoes
     wb = load_workbook(path, read_only=True, data_only=True)
@@ -197,31 +205,61 @@ def materializar(
         conclusao = conclusoes[0]
         decisao, situacao_atual = _decisao_secao1(conclusao)
         fundamento = _limpar_fundamentacao(conclusao.get("justificativa"))
-        manifestacao_equipe = _texto_equipe_secao1(decisao, situacao_atual, fundamento, data_referencia)
-        revisao = revisoes.get((sigla, "1", codigo), {})
+        manifestacao_equipe = fundamento
+        revisao_candidata = revisoes.get((sigla, "1", codigo), {})
+        revisao = (
+            revisao_candidata
+            if revisao_candidata.get("identidade_parecer") == texto(registro.get("identity"))
+            else {}
+        )
         decisao = revisao.get("decisao") or decisao
         situacao_atual = revisao.get("situacao_atual") or situacao_atual
         manifestacao_equipe = revisao.get("manifestacao_equipe") or manifestacao_equipe
         row_raw = respostas_orgao.get(sigla, {})
-        manifestacao_gestor = " ".join(filter(None, [
-            texto(row_raw.get(f"{codigo}Conc")), texto(row_raw.get(f"{codigo}Com")),
-            texto(row_raw.get(f"{codigo}Jus")),
-        ]))
+        alternativa_gestor, comentario_gestor, justificativa_gestor = _campos_manifestacao_secao1(
+            row_raw, codigo
+        )
+        if not _selecionar_situacao(
+            alternativa_gestor, comentario_gestor, justificativa_gestor, []
+        ):
+            continue
         contexto = registro.get("contexto") or {}
         item = {
             "codigo": codigo,
             "achado": texto(contexto.get("achado")),
             "situacao": texto(contexto.get("situacao") or conclusao.get("item_texto")),
-            "manifestacao_gestor": manifestacao_gestor or "Sem texto adicional apresentado.",
+            "alternativa_selecionada_gestor": alternativa_gestor,
+            "comentario_gestor": comentario_gestor,
+            "justificativa_gestor": justificativa_gestor,
             "decisao": decisao,
             "situacao_atual": situacao_atual,
             "manifestacao_equipe": manifestacao_equipe,
+            "comentarios_encaminhamento": texto(conclusao.get("comentarios_encaminhamento")),
             "case_id": texto(registro.get("case_id")),
             "identidade_parecer": texto(registro.get("identity")),
         }
         por_orgao[sigla]["situacoes"].append(item)
-        linhas_s1.append({"Auditado": sigla, "Seção": "1", "Código": codigo, **item,
-                          "Decisão revisada": "", "Manifestação revisada da equipe": ""})
+        item_planilha = {
+            chave: valor
+            for chave, valor in item.items()
+            if chave not in {
+                "alternativa_selecionada_gestor",
+                "comentario_gestor",
+                "justificativa_gestor",
+                "comentarios_encaminhamento",
+            }
+        }
+        linhas_s1.append({
+            "Auditado": sigla,
+            "Seção": "1",
+            "Código": codigo,
+            "Alternativa selecionada pelo gestor": item["alternativa_selecionada_gestor"],
+            "Comentário do gestor": item["comentario_gestor"],
+            "Justificativa do gestor": item["justificativa_gestor"],
+            **item_planilha,
+            "Decisão revisada": "",
+            "Manifestação revisada da equipe": "",
+        })
 
     for registro in ler_jsonl(consolidado_secao2):
         if registro.get("status") != "completed":
@@ -233,8 +271,13 @@ def materializar(
             continue
         decisao = _decisao_secao2(conclusoes)
         fundamentos = " ".join(dict.fromkeys(_limpar_fundamentacao(c.get("justificativa")) for c in conclusoes))
-        manifestacao_equipe = _texto_equipe_secao2(decisao, conclusoes, fundamentos, data_referencia)
-        revisao = revisoes.get((sigla, "2", codigo), {})
+        manifestacao_equipe = fundamentos
+        revisao_candidata = revisoes.get((sigla, "2", codigo), {})
+        revisao = (
+            revisao_candidata
+            if revisao_candidata.get("identidade_parecer") == texto(registro.get("identity"))
+            else {}
+        )
         decisao = revisao.get("decisao") or decisao
         manifestacao_equipe = revisao.get("manifestacao_equipe") or manifestacao_equipe
         item = {

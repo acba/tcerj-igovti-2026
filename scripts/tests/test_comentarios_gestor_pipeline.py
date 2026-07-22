@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import tempfile
 import unittest
@@ -42,14 +43,17 @@ from scripts.comentarios_gestor_pipeline import (
     _selecionar_situacao,
     avaliar_casos,
     carregar_rotas_catalogo,
+    capturar_links_manifestacao,
     consolidar_casos,
     executar_caso,
+    extrair_urls_manifestacao,
     filtrar_itens_saneados_secao1,
     gerar_painel_evidencias_pos_comentarios,
     gravar_avaliacoes_modelos_xlsx,
     mapear_ajustes_secao1,
     materializar_checkpoint_limpo_modelo,
     parse_uploads,
+    validar_justificativa_publicavel,
 )
 from scripts.run_comentarios_gestor import DEFAULT_MODELS_CONFIG, carregar_configuracao_modelos, models
 
@@ -91,6 +95,177 @@ def opinion(case_id: str, provider: str, model: str) -> dict:
 
 
 class ComentariosGestorPipelineTest(unittest.TestCase):
+    def test_captured_manager_link_is_reused_with_its_original_hash(self) -> None:
+        documentos = [{"tipo": "comentario_gestor", "texto": "https://www.exemplo.gov.br/pedtic"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp) / "links"
+
+            def baixar(url: str, pasta: Path):
+                caminho = pasta / "pedtic.html"
+                caminho.parent.mkdir(parents=True, exist_ok=True)
+                caminho.write_text('<script data-rpid="primeiro"></script>', encoding="utf-8")
+                return caminho, "", {
+                    "url_original": url,
+                    "url_final": url,
+                    "content_type": "text/html",
+                }
+
+            with patch("scripts.comentarios_gestor_pipeline.baixar_recurso_url", side_effect=baixar) as download:
+                primeiros, registros_primeiros, erros_primeiros = capturar_links_manifestacao(documentos, destino)
+                segundos, registros_segundos, erros_segundos = capturar_links_manifestacao(documentos, destino)
+
+        self.assertEqual(download.call_count, 1)
+        self.assertEqual(erros_primeiros, [])
+        self.assertEqual(erros_segundos, [])
+        self.assertEqual(primeiros, segundos)
+        self.assertEqual(registros_primeiros, registros_segundos)
+
+    def test_captured_manager_link_is_refreshed_only_when_requested(self) -> None:
+        documentos = [{"tipo": "comentario_gestor", "texto": "https://www.exemplo.gov.br/pedtic"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp) / "links"
+            chamadas = 0
+
+            def baixar(url: str, pasta: Path):
+                nonlocal chamadas
+                chamadas += 1
+                caminho = pasta / f"pedtic-{chamadas}.html"
+                caminho.parent.mkdir(parents=True, exist_ok=True)
+                caminho.write_text(f'<script data-rpid="{chamadas}"></script>', encoding="utf-8")
+                return caminho, "", {
+                    "url_original": url,
+                    "url_final": url,
+                    "content_type": "text/html",
+                }
+
+            with patch("scripts.comentarios_gestor_pipeline.baixar_recurso_url", side_effect=baixar):
+                _, primeiros, _ = capturar_links_manifestacao(documentos, destino)
+                _, segundos, _ = capturar_links_manifestacao(documentos, destino, refresh=True)
+
+        self.assertEqual(chamadas, 2)
+        self.assertNotEqual(primeiros[0]["sha256"], segundos[0]["sha256"])
+
+    def test_invalid_cached_manager_link_is_captured_again(self) -> None:
+        documentos = [{"tipo": "comentario_gestor", "texto": "https://www.exemplo.gov.br/pedtic"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            destino = Path(tmp) / "links"
+            destino.mkdir(parents=True)
+            captura = destino / "pedtic.html"
+            captura.write_text("conteudo adulterado", encoding="utf-8")
+            (destino / "manifesto-links.json").write_text(
+                json.dumps([
+                    {
+                        "url_original": "https://www.exemplo.gov.br/pedtic",
+                        "url_final": "https://www.exemplo.gov.br/pedtic",
+                        "content_type": "text/html",
+                        "status": "capturado",
+                        "caminho": str(captura),
+                        "sha256": "hash-incorreto",
+                        "capturado_em": "2026-07-22T00:00:00+00:00",
+                    }
+                ]),
+                encoding="utf-8",
+            )
+
+            def baixar(url: str, pasta: Path):
+                caminho = pasta / "pedtic-novo.html"
+                caminho.write_text("nova captura", encoding="utf-8")
+                return caminho, "", {
+                    "url_original": url,
+                    "url_final": url,
+                    "content_type": "text/html",
+                }
+
+            with patch("scripts.comentarios_gestor_pipeline.baixar_recurso_url", side_effect=baixar) as download:
+                caminhos, registros, erros = capturar_links_manifestacao(documentos, destino)
+
+        self.assertEqual(download.call_count, 1)
+        self.assertEqual(erros, [])
+        self.assertEqual(caminhos[0].name, "pedtic-novo.html")
+        self.assertNotEqual(registros[0]["sha256"], "hash-incorreto")
+
+    def test_cached_manager_link_outside_case_directory_is_not_reused(self) -> None:
+        documentos = [{"tipo": "comentario_gestor", "texto": "https://www.exemplo.gov.br/pedtic"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            destino = root / "links"
+            destino.mkdir()
+            externo = root / "fora-do-caso.html"
+            externo.write_text("conteudo externo", encoding="utf-8")
+            hash_externo = hashlib.sha256(externo.read_bytes()).hexdigest()
+            (destino / "manifesto-links.json").write_text(
+                json.dumps([
+                    {
+                        "url_original": "https://www.exemplo.gov.br/pedtic",
+                        "url_final": "https://www.exemplo.gov.br/pedtic",
+                        "content_type": "text/html",
+                        "status": "capturado",
+                        "caminho": str(externo),
+                        "sha256": hash_externo,
+                    }
+                ]),
+                encoding="utf-8",
+            )
+
+            def baixar(url: str, pasta: Path):
+                caminho = pasta / "captura-valida.html"
+                caminho.write_text("captura valida", encoding="utf-8")
+                return caminho, "", {
+                    "url_original": url,
+                    "url_final": url,
+                    "content_type": "text/html",
+                }
+
+            with patch("scripts.comentarios_gestor_pipeline.baixar_recurso_url", side_effect=baixar) as download:
+                caminhos, _, erros = capturar_links_manifestacao(documentos, destino)
+
+        self.assertEqual(download.call_count, 1)
+        self.assertEqual(erros, [])
+        self.assertEqual(caminhos[0].name, "captura-valida.html")
+
+    def test_unchanged_captured_link_skips_second_judge_consolidation(self) -> None:
+        url = "https://www.exemplo.gov.br/pedtic"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            paths = []
+            for provider_name, model in (("p1", "m1"), ("p2", "m2")):
+                record = opinion("case-link-cache", provider_name, model)
+                record["pacote_contexto_consolidacao"] = {
+                    "documentos": [{"nome": "comentario_gestor.txt", "tipo": "comentario_gestor", "texto": url}],
+                    "inventario": ["comentario_gestor.txt"],
+                    "erro": "",
+                }
+                path = root / f"{provider_name}.jsonl"
+                path.write_text(json.dumps(record) + "\n", encoding="utf-8")
+                paths.append(path)
+
+            def baixar(link: str, pasta: Path):
+                caminho = pasta / "pedtic.html"
+                caminho.parent.mkdir(parents=True, exist_ok=True)
+                caminho.write_text('<script data-rpid="dinamico"></script>', encoding="utf-8")
+                return caminho, "", {
+                    "url_original": link,
+                    "url_final": link,
+                    "content_type": "text/html",
+                }
+
+            with patch("scripts.comentarios_gestor_pipeline.baixar_recurso_url", side_effect=baixar) as download:
+                first = consolidar_casos(
+                    analyses_files=paths, out_dir=root / "out", secao="2",
+                    expected_models=["m1", "m2"], judge_provider="fake", judge_model="judge",
+                    min_opinions=2, quiet=True,
+                )
+                second = consolidar_casos(
+                    analyses_files=paths, out_dir=root / "out", secao="2",
+                    expected_models=["m1", "m2"], judge_provider="fake", judge_model="judge",
+                    min_opinions=2, quiet=True,
+                )
+
+        self.assertEqual(download.call_count, 1)
+        self.assertEqual(first["concluidos"], 1)
+        self.assertEqual(second["pulados"], 1)
+        self.assertEqual(second["concluidos"], 0)
+
     def test_catalog_v3_preserves_evaluator_prompts_and_changes_only_judge(self) -> None:
         catalogs = Path("scripts/avaliacao_evidencias/prompt_catalogs")
         v2 = yaml.safe_load((catalogs / "igovti_2026_comentarios_gestor_atual_v2.yml").read_text(encoding="utf-8"))
@@ -711,8 +886,171 @@ class ComentariosGestorPipelineTest(unittest.TestCase):
 
     def test_section_one_selection_rule(self) -> None:
         self.assertFalse(_selecionar_situacao("Concorda, mas ainda não adotou nenhuma medida", "", "", []))
-        self.assertTrue(_selecionar_situacao("Discorda da sinalização", "Justificativa", "", []))
-        self.assertTrue(_selecionar_situacao("Concorda e já está atendendo", "", "", []))
+        self.assertTrue(_selecionar_situacao("Discorda da sinalização de inadequação", "Justificativa", "", []))
+        self.assertFalse(_selecionar_situacao("Concorda e já está atendendo", "", "", []))
+        self.assertTrue(_selecionar_situacao("Concorda e já atendeu às propostas de encaminhamento", "", "", []))
+        self.assertFalse(
+            _selecionar_situacao(
+                "Concorda, mas ainda não adotou nenhuma medida",
+                "Comentário adicional",
+                "Justificativa adicional",
+                [{"name": "evidencia.pdf"}],
+            )
+        )
+
+    def test_justificativa_publicavel_secao1_rejeita_temporalidade(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A2G4",
+                "justificativa": (
+                    "A manifestação foi acolhida. A documentação é suficiente. "
+                    "A correção ocorreu posteriormente à data-base. Assim, a situação é considerada sanada."
+                ),
+                "conclusoes_motivos": [{"id_motivo": "MR016", "estado_motivo": "afastado"}],
+            }]
+        }
+        self.assertTrue(validar_justificativa_publicavel("1", result))
+
+    def test_justificativa_publicavel_secao1_aceita_padrao_coerente(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A2G4",
+                "justificativa": (
+                    "A manifestação foi acolhida. A organização apresentou como evidência a Portaria 1. "
+                    "A documentação é suficiente para demonstrar a formalização do comitê, pois comprova "
+                    "sua instituição. Assim, a situação é considerada sanada."
+                ),
+                "conclusoes_motivos": [{"id_motivo": "MR016", "estado_motivo": "afastado"}],
+            }]
+        }
+        self.assertEqual(validar_justificativa_publicavel("1", result), [])
+
+    def test_justificativa_publicavel_rejeita_artefato_interno_como_evidencia(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A5G20",
+                "justificativa": (
+                    "A manifestação não foi acolhida. A organização apresentou como evidência o(a) "
+                    "manifestacao_gestor.json. A documentação é insuficiente para demonstrar a "
+                    "existência do controle. Assim, a inconformidade permanece."
+                ),
+                "conclusoes_motivos": [{"id_motivo": "MR075", "estado_motivo": "mantido"}],
+            }]
+        }
+        violacoes = validar_justificativa_publicavel("1", result)
+        self.assertIn(
+            "conclusão destinada ao auditado cita artefato interno",
+            violacoes,
+        )
+
+    def test_justificativa_publicavel_rejeita_artefato_interno_em_metadados(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A5G20",
+                "justificativa": (
+                    "A manifestação não foi acolhida. A organização não apresentou documentação "
+                    "comprobatória. Assim, a inconformidade permanece."
+                ),
+                "arquivos_referenciados": ["contexto_situacao.json"],
+                "conclusoes_motivos": [{"id_motivo": "MR075", "estado_motivo": "mantido"}],
+            }]
+        }
+        self.assertIn(
+            "conclusão destinada ao auditado cita artefato interno",
+            validar_justificativa_publicavel("1", result),
+        )
+
+    def test_justificativa_publicavel_sem_anexo_exige_declaracao_expressa(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A5G22",
+                "justificativa": (
+                    "A manifestação não foi acolhida. A organização apresentou como evidência a "
+                    "documentação comprobatória. A documentação é insuficiente. "
+                    "Assim, a inconformidade permanece."
+                ),
+                "arquivos_referenciados": [],
+                "conclusoes_motivos": [{"id_motivo": "MR066", "estado_motivo": "mantido"}],
+            }]
+        }
+        violacoes = validar_justificativa_publicavel(
+            "1", result, evidencia_documental_disponivel=False
+        )
+        self.assertIn(
+            "caso sem anexo ou link deve informar que a organização não apresentou documentação comprobatória",
+            violacoes,
+        )
+        self.assertIn("caso sem anexo ou link não pode declarar evidência apresentada", violacoes)
+
+    def test_justificativa_publicavel_sem_anexo_rejeita_arquivo_referenciado(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A3G11",
+                "justificativa": (
+                    "A manifestação não foi acolhida. A organização não apresentou documentação "
+                    "comprobatória. Assim, a inconformidade permanece."
+                ),
+                "arquivos_referenciados": ["Portaria 1/2026"],
+                "conclusoes_motivos": [{"id_motivo": "MR034", "estado_motivo": "mantido"}],
+            }]
+        }
+        self.assertIn(
+            "conclusão referencia documentos sem anexo ou link comprobatório",
+            validar_justificativa_publicavel(
+                "1", result, evidencia_documental_disponivel=False
+            ),
+        )
+
+    def test_justificativa_publicavel_rejeita_marcador_e_nome_tecnico(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A5G20",
+                "justificativa": (
+                    "A manifestação não foi acolhida. A organização apresentou como evidência o(a) "
+                    "documento 00036_02_imagens-gestao-de-ativos.pdf. A documentação é insuficiente. "
+                    "Assim, a inconformidade permanece."
+                ),
+                "conclusoes_motivos": [{"id_motivo": "MR075", "estado_motivo": "mantido"}],
+            }]
+        }
+        violacoes = validar_justificativa_publicavel(
+            "1", result, evidencia_documental_disponivel=True
+        )
+        self.assertIn("justificativa contém marcador de gênero não adaptado", violacoes)
+        self.assertIn("justificativa expõe nome técnico de armazenamento do anexo", violacoes)
+
+    def test_justificativa_publicavel_parcial_exige_insuficiencia_integral(self) -> None:
+        result = {
+            "conclusoes": [{
+                "item_codigo": "A2G6",
+                "justificativa": (
+                    "A manifestação foi parcialmente acolhida. A organização apresentou como evidência "
+                    "o Decreto 1/2026. A documentação é suficiente para demonstrar a formalização. "
+                    "Assim, a inconformidade permanece."
+                ),
+                "conclusoes_motivos": [
+                    {"id_motivo": "MR008", "estado_motivo": "afastado"},
+                    {"id_motivo": "MR010", "estado_motivo": "mantido"},
+                ],
+            }]
+        }
+        self.assertIn(
+            "acolhimento parcial deve declarar que a documentação é insuficiente para demonstrar integralmente a prática",
+            validar_justificativa_publicavel(
+                "1", result, evidencia_documental_disponivel=True
+            ),
+        )
+
+    def test_links_sao_extraidos_somente_da_manifestacao_do_gestor(self) -> None:
+        documentos = [
+            {"tipo": "manifestacao_gestor", "texto": "Consulte https://www.rj.gov.br/ato.pdf."},
+            {"tipo": "comentario_gestor", "texto": "Também https://dados.gov.br/pagina?q=1"},
+            {"tipo": "contexto_auditoria", "texto": "Ignore https://criterio.gov.br/referencia"},
+        ]
+        self.assertEqual(
+            extrair_urls_manifestacao(documentos),
+            ["https://www.rj.gov.br/ato.pdf", "https://dados.gov.br/pagina?q=1"],
+        )
 
     def test_q2804_uses_specific_evidence_route(self) -> None:
         routes = carregar_rotas_catalogo(DEFAULT_CATALOG)

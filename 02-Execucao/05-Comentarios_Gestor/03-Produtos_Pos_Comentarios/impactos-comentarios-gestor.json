@@ -12,14 +12,14 @@
   },
   "AGERIO": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 12,
-    "situacoes_removidas": 6,
+    "situacoes_atuais": 11,
+    "situacoes_removidas": 7,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.4338685236850021,
-    "igovti_atual": 0.4793019068684717,
-    "variacao_igovti": 0.04543338318346957
+    "igovti_atual": 0.4940729802266843,
+    "variacao_igovti": 0.06020445654168216
   },
   "AGETRANSP": {
     "situacoes_antes": 20,
@@ -155,8 +155,8 @@
   },
   "CECIERJ": {
     "situacoes_antes": 20,
-    "situacoes_atuais": 20,
-    "situacoes_removidas": 0,
+    "situacoes_atuais": 19,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -529,14 +529,14 @@
   },
   "ISP": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 16,
-    "situacoes_removidas": 2,
+    "situacoes_atuais": 15,
+    "situacoes_removidas": 3,
     "achados_antes": 6,
     "achados_atuais": 6,
     "achados_removidos": 0,
     "igovti_anterior": 0.4407467228894335,
-    "igovti_atual": 0.4543064625116398,
-    "variacao_igovti": 0.013559739622206302
+    "igovti_atual": 0.4610863323227429,
+    "variacao_igovti": 0.02033960943330937
   },
   "ITAGUAÍ": {
     "situacoes_antes": 18,
@@ -595,8 +595,8 @@
   },
   "LOTERJ": {
     "situacoes_antes": 20,
-    "situacoes_atuais": 19,
-    "situacoes_removidas": 2,
+    "situacoes_atuais": 20,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -650,14 +650,14 @@
   },
   "MPERJ": {
     "situacoes_antes": 10,
-    "situacoes_atuais": 6,
-    "situacoes_removidas": 4,
+    "situacoes_atuais": 7,
+    "situacoes_removidas": 3,
     "achados_antes": 3,
     "achados_atuais": 2,
     "achados_removidos": 1,
     "igovti_anterior": 0.6571131403027882,
-    "igovti_atual": 0.7174889157660744,
-    "variacao_igovti": 0.06037577546328621
+    "igovti_atual": 0.7102982000691678,
+    "variacao_igovti": 0.05318505976637955
   },
   "NITERÓI": {
     "situacoes_antes": 15,
@@ -936,8 +936,8 @@
   },
   "SEDEC": {
     "situacoes_antes": 14,
-    "situacoes_atuais": 13,
-    "situacoes_removidas": 1,
+    "situacoes_atuais": 14,
+    "situacoes_removidas": 0,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -1046,8 +1046,8 @@
   },
   "SEINFRA": {
     "situacoes_antes": 20,
-    "situacoes_atuais": 19,
-    "situacoes_removidas": 2,
+    "situacoes_atuais": 18,
+    "situacoes_removidas": 3,
     "achados_antes": 6,
     "achados_atuais": 6,
     "achados_removidos": 0,
@@ -1140,8 +1140,8 @@
     "achados_atuais": 4,
     "achados_removidos": 0,
     "igovti_anterior": 0.730627879068066,
-    "igovti_atual": 0.751109300909877,
-    "variacao_igovti": 0.02048142184181101
+    "igovti_atual": 0.7545689962328395,
+    "variacao_igovti": 0.02394111716477343
   },
   "SETRAB": {
     "situacoes_antes": 20,
@@ -1156,11 +1156,11 @@
   },
   "SETRANS": {
     "situacoes_antes": 21,
-    "situacoes_atuais": 19,
-    "situacoes_removidas": 2,
+    "situacoes_atuais": 18,
+    "situacoes_removidas": 3,
     "achados_antes": 6,
-    "achados_atuais": 6,
-    "achados_removidos": 0,
+    "achados_atuais": 5,
+    "achados_removidos": 1,
     "igovti_anterior": 0.1128734585880629,
     "igovti_atual": 0.1128734585880629,
     "variacao_igovti": 0.0
@@ -1211,8 +1211,8 @@
   },
   "SÃO JOÃO DE MERITI": {
     "situacoes_antes": 22,
-    "situacoes_atuais": 18,
-    "situacoes_removidas": 4,
+    "situacoes_atuais": 19,
+    "situacoes_removidas": 3,
     "achados_antes": 6,
     "achados_atuais": 5,
     "achados_removidos": 1,
@@ -1228,13 +1228,13 @@
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.2143910869258308,
-    "igovti_atual": 0.2422405963216705,
-    "variacao_igovti": 0.02784950939583969
+    "igovti_atual": 0.2446157937919437,
+    "variacao_igovti": 0.030224706866112894
   },
   "TCE-RJ": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 14,
-    "situacoes_removidas": 4,
+    "situacoes_atuais": 15,
+    "situacoes_removidas": 3,
     "achados_antes": 6,
     "achados_atuais": 5,
     "achados_removidos": 1,
@@ -1288,8 +1288,8 @@
   },
   "UERJ": {
     "situacoes_antes": 19,
-    "situacoes_atuais": 18,
-    "situacoes_removidas": 1,
+    "situacoes_atuais": 19,
+    "situacoes_removidas": 0,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,

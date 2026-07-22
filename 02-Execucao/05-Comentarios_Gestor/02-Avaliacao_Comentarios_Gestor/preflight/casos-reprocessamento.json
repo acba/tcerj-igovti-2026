@@ -1,133 +1,7 @@
 {
   "schema_version": 1,
   "secoes": {
-    "1": [
-      {
-        "case_id": "1336a392a480903a0905bd0217860b2e61f3b958739e8d77260406291b2cb6f8",
-        "auditado": "NOVA IGUAÇU",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
-        "auditado": "LOTERJ",
-        "codigo": "A2G4"
-      },
-      {
-        "case_id": "3569c22f42020a7f8176d85ed4e6d2b6faf734cdcb849f22f1d70d05b62c20c9",
-        "auditado": "NITERÓI",
-        "codigo": "A3G10"
-      },
-      {
-        "case_id": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
-        "auditado": "ANGRA DOS REIS",
-        "codigo": "A1G3"
-      },
-      {
-        "case_id": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
-        "auditado": "RIO DAS OSTRAS",
-        "codigo": "A2G5"
-      },
-      {
-        "case_id": "4c202302c27af6bb12bbcc3ca1d0bad370a35ce94ee90449eeda9446957c15a5",
-        "auditado": "SÃO JOÃO DE MERITI",
-        "codigo": "A4G12"
-      },
-      {
-        "case_id": "5e5d2b29b820db96a49c59122ed15b34d76bd11aa4adbed3f146ed1bef9a4b88",
-        "auditado": "UERJ",
-        "codigo": "A5G20"
-      },
-      {
-        "case_id": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
-        "auditado": "AGERIO",
-        "codigo": "A2G5"
-      },
-      {
-        "case_id": "6bcd318d42529bb6f7e25de38a682cbb68bd10b2f88b7e7676c59a4037f50d0d",
-        "auditado": "SÃO PEDRO DA ALDEIA",
-        "codigo": "A2G4"
-      },
-      {
-        "case_id": "8640281c5f426759000892053baaa7c629a0ee57e83e86945f6bde4170dccf57",
-        "auditado": "UERJ",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "8d925d5237887e57e31b795b34166bd32fff1d92f79425454d08b58b030eb0e2",
-        "auditado": "MPERJ",
-        "codigo": "A5G22"
-      },
-      {
-        "case_id": "99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9",
-        "auditado": "SETD",
-        "codigo": "A5G21"
-      },
-      {
-        "case_id": "9ef624e690c3ef3dced030f26e38cbfa5c9e2384f2d7d5717cb88c31f74dd873",
-        "auditado": "SEINFRA",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
-        "auditado": "JUCERJA",
-        "codigo": "A6G23"
-      },
-      {
-        "case_id": "ad5828c6c9051df8f774ab86b180180849e5e37ab169470e5aa153cdf2329933",
-        "auditado": "SÃO PEDRO DA ALDEIA",
-        "codigo": "A5G20"
-      },
-      {
-        "case_id": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
-        "auditado": "AGERIO",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "b614e4deeab2509e70b7ab78e0ac43ead02f2d0c9033cb0b1ea9522de8952b99",
-        "auditado": "SEENEMAR",
-        "codigo": "A2G4"
-      },
-      {
-        "case_id": "bf10ca12ac92b942910d32097267f4684f131aab861486bf0054fad7616e8c14",
-        "auditado": "FUNARJ",
-        "codigo": "A3G8"
-      },
-      {
-        "case_id": "c161de28eda93e86df557d6ff75edde6204c9ffd9b33404343c1c37e5936a736",
-        "auditado": "CECIERJ",
-        "codigo": "A4G17"
-      },
-      {
-        "case_id": "c3bc055f30269aa723bbb963323320f4946b741763a70ee0704e92df09ad4a30",
-        "auditado": "TJRJ",
-        "codigo": "A3G11"
-      },
-      {
-        "case_id": "cae0c4dcc262727d54a42e9015efda671c11e1ca7d619a04be9b670a294f35d4",
-        "auditado": "TCE-RJ",
-        "codigo": "A3G10"
-      },
-      {
-        "case_id": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
-        "auditado": "JAPERI",
-        "codigo": "A2G4"
-      },
-      {
-        "case_id": "d65e396df67f7f9a86b2ebdf1bde42ea065cfde3a8cbffcc4cc67cf2ae9e22cb",
-        "auditado": "IPEM",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "e3d14900cb0a59c5c63bee4f9c1654dfcfd652837b15f9e59fa119dc3ad3a20d",
-        "auditado": "SÃO JOÃO DE MERITI",
-        "codigo": "A2G6"
-      },
-      {
-        "case_id": "fcc7c0714d8fc70feb4fe5c177a3cfaae61634c4ee21e21f10935698d36e315b",
-        "auditado": "SÃO JOÃO DE MERITI",
-        "codigo": "A1G3"
-      }
-    ],
+    "1": [],
     "2": [
       {
         "case_id": "106bcb1bd945edcc8b8fb6be9cbd11e76f87114eaf74c13d6a3f06077d4e7f90",
@@ -150,19 +24,9 @@
         "codigo": "q1001"
       },
       {
-        "case_id": "3576e421522b01fa72ff4d4972945e49168f10ddd46bf837f376f5877640f189",
-        "auditado": "RIOPREVIDENCIA",
-        "codigo": "q2702"
-      },
-      {
         "case_id": "4232840715c928cf6ee8fe7075f49f09c0d1b1fc4f1c15e8d36d8c2d27945ca8",
         "auditado": "ARRAIAL DO CABO",
         "codigo": "q1001"
-      },
-      {
-        "case_id": "48446bedbda36d79b518f1da7ea9892b3baf20ee67e0ae6abc17f1e712711687",
-        "auditado": "ISP",
-        "codigo": "q2802"
       },
       {
         "case_id": "5610c374c926afbb84b45d7828c6bc807190b1f45835a3651f2ff210d572278c",
@@ -180,23 +44,43 @@
         "codigo": "q2203"
       },
       {
-        "case_id": "7fc9ba3846587f5d457419202781016e3b5356eb11a1339d47c52ce307e6d74a",
-        "auditado": "ISP",
-        "codigo": "q2102"
-      },
-      {
         "case_id": "927e0aa31ea3fb45bfd42331e950faf05b9ed68d759b57a29776dac055ce01da",
         "auditado": "TJRJ",
         "codigo": "q2804"
       },
       {
-        "case_id": "96a850cf85ec953fe1948efc89d29f5d6039068d584194a642a6bfcc33d6ce84",
-        "auditado": "MPERJ",
+        "case_id": "95f7d097bfa1e260fc8eaf7d7bfc6b8496d8f5def0e230c32e7925fea6891360",
+        "auditado": "SEINFRA",
+        "codigo": "q2504"
+      },
+      {
+        "case_id": "9ee180d4d07734566091c478b539f4038c08c33719aa841cc2c9f25cc47fbfd0",
+        "auditado": "CGE",
+        "codigo": "q2203"
+      },
+      {
+        "case_id": "ab1120581710837f60cc93a585e5d2db3966860ad8c179f6a455fd91767a0834",
+        "auditado": "IPEM",
         "codigo": "q2203"
       },
       {
         "case_id": "c0c9b35b1edc837e2a71d9452872c184ca3fd27f6fc10a7fd677be29f1eceed8",
         "auditado": "RIO DAS OSTRAS",
+        "codigo": "q1001"
+      },
+      {
+        "case_id": "de33aea4c0daa4d9c203fd66ca0d66204dd8eef63cd4f92389753a27c13f5e33",
+        "auditado": "IPEM",
+        "codigo": "q2504"
+      },
+      {
+        "case_id": "eaa693ab0a1f38c788295019fca2779dc37c2d68d680928ba6cd488d5263c770",
+        "auditado": "SEINFRA",
+        "codigo": "q1002"
+      },
+      {
+        "case_id": "ee18bea5be42ff5d2a6b761fba1fa1fef99a3962985baa19837c63a9d49dcbbe",
+        "auditado": "CECIERJ",
         "codigo": "q1001"
       },
       {

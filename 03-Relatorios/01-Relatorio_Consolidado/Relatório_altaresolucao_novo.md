@@ -714,18 +714,18 @@ As questões q2504, q2802, q2708, q2801, q2804 e q2102 concentraram o maior núm
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Antes da avaliação da segunda seção, foram retirados os itens já saneados de forma segura pela análise das situações encontradas. Após essa depuração, permaneceram 340 casos de 55 organizações. Foram acolhidos integralmente 22 casos (6,5%), acolhidos parcialmente outros 22 (6,5%) e não acolhidos 296 (87,1%). O acolhimento parcial foi aplicado quando apenas parte dos itens reunidos na solicitação recebeu comprovação suficiente.
+Após a validação conjunta das duas seções, todos os 343 pedidos de 56 organizações foram submetidos à decisão técnica. Foram acolhidos integralmente 27 casos (7,9%), acolhidos parcialmente outros 23 (6,7%) e não acolhidos 293 (85,4%). O acolhimento parcial foi aplicado quando apenas parte dos itens reunidos na solicitação recebeu comprovação suficiente.
 
 ## 5.4. Resultado da avaliação das manifestações
 
-Na primeira seção, das 1.471 manifestações avaliadas, 52 foram acolhidas integralmente, das quais oito afastaram a situação na data-base e 44 reconheceram correção posterior; 15 foram parcialmente acolhidas e alteraram parte dos fundamentos; e 1.404 não foram acolhidas. As correções posteriores foram consideradas no estado atualizado sem invalidar a conclusão histórica.
+Na primeira seção, das 1.471 manifestações avaliadas, 48 foram acolhidas integralmente, das quais dez afastaram a situação na data-base e 38 reconheceram correção posterior; 13 foram parcialmente acolhidas e alteraram parte dos fundamentos; e 1.410 não foram acolhidas. Um dos acolhimentos parciais também comprovou correção posterior. As correções posteriores foram consideradas no estado atualizado sem invalidar a conclusão histórica.
 
 : Resultado consolidado da avaliação {#tbl:comentarios_gestor_resultado_avaliacao#}
 
 | Seção avaliada | Acolhida | Parcialmente acolhida | Não acolhida | Total |
 |---|---:|---:|---:|---:|
-| Situações encontradas | 52 | 15 | 1.404 | 1.471 |
-| Reavaliação de respostas e evidências | 22 | 22 | 296 | 340 |
+| Situações encontradas | 48 | 13 | 1.410 | 1.471 |
+| Reavaliação de respostas e evidências | 27 | 23 | 293 | 343 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
 
@@ -740,25 +740,25 @@ Documentos gerais ou exemplos pontuais tampouco foram considerados suficientes q
 
 ## 5.5. Ajustes e impactos nos resultados
 
-A análise originou 89 propostas de ajuste na primeira seção, sendo 13 referentes a situações afastadas na data-base e 76 a correções posteriores, e 71 propostas na segunda seção. Após a consolidação de três sobreposições, foram aplicados 157 ajustes distintos, distribuídos por 42 organizações e 71 itens do questionário. Não restaram pendências de valor. Os ajustes restauraram somente respostas anteriormente declaradas e tecnicamente sustentadas.
+A consolidação das duas seções e das revisões técnicas documentadas resultou em 171 ajustes distintos, distribuídos por 44 organizações e 73 itens do questionário. Não restaram pendências de valor. Os ajustes restauraram somente respostas anteriormente declaradas e tecnicamente sustentadas.
 
-Na comparação por identidade, 64 situações deixaram de subsistir em 32 organizações. Como a reexecução integral também atualizou as combinações de condições que compõem as situações, o estoque agregado apresentou redução líquida de 57 registros, passando de 2.140 para 2.083, queda de 2,7%. Foram ainda afastados seis achados, um em cada organização, reduzindo-se o total de 625 para 619.
+Na comparação por identidade, 63 situações deixaram de subsistir em 31 organizações. Como a reexecução integral também atualizou as combinações de condições que compõem as situações, o estoque agregado apresentou redução líquida de 56 registros, passando de 2.140 para 2.084, queda de 2,6%. Foram ainda afastados sete achados, um em cada organização, reduzindo-se o total de 625 para 618.
 
-O iGovTI aumentou em 22 das 113 organizações com resposta válida, sem redução em qualquer organização. A média passou de 0,1841 para 0,1877, acréscimo de 0,0036, equivalente a 0,36 ponto percentual. Entre as 22 organizações alcançadas, o aumento médio foi de 1,84 ponto percentual e o maior acréscimo individual foi de 6,04 pontos percentuais.
+O iGovTI aumentou em 22 das 113 organizações com resposta válida, sem redução em qualquer organização. A média passou de 0,1841 para 0,1879, acréscimo de 0,0038, equivalente a 0,38 ponto percentual. Entre as 22 organizações alcançadas, o aumento médio foi de 1,93 ponto percentual e o maior acréscimo individual foi de 6,02 pontos percentuais.
 
 : Síntese dos impactos dos comentários do gestor {#tbl:comentarios_gestor_impactos#}
 
 | Dimensão | Resultado |
 |---|---:|
-| Ajustes distintos aplicados | 157 |
-| Organizações com respostas ajustadas | 42 |
-| Situações removidas por identidade | 64, em 32 organizações |
-| Redução líquida do estoque de situações | 57, de 2.140 para 2.083 |
-| Achados afastados | 6, em 6 organizações |
-| Redução do estoque de achados | de 625 para 619 |
+| Ajustes distintos aplicados | 171 |
+| Organizações com respostas ajustadas | 44 |
+| Situações removidas por identidade | 63, em 31 organizações |
+| Redução líquida do estoque de situações | 56, de 2.140 para 2.084 |
+| Achados afastados | 7, em 7 organizações |
+| Redução do estoque de achados | de 625 para 618 |
 | Organizações com aumento do iGovTI | 22 |
-| Variação da média do iGovTI | de 0,1841 para 0,1877 |
-| Organizações com impacto em situação, achado ou iGovTI | 37 |
+| Variação da média do iGovTI | de 0,1841 para 0,1879 |
+| Organizações com impacto em situação, achado ou iGovTI | 35 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
@@ -773,7 +773,7 @@ As [@fig:comentarios_gestor_impactos_organizacoes], [@fig:comentarios_gestor_sal
 ![Evolução da média do iGovTI após os comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/08-evolucao-igovti.png){ width=75% }{#fig:comentarios_gestor_evolucao_igovti#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir do recálculo do iGovTI)</div>
 
-Em 37 das 119 organizações houve impacto em pelo menos uma das três dimensões finais. O alcance foi material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
+Em 35 das 119 organizações houve impacto em pelo menos uma das três dimensões finais. O alcance foi material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
 
 ## 5.6. Manifestações das organizações sem resposta válida - seção 3
 
@@ -783,9 +783,9 @@ As duas confirmações corroboram a inexistência de resposta válida nas bases 
 
 ## 5.7. Saldo geral da análise
 
-O contraditório confirmou a aderência geral do diagnóstico: 84,0% das manifestações concordaram com as situações encontradas. Ao mesmo tempo, produziu correções concretas e rastreáveis, com 66 acolhimentos integrais ou parciais na análise das situações, 44 nos pedidos de reavaliação e o reconhecimento de 76 correções posteriores.
+O contraditório confirmou a aderência geral do diagnóstico: 84,0% das manifestações concordaram com as situações encontradas. Ao mesmo tempo, produziu correções concretas e rastreáveis, com 61 acolhimentos integrais ou parciais na análise das situações, 50 nos pedidos de reavaliação e o reconhecimento de 39 correções posteriores, uma delas com acolhimento parcial.
 
-O saldo final foi de 157 ajustes em 42 organizações, com impacto em situação, achado ou iGovTI para 37 organizações. Foram removidas 64 situações por identidade, afastados seis achados e elevados os índices de 22 organizações. Apesar desses efeitos, permaneceram 2.083 situações e 619 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,36 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
+O saldo final foi de 171 ajustes em 44 organizações, com impacto em situação, achado ou iGovTI para 35 organizações. Foram removidas 63 situações por identidade, afastados sete achados e elevados os índices de 22 organizações. Apesar desses efeitos, permaneceram 2.084 situações e 618 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,38 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
 
 As providências em curso e as correções posteriores também fornecem subsídios para os planos de ação. Seu acompanhamento deverá verificar responsáveis, prazos, abrangência e evidências de implementação efetiva. As decisões consolidadas e os ajustes permanecem sujeitos à validação final da Equipe de Auditoria antes da aprovação do relatório. A metodologia, a participação, as razões de não acolhimento e a memória detalhada dos impactos constam do Anexo "AN08 – Avaliação dos comentários do gestor.docx".
 

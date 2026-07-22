@@ -903,15 +903,12 @@
           "numero": 2,
           "nome": "Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação.",
           "situacoes_encontradas": [
-            "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.",
-            "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva."
+            "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
           ],
           "evidencias": [
             "A organização declarou \"Sim\" no subitem h) do item 1001, mas a evidência encaminhada foi considerada insuficiente para comprovar que estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação. Justificativa da avaliação: A Equipe de Auditoria avalia que a evidência é insuficiente. Apesar de a política determinar a elaboração de objetivos, metas e indicadores, não foram apresentados os planos estratégicos ou documentos equivalentes onde tais elementos tenham sido efetivamente estabelecidos. Há lacuna quanto à materialização dos objetivos e metas de gestão de TI.",
             "Resposta negativa ao detalhamento a) do item 1002 do Questionário, para verificar se rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
-            "Resposta negativa ao detalhamento c) do item 1002 do Questionário, para verificar se os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
-            "Resposta positiva ao detalhamento e) do item 1001 do Questionário, para verificar se a organização dispõe de comitê de tecnologia da informação composto por representantes de áreas relevantes da organização",
-            "A organização declarou \"Sim\" no subitem f) do item 1001, mas a evidência encaminhada foi considerada insuficiente para comprovar que o comitê de tecnologia da informação realiza as atividades previstas em ato constitutivo. Justificativa da avaliação: A Equipe de Auditoria avalia que a execução das atividades do comitê não foi comprovada. Embora a política liste as atribuições do ComTI (item 5.8.3), não foram apresentados registros, atas de reunião ou pareceres que materializem a efetiva atuação do órgão. Há lacuna de evidência sobre o funcionamento prático do comitê."
+            "Resposta negativa ao detalhamento c) do item 1002 do Questionário, para verificar se os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)"
           ],
           "evidencias_detalhadas": [
             {
@@ -931,27 +928,11 @@
               "id_acoes": [
                 "AV10"
               ]
-            },
-            {
-              "descricao": "Resposta positiva ao detalhamento e) do item 1001 do Questionário, para verificar se a organização dispõe de comitê de tecnologia da informação composto por representantes de áreas relevantes da organização",
-              "id_acoes": [
-                "AV12"
-              ]
-            },
-            {
-              "descricao": "A organização declarou \"Sim\" no subitem f) do item 1001, mas a evidência encaminhada foi considerada insuficiente para comprovar que o comitê de tecnologia da informação realiza as atividades previstas em ato constitutivo. Justificativa da avaliação: A Equipe de Auditoria avalia que a execução das atividades do comitê não foi comprovada. Embora a política liste as atribuições do ComTI (item 5.8.3), não foram apresentados registros, atas de reunião ou pareceres que materializem a efetiva atuação do órgão. Há lacuna de evidência sobre o funcionamento prático do comitê.",
-              "id_acoes": [
-                "AV91"
-              ]
             }
           ],
           "encaminhamentos": [
             {
               "encaminhamento": "estabeleça modelo básico de governança e gestão de TIC, atentando-se, minimamente, em definir papéis e responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração",
-              "tipo": "Recomendação"
-            },
-            {
-              "encaminhamento": "assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC",
               "tipo": "Recomendação"
             }
           ],
@@ -995,34 +976,6 @@
                   "AV10"
                 ],
                 "descricao_situacao_inconforme": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
-              }
-            ],
-            "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.": [
-              {
-                "id": "MR018",
-                "descricao": "No subitem e) do item 1001, a organização declarou dispor de comitê de tecnologia da informação composto por representantes de áreas relevantes, o que levou à análise de sua atuação efetiva",
-                "texto": "No subitem e) do item 1001, a organização declarou dispor de comitê de tecnologia da informação composto por representantes de áreas relevantes, o que levou à análise de sua atuação efetiva",
-                "refs_acoes": [
-                  "AV12"
-                ],
-                "condicao_exibicao": "AV12 & ~AV90 & (AV13 | AV91)",
-                "acoes_referencia": [
-                  "AV12"
-                ],
-                "descricao_situacao_inconforme": "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva."
-              },
-              {
-                "id": "MR021",
-                "descricao": "No subitem f) do item 1001, a organização declarou atuação do comitê de tecnologia da informação, mas a evidência foi insuficiente para comprovar a prática declarada",
-                "texto": "No subitem f) do item 1001, a organização declarou atuação do comitê de tecnologia da informação, mas a evidência foi insuficiente para comprovar a prática declarada",
-                "refs_acoes": [
-                  "AV91"
-                ],
-                "condicao_exibicao": "AV91 & (AV12 | AV90)",
-                "acoes_referencia": [
-                  "AV91"
-                ],
-                "descricao_situacao_inconforme": "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva."
               }
             ]
           }
@@ -1328,8 +1281,6 @@
           ],
           "evidencias": [
             "Resposta negativa ao detalhamento a) do item 2203 do Questionário, para verificar se a organização mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
-            "Resposta negativa ao detalhamento a) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os dispositivos conectados em sua rede",
-            "Resposta negativa ao detalhamento b) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
             "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
             "Resposta negativa ao detalhamento d) do item 2204 do Questionário, para verificar se o(s) processo(s) de gestão de incidentes está(ão) formalizado(s) (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
             "Resposta negativa ao detalhamento e) do item 2204 do Questionário, para verificar se a organização definiu procedimentos e responsabilidades quanto à notificação e ao tratamento das notificações de incidentes de segurança da informação, bem como quanto à adoção de ações emergenciais, diretrizes para escalamento e comunicação interna e externa"
@@ -1340,18 +1291,6 @@
               "id_acoes": [
                 "AV59",
                 "AV64"
-              ]
-            },
-            {
-              "descricao": "Resposta negativa ao detalhamento a) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os dispositivos conectados em sua rede",
-              "id_acoes": [
-                "AV62"
-              ]
-            },
-            {
-              "descricao": "Resposta negativa ao detalhamento b) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
-              "id_acoes": [
-                "AV63"
               ]
             },
             {
@@ -1399,32 +1338,6 @@
                 "condicao_exibicao": "AV59 & ~AV129",
                 "acoes_referencia": [
                   "AV59"
-                ],
-                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
-              },
-              {
-                "id": "MR077",
-                "descricao": "No subitem a) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os dispositivos conectados em sua rede",
-                "texto": "No subitem a) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os dispositivos conectados em sua rede",
-                "refs_acoes": [
-                  "AV62"
-                ],
-                "condicao_exibicao": "AV62 & ~AV132",
-                "acoes_referencia": [
-                  "AV62"
-                ],
-                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
-              },
-              {
-                "id": "MR079",
-                "descricao": "No subitem b) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
-                "texto": "No subitem b) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
-                "refs_acoes": [
-                  "AV63"
-                ],
-                "condicao_exibicao": "AV63 & ~AV133",
-                "acoes_referencia": [
-                  "AV63"
                 ],
                 "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
               }
@@ -5925,15 +5838,11 @@
           "situacoes_encontradas": [
             "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
             "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.",
-            "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.",
             "Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas."
           ],
           "evidencias": [
             "Resposta negativa ao detalhamento c) do item 2703 do Questionário, para verificar se definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
             "Resposta negativa ao subitem d) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
-            "Resposta negativa ao detalhamento a) do item 2701 do Questionário, para verificar se as responsabilidades e atribuições dos gestores da área de tecnologia da informação estão definidas, documentadas e publicadas",
-            "Resposta negativa ao detalhamento a) do item 2702 do Questionário, para verificar se as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas",
-            "Resposta negativa ao detalhamento b) do item 2704 do Questionário, para verificar se os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado",
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento d) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de segurança da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
@@ -5950,24 +5859,6 @@
               "descricao": "Resposta negativa ao subitem d) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
               "id_acoes": [
                 "AV33"
-              ]
-            },
-            {
-              "descricao": "Resposta negativa ao detalhamento a) do item 2701 do Questionário, para verificar se as responsabilidades e atribuições dos gestores da área de tecnologia da informação estão definidas, documentadas e publicadas",
-              "id_acoes": [
-                "AV34"
-              ]
-            },
-            {
-              "descricao": "Resposta negativa ao detalhamento a) do item 2702 do Questionário, para verificar se as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas",
-              "id_acoes": [
-                "AV36"
-              ]
-            },
-            {
-              "descricao": "Resposta negativa ao detalhamento b) do item 2704 do Questionário, para verificar se os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado",
-              "id_acoes": [
-                "AV38"
               ]
             },
             {
@@ -6005,10 +5896,6 @@
               "tipo": "Recomendação"
             },
             {
-              "encaminhamento": "defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação, atentando-se, minimamente, em estabelecer conhecimentos, habilidades, experiência e responsabilidades requeridos e utilizar esses perfis na seleção e designação dos responsáveis",
-              "tipo": "Recomendação"
-            },
-            {
               "encaminhamento": "realize diagnóstico periódico das lacunas de competências dos gestores e colaboradores de TIC e segurança da informação e estabeleça plano de tratamento, contemplando, conforme a necessidade, capacitação, realocação, provimento, apoio especializado, compartilhamento de estrutura ou contratação com transferência de conhecimento",
               "tipo": "Recomendação"
             }
@@ -6042,47 +5929,6 @@
                   "AV33"
                 ],
                 "descricao_situacao_inconforme": "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação."
-              }
-            ],
-            "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.": [
-              {
-                "id": "MR051",
-                "descricao": "No subitem a) do item 2701, não houve declaração afirmativa quanto à prática avaliada: as responsabilidades e atribuições dos gestores da área de tecnologia da informação estão definidas, documentadas e publicadas",
-                "texto": "No subitem a) do item 2701, não houve declaração afirmativa quanto à prática avaliada: as responsabilidades e atribuições dos gestores da área de tecnologia da informação estão definidas, documentadas e publicadas",
-                "refs_acoes": [
-                  "AV34"
-                ],
-                "condicao_exibicao": "AV34 & ~AV108",
-                "acoes_referencia": [
-                  "AV34"
-                ],
-                "descricao_situacao_inconforme": "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores."
-              },
-              {
-                "id": "MR053",
-                "descricao": "No subitem a) do item 2702, não houve declaração afirmativa quanto à prática avaliada: as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas",
-                "texto": "No subitem a) do item 2702, não houve declaração afirmativa quanto à prática avaliada: as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas",
-                "refs_acoes": [
-                  "AV36"
-                ],
-                "condicao_exibicao": "AV36 & ~AV110",
-                "acoes_referencia": [
-                  "AV36"
-                ],
-                "descricao_situacao_inconforme": "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores."
-              },
-              {
-                "id": "MR055",
-                "descricao": "No subitem b) do item 2704, não houve declaração afirmativa quanto à prática avaliada: os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado",
-                "texto": "No subitem b) do item 2704, não houve declaração afirmativa quanto à prática avaliada: os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado",
-                "refs_acoes": [
-                  "AV38"
-                ],
-                "condicao_exibicao": "AV38 & ~AV112",
-                "acoes_referencia": [
-                  "AV38"
-                ],
-                "descricao_situacao_inconforme": "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores."
               }
             ],
             "Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.": [
@@ -36283,7 +36129,6 @@
             "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva."
           ],
           "evidencias": [
-            "Resposta negativa ao detalhamento c) do item 1001 do Questionário, para verificar se a organização define os papéis e responsabilidades da área de gestão de tecnologia da informação",
             "Resposta negativa ao detalhamento h) do item 1001 do Questionário, para verificar se a organização estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação",
             "Resposta negativa ao detalhamento a) do item 1002 do Questionário, para verificar se rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
             "Resposta negativa ao detalhamento c) do item 1002 do Questionário, para verificar se os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
@@ -36291,12 +36136,6 @@
             "Resposta negativa ao detalhamento f) do item 1001 do Questionário, para verificar se o comitê de tecnologia da informação realiza as atividades previstas em ato constitutivo"
           ],
           "evidencias_detalhadas": [
-            {
-              "descricao": "Resposta negativa ao detalhamento c) do item 1001 do Questionário, para verificar se a organização define os papéis e responsabilidades da área de gestão de tecnologia da informação",
-              "id_acoes": [
-                "AV07"
-              ]
-            },
             {
               "descricao": "Resposta negativa ao detalhamento h) do item 1001 do Questionário, para verificar se a organização estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação",
               "id_acoes": [
@@ -36340,19 +36179,6 @@
           ],
           "motivos_situacoes": {
             "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.": [
-              {
-                "id": "MR008",
-                "descricao": "No subitem c) do item 1001, não houve declaração afirmativa quanto à prática avaliada: define os papéis e responsabilidades da área de gestão de tecnologia da informação",
-                "texto": "No subitem c) do item 1001, não houve declaração afirmativa quanto à prática avaliada: define os papéis e responsabilidades da área de gestão de tecnologia da informação",
-                "refs_acoes": [
-                  "AV07"
-                ],
-                "condicao_exibicao": "AV07 & ~AV85",
-                "acoes_referencia": [
-                  "AV07"
-                ],
-                "descricao_situacao_inconforme": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
-              },
               {
                 "id": "MR010",
                 "descricao": "No subitem h) do item 1001, não houve declaração afirmativa quanto à prática avaliada: estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação",
@@ -38504,13 +38330,11 @@
           "nome": "Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC",
           "situacoes_encontradas": [
             "Inexistência ou fragilidade do processo formal de planejamento de TIC.",
-            "Ausência de aprovação formal do plano de TIC.",
             "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC."
           ],
           "evidencias": [
             "A organização declarou \"Sim\" no subitem b) do item 2101, mas a evidência encaminhada foi considerada insuficiente para comprovar que estabeleceu critérios para orientar a seleção e a priorização das iniciativas de TI (projetos e ações) e os mantêm atualizados. Justificativa da avaliação: A Equipe de Auditoria avalia que não foram estabelecidos critérios formais para a seleção e priorização das iniciativas. Embora o documento apresente um Mapa de Operacionalização na página 4, não foram indicados os parâmetros, metodologias ou pesos utilizados para definir a prioridade das ações listadas. A evidência é insuficiente pela ausência de definição documentada dos critérios de priorização.",
             "A organização declarou \"Sim\" no subitem c) do item 2101, mas a evidência encaminhada foi considerada insuficiente para comprovar que as análises de benefícios, de custos e de riscos subsidiam as decisões relacionadas à seleção e à priorização das iniciativas de TI (projetos e ações). Justificativa da avaliação: A Equipe de Auditoria avalia que as análises de subsídio à tomada de decisão não foram apresentadas. O plano descreve objetivos e ações (páginas 2 e 4), mas omite os estudos de custos, benefícios e riscos que justificariam tais escolhas. A evidência é insuficiente pela falta de demonstração das análises que embasaram as decisões de priorização.",
-            "A organização declarou \"Sim\" no subitem a) do item 2102, mas a evidência encaminhada foi considerada insuficiente para comprovar que o plano de tecnologia da informação (plano de TI) é aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado que integra a alta administração. Justificativa da avaliação: Não consta evidência da aprovação formal do plano pelo dirigente máximo ou colegiado da alta administração. Embora o documento apresente um histórico de controle de versões na página 1, não há documento anexo, assinatura ou ato administrativo que comprove a autorização formal. A evidência é insuficiente por omitir a validação pela autoridade competente.",
             "Resposta negativa ao detalhamento e) do item 2102 do Questionário, para verificar se é feito acompanhamento concomitante à execução do plano de TI, com vistas a assegurar sua observância e possibilitar a realização de ajustes que se fizerem necessário"
           ],
           "evidencias_detalhadas": [
@@ -38527,12 +38351,6 @@
               ]
             },
             {
-              "descricao": "A organização declarou \"Sim\" no subitem a) do item 2102, mas a evidência encaminhada foi considerada insuficiente para comprovar que o plano de tecnologia da informação (plano de TI) é aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado que integra a alta administração. Justificativa da avaliação: Não consta evidência da aprovação formal do plano pelo dirigente máximo ou colegiado da alta administração. Embora o documento apresente um histórico de controle de versões na página 1, não há documento anexo, assinatura ou ato administrativo que comprove a autorização formal. A evidência é insuficiente por omitir a validação pela autoridade competente.",
-              "id_acoes": [
-                "AV96"
-              ]
-            },
-            {
               "descricao": "Resposta negativa ao detalhamento e) do item 2102 do Questionário, para verificar se é feito acompanhamento concomitante à execução do plano de TI, com vistas a assegurar sua observância e possibilitar a realização de ajustes que se fizerem necessário",
               "id_acoes": [
                 "AV24"
@@ -38542,10 +38360,6 @@
           "encaminhamentos": [
             {
               "encaminhamento": "institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC",
-              "tipo": "Recomendação"
-            },
-            {
-              "encaminhamento": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de dirigente ou colegiado integrante da alta administração, mantendo registro do respectivo ato de aprovação",
               "tipo": "Recomendação"
             },
             {
@@ -38580,21 +38394,6 @@
                   "AV94"
                 ],
                 "descricao_situacao_inconforme": "Inexistência ou fragilidade do processo formal de planejamento de TIC."
-              }
-            ],
-            "Ausência de aprovação formal do plano de TIC.": [
-              {
-                "id": "MR031",
-                "descricao": "No subitem a) do item 2102, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que o plano de tecnologia da informação (plano de TI) é aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado que integra a alta administração",
-                "texto": "No subitem a) do item 2102, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que o plano de tecnologia da informação (plano de TI) é aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado que integra a alta administração",
-                "refs_acoes": [
-                  "AV96"
-                ],
-                "condicao_exibicao": "AV96",
-                "acoes_referencia": [
-                  "AV96"
-                ],
-                "descricao_situacao_inconforme": "Ausência de aprovação formal do plano de TIC."
               }
             ],
             "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.": [
@@ -42693,6 +42492,7 @@
           "situacoes_encontradas": [
             "Inexistência ou insuficiência do catálogo de serviços de TIC.",
             "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
+            "Inexistência ou fragilidade do inventário de ativos de TIC.",
             "Ausência ou fragilidade do processo de gestão de configuração.",
             "Inexistência ou fragilidade do processo de gestão de incidentes de TIC."
           ],
@@ -42702,6 +42502,7 @@
             "Resposta negativa ao detalhamento c) do item 2201 do Questionário, para verificar se o catálogo é de fácil acesso e está amplamente disponível a seus usuários e às equipes de suporte",
             "Resposta negativa ao detalhamento d) do item 2201 do Questionário, para verificar se são formalizados ANS contendo metas de nível de serviço acordadas com representantes das áreas de negócio clientes",
             "Resposta negativa ao detalhamento e) do item 2201 do Questionário, para verificar se a área de gestão de tecnologia da informação monitora continuamente o alcance dos níveis de serviço estabelecidos nos ANS",
+            "Resposta negativa ao detalhamento a) do item 2203 do Questionário, para verificar se a organização mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
             "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
             "Resposta negativa ao detalhamento a) do item 2204 do Questionário, para verificar se a organização definiu regras para a priorização e o escalamento de incidentes",
             "Resposta negativa ao detalhamento d) do item 2204 do Questionário, para verificar se o(s) processo(s) de gestão de incidentes está(ão) formalizado(s) (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -42739,6 +42540,13 @@
               ]
             },
             {
+              "descricao": "Resposta negativa ao detalhamento a) do item 2203 do Questionário, para verificar se a organização mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+              "id_acoes": [
+                "AV59",
+                "AV64"
+              ]
+            },
+            {
               "descricao": "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
               "id_acoes": [
                 "AV66"
@@ -42770,6 +42578,10 @@
             },
             {
               "encaminhamento": "defina, pactue e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados",
+              "tipo": "Recomendação"
+            },
+            {
+              "encaminhamento": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, componentes de infraestrutura, responsáveis e informações necessárias ao controle do ciclo de vida dos ativos",
               "tipo": "Recomendação"
             },
             {
@@ -42851,7 +42663,35 @@
                 "descricao_situacao_inconforme": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC."
               }
             ],
+            "Inexistência ou fragilidade do inventário de ativos de TIC.": [
+              {
+                "id": "MR075",
+                "descricao": "No subitem a) do item 2203, não houve declaração afirmativa quanto à prática avaliada: mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "texto": "No subitem a) do item 2203, não houve declaração afirmativa quanto à prática avaliada: mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "refs_acoes": [
+                  "AV59"
+                ],
+                "condicao_exibicao": "AV59 & ~AV129",
+                "acoes_referencia": [
+                  "AV59"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
+              }
+            ],
             "Ausência ou fragilidade do processo de gestão de configuração.": [
+              {
+                "id": "MR081",
+                "descricao": "No subitem a) do item 2203, não houve declaração afirmativa quanto à prática avaliada: mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "texto": "No subitem a) do item 2203, não houve declaração afirmativa quanto à prática avaliada: mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "refs_acoes": [
+                  "AV64"
+                ],
+                "condicao_exibicao": "AV64 & ~AV134",
+                "acoes_referencia": [
+                  "AV64"
+                ],
+                "descricao_situacao_inconforme": "Ausência ou fragilidade do processo de gestão de configuração."
+              },
               {
                 "id": "MR083",
                 "descricao": "No subitem c) do item 2203, não houve declaração afirmativa quanto à prática avaliada: o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -43441,12 +43281,21 @@
           "numero": 5,
           "nome": "Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes",
           "situacoes_encontradas": [
+            "Inexistência ou fragilidade do inventário de ativos de TIC.",
             "Ausência ou fragilidade do processo de gestão de configuração."
           ],
           "evidencias": [
+            "A organização declarou \"Sim\" no subitem a) do item 2203, mas a evidência encaminhada foi considerada insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles. Justificativa da avaliação: A existência de uma base de dados consolidada e atualizada com configurações e relacionamentos entre ativos e serviços não foi demonstrada pela evidência enviada. Embora a Resolução GPGJ nº 2.785 mencione a responsabilidade de controle, o documento não constitui o registro ou a base de dados em si. A evidência é insuficiente para atestar a conformidade, pois não apresenta o inventário, extratos ou relatórios estruturados. A lacuna identificada é a inexistência de documentação técnica ou acesso ao sistema que comprove a manutenção efetiva da base de configurações.",
             "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)"
           ],
           "evidencias_detalhadas": [
+            {
+              "descricao": "A organização declarou \"Sim\" no subitem a) do item 2203, mas a evidência encaminhada foi considerada insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles. Justificativa da avaliação: A existência de uma base de dados consolidada e atualizada com configurações e relacionamentos entre ativos e serviços não foi demonstrada pela evidência enviada. Embora a Resolução GPGJ nº 2.785 mencione a responsabilidade de controle, o documento não constitui o registro ou a base de dados em si. A evidência é insuficiente para atestar a conformidade, pois não apresenta o inventário, extratos ou relatórios estruturados. A lacuna identificada é a inexistência de documentação técnica ou acesso ao sistema que comprove a manutenção efetiva da base de configurações.",
+              "id_acoes": [
+                "AV129",
+                "AV134"
+              ]
+            },
             {
               "descricao": "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
               "id_acoes": [
@@ -43456,12 +43305,44 @@
           ],
           "encaminhamentos": [
             {
+              "encaminhamento": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, componentes de infraestrutura, responsáveis e informações necessárias ao controle do ciclo de vida dos ativos",
+              "tipo": "Recomendação"
+            },
+            {
               "encaminhamento": "formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos, sistemas, infraestrutura e serviços, com atualização periódica e uso das informações no planejamento e acompanhamento de mudanças",
               "tipo": "Recomendação"
             }
           ],
           "motivos_situacoes": {
+            "Inexistência ou fragilidade do inventário de ativos de TIC.": [
+              {
+                "id": "MR076",
+                "descricao": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "texto": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "refs_acoes": [
+                  "AV129"
+                ],
+                "condicao_exibicao": "AV129",
+                "acoes_referencia": [
+                  "AV129"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
+              }
+            ],
             "Ausência ou fragilidade do processo de gestão de configuração.": [
+              {
+                "id": "MR082",
+                "descricao": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "texto": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "refs_acoes": [
+                  "AV134"
+                ],
+                "condicao_exibicao": "AV134",
+                "acoes_referencia": [
+                  "AV134"
+                ],
+                "descricao_situacao_inconforme": "Ausência ou fragilidade do processo de gestão de configuração."
+              },
               {
                 "id": "MR083",
                 "descricao": "No subitem c) do item 2203, não houve declaração afirmativa quanto à prática avaliada: o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -56120,6 +56001,7 @@
           "situacoes_encontradas": [
             "Inexistência ou insuficiência do catálogo de serviços de TIC.",
             "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
+            "Inexistência ou fragilidade do inventário de ativos de TIC.",
             "Ausência ou fragilidade do processo de gestão de configuração.",
             "Inexistência ou fragilidade do processo de gestão de incidentes de TIC."
           ],
@@ -56129,6 +56011,8 @@
             "Resposta negativa ao detalhamento c) do item 2201 do Questionário, para verificar se o catálogo é de fácil acesso e está amplamente disponível a seus usuários e às equipes de suporte",
             "Resposta negativa ao detalhamento d) do item 2201 do Questionário, para verificar se são formalizados ANS contendo metas de nível de serviço acordadas com representantes das áreas de negócio clientes",
             "Resposta negativa ao detalhamento e) do item 2201 do Questionário, para verificar se a área de gestão de tecnologia da informação monitora continuamente o alcance dos níveis de serviço estabelecidos nos ANS",
+            "A organização declarou \"Sim\" no subitem a) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia como não conforme, uma vez que apenas foi apresentada a competência regimental da Coordenação de Infraestrutura e Suporte para gerenciar ativos. Não foram disponibilizados o inventário físico ou lógico dos dispositivos, nem registros de sua manutenção e controle. A documentação apresentada é suficiente para demonstrar a estrutura organizacional, mas insuficiente para comprovar a execução efetiva do controle de ativos.",
+            "A organização declarou \"Sim\" no subitem b) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia como não conforme, pois a evidência restringe-se ao texto do regulamento, que delega a responsabilidade pela gestão de softwares e licenças. Não foram apresentados os inventários de softwares instalados ou relatórios de controle de licenciamento. A lacuna consiste na ausência de registros que evidenciem a operação prática da gestão de softwares na rede.",
             "A organização declarou \"Sim\" no subitem c) do item 2203, mas a evidência encaminhada foi considerada insuficiente para comprovar que o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades). Justificativa da avaliação: A Equipe de Auditoria avalia que o processo de gestão de ativos carece de formalização documental. Não foi anexada ao pacote de evidências qualquer norma, política, guia ou procedimento interno que defina as diretrizes, responsabilidades e fluxos para a execução do processo. Portanto, a evidência apresentada é insuficiente para demonstrar o requisito de formalização. A lacuna relevante consiste na ausência de instrumentos normativos que formalizem a gestão da configuração.",
             "Resposta negativa ao detalhamento a) do item 2204 do Questionário, para verificar se a organização definiu regras para a priorização e o escalamento de incidentes",
             "Resposta negativa ao detalhamento d) do item 2204 do Questionário, para verificar se o(s) processo(s) de gestão de incidentes está(ão) formalizado(s) (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -56166,6 +56050,18 @@
               ]
             },
             {
+              "descricao": "A organização declarou \"Sim\" no subitem a) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia como não conforme, uma vez que apenas foi apresentada a competência regimental da Coordenação de Infraestrutura e Suporte para gerenciar ativos. Não foram disponibilizados o inventário físico ou lógico dos dispositivos, nem registros de sua manutenção e controle. A documentação apresentada é suficiente para demonstrar a estrutura organizacional, mas insuficiente para comprovar a execução efetiva do controle de ativos.",
+              "id_acoes": [
+                "AV132"
+              ]
+            },
+            {
+              "descricao": "A organização declarou \"Sim\" no subitem b) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia como não conforme, pois a evidência restringe-se ao texto do regulamento, que delega a responsabilidade pela gestão de softwares e licenças. Não foram apresentados os inventários de softwares instalados ou relatórios de controle de licenciamento. A lacuna consiste na ausência de registros que evidenciem a operação prática da gestão de softwares na rede.",
+              "id_acoes": [
+                "AV133"
+              ]
+            },
+            {
               "descricao": "A organização declarou \"Sim\" no subitem c) do item 2203, mas a evidência encaminhada foi considerada insuficiente para comprovar que o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades). Justificativa da avaliação: A Equipe de Auditoria avalia que o processo de gestão de ativos carece de formalização documental. Não foi anexada ao pacote de evidências qualquer norma, política, guia ou procedimento interno que defina as diretrizes, responsabilidades e fluxos para a execução do processo. Portanto, a evidência apresentada é insuficiente para demonstrar o requisito de formalização. A lacuna relevante consiste na ausência de instrumentos normativos que formalizem a gestão da configuração.",
               "id_acoes": [
                 "AV136"
@@ -56197,6 +56093,10 @@
             },
             {
               "encaminhamento": "defina, pactue e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados",
+              "tipo": "Recomendação"
+            },
+            {
+              "encaminhamento": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, componentes de infraestrutura, responsáveis e informações necessárias ao controle do ciclo de vida dos ativos",
               "tipo": "Recomendação"
             },
             {
@@ -56276,6 +56176,34 @@
                   "AV58"
                 ],
                 "descricao_situacao_inconforme": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC."
+              }
+            ],
+            "Inexistência ou fragilidade do inventário de ativos de TIC.": [
+              {
+                "id": "MR078",
+                "descricao": "No subitem a) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede",
+                "texto": "No subitem a) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede",
+                "refs_acoes": [
+                  "AV132"
+                ],
+                "condicao_exibicao": "AV132",
+                "acoes_referencia": [
+                  "AV132"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
+              },
+              {
+                "id": "MR080",
+                "descricao": "No subitem b) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
+                "texto": "No subitem b) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
+                "refs_acoes": [
+                  "AV133"
+                ],
+                "condicao_exibicao": "AV133",
+                "acoes_referencia": [
+                  "AV133"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
               }
             ],
             "Ausência ou fragilidade do processo de gestão de configuração.": [
@@ -67251,28 +67179,13 @@
           "numero": 2,
           "nome": "Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação.",
           "situacoes_encontradas": [
-            "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.",
             "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva."
           ],
           "evidencias": [
-            "A organização declarou \"Sim\" no subitem a) do item 1002, mas a evidência encaminhada foi considerada insuficiente para comprovar que rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas. Justificativa da avaliação: A avaliação realizada indica a não conformidade, pois não foram apresentados normas ou procedimentos internos da SEINFRA que definam rotinas de monitoramento da gestão de tecnologia. A documentação enviada limita-se a uma análise externa que destaca a inexistência de diversos quesitos obrigatórios do instrumento PEDTIC. Há lacuna relevante quanto à formalização de mecanismos internos de acompanhamento de desempenho, o que impede a validação desta rotina.",
-            "A organização declarou \"Sim\" no subitem c) do item 1002, mas a evidência encaminhada foi considerada insuficiente para comprovar que os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho). Justificativa da avaliação: A avaliação realizada indica a não conformidade, uma vez que os indicadores apresentados referem-se à nota do instrumento avaliado pelo órgão externo e não representam métricas internas de desempenho da gestão de TIC coletadas e analisadas pela SEINFRA. A análise técnica do documento evidencia que diversos quesitos obrigatórios de medição, como status de metas e inventário de recursos, constam como inexistentes. A evidência é insuficiente para confirmar a implantação de um sistema de indicadores de desempenho com coleta e análise de dados internos.",
             "Resposta positiva ao detalhamento e) do item 1001 do Questionário, para verificar se a organização dispõe de comitê de tecnologia da informação composto por representantes de áreas relevantes da organização",
             "Resposta negativa ao detalhamento f) do item 1001 do Questionário, para verificar se o comitê de tecnologia da informação realiza as atividades previstas em ato constitutivo"
           ],
           "evidencias_detalhadas": [
-            {
-              "descricao": "A organização declarou \"Sim\" no subitem a) do item 1002, mas a evidência encaminhada foi considerada insuficiente para comprovar que rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas. Justificativa da avaliação: A avaliação realizada indica a não conformidade, pois não foram apresentados normas ou procedimentos internos da SEINFRA que definam rotinas de monitoramento da gestão de tecnologia. A documentação enviada limita-se a uma análise externa que destaca a inexistência de diversos quesitos obrigatórios do instrumento PEDTIC. Há lacuna relevante quanto à formalização de mecanismos internos de acompanhamento de desempenho, o que impede a validação desta rotina.",
-              "id_acoes": [
-                "AV87"
-              ]
-            },
-            {
-              "descricao": "A organização declarou \"Sim\" no subitem c) do item 1002, mas a evidência encaminhada foi considerada insuficiente para comprovar que os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho). Justificativa da avaliação: A avaliação realizada indica a não conformidade, uma vez que os indicadores apresentados referem-se à nota do instrumento avaliado pelo órgão externo e não representam métricas internas de desempenho da gestão de TIC coletadas e analisadas pela SEINFRA. A análise técnica do documento evidencia que diversos quesitos obrigatórios de medição, como status de metas e inventário de recursos, constam como inexistentes. A evidência é insuficiente para confirmar a implantação de um sistema de indicadores de desempenho com coleta e análise de dados internos.",
-              "id_acoes": [
-                "AV88"
-              ]
-            },
             {
               "descricao": "Resposta positiva ao detalhamento e) do item 1001 do Questionário, para verificar se a organização dispõe de comitê de tecnologia da informação composto por representantes de áreas relevantes da organização",
               "id_acoes": [
@@ -67288,43 +67201,11 @@
           ],
           "encaminhamentos": [
             {
-              "encaminhamento": "estabeleça modelo básico de governança e gestão de TIC, atentando-se, minimamente, em definir papéis e responsabilidades, objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração",
-              "tipo": "Recomendação"
-            },
-            {
               "encaminhamento": "assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC",
               "tipo": "Recomendação"
             }
           ],
           "motivos_situacoes": {
-            "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.": [
-              {
-                "id": "MR013",
-                "descricao": "No subitem a) do item 1002, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
-                "texto": "No subitem a) do item 1002, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
-                "refs_acoes": [
-                  "AV87"
-                ],
-                "condicao_exibicao": "AV87",
-                "acoes_referencia": [
-                  "AV87"
-                ],
-                "descricao_situacao_inconforme": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
-              },
-              {
-                "id": "MR015",
-                "descricao": "No subitem c) do item 1002, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
-                "texto": "No subitem c) do item 1002, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
-                "refs_acoes": [
-                  "AV88"
-                ],
-                "condicao_exibicao": "AV88",
-                "acoes_referencia": [
-                  "AV88"
-                ],
-                "descricao_situacao_inconforme": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
-              }
-            ],
             "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.": [
               {
                 "id": "MR018",
@@ -72054,7 +71935,6 @@
             "Ausência de profissionais que atuam regularmente em segurança da informação, conforme informado em resposta ao item 0105",
             "Resposta negativa ao detalhamento c) do item 2703 do Questionário, para verificar se definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
             "Resposta negativa ao subitem b) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação",
-            "Resposta negativa ao subitem d) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
             "Resposta negativa ao detalhamento b) do item 2704 do Questionário, para verificar se os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado",
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
             "Resposta negativa ao detalhamento c) do item 2705 do Questionário, para verificar se as lacunas de competências técnicas da área de tecnologia da informação necessárias para a atuação dos colaboradores da organização são identificadas e documentadas",
@@ -72078,12 +71958,6 @@
               "descricao": "Resposta negativa ao subitem b) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação",
               "id_acoes": [
                 "AV31"
-              ]
-            },
-            {
-              "descricao": "Resposta negativa ao subitem d) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
-              "id_acoes": [
-                "AV33"
               ]
             },
             {
@@ -72181,19 +72055,6 @@
                 "condicao_exibicao": "AV31 & ~AV105",
                 "acoes_referencia": [
                   "AV31"
-                ],
-                "descricao_situacao_inconforme": "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação."
-              },
-              {
-                "id": "MR049",
-                "descricao": "No subitem d) do item 2708, não houve declaração afirmativa quanto à prática avaliada: possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
-                "texto": "No subitem d) do item 2708, não houve declaração afirmativa quanto à prática avaliada: possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
-                "refs_acoes": [
-                  "AV33"
-                ],
-                "condicao_exibicao": "AV33 & ~AV107",
-                "acoes_referencia": [
-                  "AV33"
                 ],
                 "descricao_situacao_inconforme": "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação."
               }
@@ -73744,68 +73605,8 @@
         "numero_achado": 1,
         "nome_achado": "Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.",
         "executado": true,
-        "achado": {
-          "numero": 1,
-          "nome": "Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.",
-          "situacoes_encontradas": [
-            "Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC."
-          ],
-          "evidencias": [
-            "Resposta \"a) Centralizada Interna: Há uma área de TI centralizada e formal que atende toda a organização, utilizando equipe técnica majoritariamente própria (servidores).\" ao item 0101 do Questionário, para verificar qual alternativa melhor descreve a formalização e o modelo de operação predominante da Tecnologia da Informação (TI) na organização",
-            "Resposta positiva ao subitem g) do item 0103 do Questionário, para verificar se não há atribuições ou competências da área de TI formalmente definidas em norma, regimento, organograma, ato administrativo ou instrumento equivalente"
-          ],
-          "evidencias_detalhadas": [
-            {
-              "descricao": "Resposta \"a) Centralizada Interna: Há uma área de TI centralizada e formal que atende toda a organização, utilizando equipe técnica majoritariamente própria (servidores).\" ao item 0101 do Questionário, para verificar qual alternativa melhor descreve a formalização e o modelo de operação predominante da Tecnologia da Informação (TI) na organização",
-              "id_acoes": [
-                "AV02"
-              ]
-            },
-            {
-              "descricao": "Resposta positiva ao subitem g) do item 0103 do Questionário, para verificar se não há atribuições ou competências da área de TI formalmente definidas em norma, regimento, organograma, ato administrativo ou instrumento equivalente",
-              "id_acoes": [
-                "AV03"
-              ]
-            }
-          ],
-          "encaminhamentos": [
-            {
-              "encaminhamento": "defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC",
-              "tipo": "Recomendação"
-            }
-          ],
-          "motivos_situacoes": {
-            "Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.": [
-              {
-                "id": "MR002",
-                "descricao": "Item 0101: a organização informou possuir área ou modelo de operação de TI, o que levou à análise da suficiência de suas atribuições formais",
-                "texto": "Item 0101: a organização informou possuir área ou modelo de operação de TI, o que levou à análise da suficiência de suas atribuições formais",
-                "refs_acoes": [
-                  "AV02"
-                ],
-                "condicao_exibicao": "AV02 & (AV03 | AV04 | AV84)",
-                "acoes_referencia": [
-                  "AV02"
-                ],
-                "descricao_situacao_inconforme": "Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC."
-              },
-              {
-                "id": "MR004",
-                "descricao": "Item 0103: a organização informou que não há atribuições ou competências da área de TI formalmente definidas",
-                "texto": "Item 0103: a organização informou que não há atribuições ou competências da área de TI formalmente definidas",
-                "refs_acoes": [
-                  "AV03"
-                ],
-                "condicao_exibicao": "AV02 & AV03",
-                "acoes_referencia": [
-                  "AV03"
-                ],
-                "descricao_situacao_inconforme": "Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC."
-              }
-            ]
-          }
-        },
-        "achado_ocorreu": true
+        "achado": null,
+        "achado_ocorreu": false
       },
       {
         "id": "PA02",
@@ -77450,6 +77251,7 @@
           "situacoes_encontradas": [
             "Inexistência ou fragilidade do processo formal de planejamento de TIC.",
             "Ausência de aprovação formal do plano de TIC.",
+            "Plano de TIC sem alinhamento adequado ao planejamento institucional.",
             "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC."
           ],
           "evidencias": [
@@ -77458,6 +77260,7 @@
             "Resposta negativa ao detalhamento c) do item 2101 do Questionário, para verificar se as análises de benefícios, de custos e de riscos subsidiam as decisões relacionadas à seleção e à priorização das iniciativas de TI (projetos e ações)",
             "Resposta negativa ao detalhamento d) do item 2101 do Questionário, para verificar se o processo de planejamento de TI está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
             "Resposta negativa ao detalhamento a) do item 2102 do Questionário, para verificar se o plano de tecnologia da informação (plano de TI) é aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado que integra a alta administração",
+            "Resposta negativa ao detalhamento d) do item 2102 do Questionário, para verificar se as iniciativas de TI (projetos e ações) constantes do plano de TI alinham-se aos objetivos e iniciativas definidos no planejamento institucional (como PPA, planos estratégicos, planos setoriais e plano de governo, no caso de municípios), bem como, quando aplicável, às estratégias e diretrizes estabelecidas por instâncias superiores de governança (como a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário - ENTIC-JUD, normas e orientações do SETIC/PRODERJ (para órgãos estaduais) ou instâncias de governança equivalentes no âmbito municipal)",
             "Resposta negativa ao detalhamento e) do item 2102 do Questionário, para verificar se é feito acompanhamento concomitante à execução do plano de TI, com vistas a assegurar sua observância e possibilitar a realização de ajustes que se fizerem necessário"
           ],
           "evidencias_detalhadas": [
@@ -77492,6 +77295,12 @@
               ]
             },
             {
+              "descricao": "Resposta negativa ao detalhamento d) do item 2102 do Questionário, para verificar se as iniciativas de TI (projetos e ações) constantes do plano de TI alinham-se aos objetivos e iniciativas definidos no planejamento institucional (como PPA, planos estratégicos, planos setoriais e plano de governo, no caso de municípios), bem como, quando aplicável, às estratégias e diretrizes estabelecidas por instâncias superiores de governança (como a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário - ENTIC-JUD, normas e orientações do SETIC/PRODERJ (para órgãos estaduais) ou instâncias de governança equivalentes no âmbito municipal)",
+              "id_acoes": [
+                "AV19"
+              ]
+            },
+            {
               "descricao": "Resposta negativa ao detalhamento e) do item 2102 do Questionário, para verificar se é feito acompanhamento concomitante à execução do plano de TI, com vistas a assegurar sua observância e possibilitar a realização de ajustes que se fizerem necessário",
               "id_acoes": [
                 "AV24"
@@ -77505,6 +77314,10 @@
             },
             {
               "encaminhamento": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de dirigente ou colegiado integrante da alta administração, mantendo registro do respectivo ato de aprovação",
+              "tipo": "Recomendação"
+            },
+            {
+              "encaminhamento": "revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos",
               "tipo": "Recomendação"
             },
             {
@@ -77580,6 +77393,21 @@
                   "AV18"
                 ],
                 "descricao_situacao_inconforme": "Ausência de aprovação formal do plano de TIC."
+              }
+            ],
+            "Plano de TIC sem alinhamento adequado ao planejamento institucional.": [
+              {
+                "id": "MR032",
+                "descricao": "No subitem d) do item 2102, não houve declaração afirmativa quanto à prática avaliada: as iniciativas de TI (projetos e ações) constantes do plano de TI alinham-se aos objetivos e iniciativas definidos no planejamento institucional (como PPA, planos estratégicos, planos setoriais e plano de governo, no caso de municípios), bem como, quando aplicável, às estratégias e diretrizes estabelecidas por instâncias superiores de governança (como a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário - ENTIC-JUD, normas e orientações do SETIC/PRODERJ (para órgãos estaduais) ou instâncias de governança equivalentes no âmbito municipal)",
+                "texto": "No subitem d) do item 2102, não houve declaração afirmativa quanto à prática avaliada: as iniciativas de TI (projetos e ações) constantes do plano de TI alinham-se aos objetivos e iniciativas definidos no planejamento institucional (como PPA, planos estratégicos, planos setoriais e plano de governo, no caso de municípios), bem como, quando aplicável, às estratégias e diretrizes estabelecidas por instâncias superiores de governança (como a Estratégia Nacional de Tecnologia da Informação e Comunicação do Poder Judiciário - ENTIC-JUD, normas e orientações do SETIC/PRODERJ (para órgãos estaduais) ou instâncias de governança equivalentes no âmbito municipal)",
+                "refs_acoes": [
+                  "AV19"
+                ],
+                "condicao_exibicao": "AV19 & ~AV97",
+                "acoes_referencia": [
+                  "AV19"
+                ],
+                "descricao_situacao_inconforme": "Plano de TIC sem alinhamento adequado ao planejamento institucional."
               }
             ],
             "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.": [
@@ -81167,7 +80995,6 @@
           ],
           "evidencias": [
             "Resposta negativa ao detalhamento c) do item 2703 do Questionário, para verificar se definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
-            "A organização declarou \"Sim\" no subitem b) do item 2708, mas a evidência encaminhada foi considerada insuficiente para comprovar que possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação. Justificativa da avaliação: A avaliação realizada indica que a evidência apresentada é insuficiente para comprovar a existência de funções ou cargos atribuídos à área de tecnologia da informação. O auditado limitou-se a indicar um link externo para o 'Manual de Cargos da UERJ', sem incluir o documento nos arquivos enviados para análise. A referência externa não constitui meio de prova apto a fundamentar a conformidade, pois não permite a verificação direta do conteúdo pelo auditor. Identifica-se a necessidade de apresentação da documentação oficial pertinente ao pacote de evidências para o devido saneamento.",
             "Resposta negativa ao subitem d) do item 2708 do Questionário, para verificar se a organização possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
             "Resposta negativa ao detalhamento a) do item 2701 do Questionário, para verificar se as responsabilidades e atribuições dos gestores da área de tecnologia da informação estão definidas, documentadas e publicadas",
             "A organização declarou \"Sim\" no subitem a) do item 2702, mas a evidência encaminhada foi considerada insuficiente para comprovar que as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas. Justificativa da avaliação: A avaliação da Equipe de Auditoria indica que não há evidência suficiente. Não foram apresentados documentos que especifiquem as responsabilidades e atribuições para as ocupações de TI, nem prova de sua publicação. A indicação de link externo genérico não supre a necessidade de evidência documental do conteúdo definido. Falta a apresentação formal do documento que detalhe as responsabilidades e atribuições da área de TI.",
@@ -81182,12 +81009,6 @@
               "descricao": "Resposta negativa ao detalhamento c) do item 2703 do Questionário, para verificar se definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
               "id_acoes": [
                 "AV29"
-              ]
-            },
-            {
-              "descricao": "A organização declarou \"Sim\" no subitem b) do item 2708, mas a evidência encaminhada foi considerada insuficiente para comprovar que possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação. Justificativa da avaliação: A avaliação realizada indica que a evidência apresentada é insuficiente para comprovar a existência de funções ou cargos atribuídos à área de tecnologia da informação. O auditado limitou-se a indicar um link externo para o 'Manual de Cargos da UERJ', sem incluir o documento nos arquivos enviados para análise. A referência externa não constitui meio de prova apto a fundamentar a conformidade, pois não permite a verificação direta do conteúdo pelo auditor. Identifica-se a necessidade de apresentação da documentação oficial pertinente ao pacote de evidências para o devido saneamento.",
-              "id_acoes": [
-                "AV105"
               ]
             },
             {
@@ -81274,19 +81095,6 @@
               }
             ],
             "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.": [
-              {
-                "id": "MR048",
-                "descricao": "No subitem b) do item 2708, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação",
-                "texto": "No subitem b) do item 2708, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que possui em sua estrutura cargos ou funções formalmente atribuídas à área de tecnologia da informação",
-                "refs_acoes": [
-                  "AV105"
-                ],
-                "condicao_exibicao": "AV105",
-                "acoes_referencia": [
-                  "AV105"
-                ],
-                "descricao_situacao_inconforme": "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação."
-              },
               {
                 "id": "MR049",
                 "descricao": "No subitem d) do item 2708, não houve declaração afirmativa quanto à prática avaliada: possui em sua estrutura cargos ou funções formalmente atribuídas à área de segurança da informação",
@@ -81411,6 +81219,7 @@
           "situacoes_encontradas": [
             "Inexistência ou insuficiência do catálogo de serviços de TIC.",
             "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
+            "Inexistência ou fragilidade do inventário de ativos de TIC.",
             "Ausência ou fragilidade do processo de gestão de configuração.",
             "Inexistência ou fragilidade do processo de gestão de incidentes de TIC."
           ],
@@ -81420,6 +81229,9 @@
             "Resposta negativa ao detalhamento c) do item 2201 do Questionário, para verificar se o catálogo é de fácil acesso e está amplamente disponível a seus usuários e às equipes de suporte",
             "Resposta negativa ao detalhamento d) do item 2201 do Questionário, para verificar se são formalizados ANS contendo metas de nível de serviço acordadas com representantes das áreas de negócio clientes",
             "Resposta negativa ao detalhamento e) do item 2201 do Questionário, para verificar se a área de gestão de tecnologia da informação monitora continuamente o alcance dos níveis de serviço estabelecidos nos ANS",
+            "A organização declarou \"Sim\" no subitem a) do item 2203, mas a evidência encaminhada foi considerada insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles. Justificativa da avaliação: A avaliação realizada indica que o requisito não foi atendido. A evidência apresentada é de natureza patrimonial e não comprova a manutenção de uma base de dados consolidada que registre as configurações dos serviços de TI e os relacionamentos entre eles. A evidência é insuficiente por não apresentar evidências de um sistema de gestão de configurações (CMDB) ou equivalente que permita o rastreamento dos ativos de TI e suas interdependências. Falta comprovação de existência, atualização e uso de uma base de dados de configuração voltada especificamente para serviços de TI.",
+            "Resposta negativa ao detalhamento a) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os dispositivos conectados em sua rede",
+            "Resposta negativa ao detalhamento b) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
             "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
             "Resposta negativa ao detalhamento a) do item 2204 do Questionário, para verificar se a organização definiu regras para a priorização e o escalamento de incidentes",
             "Resposta negativa ao detalhamento d) do item 2204 do Questionário, para verificar se o(s) processo(s) de gestão de incidentes está(ão) formalizado(s) (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -81457,6 +81269,25 @@
               ]
             },
             {
+              "descricao": "A organização declarou \"Sim\" no subitem a) do item 2203, mas a evidência encaminhada foi considerada insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles. Justificativa da avaliação: A avaliação realizada indica que o requisito não foi atendido. A evidência apresentada é de natureza patrimonial e não comprova a manutenção de uma base de dados consolidada que registre as configurações dos serviços de TI e os relacionamentos entre eles. A evidência é insuficiente por não apresentar evidências de um sistema de gestão de configurações (CMDB) ou equivalente que permita o rastreamento dos ativos de TI e suas interdependências. Falta comprovação de existência, atualização e uso de uma base de dados de configuração voltada especificamente para serviços de TI.",
+              "id_acoes": [
+                "AV129",
+                "AV134"
+              ]
+            },
+            {
+              "descricao": "Resposta negativa ao detalhamento a) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os dispositivos conectados em sua rede",
+              "id_acoes": [
+                "AV62"
+              ]
+            },
+            {
+              "descricao": "Resposta negativa ao detalhamento b) do item 2504 do Questionário, para verificar se a organização gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
+              "id_acoes": [
+                "AV63"
+              ]
+            },
+            {
               "descricao": "Resposta negativa ao detalhamento c) do item 2203 do Questionário, para verificar se o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
               "id_acoes": [
                 "AV66"
@@ -81488,6 +81319,10 @@
             },
             {
               "encaminhamento": "defina, pactue e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC mais relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados",
+              "tipo": "Recomendação"
+            },
+            {
+              "encaminhamento": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, servidores, sistemas, softwares, licenças, serviços em nuvem, componentes de infraestrutura, responsáveis e informações necessárias ao controle do ciclo de vida dos ativos",
               "tipo": "Recomendação"
             },
             {
@@ -81569,7 +81404,61 @@
                 "descricao_situacao_inconforme": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC."
               }
             ],
+            "Inexistência ou fragilidade do inventário de ativos de TIC.": [
+              {
+                "id": "MR076",
+                "descricao": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "texto": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "refs_acoes": [
+                  "AV129"
+                ],
+                "condicao_exibicao": "AV129",
+                "acoes_referencia": [
+                  "AV129"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
+              },
+              {
+                "id": "MR077",
+                "descricao": "No subitem a) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os dispositivos conectados em sua rede",
+                "texto": "No subitem a) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os dispositivos conectados em sua rede",
+                "refs_acoes": [
+                  "AV62"
+                ],
+                "condicao_exibicao": "AV62 & ~AV132",
+                "acoes_referencia": [
+                  "AV62"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
+              },
+              {
+                "id": "MR079",
+                "descricao": "No subitem b) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
+                "texto": "No subitem b) do item 2504, não houve declaração afirmativa quanto à prática avaliada: gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",
+                "refs_acoes": [
+                  "AV63"
+                ],
+                "condicao_exibicao": "AV63 & ~AV133",
+                "acoes_referencia": [
+                  "AV63"
+                ],
+                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
+              }
+            ],
             "Ausência ou fragilidade do processo de gestão de configuração.": [
+              {
+                "id": "MR082",
+                "descricao": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "texto": "No subitem a) do item 2203, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que mantém uma base de dados consolidada e atualizada com as configurações dos serviços e ativos de TI e o relacionamento entre eles",
+                "refs_acoes": [
+                  "AV134"
+                ],
+                "condicao_exibicao": "AV134",
+                "acoes_referencia": [
+                  "AV134"
+                ],
+                "descricao_situacao_inconforme": "Ausência ou fragilidade do processo de gestão de configuração."
+              },
               {
                 "id": "MR083",
                 "descricao": "No subitem c) do item 2203, não houve declaração afirmativa quanto à prática avaliada: o processo de gestão de configuração e ativos está formalizado (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -96379,7 +96268,6 @@
             "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva."
           ],
           "evidencias": [
-            "Resposta negativa ao detalhamento c) do item 1001 do Questionário, para verificar se a organização define os papéis e responsabilidades da área de gestão de tecnologia da informação",
             "Resposta negativa ao detalhamento h) do item 1001 do Questionário, para verificar se a organização estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação",
             "Resposta negativa ao detalhamento a) do item 1002 do Questionário, para verificar se rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
             "Resposta negativa ao detalhamento c) do item 1002 do Questionário, para verificar se os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
@@ -96387,12 +96275,6 @@
             "Resposta negativa ao detalhamento f) do item 1001 do Questionário, para verificar se o comitê de tecnologia da informação realiza as atividades previstas em ato constitutivo"
           ],
           "evidencias_detalhadas": [
-            {
-              "descricao": "Resposta negativa ao detalhamento c) do item 1001 do Questionário, para verificar se a organização define os papéis e responsabilidades da área de gestão de tecnologia da informação",
-              "id_acoes": [
-                "AV07"
-              ]
-            },
             {
               "descricao": "Resposta negativa ao detalhamento h) do item 1001 do Questionário, para verificar se a organização estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação",
               "id_acoes": [
@@ -96436,19 +96318,6 @@
           ],
           "motivos_situacoes": {
             "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.": [
-              {
-                "id": "MR008",
-                "descricao": "No subitem c) do item 1001, não houve declaração afirmativa quanto à prática avaliada: define os papéis e responsabilidades da área de gestão de tecnologia da informação",
-                "texto": "No subitem c) do item 1001, não houve declaração afirmativa quanto à prática avaliada: define os papéis e responsabilidades da área de gestão de tecnologia da informação",
-                "refs_acoes": [
-                  "AV07"
-                ],
-                "condicao_exibicao": "AV07 & ~AV85",
-                "acoes_referencia": [
-                  "AV07"
-                ],
-                "descricao_situacao_inconforme": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
-              },
               {
                 "id": "MR010",
                 "descricao": "No subitem h) do item 1001, não houve declaração afirmativa quanto à prática avaliada: estabeleceu objetivos, indicadores e metas para a gestão de tecnologia da informação",
@@ -112646,16 +112515,9 @@
             "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
           ],
           "evidencias": [
-            "Resposta negativa ao detalhamento a) do item 1002 do Questionário, para verificar se rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
             "Resposta negativa ao detalhamento c) do item 1002 do Questionário, para verificar se os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)"
           ],
           "evidencias_detalhadas": [
-            {
-              "descricao": "Resposta negativa ao detalhamento a) do item 1002 do Questionário, para verificar se rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
-              "id_acoes": [
-                "AV09"
-              ]
-            },
             {
               "descricao": "Resposta negativa ao detalhamento c) do item 1002 do Questionário, para verificar se os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
               "id_acoes": [
@@ -112671,19 +112533,6 @@
           ],
           "motivos_situacoes": {
             "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.": [
-              {
-                "id": "MR012",
-                "descricao": "No subitem a) do item 1002, não houve declaração afirmativa quanto à prática avaliada: rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
-                "texto": "No subitem a) do item 1002, não houve declaração afirmativa quanto à prática avaliada: rotinas de monitoramento do desempenho da gestão de tecnologia da informação estão definidas",
-                "refs_acoes": [
-                  "AV09"
-                ],
-                "condicao_exibicao": "AV09 & ~AV87",
-                "acoes_referencia": [
-                  "AV09"
-                ],
-                "descricao_situacao_inconforme": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento."
-              },
               {
                 "id": "MR014",
                 "descricao": "No subitem c) do item 1002, não houve declaração afirmativa quanto à prática avaliada: os indicadores de desempenho da gestão de tecnologia da informação estão implantados (há coleta e análise dos dados necessários à medição de desempenho)",
@@ -116496,10 +116345,12 @@
           "numero": 4,
           "nome": "Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação",
           "situacoes_encontradas": [
+            "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
             "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.",
             "Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas."
           ],
           "evidencias": [
+            "Resposta negativa ao detalhamento c) do item 2703 do Questionário, para verificar se definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
             "Resposta negativa ao detalhamento a) do item 2702 do Questionário, para verificar se as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas",
             "Resposta negativa ao detalhamento b) do item 2704 do Questionário, para verificar se os gestores são selecionados com base em perfil profissional previamente definido e documentado, e compatível com o cargo ou função para o qual tenha sido indicado",
             "Resposta negativa ao detalhamento b) do item 2705 do Questionário, para verificar se as lacunas de competências de liderança e gestão necessárias para a atuação dos gestores da organização são identificadas e documentadas",
@@ -116508,6 +116359,12 @@
             "Resposta negativa ao detalhamento a) do item 2706 do Questionário, para verificar se a organização elabora plano de capacitação (plano de treinamento) visando o tratamento das lacunas de competência identificadas"
           ],
           "evidencias_detalhadas": [
+            {
+              "descricao": "Resposta negativa ao detalhamento c) do item 2703 do Questionário, para verificar se definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
+              "id_acoes": [
+                "AV29"
+              ]
+            },
             {
               "descricao": "Resposta negativa ao detalhamento a) do item 2702 do Questionário, para verificar se as responsabilidades e atribuições das ocupações ou grupo de ocupações da área de tecnologia da informação estão definidas, documentadas e publicadas",
               "id_acoes": [
@@ -116547,6 +116404,10 @@
           ],
           "encaminhamentos": [
             {
+              "encaminhamento": "estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes",
+              "tipo": "Recomendação"
+            },
+            {
               "encaminhamento": "defina perfis profissionais mínimos para gestores e colaboradores de TIC e segurança da informação, atentando-se, minimamente, em estabelecer conhecimentos, habilidades, experiência e responsabilidades requeridos e utilizar esses perfis na seleção e designação dos responsáveis",
               "tipo": "Recomendação"
             },
@@ -116556,6 +116417,21 @@
             }
           ],
           "motivos_situacoes": {
+            "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.": [
+              {
+                "id": "MR045",
+                "descricao": "No subitem c) do item 2703, não houve declaração afirmativa quanto à prática avaliada: definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
+                "texto": "No subitem c) do item 2703, não houve declaração afirmativa quanto à prática avaliada: definiu-se, de maneira documentada, um quantitativo necessário de pessoal da área de tecnologia da informação e segurança da informação",
+                "refs_acoes": [
+                  "AV29"
+                ],
+                "condicao_exibicao": "AV29 & ~AV103",
+                "acoes_referencia": [
+                  "AV29"
+                ],
+                "descricao_situacao_inconforme": "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação."
+              }
+            ],
             "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.": [
               {
                 "id": "MR053",
@@ -117868,7 +117744,6 @@
             "A organização declarou \"Sim\" no subitem c) do item 2201, mas a evidência encaminhada foi considerada insuficiente para comprovar que o catálogo é de fácil acesso e está amplamente disponível a seus usuários e às equipes de suporte. Justificativa da avaliação: Não foi apresentada evidência da existência de um catálogo de serviços de TI que pudesse ser disponibilizado aos usuários. Embora a Instrução Normativa tenha sido publicada no Informativo oficial, ela não veicula um catálogo de serviços acessível para consulta por usuários ou equipes de suporte. A análise da evidência restringe-se a normas técnicas, não comprovando o item solicitado. A lacuna identificada é a inexistência de catálogo de serviços disponível ou publicado para consulta.",
             "A organização declarou \"Sim\" no subitem d) do item 2201, mas a evidência encaminhada foi considerada insuficiente para comprovar que são formalizados ANS contendo metas de nível de serviço acordadas com representantes das áreas de negócio clientes. Justificativa da avaliação: A Instrução Normativa enviada estabelece diretrizes internas pela administração, sem configurar um Acordo de Nível de Serviço (ANS) bilateral. Não foram apresentados documentos, termos ou instrumentos formalizados que contenham metas acordadas com representantes das áreas de negócio clientes, como exige o item. A análise da evidência demonstra a ausência de pactuação formal do nível de serviço. A lacuna identificada é a ausência de ANS formalizados e assinados com representantes das áreas de negócio clientes.",
             "Resposta negativa ao detalhamento e) do item 2201 do Questionário, para verificar se a área de gestão de tecnologia da informação monitora continuamente o alcance dos níveis de serviço estabelecidos nos ANS",
-            "A organização declarou \"Sim\" no subitem a) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia que não foram apresentadas evidências documentais que comprovem a execução do controle. O documento apresentado restringe-se a registros de backup, não contendo inventário ou controle de dispositivos. Lacuna: inexistência de inventário de hardware ou de dispositivos de controle de rede.",
             "A organização declarou \"Sim\" no subitem b) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia que não foram apresentadas evidências documentais que comprovem a gestão de softwares. O relatório fornecido não lista softwares instalados nos dispositivos. Lacuna: inexistência de relação ou inventário de softwares instalados.",
             "Resposta negativa ao detalhamento a) do item 2204 do Questionário, para verificar se a organização definiu regras para a priorização e o escalamento de incidentes",
             "Resposta negativa ao detalhamento d) do item 2204 do Questionário, para verificar se o(s) processo(s) de gestão de incidentes está(ão) formalizado(s) (a organização instituiu norma interna, guia ou instrumento similar com orientações quanto à execução do processo e definição de responsabilidades)",
@@ -117903,12 +117778,6 @@
               "descricao": "Resposta negativa ao detalhamento e) do item 2201 do Questionário, para verificar se a área de gestão de tecnologia da informação monitora continuamente o alcance dos níveis de serviço estabelecidos nos ANS",
               "id_acoes": [
                 "AV58"
-              ]
-            },
-            {
-              "descricao": "A organização declarou \"Sim\" no subitem a) do item 2504, mas a evidência encaminhada foi considerada insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede. Justificativa da avaliação: A Equipe de Auditoria avalia que não foram apresentadas evidências documentais que comprovem a execução do controle. O documento apresentado restringe-se a registros de backup, não contendo inventário ou controle de dispositivos. Lacuna: inexistência de inventário de hardware ou de dispositivos de controle de rede.",
-              "id_acoes": [
-                "AV132"
               ]
             },
             {
@@ -118025,19 +117894,6 @@
               }
             ],
             "Inexistência ou fragilidade do inventário de ativos de TIC.": [
-              {
-                "id": "MR078",
-                "descricao": "No subitem a) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede",
-                "texto": "No subitem a) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os dispositivos conectados em sua rede",
-                "refs_acoes": [
-                  "AV132"
-                ],
-                "condicao_exibicao": "AV132",
-                "acoes_referencia": [
-                  "AV132"
-                ],
-                "descricao_situacao_inconforme": "Inexistência ou fragilidade do inventário de ativos de TIC."
-              },
               {
                 "id": "MR080",
                 "descricao": "No subitem b) do item 2504, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que gerencia (inventaria e controla) os softwares instalados nos dispositivos conectados em sua rede",

@@ -12,11 +12,13 @@ a logica de preparacao que antes era duplicada entre os dois fluxos.
 """
 from __future__ import annotations
 
+import ipaddress
 import io
 import mimetypes
 import os
 import re
 import shutil
+import socket
 import subprocess
 import tempfile
 import zipfile
@@ -24,6 +26,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urljoin, urlparse
 
 from openpyxl import load_workbook
 
@@ -195,9 +198,6 @@ def _url_download_permitida(url: str) -> tuple[bool, str]:
     Permite apenas esquemas http/https, dominios .gov.br e bloqueia
     credenciais embutidas, enderecos locais e IPs privados/reservados.
     """
-    from urllib.parse import urlparse
-    import ipaddress
-
     parsed = urlparse(url)
     scheme = parsed.scheme.lower()
     if scheme not in URL_SCHEMES_PERMITIDOS:
@@ -227,7 +227,7 @@ def _url_download_permitida(url: str) -> tuple[bool, str]:
     return True, ""
 
 
-def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
+def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str, dict[str, str]]:
     """Baixa um recurso .gov.br de forma segura e retorna o caminho local.
 
     Aplica limite de tamanho, timeout e validacao de Content-Type.
@@ -235,8 +235,6 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
     import ssl
     import requests
     from requests.adapters import HTTPAdapter
-    from urllib.parse import urlparse
-
     class TLSAdapter(HTTPAdapter):
         def init_poolmanager(self, *args, **kwargs):
             ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
@@ -268,27 +266,61 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
         'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
     }
 
-    try:
-        resp = session.head(url, headers=headers, timeout=URL_DOWNLOAD_TIMEOUT, allow_redirects=True)
-        length = resp.headers.get("Content-Length")
-        if length:
-            try:
-                if int(length) > URL_DOWNLOAD_MAX_BYTES:
-                    return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
-            except ValueError:
-                pass
-    except Exception:
-        pass  # HEAD pode nao ser suportado; continua com GET
+    def validar_destino(destino_url: str) -> tuple[bool, str]:
+        permitido, erro = _url_download_permitida(destino_url)
+        if not permitido:
+            return False, erro
+        parsed_destino = urlparse(destino_url)
+        try:
+            enderecos = {
+                item[4][0]
+                for item in socket.getaddrinfo(
+                    parsed_destino.hostname,
+                    parsed_destino.port or (443 if parsed_destino.scheme == "https" else 80),
+                    type=socket.SOCK_STREAM,
+                )
+            }
+        except OSError as exc:
+            return False, f"hostname não resolvido: {exc}"
+        for endereco in enderecos:
+            ip = ipaddress.ip_address(endereco)
+            if ip.is_private or ip.is_reserved or ip.is_loopback or ip.is_link_local:
+                return False, "hostname resolve para endereço privado/reservado"
+        return True, ""
+
+    def obter_validando_redirecionamentos(origem: str):
+        atual = origem
+        for _ in range(6):
+            permitido, erro = validar_destino(atual)
+            if not permitido:
+                raise ValueError(erro)
+            resposta = session.get(
+                atual,
+                headers=headers,
+                timeout=URL_DOWNLOAD_TIMEOUT,
+                stream=True,
+                allow_redirects=False,
+            )
+            if resposta.is_redirect or resposta.is_permanent_redirect:
+                location = resposta.headers.get("Location")
+                resposta.close()
+                if not location:
+                    raise ValueError("redirecionamento sem destino")
+                atual = urljoin(atual, location)
+                continue
+            return resposta, atual
+        raise ValueError("quantidade máxima de redirecionamentos excedida")
 
     try:
-        with session.get(url, headers=headers, timeout=URL_DOWNLOAD_TIMEOUT, stream=True, allow_redirects=True) as resp:
+        resp, final_url = obter_validando_redirecionamentos(url)
+        with resp:
             resp.raise_for_status()
             
             length = resp.headers.get("Content-Length")
             if length:
                 try:
                     if int(length) > URL_DOWNLOAD_MAX_BYTES:
-                        return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
+                        return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes", {}
                 except ValueError:
                     pass
 
@@ -296,16 +328,16 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
             for chunk in resp.iter_content(chunk_size=8192):
                 dados.extend(chunk)
                 if len(dados) > URL_DOWNLOAD_MAX_BYTES:
-                    return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes"
+                    return None, f"recurso excede {URL_DOWNLOAD_MAX_BYTES} bytes", {}
 
             content_type = resp.headers.get("Content-Type", "").split(";")[0].strip().lower()
             if content_type:
                 if content_type not in URL_MIME_TYPES_PERMITIDOS:
-                    return None, f"tipo de conteudo nao permitido: {content_type}"
+                    return None, f"tipo de conteudo nao permitido: {content_type}", {}
             else:
                 tipo_inferido, _ = mimetypes.guess_type(nome_sugerido)
                 if not tipo_inferido or tipo_inferido not in URL_MIME_TYPES_PERMITIDOS:
-                    return None, "tipo de conteudo nao identificado ou nao permitido"
+                    return None, "tipo de conteudo nao identificado ou nao permitido", {}
 
             # Determina a extensao baseada no Content-Type ou na URL original
             ext_sugerida = Path(nome_sugerido).suffix.lower()
@@ -326,9 +358,13 @@ def baixar_recurso_url(url: str, destino: Path) -> tuple[Path | None, str]:
             target = caminho_unico(destino, nome_seguro)
 
             target.write_bytes(bytes(dados))
-            return target, ""
+            return target, "", {
+                "url_original": url,
+                "url_final": final_url,
+                "content_type": content_type,
+            }
     except Exception as exc:
-        return None, f"erro ao baixar recurso: {exc}"
+        return None, f"erro ao baixar recurso: {exc}", {}
 
 
 def _extrair_compactado_para_hierarquia(
@@ -555,7 +591,7 @@ def processar_arquivo_individual(
             permitido, _ = _url_download_permitida(url)
             if permitido:
                 pasta_download = destino / "_url_downloads"
-                baixado, _ = baixar_recurso_url(url, pasta_download)
+                baixado, _, _ = baixar_recurso_url(url, pasta_download)
                 if baixado:
                     docs, upload, erro_proc = processar_arquivo_individual(
                         baixado,
