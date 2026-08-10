@@ -737,7 +737,7 @@ def render_home(state: dict, selected_index: int) -> None:
             marker = "[green]✓[/green]"
         elif status == "partial":
             marker = "[yellow]![/yellow]"
-        elif status == "awaiting_input":
+        elif status in {"awaiting_input", "awaiting_review"}:
             marker = "[yellow]⏸[/yellow]"
         elif status == "failed":
             marker = "[red]✗[/red]"
@@ -1217,6 +1217,7 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
     env = os.environ.copy()
     env.setdefault("PYTHONUNBUFFERED", "1")
     awaiting_input = False
+    awaiting_review = False
     with log_path.open("w", encoding="utf-8") as log:
         emit_log(log, f"Iniciando rotina: {routine.name}")
         emit_log(log, f"Comando: {shlex.join(cmd)}")
@@ -1249,6 +1250,8 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
             if cleaned:
                 if "aguardando comentários" in cleaned.casefold() or "awaiting_input" in cleaned.casefold():
                     awaiting_input = True
+                if "awaiting_review" in cleaned.casefold() or "aguardando revisão humana" in cleaned.casefold():
+                    awaiting_review = True
                 emit_log(log, cleaned)
         returncode = proc.wait()
         duration = round(time.monotonic() - started_monotonic, 2)
@@ -1257,12 +1260,20 @@ def run_command(routine: Routine, cmd: list[str]) -> dict:
         elif returncode == 2:
             label = "aguardando insumos" if awaiting_input else "parcialmente"
             emit_log(log, f"Rotina finalizada {label} em {duration_text(duration)}.", level="WARNING")
+        elif returncode == 3 and awaiting_review:
+            emit_log(log, f"Rotina aguardando revisão humana em {duration_text(duration)}.", level="WARNING")
         else:
             emit_log(log, f"Rotina finalizada com erro: código {returncode} em {duration_text(duration)}.", level="ERROR")
 
     finished = now_iso()
     duration = round(time.monotonic() - started_monotonic, 2)
-    status = "success" if returncode == 0 else ("awaiting_input" if returncode == 2 and awaiting_input else ("partial" if returncode == 2 else "failed"))
+    status = (
+        "success" if returncode == 0
+        else "awaiting_input" if returncode == 2 and awaiting_input
+        else "awaiting_review" if returncode == 3 and awaiting_review
+        else "partial" if returncode == 2
+        else "failed"
+    )
     return {
         "status": status,
         "started_at": started,
@@ -1348,7 +1359,11 @@ def run_comments_group_interactive(state: dict) -> None:
         table.add_column("Status")
         for index, routine in enumerate(COMMENTS_ROUTINES):
             data = state.get("routines", {}).get(routine.key, {})
-            marker = {"success": "[green]✓[/green]", "partial": "[yellow]![/yellow]", "awaiting_input": "[yellow]⏸[/yellow]", "failed": "[red]✗[/red]"}.get(data.get("status"), "[dim]-[/dim]")
+            marker = {
+                "success": "[green]✓[/green]", "partial": "[yellow]![/yellow]",
+                "awaiting_input": "[yellow]⏸[/yellow]", "awaiting_review": "[yellow]⏸[/yellow]",
+                "failed": "[red]✗[/red]",
+            }.get(data.get("status"), "[dim]-[/dim]")
             table.add_row(">" if index == index_selected else "", routine.name, routine.description, marker, style="reverse" if index == index_selected else None)
         console.print(table)
         console.print("[bold]Opções:[/bold] [cyan]↑/↓[/cyan] mover | [cyan]Enter[/cyan] configurar | [cyan]q[/cyan] voltar")

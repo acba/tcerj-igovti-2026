@@ -1,0 +1,122 @@
+estilo: default
+metadata_software: "TCE-RJ iGovTI 2026"
+rotulo_principal: "iGovTI 2026"
+coluna_auditado: sigla
+coluna_maturidade: iGovTI_maturidade
+indice_coluna: iGovTI
+componentes:
+  iGovTI: "iGovTI"
+  GovernancaTI: "Governança de TIC"
+  iGestTI: "Gestão de TIC"
+dispersao_componentes: [GovernancaTI, iGestTI]
+dimensoes:
+  PlanejamentoTI: "Planejamento de TI"
+  ServicosTI: "Gestão de Serviços"
+  RiscosTISegInfo: "Riscos e segurança"
+  EstruturaSegInfo: "Estrutura de segurança"
+  ProcessoSegInfo: "Processos de segurança"
+  GerirSoluçõesTI: "Gestão de soluções"
+questoes:
+  - q1001
+  - q1002
+  - q1003
+  - q1004
+  - q2101
+  - q2102
+  - q2201
+  - q2202
+  - q2203
+  - q2204
+  - q2301
+  - q2302
+  - q2303
+  - q2401
+  - q2402
+  - q2403
+  - q2501
+  - q2502
+  - q2503
+  - q2504
+  - q2601
+  - q2602
+procedimentos:
+  PA01: "Q1 - Estrutura de TIC"
+  PA02: "Q2 - Governança e comitê"
+  PA03: "Q3 - Planejamento de TIC"
+  PA04: "Q4 - Capacidade institucional"
+  PA05: "Q5 - Gestão de serviços"
+  PA06: "Q6 - Contratações de TIC"
+forca_trabalho:
+  questao: q0105
+  areas:
+    TI: "Tecnologia da informação"
+    SI: "Segurança da informação"
+  vinculos:
+    - {coluna: efetivos, rotulo: "Efetivos", cor: "#3B6EA8"}
+    - {coluna: comissionados, rotulo: "Comissionados", cor: "#7556A5"}
+    - {coluna: terceirizados, rotulo: "Terceirizados", cor: "#D59A2F"}
+    - {coluna: cedidos, rotulo: "Cedidos", cor: "#167D8D"}
+    - {coluna: temporarios, rotulo: "Temporários", cor: "#B64B5A"}
+    - {coluna: estagiarios, rotulo: "Estagiários", cor: "#6B7280"}
+comparacao:
+  indice: iGovTI
+  indicadores:
+    iGovTI: "iGovTI comparável"
+    GovernancaTI: "Governança de TIC"
+    iGestTI: "Gestão de TIC"
+  agregados:
+    ModeloTI: "Modelo de gestão"
+    MonitorAvaliaTI: "Monitoramento e avaliação"
+    ResultadoTI: "Resultados e simplificação"
+    PlanejamentoTI: "Planejamento"
+    PessoasTI: "Pessoas"
+    iGestServicosTI: "Serviços"
+    iGestNiveisServicoTI: "Níveis de serviço"
+    iGestRiscosTI: "Riscos"
+    EstruturaSegInfo: "Estrutura de segurança"
+    ProcessoSegInfo: "Processos de segurança"
+    ProcessoSoftware: "Processo de software"
+    iGestProjetosTI: "Projetos"
+  grupos: [Estaduais, Municípios]
+  rotulos_ciclos: ["2023", "2026"]
+  evolucao_rotulos:
+    iGovTI: "iGovTI"
+    GovernancaTI: "Governança"
+    iGestTI: "Gestão"
+  aliases:
+    FIARJ: FIA
+    FTMRJ: FTM
+    IO: IOERJ
+    IPEMRJ: IPEM
+    RIOPREVI: RIOPREVIDENCIA
+    RIOTRILH: RIOTRILHOS
+    SEDSODH: SEDSDH
+arquivos:
+  distribuicao_maturidade: "igovti_2026_distribuicao_maturidade.png"
+  distribuicao_continua: "igovti_2026_distribuicao_continua.png"
+  distribuicao_componentes: "igovti_2026_distribuicao_componentes.png"
+  dispersao_componentes: "igovti_2026_governanca_vs_gestao.png"
+  distribuicao_dimensoes: "igovti_2026_distribuicao_dimensoes_gestao.png"
+  maturidade_dimensoes: "igovti_2026_maturidade_dimensoes.png"
+  dimensoes_sucesso: "igovti_2026_dimensoes_intermediario_aprimorado.png"
+  mapa_calor_dimensoes: "igovti_2026_mapa_calor_organizacoes_dimensoes.png"
+  correlacao_dimensoes: "igovti_2026_correlacao_dimensoes_gestao.png"
+  distribuicao_respostas: "igovti_2026_distribuicao_respostas_questoes.png"
+  perfil_questoes: "igovti_2026_perfil_questoes_auditoria.png"
+  distribuicao_comparavel: "igovti_comparavel_distribuicao_2023_2026.png"
+  transicao_niveis: "igovti_comparavel_transicao_maturidade_2023_2026.png"
+  variacoes_agregados: "igovti_comparavel_variacao_agregados_2023_2026.png"
+  maiores_mudancas: "igovti_comparavel_maiores_variacoes_2023_2026.png"
+  evolucao_geral: "igovti_comparavel_evolucao_organizacoes_2023_2026.png"
+  comparacao_grupos: "igovti_comparavel_estaduais_municipios_2023_2026.png"
+  individuais:
+    comparativo_distribuicao: "{sigla}_comparativo_distribuicao_{indicador}.png"
+    componentes: "{sigla}_componentes_iGovTI.png"
+    radar_dimensoes: "{sigla}_perfil_dimensoes_iGestTI.png"
+    bullets_dimensoes: "{sigla}_comparacao_dimensoes_iGestTI.png"
+    percentis: "{sigla}_percentis_indicadores.png"
+    evolucao: "{sigla}_evolucao_igovti_2023_2026.png"
+    forca_trabalho: "{sigla}_forca_trabalho_tic_si.png"
+  achados: "igovti_2026_achado{n}_esferas.png"
+dispersao_diagonal_rotulo: "Governança = gestão"
+rotulo_ordenacao: "Organizações ordenadas pelo iGovTI"

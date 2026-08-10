@@ -4,6 +4,7 @@ import hashlib
 import json
 import tempfile
 import unittest
+from argparse import Namespace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -55,7 +56,7 @@ from scripts.comentarios_gestor_pipeline import (
     parse_uploads,
     validar_justificativa_publicavel,
 )
-from scripts.run_comentarios_gestor import DEFAULT_MODELS_CONFIG, carregar_configuracao_modelos, models
+from scripts.run_comentarios_gestor import DEFAULT_MODELS_CONFIG, carregar_configuracao_modelos, models, run
 
 
 def opinion(case_id: str, provider: str, model: str) -> dict:
@@ -95,6 +96,50 @@ def opinion(case_id: str, provider: str, model: str) -> dict:
 
 
 class ComentariosGestorPipelineTest(unittest.TestCase):
+    def test_complete_pipeline_succeeds_when_only_redundant_evaluators_failed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            args = Namespace(
+                action="completo",
+                fake=False,
+                out_dir=out_dir,
+                revisao_humana=None,
+                models_config=Path("models.json"),
+                preflight_only=False,
+            )
+            avaliacao_com_aviso = {"modelos": [{"erros": 1}], "secao": "1"}
+            consolidacao_valida = {"pendentes_quorum": 0, "secao": "1"}
+            integridade = {
+                "status": "conforme",
+                "casos_integralmente_validos": 598,
+                "avisos_avaliacoes_individuais": 146,
+            }
+            revisao = {"status": "approved", "pendentes": []}
+            ajustes = {"ajustes": 160, "pendencias": 0}
+
+            with (
+                patch("scripts.run_comentarios_gestor.carregar_configuracao_modelos", return_value={}),
+                patch("scripts.run_comentarios_gestor.evaluate_section", side_effect=[
+                    avaliacao_com_aviso,
+                    {**avaliacao_com_aviso, "secao": "2"},
+                ]),
+                patch("scripts.run_comentarios_gestor.consolidate_section", side_effect=[
+                    consolidacao_valida,
+                    {**consolidacao_valida, "secao": "2"},
+                ]),
+                patch("scripts.run_comentarios_gestor._carregar_saneados_secao1", return_value=({}, [], [])),
+                patch("scripts.run_comentarios_gestor.validate_integrity", return_value=integridade),
+                patch("scripts.run_comentarios_gestor.review_gate", return_value=revisao),
+                patch("scripts.run_comentarios_gestor.generate_adjustments", return_value=ajustes),
+            ):
+                returncode = run(args)
+
+            resumo = json.loads((out_dir / "resumo-execucao.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(returncode, 0)
+        self.assertEqual(resumo["status"], "success")
+        self.assertEqual(resumo["integridade"]["avisos_avaliacoes_individuais"], 146)
+
     def test_captured_manager_link_is_reused_with_its_original_hash(self) -> None:
         documentos = [{"tipo": "comentario_gestor", "texto": "https://www.exemplo.gov.br/pedtic"}]
         with tempfile.TemporaryDirectory() as tmp:

@@ -435,3 +435,17 @@ There are no automated tests yet. Choose validation based on the changed artifac
 - Do not suggest git commands unless the user explicitly asks for git help.
 - Do not edit generated prompt Markdown directly; edit the YAML catalog and regenerate.
 - Do not overwrite user changes or unrelated generated artifacts.
+
+## Agent skills
+
+### Issue tracker
+
+As issues e especificações são arquivos Markdown locais em `.scratch/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Usamos os rótulos padrão: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human` e `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Layout single-context, com `CONTEXT.md` e ADRs em `docs/adr/`. See `docs/agents/domain.md`.

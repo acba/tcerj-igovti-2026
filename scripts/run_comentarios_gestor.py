@@ -25,6 +25,7 @@ from scripts.comentarios_gestor_pipeline import (
     DEFAULT_RESPOSTAS_BASE,
     DEFAULT_RESPOSTAS_ORIGINAIS,
     DEFAULT_RESULTADO,
+    DEFAULT_REVISOES_PARECERES,
     DEFAULT_REVISOES_RESPOSTAS,
     _identidade_logica_analise,
     avaliar_casos,
@@ -40,6 +41,11 @@ from scripts.comentarios_gestor_pipeline import (
     preparar_casos_comentarios,
 )
 from scripts.comentarios_gestor_integridade import validar_integridade_comentarios
+from scripts.comentarios_gestor_revisao import (
+    detectar_prioridades,
+    sincronizar_planilha_revisao,
+    validar_aprovacoes,
+)
 
 TMP_ROOT = Path("/tmp/tcerj-igovti-2026") if sys.platform != "win32" else Path("C:/tmp/tcerj-igovti-2026")
 DEFAULT_OUT = TMP_ROOT / "02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor"
@@ -358,6 +364,7 @@ def consolidate_section(
         pdf_detail=judge["pdf_detail"],
         catalog_comentarios=args.catalog_comentarios,
         deterministic_path=(args.out_dir / "individuais/secao-1/deterministicos.jsonl") if secao == "1" else None,
+        revisoes_pareceres_path=None if args.fake else args.revisoes_pareceres,
         expected_case_ids=expected_case_ids or set(manifesto.get("case_ids_ia") or []),
         selected_case_ids=selected_case_ids,
         refresh_links=args.refresh_links,
@@ -435,11 +442,38 @@ def generate_adjustments(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+def review_gate(args: argparse.Namespace) -> dict[str, Any]:
+    prioridades, divergencias, universo = detectar_prioridades(
+        secoes={
+            "1": (
+                _analysis_files(args, "1"),
+                args.out_dir / "consolidado/secao-1/consolidated_clean.jsonl",
+            ),
+            "2": (
+                _analysis_files(args, "2"),
+                args.out_dir / "consolidado/secao-2/consolidated_clean.jsonl",
+            ),
+        }
+    )
+    sincronizar_planilha_revisao(
+        path=args.revisao_humana,
+        prioridades=prioridades,
+        divergencias=divergencias,
+        universo=universo,
+    )
+    resultado = validar_aprovacoes(args.revisao_humana, prioridades)
+    resultado.update({"divergencias": len(divergencias), "universo": len(universo)})
+    _write_json(args.out_dir / "preflight/validacao-revisao-humana.json", resultado)
+    return resultado
+
+
 def validate_integrity(args: argparse.Namespace) -> dict[str, Any]:
     secoes = [args.secao] if args.secao in {"1", "2"} else ["1", "2"]
     casos_por_secao: dict[str, list[dict[str, Any]]] = {"1": [], "2": []}
     deterministicos_por_secao: dict[str, list[dict[str, Any]]] = {"1": [], "2": []}
     for secao in secoes:
+        if secao == "2":
+            args.saneados_secao1_runtime, _, _ = _carregar_saneados_secao1(args)
         casos, deterministicos, _ = prepare(args, secao)
         casos_por_secao[secao] = casos
         deterministicos_por_secao[secao] = deterministicos
@@ -491,6 +525,7 @@ def repair_integrity(args: argparse.Namespace) -> dict[str, Any]:
 def run(args: argparse.Namespace) -> int:
     resumo: dict[str, Any] = {"action": args.action, "fake": args.fake, "resultados": []}
     try:
+        args.revisao_humana = args.revisao_humana or args.out_dir / "revisao-humana-pareceres.xlsx"
         args.models_runtime_config = carregar_configuracao_modelos(args.models_config)
         resumo["models_config"] = str(args.models_config)
         resumo["models_config_version"] = args.models_runtime_config.get("version", "")
@@ -528,6 +563,17 @@ def run(args: argparse.Namespace) -> int:
                     raise ValueError(
                         "validação de integridade reprovada; execute 'reparar-integridade' antes de gerar ajustes"
                     )
+                resumo["revisao_humana"] = review_gate(args)
+                if resumo["revisao_humana"]["status"] != "approved":
+                    resumo["status"] = "awaiting_review"
+                    _write_json(args.out_dir / "resumo-execucao.json", resumo)
+                    print(json.dumps({
+                        "event": "comments_pipeline_awaiting_review",
+                        "status": "awaiting_review",
+                        "planilha": str(args.revisao_humana),
+                        "pendentes": len(resumo["revisao_humana"]["pendentes"]),
+                    }, ensure_ascii=False), flush=True)
+                    return 3
                 resumo["ajustes"] = generate_adjustments(args)
         elif args.action == "gerar-ajustes":
             resumo["integridade"] = validate_integrity(args)
@@ -535,7 +581,33 @@ def run(args: argparse.Namespace) -> int:
                 raise ValueError(
                     "validação de integridade reprovada; execute 'reparar-integridade' antes de gerar ajustes"
                 )
+            resumo["revisao_humana"] = review_gate(args)
+            if resumo["revisao_humana"]["status"] != "approved":
+                resumo["status"] = "awaiting_review"
+                _write_json(args.out_dir / "resumo-execucao.json", resumo)
+                print(json.dumps({
+                    "event": "comments_pipeline_awaiting_review",
+                    "status": "awaiting_review",
+                    "planilha": str(args.revisao_humana),
+                    "pendentes": len(resumo["revisao_humana"]["pendentes"]),
+                }, ensure_ascii=False), flush=True)
+                return 3
             resumo["ajustes"] = generate_adjustments(args)
+        elif args.action in {"preparar-revisao", "validar-revisao"}:
+            resumo["integridade"] = validate_integrity(args)
+            if resumo["integridade"]["status"] != "conforme":
+                raise ValueError("validação de integridade reprovada; repare os pareceres antes da revisão")
+            resumo["revisao_humana"] = review_gate(args)
+            if resumo["revisao_humana"]["status"] != "approved":
+                resumo["status"] = "awaiting_review"
+                _write_json(args.out_dir / "resumo-execucao.json", resumo)
+                print(json.dumps({
+                    "event": "comments_pipeline_awaiting_review",
+                    "status": "awaiting_review",
+                    "planilha": str(args.revisao_humana),
+                    "pendentes": len(resumo["revisao_humana"]["pendentes"]),
+                }, ensure_ascii=False), flush=True)
+                return 3
         elif args.action == "validar-integridade":
             resumo["integridade"] = validate_integrity(args)
         elif args.action == "reparar-integridade":
@@ -557,7 +629,25 @@ def run(args: argparse.Namespace) -> int:
             return any(has_partial(v) for v in value)
         return False
 
-    parcial = has_partial(resumo["resultados"])
+    fechamento_consolidado = (
+        args.action in {"completo", "gerar-ajustes"}
+        and resumo.get("integridade", {}).get("status") == "conforme"
+        and resumo.get("revisao_humana", {}).get("status") == "approved"
+        and "ajustes" in resumo
+    )
+    if fechamento_consolidado:
+        pendencias_ajustes = int(resumo.get("ajustes", {}).get("pendencias", 0) or 0)
+        pendencias_consolidacao = any(
+            isinstance(resultado, dict)
+            and (
+                resultado.get("pendentes_quorum", 0)
+                or resultado.get("error")
+            )
+            for resultado in resumo["resultados"]
+        )
+        parcial = bool(pendencias_ajustes or pendencias_consolidacao)
+    else:
+        parcial = has_partial(resumo["resultados"])
     resumo["status"] = "partial" if parcial else "success"
     _write_json(args.out_dir / "resumo-execucao.json", resumo)
     print(json.dumps({"event": "comments_pipeline_finished", "status": resumo["status"], "out_dir": str(args.out_dir)}, ensure_ascii=False), flush=True)
@@ -568,7 +658,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "action",
-        choices=["avaliar", "consolidar", "gerar-ajustes", "validar-integridade", "reparar-integridade", "completo"],
+        choices=[
+            "avaliar", "consolidar", "preparar-revisao", "validar-revisao", "gerar-ajustes",
+            "validar-integridade", "reparar-integridade", "completo",
+        ],
     )
     parser.add_argument("--secao", choices=["1", "2", "ambas"], default="ambas")
     parser.add_argument("--respostas-comentarios", type=Path, default=DEFAULT_RESPOSTAS)
@@ -582,6 +675,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--respostas-questionario-originais", type=Path, default=DEFAULT_RESPOSTAS_ORIGINAIS)
     parser.add_argument("--painel-avaliacao-evidencias", type=Path, default=DEFAULT_PAINEL_EVIDENCIAS)
     parser.add_argument("--revisoes-respostas", type=Path, default=DEFAULT_REVISOES_RESPOSTAS)
+    parser.add_argument("--revisoes-pareceres", type=Path, default=DEFAULT_REVISOES_PARECERES)
+    parser.add_argument("--revisao-humana", type=Path)
     parser.add_argument("--prompts-dir", type=Path, default=DEFAULT_PROMPTS)
     parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     parser.add_argument("--catalog-comentarios", type=Path, default=DEFAULT_CATALOG_COMENTARIOS)

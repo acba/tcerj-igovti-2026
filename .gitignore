@@ -43,6 +43,9 @@ dist/
 
 relatorio-consolidado/
 relatorios-individuais/
+/03-Relatorios/01-Relatorio_Consolidado/gerados/
+/03-Relatorios/02-Relatorios_Individuais_Preliminares/gerados/
+/03-Relatorios/03-Relatorios_Individuais_Finais/gerados/
 .argos-cli/
 .env
 .tmp-tests/

@@ -2,16 +2,16 @@
   "action": "gerar-ajustes",
   "fake": false,
   "resultados": [],
-  "models_config": "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json",
+  "models_config": "scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json",
   "models_config_version": "comentarios_gestor_models_v2",
   "integridade": {
     "schema_version": 1,
-    "status": "reparo_necessario",
-    "total_casos": 601,
-    "casos_integralmente_validos": 583,
+    "status": "conforme",
+    "total_casos": 598,
+    "casos_integralmente_validos": 598,
     "casos_reprocessamento_secao_1": 0,
-    "casos_reprocessamento_secao_2": 18,
-    "avisos_avaliacoes_individuais": 147,
+    "casos_reprocessamento_secao_2": 0,
+    "avisos_avaliacoes_individuais": 146,
     "violacoes": [
       {
         "Seção": "1",
@@ -20,8 +20,8 @@
         "Código": "A6G23",
         "Case ID": "115d4f67fe9882e44b6e9718e5ddeb3eb8f64801c0a6e3284d6316603000d9f9",
         "Modelo": "minimax-m3",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR105', 'MR108']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -31,7 +31,7 @@
         "Case ID": "6e5206c553b3ec92fe1e1cb2cfe5dfde47b7a705efe034729a3aaa49d502eea5",
         "Modelo": "gpt-5.6-luna",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpenAI: HTTP Error 502: Bad Gateway; body: {\"error\":{\"message\":\"fetch failed\",\"type\":\"upstream_error\",\"code\":\"upstream_failure\"}}"
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -41,7 +41,7 @@
         "Case ID": "655fee7806a2d0cbabbff5ff4714f8a48e3c2ef55da290f6857342bacb4e99ed",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: escopo_motivos: motivos esperados=['MR019', 'MR021']; recebidos=[]"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -51,7 +51,7 @@
         "Case ID": "b4544a5bb5d051c0c6d3e7d7a6c9bf2053ebfd4d0050cb9509bf336615eaf649",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -71,7 +71,7 @@
         "Case ID": "42a2f6894597de267a047846d4172c1e2f31c4c84d695c38cd08392cf9cce818",
         "Modelo": "gpt-5.6-luna",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -80,8 +80,8 @@
         "Código": "A3G9",
         "Case ID": "335f0f97453d8197cfe096d3452bf678a9992ce28bfccd054e094fa0ec62b72e",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR026', 'MR028']; recebidos=[]"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -90,8 +90,8 @@
         "Código": "A3G11",
         "Case ID": "a9830e94d44e6e534c257e2719cd135d9946d1dc3bf38f8de76cdfee0993628d",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -101,7 +101,7 @@
         "Case ID": "62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -110,8 +110,8 @@
         "Código": "A6G23",
         "Case ID": "ce91ddce20630c8e43f0b76d6622482e5fff67c521c92d32a76d07b946742222",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "codigo_item_duplicado: itens duplicados: A6G23; escopo_itens: itens esperados=['A6G23']; recebidos=['A6G23', 'A6G23', 'A6G23', 'A6G23']; escopo_motivos: motivos esperados=['MR103', 'MR105', 'MR107']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido; escopo_motivos: motivos esperados=['MR103', 'MR105', 'MR107']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido; escopo_motivos: motivos esperados=['MR103', 'MR105', 'MR107']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido; escopo_motivos: motivos esperados=['MR103', 'MR105', 'MR107']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -121,7 +121,7 @@
         "Case ID": "594fa8889e416b37345b4e7d4cb356ceacb131c72fa10b1db9cbdc0917f04cc8",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -151,7 +151,7 @@
         "Case ID": "415cc01e090a0581bb2d8bf4695a78f272aa687f595e8c30b3510f918806d86c",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: escopo_motivos: motivos esperados=['MR002', 'MR005']; recebidos=[]"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -171,7 +171,7 @@
         "Case ID": "d09802ab909120f5ea59d13193f350ab8e63613cd4c9d4eb810bf87b5d701194",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -180,8 +180,8 @@
         "Código": "A2G5",
         "Case ID": "da7297c15375ff47716ec28f901297765317f73670350ed94dd313d2ac4b6d56",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -190,8 +190,8 @@
         "Código": "A3G9",
         "Case ID": "62d9bce973c10299c994e4befd507c33462b73b2d72652ad8bedfb780a4fda31",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -200,8 +200,8 @@
         "Código": "A2G4",
         "Case ID": "e7ea7d25030727cf049ec4b3fb2d8a61fff565c751e75b54da907dfcbdc5727c",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -210,8 +210,8 @@
         "Código": "A2G6",
         "Case ID": "a392852afdbe0a35bbc8e515d63b7adf3ea74603e4c2364880ff9991b9cb4e6a",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR008', 'MR010', 'MR012', 'MR014']; recebidos=['MR008', 'MR010', ':', 'MR014']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -220,8 +220,8 @@
         "Código": "A3G9",
         "Case ID": "1fb80daff9316854ccf9a4b399750fe541c595ca100f2b08c870836c2141c546",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR022', 'MR024', 'MR026', 'MR028']; recebidos=['MR022', 'MR024', ':', 'MR028']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -230,8 +230,8 @@
         "Código": "A4G16",
         "Case ID": "6426b3457166cae13f095097b466387ad55d3f19ead687aee662dfbb201ab580",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR057', 'MR058', 'MR059', 'MR060']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -240,8 +240,8 @@
         "Código": "A4G17",
         "Case ID": "bb1aa3f54f34bbf59a11e6f6f34b7a35ba19e3be1162270ffcd687498d7f3221",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -250,8 +250,8 @@
         "Código": "A5G18",
         "Case ID": "f46754b83a0618de28545d39fea5b5a5fe27e4df5ae7d8d40129ad012d172a41",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -260,8 +260,8 @@
         "Código": "A6G23",
         "Case ID": "6410fadb1f1887d03d77aa50b6d2c8e5f2bb03bfede3123a3b2d2f9bdd2cd4ae",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR103', 'MR105', 'MR107', 'MR109']; recebidos=['MR103', 'MR105', 'MR107', ':']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -270,8 +270,8 @@
         "Código": "A6G26",
         "Case ID": "12297b3c8fb9a0722ec1b16f520f4bcd341d68390e5e4c03d82f1babe4f5f547",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -280,8 +280,8 @@
         "Código": "A2G5",
         "Case ID": "aa23a0fa7e6ab73daab8869fc2baf40da34c80ec20344a62f5eece4cdef690e4",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR019', 'MR020']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -290,8 +290,8 @@
         "Código": "A3G8",
         "Case ID": "35457f37b805f0c8e7eda5297494722928ecfc8b64a7fef7d833795cc85ac475",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -310,8 +310,8 @@
         "Código": "A5G20",
         "Case ID": "214646067ac322bc525366d017f82d058ff403a86fef868bf18f8578c94247b1",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -320,8 +320,8 @@
         "Código": "A6G23",
         "Case ID": "4b953bd730cfaf6aa696b2efe61639260dd40aee7d1a56e6c97c6af13ec80754",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -330,8 +330,8 @@
         "Código": "A3G9",
         "Case ID": "0de2ec41ed1000db7b4281dc888af320c81617d747dce87308404c29c5e5250a",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR026']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -340,8 +340,8 @@
         "Código": "A3G11",
         "Case ID": "d4fae9a984a41eb6ef8dce51be951c5291f509df754f7f95a78de297585b94a1",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; escopo_motivos: motivos esperados=['MR037', 'MR039']; recebidos=[]"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -350,8 +350,8 @@
         "Código": "A3G8",
         "Case ID": "8a31ed41691d6753583f1d62eff6c79364eb38c50ea915c29370a8ce92503eff",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -360,8 +360,8 @@
         "Código": "A6G26",
         "Case ID": "ba2c04e00c1a59c6567d87259dd864c2adb0e9e533ca7bd3d31ae8461a67afdb",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -370,8 +370,8 @@
         "Código": "A2G4",
         "Case ID": "7a1cfa9d6a53614d537cb1d305bc0023d3214b65c2a71d39c3fdbb3c42ac12e4",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -380,8 +380,8 @@
         "Código": "A3G9",
         "Case ID": "709d82fd41c295f229352144df1919addd35e7fbad510cd38a954f4fee05ea2f",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -390,8 +390,8 @@
         "Código": "A3G11",
         "Case ID": "2d133923c602a27a598af28c685c364a200d4cd2ae2faafb5a3f1d384f336b5d",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR034', 'MR036', 'MR038']; recebidos=['MR034', 'MR036', ':']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -410,8 +410,8 @@
         "Código": "A5G21",
         "Case ID": "3bd73a2239fb82148c9904214aa69cf70e7a35d27ee43699d5bce026a170c85f",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR085', 'MR087', 'MR089']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -420,8 +420,8 @@
         "Código": "A6G23",
         "Case ID": "165ca6ebaf9e2d1511a7581a8846181af7d6984f0a0fff622e96018e99e18cf0",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -430,8 +430,8 @@
         "Código": "A2G4",
         "Case ID": "fbc22e0c17f855580d3e964d12f0d268107317b0dfcf80c1214e31fa8312aff7",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -450,8 +450,8 @@
         "Código": "A4G14",
         "Case ID": "304a0e3f8a81286f0ecbb5be8c28f1a6569d9ef11968d0fd1283de9273f86a60",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -480,8 +480,8 @@
         "Código": "A3G11",
         "Case ID": "c9e840ee16f0e0ed8feeb1fe58d8231f2f8f302e04f73590dc6d523a46d2f250",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR036', 'MR038']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -490,8 +490,8 @@
         "Código": "A4G17",
         "Case ID": "bd0d7988fc2635b58af4d2853c6c0560423982e5d7dbf825fb2b470c118838d0",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR054', 'MR056']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -500,8 +500,8 @@
         "Código": "A5G19",
         "Case ID": "225d82575384811e83478f005ce8f17ccdd0d7fbc1e4d9cdb067f9263c77773a",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -510,8 +510,8 @@
         "Código": "A5G21",
         "Case ID": "b8f0d34dc0717e304173271b6055fd974f71153f71be5c8f451473b7f283ef76",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -520,8 +520,8 @@
         "Código": "A5G20",
         "Case ID": "0726ebd634f3419de57ed3ffebdfd49a75d76afa0dddeb840b38023ccb285252",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -530,8 +530,8 @@
         "Código": "A2G4",
         "Case ID": "213e195ffb51545c4c400fdde65f50864c4b3a77d84b344c65d01df405419788",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -540,8 +540,8 @@
         "Código": "A3G8",
         "Case ID": "b25600e489fe96acff065ae27b3abdba16102ae6e0f0624b72c38d19612ec4ce",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -550,8 +550,8 @@
         "Código": "A1G2",
         "Case ID": "283fa869d14a8645356a618540ebdd55e45b943ff77d9006c7672cd6ddbde88b",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -560,8 +560,8 @@
         "Código": "A1G3",
         "Case ID": "e6e02274f6c1bda04bdc6df76502fe06e11743a68597e9918866451644a433e6",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -581,7 +581,7 @@
         "Case ID": "cd0985ed56cecba7558fd6b0de4cbb12da93b14a3d2f1ea22b38d3354e1b3bce",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -590,8 +590,8 @@
         "Código": "A2G6",
         "Case ID": "7d3e29d1b3bccbf14558bbbe8a849823d0d885cbec83332b61317adcb3fd98a8",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -600,8 +600,8 @@
         "Código": "A3G9",
         "Case ID": "d490df520472a8727c82893f202d0121e54aac9ec172fa4f784bed9a2520637a",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR022', 'MR024', 'MR026', 'MR028']; recebidos=['MR022', 'MR024', ':', 'MR028']; estado_motivo: estados de motivo inválidos: inconclusivo; coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -610,8 +610,8 @@
         "Código": "A3G10",
         "Case ID": "12045f541b2acfaa3ba03144111adc23a05102a2f8c711a336a5d7201942e3b5",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -620,8 +620,8 @@
         "Código": "A4G14",
         "Case ID": "99a260a90e578fe9bff1b5fb818e776c5a907c7dbbaa6980f1039f8cd6000341",
         "Modelo": "gemini-3.1-flash-lite",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: GEMINI_API_KEY nao configurada para provider gemini"
       },
       {
         "Seção": "1",
@@ -651,7 +651,7 @@
         "Case ID": "a4127c1213e480c6bc9a6a70c5fad239f8ac5e6a81cb9d1c9e103f99a7ca7da7",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -660,8 +660,8 @@
         "Código": "A6G24",
         "Case ID": "ff8c75c99588966a0eebff06f7272a44c61785114d643c985059597bc6a29c67",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -670,8 +670,8 @@
         "Código": "A6G26",
         "Case ID": "826a8b3d30037fbcbbbd73790a4ea9c506df51536f0c517c2718331802c2d855",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -691,7 +691,7 @@
         "Case ID": "27496536ae3e37074cc113294b21130a18e341523e359086fdcc4c300b16d3c3",
         "Modelo": "gpt-5.6-luna",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -700,8 +700,8 @@
         "Código": "A4G14",
         "Case ID": "da4ce9daa4dc9f399a042cd55d8399ae441fd122890acef911068bf280d686d6",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR044']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -721,7 +721,7 @@
         "Case ID": "5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -730,8 +730,8 @@
         "Código": "A5G21",
         "Case ID": "3e7104dfbef2b54b2eae8d5f55d12cc3eb33fa8554d76f396ad393788aeb34b5",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -741,7 +741,7 @@
         "Case ID": "402899cac25701bfabd680fb1256dc34b19cdc0686577f46cef4f7e5053173af",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: HTTP Error 503: Service Unavailable"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -751,7 +751,7 @@
         "Case ID": "7084b698c331d881ba68939e6beab338a942d8dc899b7ee5a19e8c90ba95c865",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: The read operation timed out"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -771,7 +771,7 @@
         "Case ID": "3569c22f42020a7f8176d85ed4e6d2b6faf734cdcb849f22f1d70d05b62c20c9",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -780,8 +780,8 @@
         "Código": "A2G5",
         "Case ID": "b03dff3874bef58f03f7c04245af229af66f922591a3dfdb66006c568d3453ac",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -801,7 +801,7 @@
         "Case ID": "1336a392a480903a0905bd0217860b2e61f3b958739e8d77260406291b2cb6f8",
         "Modelo": "gpt-5.6-luna",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 1] Operation not permitted>"
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -810,8 +810,8 @@
         "Código": "A4G13",
         "Case ID": "5e4e5fcec739266c3c6620c4a199e8cba052c71522dd1ac7960b9c2f79c6e80f",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR049']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -820,8 +820,8 @@
         "Código": "A4G17",
         "Case ID": "d1ebeb42dc8c70138ff18a324815b4d3430779571124405bd22f0f4fea853d33",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR051', 'MR053', 'MR055']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -841,7 +841,7 @@
         "Case ID": "48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: escopo_motivos: motivos esperados=['MR018', 'MR021']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -850,8 +850,8 @@
         "Código": "A3G8",
         "Case ID": "133b1a5662df0d1d70eee3c8d5a0993543c537cd19a75f4e8e68e7d9ce51de9b",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR031']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -860,8 +860,8 @@
         "Código": "A3G11",
         "Case ID": "e0ee20fd0fe54d3bff050ac930cae7221194d5daa5f0c7de14d3fd5c50b2fb8f",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -870,8 +870,8 @@
         "Código": "A5G19",
         "Case ID": "62768261aae9b100cb1296862e62a926017016bdabef4c471562184c22ef21d3",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -880,8 +880,8 @@
         "Código": "A5G20",
         "Case ID": "cfa859c86c90ed1cd3e9f928507d677832e047a298b0b9c180c4118f90cd03ee",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -890,8 +890,8 @@
         "Código": "A5G21",
         "Case ID": "9414fdbe4b5b1f0a8692f5f0f7a36b3fd8db603e2d81aa7b22fe8609e9bd550b",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR087']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -900,8 +900,8 @@
         "Código": "A5G22",
         "Case ID": "b43f8b49f8ec7ad012c51fe2c383ab03663107f42f9332290db4a341a032a1b1",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_motivo: estados de motivo inválidos: inconclusivo; coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -910,8 +910,8 @@
         "Código": "A6G23",
         "Case ID": "5379c6e851d48be36247159edb6e1065a95ca836f101794bda5770ea9ee7414d",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -931,7 +931,7 @@
         "Case ID": "6bcd318d42529bb6f7e25de38a682cbb68bd10b2f88b7e7676c59a4037f50d0d",
         "Modelo": "gpt-5.6-luna",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -940,8 +940,8 @@
         "Código": "A5G20",
         "Case ID": "65068461abc46388ea9f6c6417d28049b3d550fd6a99d8851a9e54546def64c5",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=['MR075', 'MR077', ':']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -950,8 +950,8 @@
         "Código": "A6G23",
         "Case ID": "a1fcf68ade856ed7a2a596a683209dca8be1691740579f182f5b11b0f5f0a270",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -960,8 +960,8 @@
         "Código": "A4G12",
         "Case ID": "e73b0af031fcaaab2ac5c4a2c828b795d78c4aee702ee0dd1836d67f2068e23d",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR045']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -980,8 +980,8 @@
         "Código": "A2G4",
         "Case ID": "da1f0d1c4a2883418720951117b5a3391750ec27589c2ac72f1a3d9e7ef0aa0c",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -1001,7 +1001,7 @@
         "Case ID": "d8a476526c8ec49fd24423d42fb8ee35dd64c65ab9bb6852d2a32c272787e869",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1010,8 +1010,8 @@
         "Código": "A6G26",
         "Case ID": "64f02fde592b0c9f0dcdda4646f2ffe1e5eebaca29314342d5762e840a99a1b3",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR091', 'MR093', 'MR095', 'MR097', 'MR099']; recebidos=['MR091', 'MR093', ':', 'MR097', 'MR099']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1020,8 +1020,8 @@
         "Código": "A3G8",
         "Case ID": "de0f3f2e6728dc1e4f10e65704504d4b159b0ef601c02bf3e1ce8bc40576f771",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1030,8 +1030,8 @@
         "Código": "A5G20",
         "Case ID": "c62da55650e7f8b23a22bd1cc4c8850ea6a77cd4bf5b1129c7bdd13a00e3e9d1",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR075', 'MR077', 'MR079']; recebidos=['MR075', 'MR077', ':']"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1040,8 +1040,8 @@
         "Código": "A2G4",
         "Case ID": "ac1331aa61bba6c52f8b740910941cf3c02f886232aa617e557287eb9d88a124",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -1070,8 +1070,8 @@
         "Código": "A3G8",
         "Case ID": "b70442d4af7372609b9e8991301dfa258a7b0908c0db3b7d6c7e963881dded79",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1080,8 +1080,8 @@
         "Código": "A3G9",
         "Case ID": "0ee95786d151dec5a6b777c96f8ff676fd4ac12b3cf1d83cde99471a1594d0de",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1090,8 +1090,8 @@
         "Código": "A5G18",
         "Case ID": "59e2f94f236af70be28e8c16441cd21d9350bbba303833515d35ccdea3b783ba",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR081', 'MR083']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1100,8 +1100,8 @@
         "Código": "A5G20",
         "Case ID": "831203bf45649159dc72955d117d327976738df3684c2c04bbce64770685aa14",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1110,8 +1110,8 @@
         "Código": "A6G23",
         "Case ID": "bb73f9c7fd508635cf9f3a08276c2f6e1eb47b8d00e65b329afe043c1f3979ff",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "codigo_item_duplicado: itens duplicados: A6G23; escopo_itens: itens esperados=['A6G23']; recebidos=['A6G23', 'A6G23']; escopo_motivos: motivos esperados=['MR106', 'MR108']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido; escopo_motivos: motivos esperados=['MR106', 'MR108']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1120,8 +1120,8 @@
         "Código": "A1G3",
         "Case ID": "762f75d1e87846b11df0745b1e07222c016e8e87ac381bf4cc6525e6d12b5d83",
         "Modelo": "minimax-m3",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1140,8 +1140,8 @@
         "Código": "A2G4",
         "Case ID": "015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1150,8 +1150,8 @@
         "Código": "A3G7",
         "Case ID": "8990987a1054d0debe593e024a9bfc66532dec7e1492043473385c03cb849730",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1160,8 +1160,8 @@
         "Código": "A3G8",
         "Case ID": "9861d49fd63dfe9cb04d03fb82948a767a4b6cc89830e668945de1ad13906340",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1170,8 +1170,8 @@
         "Código": "A3G9",
         "Case ID": "7c028111a909f0d5e46868ad180dc94b173a2a9e47a6a888ab1fb02050ac2c23",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1180,8 +1180,8 @@
         "Código": "A2G5",
         "Case ID": "9f370759c42e10a7d2d20ccd864daae2565b480bd2de75497a3a974deeb7c023",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1190,8 +1190,8 @@
         "Código": "A3G8",
         "Case ID": "5f0199993fcedceaf282b38e6618fd356898e93e3b0b018cda5653680efa0ac4",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1200,8 +1200,8 @@
         "Código": "A6G23",
         "Case ID": "5360898ed0aa69318bdf6a5d20dae6ba3148deb2b393d90d635070482c81f691",
         "Modelo": "minimax-m3",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1210,8 +1210,8 @@
         "Código": "A6G24",
         "Case ID": "324ac9ff946a8d5132ea377bf5a97daf51868438befb951597e04d4ded67508b",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR102']; recebidos=[]; coerencia_temporal: situação mantida exige ao menos um motivo mantido"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1220,8 +1220,8 @@
         "Código": "A6G26",
         "Case ID": "22a22bf471842e6bc4cc0194dfd30eff762ffd528867c6bdd68523abae648e7f",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1231,7 +1231,7 @@
         "Case ID": "b855093d8131a36194e53fef16e03bacba02dc4bffa36b40c1bfb0aea2302479",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: The read operation timed out"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1250,8 +1250,8 @@
         "Código": "A4G14",
         "Case ID": "5792c5ff9eab196b512e75c35f1a48bfe4967a474f773327864675a229145f67",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1271,7 +1271,7 @@
         "Case ID": "99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1280,8 +1280,8 @@
         "Código": "A1G3",
         "Case ID": "db6e9867d9f486b12cfc739fc9638522693bd27d60cf577bdb554812208eb75f",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -1290,8 +1290,8 @@
         "Código": "A5G18",
         "Case ID": "f97211bd6934b8480afd515dad337ae2693a057fbee2a57eecf4467e23206964",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "escopo_motivos: motivos esperados=['MR081', 'MR083']; recebidos=[]"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1300,8 +1300,8 @@
         "Código": "A6G25",
         "Case ID": "9f90f017c453620358f529cab10579e48717d091b907220798cbd08e1c9aaa9a",
         "Modelo": "gemini-3.1-flash-lite",
-        "Status": "completed",
-        "Violação": "coerencia_temporal: corrigida_posteriormente exige todos os motivos afastados"
+        "Status": "error",
+        "Violação": "status error: GEMINI_API_KEY nao configurada para provider gemini"
       },
       {
         "Seção": "1",
@@ -1320,8 +1320,8 @@
         "Código": "A4G13",
         "Case ID": "662910b48bdb1da9dbb48e16c2d0675ba412b29a0d31945a320da9dc32a0a42e",
         "Modelo": "gpt-5.6-luna",
-        "Status": "completed",
-        "Violação": "estado_temporal: estado temporal inválido na conclusão 0: 'inconclusiva'; estado_motivo: estados de motivo inválidos: inconclusivo"
+        "Status": "error",
+        "Violação": "status error: erro ao chamar OpenAI: <urlopen error [Errno 111] Connection refused>"
       },
       {
         "Seção": "1",
@@ -1330,8 +1330,8 @@
         "Código": "A6G23",
         "Case ID": "18d3d01c2dcd196889e9ed70733ba378b6979a11b2d365370df87555bd3f6982",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "1",
@@ -1340,8 +1340,8 @@
         "Código": "A6G24",
         "Case ID": "d2d32d7833d8ac1c861def6334af160790f6cd51c078d34a91ac045ce55704e3",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1351,17 +1351,17 @@
         "Case ID": "dd2b50f43463b41e5e264e9f74416c4ec6db4f8a6f79ca20c086c2730a49e572",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: HTTP Error 400: Bad Request; body: {\"error\":{\"message\":\"Error from provider (Alibaba): <400> InternalError.Algo.InvalidParameter: Model output became abnormal while generating a JSON response for response_format. The generation was aborted because the partial output may be incomplete or invalid JSON. Please retry the request or adjust your prompt or JSON schema.\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_parameter_error\"},\"id\":\"chatcmpl-df0143bd-3aa4-4485-a55c-fb8145550870\",\"request_id\":\"df0143bd-3aa4-4485-a55c-fb8145550870\"}"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
         "Nível": "avaliação individual",
         "Auditado": "IPEM",
         "Código": "q2504",
-        "Case ID": "de33aea4c0daa4d9c203fd66ca0d66204dd8eef63cd4f92389753a27c13f5e33",
-        "Modelo": "minimax-m3",
-        "Status": "completed",
-        "Violação": "escopo_itens: itens esperados=['q2504', 'q2504ext[A]', 'q2504ext[B]', 'q2504ext[C]', 'q2504ext[D]', 'q2504ext[E]', 'q2504ext[F]', 'q2504ext[G]', 'q2504ext[H]', 'q2504ext[I]', 'q2504ext[J]']; recebidos=['q2504']"
+        "Case ID": "4bfb9d778ba73519318db54ed1166c99006688fca24cf17d3b474f1ae3d36ed9",
+        "Modelo": "qwen3.7-plus",
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1370,8 +1370,8 @@
         "Código": "q2102",
         "Case ID": "d723ccf10535e4c23afed6cad5d45ad74f960933016f50fa81a73b22795b89c8",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1381,17 +1381,17 @@
         "Case ID": "48446bedbda36d79b518f1da7ea9892b3baf20ee67e0ae6abc17f1e712711687",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: The read operation timed out"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
         "Nível": "avaliação individual",
         "Auditado": "MPERJ",
         "Código": "q2201",
-        "Case ID": "19fe180c06035e633a037ddc4afd1e415e1cb7d4f6cdc04d69f3a53082ce9ae5",
+        "Case ID": "abf0c14116149ec884c3deb7e339f617e594bca8f72469070d714ae8628bd056",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: HTTP Error 503: Service Unavailable"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1401,17 +1401,7 @@
         "Case ID": "96a850cf85ec953fe1948efc89d29f5d6039068d584194a642a6bfcc33d6ce84",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: escopo_itens: itens esperados=['q2203', 'q2203ext[A]', 'q2203ext[B]']; recebidos=['q2203', 'q2203ext[A]', 'q2203ext[B]', 'q2203ext[C]']"
-      },
-      {
-        "Seção": "2",
-        "Nível": "avaliação individual",
-        "Auditado": "NOVA IGUAÇU",
-        "Código": "q1001",
-        "Case ID": "353b74b94e7fb27657b495b9c59d5aece54214d8d15d334107aa528361a55d7e",
-        "Modelo": "qwen3.7-plus",
-        "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1420,18 +1410,8 @@
         "Código": "q2102",
         "Case ID": "ea56c39f3e27bd1a43f1a2be5d911473c48b9cb77b03fbff56dbb7811d04bb56",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
-      },
-      {
-        "Seção": "2",
-        "Nível": "avaliação individual",
-        "Auditado": "RIOPREVIDENCIA",
-        "Código": "q2203",
-        "Case ID": "720d7d0873d454336c136deab5fc45929ce79b4ac2965b47beefa088ab70d745",
-        "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: conclusoes_ausentes: resultado não contém conclusões"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1440,8 +1420,8 @@
         "Código": "q2504",
         "Case ID": "dfe9a3b4a4f84aaab8bcf4bbae79bd60a7ed966f3dacd50ae60f62bfdba61336",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1450,18 +1430,38 @@
         "Código": "q2101",
         "Case ID": "f813304532ef66f67ac1cd1452d7b9cc880b47461b33bd31a3e37e21ef61bfdd",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "conclusoes_ausentes: resultado não contém conclusões"
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
+      },
+      {
+        "Seção": "2",
+        "Nível": "avaliação individual",
+        "Auditado": "SEINFRA",
+        "Código": "q1002",
+        "Case ID": "1890bd0a40c46434e7f71228ffe5659dd503ac6f4e9346bec1be0977e5ecb5ed",
+        "Modelo": "qwen3.7-plus",
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
+      },
+      {
+        "Seção": "2",
+        "Nível": "avaliação individual",
+        "Auditado": "SEINFRA",
+        "Código": "q2504",
+        "Case ID": "d68924abbfd9689256deb771f1fb55726799231fc7a67f27fb37a5c5e2a012f6",
+        "Modelo": "qwen3.7-plus",
+        "Status": "error",
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
         "Nível": "avaliação individual",
         "Auditado": "SETD",
         "Código": "q2204",
-        "Case ID": "fbd0f7da4b316564db3995960c305bfac3e20e211a8378f8d4b5a3bfb26b80de",
+        "Case ID": "c08b84d8a560d74376e572af5ae5d07fd35765d96755a5a4f2ced3058d8245f7",
         "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: resposta fora do escopo lógico do caso: escopo_itens: itens esperados=['q2204', 'q2204ext[A]', 'q2204ext[B]', 'q2204ext[D]', 'q2204ext[E]', 'q2204ext[F]']; recebidos=['q2204', 'q2204ext[A]', 'q2204ext[B]', 'q2204ext[C]', 'q2204ext[D]', 'q2204ext[E]', 'q2204ext[F]']"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       },
       {
         "Seção": "2",
@@ -1470,299 +1470,35 @@
         "Código": "q2804",
         "Case ID": "4916e581aa959a9855825e496dc7e5fad5970ee7e877323d945ecfb8f9a2e827",
         "Modelo": "qwen3.7-plus",
-        "Status": "completed",
-        "Violação": "codigo_item_duplicado: itens duplicados: q2804[A]; escopo_itens: itens esperados=['q2804[A]']; recebidos=['q2804[A]', 'q2804[A]']"
-      },
-      {
-        "Seção": "2",
-        "Nível": "avaliação individual",
-        "Auditado": "TJRJ",
-        "Código": "q2708",
-        "Case ID": "106bcb1bd945edcc8b8fb6be9cbd11e76f87114eaf74c13d6a3f06077d4e7f90",
-        "Modelo": "qwen3.7-plus",
         "Status": "error",
-        "Violação": "status error: erro ao chamar OpencodeGo: The read operation timed out"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "ARRAIAL DO CABO",
-        "Código": "q1001",
-        "Case ID": "4232840715c928cf6ee8fe7075f49f09c0d1b1fc4f1c15e8d36d8c2d27945ca8",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "CAMPOS DOS GOYTACAZES",
-        "Código": "q2702",
-        "Case ID": "235302a19d9856d0c0782d0ac2811f14e5ac9b2db301bee8cf7680f244c7f689",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "CECIERJ",
-        "Código": "q1001",
-        "Case ID": "ee18bea5be42ff5d2a6b761fba1fa1fef99a3962985baa19837c63a9d49dcbbe",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "CGE",
-        "Código": "q2203",
-        "Case ID": "9ee180d4d07734566091c478b539f4038c08c33719aa841cc2c9f25cc47fbfd0",
-        "Modelo": "gemini-3.5-flash-lite",
-        "Status": "error",
-        "Violação": "status error: parecer inválido após correção: texto publicável: conclusão referencia documentos sem anexo ou link comprobatório; caso sem anexo ou link deve informar que a organização não apresentou documentação comprobatória; caso sem anexo ou link não pode declarar evidência apresentada"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "IPEM",
-        "Código": "q2101",
-        "Case ID": "630dc1b95e8727983ff2d3f56be56e3b8206743cbd646de29e0e9d1b6d19179b",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "IPEM",
-        "Código": "q2102",
-        "Case ID": "5610c374c926afbb84b45d7828c6bc807190b1f45835a3651f2ff210d572278c",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "IPEM",
-        "Código": "q2203",
-        "Case ID": "ab1120581710837f60cc93a585e5d2db3966860ad8c179f6a455fd91767a0834",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "IPEM",
-        "Código": "q2504",
-        "Case ID": "de33aea4c0daa4d9c203fd66ca0d66204dd8eef63cd4f92389753a27c13f5e33",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "MPERJ",
-        "Código": "q2102",
-        "Case ID": "f829bd82e203e63dd268d5a4127d6a3ccc035f6bf999298f35cd8a54b9b2def5",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "MPERJ",
-        "Código": "q2201",
-        "Case ID": "19fe180c06035e633a037ddc4afd1e415e1cb7d4f6cdc04d69f3a53082ce9ae5",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "NOVA IGUAÇU",
-        "Código": "q1001",
-        "Case ID": "353b74b94e7fb27657b495b9c59d5aece54214d8d15d334107aa528361a55d7e",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "RIO DAS OSTRAS",
-        "Código": "q1001",
-        "Case ID": "c0c9b35b1edc837e2a71d9452872c184ca3fd27f6fc10a7fd677be29f1eceed8",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "RIOPREVIDENCIA",
-        "Código": "q2203",
-        "Case ID": "720d7d0873d454336c136deab5fc45929ce79b4ac2965b47beefa088ab70d745",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "SEINFRA",
-        "Código": "q1002",
-        "Case ID": "eaa693ab0a1f38c788295019fca2779dc37c2d68d680928ba6cd488d5263c770",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "SEINFRA",
-        "Código": "q2504",
-        "Case ID": "95f7d097bfa1e260fc8eaf7d7bfc6b8496d8f5def0e230c32e7925fea6891360",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "SETD",
-        "Código": "q2204",
-        "Case ID": "fbd0f7da4b316564db3995960c305bfac3e20e211a8378f8d4b5a3bfb26b80de",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "TJRJ",
-        "Código": "q2708",
-        "Case ID": "106bcb1bd945edcc8b8fb6be9cbd11e76f87114eaf74c13d6a3f06077d4e7f90",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
-      },
-      {
-        "Seção": "2",
-        "Nível": "parecer consolidado",
-        "Auditado": "TJRJ",
-        "Código": "q2804",
-        "Case ID": "927e0aa31ea3fb45bfd42331e950faf05b9ed68d759b57a29776dac055ce01da",
-        "Modelo": "",
-        "Status": "ausente",
-        "Violação": "parecer consolidado ausente"
+        "Violação": "status error: OPENCODEGO_API_KEY nao configurada para provider opencodego"
       }
     ],
     "casos_reprocessamento": {
       "1": [],
-      "2": [
-        {
-          "case_id": "106bcb1bd945edcc8b8fb6be9cbd11e76f87114eaf74c13d6a3f06077d4e7f90",
-          "auditado": "TJRJ",
-          "codigo": "q2708"
-        },
-        {
-          "case_id": "19fe180c06035e633a037ddc4afd1e415e1cb7d4f6cdc04d69f3a53082ce9ae5",
-          "auditado": "MPERJ",
-          "codigo": "q2201"
-        },
-        {
-          "case_id": "235302a19d9856d0c0782d0ac2811f14e5ac9b2db301bee8cf7680f244c7f689",
-          "auditado": "CAMPOS DOS GOYTACAZES",
-          "codigo": "q2702"
-        },
-        {
-          "case_id": "353b74b94e7fb27657b495b9c59d5aece54214d8d15d334107aa528361a55d7e",
-          "auditado": "NOVA IGUAÇU",
-          "codigo": "q1001"
-        },
-        {
-          "case_id": "4232840715c928cf6ee8fe7075f49f09c0d1b1fc4f1c15e8d36d8c2d27945ca8",
-          "auditado": "ARRAIAL DO CABO",
-          "codigo": "q1001"
-        },
-        {
-          "case_id": "5610c374c926afbb84b45d7828c6bc807190b1f45835a3651f2ff210d572278c",
-          "auditado": "IPEM",
-          "codigo": "q2102"
-        },
-        {
-          "case_id": "630dc1b95e8727983ff2d3f56be56e3b8206743cbd646de29e0e9d1b6d19179b",
-          "auditado": "IPEM",
-          "codigo": "q2101"
-        },
-        {
-          "case_id": "720d7d0873d454336c136deab5fc45929ce79b4ac2965b47beefa088ab70d745",
-          "auditado": "RIOPREVIDENCIA",
-          "codigo": "q2203"
-        },
-        {
-          "case_id": "927e0aa31ea3fb45bfd42331e950faf05b9ed68d759b57a29776dac055ce01da",
-          "auditado": "TJRJ",
-          "codigo": "q2804"
-        },
-        {
-          "case_id": "95f7d097bfa1e260fc8eaf7d7bfc6b8496d8f5def0e230c32e7925fea6891360",
-          "auditado": "SEINFRA",
-          "codigo": "q2504"
-        },
-        {
-          "case_id": "9ee180d4d07734566091c478b539f4038c08c33719aa841cc2c9f25cc47fbfd0",
-          "auditado": "CGE",
-          "codigo": "q2203"
-        },
-        {
-          "case_id": "ab1120581710837f60cc93a585e5d2db3966860ad8c179f6a455fd91767a0834",
-          "auditado": "IPEM",
-          "codigo": "q2203"
-        },
-        {
-          "case_id": "c0c9b35b1edc837e2a71d9452872c184ca3fd27f6fc10a7fd677be29f1eceed8",
-          "auditado": "RIO DAS OSTRAS",
-          "codigo": "q1001"
-        },
-        {
-          "case_id": "de33aea4c0daa4d9c203fd66ca0d66204dd8eef63cd4f92389753a27c13f5e33",
-          "auditado": "IPEM",
-          "codigo": "q2504"
-        },
-        {
-          "case_id": "eaa693ab0a1f38c788295019fca2779dc37c2d68d680928ba6cd488d5263c770",
-          "auditado": "SEINFRA",
-          "codigo": "q1002"
-        },
-        {
-          "case_id": "ee18bea5be42ff5d2a6b761fba1fa1fef99a3962985baa19837c63a9d49dcbbe",
-          "auditado": "CECIERJ",
-          "codigo": "q1001"
-        },
-        {
-          "case_id": "f829bd82e203e63dd268d5a4127d6a3ccc035f6bf999298f35cd8a54b9b2def5",
-          "auditado": "MPERJ",
-          "codigo": "q2102"
-        },
-        {
-          "case_id": "fbd0f7da4b316564db3995960c305bfac3e20e211a8378f8d4b5a3bfb26b80de",
-          "auditado": "SETD",
-          "codigo": "q2204"
-        }
-      ]
+      "2": []
     },
     "json": "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/preflight/validacao-integridade.json",
     "xlsx": "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/preflight/validacao-integridade.xlsx",
     "manifesto_reparo": "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/preflight/casos-reprocessamento.json"
   },
-  "status": "failed",
-  "error": "validação de integridade reprovada; execute 'reparar-integridade' antes de gerar ajustes"
+  "revisao_humana": {
+    "status": "approved",
+    "prioridades": 46,
+    "aprovadas": 46,
+    "pendentes": [],
+    "planilha": "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisao-humana-pareceres.xlsx",
+    "divergencias": 66,
+    "universo": 598
+  },
+  "ajustes": {
+    "path": "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
+    "ajustes": 160,
+    "pendencias": 0,
+    "ajustes_secao1": 118,
+    "ajustes_secao2": 78,
+    "painel_evidencias": "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/fontes-auditoria-pos-comentarios/painel-avaliacao-evidencias.xlsx",
+    "painel_celulas_saneadas": 99
+  },
+  "status": "success"
 }

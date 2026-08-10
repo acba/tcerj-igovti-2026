@@ -224,6 +224,9 @@ def materializar(
         ):
             continue
         contexto = registro.get("contexto") or {}
+        manifestacao_gestor = "\n\n".join(
+            parte for parte in (comentario_gestor, justificativa_gestor) if parte
+        ) or "Manifestação baseada exclusivamente nos anexos apresentados."
         item = {
             "codigo": codigo,
             "achado": texto(contexto.get("achado")),
@@ -231,6 +234,7 @@ def materializar(
             "alternativa_selecionada_gestor": alternativa_gestor,
             "comentario_gestor": comentario_gestor,
             "justificativa_gestor": justificativa_gestor,
+            "manifestacao_gestor": manifestacao_gestor,
             "decisao": decisao,
             "situacao_atual": situacao_atual,
             "manifestacao_equipe": manifestacao_equipe,
@@ -246,6 +250,7 @@ def materializar(
                 "alternativa_selecionada_gestor",
                 "comentario_gestor",
                 "justificativa_gestor",
+                "manifestacao_gestor",
                 "comentarios_encaminhamento",
             }
         }

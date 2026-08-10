@@ -144,6 +144,8 @@ Visando mitigar os riscos de assimetria informacional, a Equipe de Auditoria req
 
 A limitação não impediu a execução dos procedimentos planejados, mas restringe as conclusões à adoção declarada e documentalmente demonstrada das práticas, sem assegurar sua efetividade operacional.
 
+A não aceitação de determinada evidência ou de esclarecimento apresentado pelo gestor não significa, necessariamente, que a atividade declarada inexista. Significa que, considerados o detalhamento e a documentação disponibilizados, o escopo definido e os meios operacionais previstos para esta fiscalização, a Equipe de Auditoria não obteve elementos suficientes e adequados para assegurar a prática. Entrevistas adicionais, inspeções em sistemas, observação direta ou testes locais poderiam produzir evidência complementar, mas não integraram os procedimentos executados. Essa limitação recomenda que a diferença entre a autodeclaração e o resultado validado seja interpretada como diferença de asseguração documental, e não, isoladamente, como prova de inexistência da atividade.
+
 ## 2.4 Critérios aplicados
 
 Os exames fundamentaram-se em normas legais aplicáveis, jurisprudência e referenciais de controle externo, padrões técnicos de governança e gestão de TIC e boas práticas reconhecidas, conforme a natureza de cada questão de auditoria.
@@ -163,7 +165,9 @@ Na fase de planejamento, a Equipe de Auditoria elaborou questionário estruturad
 
 O questionário foi disponibilizado em meio eletrônico, por meio do sistema *LimeSurvey*, com links individualizados encaminhados às organizações. A avaliação adotou o método de autoavaliação de controles (*Control Self-Assessment* - CSA): cada gestor informou o nível de adoção das práticas avaliadas e, quando aplicável, anexou documentos para comprovar a resposta. Dos 119 jurisdicionados abrangidos no escopo, 113 apresentaram resposta válida e integraram as análises estatísticas e os achados consolidados; os seis casos sem resposta válida foram classificados como não respondentes.
 
-Após a coleta, a base de respostas passou por saneamento e ajustes registrados pela Equipe de Auditoria, incluindo retificações, correções de inconsistências e tratamento de problemas identificados no questionário. Em seguida, as respostas e evidências foram analisadas para verificar se a documentação apresentada sustentava as práticas declaradas. Quando a evidência não comprovou a resposta afirmada, a resposta foi ajustada ou considerada não conforme, conforme a regra aplicável ao item avaliado.
+Após a coleta, a base de respostas passou por saneamento e ajustes registrados pela Equipe de Auditoria, incluindo retificações, correções de inconsistências e tratamento de problemas identificados no questionário. Essa base constitui o **cenário-base de autodeclaração saneada**: preserva a visão declarada pelo auditado, após os ajustes iniciais, mas ainda sem a influência dos juízos da Equipe de Auditoria sobre a suficiência das evidências.
+
+Em seguida, as respostas e evidências foram analisadas para verificar se a documentação apresentada sustentava as práticas declaradas. Quando a evidência não comprovou a resposta afirmada, a resposta foi ajustada ou considerada não conforme, conforme a regra aplicável ao item avaliado. O recálculo do índice e a reexecução dos procedimentos sobre essa base formaram o **cenário pós-avaliação de evidências**. Depois da apreciação dos comentários dos gestores e das evidências complementares aceitas, novo recálculo e nova execução formaram o **cenário pós-comentários do gestor**, adotado para as conclusões e os encaminhamentos finais.
 
 Com a base ajustada, foi calculado o iGovTI 2026. O índice é medido em escala de 0 a 1. Para calcular a nota, as respostas categóricas foram convertidas em coeficientes numéricos: **Não adota** = 0,00; **Há decisão formal ou plano aprovado para adotá-lo** = 0,05; **Adota em menor parte** = 0,15; **Adota parcialmente** = 0,50; e **Adota em maior parte ou totalmente** = 1,00. Nas questões com itens de detalhamento, a pontuação da questão principal sofre deduções proporcionais aos itens não atendidos. Depois disso, os valores são consolidados por agregação ponderada.
 
@@ -176,7 +180,7 @@ Com base na pontuação consolidada, cada organização com resposta válida foi
 
 A apuração do iGovTI permitiu comparar o grau de adoção das práticas avaliadas entre as organizações e subsidiou a comparação longitudinal com o ciclo de 2023, mediante estrutura ajustada de itens comparáveis.
 
-Paralelamente ao cálculo do índice, a Equipe de Auditoria executou procedimentos específicos para identificar achados. Esses procedimentos cruzaram o banco de auditados, as respostas ajustadas pelo painel de avaliação de evidências e a lista de procedimentos de auditoria definidos. Como resultado, foram consolidados achados, situações inconformes, evidências e propostas de encaminhamento para cada organização avaliada.
+Paralelamente ao cálculo do índice, a Equipe de Auditoria executou os mesmos procedimentos nos três cenários. No cenário-base, os resultados representam **sinalizações produzidas sobre a autodeclaração saneada**, e não achados definitivos, pois ainda não incorporam a validação probatória. Nos cenários seguintes, os procedimentos cruzaram o banco de auditados, as respostas ajustadas, os painéis de avaliação de evidências e a lista de procedimentos definida. O cenário pós-comentários consolidou os achados, as situações inconformes, as evidências e as propostas de encaminhamento de cada organização avaliada.
 
 Ao final da fase de execução, foram elaborados relatórios individuais preliminares. Para as organizações avaliadas, esses relatórios apresentaram a nota do iGovTI, a posição relativa no conjunto de jurisdicionados, os achados identificados, as situações encontradas, os ajustes decorrentes da análise documental e o plano de ação proposto. Para os não respondentes, foi registrada a ausência de resposta válida.
 
@@ -195,7 +199,7 @@ O presente relatório de auditoria consolidado está organizado da seguinte form
 * **Capítulo 1 (Resumo):** apresenta uma síntese da fiscalização, incluindo os objetivos, a relevância do tema, os principais resultados obtidos e as conclusões gerais do trabalho;
 * **Capítulo 2 (Introdução):** descreve a contextualização da auditoria, os objetivos, a delimitação do escopo, as diretrizes de fiscalização, a metodologia adotada e a estrutura do relatório;
 * **Capítulo 3 (Visão Geral do Objeto):** descreve as características do objeto auditado, incluindo o universo de jurisdicionados, os conceitos de governança e gestão de TIC, os arranjos institucionais relevantes, a relevância e os riscos associados e as mensurações anteriores do iGovTI;
-* **Capítulo 4 (Resultados da Auditoria):** apresenta os resultados gerais do iGovTI 2026, a comparação longitudinal temporal com o ciclo de 2023, a consolidação dos achados de auditoria resultantes da validação probatória e o cenário de utilização de inteligência artificial;
+* **Capítulo 4 (Resultados da Auditoria):** apresenta os resultados gerais do iGovTI 2026, a comparação entre o cenário-base de autodeclaração saneada, o cenário pós-avaliação de evidências e o cenário pós-comentários do gestor, a comparação longitudinal com o ciclo de 2023, a consolidação dos achados de auditoria resultantes da validação probatória e o cenário de utilização de inteligência artificial;
 * **Capítulo 5 (Comentários do Gestor e Análise da Equipe):** consolida as manifestações enviadas pelos gestores sobre os achados de auditoria e a respectiva avaliação técnica da equipe acerca das concordâncias e discordâncias apresentadas;
 * **Capítulo 6 (Considerações Finais):** expõe as conclusões gerais obtidas ao término da fiscalização, destacando o diagnóstico consolidado da maturidade em governança e gestão tecnológica;
 * **Capítulo 7 (Proposta de Encaminhamento):** apresenta o conjunto de propostas de encaminhamento geral e recomendações transversais formuladas para orientar as melhorias no setor público.
@@ -283,7 +287,7 @@ Esses referenciais conceituais, normativos e históricos contextualizam o objeto
 
 # 4. RESULTADOS DA AUDITORIA
 
-Esta seção apresenta os resultados consolidados obtidos na avaliação do Índice de Governança e Gestão de TI (iGovTI 2026), a comparação longitudinal com o ciclo anterior e os achados de auditoria resultantes da validação das informações autodeclaradas e das evidências documentais encaminhadas pelas organizações jurisdicionadas.
+Esta seção apresenta os resultados consolidados obtidos na avaliação do Índice de Governança e Gestão de TI (iGovTI 2026), a comparação dos três cenários de processamento, a comparação longitudinal com o ciclo anterior e os achados de auditoria resultantes da validação das informações autodeclaradas e das evidências documentais encaminhadas pelas organizações jurisdicionadas. Salvo indicação expressa em contrário, os resultados detalhados correspondem ao cenário final pós-comentários do gestor.
 
 ## 4.1. Resultados Gerais do iGovTI 2026
 
@@ -291,41 +295,57 @@ A mensuração da maturidade em governança e gestão de tecnologia da informaç
 
 A análise do Índice de Governança e Gestão de TI (iGovTI 2026) demonstra concentração de organizações com avaliações baixas. Esse resultado indica que, para a maioria dos entes avaliados, os mecanismos de direção e os processos operacionais de tecnologia ainda não apresentam grau de formalização e efetividade compatível com o nível mínimo esperado de maturidade institucional.
 
-A distribuição por nível de maturidade, apresentada na [@fig:distribuicao_maturidade_igovti_2026], mostra forte concentração nos estágios iniciais. Das organizações avaliadas, **61 (54,0%)** foram classificadas no nível **Inexpressivo** e **39 (34,5%)** no nível **Iniciando**. Assim, **100 organizações (88,5%)** obtiveram resultado inferior a 0,40. Somente **9 organizações (8,0%)** alcançaram o nível **Intermediário** e **4 (3,5%)** o nível **Aprimorado**.[^cautela_ranking]
+A distribuição por nível de maturidade, apresentada na [@fig:distribuicao_maturidade_igovti_2026], mostra forte concentração nos estágios iniciais. Das organizações avaliadas, **60 (53,1%)** foram classificadas no nível **Inexpressivo** e **39 (34,5%)** no nível **Iniciando**. Assim, **99 organizações (87,6%)** obtiveram resultado inferior a 0,40. Somente **9 organizações (8,0%)** alcançaram o nível **Intermediário** e **5 (4,4%)** o nível **Aprimorado**.[^cautela_ranking]
 
 [^cautela_ranking]: Diferenças marginais de pontuação entre organizações adjacentes no ranking devem ser interpretadas com cautela analítica, visto que o modelo matemático de composição do índice não pressupõe estimativa de erro amostral e que os resultados estão sujeitos à qualidade e à fidedignidade declaratória do jurisdicionado.
 
 ![Distribuição das organizações por nível de maturidade do iGovTI 2026](igovti_2026_distribuicao_maturidade.png){#fig:distribuicao_maturidade_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-O iGovTI apresentou média de **0,184** e mediana de **0,134**. O primeiro quartil foi **0,066** e o terceiro quartil, **0,223**, o que evidencia a concentração de metade das organizações avaliadas nesse intervalo, bem como a permanência de pelo menos 75% das entidades abaixo do nível Intermediário. A divergência positiva entre a média e a mediana, combinada com o valor máximo de **0,777** e com apenas quatro organizações no nível Aprimorado, caracteriza uma distribuição com assimetria à direita: um grupo reduzido de resultados elevados desloca a média para cima, sem alterar o quadro predominante de baixa maturidade. Destaca-se que 5 organizações (4,4%) apresentaram valor igual a zero no índice calculado, o que indica ausência das práticas necessárias mensuradas pelo modelo aplicado.
+O iGovTI apresentou média de **0,189** e mediana de **0,136**. O primeiro quartil foi **0,066** e o terceiro quartil, **0,239**, o que evidencia a concentração de metade das organizações avaliadas nesse intervalo, bem como a permanência de pelo menos 75% das entidades abaixo do nível Intermediário. A divergência positiva entre a média e a mediana, combinada com o valor máximo de **0,788** e com apenas cinco organizações no nível Aprimorado, caracteriza uma distribuição com assimetria à direita: um grupo reduzido de resultados elevados desloca a média para cima, sem alterar o quadro predominante de baixa maturidade. Destaca-se que 5 organizações (4,4%) apresentaram valor igual a zero no índice calculado, o que indica ausência das práticas necessárias mensuradas pelo modelo aplicado.
 
-A avaliação das evidências documentais influenciou materialmente os resultados do índice. Em comparação com o cenário calculado a partir da base submetida apenas aos ajustes iniciais de saneamento, a média do iGovTI passou de **0,235 para 0,184**, e **18 organizações** foram reposicionadas para nível de maturidade inferior. Esse resultado demonstra que parte das práticas inicialmente declaradas não foi suficientemente comprovada.[^impacto_evidencias_igovti]
+### 4.1.1. Comparação dos cenários de processamento
 
-[^impacto_evidencias_igovti]: A comparação considerou a base após os ajustes iniciais de saneamento e a base resultante da avaliação das evidências. Foram efetivamente alteradas 1.964 células de respostas de 103 organizações, e 90 organizações apresentaram redução no iGovTI. A análise detalhada consta do Anexo "AN07 – Impacto da avaliação das evidências.docx".
+A [@tbl:cenarios_igovti] apresenta o iGovTI nos três estados preservados pelo fluxo de processamento. O cenário-base retrata a autodeclaração dos gestores após as retificações e os ajustes iniciais de saneamento, mas antes dos juízos da Equipe de Auditoria sobre as evidências. O cenário pós-evidências incorpora a validação documental, e o cenário pós-comentários incorpora, adicionalmente, as manifestações e evidências complementares acolhidas no contraditório.
+
+: Evolução do iGovTI nos três cenários de processamento {#tbl:cenarios_igovti#}
+
+| Cenário | Média | Mediana | Inexpressivo | Iniciando | Intermediário | Aprimorado | iGovTI < 0,40 |
+|:---|---:|---:|---:|---:|---:|---:|---:|
+| **Base de autodeclaração saneada** | 0,235 | 0,175 | 50 (44,2%) | 43 (38,1%) | 14 (12,4%) | 6 (5,3%) | 93 (82,3%) |
+| **Pós-avaliação de evidências** | 0,184 | 0,134 | 61 (54,0%) | 39 (34,5%) | 9 (8,0%) | 4 (3,5%) | 100 (88,5%) |
+| **Pós-comentários do gestor** | 0,189 | 0,136 | 60 (53,1%) | 39 (34,5%) | 9 (8,0%) | 5 (4,4%) | 99 (87,6%) |
+
+<div custom-style="FonteImagem">(Fonte: elaboração própria a partir das bases rastreáveis de cada cenário)</div>
+
+A avaliação das evidências influenciou materialmente os resultados. Da base para o cenário pós-evidências, a média passou de **0,235 para 0,184**, 90 organizações tiveram redução no índice e 18 foram reposicionadas para nível de maturidade inferior.[^impacto_evidencias_igovti] Após os comentários, a média subiu para **0,189**, sem retornar ao patamar autodeclarado. A diferença entre os cenários não permite concluir, por si só, que toda prática retirada inexista: indica que parte das declarações não alcançou o grau de comprovação documental requerido nos procedimentos e que parte delas foi posteriormente sustentada pelos elementos acolhidos no contraditório.
+
+O cenário-base é, assim, relevante como referência da percepção institucional dos auditados, mas não constitui asseguração independente da existência ou da efetividade das práticas. Para as conclusões, os achados e os encaminhamentos deste relatório, prevalece o cenário pós-comentários do gestor.
+
+[^impacto_evidencias_igovti]: A comparação considerou a base após os ajustes iniciais de saneamento e a base resultante da avaliação das evidências. Foram efetivamente alteradas 1.964 células de respostas de 103 organizações. A análise detalhada consta do Anexo "AN07 – Impacto da avaliação das evidências.docx".
 
 A distribuição contínua da [@fig:distribuicao_continua_igovti_2026] complementa a classificação por faixas e permite observar a concentração dos resultados, os limites de maturidade e a distância entre a mediana e os valores mais elevados. A leitura conjunta das duas figuras demonstra que a baixa maturidade não decorre apenas do enquadramento por faixas, mas também da distribuição efetiva das notas, concentrada nos intervalos inferiores da escala.
 
 ![Distribuição contínua dos resultados do iGovTI 2026](igovti_2026_distribuicao_continua.png){#fig:distribuicao_continua_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-### 4.1.1. Relação entre Governança e Gestão de TIC
+### 4.1.2. Relação entre Governança e Gestão de TIC
 
 A decomposição do iGovTI 2026 entre seus dois componentes principais — Governança de TIC (peso de 47,8%) e Gestão de TIC (iGestTI, peso de 52,2%) — revela assimetrias relevantes entre a capacidade de direção e a capacidade operacional das organizações.
 
-Os indicadores descritivos apresentados na [@tbl:estatisticas_componentes_igovti] mostram que os resultados operacionais de gestão foram ligeiramente superiores aos de governança no conjunto avaliado. A média da Gestão de TIC foi **0,205**, ante **0,161** para Governança de TIC; as medianas foram, respectivamente, **0,151** e **0,116**. As duas médias situaram-se no nível Iniciando, enquanto a mediana de Governança de TIC permaneceu no nível Inexpressivo e a mediana de Gestão de TIC, no nível Iniciando.
+Os indicadores descritivos apresentados na [@tbl:estatisticas_componentes_igovti] mostram que os resultados operacionais de gestão foram ligeiramente superiores aos de governança no conjunto avaliado. A média da Gestão de TIC foi **0,210**, ante **0,166** para Governança de TIC; as medianas foram, respectivamente, **0,155** e **0,117**. As duas médias situaram-se no nível Iniciando, enquanto a mediana de Governança de TIC permaneceu no nível Inexpressivo e a mediana de Gestão de TIC, no nível Iniciando.
 
 : Estatísticas descritivas do iGovTI 2026 e de seus componentes principais {#tbl:estatisticas_componentes_igovti#}
 
 | Indicador | Média | 1º quartil | Mediana | 3º quartil | Mínimo | Máximo | Organizações com valor >= 0,40 |
 |:---|---:|---:|---:|---:|---:|---:|---:|
-| **Governança de TIC** | 0,161 | 0,016 | 0,116 | 0,211 | 0,000 | 0,865 | 15 (13,3%) |
-| **Gestão de TIC** | 0,205 | 0,082 | 0,151 | 0,280 | 0,000 | 0,796 | 16 (14,2%) |
-| **iGovTI 2026** | 0,184 | 0,066 | 0,134 | 0,223 | 0,000 | 0,777 | 13 (11,5%) |
+| **Governança de TIC** | 0,166 | 0,016 | 0,117 | 0,215 | 0,000 | 0,865 | 15 (13,3%) |
+| **Gestão de TIC** | 0,210 | 0,082 | 0,155 | 0,285 | 0,000 | 0,802 | 17 (15,0%) |
+| **iGovTI 2026** | 0,189 | 0,066 | 0,136 | 0,239 | 0,000 | 0,788 | 14 (12,4%) |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos três indicadores. O resultado em Gestão de TIC superou o de Governança de TIC em **76 organizações (67,3%)**; o movimento inverso ocorreu em **32 (28,3%)**; e houve igualdade em **5 (4,4%)**. O padrão indica que, para a maior parte das organizações, as capacidades operacionais de gestão se situaram em patamar superior ao dos mecanismos de direção, monitoramento e controle exercidos pela alta administração. Essa diferença, contudo, não elimina a baixa maturidade da gestão: **97 organizações (85,8%)** também obtiveram resultado em Gestão de TIC inferior a 0,40.
+A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos três indicadores. O resultado em Gestão de TIC superou o de Governança de TIC em **75 organizações (66,4%)**; o movimento inverso ocorreu em **33 (29,2%)**; e houve igualdade em **5 (4,4%)**. O padrão indica que, para a maior parte das organizações, as capacidades operacionais de gestão se situaram em patamar superior ao dos mecanismos de direção, monitoramento e controle exercidos pela alta administração. Essa diferença, contudo, não elimina a baixa maturidade da gestão: **96 organizações (85,0%)** também obtiveram resultado em Gestão de TIC inferior a 0,40.
 
 ![Distribuição do iGovTI 2026 e dos componentes Governança de TIC e Gestão de TIC](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}{width=85%}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -335,19 +355,19 @@ A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das org
 ![Relação entre os resultados de governança e gestão de TIC](igovti_2026_governanca_vs_gestao.png){#fig:governanca_vs_gestao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-### 4.1.2. Desempenho por Dimensões da Gestão de TIC
+### 4.1.3. Desempenho por Dimensões da Gestão de TIC
 
-A decomposição da Gestão de TIC revela diferenças relevantes entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], **Planejamento de TIC** apresentou a maior média (**0,291**) e a maior mediana (**0,150**). Essa dimensão também figurou como a de maior resultado em **49 organizações (43,4%)**, considerados os empates. Esse resultado indica que as organizações possuem alguma capacidade de planejar e elaborar planos de TIC (como PDTIs), mas frequentemente encontram dificuldades para converter essas diretrizes em processos operacionais e de segurança.
+A decomposição da Gestão de TIC revela diferenças relevantes entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], **Planejamento de TIC** apresentou a maior média (**0,305**) e a maior mediana (**0,163**). Essa dimensão também figurou como a de maior resultado em **52 organizações (46,0%)**, considerados os empates. Esse resultado indica que as organizações possuem alguma capacidade de planejar e elaborar planos de TIC (como PDTIs), mas frequentemente encontram dificuldades para converter essas diretrizes em processos operacionais e de segurança.
 
 : Estatísticas descritivas das dimensões de Gestão de TIC {#tbl:estatisticas_dimensoes_gestao#}
 
 | Dimensão | Média | Mediana | Mínimo | Máximo | Resultados iguais a zero | Organizações com valor inferior a 0,40 |
 |:---|---:|---:|---:|---:|---:|---:|
-| **Planejamento de TIC** | 0,291 | 0,150 | 0,000 | 1,000 | 21 (18,6%) | 80 (70,8%) |
-| **Gestão de Serviços de TIC** | 0,140 | 0,077 | 0,000 | 0,724 | 20 (17,7%) | 102 (90,3%) |
+| **Planejamento de TIC** | 0,305 | 0,163 | 0,000 | 1,000 | 20 (17,7%) | 78 (69,0%) |
+| **Gestão de Serviços de TIC** | 0,150 | 0,077 | 0,000 | 0,724 | 20 (17,7%) | 100 (88,5%) |
 | **Gestão de Riscos de TI e Segurança da Informação** | 0,165 | 0,097 | 0,000 | 1,000 | 32 (28,3%) | 97 (85,8%) |
 | **Estrutura de Segurança da Informação** | 0,258 | 0,130 | 0,000 | 1,000 | 25 (22,1%) | 83 (73,5%) |
-| **Processos de Segurança da Informação** | 0,200 | 0,141 | 0,000 | 0,723 | 10 (8,8%) | 95 (84,1%) |
+| **Processos de Segurança da Informação** | 0,205 | 0,147 | 0,000 | 0,822 | 10 (8,8%) | 95 (84,1%) |
 | **Gestão de Soluções de TIC** | 0,193 | 0,150 | 0,000 | 1,000 | 26 (23,0%) | 101 (89,4%) |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -357,7 +377,7 @@ A distribuição completa das seis dimensões é apresentada na [@fig:distribuic
 ![Distribuição dos resultados das seis dimensões de Gestão de TIC](igovti_2026_distribuicao_dimensoes_gestao.png){#fig:distribuicao_dimensoes_gestao_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-As menores médias foram observadas em **Gestão de Serviços de TIC** (**0,140**) e **Gestão de Riscos de TI e Segurança da Informação** (**0,165**). A primeira registrou valor inferior a 0,40 em **102 organizações (90,3%)** e apareceu entre as dimensões de menor resultado de **37 organizações (32,7%)**, considerados os empates. Para a segunda, esses quantitativos foram, respectivamente, **97 organizações (85,8%)** e **39 organizações (34,5%)**. O quadro indica que a formalização do planejamento, quando existente, frequentemente não é acompanhada, na mesma intensidade, pelas demais capacidades operacionais, de serviços e de segurança.
+As menores médias foram observadas em **Gestão de Serviços de TIC** (**0,150**) e **Gestão de Riscos de TI e Segurança da Informação** (**0,165**). A primeira registrou valor inferior a 0,40 em **100 organizações (88,5%)** e apareceu entre as dimensões de menor resultado de **33 organizações (29,2%)**, considerados os empates. Para a segunda, esses quantitativos foram, respectivamente, **97 organizações (85,8%)** e **42 organizações (37,2%)**. O quadro indica que a formalização do planejamento, quando existente, frequentemente não é acompanhada, na mesma intensidade, pelas demais capacidades operacionais, de serviços e de segurança.
 
 A dimensão Estrutura de Segurança da Informação apresentou média de **0,258** e mediana de **0,130**. Essa diferença, associada à ampla dispersão observada na [@fig:distribuicao_dimensoes_gestao_2026], evidencia heterogeneidade: um grupo de organizações possui estruturas de segurança mais consolidadas, enquanto parcela expressiva permanece próxima dos níveis inferiores. A dimensão Processos de Segurança da Informação mostrou mediana superior à de Estrutura de Segurança da Informação, mas **84,1%** das organizações ainda permaneceram abaixo de 0,40, o que recomenda examinar separadamente a existência da estrutura formal e a execução contínua dos processos de segurança.
 
@@ -445,7 +465,19 @@ Os exames e procedimentos de auditoria aplicados sobre as informações autodecl
 
 Os achados decorrem da avaliação das Questões 1 a 6. As evidências que embasam as constatações encontram-se consolidadas nos anexos da fiscalização e individualizadas nos relatórios preliminares de cada uma das 113 organizações que apresentaram resposta válida e foram avaliadas. As causas específicas das inconformidades não foram objeto de procedimento próprio de identificação causal nesta etapa; por isso, os encaminhamentos foram formulados com foco na correção das fragilidades observadas e no aprimoramento proporcional das capacidades institucionais.
 
-A validação documental também ampliou a identificação de fragilidades em relação ao cenário baseado apenas nas respostas iniciais, com maior impacto nos temas de contratações, planejamento, gestão de serviços e segurança da informação.[^impacto_evidencias_achados]
+A execução dos mesmos procedimentos nos três cenários permite distinguir a visão autodeclarada, o resultado da validação documental e o estado final após o contraditório, conforme a [@tbl:cenarios_procedimentos_auditoria]. No cenário-base, os quantitativos constituem sinalizações geradas pelas regras de auditoria sobre a autodeclaração saneada, ainda sem validação probatória; por isso, não devem ser interpretados como achados definitivos.
+
+: Execução dos procedimentos de auditoria nos três cenários {#tbl:cenarios_procedimentos_auditoria#}
+
+| Cenário | Natureza do resultado | Marcações por organização e achado | Situações identificadas |
+|:---|:---|---:|---:|
+| **Base de autodeclaração saneada** | Sinalizações anteriores à validação probatória | 598 | 1.887 |
+| **Pós-avaliação de evidências** | Achados após validação documental | 625 | 2.140 |
+| **Pós-comentários do gestor** | Achados finais após o contraditório | 620 | 2.096 |
+
+<div custom-style="FonteImagem">(Fonte: elaboração própria a partir dos resultados rastreáveis da execução dos procedimentos)</div>
+
+A validação documental ampliou a identificação de fragilidades em relação ao cenário-base, com acréscimo de 27 marcações e 253 situações, com maior impacto nos temas de contratações, planejamento, gestão de serviços e segurança da informação.[^impacto_evidencias_achados] O contraditório reduziu o resultado para 620 achados por organização e 2.096 situações. A síntese e as narrativas seguintes refletem esse estado final.
 
 [^impacto_evidencias_achados]: Na execução dos procedimentos de auditoria sobre a base pós-avaliação de evidências, foram registradas 625 marcações de achados por auditado e 2.140 situações inconformes. A metodologia, os resultados por organização e as limitações da comparação constam do Anexo "AN07 – Impacto da avaliação das evidências.docx".
 
@@ -453,12 +485,12 @@ A validação documental também ampliou a identificação de fragilidades em re
 
 | Achado | Tema | Organizações com achado | Situações inconformes consolidadas mais frequentes |
 |:---:|:---|---:|:---|
-| **1** | Estrutura de TIC | 71 (62,8%) | Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC: 58; posicionamento organizacional inadequado da área de TIC: 22; ausência de área, unidade, setor ou função de TIC formalmente instituída: 5. |
-| **2** | Governança e comitê de TIC | 107 (94,7%) | Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento: 107; Comitê de TIC ou instância equivalente não instituído formalmente: 86; Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva: 23. |
-| **3** | Planejamento de TIC | 109 (96,5%) | Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC: 108; inexistência ou fragilidade do processo formal de planejamento de TIC: 101; ausência de acompanhamento, revisão ou atualização periódica do plano de TIC: 89. |
-| **4** | Capacidade institucional de TIC e segurança da informação | 113 (100,0%) | Perfis profissionais inexistentes, insuficientes ou não utilizados: 112; lacunas de competências não são identificadas ou tratadas: 112; quantitativo necessário de pessoal de TIC e segurança da informação não definido: 107. |
-| **5** | Gestão de serviços de TIC | 113 (100,0%) | Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC: 112; inexistência ou insuficiência do catálogo de serviços de TIC: 110; ausência ou fragilidade do processo de gestão de configuração: 110. |
-| **6** | Governança técnica das contratações de TIC | 112 (99,1%) | Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária: 108; inexistência ou fragilidade de processo formal e padronizado para contratações de TIC: 99; contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC: 86. |
+| **1** | Estrutura de TIC | 68 (60,2%) | Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC: 55; posicionamento organizacional inadequado da área de TIC: 22; ausência de área, unidade, setor ou função de TIC formalmente instituída: 5. |
+| **2** | Governança e comitê de TIC | 107 (94,7%) | Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento: 107; Comitê de TIC ou instância equivalente não instituído formalmente: 75; Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva: 27. |
+| **3** | Planejamento de TIC | 108 (95,6%) | Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC: 106; inexistência ou fragilidade do processo formal de planejamento de TIC: 98; ausência de acompanhamento, revisão ou atualização periódica do plano de TIC: 89. |
+| **4** | Capacidade institucional de TIC e segurança da informação | 113 (100,0%) | Lacunas de competências não são identificadas ou tratadas: 112; perfis profissionais inexistentes, insuficientes ou não utilizados: 111; quantitativo necessário de pessoal de TIC e segurança da informação não definido: 107. |
+| **5** | Gestão de serviços de TIC | 113 (100,0%) | Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC: 111; ausência ou fragilidade do processo de gestão de configuração: 110; inexistência ou insuficiência do catálogo de serviços de TIC: 108. |
+| **6** | Governança técnica das contratações de TIC | 111 (98,2%) | Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária: 106; inexistência ou fragilidade de processo formal e padronizado para contratações de TIC: 98; contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC: 83. |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
@@ -470,7 +502,7 @@ A distribuição das ocorrências por esfera governamental é apresentada nos gr
 
 Este achado avalia se a organização possui área, unidade, setor ou função de TIC formalmente instituída, com atribuições suficientes e posicionamento compatível com suas responsabilidades institucionais. Os critérios centrais decorrem do COBIT 2019 (APO01.04, APO01.05, APO01.06 e APO01.09), da ABNT NBR ISO/IEC 38500:2025 e da Portaria SGD/ME nº 778/2019, utilizada como referência de boa prática quanto à vinculação preferencial da área de TIC à alta administração.
 
-Com base na análise das respostas aos itens 0101, 0102 e 0103 do questionário e da avaliação das evidências documentais, constatou-se que **71 organizações (62,8%)** apresentam fragilidades na estrutura de TIC. A situação mais frequente foi a existência de área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle, identificada em **58 organizações**. Também foram constatados posicionamento organizacional inadequado em **22 organizações** e ausência de área, unidade, setor ou função de TIC formalmente instituída em **5 organizações**.
+Com base na análise das respostas aos itens 0101, 0102 e 0103 do questionário, da avaliação das evidências documentais e dos comentários dos gestores, constatou-se que **68 organizações (60,2%)** apresentam fragilidades na estrutura de TIC. A situação mais frequente foi a existência de área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle, identificada em **55 organizações**. Também foram constatados posicionamento organizacional inadequado em **22 organizações** e ausência de área, unidade, setor ou função de TIC formalmente instituída em **5 organizações**.
 
 ![Frequência de organizações com estrutura de TIC insuficiente, segregada por esfera governamental](igovti_2026_achado1_esferas.png){#fig:achado1_esferas#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -483,7 +515,7 @@ Diante disso, são propostas recomendações para que as organizações afetadas
 
 Este achado avalia a existência de modelo básico de governança e gestão de TIC e a instituição e atuação efetiva de Comitê de TIC ou instância equivalente. Os critérios centrais decorrem do COBIT 2019 (EDM01.02, MEA01.04 e APO01.05), do Decreto Federal nº 12.198/2024, como referência de boas práticas de governança digital, e do Acórdão TCE-RJ nº 44.490/2024-PLEN.
 
-Com base na análise das respostas aos itens 0201, 0202 e 0203 do questionário e da avaliação das evidências documentais, constatou-se que **107 organizações (94,7%)** apresentam fragilidades na governança de TIC. A inexistência ou insuficiência de modelo básico de governança e gestão de TIC quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento foi identificada em **107 organizações**. A não instituição formal de Comitê de TIC ou instância equivalente ocorreu em **86 organizações**. Mesmo entre organizações com alguma estrutura formal, houve ausência de evidências suficientes de atuação efetiva do colegiado em **23 organizações**.
+Com base na análise das respostas aos itens 0201, 0202 e 0203 do questionário, da avaliação das evidências documentais e dos comentários dos gestores, constatou-se que **107 organizações (94,7%)** apresentam fragilidades na governança de TIC. A inexistência ou insuficiência de modelo básico de governança e gestão de TIC quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento foi identificada em **107 organizações**. A não instituição formal de Comitê de TIC ou instância equivalente ocorreu em **75 organizações**. Mesmo entre organizações com alguma estrutura formal, houve ausência de evidências suficientes de atuação efetiva do colegiado em **27 organizações**.
 
 ![Frequência de organizações com governança de TIC insuficiente, segregada por esfera governamental](igovti_2026_achado2_esferas.png){#fig:achado2_esferas#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -496,7 +528,7 @@ Diante disso, são propostas recomendações para que as organizações afetadas
 
 Este achado avalia a existência de processo formal de planejamento, plano de TIC vigente e aprovado, alinhamento ao planejamento institucional, integração com orçamento e contratações e acompanhamento periódico. Os critérios centrais decorrem do COBIT 2019 (APO02.05 e APO06.03), do Acórdão 1.411/2014-TCU-Plenário e do Acórdão TCE-RJ nº 44.490/2024-PLEN.
 
-Com base na análise dos itens 0301 a 0305 do questionário e da documentação apresentada, constatou-se que **109 organizações (96,5%)** apresentam fragilidades no planejamento de TIC. As situações mais frequentes foram plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC, em **108 organizações**; inexistência ou fragilidade do processo formal de planejamento de TIC, em **101 organizações**; ausência de acompanhamento, revisão ou atualização periódica do plano de TIC, em **89 organizações**; ausência de aprovação formal do plano de TIC, em **87 organizações**; e plano de TIC sem alinhamento adequado ao planejamento institucional, em **74 organizações**.
+Com base na análise dos itens 0301 a 0305 do questionário, da documentação apresentada e dos comentários dos gestores, constatou-se que **108 organizações (95,6%)** apresentam fragilidades no planejamento de TIC. As situações mais frequentes foram plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC, em **106 organizações**; inexistência ou fragilidade do processo formal de planejamento de TIC, em **98 organizações**; ausência de acompanhamento, revisão ou atualização periódica do plano de TIC, em **89 organizações**; ausência de aprovação formal do plano de TIC, em **82 organizações**; e plano de TIC sem alinhamento adequado ao planejamento institucional, em **73 organizações**.
 
 ![Frequência de organizações com planejamento de TIC deficiente, segregada por esfera governamental](igovti_2026_achado3_esferas.png){#fig:achado3_esferas#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -509,7 +541,7 @@ Diante disso, são propostas recomendações para que as organizações afetadas
 
 Este achado avalia se a organização possui força de trabalho, perfis, competências, funções, vínculos e capacidade interna suficientes para sustentar a TIC e a segurança da informação. Os critérios centrais decorrem do COBIT 2019 (APO01.05, APO07.01, APO07.02, APO07.03, APO07.05, APO07.06, APO10.04 e DSS01.02), da ABNT NBR ISO/IEC 27002:2022 e de referências de boa prática sobre responsabilização, segregação de funções, competências e supervisão de serviços terceirizados.
 
-Com base na análise das respostas e evidências relacionadas à força de trabalho de TIC e segurança da informação, constatou-se que **113 organizações (100,0%)** apresentam fragilidades de capacidade institucional. As situações mais frequentes foram perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores, em **112 organizações**; lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas, em **112 organizações**; ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação, em **107 organizações**; ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação, em **93 organizações**; ausência de força de trabalho dedicada à TIC ou à segurança da informação, em **59 organizações**; e dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC, em **17 organizações**.
+Com base na análise das respostas e evidências relacionadas à força de trabalho de TIC e segurança da informação e dos comentários dos gestores, constatou-se que **113 organizações (100,0%)** apresentam fragilidades de capacidade institucional. As situações mais frequentes foram lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não identificadas ou tratadas, em **112 organizações**; perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores, em **111 organizações**; ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação, em **107 organizações**; ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação, em **91 organizações**; ausência de força de trabalho dedicada à TIC ou à segurança da informação, em **59 organizações**; e dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC, em **17 organizações**.
 
 ![Frequência de organizações com capacidade institucional de TIC insuficiente, segregada por esfera governamental](igovti_2026_achado4_esferas.png){#fig:achado4_esferas#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -522,7 +554,7 @@ Diante disso, são propostas recomendações para que as organizações afetadas
 
 Este achado avalia catálogo de serviços, níveis mínimos de serviço, inventário de ativos, gestão de configuração e gestão de incidentes. Os critérios centrais decorrem do COBIT 2019 (APO09.02, APO09.03, BAI09.01, BAI10.01, DSS02.02, DSS02.04 e DSS02.07), da ABNT NBR ISO/IEC 20000-1:2020 e de boas práticas da ITIL 4.
 
-Com base na análise das respostas e evidências relacionadas à gestão de serviços de TIC, constatou-se que **113 organizações (100,0%)** apresentam fragilidades nesse tema. As situações mais frequentes foram ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC, em **112 organizações**; inexistência ou insuficiência do catálogo de serviços de TIC, em **110 organizações**; ausência ou fragilidade do processo de gestão de configuração, em **110 organizações**; inexistência ou fragilidade do inventário de ativos de TIC, em **106 organizações**; e inexistência ou fragilidade do processo de gestão de incidentes de TIC, em **104 organizações**.
+Com base na análise das respostas e evidências relacionadas à gestão de serviços de TIC e dos comentários dos gestores, constatou-se que **113 organizações (100,0%)** apresentam fragilidades nesse tema. As situações mais frequentes foram ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC, em **111 organizações**; ausência ou fragilidade do processo de gestão de configuração, em **110 organizações**; inexistência ou insuficiência do catálogo de serviços de TIC, em **108 organizações**; inexistência ou fragilidade do processo de gestão de incidentes de TIC, em **102 organizações**; e inexistência ou fragilidade do inventário de ativos de TIC, em **97 organizações**.
 
 ![Frequência de organizações com gestão de serviços de TIC insuficiente, segregada por esfera governamental](igovti_2026_achado5_esferas.png){#fig:achado5_esferas#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -535,7 +567,7 @@ Diante disso, são propostas recomendações para que as organizações afetadas
 
 Este achado avalia a governança técnica da fase preparatória das contratações de TIC, incluindo processo formal de contratação, análise prévia e aprovação técnica pela área de TIC, alinhamento ao planejamento e designação formal de equipe de planejamento. Os critérios centrais decorrem da Lei nº 14.133/2021, da Lei nº 13.709/2018, quando aplicável, do COBIT 2019 (BAI02.04, APO01.05, APO01.09, APO10.03 e APO10.05) e da Instrução Normativa SGD/ME nº 94/2022 como referência de boa prática para proporcionalidade dos ritos de contratação de TIC.
 
-Com base na análise das respostas aos itens relacionados às contratações de TIC e da documentação apresentada, constatou-se que **112 organizações (99,1%)** apresentam fragilidades na governança técnica da fase preparatória das contratações de TIC. As situações consolidadas no atual resultado de auditoria foram: contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária, em **108 organizações**; inexistência ou fragilidade de processo formal e padronizado para contratações de TIC, em **99 organizações**; contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC, em **86 organizações**; e contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC, em **45 organizações**.
+Com base na análise das respostas aos itens relacionados às contratações de TIC, da documentação apresentada e dos comentários dos gestores, constatou-se que **111 organizações (98,2%)** apresentam fragilidades na governança técnica da fase preparatória das contratações de TIC. As situações consolidadas no atual resultado de auditoria foram: contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária, em **106 organizações**; inexistência ou fragilidade de processo formal e padronizado para contratações de TIC, em **98 organizações**; contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC, em **83 organizações**; e contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC, em **45 organizações**.
 
 ![Frequência de organizações com fragilidades na governança técnica da fase preparatória das contratações de TIC, segregada por esfera governamental](igovti_2026_achado6_esferas.png){#fig:achado6_esferas#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -688,7 +720,7 @@ A análise das discordâncias deve verificar se as contratações de TIC foram s
 
 Os pedidos de reavaliação de evidências constituem universo distinto das discordâncias sobre os achados. Enquanto estas questionam as situações e os encaminhamentos constantes dos relatórios individuais, os pedidos de reavaliação pretendem rever respostas anteriormente ajustadas em razão da insuficiência ou não conformidade das evidências apresentadas.
 
-Foram identificadas 103 organizações elegíveis, com 714 combinações organização/questão-base disponíveis para contestação e 1.966 itens ou subitens originalmente avaliados como não conformes. Houve pedido de reavaliação em 343 combinações (48,0%), apresentado por 56 organizações. Foram recebidos 336 comentários e 118 anexos.
+Foram identificadas 103 organizações elegíveis, com 707 combinações organização/questão-base disponíveis para contestação e 1.951 itens ou subitens originalmente avaliados como não conformes. Houve pedido de reavaliação em 340 combinações (48,1%), apresentado por 56 organizações. Foram recebidos 333 comentários e 116 anexos.
 
 ![Questões-base com maior número de pedidos de reavaliação](../99-Avaliacao_Comentarios_Gestor/img/04-reavaliacoes-por-questao.png){#fig:comentarios_gestor_reavaliacoes#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -714,18 +746,18 @@ As questões q2504, q2802, q2708, q2801, q2804 e q2102 concentraram o maior núm
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Após a validação conjunta das duas seções, todos os 343 pedidos de 56 organizações foram submetidos à decisão técnica. Foram acolhidos integralmente 27 casos (7,9%), acolhidos parcialmente outros 23 (6,7%) e não acolhidos 293 (85,4%). O acolhimento parcial foi aplicado quando apenas parte dos itens reunidos na solicitação recebeu comprovação suficiente.
+Após a validação conjunta das duas seções, três pedidos já saneados de modo seguro pela primeira seção foram retirados da segunda para evitar dupla avaliação. Os 337 casos remanescentes foram submetidos à decisão técnica: 22 foram acolhidos integralmente (6,5%), 24 parcialmente (7,1%) e 291 não foram acolhidos (86,4%). O acolhimento parcial foi aplicado quando apenas parte dos itens reunidos na solicitação recebeu comprovação suficiente.
 
 ## 5.4. Resultado da avaliação das manifestações
 
-Na primeira seção, das 1.471 manifestações avaliadas, 48 foram acolhidas integralmente, das quais dez afastaram a situação na data-base e 38 reconheceram correção posterior; 13 foram parcialmente acolhidas e alteraram parte dos fundamentos; e 1.410 não foram acolhidas. Um dos acolhimentos parciais também comprovou correção posterior. As correções posteriores foram consideradas no estado atualizado sem invalidar a conclusão histórica.
+Na primeira seção, 261 manifestações demandaram decisão técnica individualizada: as 236 discordâncias e as 25 declarações de atendimento concluído. Desse conjunto, 46 foram acolhidas integralmente, seis foram parcialmente acolhidas e alteraram parte dos fundamentos, e 209 não foram acolhidas. As demais manifestações de concordância sem atendimento concluído confirmaram a permanência da situação e foram tratadas pelas regras objetivas do fluxo. As correções posteriores foram consideradas no estado atualizado sem invalidar a conclusão histórica.
 
 : Resultado consolidado da avaliação {#tbl:comentarios_gestor_resultado_avaliacao#}
 
 | Seção avaliada | Acolhida | Parcialmente acolhida | Não acolhida | Total |
 |---|---:|---:|---:|---:|
-| Situações encontradas | 48 | 13 | 1.410 | 1.471 |
-| Reavaliação de respostas e evidências | 27 | 23 | 293 | 343 |
+| Situações submetidas a decisão técnica individualizada | 46 | 6 | 209 | 261 |
+| Reavaliação de respostas e evidências | 22 | 24 | 291 | 337 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
 
@@ -740,25 +772,25 @@ Documentos gerais ou exemplos pontuais tampouco foram considerados suficientes q
 
 ## 5.5. Ajustes e impactos nos resultados
 
-A consolidação das duas seções e das revisões técnicas documentadas resultou em 171 ajustes distintos, distribuídos por 44 organizações e 73 itens do questionário. Não restaram pendências de valor. Os ajustes restauraram somente respostas anteriormente declaradas e tecnicamente sustentadas.
+A consolidação das duas seções e das revisões técnicas documentadas resultou em 160 ajustes distintos, distribuídos por 41 organizações e 73 itens do questionário. Não restaram pendências de valor. Os ajustes restauraram somente respostas anteriormente declaradas e tecnicamente sustentadas.
 
-Na comparação por identidade, 63 situações deixaram de subsistir em 31 organizações. Como a reexecução integral também atualizou as combinações de condições que compõem as situações, o estoque agregado apresentou redução líquida de 56 registros, passando de 2.140 para 2.084, queda de 2,6%. Foram ainda afastados sete achados, um em cada organização, reduzindo-se o total de 625 para 618.
+Na comparação por identidade, 52 situações deixaram de subsistir em 30 organizações. Como a reexecução integral também atualizou as combinações de condições que compõem as situações, o estoque agregado apresentou redução líquida de 44 registros, passando de 2.140 para 2.096, queda de 2,1%. Foram ainda afastados cinco achados, um em cada organização, reduzindo-se o total de 625 para 620.
 
-O iGovTI aumentou em 22 das 113 organizações com resposta válida, sem redução em qualquer organização. A média passou de 0,1841 para 0,1879, acréscimo de 0,0038, equivalente a 0,38 ponto percentual. Entre as 22 organizações alcançadas, o aumento médio foi de 1,93 ponto percentual e o maior acréscimo individual foi de 6,02 pontos percentuais.
+O iGovTI aumentou em 23 das 113 organizações com resposta válida, sem redução em qualquer organização. A média passou de 0,1841 para 0,1890, acréscimo de 0,0049, equivalente a 0,49 ponto percentual. Entre as 23 organizações alcançadas, o aumento médio foi de 2,42 pontos percentuais e o maior acréscimo individual foi de 16,01 pontos percentuais.
 
 : Síntese dos impactos dos comentários do gestor {#tbl:comentarios_gestor_impactos#}
 
 | Dimensão | Resultado |
 |---|---:|
-| Ajustes distintos aplicados | 171 |
-| Organizações com respostas ajustadas | 44 |
-| Situações removidas por identidade | 63, em 31 organizações |
-| Redução líquida do estoque de situações | 56, de 2.140 para 2.084 |
-| Achados afastados | 7, em 7 organizações |
-| Redução do estoque de achados | de 625 para 618 |
-| Organizações com aumento do iGovTI | 22 |
-| Variação da média do iGovTI | de 0,1841 para 0,1879 |
-| Organizações com impacto em situação, achado ou iGovTI | 35 |
+| Ajustes distintos aplicados | 160 |
+| Organizações com respostas ajustadas | 41 |
+| Situações removidas por identidade | 52, em 30 organizações |
+| Redução líquida do estoque de situações | 44, de 2.140 para 2.096 |
+| Achados afastados | 5, em 5 organizações |
+| Redução do estoque de achados | de 625 para 620 |
+| Organizações com aumento do iGovTI | 23 |
+| Variação da média do iGovTI | de 0,1841 para 0,1890 |
+| Organizações com impacto em situação, achado ou iGovTI | 36 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
@@ -773,7 +805,7 @@ As [@fig:comentarios_gestor_impactos_organizacoes], [@fig:comentarios_gestor_sal
 ![Evolução da média do iGovTI após os comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/08-evolucao-igovti.png){ width=75% }{#fig:comentarios_gestor_evolucao_igovti#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir do recálculo do iGovTI)</div>
 
-Em 35 das 119 organizações houve impacto em pelo menos uma das três dimensões finais. O alcance foi material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
+Em 36 das 119 organizações houve impacto em pelo menos uma das três dimensões finais. O alcance foi material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
 
 ## 5.6. Manifestações das organizações sem resposta válida - seção 3
 
@@ -783,9 +815,9 @@ As duas confirmações corroboram a inexistência de resposta válida nas bases 
 
 ## 5.7. Saldo geral da análise
 
-O contraditório confirmou a aderência geral do diagnóstico: 84,0% das manifestações concordaram com as situações encontradas. Ao mesmo tempo, produziu correções concretas e rastreáveis, com 61 acolhimentos integrais ou parciais na análise das situações, 50 nos pedidos de reavaliação e o reconhecimento de 39 correções posteriores, uma delas com acolhimento parcial.
+O contraditório confirmou a aderência geral do diagnóstico: 84,0% das manifestações concordaram com as situações encontradas. Ao mesmo tempo, produziu correções concretas e rastreáveis, com 52 acolhimentos integrais ou parciais nas 261 manifestações submetidas a decisão técnica individualizada e 46 acolhimentos integrais ou parciais nos 337 pedidos de reavaliação remanescentes.
 
-O saldo final foi de 171 ajustes em 44 organizações, com impacto em situação, achado ou iGovTI para 35 organizações. Foram removidas 63 situações por identidade, afastados sete achados e elevados os índices de 22 organizações. Apesar desses efeitos, permaneceram 2.084 situações e 618 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,38 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
+O saldo final foi de 160 ajustes em 41 organizações, com impacto em situação, achado ou iGovTI para 36 organizações. Foram removidas 52 situações por identidade, afastados cinco achados e elevados os índices de 23 organizações. Apesar desses efeitos, permaneceram 2.096 situações e 620 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,49 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
 
 As providências em curso e as correções posteriores também fornecem subsídios para os planos de ação. Seu acompanhamento deverá verificar responsáveis, prazos, abrangência e evidências de implementação efetiva. As decisões consolidadas e os ajustes permanecem sujeitos à validação final da Equipe de Auditoria antes da aprovação do relatório. A metodologia, a participação, as razões de não acolhimento e a memória detalhada dos impactos constam do Anexo "AN08 – Avaliação dos comentários do gestor.docx".
 
@@ -793,11 +825,15 @@ As providências em curso e as correções posteriores também fornecem subsídi
 
 A presente fiscalização avaliou a maturidade da governança e da gestão de tecnologia da informação e comunicação no âmbito das organizações jurisdicionadas, por meio do iGovTI 2026, da análise longitudinal em relação ao ciclo anterior e da execução de procedimentos de auditoria voltados à validação das informações autodeclaradas e das evidências documentais encaminhadas.
 
-Os resultados demonstram que a governança e a gestão de TIC ainda se encontram, de forma predominante, em estágio inicial de maturidade. Das 113 organizações avaliadas, 100 obtiveram resultado inferior a 0,40 no iGovTI 2026, concentrando-se nos níveis Inexpressivo e Iniciando. A baixa mediana do índice e a concentração dos resultados nos quartis inferiores indicam que as fragilidades observadas não se restringem a casos isolados, mas compõem quadro abrangente de insuficiência de formalização, coordenação, planejamento, capacidade institucional e controle operacional da TIC.
+Os resultados demonstram que a governança e a gestão de TIC ainda se encontram, de forma predominante, em estágio inicial de maturidade. Das 113 organizações avaliadas, 99 obtiveram resultado inferior a 0,40 no iGovTI 2026, concentrando-se nos níveis Inexpressivo e Iniciando. A baixa mediana do índice e a concentração dos resultados nos quartis inferiores indicam que as fragilidades observadas não se restringem a casos isolados, mas compõem quadro abrangente de insuficiência de formalização, coordenação, planejamento, capacidade institucional e controle operacional da TIC.
 
 A comparação longitudinal entre os ciclos de 2023 e 2026, realizada sobre bases ajustadas e comparáveis, não autoriza concluir pela existência de melhora geral consistente. Embora tenham sido identificados avanços pontuais em determinadas capacidades, especialmente em estrutura de segurança da informação e planejamento de TIC, o conjunto pareado revelou estabilidade do índice médio, redução da mediana e permanência predominante das organizações nos níveis iniciais de maturidade. Esse resultado recomenda cautela na leitura evolutiva dos índices e reforça a necessidade de continuidade do acompanhamento pelo controle externo.
 
 Os procedimentos de auditoria confirmaram a materialidade das fragilidades apontadas pelo índice. Foram consolidados seis achados, relacionados à estrutura de TIC, governança de TIC, planejamento de TIC, capacidade institucional, gestão de serviços de TIC e contratações de TIC. Em todos esses temas, verificou-se incidência expressiva de situações inconformes, com destaque para fragilidades na definição de papéis e responsabilidades, na atuação da alta administração, na integração entre planejamento, orçamento e contratações, na composição e capacitação da força de trabalho, no controle de serviços, ativos e incidentes e na governança técnica das aquisições de tecnologia.
+
+A preservação dos três cenários amplia a transparência do diagnóstico. No cenário-base de autodeclaração saneada, a média do iGovTI foi 0,235 e a execução das regras produziu 598 sinalizações e 1.887 situações. Após a avaliação das evidências, a média passou a 0,184, com 625 achados e 2.140 situações; após os comentários dos gestores, alcançou 0,189, com 620 achados e 2.096 situações. A diferença evidencia a distância entre o que foi autodeclarado, o que pôde ser documentalmente assegurado e o que foi revisto no contraditório, sem autorizar a conclusão automática de que toda prática não comprovada inexista.
+
+As conclusões e os encaminhamentos adotam o cenário pós-comentários do gestor, por ser o estado que incorpora a validação documental e o contraditório. O cenário-base permanece apresentado como referência declaratória, sujeito tanto a sobrestimar práticas insuficientemente demonstradas quanto a não refletir atividades que os procedimentos, dentro dos limites de escopo e dos meios operacionais da fiscalização, não conseguiram assegurar.
 
 Ressalta-se que a metodologia empregada não teve por objetivo identificar causas específicas para cada inconformidade. Por essa razão, os encaminhamentos propostos concentram-se na correção das fragilidades constatadas e no aprimoramento proporcional das capacidades institucionais, preservando espaço para que cada organização, conforme seu porte, complexidade, riscos e contexto administrativo, defina os meios adequados para implementar as melhorias necessárias.
 

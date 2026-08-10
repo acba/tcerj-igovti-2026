@@ -189,7 +189,9 @@ def validar_integridade_comentarios(
                     "Violação": f"{validos_por_caso[cid]} avaliações válidas; mínimo={quorum}",
                 })
 
-        consolidado = out_dir / "consolidado" / ("secao-1" if secao == "1" else "secao-2") / "consolidated.jsonl"
+        consolidado_dir = out_dir / "consolidado" / ("secao-1" if secao == "1" else "secao-2")
+        consolidado_limpo = consolidado_dir / "consolidated_clean.jsonl"
+        consolidado = consolidado_limpo if consolidado_limpo.is_file() else consolidado_dir / "consolidated.jsonl"
         pareceres = _agrupar_registros(_ler_jsonl(consolidado), chave_modelo=False)
         for cid, caso in por_id.items():
             registro, violacao = _selecionar_registro_valido(

@@ -340,16 +340,6 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
         respostas_comentarios = candidatas[-1] if candidatas else coleta / "respostas-comentarios-gestor.xlsx"
     evidencias_comentarios = args.evidencias_comentarios_root or comentarios_root / "01-Coleta_LimeSurvey/Evidencias_Coletadas/evidencias_extraidas"
     stats_dir = root / "03-Relatorios/99-Avaliacao_Comentarios_Gestor"
-    stages.append(Stage(
-        "16-estatisticas-comentarios", "Calculando estatísticas dos comentários do gestor", cmd(
-            ROOT / "03-Relatorios/99-Avaliacao_Comentarios_Gestor/calcular_dados_comentarios_gestor.py",
-            "--respostas", respostas_comentarios, "--lss", comentarios_lss,
-            "--resultado-auditoria", a2 / "resultado_auditoria.json", "--ajustes-evidencias", ajustes_evidencias,
-            "--output-dir", stats_dir,
-        ), inputs=(comentarios_lss, a2 / "resultado_auditoria.json", ajustes_evidencias),
-        optional_inputs=(respostas_comentarios, evidencias_comentarios),
-        outputs=(stats_dir / "dados/resumo-execucao.json",),
-    ))
     pipeline_comments = list(cmd(
         SCRIPTS / "run_comentarios_gestor.py", "completo", "--respostas-comentarios", respostas_comentarios,
         "--evidencias-comentarios-root", evidencias_comentarios, "--lss", comentarios_lss,
@@ -357,7 +347,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
         "--ajustes-pos-avaliacao-evidencias", ajustes_evidencias, "--questionario", args.questionario,
         "--respostas-questionario-base", r2, "--respostas-questionario-originais", args.respostas_bruto,
         "--painel-avaliacao-evidencias", painel_evidencias, "--catalog-comentarios", args.catalog_comentarios,
-        "--revisoes-respostas", args.revisoes_respostas,
+        "--revisoes-respostas", args.revisoes_respostas, "--revisoes-pareceres", args.revisoes_pareceres,
         "--models-config", args.models_config_comentarios, "--out-dir", avaliacao_comentarios,
     ))
     if args.fake_comentarios:
@@ -366,8 +356,11 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
         "17-avaliar-comentarios", "Avaliando e consolidando comentários do gestor", tuple(pipeline_comments),
         inputs=(respostas_comentarios, evidencias_comentarios, comentarios_lss, a2 / "resultado_auditoria.json",
                 args.mapa, ajustes_evidencias, r2, painel_evidencias, args.models_config_comentarios,
-                args.revisoes_respostas),
-        outputs=(ajustes_comentarios, painel_comentarios), metadata={"output_dirs": [str(avaliacao_comentarios)]},
+                args.revisoes_respostas, args.revisoes_pareceres),
+        outputs=(ajustes_comentarios, painel_comentarios), metadata={
+            "output_dirs": [str(avaliacao_comentarios)],
+            "review_artifact": str(avaliacao_comentarios / "revisao-humana-pareceres.xlsx"),
+        },
     ))
     products_cmd = list(cmd(
         SCRIPTS / "gerar_produtos_pos_comentarios_gestor.py", "--data-referencia", args.data_referencia_comentarios,
@@ -404,9 +397,21 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
                    igovti_outputs(i2, prefixo)[2], igovti_outputs(i3, prefixo_atual)[2]),
         outputs=(impactos_comentarios_json, impactos_comentarios_xlsx),
     ))
+    stages.append(Stage(
+        "22-estatisticas-comentarios", "Calculando estatísticas finais dos comentários do gestor", cmd(
+            ROOT / "03-Relatorios/99-Avaliacao_Comentarios_Gestor/calcular_dados_comentarios_gestor.py",
+            "--respostas", respostas_comentarios, "--lss", comentarios_lss,
+            "--resultado-auditoria", a2 / "resultado_auditoria.json", "--ajustes-evidencias", ajustes_evidencias,
+            "--avaliacao-final", pareceres_comentarios, "--ajustes-comentarios", ajustes_comentarios,
+            "--impactos", impactos_comentarios_xlsx, "--output-dir", stats_dir,
+        ), inputs=(
+            respostas_comentarios, comentarios_lss, a2 / "resultado_auditoria.json", ajustes_evidencias,
+            pareceres_comentarios, ajustes_comentarios, impactos_comentarios_xlsx,
+        ), outputs=(stats_dir / "dados/resumo-execucao.json",),
+    ))
     if not args.skip_graficos:
         stages.append(Stage(
-            "22-graficos-finais", "Gerando gráficos finais", cmd(
+            "23-graficos-finais", "Gerando gráficos finais", cmd(
                 SCRIPTS / "gerar_graficos_relatorios_consolidado_individuais_igovti.py",
                 "--output-root", graficos_03, "--resultados-2026", igovti_outputs(i3, prefixo_atual)[0],
                 "--respostas-2026", r3, "--comparavel-2026", igovti_outputs(i3, prefixo_atual)[1],
@@ -428,7 +433,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
         if args.auditados_select:
             final_cmd.extend(["--auditados-select", *args.auditados_select])
         stages.append(Stage(
-            "23-relatorios-finais", "Gerando relatórios individuais finais", tuple(final_cmd),
+            "24-relatorios-finais", "Gerando relatórios individuais finais", tuple(final_cmd),
             inputs=(a3 / "resultado_auditoria.json", args.template_final, igovti_outputs(i3, prefixo_atual)[2],
                     contexto_comentarios, impactos_comentarios_json), outputs=(), scenario="03-pos-comentarios-gestor",
             metadata={"output_dirs": [str(relatorios_final)]},
@@ -436,7 +441,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
     if not args.skip_relatorio_consolidado:
         consolidado_docx = root / "03-Relatorios/01-Relatorio_Consolidado/gerados" / args.relatorio_consolidado_md.with_suffix(".docx").name
         stages.append(Stage(
-            "24-relatorio-consolidado", "Gerando relatório consolidado final", cmd(
+            "25-relatorio-consolidado", "Gerando relatório consolidado final", cmd(
                 SCRIPTS / "gerar_relatorio_consolidado.py", "--input", args.relatorio_consolidado_md,
                 "--output", consolidado_docx, "--reference-docx", args.reference_docx_consolidado,
                 "--resource-files", root / "03-Relatorios/01-Relatorio_Consolidado/img",
@@ -465,7 +470,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
     for directory in report_dirs:
         validation_cmd.extend(["--report-dir", str(directory)])
     stages.append(Stage(
-        "25-validacao-final", "Validando produtos e recursos finais", tuple(validation_cmd),
+        "26-validacao-final", "Validando produtos e recursos finais", tuple(validation_cmd),
         inputs=tuple(required_final), outputs=(validation_output,),
     ))
     return stages
@@ -522,6 +527,9 @@ def main() -> int:
         if result == "awaiting_input":
             logging.warning("Pipeline aguardando comentários do gestor. Consulte %s", manifest.path)
             return 2
+        if result == "awaiting_review":
+            logging.warning("Pipeline aguardando revisão humana dos pareceres prioritários. Consulte %s", manifest.path)
+            return 3
     if stages and stages[-1].key == build_stages(args)[-1].key:
         manifest.complete()
     return 0

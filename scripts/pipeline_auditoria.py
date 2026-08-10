@@ -199,8 +199,27 @@ class Manifest:
         self.save()
         self.event("pipeline_awaiting_input", stage=stage.key, missing_inputs=record["missing_inputs"])
 
+    def awaiting_review(self, stage: Stage) -> None:
+        record = self.stage_record(stage)
+        record.update(
+            {
+                "status": "awaiting_review",
+                "finished_at": agora(),
+                "review_artifact": str((stage.metadata or {}).get("review_artifact", "")),
+            }
+        )
+        self.data["status"] = "awaiting_review"
+        self.save()
+        self.event(
+            "pipeline_awaiting_review",
+            stage=stage.key,
+            review_artifact=record["review_artifact"],
+        )
+
     def adopt(self, stage: Stage) -> None:
         record = self.stage_record(stage)
+        for stale_key in ("returncode", "error", "missing_inputs", "review_artifact", "log"):
+            record.pop(stale_key, None)
         record.update(
             {
                 "status": "completed",
@@ -304,12 +323,13 @@ class PipelineRunner:
             logging.info("Adotando produtos existentes sem sobrescrevê-los: %s", stage.title)
             self.manifest.adopt(stage)
             return "adopted"
-        if existing and stage.key not in self.force:
+        retomando_revisao = record.get("status") == "awaiting_review"
+        if existing and stage.key not in self.force and not retomando_revisao:
             raise RuntimeError(
                 f"Produtos existentes sem correspondência íntegra no manifesto em {stage.key}; "
                 "não serão sobrescritos: " + ", ".join(map(str, existing))
             )
-        if existing_dirs and stage.key not in self.force:
+        if existing_dirs and stage.key not in self.force and not retomando_revisao:
             raise RuntimeError(
                 f"Diretórios de produtos existentes sem correspondência íntegra no manifesto em {stage.key}; "
                 "não serão sobrescritos: " + ", ".join(map(str, existing_dirs))
@@ -335,6 +355,9 @@ class PipelineRunner:
                 log.flush()
             returncode = proc.wait()
             proc.stdout.close()
+        if returncode == 3:
+            self.manifest.awaiting_review(stage)
+            return "awaiting_review"
         self.manifest.finish(stage, returncode)
         if returncode:
             raise subprocess.CalledProcessError(returncode, stage.command)

@@ -152,3 +152,89 @@ agregados:
         peso: 0.477696299232863
       - id: iGestTI
         peso: 0.522303700767137
+
+contexto_relatorios:
+  limiar: 0.40
+  coluna_auditado: sigla
+  coluna_maturidade: iGovTI_maturidade
+  indice_coluna: iGovTI
+  indice_prefixo: igovti
+  universo_prefixo: universo_2026
+  indicadores:
+    iGovTI: igovti_geral
+    GovernancaTI: governanca_geral
+    iGestTI: igest_geral
+  dimensoes:
+    PlanejamentoTI:
+      prefixo: planejamento
+      rotulo: "Planejamento de TIC"
+    ServicosTI:
+      prefixo: servicos
+      rotulo: "Gestão de serviços de TIC"
+    RiscosTISegInfo:
+      prefixo: riscos_seguranca
+      rotulo: "Riscos de TI e de segurança da informação"
+    EstruturaSegInfo:
+      prefixo: estrutura_seguranca
+      rotulo: "Estrutura de segurança da informação"
+    ProcessoSegInfo:
+      prefixo: processos_seguranca
+      rotulo: "Processos de segurança da informação"
+    GerirSoluçõesTI:
+      prefixo: gestao_solucoes
+      rotulo: "Gestão de soluções de TIC"
+  componentes_comparar:
+    GovernancaTI:
+      prefixo: governanca
+    iGestTI:
+      prefixo: gestao
+  comparacao:
+    ativo: true
+    cobertura_sufixo: "2026"
+    direcao_coluna: iGovTI
+    indicadores:
+      iGovTI:
+        prefixo: igovti
+        rotulo: "iGovTI ajustado comparável"
+      GovernancaTI:
+        prefixo: governanca
+        rotulo: "Governança de TIC"
+      iGestTI:
+        prefixo: igest
+        rotulo: "Gestão de TIC"
+    agregados:
+      ModeloTI:
+        rotulo: "Modelo de gestão de TIC"
+      MonitorAvaliaTI:
+        rotulo: "Monitoramento e avaliação de TIC"
+      ResultadoTI:
+        rotulo: "Resultados de TIC"
+      PlanejamentoTI:
+        rotulo: "Planejamento de TIC"
+      PessoasTI:
+        rotulo: "Gestão de pessoas de TIC"
+      iGestServicosTI:
+        rotulo: "Gestão de serviços de TIC"
+      iGestNiveisServicoTI:
+        rotulo: "Gestão de níveis de serviço"
+      iGestRiscosTI:
+        rotulo: "Gestão de riscos de TIC"
+      EstruturaSegInfo:
+        rotulo: "Estrutura de segurança da informação"
+      ProcessoSegInfo:
+        rotulo: "Processos de segurança da informação"
+      ProcessoSoftware:
+        rotulo: "Processo de software"
+      iGestProjetosTI:
+        rotulo: "Gestão de projetos de TIC"
+      ProcessosContratacao:
+        rotulo: "Processos de contratação de TIC"
+    grupos: [Estaduais, Municipios]
+    aliases:
+      FIARJ: FIA
+      FTMRJ: FTM
+      IO: IOERJ
+      IPEMRJ: IPEM
+      RIOPREVI: RIOPREVIDENCIA
+      RIOTRILH: RIOTRILHOS
+      SEDSODH: SEDSDH

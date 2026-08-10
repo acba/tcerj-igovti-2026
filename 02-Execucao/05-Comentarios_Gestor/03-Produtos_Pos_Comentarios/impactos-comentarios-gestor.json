@@ -12,14 +12,14 @@
   },
   "AGERIO": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 11,
-    "situacoes_removidas": 7,
+    "situacoes_atuais": 12,
+    "situacoes_removidas": 6,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.4338685236850021,
-    "igovti_atual": 0.4940729802266843,
-    "variacao_igovti": 0.06020445654168216
+    "igovti_atual": 0.4872931104155812,
+    "variacao_igovti": 0.05342458673057909
   },
   "AGETRANSP": {
     "situacoes_antes": 20,
@@ -78,8 +78,8 @@
   },
   "ARRAIAL DO CABO": {
     "situacoes_antes": 21,
-    "situacoes_atuais": 18,
-    "situacoes_removidas": 3,
+    "situacoes_atuais": 19,
+    "situacoes_removidas": 2,
     "achados_antes": 6,
     "achados_atuais": 5,
     "achados_removidos": 1,
@@ -100,8 +100,8 @@
   },
   "BELFORD ROXO": {
     "situacoes_antes": 19,
-    "situacoes_atuais": 19,
-    "situacoes_removidas": 0,
+    "situacoes_atuais": 18,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -133,8 +133,8 @@
   },
   "CASIMIRO DE ABREU": {
     "situacoes_antes": 19,
-    "situacoes_atuais": 19,
-    "situacoes_removidas": 0,
+    "situacoes_atuais": 18,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -161,8 +161,8 @@
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.1576795157441079,
-    "igovti_atual": 0.1637617224210189,
-    "variacao_igovti": 0.006082206676911006
+    "igovti_atual": 0.16984392909793,
+    "variacao_igovti": 0.012164413353822096
   },
   "CEDAE": {
     "situacoes_antes": 20,
@@ -205,8 +205,8 @@
     "achados_atuais": 6,
     "achados_removidos": 0,
     "igovti_anterior": 0.2580680375751482,
-    "igovti_atual": 0.2580680375751482,
-    "variacao_igovti": 0.0
+    "igovti_atual": 0.2610474713125606,
+    "variacao_igovti": 0.0029794337374124402
   },
   "CGE": {
     "situacoes_antes": 15,
@@ -403,8 +403,8 @@
     "achados_atuais": 6,
     "achados_removidos": 0,
     "igovti_anterior": 0.1533646449096753,
-    "igovti_atual": 0.1695055871036197,
-    "variacao_igovti": 0.016140942193944408
+    "igovti_atual": 0.1762854569147228,
+    "variacao_igovti": 0.022920812005047503
   },
   "FS": {
     "situacoes_antes": 18,
@@ -441,14 +441,14 @@
   },
   "FUNARJ": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 16,
-    "situacoes_removidas": 2,
+    "situacoes_atuais": 15,
+    "situacoes_removidas": 3,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.06955825063336939,
-    "igovti_atual": 0.07451357038173305,
-    "variacao_igovti": 0.004955319748363662
+    "igovti_atual": 0.07549159286949259,
+    "variacao_igovti": 0.0059333422361231986
   },
   "GSI": {
     "situacoes_antes": 14,
@@ -507,19 +507,19 @@
   },
   "IPEM": {
     "situacoes_antes": 15,
-    "situacoes_atuais": 13,
-    "situacoes_removidas": 3,
+    "situacoes_atuais": 12,
+    "situacoes_removidas": 4,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.2557711225891841,
-    "igovti_atual": 0.2852422625333925,
-    "variacao_igovti": 0.029471139944208413
+    "igovti_atual": 0.2981958726924157,
+    "variacao_igovti": 0.0424247501032316
   },
   "IRM": {
     "situacoes_antes": 20,
-    "situacoes_atuais": 20,
-    "situacoes_removidas": 0,
+    "situacoes_atuais": 19,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -529,14 +529,14 @@
   },
   "ISP": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 15,
-    "situacoes_removidas": 3,
+    "situacoes_atuais": 18,
+    "situacoes_removidas": 0,
     "achados_antes": 6,
     "achados_atuais": 6,
     "achados_removidos": 0,
     "igovti_anterior": 0.4407467228894335,
-    "igovti_atual": 0.4610863323227429,
-    "variacao_igovti": 0.02033960943330937
+    "igovti_atual": 0.4543064625116398,
+    "variacao_igovti": 0.013559739622206302
   },
   "ITAGUAÍ": {
     "situacoes_antes": 18,
@@ -551,8 +551,8 @@
   },
   "ITERJ": {
     "situacoes_antes": 21,
-    "situacoes_atuais": 20,
-    "situacoes_removidas": 1,
+    "situacoes_atuais": 21,
+    "situacoes_removidas": 0,
     "achados_antes": 6,
     "achados_atuais": 6,
     "achados_removidos": 0,
@@ -595,8 +595,8 @@
   },
   "LOTERJ": {
     "situacoes_antes": 20,
-    "situacoes_atuais": 20,
-    "situacoes_removidas": 1,
+    "situacoes_atuais": 19,
+    "situacoes_removidas": 2,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -689,8 +689,8 @@
     "achados_atuais": 6,
     "achados_removidos": 0,
     "igovti_anterior": 0.1274362090162726,
-    "igovti_atual": 0.1335184156931837,
-    "variacao_igovti": 0.006082206676911117
+    "igovti_atual": 0.1456828290470058,
+    "variacao_igovti": 0.018246620030733213
   },
   "PARATY": {
     "situacoes_antes": 21,
@@ -782,8 +782,8 @@
   },
   "QUEIMADOS": {
     "situacoes_antes": 16,
-    "situacoes_atuais": 15,
-    "situacoes_removidas": 1,
+    "situacoes_atuais": 16,
+    "situacoes_removidas": 0,
     "achados_antes": 6,
     "achados_atuais": 6,
     "achados_removidos": 0,
@@ -804,25 +804,25 @@
   },
   "RIO DAS OSTRAS": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 14,
-    "situacoes_removidas": 4,
+    "situacoes_atuais": 17,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.2228808701329766,
-    "igovti_atual": 0.262986369033639,
-    "variacao_igovti": 0.04010549890066237
+    "igovti_atual": 0.2524230168494018,
+    "variacao_igovti": 0.029542146716425216
   },
   "RIOPREVIDENCIA": {
     "situacoes_antes": 17,
-    "situacoes_atuais": 15,
-    "situacoes_removidas": 2,
+    "situacoes_atuais": 16,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.3907341240311753,
-    "igovti_atual": 0.4330995802621066,
-    "variacao_igovti": 0.0423654562309313
+    "igovti_atual": 0.5508217026140215,
+    "variacao_igovti": 0.16008757858284622
   },
   "RIOTRILHOS": {
     "situacoes_antes": 22,
@@ -936,8 +936,8 @@
   },
   "SEDEC": {
     "situacoes_antes": 14,
-    "situacoes_atuais": 14,
-    "situacoes_removidas": 0,
+    "situacoes_atuais": 13,
+    "situacoes_removidas": 1,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
@@ -1069,7 +1069,7 @@
   "SEPM": {
     "situacoes_antes": 19,
     "situacoes_atuais": 19,
-    "situacoes_removidas": 0,
+    "situacoes_removidas": 1,
     "achados_antes": 6,
     "achados_atuais": 6,
     "achados_removidos": 0,
@@ -1112,14 +1112,14 @@
   },
   "SES": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 17,
-    "situacoes_removidas": 1,
+    "situacoes_atuais": 18,
+    "situacoes_removidas": 0,
     "achados_antes": 5,
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.3511163912796449,
-    "igovti_atual": 0.35803578192557,
-    "variacao_igovti": 0.0069193906459251164
+    "igovti_atual": 0.3511163912796449,
+    "variacao_igovti": 0.0
   },
   "SESP": {
     "situacoes_antes": 0,
@@ -1140,8 +1140,8 @@
     "achados_atuais": 4,
     "achados_removidos": 0,
     "igovti_anterior": 0.730627879068066,
-    "igovti_atual": 0.7545689962328395,
-    "variacao_igovti": 0.02394111716477343
+    "igovti_atual": 0.75788917072098,
+    "variacao_igovti": 0.02726129165291402
   },
   "SETRAB": {
     "situacoes_antes": 20,
@@ -1156,11 +1156,11 @@
   },
   "SETRANS": {
     "situacoes_antes": 21,
-    "situacoes_atuais": 18,
-    "situacoes_removidas": 3,
+    "situacoes_atuais": 21,
+    "situacoes_removidas": 0,
     "achados_antes": 6,
-    "achados_atuais": 5,
-    "achados_removidos": 1,
+    "achados_atuais": 6,
+    "achados_removidos": 0,
     "igovti_anterior": 0.1128734585880629,
     "igovti_atual": 0.1128734585880629,
     "variacao_igovti": 0.0
@@ -1211,11 +1211,11 @@
   },
   "SÃO JOÃO DE MERITI": {
     "situacoes_antes": 22,
-    "situacoes_atuais": 19,
-    "situacoes_removidas": 3,
+    "situacoes_atuais": 22,
+    "situacoes_removidas": 0,
     "achados_antes": 6,
-    "achados_atuais": 5,
-    "achados_removidos": 1,
+    "achados_atuais": 6,
+    "achados_removidos": 0,
     "igovti_anterior": 0.1189423410704612,
     "igovti_atual": 0.1189423410704612,
     "variacao_igovti": 0.0
@@ -1228,19 +1228,19 @@
     "achados_atuais": 5,
     "achados_removidos": 0,
     "igovti_anterior": 0.2143910869258308,
-    "igovti_atual": 0.2446157937919437,
-    "variacao_igovti": 0.030224706866112894
+    "igovti_atual": 0.2422405963216705,
+    "variacao_igovti": 0.02784950939583969
   },
   "TCE-RJ": {
     "situacoes_antes": 18,
-    "situacoes_atuais": 15,
-    "situacoes_removidas": 3,
+    "situacoes_atuais": 16,
+    "situacoes_removidas": 2,
     "achados_antes": 6,
     "achados_atuais": 5,
     "achados_removidos": 1,
     "igovti_anterior": 0.3787705980140124,
-    "igovti_atual": 0.3787705980140124,
-    "variacao_igovti": 0.0
+    "igovti_atual": 0.3811457954842856,
+    "variacao_igovti": 0.002375197470273205
   },
   "TERESÓPOLIS": {
     "situacoes_antes": 19,

@@ -72,6 +72,7 @@ DEFAULT_RESPOSTAS_BASE = ROOT / "02-Execucao/01-Questionario/03-Respostas_Proces
 DEFAULT_RESPOSTAS_ORIGINAIS = ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx"
 DEFAULT_PAINEL_EVIDENCIAS = ROOT / "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx"
 DEFAULT_REVISOES_RESPOSTAS = ROOT / "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_respostas.yml"
+DEFAULT_REVISOES_PARECERES = ROOT / "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml"
 DEFAULT_QUESTIONARIO = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 DEFAULT_PROMPTS = ROOT / "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 DEFAULT_CATALOG = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
@@ -1826,6 +1827,162 @@ def _latest_by_case_model(
     return grupos
 
 
+def carregar_revisoes_pareceres_estruturadas(path: Path | None) -> list[dict[str, Any]]:
+    """Carrega somente revisões aprovadas que substituem conclusões do juiz."""
+    if path is None or not path.is_file():
+        return []
+    payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    revisoes = payload.get("revisoes")
+    if not isinstance(revisoes, list):
+        raise ValueError(f"revisões de pareceres sem lista 'revisoes': {path}")
+    estruturadas: list[dict[str, Any]] = []
+    for indice, revisao in enumerate(revisoes, start=1):
+        if not isinstance(revisao, dict) or not isinstance(revisao.get("conclusoes"), list):
+            continue
+        faltantes = [
+            campo for campo in ("auditado", "secao", "codigo", "case_id", "identidade_parecer")
+            if not texto(revisao.get(campo))
+        ]
+        if faltantes:
+            raise ValueError(
+                f"revisoes_pareceres.yml: revisão estruturada {indice} sem campos: "
+                + ", ".join(faltantes)
+            )
+        if revisao.get("aprovada") is not True:
+            raise ValueError(
+                f"revisoes_pareceres.yml: revisão estruturada {indice} deve conter aprovada: true"
+            )
+        if not texto(revisao.get("revisor")) or not texto(revisao.get("data_revisao")):
+            raise ValueError(
+                f"revisoes_pareceres.yml: revisão estruturada {indice} exige revisor e data_revisao"
+            )
+        estruturadas.append(revisao)
+    return estruturadas
+
+
+def _registro_revisao_humana(
+    *,
+    revisao: dict[str, Any],
+    secao: str,
+    identity: str,
+    opinioes: list[dict[str, Any]],
+    expected_models: set[str],
+) -> dict[str, Any]:
+    primeira = opinioes[0]
+    itens = _itens_para_consolidacao(opinioes)
+    esperados = [item.codigo for item in itens]
+    recebidos = [texto(item.get("item_codigo")) for item in revisao.get("conclusoes") or []]
+    if len(recebidos) != len(set(recebidos)):
+        raise ValueError(f"revisão humana {revisao['auditado']}/{revisao['codigo']} contém itens duplicados")
+    if set(recebidos) != set(esperados):
+        raise ValueError(
+            f"revisão humana {revisao['auditado']}/{revisao['codigo']} fora do escopo: "
+            f"esperados={esperados}; recebidos={recebidos}"
+        )
+    por_codigo = {item.codigo: item for item in itens}
+    justificativa = texto(revisao.get("manifestacao_equipe"))
+    conclusoes: list[dict[str, Any]] = []
+    for declarada in revisao["conclusoes"]:
+        codigo = texto(declarada.get("item_codigo"))
+        autoritativo = por_codigo[codigo]
+        conclusao = {
+            "item_codigo": codigo,
+            "item_texto": autoritativo.texto,
+            "afirmacao_auditado": autoritativo.afirmacao,
+            "justificativa": texto(declarada.get("justificativa")) or justificativa,
+            "lacunas": declarada.get("lacunas") or [],
+            "arquivos_referenciados": declarada.get("arquivos_referenciados") or [],
+            "trechos_ou_elementos": declarada.get("trechos_ou_elementos") or [],
+            "paginas_ou_localizacao": declarada.get("paginas_ou_localizacao") or [],
+        }
+        for campo in (
+            "estado", "estado_temporal", "conclusoes_motivos", "providencias_informadas",
+            "comentarios_encaminhamento", "consequencias_praticas", "alternativas_propostas",
+        ):
+            if campo in declarada:
+                conclusao[campo] = declarada[campo]
+        conclusoes.append(conclusao)
+    result = {"status": "completed", "conclusoes": conclusoes, "error": ""}
+    caso_validacao = {
+        "secao": secao,
+        "codigo": primeira.get("codigo"),
+        "itens": [asdict(item) for item in itens],
+        "contexto": primeira.get("contexto", {}),
+    }
+    violacoes = validar_resultado_no_escopo(
+        caso_validacao,
+        result,
+        validar_temporal=secao == "1",
+    )
+    if violacoes:
+        raise ValueError(
+            f"revisão humana {revisao['auditado']}/{revisao['codigo']} inválida: "
+            + formatar_violacoes(violacoes)
+        )
+    evidence_paths = sorted({
+        texto(path)
+        for opiniao in opinioes
+        for path in opiniao.get("evidence_paths") or []
+        if texto(path)
+    })
+    publicacao = validar_justificativa_publicavel(
+        secao,
+        result,
+        evidencia_documental_disponivel=bool(evidence_paths),
+    )
+    if publicacao:
+        raise ValueError(
+            f"revisão humana {revisao['auditado']}/{revisao['codigo']} não publicável: "
+            + "; ".join(publicacao)
+        )
+    presentes = {
+        texto(opiniao.get("model_key")) or texto(opiniao.get("model"))
+        for opiniao in opinioes
+    }
+    agora = dt.datetime.now(dt.timezone.utc).isoformat()
+    return {
+        "identity": identity,
+        "case_id": primeira.get("case_id"),
+        "secao": primeira.get("secao"),
+        "auditado": primeira.get("auditado"),
+        "codigo": primeira.get("codigo"),
+        "questao": primeira.get("codigo"),
+        "coluna_evidencia": primeira.get("coluna_evidencia"),
+        "evidencia": primeira.get("evidencia", ""),
+        "provider": "human",
+        "model": texto(revisao.get("revisor")),
+        "status": "completed",
+        "error": "",
+        "result": result,
+        "opinioes_validas": len(opinioes),
+        "opinioes_esperadas": len(expected_models),
+        "avaliadores_ausentes": sorted(expected_models - presentes),
+        "opinioes": [
+            {
+                "identity": item.get("identity"), "provider": item.get("provider"),
+                "model": item.get("model"), "model_key": item.get("model_key"),
+            }
+            for item in opinioes
+        ],
+        "contexto": primeira.get("contexto", {}),
+        "itens": [asdict(item) for item in itens],
+        "evidence_paths": evidence_paths,
+        "evidencia_documental_processada": bool(evidence_paths),
+        "links_manifestacao": [],
+        "avisos_processamento_evidencias": [],
+        "started_at": agora,
+        "finished_at": agora,
+        "duration_seconds": 0,
+        "supersedes_identity": identity,
+        "origem_decisao": "revisao_humana",
+        "revisao_humana": {
+            "revisor": texto(revisao.get("revisor")),
+            "data_revisao": texto(revisao.get("data_revisao")),
+            "fundamento": texto(revisao.get("fundamento_revisao")),
+        },
+    }
+
+
 def _itens_autoritativos_caso(opiniao: dict[str, Any]) -> list[ItemAfirmado]:
     """Reconstrói o escopo do juiz a partir do caso, nunca da união de opiniões."""
     itens: list[ItemAfirmado] = []
@@ -2281,6 +2438,7 @@ def consolidar_casos(
     pdf_detail: str = "auto",
     catalog_comentarios: Path = DEFAULT_CATALOG_COMENTARIOS,
     deterministic_path: Path | None = None,
+    revisoes_pareceres_path: Path | None = None,
     expected_case_ids: set[str] | None = None,
     selected_case_ids: set[str] | None = None,
     refresh_links: bool = False,
@@ -2294,6 +2452,14 @@ def consolidar_casos(
         raise ValueError("tpm deve ser inteiro não negativo")
     modelos_esperados = set(expected_models)
     grupos = _latest_by_case_model(analyses_files, expected_models=modelos_esperados)
+    revisoes_estruturadas = carregar_revisoes_pareceres_estruturadas(revisoes_pareceres_path)
+    revisoes_por_chave = {
+        (
+            texto(item.get("secao")), texto(item.get("case_id")),
+            texto(item.get("auditado")).upper(), texto(item.get("codigo")),
+        ): item
+        for item in revisoes_estruturadas
+    }
     if expected_case_ids is not None:
         grupos = {cid: por_modelo for cid, por_modelo in grupos.items() if cid in expected_case_ids}
     for cid in expected_case_ids or set():
@@ -2316,6 +2482,7 @@ def consolidar_casos(
     pendencias: list[dict[str, Any]] = []
     identidades_geracao: dict[str, str] = {}
     tarefas: list[dict[str, Any]] = []
+    registros_revisao_humana: list[dict[str, Any]] = []
 
     for index, (cid, por_modelo) in enumerate(sorted(grupos.items()), start=1):
         if selected_case_ids is not None and cid not in selected_case_ids:
@@ -2359,6 +2526,27 @@ def consolidar_casos(
             }
         )
         identidades_geracao[cid] = identity
+        chave_revisao = (
+            secao, cid, texto(primeira.get("auditado")).upper(), texto(primeira.get("codigo")),
+        )
+        revisao = revisoes_por_chave.get(chave_revisao)
+        if revisao is not None:
+            if texto(revisao.get("identidade_parecer")) != identity:
+                raise ValueError(
+                    f"revisão humana obsoleta para {primeira.get('auditado')}/{primeira.get('codigo')}: "
+                    f"esperada={identity}; recebida={revisao.get('identidade_parecer')}"
+                )
+            registros_revisao_humana.append(
+                _registro_revisao_humana(
+                    revisao=revisao,
+                    secao=secao,
+                    identity=identity,
+                    opinioes=opinioes,
+                    expected_models=modelos_esperados,
+                )
+            )
+            pulados += 1
+            continue
         # Uma seleção explícita representa reparo do parecer vigente. Nesse caso,
         # não reutilize o checkpoint que motivou o reparo, ainda que sua identidade
         # lógica continue a mesma; as avaliações individuais permanecem reutilizadas.
@@ -2680,6 +2868,7 @@ def consolidar_casos(
                     avaliadores_ausentes=registro["avaliadores_ausentes"], error=registro["error"],
                 )
     deterministicos = _ler_jsonl(deterministic_path) if deterministic_path else []
+    deterministicos.extend(registros_revisao_humana)
     ids_vigentes = None
     if expected_case_ids is not None:
         ids_vigentes = set(expected_case_ids)
@@ -2707,6 +2896,7 @@ def consolidar_casos(
         "gemini_keys": key_pool.key_count if key_pool is not None else 0,
         "rpm_per_key": rpm if key_pool is not None else 0,
         "tpm_per_key": tpm if key_pool is not None else 0,
+        "revisoes_humanas": len(registros_revisao_humana),
         "checkpoint": str(checkpoint), "clean": str(clean), "xlsx": str(xlsx),
         "vigentes": len(vigentes), "pendencias": str(pendencias_path),
     }

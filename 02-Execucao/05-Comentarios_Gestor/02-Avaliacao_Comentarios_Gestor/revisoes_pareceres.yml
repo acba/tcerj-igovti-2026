@@ -1,252 +1,754 @@
 schema_version: 1
 revisoes:
-  - auditado: CECIERJ
-    secao: "1"
-    codigo: A4G17
-    decisao: parcialmente acolhida
-    situacao_atual: Situação mantida com alteração parcial de fundamentos
-    manifestacao_equipe: >-
-      A manifestação foi parcialmente acolhida. A documentação apresentada
-      demonstra a definição de responsabilidades, atribuições e perfis para
-      ocupações de TIC, afastando os fundamentos relativos à inexistência
-      dessas definições. Contudo, não comprova que os perfis tenham sido
-      efetivamente utilizados na seleção ou designação dos gestores, razão
-      pela qual a situação permanece caracterizada com alteração parcial de
-      seus fundamentos.
-  - auditado: JUCERJA
-    secao: "1"
-    codigo: A6G23
-    decisao: não acolhida
-    situacao_atual: Situação mantida
-    manifestacao_equipe: >-
-      A manifestação não foi acolhida. O PEDTIC e o Plano Anual de
-      Contratações demonstram a existência de instrumentos de planejamento,
-      mas não comprovam a rastreabilidade exigida entre cada contratação de
-      TIC, as dotações orçamentárias e os instrumentos PPA, LDO e LOA. As
-      inconsistências temporais identificadas também impedem reconhecer o
-      atendimento do critério, permanecendo caracterizada a situação.
-  - auditado: SÃO JOÃO DE MERITI
-    secao: "1"
-    codigo: A4G14
-    decisao: acolhida
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A Lei Complementar municipal nº 233/2026
-      constitui evidência normativa suficiente da existência dos cargos de
-      Segurança da Informação, compreendendo um cargo de Agente de Segurança
-      da Informação e quatro cargos de Assessor de Segurança da Informação.
-  - auditado: JUCERJA
-    secao: "1"
-    codigo: A6G24
-    identidade_parecer: 2a012132e54de12713b354a4e8c3d78bbd70c246405103c7d72322d005616bd7
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência o
-      procedimento de contratação de TIC disponibilizado na Wiki institucional
-      e representado em fluxo BPMN. A documentação é suficiente para demonstrar
-      a implementação de processo, pois evidencia a participação e a aprovação
-      técnica da área de TIC no fluxo das contratações de soluções tecnológicas.
+- auditado: JUCERJA
+  secao: '1'
+  codigo: A6G24
+  case_id: ff8c75c99588966a0eebff06f7272a44c61785114d643c985059597bc6a29c67
+  identidade_parecer: 2a012132e54de12713b354a4e8c3d78bbd70c246405103c7d72322d005616bd7
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência o procedimento
+    de contratação de TIC disponibilizado na Wiki institucional e representado em fluxo BPMN. A documentação
+    é suficiente para demonstrar a implementação de processo, pois evidencia a participação e a aprovação
+    técnica da área de TIC no fluxo das contratações de soluções tecnológicas. Assim, a situação é considerada
+    sanada.
+  conclusoes:
+  - item_codigo: A6G24
+    estado: nao_conforme
+    estado_temporal: corrigida_posteriormente
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência o procedimento
+      de contratação de TIC disponibilizado na Wiki institucional e representado em fluxo BPMN. A documentação
+      é suficiente para demonstrar a implementação de processo, pois evidencia a participação e a aprovação
+      técnica da área de TIC no fluxo das contratações de soluções tecnológicas. Assim, a situação é considerada
+      sanada.
+    conclusoes_motivos:
+    - id_motivo: MR101
+      estado_motivo: afastado
+      justificativa: O procedimento disponibilizado na Wiki institucional e o fluxo BPMN demonstram a
+        participação e a aprovação técnica da área de TIC nas contratações de soluções tecnológicas.
+    arquivos_referenciados:
+    - 00016_08_achado-6-contratação-de-tic-wiki-e-bpmn.pdf
+    trechos_ou_elementos:
+    - Procedimento de contratação de TIC e fluxo BPMN
+- auditado: MPERJ
+  secao: '1'
+  codigo: A5G19
+  case_id: d20605948e3bfe41c1505cd2f9629aee86295dab1f8e63dfd7b8f487bd036238
+  identidade_parecer: 9b5d91af6abb4fef47b748aab1afba084edc751cf51df3b912fc909417b56da9
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência o Book de
+    Metas de Atendimento e os Relatórios Operacionais. A documentação é suficiente para demonstrar a implementação
+    de controle, pois comprova a definição de metas de atendimento e o monitoramento sistemático dos níveis
+    de serviço praticados. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G19
+    estado: nao_conforme
+    estado_temporal: corrigida_posteriormente
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência o Book de Metas
+      de Atendimento e os Relatórios Operacionais. A documentação é suficiente para demonstrar a implementação
+      de controle, pois comprova a definição de metas de atendimento e o monitoramento sistemático dos
+      níveis de serviço praticados. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR072
+      estado_motivo: afastado
+      justificativa: O Book de Metas de Atendimento e os Relatórios Operacionais foram considerados suficientes
+        para demonstrar a definição dos níveis de serviço praticados.
+    - id_motivo: MR074
+      estado_motivo: afastado
+      justificativa: Os relatórios operacionais comprovam o monitoramento sistemático das metas e dos
+        níveis de serviço.
+    arquivos_referenciados:
+    - 00083_02_achado-05.zip
+    trechos_ou_elementos:
+    - Book de Metas de Atendimento e Relatórios Operacionais
+- auditado: NOVA IGUAÇU
+  secao: '1'
+  codigo: A2G5
+  case_id: b03dff3874bef58f03f7c04245af229af66f922591a3dfdb66006c568d3453ac
+  identidade_parecer: e879e34401954785d77d2bead7a28fb4fdead1cbed46c8f5c8d4c93128ab4460
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência o Decreto
+    Municipal nº 14.033/2025, a Resolução nº 001/2025-CETI e atas de reunião. A documentação é suficiente
+    para demonstrar a formalização e o funcionamento do comitê de TIC, pois comprova sua instituição e
+    a atuação do colegiado por meio de reuniões registradas. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A2G5
+    estado: nao_conforme
+    estado_temporal: corrigida_posteriormente
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência o Decreto Municipal
+      nº 14.033/2025, a Resolução nº 001/2025-CETI e atas de reunião. A documentação é suficiente para
+      demonstrar a formalização e o funcionamento do comitê de TIC, pois comprova sua instituição e a
+      atuação do colegiado por meio de reuniões registradas. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR018
+      estado_motivo: afastado
+      justificativa: O Decreto Municipal nº 14.033/2025 e a Resolução nº 001/2025-CETI comprovam a instituição
+        formal do comitê de TIC.
+    - id_motivo: MR021
+      estado_motivo: afastado
+      justificativa: As atas apresentadas comprovam a atuação do colegiado por meio de reuniões e deliberações
+        registradas.
+    arquivos_referenciados:
+    - 00028_02_atas-e-decretos.pdf
+    trechos_ou_elementos:
+    - Decreto, resolução e atas do CETI
+- auditado: RIO DAS OSTRAS
+  secao: '1'
+  codigo: A2G5
+  case_id: 48abd0aac78955d87a7012b357b9d111ce170fa41b3abd11daa342b0c5b71eca
+  identidade_parecer: c5889a832dbe94b2617137bd7f48eb260f0154b3dbfc5151479b0ee662b10c7d
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência as atas do
+    Comitê Gestor de Tecnologia da Informação publicadas no Jornal Oficial e o Plano Diretor de Tecnologia
+    da Informação. A documentação é suficiente para demonstrar o funcionamento do comitê de TIC, pois
+    comprova a realização de reuniões e deliberações relacionadas ao planejamento de tecnologia da informação.
+    Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A2G5
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência as atas do Comitê
+      Gestor de Tecnologia da Informação publicadas no Jornal Oficial e o Plano Diretor de Tecnologia
+      da Informação. A documentação é suficiente para demonstrar o funcionamento do comitê de TIC, pois
+      comprova a realização de reuniões e deliberações relacionadas ao planejamento de tecnologia da informação.
       Assim, a situação é considerada sanada.
-  - auditado: MPERJ
-    secao: "1"
-    codigo: A5G19
-    identidade_parecer: 9b5d91af6abb4fef47b748aab1afba084edc751cf51df3b912fc909417b56da9
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência o
-      Book de Metas de Atendimento e os Relatórios Operacionais. A documentação
-      é suficiente para demonstrar a implementação de controle, pois comprova a
-      definição de metas de atendimento e o monitoramento sistemático dos níveis
-      de serviço praticados. Assim, a situação é considerada sanada.
-  - auditado: NOVA IGUAÇU
-    secao: "1"
-    codigo: A2G5
-    identidade_parecer: e879e34401954785d77d2bead7a28fb4fdead1cbed46c8f5c8d4c93128ab4460
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência o
-      Decreto Municipal nº 14.033/2025, a Resolução nº 001/2025-CETI e atas de
-      reunião. A documentação é suficiente para demonstrar a formalização e o
-      funcionamento do comitê de TIC, pois comprova sua instituição e a atuação
-      do colegiado por meio de reuniões registradas. Assim, a situação é
-      considerada sanada.
-  - auditado: RIO DAS OSTRAS
-    secao: "1"
-    codigo: A2G5
-    identidade_parecer: c5889a832dbe94b2617137bd7f48eb260f0154b3dbfc5151479b0ee662b10c7d
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência as
-      atas do Comitê Gestor de Tecnologia da Informação publicadas no Jornal
-      Oficial e o Plano Diretor de Tecnologia da Informação. A documentação é
-      suficiente para demonstrar o funcionamento do comitê de TIC, pois comprova
-      a realização de reuniões e deliberações relacionadas ao planejamento de
-      tecnologia da informação. Assim, a situação é considerada sanada.
-  - auditado: SETD
-    secao: "1"
-    codigo: A5G21
-    identidade_parecer: 1015b2ed8db8375e03204a0599a1652c80f70580a8eab4087d0e30870a95980c
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência o
-      Plano de Gestão de Continuidade de Negócios e a Resolução SETD nº 102/2025.
-      A documentação é suficiente para demonstrar a formalização e a
-      implementação do processo de gestão de incidentes, pois estabelece
-      procedimentos e responsabilidades para notificação, tratamento e resposta
-      a incidentes. Assim, a situação é considerada sanada.
-  - auditado: SEPM
-    secao: "1"
-    codigo: A2G4
-    identidade_parecer: c966c7aaa0d1b3dc72a99c51514aad235954e9c709db6bc8cebd3b1be22db468
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização informou que o Comitê de TIC
-      foi instituído por ato publicado no Diário Oficial do Estado do Rio de
-      Janeiro nº 214, de 22 de novembro de 2023, no âmbito do processo
-      SEI-350487/001830/2023. A referência ao ato oficial é suficiente para
-      demonstrar a formalização do comitê e sua composição por representantes
+    conclusoes_motivos:
+    - id_motivo: MR018
+      estado_motivo: afastado
+      justificativa: A documentação do Comitê Gestor de Tecnologia da Informação comprova sua instituição
+        formal.
+    - id_motivo: MR021
+      estado_motivo: afastado
+      justificativa: As atas publicadas no Jornal Oficial comprovam a realização de reuniões e deliberações
+        relacionadas ao planejamento de TIC.
+    arquivos_referenciados:
+    - 00038_05_comentario-diretor-e-comprovacoes.zip
+    trechos_ou_elementos:
+    - Atas do Comitê Gestor de TIC e Plano Diretor de TIC
+- auditado: SETD
+  secao: '1'
+  codigo: A5G21
+  case_id: 99955ad1d1bdcd553f220d26d454f2b029a610fe56c7f18eecfefcba2a276fb9
+  identidade_parecer: 1015b2ed8db8375e03204a0599a1652c80f70580a8eab4087d0e30870a95980c
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência o Plano de
+    Gestão de Continuidade de Negócios e a Resolução SETD nº 102/2025. A documentação é suficiente para
+    demonstrar a formalização e a implementação do processo de gestão de incidentes, pois estabelece procedimentos
+    e responsabilidades para notificação, tratamento e resposta a incidentes. Assim, a situação é considerada
+    sanada.
+  conclusoes:
+  - item_codigo: A5G21
+    estado: nao_conforme
+    estado_temporal: corrigida_posteriormente
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência o Plano de Gestão
+      de Continuidade de Negócios e a Resolução SETD nº 102/2025. A documentação é suficiente para demonstrar
+      a formalização e a implementação do processo de gestão de incidentes, pois estabelece procedimentos
+      e responsabilidades para notificação, tratamento e resposta a incidentes. Assim, a situação é considerada
+      sanada.
+    conclusoes_motivos:
+    - id_motivo: MR086
+      estado_motivo: afastado
+      justificativa: O Plano de Gestão de Continuidade de Negócios foi considerado suficiente para demonstrar
+        regras de tratamento, priorização e escalamento de incidentes.
+    - id_motivo: MR088
+      estado_motivo: afastado
+      justificativa: O plano aprovado pela Resolução SETD nº 102/2025 comprova a formalização do processo
+        de gestão de incidentes.
+    - id_motivo: MR090
+      estado_motivo: afastado
+      justificativa: A documentação estabelece procedimentos e responsabilidades para notificação, tratamento
+        e resposta a incidentes.
+    arquivos_referenciados:
+    - 00096_08_achado-5-gestão-incidentes.zip
+    trechos_ou_elementos:
+    - Plano de Gestão de Continuidade de Negócios e Resolução SETD nº 102/2025
+- auditado: SEPM
+  secao: '1'
+  codigo: A2G4
+  case_id: 015626868209c4b13fdce1d7bb24644be995fa35446a8477dc6747c991ad5d65
+  identidade_parecer: c966c7aaa0d1b3dc72a99c51514aad235954e9c709db6bc8cebd3b1be22db468
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização não apresentou documentação comprobatória,
+    mas informou que o Comitê de TIC foi instituído por ato publicado no Diário Oficial do Estado do Rio
+    de Janeiro nº 214, de 22 de novembro de 2023, no âmbito do processo SEI-350487/001830/2023. A referência
+    ao ato oficial, cuja autenticidade e conteúdo foram verificados externamente pela equipe de auditoria,
+    é suficiente para demonstrar a formalização do comitê e sua composição por representantes de áreas
+    relevantes. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A2G4
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização não apresentou documentação comprobatória,
+      mas informou que o Comitê de TIC foi instituído por ato publicado no Diário Oficial do Estado do
+      Rio de Janeiro nº 214, de 22 de novembro de 2023, no âmbito do processo SEI-350487/001830/2023.
+      A referência ao ato oficial, cuja autenticidade e conteúdo foram verificados externamente pela equipe
+      de auditoria, é suficiente para demonstrar a formalização do comitê e sua composição por representantes
       de áreas relevantes. Assim, a situação é considerada sanada.
-  - auditado: CECIERJ
-    secao: "1"
-    codigo: A2G4
-    identidade_parecer: 4a24b060114cdf53559aa9aa70e3d0a5437bb8529d5ef30d0f731cd668baa4e8
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização informou a instituição do
-      Comitê do PEDTIC por meio das Portarias CECIERJ nº 545, de 1º de outubro
-      de 2021, e nº 609, de 9 de outubro de 2023. Os atos informados são
-      suficientes para demonstrar a formalização de instância colegiada de TIC
-      responsável pela elaboração e revisão do planejamento de tecnologia.
+    conclusoes_motivos:
+    - id_motivo: MR016
+      estado_motivo: afastado
+      justificativa: A publicação no Diário Oficial do Estado do Rio de Janeiro nº 214, de 22 de novembro
+        de 2023, e o processo SEI-350487/001830/2023, cuja autenticidade e conteúdo foram verificados
+        externamente pela equipe de auditoria, são suficientes para comprovar a instituição e a composição
+        do Comitê de TIC.
+- auditado: CECIERJ
+  secao: '1'
+  codigo: A2G4
+  case_id: 9d349222b12ac2bfcfef812646713d53ac176b04e82ee12e323593ff0ec986d1
+  identidade_parecer: 4a24b060114cdf53559aa9aa70e3d0a5437bb8529d5ef30d0f731cd668baa4e8
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização informou a instituição do Comitê do
+    PEDTIC por meio das Portarias CECIERJ nº 545, de 1º de outubro de 2021, e nº 609, de 9 de outubro
+    de 2023. Os atos informados são suficientes para demonstrar a formalização de instância colegiada
+    de TIC responsável pela elaboração e revisão do planejamento de tecnologia. Assim, a situação é considerada
+    sanada.
+  conclusoes:
+  - item_codigo: A2G4
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização informou a instituição do Comitê do PEDTIC
+      por meio das Portarias CECIERJ nº 545, de 1º de outubro de 2021, e nº 609, de 9 de outubro de 2023.
+      Os atos informados são suficientes para demonstrar a formalização de instância colegiada de TIC
+      responsável pela elaboração e revisão do planejamento de tecnologia. Assim, a situação é considerada
+      sanada.
+    conclusoes_motivos:
+    - id_motivo: MR017
+      estado_motivo: afastado
+      justificativa: As Portarias CECIERJ nº 545/2021 e nº 609/2023 foram consideradas suficientes para
+        comprovar a formalização do Comitê do PEDTIC como instância colegiada de TIC.
+    arquivos_referenciados:
+    - Portaria CECIERJ nº 545, de 1º/10/2021
+    - Portaria CECIERJ nº 609, de 9/10/2023
+    trechos_ou_elementos:
+    - Instituição do Comitê do PEDTIC
+    - Comitê do PEDTIC
+- auditado: AGERIO
+  secao: '1'
+  codigo: A5G20
+  case_id: 62b6dcbd9466111c6645bb7cd0887a4720b60cd9914b581677aa68389ca5598e
+  identidade_parecer: 37e7aac9353ed146964fba95c24e1c989d774ac3cc14b29ba8f86061ad954d41
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou relatórios automatizados
+    de estações de trabalho, dispositivos e softwares. A documentação é suficiente para demonstrar a implementação
+    de controle, pois comprova a existência de inventário eletrônico dos ativos de TIC. Assim, a situação
+    é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou relatórios automatizados de estações
+      de trabalho, dispositivos e softwares. A documentação é suficiente para demonstrar a implementação
+      de controle, pois comprova a existência de inventário eletrônico dos ativos de TIC. Assim, a situação
+      é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR075
+      estado_motivo: afastado
+      justificativa: O inventário eletrônico apresentado foi considerado suficiente para comprovar o controle
+        dos ativos de TIC.
+    - id_motivo: MR077
+      estado_motivo: afastado
+      justificativa: Os relatórios automatizados comprovam o inventário e o controle dos dispositivos.
+    - id_motivo: MR079
+      estado_motivo: afastado
+      justificativa: Os relatórios apresentados comprovam o inventário eletrônico dos softwares.
+    arquivos_referenciados:
+    - 00034_09_5-1-merged.pdf
+    trechos_ou_elementos:
+    - Relatórios automatizados de estações, dispositivos e softwares
+- auditado: FUNARJ
+  secao: '1'
+  codigo: A5G20
+  case_id: 21988138ad6707fd8d5eee4ad23453476d8527079211b197f2a17b95ffaf1ccd
+  identidade_parecer: ed59c92147a521af3296ad48910e8f9cd00fc5ad16beb7bbca61d188f5b2f590
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência a tela de
+    controle de ativos no GLPI. A documentação é suficiente para demonstrar a implementação de controle,
+    pois comprova o registro e o gerenciamento de computadores e dispositivos de rede em ferramenta corporativa
+    de inventário. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência a tela de controle
+      de ativos no GLPI. A documentação é suficiente para demonstrar a implementação de controle, pois
+      comprova o registro e o gerenciamento de computadores e dispositivos de rede em ferramenta corporativa
+      de inventário. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR075
+      estado_motivo: afastado
+      justificativa: O controle de ativos no GLPI foi considerado suficiente para comprovar a existência
+        do inventário de TIC.
+    - id_motivo: MR077
+      estado_motivo: afastado
+      justificativa: A tela do GLPI comprova o registro e o gerenciamento de computadores e dispositivos
+        de rede.
+    arquivos_referenciados:
+    - 00081_11_tela-controle-ativos.pdf
+    trechos_ou_elementos:
+    - Tela de controle de ativos no GLPI
+- auditado: IPEM
+  secao: '1'
+  codigo: A5G20
+  case_id: 6b7b5288bbe09c45c735cf59b072b9ddcf72cd448bdd7773ae7131058e0cfac7
+  identidade_parecer: f8e1dcca02ad0ea6e83de84e57b9773d79a2bc0dbc3150b31cfe1f2f38c5638b
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência o inventário
+    mantido no GLPI Inventory. A documentação é suficiente para demonstrar a implementação de controle,
+    pois comprova o cadastro e o gerenciamento eletrônico de equipamentos, dispositivos e softwares. Assim,
+    a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência o inventário mantido
+      no GLPI Inventory. A documentação é suficiente para demonstrar a implementação de controle, pois
+      comprova o cadastro e o gerenciamento eletrônico de equipamentos, dispositivos e softwares. Assim,
+      a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR076
+      estado_motivo: afastado
+      justificativa: O GLPI Inventory foi considerado suficiente para comprovar a manutenção do inventário
+        de ativos de TIC.
+    - id_motivo: MR078
+      estado_motivo: afastado
+      justificativa: O GLPI Inventory comprova o cadastro e o gerenciamento eletrônico dos dispositivos.
+    - id_motivo: MR080
+      estado_motivo: afastado
+      justificativa: O GLPI Inventory comprova o cadastro e o gerenciamento eletrônico dos softwares.
+    arquivos_referenciados:
+    - 00012_07_glpi-inventory.pdf
+    trechos_ou_elementos:
+    - Relatórios do GLPI Inventory
+- auditado: IRM
+  secao: '1'
+  codigo: A5G20
+  case_id: 0726ebd634f3419de57ed3ffebdfd49a75d76afa0dddeb840b38023ccb285252
+  identidade_parecer: 2e6abd3b6ce8733a8a0dcf7666f58b9163725275c0ad973631130cdd13ddee52
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência a planilha
+    atualizada de inventário de computadores próprios e vinculados ao IATR. A documentação é suficiente
+    para demonstrar a implementação de controle, pois comprova o registro e o acompanhamento dos equipamentos
+    de TIC. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência a planilha atualizada
+      de inventário de computadores próprios e vinculados ao IATR. A documentação é suficiente para demonstrar
+      a implementação de controle, pois comprova o registro e o acompanhamento dos equipamentos de TIC.
       Assim, a situação é considerada sanada.
-  - auditado: AGERIO
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: 37e7aac9353ed146964fba95c24e1c989d774ac3cc14b29ba8f86061ad954d41
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou relatórios
-      automatizados de estações de trabalho, dispositivos e softwares. A
-      documentação é suficiente para demonstrar a implementação de controle,
-      pois comprova a existência de inventário eletrônico dos ativos de TIC.
+    conclusoes_motivos:
+    - id_motivo: MR075
+      estado_motivo: afastado
+      justificativa: A planilha atualizada foi considerada suficiente para comprovar a existência do inventário
+        de ativos de TIC.
+    - id_motivo: MR077
+      estado_motivo: afastado
+      justificativa: A planilha comprova o registro e o acompanhamento dos equipamentos de TIC.
+    - id_motivo: MR079
+      estado_motivo: afastado
+      justificativa: O acolhimento integral reconhece o inventário apresentado como suficiente para o
+        escopo da situação.
+    arquivos_referenciados:
+    - 00079_01_inventário-computadores-iatr-e-próprios-atualizado-01-06-2026.zip
+    trechos_ou_elementos:
+    - Planilha atualizada de inventário de computadores
+- auditado: LOTERJ
+  secao: '1'
+  codigo: A5G20
+  case_id: 5cfb374434132b4e72096cf42bb1910a3bf7b8aab8882649869290617532550c
+  identidade_parecer: e008a0d92f247ba60a4127f12e9b854bea0288f8172fdf2745555392bf83c310
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou evidências da implantação
+    e utilização do GLPI para gerenciamento dos ativos computacionais. A documentação é suficiente para
+    demonstrar a implementação de controle, pois comprova a existência de inventário eletrônico com informações
+    dos equipamentos e de seus responsáveis. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: nao_conforme
+    estado_temporal: corrigida_posteriormente
+    justificativa: A manifestação foi acolhida. A organização apresentou evidências da implantação e utilização
+      do GLPI para gerenciamento dos ativos computacionais. A documentação é suficiente para demonstrar
+      a implementação de controle, pois comprova a existência de inventário eletrônico com informações
+      dos equipamentos e de seus responsáveis. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR075
+      estado_motivo: afastado
+      justificativa: A implantação e a utilização do GLPI foram consideradas suficientes para comprovar
+        a existência de inventário eletrônico de ativos.
+    arquivos_referenciados:
+    - 00052_06_evidencias-loterj-glpi.pdf
+    trechos_ou_elementos:
+    - Evidências de implantação e utilização do GLPI
+- auditado: RIOPREVIDENCIA
+  secao: '1'
+  codigo: A5G20
+  case_id: cfa859c86c90ed1cd3e9f928507d677832e047a298b0b9c180c4118f90cd03ee
+  identidade_parecer: c02d384146074d48835746bd3b23818f925c0d656a45710beb13150ca0a75837
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou relatórios de gestão de ativos
+    extraídos das plataformas GLPI e Tactical RMM. A documentação é suficiente para demonstrar a implementação
+    de controle, pois comprova a manutenção de inventário corporativo de ativos de hardware e software.
+    Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou relatórios de gestão de ativos
+      extraídos das plataformas GLPI e Tactical RMM. A documentação é suficiente para demonstrar a implementação
+      de controle, pois comprova a manutenção de inventário corporativo de ativos de hardware e software.
       Assim, a situação é considerada sanada.
-  - auditado: FUNARJ
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: ed59c92147a521af3296ad48910e8f9cd00fc5ad16beb7bbca61d188f5b2f590
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência a
-      tela de controle de ativos no GLPI. A documentação é suficiente para
-      demonstrar a implementação de controle, pois comprova o registro e o
-      gerenciamento de computadores e dispositivos de rede em ferramenta
-      corporativa de inventário. Assim, a situação é considerada sanada.
-  - auditado: IPEM
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: f8e1dcca02ad0ea6e83de84e57b9773d79a2bc0dbc3150b31cfe1f2f38c5638b
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência o
-      inventário mantido no GLPI Inventory. A documentação é suficiente para
-      demonstrar a implementação de controle, pois comprova o cadastro e o
-      gerenciamento eletrônico de equipamentos, dispositivos e softwares.
+    conclusoes_motivos:
+    - id_motivo: MR076
+      estado_motivo: afastado
+      justificativa: Os relatórios do GLPI e do Tactical RMM comprovam a manutenção de inventário corporativo
+        de ativos de hardware e software.
+    arquivos_referenciados:
+    - 00082_07_gestão-ativos.pdf
+    trechos_ou_elementos:
+    - Relatórios de gestão de ativos extraídos do GLPI e do Tactical RMM
+- auditado: SEDEC
+  secao: '1'
+  codigo: A5G20
+  case_id: 0d6767c8b7e4d020c44d79e7ae122d84dd84737f8897c75bddbbe47a8258e4bf
+  identidade_parecer: 80151f0465098539f295934844afe52a1fe7bcf1972b60155520b7bf6aa2ff67
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou capturas das ferramentas
+    GLPI e Tactical RMM utilizadas na gestão de ativos. A documentação é suficiente para demonstrar a
+    implementação de controle, pois comprova a utilização de ferramentas corporativas para inventariar
+    e acompanhar ativos de TIC. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou capturas das ferramentas GLPI
+      e Tactical RMM utilizadas na gestão de ativos. A documentação é suficiente para demonstrar a implementação
+      de controle, pois comprova a utilização de ferramentas corporativas para inventariar e acompanhar
+      ativos de TIC. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR078
+      estado_motivo: afastado
+      justificativa: As capturas do GLPI e do Tactical RMM comprovam o inventário e o acompanhamento dos
+        dispositivos.
+    - id_motivo: MR080
+      estado_motivo: afastado
+      justificativa: As ferramentas apresentadas foram consideradas suficientes para comprovar o controle
+        dos softwares inventariados.
+    arquivos_referenciados:
+    - 00036_02_imagens-gestao-de-ativos.pdf
+    trechos_ou_elementos:
+    - Capturas das ferramentas GLPI e Tactical RMM
+- auditado: SEINFRA
+  secao: '1'
+  codigo: A5G20
+  case_id: 831203bf45649159dc72955d117d327976738df3684c2c04bbce64770685aa14
+  identidade_parecer: fb01f40a007e1cc1ace8b114c4b1962d5fcbbf6b3ed99b2a1c8725c3be3bb627
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou evidências do inventário
+    de ativos mantido no GLPI e termos de responsabilidade. A documentação é suficiente para demonstrar
+    a implementação de controle, pois comprova o cadastro, a identificação e o acompanhamento de equipamentos
+    de TIC. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou evidências do inventário de ativos
+      mantido no GLPI e termos de responsabilidade. A documentação é suficiente para demonstrar a implementação
+      de controle, pois comprova o cadastro, a identificação e o acompanhamento de equipamentos de TIC.
       Assim, a situação é considerada sanada.
-  - auditado: IRM
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: 2e6abd3b6ce8733a8a0dcf7666f58b9163725275c0ad973631130cdd13ddee52
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou como evidência a
-      planilha atualizada de inventário de computadores próprios e vinculados ao
-      IATR. A documentação é suficiente para demonstrar a implementação de
-      controle, pois comprova o registro e o acompanhamento dos equipamentos de
-      TIC. Assim, a situação é considerada sanada.
-  - auditado: LOTERJ
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: e008a0d92f247ba60a4127f12e9b854bea0288f8172fdf2745555392bf83c310
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou evidências da
-      implantação e utilização do GLPI para gerenciamento dos ativos
-      computacionais. A documentação é suficiente para demonstrar a
-      implementação de controle, pois comprova a existência de inventário
-      eletrônico com informações dos equipamentos e de seus responsáveis.
-      Assim, a situação é considerada sanada.
-  - auditado: RIOPREVIDENCIA
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: c02d384146074d48835746bd3b23818f925c0d656a45710beb13150ca0a75837
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou relatórios de
-      gestão de ativos extraídos das plataformas GLPI e Tactical RMM. A
-      documentação é suficiente para demonstrar a implementação de controle,
-      pois comprova a manutenção de inventário corporativo de ativos de hardware
-      e software. Assim, a situação é considerada sanada.
-  - auditado: SEDEC
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: 80151f0465098539f295934844afe52a1fe7bcf1972b60155520b7bf6aa2ff67
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou capturas das
-      ferramentas GLPI e Tactical RMM utilizadas na gestão de ativos. A
-      documentação é suficiente para demonstrar a implementação de controle,
-      pois comprova a utilização de ferramentas corporativas para inventariar e
-      acompanhar ativos de TIC. Assim, a situação é considerada sanada.
-  - auditado: SEINFRA
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: fb01f40a007e1cc1ace8b114c4b1962d5fcbbf6b3ed99b2a1c8725c3be3bb627
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou evidências do
-      inventário de ativos mantido no GLPI e termos de responsabilidade. A
-      documentação é suficiente para demonstrar a implementação de controle,
-      pois comprova o cadastro, a identificação e o acompanhamento de
-      equipamentos de TIC. Assim, a situação é considerada sanada.
-  - auditado: TCE-RJ
-    secao: "1"
-    codigo: A5G20
-    identidade_parecer: c4ace63a22aab058158ac91a0a661c385bca314dd73500ce1a88b3fa25092198
-    decisao: acolhida
-    situacao_atual: Situação não caracterizada
-    manifestacao_equipe: >-
-      A manifestação foi acolhida. A organização apresentou registro extraído
-      da base de dados do GLPI utilizada pela área de tecnologia da informação.
-      A documentação é suficiente para demonstrar a implementação de controle,
-      pois comprova a existência de estrutura cadastral destinada à organização
-      e ao acompanhamento dos serviços e ativos de TIC. Assim, a situação é
-      considerada sanada.
-  - auditado: CGE
-    secao: "2"
-    codigo: q2203
-    identidade_parecer: 408b8c241d604571c90b249dff296b6baedc3edf26073bb6e20a79d133c20c51
-    decisao: parcialmente acolhida
-    manifestacao_equipe: >-
-      A reavaliação foi parcialmente acolhida. A organização apresentou como
-      evidência os inventários de ativos e servidores, os registros extraídos
-      do GLPI e os elementos de monitoramento da infraestrutura. A documentação
-      é insuficiente para demonstrar integralmente a implementação do processo
-      de gestão de configuração e ativos, pois comprova a execução da gestão de
-      ativos e a manutenção de base atualizada com configurações e relações
-      entre ativos e serviços, mas não comprova que essa base seja utilizada
-      como insumo para o planejamento e o acompanhamento das mudanças. Assim,
-      os itens q2203 e q2203ext[A] passam a ser considerados conformes, enquanto
-      o item q2203ext[B] permanece não conforme.
+    conclusoes_motivos:
+    - id_motivo: MR075
+      estado_motivo: afastado
+      justificativa: O inventário mantido no GLPI foi considerado suficiente para comprovar a existência
+        do controle de ativos de TIC.
+    - id_motivo: MR078
+      estado_motivo: afastado
+      justificativa: As evidências do GLPI e os termos de responsabilidade comprovam o cadastro e o acompanhamento
+        dos equipamentos.
+    - id_motivo: MR079
+      estado_motivo: afastado
+      justificativa: O acolhimento integral reconhece o inventário eletrônico apresentado como suficiente
+        para o escopo da situação.
+    arquivos_referenciados:
+    - 00033_06_evidencias-sobre-ativos-1.pdf
+    trechos_ou_elementos:
+    - Evidências do GLPI e termos de responsabilidade
+- auditado: TCE-RJ
+  secao: '1'
+  codigo: A5G20
+  case_id: 5857a16e188364ce8b97f8207d767963756ed4afb83ca12c37f322838f29aaad
+  identidade_parecer: c4ace63a22aab058158ac91a0a661c385bca314dd73500ce1a88b3fa25092198
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou registro extraído da base
+    de dados do GLPI utilizada pela área de tecnologia da informação. A documentação é suficiente para
+    demonstrar a implementação de controle, pois comprova a existência de estrutura cadastral destinada
+    à organização e ao acompanhamento dos serviços e ativos de TIC. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A5G20
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou registro extraído da base de
+      dados do GLPI utilizada pela área de tecnologia da informação. A documentação é suficiente para
+      demonstrar a implementação de controle, pois comprova a existência de estrutura cadastral destinada
+      à organização e ao acompanhamento dos serviços e ativos de TIC. Assim, a situação é considerada
+      sanada.
+    conclusoes_motivos:
+    - id_motivo: MR075
+      estado_motivo: afastado
+      justificativa: O registro extraído da base do GLPI foi considerado suficiente para comprovar a existência
+        de inventário eletrônico de ativos de TIC.
+    - id_motivo: MR079
+      estado_motivo: afastado
+      justificativa: A estrutura cadastral do GLPI foi considerada suficiente para o controle dos ativos
+        abrangidos pela situação.
+    arquivos_referenciados:
+    - 00089_09_glpi.pdf
+    trechos_ou_elementos:
+    - Registro extraído da base de dados do GLPI
+- auditado: CGE
+  secao: '2'
+  codigo: q2203
+  case_id: 9ee180d4d07734566091c478b539f4038c08c33719aa841cc2c9f25cc47fbfd0
+  identidade_parecer: 408b8c241d604571c90b249dff296b6baedc3edf26073bb6e20a79d133c20c51
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 23/07/2026
+  decisao: parcialmente acolhida
+  manifestacao_equipe: A reavaliação foi parcialmente acolhida. A organização apresentou como evidência
+    os inventários de ativos e servidores, os registros extraídos do GLPI e os elementos de monitoramento
+    da infraestrutura. A documentação é insuficiente para demonstrar integralmente a implementação do
+    processo de gestão de configuração e ativos, pois comprova a execução da gestão de ativos e a manutenção
+    de base atualizada com configurações e relações entre ativos e serviços, mas não comprova que essa
+    base seja utilizada como insumo para o planejamento e o acompanhamento das mudanças. Assim, os itens
+    q2203 e q2203ext[A] passam a ser considerados conformes, enquanto o item q2203ext[B] permanece não
+    conforme.
+  conclusoes:
+  - item_codigo: q2203
+    estado: conforme
+  - item_codigo: q2203ext[A]
+    estado: conforme
+  - item_codigo: q2203ext[B]
+    estado: nao_conforme
+- auditado: ARRAIAL DO CABO
+  secao: '1'
+  codigo: A2G5
+  case_id: da7297c15375ff47716ec28f901297765317f73670350ed94dd313d2ac4b6d56
+  identidade_parecer: fd356c06c1102f566089417af024170c462c49a516cd45839d2625d60a772299
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 29/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência as atas de
+    reunião do Comitê Gestor de Tecnologia da Informação e Comunicação. A documentação é suficiente para
+    demonstrar o funcionamento de prática, pois comprova a atuação efetiva do comitê por meio da realização
+    de reuniões com representantes de áreas relevantes e deliberações sobre o planejamento de tecnologia
+    da informação. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A2G5
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência as atas de reunião
+      do Comitê Gestor de Tecnologia da Informação e Comunicação. A documentação é suficiente para demonstrar
+      o funcionamento de prática, pois comprova a atuação efetiva do comitê por meio da realização de
+      reuniões com representantes de áreas relevantes e deliberações sobre o planejamento de tecnologia
+      da informação. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR018
+      estado_motivo: afastado
+      justificativa: As atas apresentadas comprovam a composição do comitê por representantes de áreas
+        relevantes.
+    - id_motivo: MR021
+      estado_motivo: afastado
+      justificativa: As atas de reunião comprovam a atuação efetiva do comitê por meio de reuniões e deliberações
+        sobre o planejamento de TIC.
+    arquivos_referenciados:
+    - 00020_02_publicação-ata-cgtic-com-os-membros.pdf
+    trechos_ou_elementos:
+    - Atas de reunião do CGTIC com deliberações sobre o PDTIC
+- auditado: CAMPOS DOS GOYTACAZES
+  secao: '1'
+  codigo: A4G17
+  case_id: bb1aa3f54f34bbf59a11e6f6f34b7a35ba19e3be1162270ffcd687498d7f3221
+  identidade_parecer: cc54583b56fec1a9becc93f4a5eed7ed060a6fdeb432fcb3add10e8c3069057a
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 29/07/2026
+  decisao: acolhida
+  situacao_atual: Situação não caracterizada
+  manifestacao_equipe: A manifestação foi acolhida. A organização apresentou como evidência a Lei Municipal
+    nº 9.605, de 17 de abril de 2025, publicada no Diário Oficial do Município. A documentação é suficiente
+    para demonstrar a formalização de controle, pois comprova a definição das responsabilidades, das atribuições
+    e dos perfis profissionais das ocupações da área de tecnologia da informação e de segurança da informação,
+    que orientam a seleção dos gestores. Assim, a situação é considerada sanada.
+  conclusoes:
+  - item_codigo: A4G17
+    estado: conforme
+    estado_temporal: afastada_na_data_base
+    justificativa: A manifestação foi acolhida. A organização apresentou como evidência a Lei Municipal
+      nº 9.605, de 17 de abril de 2025, publicada no Diário Oficial do Município. A documentação é suficiente
+      para demonstrar a formalização de controle, pois comprova a definição das responsabilidades, das
+      atribuições e dos perfis profissionais das ocupações da área de tecnologia da informação e de segurança
+      da informação, que orientam a seleção dos gestores. Assim, a situação é considerada sanada.
+    conclusoes_motivos:
+    - id_motivo: MR051
+      estado_motivo: afastado
+      justificativa: A Lei Municipal nº 9.605/2025 comprova a definição das responsabilidades e atribuições
+        dos gestores da área de TIC.
+    - id_motivo: MR054
+      estado_motivo: afastado
+      justificativa: A lei comprova a definição das responsabilidades e atribuições das ocupações da área
+        de TI e de segurança da informação.
+    - id_motivo: MR055
+      estado_motivo: afastado
+      justificativa: A lei estabelece perfis profissionais que orientam a seleção dos gestores.
+    arquivos_referenciados:
+    - 00063_01_item-0102-e-2708-nova-estrtura-da-prefeitura.pdf
+    trechos_ou_elementos:
+    - Lei nº 9.605, de 17 de abril de 2025
+- auditado: CGE
+  secao: '2'
+  codigo: q2803
+  case_id: f8c326f353f994dbf53e315aebccbd6857d9d455cc64e04e34093ea1eead486e
+  identidade_parecer: ec4e6bdc6591995de53dbc3188e38cabe33f2b01ff58d83beb56b492a965ce04
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 29/07/2026
+  decisao: acolhida
+  manifestacao_equipe: A reavaliação foi acolhida. A organização apresentou como evidência o Estudo Técnico
+    Preliminar, o Termo de Referência e os vínculos de publicação no Portal Nacional de Compras Públicas,
+    cujo conteúdo foi verificado externamente pela equipe de auditoria na consulta pública do portal.
+    A documentação é suficiente para demonstrar o funcionamento de controle, pois comprova a publicação
+    dos documentos das fases de planejamento (ETP e TR) e de seleção do fornecedor (edital e anexos) da
+    contratação de tecnologia da informação. Assim, os itens q2803, q2803ext[A], q2803ext[B] e q2803ext[C]
+    passam a ser considerados conformes.
+  conclusoes:
+  - item_codigo: q2803
+    estado: conforme
+    justificativa: A reavaliação foi acolhida. A organização apresentou como evidência o Estudo Técnico
+      Preliminar, o Termo de Referência e os vínculos de publicação no Portal Nacional de Compras Públicas,
+      cujo conteúdo foi verificado externamente pela equipe de auditoria na consulta pública do portal.
+      A documentação é suficiente para demonstrar o funcionamento de controle, pois comprova a publicação
+      dos documentos das fases de planejamento (ETP e TR) e de seleção do fornecedor (edital e anexos)
+      da contratação de tecnologia da informação. Assim, os itens q2803, q2803ext[A], q2803ext[B] e q2803ext[C]
+      passam a ser considerados conformes.
+    arquivos_referenciados:
+    - 00004_13_2803.zip
+    - 6408-ae35377f9c-4.html
+    - 2025-b2b2f104d3-4.html
+  - item_codigo: q2803ext[A]
+    estado: conforme
+    justificativa: A reavaliação foi acolhida. A organização apresentou como evidência o Estudo Técnico
+      Preliminar, o Termo de Referência e os vínculos de publicação no Portal Nacional de Compras Públicas,
+      cujo conteúdo foi verificado externamente pela equipe de auditoria na consulta pública do portal.
+      A documentação é suficiente para demonstrar o funcionamento de controle, pois comprova a publicação
+      dos documentos das fases de planejamento (ETP e TR) e de seleção do fornecedor (edital e anexos)
+      da contratação de tecnologia da informação. Assim, os itens q2803, q2803ext[A], q2803ext[B] e q2803ext[C]
+      passam a ser considerados conformes.
+  - item_codigo: q2803ext[B]
+    estado: conforme
+    justificativa: A reavaliação foi acolhida. A organização apresentou como evidência o Estudo Técnico
+      Preliminar, o Termo de Referência e os vínculos de publicação no Portal Nacional de Compras Públicas,
+      cujo conteúdo foi verificado externamente pela equipe de auditoria na consulta pública do portal.
+      A documentação é suficiente para demonstrar o funcionamento de controle, pois comprova a publicação
+      dos documentos das fases de planejamento (ETP e TR) e de seleção do fornecedor (edital e anexos)
+      da contratação de tecnologia da informação. Assim, os itens q2803, q2803ext[A], q2803ext[B] e q2803ext[C]
+      passam a ser considerados conformes.
+  - item_codigo: q2803ext[C]
+    estado: conforme
+    justificativa: A reavaliação foi acolhida. A organização apresentou como evidência o Estudo Técnico
+      Preliminar, o Termo de Referência e os vínculos de publicação no Portal Nacional de Compras Públicas,
+      cujo conteúdo foi verificado externamente pela equipe de auditoria na consulta pública do portal.
+      A documentação é suficiente para demonstrar o funcionamento de controle, pois comprova a publicação
+      dos documentos das fases de planejamento (ETP e TR) e de seleção do fornecedor (edital e anexos)
+      da contratação de tecnologia da informação. Assim, os itens q2803, q2803ext[A], q2803ext[B] e q2803ext[C]
+      passam a ser considerados conformes.
+- auditado: RIOPREVIDENCIA
+  secao: '2'
+  codigo: q0103
+  case_id: 5ea1f5ca976f5c9f9f1f9abb6db763ab9ac7553767fd7af5461fca07e22c4a51
+  identidade_parecer: 8462b4af4a2d2dcc1004f05fbeae505d3e143292bdd2d63815d339f719f3662c
+  aprovada: true
+  revisor: Equipe de Auditoria
+  data_revisao: 29/07/2026
+  decisao: não acolhida
+  manifestacao_equipe: A reavaliação não foi acolhida. A organização apresentou como evidência portarias
+    de designação de comissões de inventário e de reavaliação de bens móveis e atos de designação de servidores
+    como responsáveis pela gestão e pela fiscalização de contratos específicos. A documentação é insuficiente
+    para demonstrar a formalização de controle, pois comprova designações de pessoas para a gestão e a
+    fiscalização de contratos pontuais, sem formalizar as atribuições da área de tecnologia da informação
+    relacionadas à gestão de contratos e fornecedores. Assim, o item q0103[E] permanece não conforme.
+  conclusoes:
+  - item_codigo: q0103[E]
+    estado: nao_conforme
+    justificativa: A reavaliação não foi acolhida. A organização apresentou como evidência portarias de
+      designação de comissões de inventário e de reavaliação de bens móveis e atos de designação de servidores
+      como responsáveis pela gestão e pela fiscalização de contratos específicos. A documentação é insuficiente
+      para demonstrar a formalização de controle, pois comprova designações de pessoas para a gestão e
+      a fiscalização de contratos pontuais, sem formalizar as atribuições da área de tecnologia da informação
+      relacionadas à gestão de contratos e fornecedores. Assim, o item q0103[E] permanece não conforme.
+    arquivos_referenciados:
+    - 00082_13_evidência-6-comissão-fiscalização.pdf

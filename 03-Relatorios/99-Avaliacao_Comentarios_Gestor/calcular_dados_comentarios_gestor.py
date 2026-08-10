@@ -907,10 +907,23 @@ def main() -> int:
     impactos = carregar_impactos(args.impactos)
     impactos_resumo = resumo_impactos(impactos)
 
-    if len(manifestacoes_coletadas) != len(manifestacoes_finais):
+    manifestacoes_avaliaveis = [
+        item
+        for item in manifestacoes_coletadas
+        if item["categoria"] in {"Discorda", "Concorda e ja atendeu"}
+    ]
+    chaves_coleta = {
+        (chave(item["organizacao"]), chave(item["codigo_situacao"]))
+        for item in manifestacoes_avaliaveis
+    }
+    chaves_avaliacao = {
+        (chave(item["organizacao"]), chave(item["codigo_situacao"]))
+        for item in manifestacoes_finais
+    }
+    if chaves_coleta != chaves_avaliacao:
         raise ValueError(
-            "Divergência entre as manifestações coletadas e avaliadas: "
-            f"{len(manifestacoes_coletadas)} na coleta e {len(manifestacoes_finais)} na avaliação final."
+            "Divergência entre as manifestações avaliáveis coletadas e avaliadas: "
+            f"{len(chaves_coleta)} na coleta e {len(chaves_avaliacao)} na avaliação final."
         )
 
     resultado = json.loads(args.resultado_auditoria.read_text(encoding="utf-8"))

@@ -9,7 +9,7 @@ O trabalho combina matriz de planejamento, questionário estruturado no LimeSurv
 
 ## Visão geral do fluxo
 
-O diagrama abaixo apresenta o ciclo completo da fiscalização, desde os estudos preliminares até a revisão final e a preparação para publicação. Ele evidencia os três estados preservados da base — pós-ajuste inicial, pós-avaliação de evidências e pós-comentários do gestor — e as 25 etapas do orquestrador rastreável.
+O diagrama abaixo apresenta o ciclo completo da fiscalização, desde os estudos preliminares até a revisão final e a preparação para publicação. Ele evidencia os três estados preservados da base — pós-ajuste inicial, pós-avaliação de evidências e pós-comentários do gestor — e as 26 etapas do orquestrador rastreável.
 
 [![Fluxo completo da Fiscalização 18/2026 — iGovTI 2026](fluxo-execucao-auditoria.svg)](fluxo-execucao-auditoria.svg)
 
@@ -96,7 +96,7 @@ O script infere o prefixo `20260621` a partir do nome da planilha bruta e preser
 
 O manifesto fica em `02-Execucao/00-Controle_Execucao/manifesto-pipeline-auditoria.json`; os eventos, logs, validação final e inventários JSON/XLSX ficam no mesmo diretório. Uma nova chamada retoma a primeira etapa incompleta e não sobrescreve produtos divergentes. Use `--adopt-existing` uma vez para incorporar papéis de trabalho legados ao manifesto sem regravá-los.
 
-Se as respostas ou as evidências dos comentários do gestor não estiverem disponíveis, o fluxo termina com estado `awaiting_input` após gerar o survey. Informe `--respostas-comentarios` e `--evidencias-comentarios-root` para continuar. `--from-stage`, `--until-stage`, `--status-only` e `--dry-run` apoiam execução parcial e diagnóstico.
+Se as respostas ou as evidências dos comentários do gestor não estiverem disponíveis, o fluxo termina com estado `awaiting_input` após gerar o survey. Depois das duas consolidações, o fluxo termina com estado `awaiting_review` enquanto houver caso prioritário sem aprovação humana. Nenhum ajuste, cálculo, auditoria, gráfico ou relatório pós-comentários é gerado antes dessa aprovação. `--from-stage`, `--until-stage`, `--status-only` e `--dry-run` apoiam execução parcial e diagnóstico.
 
 Os parâmetros `--email-contato-comentarios-gestor`, `--numero-fiscalizacao-comentarios-gestor` e `--nome-fiscalizacao-comentarios-gestor` são repassados ao gerador do questionário LimeSurvey de comentários do gestor e usados no texto de boas-vindas, encerramento, título, descrição e assunto do convite. Os padrões são `auditoriati@tcerj.tc.br`, `18/2026` e `iGovTI 2026`.
 
@@ -418,6 +418,20 @@ No modo `completo`, a seção 1 é avaliada e consolidada antes da preparação 
 
 O catálogo ativo `igovti_2026_comentarios_gestor_atual_v4.yml` orienta a Seção 2 para a situação corrente. A identidade lógica inclui o hash do prompt: avaliações antigas incompatíveis não são reutilizadas, enquanto checkpoints compatíveis da Seção 1 podem ser preservados.
 
+Depois de consolidar as duas seções, o pipeline classifica como prioritário somente o caso que tenha ao menos uma dimensão com empate entre os avaliadores ou uma decisão do juiz contrária à maioria estrita dos avaliadores. A planilha `revisao-humana-pareceres.xlsx` apresenta os casos prioritários, as divergências que motivaram a seleção e o universo consolidado. Para liberar o fluxo, preencha `Status da revisão` como `Aprovado`, além de `Revisor` e `Data da revisão`, em todos os casos prioritários. As aprovações são preservadas apenas enquanto `Case ID`, identidade e hash do parecer permanecerem iguais.
+
+Para preparar ou validar separadamente essa revisão:
+
+```bash
+scripts/.venv/bin/python scripts/run_comentarios_gestor.py preparar-revisao \
+  --out-dir /tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor
+
+scripts/.venv/bin/python scripts/run_comentarios_gestor.py validar-revisao \
+  --out-dir /tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor
+```
+
+Os dois comandos retornam código 3 e estado `awaiting_review` enquanto houver pendência. Após a aprovação, repita o pipeline completo ou o comando `gerar-ajustes`; o orquestrador retoma a etapa de comentários e somente então segue para os produtos posteriores.
+
 As saídas padrão ficam em `/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/99-Avaliacao_Comentarios_Gestor/` no Linux/macOS e no caminho correspondente sob `C:/tmp` no Windows. Além dos JSONL auditáveis, cada seção recebe `avaliacoes_modelos.xlsx`, com avaliações, motivos, erros e escopo. A consolidação gera `pareceres_consolidados.xlsx`. O diretório raiz recebe:
 
 - `ajustes_respostas_questionario_pos_comentarios_gestor.xlsx`, com as abas `Ajustes`, `Pendências` e `Saneados seção 1`;
@@ -468,7 +482,7 @@ Os principais resultados são:
 - `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json`;
 - `03-Relatorios/03-Relatorios_Individuais_Finais/gerados/Relatório Individual - <SIGLA>.docx`.
 
-A automação restaura somente valores originalmente declarados e comprovados. Ela não infere grau de adoção superior. Casos sem valor restaurável seguro permanecem na aba `Pendências`. Os produtos são minutas para revisão final da Equipe de Auditoria, mas não há bloqueio humano intermediário no fluxo.
+A automação restaura somente valores originalmente declarados e comprovados. Ela não infere grau de adoção superior. Casos sem valor restaurável seguro permanecem na aba `Pendências`. Os produtos são minutas para revisão final da Equipe de Auditoria e só são gerados depois que o gate de revisão humana dos casos prioritários for aprovado.
 
 Para revisar a redação sem repetir avaliações dos modelos, edite `Decisão revisada` e `Manifestação revisada da equipe` em uma cópia de `avaliacao_comentarios_gestor.xlsx` e repita o comando com `--revisoes-pareceres /caminho/avaliacao-revisada.xlsx`. Para mudar os valores aplicados à base, revise separadamente a planilha de ajustes e informe-a com `--ajustes-comentarios`.
 

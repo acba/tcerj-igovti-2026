@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pipeline": "igovti-2026",
   "created_at": "2026-07-19T01:38:08.602356+00:00",
-  "updated_at": "2026-07-21T01:55:24.839100+00:00",
+  "updated_at": "2026-08-10T17:44:34.909218+00:00",
   "status": "completed",
   "stages": {
     "01-ajustes-iniciais": {
@@ -354,8 +354,8 @@
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
       "adopted_existing": true,
-      "started_at": "2026-07-19T01:38:31.601915+00:00",
-      "finished_at": "2026-07-19T01:38:31.601918+00:00",
+      "started_at": "2026-07-29T21:29:34.017756+00:00",
+      "finished_at": "2026-07-29T21:29:34.017761+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_ajustes_pos_avaliacao_evidencias.py",
@@ -376,8 +376,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
           "exists": true,
-          "size": 820156,
-          "sha256": "10ae02ec00b87b2b681e24842f44273d17d37334632e917277bf0d6bd63fd43d"
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
         }
       ],
       "output_directories": [],
@@ -389,8 +389,8 @@
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
       "adopted_existing": true,
-      "started_at": "2026-07-19T01:38:31.606286+00:00",
-      "finished_at": "2026-07-19T01:38:31.606288+00:00",
+      "started_at": "2026-07-29T21:29:34.021280+00:00",
+      "finished_at": "2026-07-29T21:29:34.021284+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_fonte_ajustes_evidencias_auditoria.py",
@@ -405,8 +405,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
           "exists": true,
-          "size": 820156,
-          "sha256": "10ae02ec00b87b2b681e24842f44273d17d37334632e917277bf0d6bd63fd43d"
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx",
@@ -432,8 +432,8 @@
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
       "adopted_existing": true,
-      "started_at": "2026-07-19T01:38:31.608132+00:00",
-      "finished_at": "2026-07-19T01:38:31.608134+00:00",
+      "started_at": "2026-07-29T21:29:34.027452+00:00",
+      "finished_at": "2026-07-29T21:29:34.027457+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/ajustar_respostas_questionario.py",
@@ -454,16 +454,16 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
           "exists": true,
-          "size": 820156,
-          "sha256": "10ae02ec00b87b2b681e24842f44273d17d37334632e917277bf0d6bd63fd43d"
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
         }
       ],
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         }
       ],
       "output_directories": [],
@@ -474,7 +474,7 @@
       "title": "Calculando iGovTI do cenário 02",
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
-      "started_at": "2026-07-19T01:38:31.611463+00:00",
+      "started_at": "2026-07-29T21:29:34.031877+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_artefatos_igovti.py",
@@ -493,13 +493,13 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         }
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/10-igovti-02.log",
-      "finished_at": "2026-07-19T01:38:35.008246+00:00",
+      "finished_at": "2026-07-29T21:29:34.031880+00:00",
       "returncode": 0,
       "outputs": [
         {
@@ -527,14 +527,15 @@
           "sha256": "c90d2b53c9594d9edde7e2353c5c11aeca6c195f3486100bf8f50446923967ae"
         }
       ],
-      "output_directories": []
+      "output_directories": [],
+      "adopted_existing": true
     },
     "11-auditoria-02": {
       "key": "11-auditoria-02",
       "title": "Executando auditoria do cenário 02",
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
-      "started_at": "2026-07-19T01:38:35.009506+00:00",
+      "started_at": "2026-07-29T21:29:34.035593+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/executa_auditoria.py",
@@ -568,8 +569,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx",
@@ -580,7 +581,7 @@
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/11-auditoria-02.log",
-      "finished_at": "2026-07-19T01:38:40.807609+00:00",
+      "finished_at": "2026-07-29T21:29:34.035597+00:00",
       "returncode": 0,
       "outputs": [
         {
@@ -596,7 +597,8 @@
           "sha256": "41706004afa95d45b2602e0e443269c1dc1b47d31f38b746e03ac57a3952b777"
         }
       ],
-      "output_directories": []
+      "output_directories": [],
+      "adopted_existing": true
     },
     "12-impacto-evidencias": {
       "key": "12-impacto-evidencias",
@@ -604,8 +606,8 @@
       "scenario": null,
       "status": "completed",
       "adopted_existing": true,
-      "started_at": "2026-07-19T01:38:40.808405+00:00",
-      "finished_at": "2026-07-19T01:38:40.808408+00:00",
+      "started_at": "2026-07-29T21:29:34.067095+00:00",
+      "finished_at": "2026-07-29T21:29:34.067107+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/99-Impacto_Avaliacao_Evidencias/atualizar_dados_impacto_avaliacao_evidencias.py",
@@ -652,14 +654,14 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
           "exists": true,
-          "size": 820156,
-          "sha256": "10ae02ec00b87b2b681e24842f44273d17d37334632e917277bf0d6bd63fd43d"
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/consolidado/pareceres_consolidados.xlsx",
@@ -702,7 +704,7 @@
       "title": "Gerando gráficos preliminares",
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
-      "started_at": "2026-07-19T01:39:18.057276+00:00",
+      "started_at": "2026-07-29T21:33:01.311605+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py",
@@ -715,7 +717,7 @@
         "--comparavel-2026",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
         "--jobs",
-        "1",
+        "4",
         "--dpi",
         "300"
       ],
@@ -729,8 +731,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
@@ -746,7 +748,7 @@
         ]
       },
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/13-graficos-preliminares.log",
-      "finished_at": "2026-07-19T01:41:53.408764+00:00",
+      "finished_at": "2026-07-29T21:33:53.765599+00:00",
       "returncode": 0,
       "outputs": [],
       "output_directories": [
@@ -773,7 +775,7 @@
       "title": "Gerando relatórios individuais preliminares",
       "scenario": "02-pos-avaliacao-evidencias",
       "status": "completed",
-      "started_at": "2026-07-21T01:53:44.321733+00:00",
+      "started_at": "2026-07-29T21:33:53.923785+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_relatorios_individuais.py",
@@ -821,7 +823,7 @@
         ]
       },
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/14-relatorios-preliminares.log",
-      "finished_at": "2026-07-21T01:55:16.921604+00:00",
+      "finished_at": "2026-07-29T21:35:18.225791+00:00",
       "returncode": 0,
       "outputs": [],
       "output_directories": [
@@ -830,8 +832,8 @@
           "exists": true,
           "kind": "directory",
           "files": 238,
-          "size": 244759860,
-          "sha256": "5485d7dcb776403d12bbf0f1d8269d49a01209477255979d9f66111cb205de68"
+          "size": 244750363,
+          "sha256": "e3b53012e1f28460ff40b8b1cf302fb9a93f703b820491aa0d7b9ac5ee016e28"
         }
       ],
       "adopted_existing": true
@@ -842,8 +844,8 @@
       "scenario": null,
       "status": "completed",
       "adopted_existing": true,
-      "started_at": "2026-07-19T01:43:34.630545+00:00",
-      "finished_at": "2026-07-19T01:43:34.630564+00:00",
+      "started_at": "2026-07-29T21:35:58.645234+00:00",
+      "finished_at": "2026-07-29T21:36:06.777108+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_comentarios_gestor.py",
@@ -878,26 +880,28 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
           "exists": true,
-          "size": 820156,
-          "sha256": "10ae02ec00b87b2b681e24842f44273d17d37334632e917277bf0d6bd63fd43d"
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
         }
       ],
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss",
           "exists": true,
-          "size": 388503,
-          "sha256": "c7d0697802e5895e8ac7be16298386bc55035a8d0ad1d89eeea7455c7ae13272"
+          "size": 390000,
+          "sha256": "1d080f8093c6950d301e26a3e368c7f5fdcc7f328a7244f0c524b273d03902c8"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/anexos_docx_comentarios.zip",
           "exists": true,
-          "size": 6685573,
-          "sha256": "9ea27208b44f1a76585c9ad45d87621ac56ec898ccae622d16610638b8058686"
+          "size": 6681125,
+          "sha256": "5f5f2b10047ebb44b1768aa9103e9155bfa4ef3ce3cc0aa5e803a41f108f2990"
         }
       ],
       "output_directories": [],
-      "metadata": {}
+      "metadata": {},
+      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/15-survey-comentarios.log",
+      "returncode": 0
     },
     "16-estatisticas-comentarios": {
       "key": "16-estatisticas-comentarios",
@@ -958,8 +962,8 @@
       "scenario": null,
       "status": "completed",
       "adopted_existing": true,
-      "started_at": "2026-07-19T01:43:34.911058+00:00",
-      "finished_at": "2026-07-19T01:43:34.911061+00:00",
+      "started_at": "2026-08-10T17:14:39.521297+00:00",
+      "finished_at": "2026-08-10T17:14:39.521304+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/run_comentarios_gestor.py",
@@ -981,13 +985,17 @@
         "--respostas-questionario-base",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
         "--respostas-questionario-originais",
-        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx",
+        "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/20260621-respostas-questionario-bruto.xlsx",
         "--painel-avaliacao-evidencias",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx",
         "--catalog-comentarios",
-        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v2.yml",
+        "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_comentarios_gestor_atual_v4.yml",
+        "--revisoes-respostas",
+        "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_respostas.yml",
+        "--revisoes-pareceres",
+        "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml",
         "--models-config",
-        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json",
+        "scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json",
         "--out-dir",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor"
       ],
@@ -1009,8 +1017,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss",
           "exists": true,
-          "size": 388503,
-          "sha256": "c7d0697802e5895e8ac7be16298386bc55035a8d0ad1d89eeea7455c7ae13272"
+          "size": 390000,
+          "sha256": "1d080f8093c6950d301e26a3e368c7f5fdcc7f328a7244f0c524b273d03902c8"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/02-pos-avaliacao-evidencias/resultado_auditoria.json",
@@ -1027,14 +1035,14 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
           "exists": true,
-          "size": 820156,
-          "sha256": "10ae02ec00b87b2b681e24842f44273d17d37334632e917277bf0d6bd63fd43d"
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx",
@@ -1045,22 +1053,34 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/avaliacao_evidencias/configs/comentarios_gestor_models_v1.json",
           "exists": true,
-          "size": 3217,
-          "sha256": "6dc92dd9dd7fe68320a0b51a5f077e39bbf6450fd3dbff88311d2752d02d9052"
+          "size": 1979,
+          "sha256": "dd9c696a3bda2798db7bc8a1ec1cc80dc65b26467849a1f204775d0a94390b97"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_respostas.yml",
+          "exists": true,
+          "size": 18688,
+          "sha256": "1f991e66c6b291e9d59f07881725583a0523060e729cfab425c49a8c113ac252"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml",
+          "exists": true,
+          "size": 42013,
+          "sha256": "b29c2cfe9a0f0468dd158bbfcc0b63e360fc7af4208165b249ab97adcdd37af3"
         }
       ],
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
           "exists": true,
-          "size": 91503,
-          "sha256": "dacab75a69370b040d5de0a7136618e074b05e4c88d1f4c9b44373ca4321480d"
+          "size": 79641,
+          "sha256": "98c9fe6f690ccaddd6e3af405f170ba56dd474583329eb19a6d9898a39ca19d0"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/fontes-auditoria-pos-comentarios/painel-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 111605,
-          "sha256": "5cafba9b24ff53579e8568578b90890253cd593d5fea87ca25df51f6082f3e9a"
+          "size": 111253,
+          "sha256": "ccee9b21ccd922081d3caa74f95955d7b8b318ac00aabf3b84012e2dd6eebc38"
         }
       ],
       "output_directories": [
@@ -1068,15 +1088,16 @@
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor",
           "exists": true,
           "kind": "directory",
-          "files": 41,
-          "size": 544331214,
-          "sha256": "2ba04ea1e750dee30c07932460c97722354f0f6ce17b27e6051240a9f10c8255"
+          "files": 183,
+          "size": 461970768,
+          "sha256": "b21cc8b2d57070ffda8df0eb07622cd60f7d80ab3c2b8cacc1fe8d250da960bf"
         }
       ],
       "metadata": {
         "output_dirs": [
           "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor"
-        ]
+        ],
+        "review_artifact": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisao-humana-pareceres.xlsx"
       }
     },
     "18-produtos-pos-comentarios": {
@@ -1084,7 +1105,7 @@
       "title": "Gerando produtos básicos pós-comentários",
       "scenario": "03-pos-comentarios-gestor",
       "status": "completed",
-      "started_at": "2026-07-19T01:43:38.335279+00:00",
+      "started_at": "2026-08-10T17:14:40.369086+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_produtos_pos_comentarios_gestor.py",
@@ -1103,14 +1124,14 @@
         "--prefixo",
         "20260716",
         "--revisoes-pareceres",
-        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml"
+        "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml"
       ],
       "inputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 412062,
-          "sha256": "491125d62c43b015f2c0f3c2c3cce28a2bb01d48e0cd107ab1dcdb6b4ea07749"
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx",
@@ -1121,48 +1142,47 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
           "exists": true,
-          "size": 91503,
-          "sha256": "dacab75a69370b040d5de0a7136618e074b05e4c88d1f4c9b44373ca4321480d"
+          "size": 79641,
+          "sha256": "98c9fe6f690ccaddd6e3af405f170ba56dd474583329eb19a6d9898a39ca19d0"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/revisoes_pareceres.yml",
           "exists": true,
-          "size": 464,
-          "sha256": "5382e46c7390dddbd211dadf0cea1a0bff2b4fcf95d1c1036cd555c448ee6e02"
+          "size": 42013,
+          "sha256": "b29c2cfe9a0f0468dd158bbfcc0b63e360fc7af4208165b249ab97adcdd37af3"
         }
       ],
       "metadata": {},
-      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/18-produtos-pos-comentarios.log",
-      "finished_at": "2026-07-19T01:43:41.723007+00:00",
-      "returncode": 0,
+      "finished_at": "2026-08-10T17:14:40.369089+00:00",
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
           "exists": true,
-          "size": 399024,
-          "sha256": "9726db8dff86f6d593a8ada8b9dd713c8228281ba22437a1db8fe88e70416eb1"
+          "size": 399030,
+          "sha256": "13646413e7a78a89713937e5a5f01cffdff53e2d8b6972f7b9d67a74d1ee0e60"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx",
           "exists": true,
-          "size": 754622,
-          "sha256": "8ca5652a7ec063f18a1d584e9d249e99b17a33d7d2eae4ba69e1f11ba524dd97"
+          "size": 252268,
+          "sha256": "f65641475bde7777d3ce5523b7bea96c69c0d04f7f1339c8b892f135c8ad8e45"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json",
           "exists": true,
-          "size": 2906744,
-          "sha256": "6d032c6e87c5864c8e76c2694832dbb9f3624a1148447c86cc292025ce6e2dfb"
+          "size": 1180244,
+          "sha256": "274141e221ea182a6a62251835d682911c0d43c9bf8501fc3940b2fbad3793df"
         }
       ],
-      "output_directories": []
+      "output_directories": [],
+      "adopted_existing": true
     },
     "19-igovti-03": {
       "key": "19-igovti-03",
       "title": "Calculando iGovTI do cenário 03",
       "scenario": "03-pos-comentarios-gestor",
       "status": "completed",
-      "started_at": "2026-07-21T01:40:05.139069+00:00",
+      "started_at": "2026-08-10T17:31:18.283010+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_artefatos_igovti.py",
@@ -1181,38 +1201,38 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
           "exists": true,
-          "size": 399039,
-          "sha256": "1c5224e1b1ef251ca94896c80682ad96401dd131e556ff9fdabfca00d17fbbff"
+          "size": 399030,
+          "sha256": "13646413e7a78a89713937e5a5f01cffdff53e2d8b6972f7b9d67a74d1ee0e60"
         }
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/19-igovti-03.log",
-      "finished_at": "2026-07-21T01:40:08.242590+00:00",
+      "finished_at": "2026-08-10T17:31:21.391369+00:00",
       "returncode": 0,
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
           "exists": true,
-          "size": 17804,
-          "sha256": "859fe3872a2973dfd0a43518bea88402e2c098c60f094249414838f1e3bcf981"
+          "size": 17815,
+          "sha256": "d6fd83b5d6721c4c0b482713c31f7f2c1b59ef291a4295a691edcb15400d2a15"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
           "exists": true,
-          "size": 23125,
-          "sha256": "8eb15f5bad643468e2c3bbedd07b653156fbbe5d48f51aafdd9502d22bc669b6"
+          "size": 23138,
+          "sha256": "6315d68870c2711444b26530dfc027a51fa55f7e648200ea3656c6ee5c7ef042"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
           "exists": true,
-          "size": 107110,
-          "sha256": "86b82c11d4d095841c2bd345bcf69cab68794abb94ba10d22b0bdf07bb727a6c"
+          "size": 106636,
+          "sha256": "5be6dd34333d27bc42aae2847a3d40b56387f829d151199e8494bcddbee0a8b3"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-estatisticas-relatorios-igovti-2026.json",
           "exists": true,
-          "size": 8731,
-          "sha256": "c9b5c7cc7727c931656485e4d8522c85b4165575697aaf015c5b5c1f80268cb4"
+          "size": 8726,
+          "sha256": "180127cad463cc3363f6da43f1f0b4da2864bb2ede5b28b208a9e64453afcf4f"
         }
       ],
       "output_directories": []
@@ -1222,7 +1242,7 @@
       "title": "Executando auditoria do cenário 03",
       "scenario": "03-pos-comentarios-gestor",
       "status": "completed",
-      "started_at": "2026-07-21T01:40:08.243790+00:00",
+      "started_at": "2026-08-10T17:31:21.392414+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/executa_auditoria.py",
@@ -1256,32 +1276,32 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
           "exists": true,
-          "size": 399039,
-          "sha256": "1c5224e1b1ef251ca94896c80682ad96401dd131e556ff9fdabfca00d17fbbff"
+          "size": 399030,
+          "sha256": "13646413e7a78a89713937e5a5f01cffdff53e2d8b6972f7b9d67a74d1ee0e60"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/fontes-auditoria-pos-comentarios/painel-avaliacao-evidencias.xlsx",
           "exists": true,
-          "size": 111085,
-          "sha256": "85a1852344c92c05a5b1731a803d87d26f47c7d3f989ca858629b28d498bba39"
+          "size": 111253,
+          "sha256": "ccee9b21ccd922081d3caa74f95955d7b8b318ac00aabf3b84012e2dd6eebc38"
         }
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/20-auditoria-03.log",
-      "finished_at": "2026-07-21T01:40:13.596471+00:00",
+      "finished_at": "2026-08-10T17:31:26.281488+00:00",
       "returncode": 0,
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
           "exists": true,
-          "size": 9820939,
-          "sha256": "757186d83ae339048990eb5611bf0090551713daa581b1bdf8c53385238df57e"
+          "size": 9859410,
+          "sha256": "671c56c9bafc7905da6dd9d69db4cfc1c04a336a0dc3e615a0ed762be1b0a91d"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/tabelas_consolidadas_auditoria.xlsx",
           "exists": true,
-          "size": 32010,
-          "sha256": "15942882aa2c6247417259bce8f1dbc4e4cfaa3b8ea7374d461c65ead76b0811"
+          "size": 32046,
+          "sha256": "44ab36fdf1b72e7fb9be880c253b111b30d8bd7994e12c37708bccbf4b55db75"
         }
       ],
       "output_directories": []
@@ -1291,7 +1311,7 @@
       "title": "Mensurando impacto dos comentários do gestor",
       "scenario": null,
       "status": "completed",
-      "started_at": "2026-07-21T01:40:13.597511+00:00",
+      "started_at": "2026-08-10T17:31:26.282565+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/calcular_impactos_comentarios_gestor.py",
@@ -1318,8 +1338,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
           "exists": true,
-          "size": 9820939,
-          "sha256": "757186d83ae339048990eb5611bf0090551713daa581b1bdf8c53385238df57e"
+          "size": 9859410,
+          "sha256": "671c56c9bafc7905da6dd9d69db4cfc1c04a336a0dc3e615a0ed762be1b0a91d"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-contexto-relatorios-igovti-2026.xlsx",
@@ -1330,26 +1350,26 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
           "exists": true,
-          "size": 107110,
-          "sha256": "86b82c11d4d095841c2bd345bcf69cab68794abb94ba10d22b0bdf07bb727a6c"
+          "size": 106636,
+          "sha256": "5be6dd34333d27bc42aae2847a3d40b56387f829d151199e8494bcddbee0a8b3"
         }
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/21-impacto-comentarios.log",
-      "finished_at": "2026-07-21T01:40:14.404633+00:00",
+      "finished_at": "2026-08-10T17:31:26.950932+00:00",
       "returncode": 0,
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.json",
           "exists": true,
-          "size": 34874,
-          "sha256": "957a41155461b90bbd6401175e2adec115b98c5b5fc25cf7c6a00bd3988dfead"
+          "size": 34891,
+          "sha256": "92242849eb7d173cc9f441db4c7b65c2eb987725ffadf9b9624588b5803d8cab"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.xlsx",
           "exists": true,
-          "size": 12053,
-          "sha256": "a415266df6319b39c077e8146908acfa083a94bfbad5b5ca66fde4dc8a48a141"
+          "size": 12072,
+          "sha256": "a28ff8e3041200bef32244c4bb4048bac078c1c1c805c77406b10375d5790de0"
         }
       ],
       "output_directories": []
@@ -1809,16 +1829,555 @@
         }
       ],
       "output_directories": []
+    },
+    "22-estatisticas-comentarios": {
+      "key": "22-estatisticas-comentarios",
+      "title": "Calculando estatísticas finais dos comentários do gestor",
+      "scenario": null,
+      "status": "completed",
+      "started_at": "2026-08-10T17:31:26.952081+00:00",
+      "command": [
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/99-Avaliacao_Comentarios_Gestor/calcular_dados_comentarios_gestor.py",
+        "--respostas",
+        "02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx",
+        "--lss",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss",
+        "--resultado-auditoria",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/02-pos-avaliacao-evidencias/resultado_auditoria.json",
+        "--ajustes-evidencias",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
+        "--avaliacao-final",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx",
+        "--ajustes-comentarios",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
+        "--impactos",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.xlsx",
+        "--output-dir",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/99-Avaliacao_Comentarios_Gestor"
+      ],
+      "inputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx",
+          "exists": true,
+          "size": 358958,
+          "sha256": "1a7acea7f8a669e1b982b424d403976141ddf7c8b4448a329df1044b9447f0d9"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss",
+          "exists": true,
+          "size": 390000,
+          "sha256": "1d080f8093c6950d301e26a3e368c7f5fdcc7f328a7244f0c524b273d03902c8"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/02-pos-avaliacao-evidencias/resultado_auditoria.json",
+          "exists": true,
+          "size": 10083384,
+          "sha256": "2458fa3930c539e31d7b181bdf1aafc9955e79d439b91cf20c0d9e4450ca97b5"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
+          "exists": true,
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx",
+          "exists": true,
+          "size": 252268,
+          "sha256": "f65641475bde7777d3ce5523b7bea96c69c0d04f7f1339c8b892f135c8ad8e45"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
+          "exists": true,
+          "size": 79641,
+          "sha256": "98c9fe6f690ccaddd6e3af405f170ba56dd474583329eb19a6d9898a39ca19d0"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.xlsx",
+          "exists": true,
+          "size": 12072,
+          "sha256": "a28ff8e3041200bef32244c4bb4048bac078c1c1c805c77406b10375d5790de0"
+        }
+      ],
+      "metadata": {},
+      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/22-estatisticas-comentarios.log",
+      "finished_at": "2026-08-10T17:31:32.609826+00:00",
+      "returncode": 0,
+      "outputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/99-Avaliacao_Comentarios_Gestor/dados/resumo-execucao.json",
+          "exists": true,
+          "size": 1511,
+          "sha256": "9395935f4806e1289b1bd26720cd879db525a681b22adad360241c381a695ecc"
+        }
+      ],
+      "output_directories": []
+    },
+    "23-graficos-finais": {
+      "key": "23-graficos-finais",
+      "title": "Gerando gráficos finais",
+      "scenario": "03-pos-comentarios-gestor",
+      "status": "completed",
+      "started_at": "2026-08-10T17:31:50.915294+00:00",
+      "command": [
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_graficos_relatorios_consolidado_individuais_igovti.py",
+        "--output-root",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor",
+        "--resultados-2026",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
+        "--respostas-2026",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+        "--comparavel-2026",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
+        "--jobs",
+        "1",
+        "--dpi",
+        "300"
+      ],
+      "inputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
+          "exists": true,
+          "size": 17815,
+          "sha256": "d6fd83b5d6721c4c0b482713c31f7f2c1b59ef291a4295a691edcb15400d2a15"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+          "exists": true,
+          "size": 399030,
+          "sha256": "13646413e7a78a89713937e5a5f01cffdff53e2d8b6972f7b9d67a74d1ee0e60"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
+          "exists": true,
+          "size": 23138,
+          "sha256": "6315d68870c2711444b26530dfc027a51fa55f7e648200ea3656c6ee5c7ef042"
+        }
+      ],
+      "metadata": {
+        "output_dirs": [
+          "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor/relatorios-individuais/img",
+          "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor/relatorio-consolidado/img"
+        ]
+      },
+      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/23-graficos-finais.log",
+      "finished_at": "2026-08-10T17:34:10.966309+00:00",
+      "returncode": 0,
+      "outputs": [],
+      "output_directories": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor/relatorios-individuais/img",
+          "exists": true,
+          "kind": "directory",
+          "files": 989,
+          "size": 116271614,
+          "sha256": "8ec9148691efe80eb2c2cc9f5be86be5113971d0ec14e438f5bfcec75c4805a9"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor/relatorio-consolidado/img",
+          "exists": true,
+          "kind": "directory",
+          "files": 17,
+          "size": 3070010,
+          "sha256": "fa8b881e527a8da4cf03176d6f0253ec3ad1c7ae26d7cf7ebc3c9d37da5232c7"
+        }
+      ]
+    },
+    "24-relatorios-finais": {
+      "key": "24-relatorios-finais",
+      "title": "Gerando relatórios individuais finais",
+      "scenario": "03-pos-comentarios-gestor",
+      "status": "completed",
+      "started_at": "2026-08-10T17:42:28.321468+00:00",
+      "command": [
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_relatorios_individuais.py",
+        "--auditados",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
+        "--templates",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/relatorio-individual-template.md",
+        "--context-files",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
+        "--ajustes-respostas",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
+        "--contexto-comentarios-gestor",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json",
+        "--impactos-comentarios-gestor",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.json",
+        "--resource-files",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor/relatorios-individuais/img/**/*",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png",
+        "--output-dir",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/gerados",
+        "--reference-docx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/resources/template-base-estilos-sigiloso.docx",
+        "--nome-base-docx",
+        "Relatório Individual"
+      ],
+      "inputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
+          "exists": true,
+          "size": 9859410,
+          "sha256": "671c56c9bafc7905da6dd9d69db4cfc1c04a336a0dc3e615a0ed762be1b0a91d"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/relatorio-individual-template.md",
+          "exists": true,
+          "size": 51277,
+          "sha256": "a9a1b41e85a2abbbf162412e18fa62f20de81af4980bea9d85a415a12605cc0d"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
+          "exists": true,
+          "size": 106636,
+          "sha256": "5be6dd34333d27bc42aae2847a3d40b56387f829d151199e8494bcddbee0a8b3"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json",
+          "exists": true,
+          "size": 1180244,
+          "sha256": "274141e221ea182a6a62251835d682911c0d43c9bf8501fc3940b2fbad3793df"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.json",
+          "exists": true,
+          "size": 34891,
+          "sha256": "92242849eb7d173cc9f441db4c7b65c2eb987725ffadf9b9624588b5803d8cab"
+        }
+      ],
+      "metadata": {
+        "output_dirs": [
+          "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/gerados"
+        ]
+      },
+      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/24-relatorios-finais.log",
+      "finished_at": "2026-08-10T17:43:51.504798+00:00",
+      "returncode": 0,
+      "outputs": [],
+      "output_directories": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/gerados",
+          "exists": true,
+          "kind": "directory",
+          "files": 238,
+          "size": 244256452,
+          "sha256": "2ba432a1edc4c678cc218185fed9479f8e318c1997a1205da77cac35877ccf9f"
+        }
+      ]
+    },
+    "25-relatorio-consolidado": {
+      "key": "25-relatorio-consolidado",
+      "title": "Gerando relatório consolidado final",
+      "scenario": "03-pos-comentarios-gestor",
+      "status": "completed",
+      "started_at": "2026-08-10T17:44:04.726891+00:00",
+      "command": [
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_relatorio_consolidado.py",
+        "--input",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md",
+        "--output",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx",
+        "--reference-docx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/resources/template-base-estilos.docx",
+        "--resource-files",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/img",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/00-Recursos_Gerados/03-pos-comentarios-gestor/relatorio-consolidado/img",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/99-Avaliacao_IgovTi_Achados/img",
+        "--resultados-2026",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
+        "--respostas-2026",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+        "--comparavel-2026",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
+        "--auditados-xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx",
+        "--resultado-auditoria-json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json"
+      ],
+      "inputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md",
+          "exists": true,
+          "size": 119717,
+          "sha256": "83194c5bec3e6a170784c539123ae442d9f222327cf7a2c819e61e6ab6cec254"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
+          "exists": true,
+          "size": 17815,
+          "sha256": "d6fd83b5d6721c4c0b482713c31f7f2c1b59ef291a4295a691edcb15400d2a15"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+          "exists": true,
+          "size": 399030,
+          "sha256": "13646413e7a78a89713937e5a5f01cffdff53e2d8b6972f7b9d67a74d1ee0e60"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
+          "exists": true,
+          "size": 23138,
+          "sha256": "6315d68870c2711444b26530dfc027a51fa55f7e648200ea3656c6ee5c7ef042"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx",
+          "exists": true,
+          "size": 13319,
+          "sha256": "17e29d3cde3ab2d727ab0884f1858d9cb3cf5648249db77b45ad9d10407d0828"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
+          "exists": true,
+          "size": 9859410,
+          "sha256": "671c56c9bafc7905da6dd9d69db4cfc1c04a336a0dc3e615a0ed762be1b0a91d"
+        }
+      ],
+      "metadata": {},
+      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/25-relatorio-consolidado.log",
+      "finished_at": "2026-08-10T17:44:14.706503+00:00",
+      "returncode": 0,
+      "outputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx",
+          "exists": true,
+          "size": 3597499,
+          "sha256": "37977a281bd073f7dc538cff785f6463d9e526da441cc4e3de1c9a1cd6eba8e4"
+        }
+      ],
+      "output_directories": []
+    },
+    "26-validacao-final": {
+      "key": "26-validacao-final",
+      "title": "Validando produtos e recursos finais",
+      "scenario": null,
+      "status": "completed",
+      "started_at": "2026-08-10T17:44:31.063897+00:00",
+      "command": [
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/validar_produtos_pipeline.py",
+        "--required",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-01-pos-ajuste-inicial.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-iGovTI-2026.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-contexto-relatorios-igovti-2026.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-estatisticas-relatorios-igovti-2026.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-iGovTI-2026.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-contexto-relatorios-igovti-2026.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-estatisticas-relatorios-igovti-2026.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-estatisticas-relatorios-igovti-2026.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/01-pos-ajuste-inicial/resultado_auditoria.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/02-pos-avaliacao-evidencias/resultado_auditoria.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/fontes-auditoria-pos-comentarios/painel-avaliacao-evidencias.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.xlsx",
+        "--logs-dir",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs",
+        "--output",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/validacao-final.json",
+        "--auditados-json",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
+        "--report-dir",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/02-Relatorios_Individuais_Preliminares/gerados",
+        "--report-dir",
+        "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/gerados"
+      ],
+      "inputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-01-pos-ajuste-inicial.xlsx",
+          "exists": true,
+          "size": 411650,
+          "sha256": "d8d048ae36813ac156ee51ebe6b5c1a684f8b2a1573db6d68e3f0516eff5d664"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
+          "exists": true,
+          "size": 399013,
+          "sha256": "4ba5119d4560ca4a2268eb2ce16e94673c9414b8be2b6ee8c05abd502f7589cf"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+          "exists": true,
+          "size": 399030,
+          "sha256": "13646413e7a78a89713937e5a5f01cffdff53e2d8b6972f7b9d67a74d1ee0e60"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-iGovTI-2026.xlsx",
+          "exists": true,
+          "size": 18175,
+          "sha256": "a98086f8c0a1114c83c452edc0f925bdfc1bf31b2eb4e551c82829ea504376c4"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
+          "exists": true,
+          "size": 23664,
+          "sha256": "508391ee477962e86cc787ae1d638471503a611c25801b95ea0af3b1ed4e2868"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-contexto-relatorios-igovti-2026.xlsx",
+          "exists": true,
+          "size": 106658,
+          "sha256": "6217b4da889ccc9c75a658c21a65ed17570d82f673bb9b2b9675e6e920ed65e3"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/01-pos-ajuste-inicial/20260621-estatisticas-relatorios-igovti-2026.json",
+          "exists": true,
+          "size": 8646,
+          "sha256": "034672cd7144f798997c8196de0fdca39ad8173e8d3b020e6d877f787b18b27d"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-iGovTI-2026.xlsx",
+          "exists": true,
+          "size": 17794,
+          "sha256": "18fcc424a159718aa98e789edbc156c275e302a819d14ce2096a8c0685717a76"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx",
+          "exists": true,
+          "size": 23128,
+          "sha256": "642fe657353ccf8ab2bab473ed898c71ed1aa06bf6564cac532da452e6effd27"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-contexto-relatorios-igovti-2026.xlsx",
+          "exists": true,
+          "size": 107309,
+          "sha256": "bd9375e85769620b0b82b0cdada03b81ad41bb2e4b929c881ec564ae672ca9da"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/02-pos-avaliacao-evidencias/20260621-estatisticas-relatorios-igovti-2026.json",
+          "exists": true,
+          "size": 8690,
+          "sha256": "c90d2b53c9594d9edde7e2353c5c11aeca6c195f3486100bf8f50446923967ae"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx",
+          "exists": true,
+          "size": 17815,
+          "sha256": "d6fd83b5d6721c4c0b482713c31f7f2c1b59ef291a4295a691edcb15400d2a15"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx",
+          "exists": true,
+          "size": 23138,
+          "sha256": "6315d68870c2711444b26530dfc027a51fa55f7e648200ea3656c6ee5c7ef042"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
+          "exists": true,
+          "size": 106636,
+          "sha256": "5be6dd34333d27bc42aae2847a3d40b56387f829d151199e8494bcddbee0a8b3"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-estatisticas-relatorios-igovti-2026.json",
+          "exists": true,
+          "size": 8726,
+          "sha256": "180127cad463cc3363f6da43f1f0b4da2864bb2ede5b28b208a9e64453afcf4f"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/01-pos-ajuste-inicial/resultado_auditoria.json",
+          "exists": true,
+          "size": 8145476,
+          "sha256": "be9d8e74f5e95fa09e2ad6b7030c63f3bc1dfdff13e5f620174f2d7d54e441ea"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/02-pos-avaliacao-evidencias/resultado_auditoria.json",
+          "exists": true,
+          "size": 10083384,
+          "sha256": "2458fa3930c539e31d7b181bdf1aafc9955e79d439b91cf20c0d9e4450ca97b5"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json",
+          "exists": true,
+          "size": 9859410,
+          "sha256": "671c56c9bafc7905da6dd9d69db4cfc1c04a336a0dc3e615a0ed762be1b0a91d"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx",
+          "exists": true,
+          "size": 1597973,
+          "sha256": "6766256aa9a81d94e880fdf6b08650283ee723ea77802e693e55e3b693795715"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx",
+          "exists": true,
+          "size": 200124,
+          "sha256": "1312e2c93b72f920cabf71ad5d43fb1b2b8731cc9f0dd260e2881393eedb54b4"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx",
+          "exists": true,
+          "size": 79641,
+          "sha256": "98c9fe6f690ccaddd6e3af405f170ba56dd474583329eb19a6d9898a39ca19d0"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/fontes-auditoria-pos-comentarios/painel-avaliacao-evidencias.xlsx",
+          "exists": true,
+          "size": 111253,
+          "sha256": "ccee9b21ccd922081d3caa74f95955d7b8b318ac00aabf3b84012e2dd6eebc38"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/avaliacao_comentarios_gestor.xlsx",
+          "exists": true,
+          "size": 252268,
+          "sha256": "f65641475bde7777d3ce5523b7bea96c69c0d04f7f1339c8b892f135c8ad8e45"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json",
+          "exists": true,
+          "size": 1180244,
+          "sha256": "274141e221ea182a6a62251835d682911c0d43c9bf8501fc3940b2fbad3793df"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.json",
+          "exists": true,
+          "size": 34891,
+          "sha256": "92242849eb7d173cc9f441db4c7b65c2eb987725ffadf9b9624588b5803d8cab"
+        },
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.xlsx",
+          "exists": true,
+          "size": 12072,
+          "sha256": "a28ff8e3041200bef32244c4bb4048bac078c1c1c805c77406b10375d5790de0"
+        }
+      ],
+      "metadata": {},
+      "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/26-validacao-final.log",
+      "finished_at": "2026-08-10T17:44:31.235029+00:00",
+      "returncode": 0,
+      "outputs": [
+        {
+          "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/validacao-final.json",
+          "exists": true,
+          "size": 533,
+          "sha256": "213aa0b39120df11ef71b298164040be363de9c0c560a19072858d7ef50cc7cc"
+        }
+      ],
+      "output_directories": []
     }
   },
   "configuration": {
     "output_root": "/home/acba/workspace/fiscalizacoes/202601-igovti",
     "prefixo": "20260621",
     "stages": [
-      "25-validacao-final"
+      "26-validacao-final"
     ]
   },
-  "finished_at": "2026-07-21T01:55:23.419860+00:00",
+  "finished_at": "2026-08-10T17:44:31.236844+00:00",
   "inventory": {
     "json": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/inventario-artefatos.json",
     "xlsx": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/inventario-artefatos.xlsx"
