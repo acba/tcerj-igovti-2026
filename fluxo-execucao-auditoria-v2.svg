@@ -1,0 +1,734 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1850" height="3540" viewBox="0 0 1850 3540" role="img" aria-labelledby="title desc">
+  <title id="title">Fiscalização 18/2026 — Fluxo Integral da Auditoria iGovTI 2026</title>
+  <desc id="desc">Fluxo metodológico completo e rastreável: planejamento, coleta, cenários de cálculo (01, 02 e 03), avaliação de evidências por IA, contraditório com gestores, relatórios e publicação.</desc>
+
+  <defs>
+    <!-- Grediantes do Cabeçalho e Fases -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A192F"/>
+      <stop offset="50%" stop-color="#0F2A4A"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+
+    <linearGradient id="railGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A192F"/>
+      <stop offset="50%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+
+    <linearGradient id="phaseA_Header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+
+    <linearGradient id="phaseB_Header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F766E"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+
+    <linearGradient id="phaseC_Header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5B21B6"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+
+    <linearGradient id="phaseD_Header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B45309"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+
+    <linearGradient id="phaseE_Header" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+
+    <!-- Sombras Profissionais -->
+    <filter id="shadowCard" x="-10%" y="-10%" width="125%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.08"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0F172A" flood-opacity="0.04"/>
+    </filter>
+
+    <filter id="shadowPhase" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.06"/>
+    </filter>
+
+    <!-- Marcadores de Seta -->
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L9,5 L0,9 Z" fill="#2563EB"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L9,5 L0,9 Z" fill="#0D9488"/>
+    </marker>
+    <marker id="arrowIndigo" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L9,5 L0,9 Z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L9,5 L0,9 Z" fill="#D97706"/>
+    </marker>
+    <marker id="arrowSlate" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L9,5 L0,9 Z" fill="#64748B"/>
+    </marker>
+
+    <style>
+      .font-title { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-weight: 800; }
+      .font-semibold { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-weight: 600; }
+      .font-regular { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-weight: 400; }
+      .font-mono { font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; font-weight: 500; }
+
+      .phase-badge-text { font-size: 14px; fill: #FFFFFF; letter-spacing: 1.5px; font-weight: 700; }
+      .phase-title-text { font-size: 20px; fill: #1E293B; font-weight: 750; letter-spacing: -0.2px; }
+      .phase-desc-text { font-size: 14px; fill: #64748B; font-weight: 400; }
+
+      .card-step-num { font-size: 12px; fill: #FFFFFF; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
+      .card-title { font-size: 15px; fill: #0F172A; font-weight: 700; }
+      .card-desc { font-size: 12.5px; fill: #475569; font-weight: 400; line-height: 1.4; }
+
+      .output-tag { font-size: 11.5px; font-weight: 600; }
+
+      .conn-line-blue { fill: none; stroke: #2563EB; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowBlue); }
+      .conn-line-teal { fill: none; stroke: #0D9488; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowTeal); }
+      .conn-line-indigo { fill: none; stroke: #7C3AED; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowIndigo); }
+      .conn-line-amber { fill: none; stroke: #D97706; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowAmber); }
+      .conn-line-slate { fill: none; stroke: #64748B; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowSlate); }
+      .conn-dash-amber { fill: none; stroke: #D97706; stroke-width: 2; stroke-dasharray: 6 6; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <!-- Fundo Geral -->
+  <rect width="1850" height="3540" fill="#F8FAFC"/>
+
+  <!-- ==================== BANNER SUPERIOR ==================== -->
+  <g transform="translate(0,0)">
+    <rect width="1850" height="190" fill="url(#headerGrad)"/>
+    <!-- Linhas decorativas sutis de fundo -->
+    <path d="M 0 190 L 450 0 M 300 190 L 750 0 M 1200 190 L 1650 0" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="3"/>
+
+    <!-- Insígnia / Marca TCE-RJ -->
+    <rect x="70" y="42" width="6" height="106" rx="3" fill="#38BDF8"/>
+    <text x="92" y="66" class="font-title" font-size="13" fill="#38BDF8" letter-spacing="2.5">TRIBUNAL DE CONTAS DO ESTADO DO RIO DE JANEIRO</text>
+    <text x="92" y="104" class="font-title" font-size="32" fill="#FFFFFF" letter-spacing="-0.5">Fiscalização 18/2026 · iGovTI 2026</text>
+    <text x="92" y="136" class="font-regular" font-size="17" fill="#94A3B8">Fluxo Integral do Processo de Auditoria — Dos Estudos Preliminares à Publicação Institucional</text>
+
+    <!-- Badge de Controle à Direita -->
+    <g transform="translate(1420, 50)">
+      <rect width="300" height="90" rx="12" fill="#FFFFFF" fill-opacity="0.07" stroke="#FFFFFF" stroke-opacity="0.15"/>
+      <text x="150" y="32" class="font-semibold" font-size="12" fill="#94A3B8" text-anchor="middle" letter-spacing="1">COORDENAÇÃO TEMÁTICA</text>
+      <text x="150" y="54" class="font-title" font-size="14" fill="#F1F5F9" text-anchor="middle">Auditoria de Governança de TIC</text>
+      <text x="150" y="72" class="font-regular" font-size="12" fill="#38BDF8" text-anchor="middle">Papéis de Trabalho Rastreáveis</text>
+    </g>
+  </g>
+
+  <!-- ==================== LEGENDA EXECUTIVA ==================== -->
+  <g transform="translate(70, 215)">
+    <rect width="1650" height="95" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" filter="url(#shadowPhase)"/>
+    <text x="30" y="36" class="font-title" font-size="12" fill="#475569" letter-spacing="2">LEGENDA DO FLUXO</text>
+
+    <!-- Item 1: Planejamento -->
+    <g transform="translate(30, 48)">
+      <rect width="24" height="24" rx="6" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="5" fill="#2563EB"/>
+      <text x="34" y="17" class="font-semibold" font-size="13" fill="#1E293B">1. Planejamento e Coleta</text>
+    </g>
+
+    <!-- Item 2: Cálculos e Auditoria -->
+    <g transform="translate(240, 48)">
+      <rect width="24" height="24" rx="6" fill="#CCFBF1" stroke="#0D9488" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="5" fill="#0D9488"/>
+      <text x="34" y="17" class="font-semibold" font-size="13" fill="#1E293B">2. Cálculo e Auditoria</text>
+    </g>
+
+    <!-- Item 3: IA & Evidências -->
+    <g transform="translate(450, 48)">
+      <rect width="24" height="24" rx="6" fill="#F3E8FF" stroke="#7C3AED" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="5" fill="#7C3AED"/>
+      <text x="34" y="17" class="font-semibold" font-size="13" fill="#1E293B">3. Avaliação Assistida por IA</text>
+    </g>
+
+    <!-- Item 4: Gestor & Contraditório -->
+    <g transform="translate(700, 48)">
+      <rect width="24" height="24" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="5" fill="#D97706"/>
+      <text x="34" y="17" class="font-semibold" font-size="13" fill="#1E293B">4. Contraditório e Gestor</text>
+    </g>
+
+    <!-- Item 5: Validação e Publicação -->
+    <g transform="translate(940, 48)">
+      <rect width="24" height="24" rx="6" fill="#E0F2FE" stroke="#0284C7" stroke-width="1.5"/>
+      <circle cx="12" cy="12" r="5" fill="#0284C7"/>
+      <text x="34" y="17" class="font-semibold" font-size="13" fill="#1E293B">5. Validação e Publicação</text>
+    </g>
+
+    <!-- Nota Explicativa à direita -->
+    <path d="M 1200 20 L 1200 75" stroke="#E2E8F0" stroke-width="1.5"/>
+    <text x="1220" y="42" class="font-semibold" font-size="12" fill="#0F766E">Princípio da Independência dos Cenários (01, 02 e 03):</text>
+    <text x="1220" y="62" class="font-regular" font-size="12" fill="#64748B">Cada cenário preserva suas próprias bases, índices, memórias de cálculo e achados auditáveis.</text>
+  </g>
+
+  <!-- ==================== FASE A: PREPARAÇÃO, DESENHO E COLETA ==================== -->
+  <g transform="translate(70, 335)">
+    <!-- Conteiner da Fase -->
+    <rect width="1650" height="580" rx="20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadowPhase)"/>
+
+    <!-- Cabeçalho da Fase A -->
+    <path d="M 0 20 C 0 9, 9 0, 20 0 L 1630 0 C 1641 0, 1650 9, 1650 20 L 1650 65 L 0 65 Z" fill="url(#phaseA_Header)"/>
+    <rect x="25" y="18" width="85" height="28" rx="6" fill="#FFFFFF" fill-opacity="0.2"/>
+    <text x="67" y="36" class="phase-badge-text" text-anchor="middle">FASE A</text>
+    <text x="125" y="38" class="font-title" font-size="20" fill="#FFFFFF">Preparação, Desenho Metodológico e Coleta de Dados</text>
+
+    <!-- LINHA 1 (Etapas 1 a 4) -->
+    <!-- Card 1 -->
+    <g transform="translate(35, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">01</text>
+      <text x="60" y="40" class="card-title">Estudos Preliminares</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Antecedentes, referenciais normativos,</tspan><tspan x="25" dy="20">análise de riscos, escopo e estratégia</tspan><tspan x="25" dy="20">geral da fiscalização temática.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">📁 01-Estudos_Preliminares</text>
+    </g>
+
+    <path d="M 407 187 L 437 187" class="conn-line-blue"/>
+
+    <!-- Card 2 -->
+    <g transform="translate(432, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">02</text>
+      <text x="60" y="40" class="card-title">Matriz de Planejamento</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Delimitação de questões de auditoria,</tspan><tspan x="25" dy="20">riscos, critérios, fontes, procedimentos</tspan><tspan x="25" dy="20">e possíveis achados estruturados.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">📄 matriz_planejamento.md</text>
+    </g>
+
+    <path d="M 804 187 L 834 187" class="conn-line-blue"/>
+
+    <!-- Card 3 -->
+    <g transform="translate(829, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">03</text>
+      <text x="60" y="40" class="card-title">Metodologia iGovTI</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Questionário 2026, estruturas YAML</tspan><tspan x="25" dy="20">dos índices de governança e regras</tspan><tspan x="25" dy="20">de comparabilidade com 2023.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">⚙️ igovti_2026.md · YAML</text>
+    </g>
+
+    <path d="M 1201 187 L 1231 187" class="conn-line-blue"/>
+
+    <!-- Card 4 -->
+    <g transform="translate(1226, 90)" filter="url(#shadowCard)">
+      <rect width="389" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="389" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">04</text>
+      <text x="60" y="40" class="card-title">Mapa de Verificação de Achados</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Mapeamento de fontes, ações,</tspan><tspan x="25" dy="20">lógica binária/graduada de achados e</tspan><tspan x="25" dy="20">encaminhamentos rastreáveis.</tspan></text>
+      <rect x="20" y="142" width="349" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">📊 mapa-verificacao-achados.xlsx</text>
+    </g>
+
+    <!-- Conector em Serpente da Linha 1 para Linha 2 -->
+    <path d="M 1420 285 L 1420 315 L 221 315 L 221 330" class="conn-line-blue"/>
+
+    <!-- LINHA 2 (Etapas 5 a 8) -->
+    <!-- Card 5 -->
+    <g transform="translate(35, 335)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">05</text>
+      <text x="60" y="40" class="card-title">Questionário &amp; LimeSurvey</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Conversão automatizada do Markdown,</tspan><tspan x="25" dy="20">validação de consistência e publicação</tspan><tspan x="25" dy="20">do survey eletrônico oficial.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">🌐 igovti_2026.lss</text>
+    </g>
+
+    <path d="M 407 432 L 437 432" class="conn-line-blue"/>
+
+    <!-- Card 6 -->
+    <g transform="translate(432, 335)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">06</text>
+      <text x="60" y="40" class="card-title">Comunicação Formal</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Expedição de ofícios institucionais e</tspan><tspan x="25" dy="20">chaves/links individualizados para as</tspan><tspan x="25" dy="20">119 organizações jurisdicionadas.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">📬 universo de auditados (119 orgs)</text>
+    </g>
+
+    <path d="M 804 432 L 834 432" class="conn-line-blue"/>
+
+    <!-- Card 7 -->
+    <g transform="translate(829, 335)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">07</text>
+      <text x="60" y="40" class="card-title">Coleta de Respostas</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Encerramento da coleta, exportação</tspan><tspan x="25" dy="20">bruta da base de dados LimeSurvey</tspan><tspan x="25" dy="20">e download dos anexos comprobatórios.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">📦 respostas-bruto.xlsx · ZIPs</text>
+    </g>
+
+    <path d="M 1201 432 L 1231 432" class="conn-line-blue"/>
+
+    <!-- Card 8 -->
+    <g transform="translate(1226, 335)" filter="url(#shadowCard)">
+      <rect width="389" height="195" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <rect x="0" y="0" width="389" height="6" rx="3" fill="#2563EB"/>
+      <circle cx="32" cy="35" r="16" fill="#2563EB"/><text x="32" y="35" class="card-step-num">08</text>
+      <text x="60" y="40" class="card-title">Extração e Saneamento Inicial</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Descompactação de evidências e registro</tspan><tspan x="25" dy="20">auditável de retificações formais,</tspan><tspan x="25" dy="20">bugs de formulário ou ajustes de dados.</tspan></text>
+      <rect x="20" y="142" width="349" height="36" rx="8" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#1E3A8A">🗂️ evidências extraídas · ajustes 01</text>
+    </g>
+  </g>
+
+  <!-- Conector da Fase A para Fase B -->
+  <path d="M 895 915 L 895 945" class="conn-line-teal"/>
+
+  <!-- ==================== FASE B: CENÁRIO 01 — PÓS-AJUSTE INICIAL ==================== -->
+  <g transform="translate(70, 945)">
+    <rect width="1650" height="360" rx="20" fill="#FFFFFF" stroke="#99F6E4" stroke-width="1.5" filter="url(#shadowPhase)"/>
+
+    <!-- Cabeçalho da Fase B -->
+    <path d="M 0 20 C 0 9, 9 0, 20 0 L 1630 0 C 1641 0, 1650 9, 1650 20 L 1650 65 L 0 65 Z" fill="url(#phaseB_Header)"/>
+    <rect x="25" y="18" width="85" height="28" rx="6" fill="#FFFFFF" fill-opacity="0.2"/>
+    <text x="67" y="36" class="phase-badge-text" text-anchor="middle">FASE B</text>
+    <text x="125" y="38" class="font-title" font-size="20" fill="#FFFFFF">Cenário 01 — Linha de Base (Pós-Ajustes Iniciais)</text>
+    <text x="630" y="38" class="font-regular" font-size="14" fill="#CCFBF1">Primeiro retrato reprodutível: cálculo de índices e auditoria antes do confronto com evidências</text>
+
+    <!-- Card 9 (01) -->
+    <g transform="translate(35, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="225" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">01</text>
+      <text x="60" y="40" class="card-title">Aplicar Ajustes Iniciais</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Materialização da primeira base</tspan><tspan x="25" dy="20">processada, incorporando correções</tspan><tspan x="25" dy="20">formais e retificações declaradas</tspan><tspan x="25" dy="20">pelas organizações auditadas.</tspan></text>
+      <rect x="20" y="172" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="195" class="font-mono output-tag" fill="#0F766E">💾 base 01 pós-ajuste inicial.xlsx</text>
+    </g>
+
+    <path d="M 407 202 L 437 202" class="conn-line-teal"/>
+
+    <!-- Card 10 (02) -->
+    <g transform="translate(432, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="225" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">02</text>
+      <text x="60" y="40" class="card-title">Calcular Cenário 01</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Cálculo dos índices de iGovTI 2026,</tspan><tspan x="25" dy="20">comparabilidade histórica 2023-2026,</tspan><tspan x="25" dy="20">estatísticas institucionais e geração</tspan><tspan x="25" dy="20">do contexto numérico inicial.</tspan></text>
+      <rect x="20" y="172" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="195" class="font-mono output-tag" fill="#0F766E">📈 04-Resultados_iGovTI/01-...</text>
+    </g>
+
+    <path d="M 804 202 L 834 202" class="conn-line-teal"/>
+
+    <!-- Card 11 (03) -->
+    <g transform="translate(829, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="225" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">03</text>
+      <text x="60" y="40" class="card-title">Criar Painel Neutro</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Geração de painel de verificação</tspan><tspan x="25" dy="20">de evidências neutro (sem glosas)</tspan><tspan x="25" dy="20">para estabelecer a linha de base</tspan><tspan x="25" dy="20">de constatações de auditoria.</tspan></text>
+      <rect x="20" y="172" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="195" class="font-mono output-tag" fill="#0F766E">📋 painel-evidencias-neutro.xlsx</text>
+    </g>
+
+    <path d="M 1201 202 L 1231 202" class="conn-line-teal"/>
+
+    <!-- Card 12 (04) -->
+    <g transform="translate(1226, 90)" filter="url(#shadowCard)">
+      <rect width="389" height="225" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="389" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">04</text>
+      <text x="60" y="40" class="card-title">Executar Auditoria 01</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Aplicação automatizada do mapa de</tspan><tspan x="25" dy="20">verificação sobre a base 01 e painel neutro,</tspan><tspan x="25" dy="20">consolidando a primeira matriz de</tspan><tspan x="25" dy="20">situações encontradas e achados.</tspan></text>
+      <rect x="20" y="172" width="349" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="195" class="font-mono output-tag" fill="#0F766E">🔍 02-Resultados_Auditoria/01-...</text>
+    </g>
+  </g>
+
+  <!-- Conector da Fase B para Fase C -->
+  <path d="M 895 1305 L 895 1345" class="conn-line-indigo"/>
+
+  <!-- ==================== FASE C: AVALIAÇÃO DE EVIDÊNCIAS E CENÁRIO 02 ==================== -->
+  <g transform="translate(70, 1345)">
+    <rect width="1650" height="830" rx="20" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5" filter="url(#shadowPhase)"/>
+
+    <!-- Cabeçalho da Fase C -->
+    <path d="M 0 20 C 0 9, 9 0, 20 0 L 1630 0 C 1641 0, 1650 9, 1650 20 L 1650 65 L 0 65 Z" fill="url(#phaseC_Header)"/>
+    <rect x="25" y="18" width="85" height="28" rx="6" fill="#FFFFFF" fill-opacity="0.2"/>
+    <text x="67" y="36" class="phase-badge-text" text-anchor="middle">FASE C</text>
+    <text x="125" y="38" class="font-title" font-size="20" fill="#FFFFFF">Avaliação de Evidências por IA e Cenário 02 (Relatórios Preliminares)</text>
+
+    <!-- LINHA 1 (Etapas 13 a 16) -->
+    <!-- Card 13 (05) -->
+    <g transform="translate(35, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#7C3AED"/>
+      <circle cx="32" cy="35" r="16" fill="#7C3AED"/><text x="32" y="35" class="card-step-num">05</text>
+      <text x="60" y="40" class="card-title">Avaliar Evidências (IA)</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Modelos LLM independentes analisam</tspan><tspan x="25" dy="20">documentos/anexos declarados frente aos</tspan><tspan x="25" dy="20">critérios de auditoria em paralelo.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F5F3FF" stroke="#DDD6FE"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#6D28D9">🤖 avaliações individuais JSONL</text>
+    </g>
+
+    <path d="M 407 187 L 437 187" class="conn-line-indigo"/>
+
+    <!-- Card 14 (06) -->
+    <g transform="translate(432, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#7C3AED"/>
+      <circle cx="32" cy="35" r="16" fill="#7C3AED"/><text x="32" y="35" class="card-step-num">06</text>
+      <text x="60" y="40" class="card-title">Consolidar Avaliações (Juiz)</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Modelo Juiz pondera divergências,</tspan><tspan x="25" dy="20">exige quórum mínimo de 3 análises</tspan><tspan x="25" dy="20">e emite parecer técnico fundamentado.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F5F3FF" stroke="#DDD6FE"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#6D28D9">⚖️ pareceres consolidados</text>
+    </g>
+
+    <path d="M 804 187 L 834 187" class="conn-line-indigo"/>
+
+    <!-- Card 15 (07) -->
+    <g transform="translate(829, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#7C3AED"/>
+      <circle cx="32" cy="35" r="16" fill="#7C3AED"/><text x="32" y="35" class="card-step-num">07</text>
+      <text x="60" y="40" class="card-title">Gerar Minuta de Ajustes</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Conversão de não conformidades</tspan><tspan x="25" dy="20">comprovadas em propostas de ajuste;</tspan><tspan x="25" dy="20">ambiguidades mantidas em pendência.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F5F3FF" stroke="#DDD6FE"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#6D28D9">📝 ajustes_pos_evidencias.xlsx</text>
+    </g>
+
+    <path d="M 1201 187 L 1231 187" class="conn-line-indigo"/>
+
+    <!-- Card 16 (08) -->
+    <g transform="translate(1226, 90)" filter="url(#shadowCard)">
+      <rect width="389" height="195" rx="14" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#7C3AED"/>
+      <circle cx="32" cy="35" r="16" fill="#7C3AED"/><text x="32" y="35" class="card-step-num">08</text>
+      <text x="60" y="40" class="card-title">Gerar Painel de Auditoria</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Construção do painel largo de evidências</tspan><tspan x="25" dy="20">com status de conformidade por item</tspan><tspan x="25" dy="20">para alimentação das ações de controle.</tspan></text>
+      <rect x="20" y="142" width="349" height="36" rx="8" fill="#F5F3FF" stroke="#DDD6FE"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#6D28D9">📊 painel-avaliacao-evidencias.xlsx</text>
+    </g>
+
+    <!-- Conector Serpente da Linha 1 para Linha 2 -->
+    <path d="M 1420 285 L 1420 315 L 221 315 L 221 330" class="conn-line-indigo"/>
+
+    <!-- LINHA 2 (Etapas 17 a 20) -->
+    <!-- Card 17 (09) -->
+    <g transform="translate(35, 335)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">09</text>
+      <text x="60" y="40" class="card-title">Aplicar Ajustes Pós-Evidências</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Materialização da base 02 ajustada</tspan><tspan x="25" dy="20">após glosa de respostas não</tspan><tspan x="25" dy="20">comprovadas documentalmente.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">💾 base 02 pós-evidências.xlsx</text>
+    </g>
+
+    <path d="M 407 432 L 437 432" class="conn-line-teal"/>
+
+    <!-- Card 18 (10) -->
+    <g transform="translate(432, 335)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">10</text>
+      <text x="60" y="40" class="card-title">Recalcular Cenário 02</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Recálculo integral do iGovTI 2026,</tspan><tspan x="25" dy="20">dimensões, componentes, estatísticas</tspan><tspan x="25" dy="20">e contexto numérico do cenário 02.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📈 04-Resultados_iGovTI/02-...</text>
+    </g>
+
+    <path d="M 804 432 L 834 432" class="conn-line-teal"/>
+
+    <!-- Card 19 (11) -->
+    <g transform="translate(829, 335)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">11</text>
+      <text x="60" y="40" class="card-title">Reexecutar Auditoria 02</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Reavaliação automatizada de achados</tspan><tspan x="25" dy="20">utilizando a base 02 e o painel de</tspan><tspan x="25" dy="20">avaliação de evidências fundamentado.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">🔍 02-Resultados_Auditoria/02-...</text>
+    </g>
+
+    <path d="M 1201 432 L 1231 432" class="conn-line-teal"/>
+
+    <!-- Card 20 (12) -->
+    <g transform="translate(1226, 335)" filter="url(#shadowCard)">
+      <rect width="389" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="389" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">12</text>
+      <text x="60" y="40" class="card-title">Mensurar Impacto 01 × 02</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Comparação sistemática entre a autoavaliação</tspan><tspan x="25" dy="20">declarada e a conformidade documental</tspan><tspan x="25" dy="20">(delhas de iGovTI e achados gerados).</tspan></text>
+      <rect x="20" y="142" width="349" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📊 memória de impacto das evidências</text>
+    </g>
+
+    <!-- Conector Serpente da Linha 2 para Linha 3 -->
+    <path d="M 1420 530 L 1420 560 L 221 560 L 221 575" class="conn-line-teal"/>
+
+    <!-- LINHA 3 (Etapas 21 a 23) -->
+    <!-- Card 21 (13) -->
+    <g transform="translate(35, 580)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">13</text>
+      <text x="60" y="40" class="card-title">Gráficos Preliminares</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Renderização de infográficos, radares,</tspan><tspan x="25" dy="20">mapas de calor e gráficos consolidados</tspan><tspan x="25" dy="20">e individuais para os relatórios.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">🎨 00-Recursos_Gerados/02-...</text>
+    </g>
+
+    <path d="M 407 677 L 437 677" class="conn-line-teal"/>
+
+    <!-- Card 22 (14) -->
+    <g transform="translate(432, 580)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">14</text>
+      <text x="60" y="40" class="card-title">Relatórios Preliminares</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Geração automatizada de DOCX</tspan><tspan x="25" dy="20">individuais preliminares com achados,</tspan><tspan x="25" dy="20">determinações e recomendações.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📄 DOCX individuais preliminares</text>
+    </g>
+
+    <path d="M 804 677 L 834 677" class="conn-line-amber"/>
+
+    <!-- Card 23 (15) - CARD MAIOR EXPANDIDO PARA PREPARAR CONTRADITÓRIO -->
+    <g transform="translate(829, 580)" filter="url(#shadowCard)">
+      <rect width="786" height="195" rx="14" fill="#FFFFFF" stroke="#FDE68A" stroke-width="1.5"/>
+      <rect x="0" y="0" width="786" height="6" rx="3" fill="#D97706"/>
+      <circle cx="32" cy="35" r="16" fill="#D97706"/><text x="32" y="35" class="card-step-num">15</text>
+      <text x="60" y="40" class="card-title">Preparar Contraditório dos Gestores</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Geração automatizada do instrumento eletrônico LimeSurvey de contraditório e montagem dos pacotes</tspan><tspan x="25" dy="20">customizados de anexos (DOCX/ZIP) contendo os achados preliminares por organização auditada.</tspan></text>
+      <rect x="20" y="142" width="746" height="36" rx="8" fill="#FEF3C7" stroke="#FDE68A"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#B45309">📩 questionario_comentarios_gestor.lss · anexos customizados DOCX/ZIP por auditado</text>
+    </g>
+  </g>
+
+  <!-- Conector da Fase C para Fase D -->
+  <path d="M 895 2175 L 895 2215" class="conn-line-amber"/>
+
+  <!-- ==================== FASE D: CONTRADITÓRIO, COMENTÁRIOS DO GESTOR E CENÁRIO 03 ==================== -->
+  <g transform="translate(70, 2215)">
+    <rect width="1650" height="870" rx="20" fill="#FFFFFF" stroke="#FDE68A" stroke-width="1.5" filter="url(#shadowPhase)"/>
+
+    <!-- Cabeçalho da Fase D -->
+    <path d="M 0 20 C 0 9, 9 0, 20 0 L 1630 0 C 1641 0, 1650 9, 1650 20 L 1650 65 L 0 65 Z" fill="url(#phaseD_Header)"/>
+    <rect x="25" y="18" width="85" height="28" rx="6" fill="#FFFFFF" fill-opacity="0.2"/>
+    <text x="67" y="36" class="phase-badge-text" text-anchor="middle">FASE D</text>
+    <text x="125" y="38" class="font-title" font-size="20" fill="#FFFFFF">Contraditório, Comentários do Gestor e Cenário 03 (Produtos Finais)</text>
+
+    <!-- DECISÃO E RAMIFICAÇÃO (Etapa 16 / Decision) -->
+    <!-- Nó de Decisão -->
+    <g transform="translate(35, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.5"/>
+      <polygon points="186,18 350,60 186,102 22,60" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
+      <text x="186" y="55" class="font-title" font-size="14" fill="#B45309" text-anchor="middle">Respostas Recebidas?</text>
+      <text x="186" y="73" class="font-regular" font-size="11.5" fill="#78350F" text-anchor="middle">Comentários e evidências anexadas</text>
+
+      <text x="25" y="128" class="card-text" font-size="12"><tspan x="25" dy="0">Fluxo aguarda manifestação oficial ou</tspan><tspan x="25" dy="18">reassume a execução para encerramento.</tspan></text>
+    </g>
+
+    <!-- Ramificação SIM -->
+    <path d="M 407 150 L 432 150" class="conn-line-amber"/>
+    <text x="418" y="140" class="font-title" font-size="11" fill="#0D9488">SIM</text>
+
+    <!-- Ramificação NÃO (Pausa Awaiting Input) -->
+    <path d="M 221 285 L 221 310" class="conn-dash-amber"/>
+    <text x="230" y="300" class="font-title" font-size="11" fill="#D97706">NÃO</text>
+    <g transform="translate(35, 310)">
+      <rect width="372" height="42" rx="10" fill="#FFFBEB" stroke="#FDE68A" stroke-dasharray="4 4"/>
+      <text x="186" y="26" class="font-semibold" font-size="11.5" fill="#B45309" text-anchor="middle">Status: awaiting_input (Pausa segura sem perda de histórico)</text>
+    </g>
+
+    <!-- Card 24 (16) -->
+    <g transform="translate(432, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#FDE68A" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#D97706"/>
+      <circle cx="32" cy="35" r="16" fill="#D97706"/><text x="32" y="35" class="card-step-num">16</text>
+      <text x="60" y="40" class="card-title">Consolidar Participação</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Validação dos envios concluídos,</tspan><tspan x="25" dy="20">deduplicação de respostas e geração</tspan><tspan x="25" dy="20">de memórias e estatísticas do contraditório.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#FEF3C7" stroke="#FDE68A"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#B45309">📊 memória, estatísticas e resumo</text>
+    </g>
+
+    <path d="M 804 187 L 834 187" class="conn-line-indigo"/>
+
+    <!-- Card 25 (17) -->
+    <g transform="translate(829, 90)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#7C3AED"/>
+      <circle cx="32" cy="35" r="16" fill="#7C3AED"/><text x="32" y="35" class="card-step-num">17</text>
+      <text x="60" y="40" class="card-title">Avaliação em Duas Seções</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Análise de razões de justificativa (Seção 1)</tspan><tspan x="25" dy="20">e reavaliação técnica de respostas com</tspan><tspan x="25" dy="20">novas evidências documentais (Seção 2).</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F5F3FF" stroke="#DDD6FE"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#6D28D9">⚖️ juiz · quórum · ajustes combinados</text>
+    </g>
+
+    <path d="M 1201 187 L 1231 187" class="conn-line-amber"/>
+
+    <!-- Card 26 (18) -->
+    <g transform="translate(1226, 90)" filter="url(#shadowCard)">
+      <rect width="389" height="195" rx="14" fill="#FFFFFF" stroke="#FDE68A" stroke-width="1.5"/>
+      <rect x="0" y="0" width="389" height="6" rx="3" fill="#D97706"/>
+      <circle cx="32" cy="35" r="16" fill="#D97706"/><text x="32" y="35" class="card-step-num">18</text>
+      <text x="60" y="40" class="card-title">Materializar Decisões Finais</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Aplicação automatizada de ajustes seguros</tspan><tspan x="25" dy="20">na base de respostas e incorporação de</tspan><tspan x="25" dy="20">revisões institucionais (revisoes_pareceres).</tspan></text>
+      <rect x="20" y="142" width="349" height="36" rx="8" fill="#FEF3C7" stroke="#FDE68A"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#B45309">💾 base 03 pós-comentários · contexto</text>
+    </g>
+
+    <!-- Conector Serpente da Linha 1 para Linha 2 -->
+    <path d="M 1420 285 L 1420 365 L 221 365 L 221 380" class="conn-line-teal"/>
+
+    <!-- LINHA 2 (Etapas 27 a 30) -->
+    <!-- Card 27 (19) -->
+    <g transform="translate(35, 385)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">19</text>
+      <text x="60" y="40" class="card-title">Recalcular Cenário 03</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Cálculo definitivo dos índices iGovTI 2026,</tspan><tspan x="25" dy="20">dimensões, componentes e contexto final</tspan><tspan x="25" dy="20">após acolhimento do contraditório.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📈 04-Resultados_iGovTI/03-...</text>
+    </g>
+
+    <path d="M 407 482 L 437 482" class="conn-line-teal"/>
+
+    <!-- Card 28 (20) -->
+    <g transform="translate(432, 385)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">20</text>
+      <text x="60" y="40" class="card-title">Reexecutar Auditoria 03</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Reexecução automatizada das regras</tspan><tspan x="25" dy="20">de achado com a base 03 e painel</tspan><tspan x="25" dy="20">reavaliado pós-comentários.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">🔍 02-Resultados_Auditoria/03-...</text>
+    </g>
+
+    <path d="M 804 482 L 834 482" class="conn-line-teal"/>
+
+    <!-- Card 29 (21) -->
+    <g transform="translate(829, 385)" filter="url(#shadowCard)">
+      <rect width="372" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="372" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">21</text>
+      <text x="60" y="40" class="card-title">Mensurar Impacto 02 × 03</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Mensuração precisa do impacto das</tspan><tspan x="25" dy="20">razões de justificativa nos índices,</tspan><tspan x="25" dy="20">situações e achados mantidos/afastados.</tspan></text>
+      <rect x="20" y="142" width="332" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📊 impactos JSON e XLSX</text>
+    </g>
+
+    <path d="M 1201 482 L 1231 482" class="conn-line-teal"/>
+
+    <!-- Card 30 (22) -->
+    <g transform="translate(1226, 385)" filter="url(#shadowCard)">
+      <rect width="389" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="389" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">22</text>
+      <text x="60" y="40" class="card-title">Gerar Gráficos Finais</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Renderização visual definitiva dos recursos</tspan><tspan x="25" dy="20">consolidados e individuais derivados</tspan><tspan x="25" dy="20">exclusivamente do Cenário 03.</tspan></text>
+      <rect x="20" y="142" width="349" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">🎨 00-Recursos_Gerados/03-...</text>
+    </g>
+
+    <!-- Conector Serpente da Linha 2 para Linha 3 -->
+    <path d="M 1420 580 L 1420 610 L 420 610 L 420 625" class="conn-line-teal"/>
+
+    <!-- LINHA 3 (Etapas 31 e 32) - CARDS LARGOS DE FECHAMENTO DE RELATÓRIOS -->
+    <!-- Card 31 (23) -->
+    <g transform="translate(35, 625)" filter="url(#shadowCard)">
+      <rect width="769" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="769" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">23</text>
+      <text x="60" y="40" class="card-title">Relatórios Individuais Finais</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Geração automatizada dos relatórios finais individualizados por organização auditada,</tspan><tspan x="25" dy="20">incorporando achados definitivos, síntese dos comentários do gestor e matriz de impactos.</tspan></text>
+      <rect x="20" y="142" width="729" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📁 03-Relatorios/03-Relatorios_Individuais_Finais (DOCX)</text>
+    </g>
+
+    <path d="M 804 722 L 834 722" class="conn-line-teal"/>
+
+    <!-- Card 32 (24) -->
+    <g transform="translate(829, 625)" filter="url(#shadowCard)">
+      <rect width="786" height="195" rx="14" fill="#FFFFFF" stroke="#CCFBF1" stroke-width="1.5"/>
+      <rect x="0" y="0" width="786" height="6" rx="3" fill="#0D9488"/>
+      <circle cx="32" cy="35" r="16" fill="#0D9488"/><text x="32" y="35" class="card-step-num">24</text>
+      <text x="60" y="40" class="card-title">Relatório Consolidado de Auditoria</text>
+      <text x="25" y="75" class="card-text"><tspan x="25" dy="0">Redação e compilação do relatório consolidado temático do TCE-RJ com visão panorâmica,</tspan><tspan x="25" dy="20">estatísticas do Estado, achados transversais, boas práticas e propostas de encaminhamento.</tspan></text>
+      <rect x="20" y="142" width="746" height="36" rx="8" fill="#F0FDF4" stroke="#CCFBF1"/>
+      <text x="32" y="165" class="font-mono output-tag" fill="#0F766E">📖 Relatorio_altaresolucao_novo.md → DOCX Consolidado Oficial</text>
+    </g>
+  </g>
+
+  <!-- Conector da Fase D para Fase E -->
+  <path d="M 895 3085 L 895 3125" class="conn-line-slate"/>
+
+  <!-- ==================== FASE E: VALIDAÇÃO, REVISÃO E PUBLICAÇÃO ==================== -->
+  <g transform="translate(70, 3125)">
+    <rect width="1650" height="300" rx="20" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="1.5" filter="url(#shadowPhase)"/>
+
+    <!-- Cabeçalho da Fase E -->
+    <path d="M 0 20 C 0 9, 9 0, 20 0 L 1630 0 C 1641 0, 1650 9, 1650 20 L 1650 65 L 0 65 Z" fill="url(#phaseE_Header)"/>
+    <rect x="25" y="18" width="85" height="28" rx="6" fill="#FFFFFF" fill-opacity="0.2"/>
+    <text x="67" y="36" class="phase-badge-text" text-anchor="middle">FASE E</text>
+    <text x="125" y="38" class="font-title" font-size="20" fill="#FFFFFF">Validação Integrada, Revisão Humana e Publicação</text>
+
+    <!-- Card 33 (25) -->
+    <g transform="translate(35, 90)" filter="url(#shadowCard)">
+      <rect width="490" height="175" rx="14" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="1.5"/>
+      <rect x="0" y="0" width="490" height="6" rx="3" fill="#0284C7"/>
+      <circle cx="32" cy="35" r="16" fill="#0284C7"/><text x="32" y="35" class="card-step-num">25</text>
+      <text x="60" y="40" class="card-title">Validação Automática Final</text>
+      <text x="25" y="72" class="card-text"><tspan x="25" dy="0">Verificação computacional de integridade:</tspan><tspan x="25" dy="18">presença de produtos obrigatórios, ausência de</tspan><tspan x="25" dy="18">links quebrados e consistência dos manifestos.</tspan></text>
+      <rect x="20" y="125" width="450" height="34" rx="8" fill="#F0F9FF" stroke="#BAE6FD"/>
+      <text x="32" y="146" class="font-mono output-tag" fill="#0369A1">✅ validacao-final.json</text>
+    </g>
+
+    <path d="M 525 177 L 555 177" class="conn-line-slate"/>
+
+    <!-- Card R (Revisão Humana) -->
+    <g transform="translate(555, 90)" filter="url(#shadowCard)">
+      <rect width="490" height="175" rx="14" fill="#FFFFFF" stroke="#FECDD3" stroke-width="1.5"/>
+      <rect x="0" y="0" width="490" height="6" rx="3" fill="#E11D48"/>
+      <circle cx="32" cy="35" r="16" fill="#E11D48"/><text x="32" y="35" class="card-step-num">R</text>
+      <text x="60" y="40" class="card-title">Revisão Humana da Auditoria</text>
+      <text x="25" y="72" class="card-text"><tspan x="25" dy="0">Validação técnica e institucional obrigatória:</tspan><tspan x="25" dy="18">análise dos pareceres emitidos com auxílio de IA,</tspan><tspan x="25" dy="18">chancela dos achados e redação final.</tspan></text>
+      <rect x="20" y="125" width="450" height="34" rx="8" fill="#FFF1F2" stroke="#FECDD3"/>
+      <text x="32" y="146" class="font-mono output-tag" fill="#BE123C">🛡️ Aprovação pela Equipe de Auditoria</text>
+    </g>
+
+    <path d="M 1045 177 L 1075 177" class="conn-line-slate"/>
+
+    <!-- Card P (Publicação) -->
+    <g transform="translate(1075, 90)" filter="url(#shadowCard)">
+      <rect width="540" height="175" rx="14" fill="#FFFFFF" stroke="#BAE6FD" stroke-width="1.5"/>
+      <rect x="0" y="0" width="540" height="6" rx="3" fill="#0284C7"/>
+      <circle cx="32" cy="35" r="16" fill="#0284C7"/><text x="32" y="35" class="card-step-num">P</text>
+      <text x="60" y="40" class="card-title">Submissão, Portal &amp; Transparência</text>
+      <text x="25" y="72" class="card-text"><tspan x="25" dy="0">Envio formal dos relatórios para tramitação no Tribunal,</tspan><tspan x="25" dy="18">carga da série histórica e publicação dos painéis</tspan><tspan x="25" dy="18">interativos no Portal iGovTI do TCE-RJ.</tspan></text>
+      <rect x="20" y="125" width="500" height="34" rx="8" fill="#F0F9FF" stroke="#BAE6FD"/>
+      <text x="32" y="146" class="font-mono output-tag" fill="#0369A1">🏛️ 03-Relatorios · 04-Portal_iGovTI</text>
+    </g>
+  </g>
+
+  <!-- ==================== TRILHO PERSISTENTE DE RASTREABILIDADE ==================== -->
+  <g transform="translate(1745, 335)">
+    <rect width="45" height="3090" rx="16" fill="url(#railGrad)" filter="url(#shadowPhase)"/>
+
+    <!-- Indicadores de Status no Trilho -->
+    <circle cx="22.5" cy="40" r="6" fill="#38BDF8"/>
+    <circle cx="22.5" cy="950" r="6" fill="#2DD4BF"/>
+    <circle cx="22.5" cy="1350" r="6" fill="#A855F7"/>
+    <circle cx="22.5" cy="2220" r="6" fill="#FBBF24"/>
+    <circle cx="22.5" cy="3050" r="6" fill="#38BDF8"/>
+
+    <!-- Texto Vertical Rotacionado -->
+    <text transform="translate(28, 1545) rotate(-90)" class="font-title" font-size="13" fill="#F8FAFC" text-anchor="middle" letter-spacing="3">RASTREABILIDADE CONTÍNUA · MANIFESTO DE EXECUÇÃO · HASHES SHA-256 · LOGS AUDITÁVEIS POR ETAPA · RETOMADA SEGURA SEM SOBRESCRITA</text>
+  </g>
+
+  <!-- ==================== RODAPÉ FORMAL ==================== -->
+  <g transform="translate(70, 3495)">
+    <text x="0" y="0" class="font-regular" font-size="12" fill="#64748B">Fonte: Metodologia Sequencial da Fiscalização 18/2026 e scripts de automação (scripts/gerar_pacote_relatorios_igovti.py). Pareceres de IA constituem minutas técnicas sujeitas à revisão humana indispensável.</text>
+  </g>
+</svg>

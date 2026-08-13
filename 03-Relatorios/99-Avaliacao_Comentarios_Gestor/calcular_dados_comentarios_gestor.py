@@ -692,6 +692,17 @@ def grafico_resultados_avaliacao(
                     fontsize=8,
                     color="white" if categoria == "Não acolhida" else "#202020",
                 )
+            elif valor > 0:
+                ax.text(
+                    esquerda[indice] + valor / 2,
+                    indice,
+                    f"{quantidade} ({str(f'{valor:.1f}').replace('.', ',')}%)",
+                    ha="center",
+                    va="center",
+                    fontsize=6.5,
+                    color="#202020",
+                    rotation=90,
+                )
         esquerda += valores
     ax.set_xlim(0, 105)
     ax.set_xlabel("Percentual dos casos avaliados")
@@ -702,8 +713,9 @@ def grafico_resultados_avaliacao(
     salvar_figura(fig, path)
 
 
-def grafico_impactos_organizacoes(path: Path, resumo: dict[str, Any]) -> None:
-    universo = resumo["universo"]
+def grafico_impactos_organizacoes(
+    path: Path, resumo: dict[str, Any], universo_avaliado: int
+) -> None:
     linhas = [
         ("Algum impacto final", resumo["organizacoes_com_algum_impacto"]),
         ("Situações removidas", resumo["organizacoes_com_situacoes_removidas"]),
@@ -723,7 +735,7 @@ def grafico_impactos_organizacoes(path: Path, resumo: dict[str, Any]) -> None:
         ax.text(
             valor + 0.5,
             bar.get_y() + bar.get_height() / 2,
-            f"{valor} de {universo} ({percentual(valor, universo)})",
+            f"{valor} de {universo_avaliado} ({percentual(valor, universo_avaliado)})",
             va="center",
             fontsize=8.5,
         )
@@ -741,7 +753,7 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
         ),
         (
             axes[1],
-            "Achados",
+            "Incidências de achado",
             [resumo["achados_antes"], resumo["achados_atuais"]],
             resumo["achados_antes"] - resumo["achados_atuais"],
         ),
@@ -768,7 +780,10 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
             fontsize=8.5,
             color="#404040",
         )
-    fig.suptitle("Situações e achados antes e após os comentários do gestor", fontweight="bold")
+    fig.suptitle(
+        "Situações e incidências de achado antes e após os comentários do gestor",
+        fontweight="bold",
+    )
     fig.tight_layout(rect=(0, 0, 1, 0.92))
     salvar_figura(fig, path)
 
@@ -937,7 +952,7 @@ def main() -> int:
     temas_reavaliacao = analisar_temas(textos_significativos(reavaliacoes, ("comentario",)))
 
     configurar_grafico()
-    regulares = len({item["organizacao"] for item in manifestacoes_finais})
+    regulares = len({item["organizacao"] for item in manifestacoes_coletadas})
     elegiveis_que_responderam = len({item["organizacao"] for item in cobertura if item["respondeu_etapa"]})
     orgs_reavaliacao = len({item["organizacao"] for item in reavaliacoes})
     grafico_participacao(
@@ -950,10 +965,10 @@ def main() -> int:
             ("Sem resposta válida ao iGovTI", sum(item["manifestou"] for item in nao_respondentes), len(nao_respondentes)),
         ],
     )
-    geral = Counter(item["categoria"] for item in manifestacoes_finais)
+    geral = Counter(item["categoria"] for item in manifestacoes_coletadas)
     grafico_panorama_manifestacoes(img_dir / "02-panorama-geral.png", geral)
     por_achado = defaultdict(Counter)
-    for item in manifestacoes_finais:
+    for item in manifestacoes_coletadas:
         por_achado[item["achado"]][item["categoria"]] += 1
     grafico_empilhado(
         img_dir / "03-manifestacoes-por-achado.png",
@@ -965,7 +980,7 @@ def main() -> int:
             img_dir / f"achado-{numero}-situacoes.png",
             numero,
             situacoes,
-            manifestacoes_finais,
+            manifestacoes_coletadas,
             regulares,
         )
     grafico_reavaliacao(img_dir / "04-reavaliacoes-por-questao.png", cobertura)
@@ -979,6 +994,7 @@ def main() -> int:
     grafico_impactos_organizacoes(
         img_dir / "06-impactos-organizacoes.png",
         impactos_resumo,
+        respondentes_igovti,
     )
     grafico_estoques_antes_depois(
         img_dir / "07-saldo-situacoes-achados.png",
@@ -1034,7 +1050,10 @@ def main() -> int:
                 "submissoes_brutas": len(brutas),
                 "submissoes_validas": len(respostas),
                 "submissoes_excluidas": len(excluidas),
-                "manifestacoes_situacoes": len(manifestacoes_finais),
+                "manifestacoes_situacoes": len(manifestacoes_coletadas),
+                "manifestacoes_submetidas_decisao_individualizada": len(
+                    manifestacoes_finais
+                ),
                 "discordancias": sum(
                     item["categoria"] == "Discorda" for item in manifestacoes_finais
                 ),

@@ -42,7 +42,7 @@ DEFAULT_TEMPLATE_FINAL = ROOT / "03-Relatorios/03-Relatorios_Individuais_Finais/
 DEFAULT_RELATORIO_CONSOLIDADO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
 DEFAULT_REFERENCE = ROOT / "scripts/resources/template-base-estilos-sigiloso.docx"
 DEFAULT_REFERENCE_CONSOLIDADO = ROOT / "scripts/resources/template-base-estilos.docx"
-DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png"
+DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico.png"
 DEFAULT_WORKERS = max(1, min(8, os.cpu_count() or 1))
 
 

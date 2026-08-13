@@ -395,7 +395,7 @@ def plot_component_distribution(results: pd.DataFrame) -> None:
     series = [results[key].astype(float).to_numpy() for key in COMPONENTS]
     positions = np.arange(1, len(series) + 1)
     colors = ["#3B6EA8", "#D59A2F", "#167D8D"]
-    fig, ax = plt.subplots(figsize=(9.2, 6.2))
+    fig, ax = plt.subplots(figsize=(9.2, 5))
     box = ax.boxplot(series, positions=positions, widths=0.48, patch_artist=True, showfliers=False,
                      medianprops={"color": "#111827", "linewidth": 1.8})
     for patch, color in zip(box["boxes"], colors):
@@ -432,7 +432,7 @@ def plot_dimension_distribution(results: pd.DataFrame) -> None:
     keys = list(DIMENSIONS)
     values = [results[key].astype(float).to_numpy() for key in keys]
     positions = np.arange(1, len(values) + 1)
-    fig, ax = plt.subplots(figsize=(10.5, 6.6))
+    fig, ax = plt.subplots(figsize=(10.5, 5))
     box = ax.boxplot(values, positions=positions, orientation="horizontal", widths=0.55, patch_artist=True, showfliers=False,
                      medianprops={"color": "#111827", "linewidth": 1.7})
     for patch, key in zip(box["boxes"], keys):

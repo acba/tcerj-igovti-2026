@@ -1,169 +1,191 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2600" height="1050" viewBox="0 0 2600 1050" role="img" aria-labelledby="title desc">
-  <title id="title">Fluxo metodologico da fiscalizacao iGovTI 2026</title>
-  <desc id="desc">Diagrama em sete etapas: planejamento do instrumento, coleta eletronica, base valida, saneamento e evidencias, calculo do iGovTI, execucao da auditoria, relatorios e consolidacao.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1444" height="1606" viewBox="78 110 1444 1606" role="img" aria-labelledby="title desc">
+  <title id="title">Fluxo metodológico da fiscalização iGovTI 2026</title>
+  <desc id="desc">Fluxo em nove etapas, do planejamento aos relatórios finais. O universo abrange 119 organizações: 113 respondentes e 6 não respondentes.</desc>
   <defs>
     <style>
-      .bg { fill: #f8fafc; }
-      .title { fill: #1f2937; font: 700 54px Arial, sans-serif; }
-      .subtitle { fill: #475569; font: 400 28px Arial, sans-serif; }
-      .phase { fill: #334155; font: 700 22px Arial, sans-serif; letter-spacing: .8px; }
-      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 3; }
-      .card-top-1 { fill: #0f766e; }
-      .card-top-2 { fill: #1d4ed8; }
-      .card-top-3 { fill: #7c3aed; }
-      .card-top-4 { fill: #b45309; }
-      .step-num { fill: #ffffff; font: 700 30px Arial, sans-serif; }
-      .step-title { fill: #111827; font: 700 25px Arial, sans-serif; }
-      .step-text { fill: #334155; font: 400 22px Arial, sans-serif; }
-      .connector { stroke: #94a3b8; stroke-width: 6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      .connector-dot { fill: #94a3b8; }
-      .note { fill: #0f172a; font: 700 24px Arial, sans-serif; }
-      .note-small { fill: #475569; font: 400 20px Arial, sans-serif; }
-      .pill { fill: #ecfdf5; stroke: #14b8a6; stroke-width: 2; }
+      .bg { /* removido */ }
+      .title { fill: #0f1f38; font: 700 47px Arial, sans-serif; }
+      .subtitle { fill: #51607a; font: 400 27px Arial, sans-serif; }
+      .title-rule { stroke: #0e6f66; stroke-width: 4; }
+      .summary-number { fill: #0e6f66; font: 700 43px Arial, sans-serif; }
+      .summary-label { fill: #33415a; font: 400 22px Arial, sans-serif; letter-spacing: .3px; }
+      .summary-rule { stroke: #d7dce3; stroke-width: 2; }
+      .phase { fill: #51607a; font: 700 20px Arial, sans-serif; letter-spacing: 2px; }
+      .phase-rule { stroke: #d7dce3; stroke-width: 2; }
+      .card { fill: #ffffff; stroke: #d7dce3; stroke-width: 2; }
+      .top-bar { fill: #1e3a5f; }
+      .badge { fill: #14283f; }
+      .badge-ring { fill: none; stroke: #3a5578; stroke-width: 1.5; }
+      .step-num { fill: #ffffff; font: 700 27px Arial, sans-serif; }
+      .step-title { fill: #14213a; font: 700 30px Arial, sans-serif; }
+      .step-text { fill: #3d4a63; font: 400 24px Arial, sans-serif; }
+      .step-strong { fill: #0e6f66; font: 700 24px Arial, sans-serif; }
+      .connector { stroke: #a7afbe; stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .footer-title { fill: #0f1f38; font: 700 25px Arial, sans-serif; }
+      .footer-text { fill: #51607a; font: 400 23px Arial, sans-serif; }
+      .footer-band { fill: #0e6f66; }
     </style>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity=".12"/>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f1f38" flood-opacity=".10"/>
     </filter>
-    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="11" markerHeight="11" orient="auto">
-      <path d="M2,1 L11,6 L2,11 Z" fill="#94a3b8"/>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M2,1 L11,6 L2,11 Z" fill="#a7afbe"/>
     </marker>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="2600" height="1050"/>
+  <!-- fundo removido: SVG transparente -->
 
-  <text class="title" x="120" y="105">Fluxo metodológico da fiscalização iGovTI 2026</text>
-  <text class="subtitle" x="120" y="153">Da elaboração do questionário à consolidação dos achados e resultados do relatório</text>
+  <!-- cabecalho removido: titulo e linha verde -->
 
-  <rect class="pill" x="1710" y="78" width="570" height="86" rx="18"/>
-  <text class="note" x="1740" y="114">120 jurisdicionados no escopo</text>
-  <text class="note-small" x="1740" y="146">114 avaliados com resposta válida; 6 não respondentes</text>
+  <text class="subtitle" x="80" y="130">Da autoavaliação ao contraditório e aos produtos finais da auditoria</text>
 
-  <text class="phase" x="142" y="224">PLANEJAR</text>
-  <text class="phase" x="494" y="224">COLETAR</text>
-  <text class="phase" x="843" y="224">DELIMITAR</text>
-  <text class="phase" x="1198" y="224">VALIDAR</text>
-  <text class="phase" x="1545" y="224">CALCULAR</text>
-  <text class="phase" x="1897" y="224">AUDITAR</text>
-  <text class="phase" x="2363" y="224" text-anchor="middle">RELATAR</text>
+  <g aria-label="Resumo do universo fiscalizado">
+    <rect x="80" y="168" width="1440" height="126" rx="14" fill="#ffffff" stroke="#d7dce3" stroke-width="2"/>
+    <text class="summary-number" x="320" y="222" text-anchor="middle">119</text>
+    <text class="summary-label" x="320" y="258" text-anchor="middle">organizações no escopo</text>
+    <line class="summary-rule" x1="560" y1="192" x2="560" y2="270"/>
+    <text class="summary-number" x="800" y="222" text-anchor="middle">113</text>
+    <text class="summary-label" x="800" y="258" text-anchor="middle">respondentes</text>
+    <line class="summary-rule" x1="1040" y1="192" x2="1040" y2="270"/>
+    <text class="summary-number" x="1280" y="222" text-anchor="middle">6</text>
+    <text class="summary-label" x="1280" y="258" text-anchor="middle">não respondentes</text>
+  </g>
 
-  <path class="connector" marker-end="url(#arrow)" d="M392 448 H454"/>
-  <path class="connector" marker-end="url(#arrow)" d="M744 448 H806"/>
-  <path class="connector" marker-end="url(#arrow)" d="M1096 448 H1158"/>
-  <path class="connector" marker-end="url(#arrow)" d="M1448 448 H1510"/>
-  <path class="connector" marker-end="url(#arrow)" d="M1800 448 H1862"/>
-  <path class="connector" marker-end="url(#arrow)" d="M2152 448 H2214"/>
+  <!-- Fluxo em S: 1→3, 4→6 e 7→9. Proporção pensada para página A4 vertical. -->
+  <text class="phase" x="584" y="344">PREPARAÇÃO E COLETA</text>
+  <line class="phase-rule" x1="92" y1="356" x2="1520" y2="356"/>
+  <text class="phase" x="584" y="803">ANÁLISE E RESULTADOS PRELIMINARES</text>
+  <line class="phase-rule" x1="92" y1="815" x2="1520" y2="815"/>
+  <text class="phase" x="584" y="1262">CONTRADITÓRIO E RESULTADOS FINAIS</text>
+  <line class="phase-rule" x1="92" y1="1274" x2="1520" y2="1274"/>
+
+  <path class="connector" marker-end="url(#arrow)" d="M512 568 H572"/>
+  <path class="connector" marker-end="url(#arrow)" d="M1028 568 H1088"/>
+  <path class="connector" marker-end="url(#arrow)" d="M1304 750 V829"/>
+  <path class="connector" marker-end="url(#arrow)" d="M1088 1027 H1028"/>
+  <path class="connector" marker-end="url(#arrow)" d="M572 1027 H512"/>
+  <path class="connector" marker-end="url(#arrow)" d="M296 1209 V1288"/>
+  <path class="connector" marker-end="url(#arrow)" d="M512 1486 H572"/>
+  <path class="connector" marker-end="url(#arrow)" d="M1028 1486 H1088"/>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="110" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-1" x="110" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-1" x="110" y="318" width="282" height="24"/>
-    <circle cx="154" cy="306" r="25" fill="#0b4f4a"/>
-    <text class="step-num" x="154" y="317" text-anchor="middle">1</text>
-    <text class="step-title" x="137" y="390">Planejamento</text>
-    <text class="step-title" x="137" y="421">do instrumento</text>
-    <text class="step-text" x="137" y="480">Questionário estruturado</text>
-    <text class="step-text" x="137" y="514">com base no iGovTI</text>
-    <text class="step-text" x="137" y="548">TCU 2021 e 2024.</text>
-    <text class="step-text" x="137" y="602">Adaptação ao contexto</text>
-    <text class="step-text" x="137" y="636">dos jurisdicionados.</text>
+    <rect class="card" x="80" y="382" width="432" height="368" rx="14"/>
+    <path class="top-bar" d="M92 382 H500 A12 12 0 0 1 512 394 V454 H80 V394 A12 12 0 0 1 92 382 Z"/>
+    <circle class="badge" cx="126" cy="418" r="25"/>
+    <circle class="badge-ring" cx="126" cy="418" r="30"/>
+    <text class="step-num" x="126" y="428" text-anchor="middle">1</text>
+    <text class="step-title" x="108" y="510">Planejamento</text>
+    <text class="step-title" x="108" y="548">do instrumento</text>
+    <text class="step-text" x="108" y="605">Questionário estruturado</text>
+    <text class="step-text" x="108" y="640">e adaptado ao contexto</text>
+    <text class="step-text" x="108" y="675">dos jurisdicionados.</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="462" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-2" x="462" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-2" x="462" y="318" width="282" height="24"/>
-    <circle cx="506" cy="306" r="25" fill="#1e3a8a"/>
-    <text class="step-num" x="506" y="317" text-anchor="middle">2</text>
-    <text class="step-title" x="489" y="390">Coleta</text>
-    <text class="step-title" x="489" y="421">eletrônica</text>
-    <text class="step-text" x="489" y="480">Questionário no</text>
-    <text class="step-text" x="489" y="514">LimeSurvey.</text>
-    <text class="step-text" x="489" y="568">Links individualizados</text>
-    <text class="step-text" x="489" y="602">para cada organização.</text>
-    <text class="step-text" x="489" y="656">Práticas e documentos.</text>
+    <rect class="card" x="584" y="382" width="432" height="368" rx="14"/>
+    <path class="top-bar" d="M596 382 H1004 A12 12 0 0 1 1016 394 V454 H584 V394 A12 12 0 0 1 596 382 Z"/>
+    <circle class="badge" cx="630" cy="418" r="25"/>
+    <circle class="badge-ring" cx="630" cy="418" r="30"/>
+    <text class="step-num" x="630" y="428" text-anchor="middle">2</text>
+    <text class="step-title" x="612" y="510">Coleta eletrônica</text>
+    <text class="step-text" x="612" y="570">Questionário no LimeSurvey,</text>
+    <text class="step-text" x="612" y="605">com links individualizados</text>
+    <text class="step-text" x="612" y="640">e envio de documentos.</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="814" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-2" x="814" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-2" x="814" y="318" width="282" height="24"/>
-    <circle cx="858" cy="306" r="25" fill="#1e3a8a"/>
-    <text class="step-num" x="858" y="317" text-anchor="middle">3</text>
-    <text class="step-title" x="841" y="390">Base válida</text>
-    <text class="step-title" x="841" y="421">de análise</text>
-    <text class="step-text" x="841" y="480">120 organizações</text>
-    <text class="step-text" x="841" y="514">no escopo.</text>
-    <text class="step-text" x="841" y="568">114 respostas válidas</text>
-    <text class="step-text" x="841" y="602">e 6 não respondentes.</text>
+    <rect class="card" x="1088" y="382" width="432" height="368" rx="14"/>
+    <path class="top-bar" d="M1100 382 H1508 A12 12 0 0 1 1520 394 V454 H1088 V394 A12 12 0 0 1 1100 382 Z"/>
+    <circle class="badge" cx="1134" cy="418" r="25"/>
+    <circle class="badge-ring" cx="1134" cy="418" r="30"/>
+    <text class="step-num" x="1134" y="428" text-anchor="middle">3</text>
+    <text class="step-title" x="1116" y="510">Universo analisado</text>
+    <text class="step-strong" x="1116" y="570">113 respostas válidas</text>
+    <text class="step-text" x="1116" y="605">integraram o iGovTI e os</text>
+    <text class="step-text" x="1116" y="640">achados consolidados.</text>
+    <text class="step-text" x="1116" y="692">6 não respondentes.</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="1166" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-3" x="1166" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-3" x="1166" y="318" width="282" height="24"/>
-    <circle cx="1210" cy="306" r="25" fill="#581c87"/>
-    <text class="step-num" x="1210" y="317" text-anchor="middle">4</text>
-    <text class="step-title" x="1193" y="390">Saneamento</text>
-    <text class="step-title" x="1193" y="421">e evidências</text>
-    <text class="step-text" x="1193" y="480">Retificações e</text>
-    <text class="step-text" x="1193" y="514">correções da base.</text>
-    <text class="step-text" x="1193" y="568">Confronto documental</text>
-    <text class="step-text" x="1193" y="602">e ajustes das respostas.</text>
+    <rect class="card" x="1088" y="841" width="432" height="368" rx="14"/>
+    <path class="top-bar" d="M1100 841 H1508 A12 12 0 0 1 1520 853 V913 H1088 V853 A12 12 0 0 1 1100 841 Z"/>
+    <circle class="badge" cx="1134" cy="877" r="25"/>
+    <circle class="badge-ring" cx="1134" cy="877" r="30"/>
+    <text class="step-num" x="1134" y="887" text-anchor="middle">4</text>
+    <text class="step-title" x="1116" y="969">Saneamento</text>
+    <text class="step-title" x="1116" y="1007">e evidências</text>
+    <text class="step-text" x="1116" y="1064">Retificações, correções</text>
+    <text class="step-text" x="1116" y="1099">e análise documental</text>
+    <text class="step-text" x="1116" y="1134">das práticas declaradas.</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="1518" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-3" x="1518" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-3" x="1518" y="318" width="282" height="24"/>
-    <circle cx="1562" cy="306" r="25" fill="#581c87"/>
-    <text class="step-num" x="1562" y="317" text-anchor="middle">5</text>
-    <text class="step-title" x="1545" y="390">Cálculo</text>
-    <text class="step-title" x="1545" y="421">do iGovTI</text>
-    <text class="step-text" x="1545" y="480">Respostas convertidas</text>
-    <text class="step-text" x="1545" y="514">em notas de 0 a 1.</text>
-    <text class="step-text" x="1545" y="568">Agregação ponderada</text>
-    <text class="step-text" x="1545" y="602">e níveis de maturidade.</text>
+    <rect class="card" x="584" y="841" width="432" height="368" rx="14"/>
+    <path class="top-bar" d="M596 841 H1004 A12 12 0 0 1 1016 853 V913 H584 V853 A12 12 0 0 1 596 841 Z"/>
+    <circle class="badge" cx="630" cy="877" r="25"/>
+    <circle class="badge-ring" cx="630" cy="877" r="30"/>
+    <text class="step-num" x="630" y="887" text-anchor="middle">5</text>
+    <text class="step-title" x="612" y="969">Cálculo e auditoria</text>
+    <text class="step-text" x="612" y="1029">Cálculo do iGovTI e execução</text>
+    <text class="step-text" x="612" y="1064">dos procedimentos sobre a</text>
+    <text class="step-text" x="612" y="1099"> base pós-avaliação de evidências.</text>
+    <text class="step-strong" x="612" y="1151">Achados preliminares.</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="1870" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-4" x="1870" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-4" x="1870" y="318" width="282" height="24"/>
-    <circle cx="1914" cy="306" r="25" fill="#7c2d12"/>
-    <text class="step-num" x="1914" y="317" text-anchor="middle">6</text>
-    <text class="step-title" x="1897" y="390">Procedimentos</text>
-    <text class="step-title" x="1897" y="421">de auditoria</text>
-    <text class="step-text" x="1897" y="480">Cruzamento de bases,</text>
-    <text class="step-text" x="1897" y="514">respostas ajustadas e</text>
-    <text class="step-text" x="1897" y="548">verificações.</text>
-    <text class="step-text" x="1897" y="602">Achados e situações.</text>
+    <rect class="card" x="80" y="841" width="432" height="368" rx="14"/>
+    <path class="top-bar" d="M92 841 H500 A12 12 0 0 1 512 853 V913 H80 V853 A12 12 0 0 1 92 841 Z"/>
+    <circle class="badge" cx="126" cy="877" r="25"/>
+    <circle class="badge-ring" cx="126" cy="877" r="30"/>
+    <text class="step-num" x="126" y="887" text-anchor="middle">6</text>
+    <text class="step-title" x="108" y="969">Relatórios individuais</text>
+    <text class="step-title" x="108" y="1007">preliminares</text>
+    <text class="step-text" x="108" y="1064">iGovTI, achados, situações</text>
+    <text class="step-text" x="108" y="1099">encontradas e propostas</text>
+    <text class="step-text" x="108" y="1134">de encaminhamento.</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect class="card" x="2222" y="270" width="282" height="410" rx="18"/>
-    <rect class="card-top-4" x="2222" y="270" width="282" height="72" rx="18"/>
-    <rect class="card-top-4" x="2222" y="318" width="282" height="24"/>
-    <circle cx="2266" cy="306" r="25" fill="#7c2d12"/>
-    <text class="step-num" x="2266" y="317" text-anchor="middle">7</text>
-    <text class="step-title" x="2249" y="390">Relatórios</text>
-    <text class="step-title" x="2249" y="421">e consolidação</text>
-    <text class="step-text" x="2249" y="480">Relatórios individuais,</text>
-    <text class="step-text" x="2249" y="514">manifestações dos</text>
-    <text class="step-text" x="2249" y="548">gestores e relatório</text>
-    <text class="step-text" x="2249" y="582">consolidado.</text>
+    <rect class="card" x="80" y="1300" width="432" height="328" rx="14"/>
+    <path class="top-bar" d="M92 1300 H500 A12 12 0 0 1 512 1312 V1372 H80 V1312 A12 12 0 0 1 92 1300 Z"/>
+    <circle class="badge" cx="126" cy="1336" r="25"/>
+    <circle class="badge-ring" cx="126" cy="1336" r="30"/>
+    <text class="step-num" x="126" y="1346" text-anchor="middle">7</text>
+    <text class="step-title" x="108" y="1428">Comentários</text>
+    <text class="step-title" x="108" y="1466">dos gestores</text>
+    <text class="step-text" x="108" y="1523">Manifestações, correções</text>
+    <text class="step-text" x="108" y="1558">e evidências adicionais.</text>
   </g>
 
-  <path class="connector" d="M250 700 C470 804 685 804 950 704"/>
-  <circle class="connector-dot" cx="250" cy="700" r="8"/>
-  <circle class="connector-dot" cx="950" cy="704" r="8"/>
-  <text class="note-small" x="600" y="805" text-anchor="middle">coleta e delimitação do universo avaliado</text>
+  <g filter="url(#shadow)">
+    <rect class="card" x="584" y="1300" width="432" height="328" rx="14"/>
+    <path class="top-bar" d="M596 1300 H1004 A12 12 0 0 1 1016 1312 V1372 H584 V1312 A12 12 0 0 1 596 1300 Z"/>
+    <circle class="badge" cx="630" cy="1336" r="25"/>
+    <circle class="badge-ring" cx="630" cy="1336" r="30"/>
+    <text class="step-num" x="630" y="1346" text-anchor="middle">8</text>
+    <text class="step-title" x="612" y="1428">Reavaliação final</text>
+    <text class="step-text" x="612" y="1488">Apreciação das manifestações,</text>
+    <text class="step-text" x="612" y="1523">ajuste das respostas, recálculo</text>
+    <text class="step-text" x="612" y="1558">e reexecução da auditoria.</text>
+  </g>
 
-  <path class="connector" d="M1307 700 C1490 802 1685 802 2010 704"/>
-  <circle class="connector-dot" cx="1307" cy="700" r="8"/>
-  <circle class="connector-dot" cx="2010" cy="704" r="8"/>
-  <text class="note-small" x="1658" y="805" text-anchor="middle">validação documental, cálculo do índice e achados</text>
+  <g filter="url(#shadow)">
+    <rect class="card" x="1088" y="1300" width="432" height="328" rx="14"/>
+    <path class="top-bar" d="M1100 1300 H1508 A12 12 0 0 1 1520 1312 V1372 H1088 V1312 A12 12 0 0 1 1100 1300 Z"/>
+    <circle class="badge" cx="1134" cy="1336" r="25"/>
+    <circle class="badge-ring" cx="1134" cy="1336" r="30"/>
+    <text class="step-num" x="1134" y="1346" text-anchor="middle">9</text>
+    <text class="step-title" x="1116" y="1428">Relatórios finais</text>
+    <text class="step-text" x="1116" y="1488">Relatório consolidado final e</text>
+    <text class="step-text" x="1116" y="1523">relatórios individuais finais,</text>
+    <text class="step-text" x="1116" y="1558">com conclusões e</text>
+    <text class="step-text" x="1116" y="1593">encaminhamentos.</text>
+  </g>
 
-  <rect x="120" y="872" width="2360" height="88" rx="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-  <text class="note" x="154" y="910">Resultado metodológico:</text>
-  <text class="note-small" x="154" y="942">diagnóstico quantitativo de maturidade, comparação longitudinal com 2023 e achados de auditoria fundamentados nas respostas e evidências analisadas.</text>
+  <g aria-label="Resultado metodológico">
+    <rect x="80" y="1662" width="1440" height="54" rx="10" fill="#ffffff" stroke="#d7dce3" stroke-width="2"/>
+    <rect class="footer-band" x="80" y="1662" width="6" height="54" rx="0"/>
+    <text class="footer-title" x="108" y="1697">Resultado:</text>
+    <text class="footer-text" x="245" y="1697">iGovTI e achados finais fundamentados nas respostas, evidências e manifestações analisadas.</text>
+  </g>
 </svg>

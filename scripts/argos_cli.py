@@ -259,7 +259,7 @@ ROUTINES: list[Routine] = [
             Param(
                 "resources",
                 "--resource-files",
-                f"{OUTPUT_ROOT}/relatorios-individuais/img/**/* 03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png",
+                f"{OUTPUT_ROOT}/relatorios-individuais/img/**/* 03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico.png",
                 "Recursos e imagens separados por espaco.",
                 is_list=True,
             ),
@@ -461,7 +461,7 @@ ROUTINES: list[Routine] = [
             Param("ajustes", "--ajustes-respostas", "02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/ajustes_respostas_questionario_pos_comentarios_gestor.xlsx", "Ajustes aplicados no cenário 03."),
             Param("contexto_comentarios", "--contexto-comentarios-gestor", "02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/contexto-relatorios-comentarios-gestor.json", "Contexto dos comentários."),
             Param("impactos", "--impactos-comentarios-gestor", "02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/impactos-comentarios-gestor.json", "Impactos dos comentários."),
-            Param("resources", "--resource-files", "relatorios-individuais/img/**/* 03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico_v6.png", "Recursos gráficos.", is_list=True),
+            Param("resources", "--resource-files", "relatorios-individuais/img/**/* 03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico.png", "Recursos gráficos.", is_list=True),
             Param("output_dir", "--output-dir", "03-Relatorios/03-Relatorios_Individuais_Finais/gerados", "Diretório de saída."),
             Param("reference", "--reference-docx", "scripts/resources/template-base-estilos-sigiloso.docx", "DOCX de referência."),
             Param("nome_base", "--nome-base-docx", "Relatório Individual", "Nome base dos DOCX."),
