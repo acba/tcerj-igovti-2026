@@ -16,7 +16,7 @@ toc-title: SUMÁRIO
 | Modalidade: | AUDITORIA DE CONFORMIDADE |
 | Forma de autorização: | ORDINÁRIA |
 | Ato originário: | PROCESSO TCE-RJ nº 303.389-0/2025 |
-| Jurisdicionados: | 119 organizações do Estado e Municípios do Rio de Janeiro. |
+| Jurisdicionados: | 84 organizações estaduais (AGENERSA, AGERIO, AGETRANSP, ALERJ, CEASA, CECIERJ, CEDAE, CEHAB, CENTRAL, CEPERJ, CGE, CODERTE, CODIN, DEGASE, DERRJ, DETRAN, DETRO, DPGE, DRM, EMATER, EMOP, FAETEC, FAPERJ, FIA, FIPERJ, FLXIII, FMIS, FS, FSC, FTM, FUNARJ, GSI, IEEA, INEA, IOERJ, IPEM, IRM, ISP, ITERJ, IVB, JUCERJA, LOTERJ, MPERJ, PESAGRO, PGE, PROCON, PRODERJ, RIOPREVIDENCIA, RIOTRILHOS, RJPREV, SEAP, SEAPPA, SECC, SECEC, SECID, SECTI, SEDCON, SEDEC, SEDEICS, SEDSDH, SEEDUC, SEEL, SEENEMAR, SEFAZ, SEGOV, SEHAB, SEIJES, SEINFRA, SEPLAG, SEPM, SEPOL, SERGB, SES, SESP, SETD, SETRAB, SETRANS, SETUR, SUDERJ, TCE-RJ, TJRJ, TURISRIO, UENF e UERJ) e 35 prefeituras municipais (Angra dos Reis, Araruama, Armação dos Búzios, Arraial do Cabo, Barra do Piraí, Belford Roxo, Cabo Frio, Campos dos Goytacazes, Casimiro de Abreu, Duque de Caxias, Guapimirim, Itaguaí, Japeri, Macaé, Magé, Maricá, Mesquita, Niterói, Nova Friburgo, Nova Iguaçu, Paraty, Petrópolis, Porto Real, Quatis, Queimados, Quissamã, Rio das Ostras, São Gonçalo, São João da Barra, São João de Meriti, São Pedro da Aldeia, Saquarema, Seropédica, Teresópolis e Volta Redonda). |
 | Objetivo da fiscalização: | Avaliar o grau de adoção dos jurisdicionados às boas práticas de governança e gestão de TI. |
 | Ofícios de apresentação: | AUD/SGE/GAP 3232/25 a 3241/25, 3243/25 a 3268/25 todos de 06/08/2025. |
 | Período abrangido: | janeiro/24 a julho/26 |
@@ -46,8 +46,8 @@ toc-title: SUMÁRIO
 | AN08 | **Avaliação dos comentários do gestor**  (arquivo digital “AN08 – Avaliação dos comentários do gestor.docx”) |
 | AN09 | **Cenário de utilização de inteligência artificial no ERJ**  (arquivo digital “AN09 – Cenário de utilização de IA no ERJ.docx”) |
 | AN10 | **Comunicações da fiscalização e registros de ciência dos não respondentes** (arquivo digital “AN10 – Comunicações da fiscalização e registros de ciência dos não respondentes.pdf”) |
-| AN11 a AN123 | **Informações das organizações (TSIDs, respostas, evidências enviadas, comentários do gestor e relatório individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)* |
-| AN124 | **Análise longitudinal do iGovTI 2023–2026**  (arquivo digital “analise-estatistica-longitudinal-igovti-2023-2026.docx”) |
+| AN11 | **Análise longitudinal do iGovTI 2023–2026**  (arquivo digital “analise-estatistica-longitudinal-igovti-2023-2026.docx”) |
+| AN12 a AN124 | **Informações das organizações (TSIDs, respostas, evidências enviadas, comentários do gestor e relatório individual)**  *(arquivos digitais “ANXX – [ORGANIZAÇÃO].zip”)* |
 
 
 
@@ -71,7 +71,7 @@ A fiscalização constatou cenário de baixa maturidade e fragilidades recorrent
 
 Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas após os ajustes iniciais indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados finais não permitem afirmar que ocorreu melhora ou piora geral. A Estrutura de Segurança da Informação foi o único componente com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
 
-[^comparacao_longitudinal_cenarios]: Em 2026, foram solicitadas e avaliadas evidências para todas as práticas passíveis de comprovação. Em 2023, embora também tenha havido análise pela equipe, a exigência de anexos e o exame direto abrangeram conjunto menor de práticas. O cenário final de 2026 possui, portanto, maior grau de verificação. O cenário-base aproxima a comparação das respostas declaradas, mas não comprova, por si só, a efetiva adoção das práticas. A metodologia, os cálculos e as demais ressalvas constam do Anexo AN124.
+[^comparacao_longitudinal_cenarios]: Em 2026, foram solicitadas e avaliadas evidências para todas as práticas passíveis de comprovação. Em 2023, embora também tenha havido análise pela equipe, a exigência de anexos e o exame direto abrangeram conjunto menor de práticas. O cenário final de 2026 possui, portanto, maior grau de verificação. O cenário-base aproxima a comparação das respostas declaradas, mas não comprova, por si só, a efetiva adoção das práticas. A metodologia, os cálculos e as demais ressalvas constam do Anexo AN11.
 
 Foram consolidados seis achados de auditoria:
 
@@ -141,7 +141,7 @@ A questão geral foi desdobrada em seis questões específicas, que estruturaram
 * **Q3 – Planejamento de TIC:** A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?
 * **Q4 – Capacidade institucional de TIC e segurança da informação:** A organização dispõe de capacidade institucional mínima, em termos de força de trabalho, perfis profissionais, competências, funções e vínculos, para planejar, gerir, proteger, contratar, fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades institucionais?
 * **Q5 – Gestão de Serviços de TIC:** A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, continuidade, rastreabilidade e qualidade dos serviços prestados?
-* **Q6 – Contratações de TIC:** A organização adota processo formal e padronizado para planejamento, contratação, fiscalização e gestão de soluções de TIC, com participação técnica da área de TIC, alinhamento ao planejamento, requisitos de segurança e critérios objetivos de entrega e desempenho?
+* **Q6 – Contratações de TIC:** A organização adota processo formal e padronizado para planejamento, contratação, fiscalização e gestão de soluções de TIC, com participação técnica da área de TIC e alinhamento ao planejamento?
 
 Cada questão específica corresponde ao achado de mesmo número apresentado na Seção 4.3. A cadeia de rastreabilidade do trabalho é completada pelos critérios sintetizados na Seção 2.4, pelos procedimentos e pelo tratamento das evidências descritos na Seção 2.5 e detalhados nos anexos, e pelos encaminhamentos consolidados no Capítulo 7 e individualizados nos relatórios das organizações auditadas.
 
@@ -605,7 +605,9 @@ As manifestações foram confrontadas com os critérios aplicáveis e o conjunto
 
 ## 5.1. Participação e panorama geral
 
-Foram recebidas 80 manifestações organizacionais válidas, correspondentes a 67,2% das 119 organizações abrangidas. Entre as 113 organizações que responderam ao iGovTI 2026 e receberam relatório individual, 78 participaram da etapa de comentários (69,0%). Entre as seis organizações sem resposta válida, duas se manifestaram (33,3%). Das 103 organizações habilitadas a solicitar reavaliação, 72 responderam à etapa e 56 apresentaram ao menos um pedido.
+Foram recebidas manifestações válidas de 80 das 119 organizações abrangidas (67,2%). Esse total compreende 78 das 113 organizações que responderam ao iGovTI 2026 e receberam relatório individual (69,0%) e duas das seis organizações sem resposta válida ao questionário (33,3%).
+
+Das 113 organizações que responderam ao iGovTI 2026, 103 tiveram pelo menos um item ou subitem da resposta ajustado porque a evidência apresentada não comprovou a declaração correspondente. Para essas organizações, o questionário de comentários disponibilizou campos específicos para a apresentação de esclarecimentos ou evidências complementares e eventual reavaliação do ajuste. Entre as 103 organizações, 72 participaram da etapa de comentários e 56 apresentaram pelo menos um pedido de reavaliação.
 
 ![Participação na etapa de comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/01-participacao.png){#fig:comentarios_gestor_participacao#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -631,7 +633,7 @@ Foram registradas 1.471 manifestações individualizadas sobre situações encon
 
 Os resultados demonstram elevada convergência dos gestores com o diagnóstico preliminar, mas o reconhecimento das fragilidades não equivale à sua correção. Apenas 1,7% das manifestações declarou atendimento concluído, enquanto 42,6% reconheceu a situação sem indicar medida adotada e 39,7% informou providências ainda em curso. As medidas anunciadas deverão, portanto, ser acompanhadas quanto à formalização, ao prazo, à abrangência e à efetiva implementação.
 
-A leitura estruturada dos campos livres identificou como temas mais recorrentes: formalização, normas e governança; ferramentas, ativos e processos operacionais; planejamento e planos de ação; força de trabalho e competências; documentos e evidências adicionais; e orçamento, recursos e contratações. Também foram mencionadas dependência de terceiros ou de estruturas compartilhadas e solicitações de orientação. Essa classificação é auxiliar, admite que uma mesma manifestação seja associada a mais de um tema e não representa juízo de procedência.
+A leitura estruturada dos campos livres identificou como temas mais recorrentes: formalização, normas e governança; ferramentas, ativos e processos operacionais; planejamento e planos de ação; força de trabalho e competências; documentos e evidências adicionais; e orçamento, recursos e contratações. Também foram mencionadas dependência de terceiros ou de estruturas compartilhadas e solicitações de orientação.
 
 ## 5.2. Manifestações por achado
 
@@ -644,12 +646,12 @@ A distribuição das manifestações por achado consta da [@fig:comentarios_gest
 
 | Achado | Total | Atendido | Em atendimento | Sem medida | Discordância | % discordância |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 52 | 4 | 25 | 20 | 3 | 5,8% |
-| 2 | 148 | 6 | 63 | 55 | 24 | 16,2% |
-| 3 | 321 | 8 | 131 | 128 | 54 | 16,8% |
-| 4 | 339 | 1 | 130 | 174 | 34 | 10,0% |
-| 5 | 375 | 1 | 156 | 158 | 60 | 16,0% |
-| 6 | 236 | 5 | 79 | 91 | 61 | 25,8% |
+| Estrutura de TIC | 52 | 4 | 25 | 20 | 3 | 5,8% |
+| Governança de TIC | 148 | 6 | 63 | 55 | 24 | 16,2% |
+| Planejamento de TIC | 321 | 8 | 131 | 128 | 54 | 16,8% |
+| Capacidade de pessoal de TIC | 339 | 1 | 130 | 174 | 34 | 10,0% |
+| Gestão de serviços de TIC | 375 | 1 | 156 | 158 | 60 | 16,0% |
+| Contratações de TIC | 236 | 5 | 79 | 91 | 61 | 25,8% |
 | **Total** | **1.471** | **25** | **584** | **626** | **236** | **16,0%** |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -714,12 +716,12 @@ A análise das discordâncias deve verificar se as contratações de TIC foram s
 
 Os pedidos de reavaliação de evidências constituem universo distinto das discordâncias sobre os achados. Enquanto estas questionam as situações e os encaminhamentos constantes dos relatórios individuais, os pedidos de reavaliação pretendem rever respostas anteriormente ajustadas em razão da insuficiência ou não conformidade das evidências apresentadas.
 
-Foram identificadas 103 organizações elegíveis, com 707 combinações organização/questão-base disponíveis para contestação e 1.951 itens ou subitens originalmente avaliados como não conformes. Houve pedido de reavaliação em 340 combinações (48,1%), apresentado por 56 organizações. Foram recebidos 333 comentários e 116 anexos.
+Foram identificadas 103 organizações elegíveis com itens ou subitens avaliados como não conformes. Houve pedido de reavaliação em 340 combinações (48,1%), apresentado por 56 organizações. Foram recebidos 333 comentários e 116 anexos.
 
 ![Questões-base com maior número de pedidos de reavaliação](../99-Avaliacao_Comentarios_Gestor/img/04-reavaliacoes-por-questao.png){#fig:comentarios_gestor_reavaliacoes#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-As questões q2504, q2802, q2708, q2801, q2804 e q2102 concentraram o maior número absoluto de pedidos. A frequência indica onde deve ser priorizada a triagem, mas não implica maior probabilidade de acolhimento. As novas evidências devem ser examinadas individualmente para verificar se comprovam a afirmação original, se demonstram providência posterior à data-base ou se permanecem insuficientes.
+As questões 2504, 2802, 2708, 2801, 2804 e 2102 concentraram o maior número absoluto de pedidos. As novas evidências devem ser examinadas individualmente para verificar se comprovam a afirmação original ou se permanecem insuficientes.
 
 : Questões-base com maior número de pedidos de reavaliação {#tbl:comentarios_gestor_reavaliacoes_tabela#}
 
@@ -740,17 +742,17 @@ As questões q2504, q2802, q2708, q2801, q2804 e q2102 concentraram o maior núm
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Após a validação conjunta das duas seções, três pedidos já saneados de modo seguro pela primeira seção foram retirados da segunda para evitar dupla avaliação. Os 337 casos remanescentes foram submetidos à decisão técnica: 22 foram acolhidos integralmente (6,5%), 24 parcialmente (7,1%) e 291 não foram acolhidos (86,4%). O acolhimento parcial foi aplicado quando apenas parte dos itens reunidos na solicitação recebeu comprovação suficiente.
+Após a validação conjunta das duas seções, três pedidos já saneados de modo seguro na seção de manifestação quanto aos achados foram retirados da segunda para evitar dupla avaliação. Os 337 casos remanescentes foram submetidos à decisão técnica: 22 foram acolhidos integralmente (6,5%), 24 parcialmente (7,1%) e 291 não foram acolhidos (86,4%). O acolhimento parcial foi aplicado quando apenas parte dos itens reunidos na solicitação recebeu comprovação suficiente.
 
 ## 5.4. Resultado da avaliação das manifestações
 
-Na primeira seção, 261 manifestações demandaram decisão técnica individualizada: as 236 discordâncias e as 25 declarações de atendimento concluído. Desse conjunto, 46 foram acolhidas integralmente, seis foram parcialmente acolhidas e alteraram parte dos fundamentos, e 209 não foram acolhidas. As demais manifestações de concordância sem atendimento concluído confirmaram a permanência da situação e foram tratadas pelas regras objetivas do fluxo. As correções posteriores foram consideradas no estado atualizado sem invalidar a conclusão histórica.
+Na primeira seção, 261 manifestações demandaram avaliação individualizada: as 236 discordâncias e as 25 declarações de atendimento concluído. Desse conjunto, 46 foram acolhidas integralmente, seis foram parcialmente acolhidas e alteraram parte dos fundamentos, e 209 não foram acolhidas. As demais manifestações de concordância sem atendimento concluído não tiveram os eventuais anexos avaliados.
 
 : Resultado consolidado da avaliação {#tbl:comentarios_gestor_resultado_avaliacao#}
 
 | Seção avaliada | Acolhida | Parcialmente acolhida | Não acolhida | Total |
 |---|---:|---:|---:|---:|
-| Situações submetidas a decisão técnica individualizada | 46 | 6 | 209 | 261 |
+| Situações submetidas a avaliação individualizada | 46 | 6 | 209 | 261 |
 | Reavaliação de respostas e evidências | 22 | 24 | 291 | 337 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
@@ -760,13 +762,15 @@ A distribuição proporcional dos resultados das duas seções é apresentada na
 ![Resultado consolidado da avaliação dos comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/05-resultados-avaliacao.png){#fig:comentarios_gestor_resultados_avaliacao#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da avaliação consolidada)</div>
 
-A predominância de não acolhimentos decorreu, em grande parte, do próprio teor das respostas. Somadas, as 626 concordâncias sem medida adotada e as 584 declarações de providências em curso representam 82,3% das manifestações sobre situações. Planos em elaboração, processos iniciados, compromissos futuros e providências posteriores não demonstram, por si sós, conformidade na data-base. Também foram mantidas situações quando os elementos apresentados eram declaratórios, incompletos, sem vigência demonstrada ou incapazes de comprovar todos os atributos exigidos, como formalização, abrangência, atualização, monitoramento e funcionamento efetivo.
+A predominância de não acolhimentos decorreu, em grande parte, do próprio teor das respostas. Somadas, as 626 concordâncias sem medida adotada e as 584 declarações de providências em curso representam 82,3% das manifestações sobre situações. Planos em elaboração, processos iniciados, compromissos futuros e providências posteriores não demonstram, por si sós, conformidade.
 
-Documentos gerais ou exemplos pontuais tampouco foram considerados suficientes quando demonstravam apenas parte da prática avaliada. Restrições de pessoal, orçamento ou estrutura e dependência de terceiros contextualizam a dificuldade de implementação, mas não eliminam o risco nem comprovam conformidade. Nos pedidos da segunda seção, a resposta anterior somente foi restaurada quando os novos elementos comprovaram o item específico, sem elevação além do nível originalmente declarado pelo gestor.
+Também foram mantidas situações quando os elementos apresentados eram declaratórios, incompletos, sem vigência demonstrada ou incapazes de comprovar todos os atributos exigidos, como formalização, abrangência, atualização, monitoramento e funcionamento efetivo.
+
+Documentos gerais ou exemplos pontuais tampouco foram considerados suficientes quando demonstravam apenas parte da prática avaliada. Restrições de pessoal, orçamento ou estrutura e dependência de terceiros contextualizam a dificuldade de implementação, mas não eliminam o risco nem comprovam conformidade.
 
 ## 5.5. Ajustes e impactos nos resultados
 
-A consolidação das duas seções e das revisões técnicas documentadas resultou em 160 ajustes distintos, distribuídos por 41 organizações e 73 itens do questionário. Não restaram pendências de valor. Os ajustes restauraram somente respostas anteriormente declaradas e tecnicamente sustentadas.
+A consolidação das duas seções e das revisões técnicas documentadas resultou em 160 ajustes distintos, distribuídos por 41 organizações e 73 itens do questionário. Os ajustes restauraram respostas inicialmente declaradas e tecnicamente sustentadas.
 
 Na comparação por identidade, 52 situações deixaram de subsistir em 30 organizações. Como a reexecução integral também atualizou as combinações de condições que compõem as situações, o estoque agregado apresentou redução líquida de 44 registros, passando de 2.140 para 2.096, queda de 2,1%. Foram ainda afastados cinco achados, um em cada organização, reduzindo-se o total de 625 para 620.
 
@@ -788,32 +792,28 @@ O iGovTI aumentou em 23 das 113 organizações com resposta válida, sem reduç�
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
-As [@fig:comentarios_gestor_impactos_organizacoes], [@fig:comentarios_gestor_saldo_situacoes_achados] e [@fig:comentarios_gestor_evolucao_igovti] apresentam, respectivamente, o alcance organizacional, a alteração dos estoques de situações e de incidências de achado e a variação da média do iGovTI.
+A [@fig:comentarios_gestor_impactos_organizacoes] apresenta o alcance organizacional das avaliações da etapa de comentários do gestor.
 
 ![Organizações alcançadas pelos impactos dos comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/06-impactos-organizacoes.png){#fig:comentarios_gestor_impactos_organizacoes#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
-![Situações e incidências de achado antes e após os comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/07-saldo-situacoes-achados.png){#fig:comentarios_gestor_saldo_situacoes_achados#}
-<div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
+O alcance foi material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
 
-![Evolução da média do iGovTI após os comentários do gestor](../99-Avaliacao_Comentarios_Gestor/img/08-evolucao-igovti.png){#fig:comentarios_gestor_evolucao_igovti#}
-<div custom-style="FonteImagem">(Fonte: elaboração própria a partir do recálculo do iGovTI)</div>
-
-Em 36 das 113 organizações avaliadas houve impacto em pelo menos uma das três dimensões finais. O alcance foi material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
-
-## 5.6. Manifestações das organizações sem resposta válida - seção 3
+## 5.6. Manifestações das organizações sem resposta válida
 
 Das seis organizações sem resposta válida ao questionário iGovTI 2026, EMOP e PESAGRO responderam à etapa de comentários e confirmaram a ausência de resposta válida, sem apresentar justificativa textual ou arquivo comprobatório. CEHAB, SEDCON, SEPOL e SESP não apresentaram manifestação.
 
 As duas confirmações corroboram a inexistência de resposta válida nas bases processadas, mas não constituem, por si mesmas, análise de responsabilidade. Para as quatro organizações sem manifestação, permanece a ausência de esclarecimentos nesta etapa. Conforme exposto na Seção 4.5, eventual apuração deverá considerar os registros de comunicação, ciência, prazos e circunstâncias individualizadas, com garantia do contraditório.
 
-## 5.7. Saldo geral da análise
+## 5.7. Conclusão
 
 O contraditório confirmou a aderência geral do diagnóstico: 84,0% das manifestações concordaram com as situações encontradas. Ao mesmo tempo, produziu correções concretas e rastreáveis, com 52 acolhimentos integrais ou parciais nas 261 manifestações submetidas a decisão técnica individualizada e 46 acolhimentos integrais ou parciais nos 337 pedidos de reavaliação remanescentes.
 
-O saldo final foi de 160 ajustes em 41 organizações, com impacto em situação, achado ou iGovTI para 36 organizações. Foram removidas 52 situações por identidade, afastados cinco achados e elevados os índices de 23 organizações. Apesar desses efeitos, permaneceram 2.096 situações e 620 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,49 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
+O saldo final foi de 160 ajustes em 41 organizações, com impacto em situação inconforme, achado ou iGovTI para 36 organizações. Foram removidas 52 situações inconformes, afastados cinco achados e elevados os índices de 23 organizações. Apesar desses efeitos, permaneceram 2.096 situações e 620 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,49 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
 
-As providências em curso e as correções posteriores também fornecem subsídios para os planos de ação. Seu acompanhamento deverá verificar responsáveis, prazos, abrangência e evidências de implementação efetiva. Todas as decisões consolidadas e todos os ajustes foram submetidos à revisão final da Equipe de Auditoria antes da aprovação deste relatório. A metodologia, a participação, as razões de não acolhimento e a memória detalhada dos impactos constam do Anexo "AN08 – Avaliação dos comentários do gestor".
+As providências em curso e as correções posteriores também fornecem subsídios para os planos de ação. Seu acompanhamento deverá verificar responsáveis, prazos, abrangência e evidências de implementação efetiva. A metodologia, a participação, as razões de não acolhimento e a memória detalhada dos impactos constam do Anexo "AN08 – Avaliação dos comentários do gestor".
+
+\newpage
 
 # 6. CONSIDERAÇÕES FINAIS
 
@@ -831,7 +831,11 @@ As conclusões e os encaminhamentos adotam o cenário pós-comentários do gesto
 
 Ressalta-se que a metodologia empregada não teve por objetivo identificar causas específicas para cada inconformidade. Por essa razão, os encaminhamentos propostos concentram-se na correção das fragilidades constatadas e no aprimoramento proporcional das capacidades institucionais, preservando espaço para que cada organização, conforme seu porte, complexidade, riscos e contexto administrativo, defina os meios adequados para implementar as melhorias necessárias.
 
-Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consolidado da maturidade de governança e gestão de TIC, validar evidências apresentadas pelos jurisdicionados, identificar fragilidades recorrentes e estruturar encaminhamentos individualizados e proporcionais. Os resultados indicam a necessidade de atuação indutora deste Tribunal para promover a formalização de estruturas e processos, fortalecer a governança e a capacidade institucional de TIC e aprimorar o controle das contratações, dos serviços e dos riscos tecnológicos no âmbito das organizações fiscalizadas.
+Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consolidado da maturidade de governança e gestão de TIC, validar evidências apresentadas pelos jurisdicionados, identificar fragilidades recorrentes e estruturar encaminhamentos individualizados e proporcionais.
+
+Os resultados indicam a necessidade de atuação indutora deste Tribunal para promover a formalização de estruturas e processos, fortalecer a governança e a capacidade institucional de TIC e aprimorar o controle das contratações, dos serviços e dos riscos tecnológicos no âmbito das organizações fiscalizadas.
+
+\newpage
 
 # 7. PROPOSTA DE ENCAMINHAMENTO
 
@@ -843,18 +847,16 @@ Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consol
 
 **CONSIDERANDO** o caráter orientador e dialógico do presente trabalho, assim como o alinhamento à diretriz de incremento de eficiência e efetividade na gestão administrativa;
 
-**CONSIDERANDO** o caráter sensível das análises e informações constantes dos 113 relatórios individuais anexos (AN11 a AN123), correspondentes às organizações que apresentaram resposta válida e foram avaliadas, e a necessidade de classificá-los como informação reservada, nos termos do inciso I, § 3º, art. 8º c/c incisos IV, V, VIII do art. 9º da Resolução TCE-RJ nº 433/2023;
+**CONSIDERANDO** o caráter sensível das análises e informações constantes dos 113 relatórios individuais anexos (AN12 a AN124), correspondentes às organizações que apresentaram resposta válida e foram avaliadas, e a necessidade de classificá-los como informação reservada, nos termos do inciso I, § 3º, art. 8º c/c incisos IV, V, VIII do art. 9º da Resolução TCE-RJ nº 433/2023;
 
 **CONSIDERANDO** que os resultados decorrentes das ações previstas no Plano de Ação poderão ser objeto de avaliação futura por meio de Monitoramento, considerando os preceitos definidos na Resolução TCE-RJ nº 422/2023;
 
 **CONSIDERANDO** que a metodologia empregada neste trabalho não abordou as causas específicas dos problemas identificados e que as recomendações focam na implementação de medidas de governança e gestão de TIC baseadas no COBIT 2019 e no ITIL 4, conforme os critérios e referenciais adotados na auditoria;
 
-As propostas a seguir devem ser lidas em conjunto com os 113 relatórios individuais (AN11 a AN123), nos quais as determinações e recomendações são individualizadas para cada organização avaliada, e com os cinco eixos transversais de melhoria identificados nesta auditoria: estrutura e governança, planejamento, capacidade institucional, serviços e ativos, e contratações. Os itens 1, 2 e 4 destinam-se exclusivamente às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual; o item 3 destina-se, separadamente, às seis organizações que não apresentaram resposta válida, não integraram a avaliação e não possuem relatório individual entre os anexos AN11 e AN123.
-
 Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes propostas:
 
-1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e do respectivo relatório individual (AN11 a AN123) a cada uma das 113 organizações que apresentaram resposta válida e foram avaliadas, de forma a garantir a ciência efetiva acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada organização destinatária só deve ter acesso ao seu próprio relatório individual**;
-2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias dos relatórios individuais anexos (AN11 a AN123), nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-as de que o não atendimento injustificado as sujeita às sanções previstas no art. 63 da Lei Complementar Estadual n.º 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, já que a verificação quanto ao atendimento poderá ser realizada em auditoria futura desta Corte de Contas.
+1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e do respectivo relatório individual (AN12 a AN124) a cada uma das 113 organizações que apresentaram resposta válida e foram avaliadas, de forma a garantir a ciência efetiva acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada organização destinatária só deve ter acesso ao seu próprio relatório individual**;
+2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias dos relatórios individuais anexos (AN12 a AN124), nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-as de que o não atendimento injustificado as sujeita às sanções previstas no art. 63 da Lei Complementar Estadual n.º 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, já que a verificação quanto ao atendimento poderá ser realizada em auditoria futura desta Corte de Contas.
 
 Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao]. Cada uma das 113 organizações avaliadas deverá adaptá-lo às determinações e recomendações constantes de seu próprio relatório individual, indicando medidas, responsáveis e prazos compatíveis com sua realidade institucional.
 
@@ -867,8 +869,12 @@ Para orientar a elaboração do plano de ação, apresenta-se o modelo referenci
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 3. **ABERTURA DE PROCESSO APARTADO PARA APURAÇÃO DE POSSÍVEL OBSTRUÇÃO À AUDITORIA**, para cada uma das organizações fiscalizadas que não apresentaram resposta válida ao questionário eletrônico, apesar das comunicações e reiterações registradas no Anexo AN10, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa acerca da ausência de resposta válida às solicitações da fiscalização, conduta passível de aplicação de multa, nos termos do art. 63, incisos V e VI, da Lei Complementar Estadual n.º 63/1990;
-4. **COMUNICAÇÃO às Unidades de Controle Interno das 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do Relatório Individual da correspondente organização (AN11 a AN123), e acompanhem a elaboração e a execução do respectivo plano de ação, a fim de assegurar seu efetivo cumprimento;
+4. **COMUNICAÇÃO às Unidades de Controle Interno das 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do Relatório Individual da correspondente organização (AN12 a AN124), e acompanhem a elaboração e a execução do respectivo plano de ação, a fim de assegurar seu efetivo cumprimento;
 5. **ARQUIVAMENTO** do presente processo.
+
+
+\newpage
+
 
 O presente relatório foi objeto de supervisão conforme as disposições da Portaria SGE n° 05/2019, no Manual de Auditoria Governamental do TCE-RJ, aprovado pela Resolução nº 373, de 16/06/21 e em material armazenado nos assentamentos internos desta Coordenadoria, estando, portanto, **APROVADO** por esta supervisão e encaminhado à sua apreciação para adoção das medidas cabíveis.
 

@@ -58,9 +58,9 @@ A quantidade de manifestações acolhidas não corresponde diretamente à quanti
 
 ## 3. Participação e cenário declarado pelos gestores
 
-Participaram da etapa de comentários do gestor 80 das 119 organizações abrangidas, correspondentes a 67,2% do universo. Entre as 113 organizações que haviam apresentado resposta válida ao questionário iGovTI 2026, 78 se manifestaram sobre os relatórios preliminares, equivalentes a 69,0%. Entre as seis organizações sem resposta válida, duas utilizaram a seção específica destinada a esse grupo.
+Participaram da etapa de comentários do gestor 80 das 119 organizações abrangidas (67,2%). Esse total compreende 78 das 113 organizações que haviam apresentado resposta válida ao questionário iGovTI 2026 (69,0%) e duas das seis organizações sem resposta válida (33,3%).
 
-A participação nos diferentes recortes da etapa é apresentada na [@fig:comentarios_participacao]. Entre as 103 organizações habilitadas a solicitar reavaliação de respostas e evidências, 72 responderam à etapa e 56 formularam ao menos um pedido.
+Das 113 organizações que responderam ao iGovTI 2026, 103 tiveram pelo menos um item ou subitem da resposta ajustado porque a evidência apresentada não comprovou a declaração correspondente. Para essas organizações, o questionário de comentários disponibilizou campos específicos para a apresentação de esclarecimentos ou evidências complementares e eventual reavaliação do ajuste. Entre as 103 organizações, 72 participaram da etapa e 56 apresentaram pelo menos um pedido de reavaliação. Esses recortes são apresentados na [@fig:comentarios_participacao].
 
 ![Participação na etapa de comentários do gestor](img/01-participacao.png){#fig:comentarios_participacao#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir das manifestações dos gestores)</div>

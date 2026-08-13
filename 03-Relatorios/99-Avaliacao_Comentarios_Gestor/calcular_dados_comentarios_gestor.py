@@ -82,6 +82,14 @@ TITULOS_ACHADOS = {
     5: "Gestao de servicos de TIC insuficiente para assegurar controle sobre servicos, ativos e incidentes",
     6: "Fragilidades na governanca tecnica da fase preparatoria das contratacoes de TIC",
 }
+TEMAS_ACHADOS = {
+    1: "Estrutura de TIC",
+    2: "Governança de TIC",
+    3: "Planejamento de TIC",
+    4: "Capacidade institucional",
+    5: "Gestão de serviços de TIC",
+    6: "Contratações de TIC",
+}
 TEMAS = {
     "Formalizacao, normas e governanca": (
         r"formaliz|normativ|regimento|estatuto|portaria|governan|comite|comit[eê]|pap[eé]is|responsabil"
@@ -463,6 +471,7 @@ def analisar_temas(textos: list[tuple[str, str]]) -> list[dict[str, Any]]:
 
 
 def configurar_grafico() -> None:
+    plt.style.use("seaborn-v0_8-whitegrid")
     plt.rcParams.update(
         {
             "font.family": "DejaVu Sans",
@@ -483,6 +492,11 @@ def salvar_figura(fig: plt.Figure, path: Path) -> None:
     plt.close(fig)
 
 
+def quebrar_texto_grafico(valor: str, largura: int = 50) -> str:
+    """Quebra rótulos longos por palavras, sem omitir seu conteúdo."""
+    return textwrap.fill(texto(valor), width=largura)
+
+
 def grafico_participacao(path: Path, totais: list[tuple[str, int, int]]) -> None:
     labels = [acentuar_rotulo(item[0]) for item in totais][::-1]
     valores = [100 * item[1] / item[2] if item[2] else 0 for item in totais][::-1]
@@ -494,7 +508,6 @@ def grafico_participacao(path: Path, totais: list[tuple[str, int, int]]) -> None
     for bar, (_, numerador, denominador) in zip(bars, totais[::-1]):
         ax.text(bar.get_width() + 1, bar.get_y() + bar.get_height() / 2,
                 f"{numerador}/{denominador} ({percentual(numerador, denominador)})", va="center")
-    ax.set_title(acentuar_rotulo("Participacao na etapa de comentarios do gestor"))
     salvar_figura(fig, path)
 
 
@@ -550,7 +563,7 @@ def grafico_situacoes_achado(
         contagem = por_codigo[codigo]
         aplicaveis = sum(contagem[categoria] for categoria in RESPOSTAS)
         contagem["Situacao encontrada inexistente"] = max(0, total_respondentes - aplicaveis)
-        linhas.append((textwrap.fill(situacao.texto, width=48), contagem))
+        linhas.append((quebrar_texto_grafico(situacao.texto), contagem))
 
     linhas = linhas[::-1]
     labels = [label for label, _ in linhas]
@@ -564,7 +577,7 @@ def grafico_situacoes_achado(
             valores,
             left=esquerda,
             color=CORES[categoria],
-            label=ROTULOS_CATEGORIAS[categoria],
+            label=quebrar_texto_grafico(ROTULOS_CATEGORIAS[categoria]),
             height=0.58,
         )
         for indice, valor in enumerate(valores):
@@ -578,7 +591,7 @@ def grafico_situacoes_achado(
                 rotulo,
                 ha="center",
                 va="center",
-                fontsize=7.2,
+                fontsize=9,
                 color="#202020",
                 linespacing=0.9,
             )
@@ -589,14 +602,14 @@ def grafico_situacoes_achado(
     ax.set_axisbelow(True)
     ax.spines["left"].set_visible(False)
     ax.spines["bottom"].set_color("#D9D9D9")
-    ax.tick_params(axis="y", length=0, labelsize=8)
-    ax.tick_params(axis="x", length=0)
+    ax.tick_params(axis="y", length=0, labelsize=10)
+    ax.tick_params(axis="x", length=0, labelsize=10)
     ax.legend(
         loc="lower center",
         bbox_to_anchor=(0.5, 1.01),
         ncol=3,
         frameon=False,
-        fontsize=7.5,
+        fontsize=9,
         handlelength=1.8,
         columnspacing=1.2,
     )
@@ -605,7 +618,7 @@ def grafico_situacoes_achado(
 
 
 def grafico_empilhado(
-    path: Path, linhas: list[tuple[str, Counter]], titulo: str, figsize: tuple[float, float]
+    path: Path, linhas: list[tuple[str, Counter]], figsize: tuple[float, float]
 ) -> None:
     labels = [linha[0] for linha in linhas][::-1]
     totais = [sum(linha[1].values()) for linha in linhas][::-1]
@@ -627,7 +640,6 @@ def grafico_empilhado(
         ax.text(101, i, f"n={total}", va="center", fontsize=8)
     ax.set_xlim(0, 108)
     ax.set_xlabel(acentuar_rotulo("Percentual das manifestacoes"))
-    ax.set_title(acentuar_rotulo(titulo))
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=2, frameon=False)
     ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
     salvar_figura(fig, path)
@@ -645,7 +657,6 @@ def grafico_reavaliacao(path: Path, cobertura: list[dict[str, Any]]) -> None:
     fig, ax = plt.subplots(figsize=(9, 6))
     bars = ax.barh(labels, valores, color="#5B9BD5", height=0.62)
     ax.set_xlabel(acentuar_rotulo("Quantidade de organizacoes que solicitaram reavaliacao"))
-    ax.set_title(acentuar_rotulo("Questoes-base com maior numero de pedidos de reavaliacao"))
     ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
     for bar, valor, total in zip(bars, valores, totais):
         ax.text(valor + 0.3, bar.get_y() + bar.get_height() / 2,
@@ -706,7 +717,6 @@ def grafico_resultados_avaliacao(
         esquerda += valores
     ax.set_xlim(0, 105)
     ax.set_xlabel("Percentual dos casos avaliados")
-    ax.set_title("Resultado consolidado da avaliação dos comentários do gestor")
     ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
     ax.set_axisbelow(True)
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=3, frameon=False)
@@ -728,7 +738,6 @@ def grafico_impactos_organizacoes(
     bars = ax.barh(labels, valores, color=["#A5A5A5", "#5B9BD5", "#70AD47", "#4472C4"])
     ax.set_xlim(0, max(valores) * 1.35)
     ax.set_xlabel("Quantidade de organizações")
-    ax.set_title("Organizações alcançadas pelos impactos dos comentários do gestor")
     ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
     ax.set_axisbelow(True)
     for bar, valor in zip(bars, valores):
@@ -761,7 +770,7 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
     for ax, titulo, valores, reducao in paineis:
         bars = ax.bar(["Antes", "Após comentários"], valores, color=["#A5A5A5", "#4472C4"], width=0.55)
         ax.set_ylim(0, max(valores) * 1.18)
-        ax.set_title(titulo)
+        ax.set_xlabel(titulo)
         ax.grid(axis="y", color="#E7E6E6", linewidth=0.8)
         ax.set_axisbelow(True)
         for bar, valor in zip(bars, valores):
@@ -780,11 +789,7 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
             fontsize=8.5,
             color="#404040",
         )
-    fig.suptitle(
-        "Situações e incidências de achado antes e após os comentários do gestor",
-        fontweight="bold",
-    )
-    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    fig.tight_layout()
     salvar_figura(fig, path)
 
 
@@ -794,7 +799,6 @@ def grafico_evolucao_igovti(path: Path, resumo: dict[str, Any]) -> None:
     bars = ax.bar(["Antes", "Após comentários"], valores, color=["#A5A5A5", "#70AD47"], width=0.5)
     ax.set_ylim(0, max(valores) * 1.35)
     ax.set_ylabel("iGovTI médio (%)")
-    ax.set_title("Evolução da média do iGovTI após os comentários do gestor")
     ax.grid(axis="y", color="#E7E6E6", linewidth=0.8)
     ax.set_axisbelow(True)
     for bar, valor in zip(bars, valores):
@@ -972,8 +976,8 @@ def main() -> int:
         por_achado[item["achado"]][item["categoria"]] += 1
     grafico_empilhado(
         img_dir / "03-manifestacoes-por-achado.png",
-        [(f"Achado {numero}", por_achado[numero]) for numero in range(1, 7)],
-        "Manifestacoes dos gestores por achado", (9, 5.2),
+        [(TEMAS_ACHADOS[numero], por_achado[numero]) for numero in range(1, 7)],
+        (9, 5.2),
     )
     for numero in range(1, 7):
         grafico_situacoes_achado(

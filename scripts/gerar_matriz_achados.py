@@ -54,9 +54,8 @@ EFEITOS = {
     ],
     "A6": [
         ("Instrução processual frágil", "Falta de clareza sobre etapas, responsabilidades, instâncias decisórias, modelos e critérios de aprovação das contratações de TIC."),
-        ("Soluções incompatíveis", "Contratação de soluções desalinhadas aos padrões tecnológicos, aos requisitos institucionais, à segurança da informação ou às prioridades aprovadas."),
-        ("Planejamento insuficiente", "Artefatos sem requisitos, riscos, critérios de aceite, proteção de dados ou condições adequadas de fiscalização."),
-        ("Pagamento sem controle de resultados", "Ausência de níveis mínimos de serviço, métricas de desempenho e critérios objetivos de recebimento e avaliação dos fornecedores."),
+        ("Soluções incompatíveis", "Contratação de soluções desalinhadas aos padrões tecnológicos, aos requisitos institucionais ou às prioridades aprovadas."),
+        ("Participação técnica insuficiente", "Planejamento da contratação sem equipe formalmente designada ou sem participação técnica da área de TIC."),
     ],
 }
 
@@ -114,7 +113,17 @@ def carregar_acoes(repo: Path):
 
 
 def contar_auditados(repo: Path) -> int:
-    path = repo / "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario.xlsx"
+    respostas_dir = repo / "02-Execucao/01-Questionario/03-Respostas_Processadas"
+    candidatos = [
+        respostas_dir / "20260716-respostas-questionario-pos-comentarios-gestor.xlsx",
+        respostas_dir / "20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx",
+        respostas_dir / "20260621-respostas-questionario-01-pos-ajuste-inicial.xlsx",
+    ]
+    path = next((candidato for candidato in candidatos if candidato.exists()), None)
+    if path is None:
+        raise FileNotFoundError(
+            "Nenhuma base processada do questionário foi encontrada para contar os auditados."
+        )
     workbook = load_workbook(path, read_only=False, data_only=True)
     try:
         ws = workbook.active
@@ -254,8 +263,8 @@ def atualizar_documento(document_xml: bytes, dados):
     root = etree.fromstring(document_xml)
     body = root.find("w:body", NS)
     tables = body.findall("w:tbl", NS)
-    if len(tables) < 9:
-        raise ValueError(f"O modelo deveria conter 9 tabelas de achados, mas contém {len(tables)}")
+    if len(tables) < 6:
+        raise ValueError(f"O modelo deveria conter 6 tabelas de achados, mas contém {len(tables)}")
 
     sample_cells = tables[0].findall("w:tr", NS)[1].findall("w:tc", NS)
     templates = {
