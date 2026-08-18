@@ -46,7 +46,7 @@ FORMULAS = {
 }
 
 
-Q6 = "A organização adota controles mínimos na fase preparatória das contratações de TIC, com processo definido e análise técnica pela unidade competente?"
+Q6 = "A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?"
 SITUACOES = {
     "s1.1": "Ausência de área, unidade, setor ou função de TIC formalmente instituída.",
     "s1.2": "Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de governança, planejamento ou gestão de TIC.",
@@ -57,7 +57,7 @@ SITUACOES = {
     "s3.1": "Inexistência ou fragilidade do processo formal de planejamento de TIC.",
     "s3.2": "Ausência de aprovação formal do plano de TIC.",
     "s3.4": "Plano de TIC sem alinhamento adequado ao planejamento institucional.",
-    "s3.5": "Plano de TIC sem previsão orçamentária demonstrada.",
+    "s3.5": "Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.",
     "s3.6": "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.",
     "s4.1": "Ausência de força de trabalho dedicada à TIC.",
     "s4.2": "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
@@ -175,7 +175,7 @@ ENCAMINHAMENTOS = {
     "s2.3": "assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, realizando reuniões, registrando deliberações e acompanhando os encaminhamentos relevantes",
     "s3.1": "institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, com participação das áreas demandantes, critérios de priorização, etapas e responsabilidades definidos",
     "s3.2": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do ato de aprovação",
-    "s3.5": "inclua no plano de TIC a estimativa dos recursos orçamentários necessários à execução das iniciativas priorizadas, com memória ou referência que permita acompanhar sua viabilidade",
+    "s3.5": "integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização",
     "s3.6": "estabeleça e execute rotina periódica de acompanhamento, revisão e atualização do plano de TIC, registrando execução, pendências, reprogramações e deliberações",
     "s4.1": "avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, contratação, fiscalização e sustentação dos serviços e ativos de TIC",
     "s4.6": "assegure capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
@@ -742,6 +742,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-023", "Painel pós-comentários", "Sem q2801ext[B]", "Coluna e metadados q2801ext[B] incorporados ao painel vigente", "O catálogo já avaliava B, mas o painel fora filtrado pelo mapa antigo; a ação documental exige a coluna."),
         ("AJ-024", "Matriz de Planejamento", "Regras, itens, descrições e tipos anteriores", "Versão pós-comentários sincronizada", "As condições do possível achado devem ser idênticas às ações e fórmulas operacionais do mapa."),
         ("AJ-038", "Mapa e matriz/S1.2 × S2.1", "q0103D e q1001C podiam gerar situações distintas pelo mesmo fato", "S1.2 mantém competências formais por q0103; S2.1 usa somente q1001H (AV08/AV86)", "Elimina sobreposição entre competência formal da área de TIC e direção estratégica exercida pela alta administração."),
+        ("AJ-039", "Mapa e matriz/PA03/S3.5", "Plano de TIC sem previsão orçamentária demonstrada; encaminhamento exigia estimativa dos recursos e memória ou referência", SITUACOES["s3.5"] + " Encaminhamento: " + ENCAMINHAMENTOS["s3.5"], "Alinha a situação e o encaminhamento ao conteúdo efetivamente verificado por q2102ext[C], sem exigir estimativa orçamentária ou memória de cálculo não avaliadas pelo questionário."),
+        ("AJ-040", "Mapa e matriz/PA06/Q6", "A organização adota controles mínimos na fase preparatória das contratações de TIC, com processo definido e análise técnica pela unidade competente?", Q6, "Substitui expressão genérica por requisitos verificáveis e cobre processo formal e padronizado, responsabilidades, análise técnica e alinhamento ao planejamento."),
     ]
     tipo_rows = [
         ("S1.1", "Recomendação", "Determinação", "CF/88, art. 37; Lei nº 14.133/2021, art. 11, parágrafo único", "Dever de resultado; admitir estrutura equivalente e observar a competência de auto-organização."),

@@ -83,13 +83,13 @@ possiveis_achados:
       referencias_matriz: [R1.2, P3, E3, P4, E4]
       criterios: [C2, C4, C5, C7, C8]
       tipo_encaminhamento: Determinação
-      encaminhamento: defina formalmente as atribuições da área de TIC, incluindo, no mínimo, responsabilidades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC
+      encaminhamento: defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC
     - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
       itens_questionario: [q0102, q0102evi]
       regra_de_identificacao:
-      - (q0101 != F) & ((q0102 == B) | (q0102 == C) | (q0102 == D) | (q0102 == E))
+      - (q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))
       referencias_matriz: [R1.3, P5, E5, P6, E6]
       criterios: [C3, C5, C6]
       tipo_encaminhamento: Recomendação
@@ -276,7 +276,7 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
   - S3.5:
-      descricao: Plano de TIC sem previsão orçamentária demonstrada.
+      descricao: Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.
       severidade: alta
       itens_questionario: [q2102ext[C], q2102evi]
       regra_de_identificacao:
@@ -284,7 +284,7 @@ possiveis_achados:
       referencias_matriz: [R3.5, P8, E8]
       criterios: [C2, C3, C4]
       tipo_encaminhamento: Recomendação
-      encaminhamento: inclua no plano de TIC a estimativa dos recursos orçamentários necessários à execução das iniciativas priorizadas, com memória ou referência que permita acompanhar sua viabilidade
+      encaminhamento: integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização
   - S3.6:
       descricao: Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.
       severidade: media
@@ -379,7 +379,7 @@ possiveis_achados:
       referencias_matriz: [R4.1, P1, E1]
       criterios: [C2, C5, C9]
     tipo_encaminhamento: Recomendação
-    encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, contratação, fiscalização e sustentação dos serviços e ativos de TIC
+    encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
   - S4.2:
       descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
       severidade: alta
@@ -410,7 +410,7 @@ possiveis_achados:
     referencias_matriz: [R4.6, P7, E7]
     criterios: [C6, C7, C8, C11]
     tipo_encaminhamento: Determinação
-    encaminhamento: assegure capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
+    encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
 ---
 
 ## Questão 05 - Gestão de Serviços de TIC
@@ -513,7 +513,7 @@ possiveis_achados:
       referencias_matriz: [R5.2, P3, E3, P4, E4]
       criterios: [C2, C3]
       tipo_encaminhamento: Recomendação
-      encaminhamento: defina, pactue e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, incluindo metas no catálogo, indicadores, responsáveis e periodicidade de medição
+      encaminhamento: defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados
   - S5.3:
       descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
       severidade: alta
@@ -523,7 +523,7 @@ possiveis_achados:
       referencias_matriz: [R5.3, P5, E5, P6, E6]
       criterios: [C4, C5, C9]
       tipo_encaminhamento: Determinação
-      encaminhamento: estabeleça e mantenha atualizado inventário de ativos de TIC, com informações suficientes sobre equipamentos, sistemas, softwares, licenças, serviços em nuvem, responsáveis e ciclo de vida
+      encaminhamento: estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, sistemas, softwares, licenças, serviços em nuvem e responsáveis
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
@@ -533,7 +533,7 @@ possiveis_achados:
       referencias_matriz: [R5.3, P7, E7, P8, E8]
       criterios: [C5, C6]
       tipo_encaminhamento: Recomendação
-      encaminhamento: formalize e execute processo de gestão de configuração, mantendo base, ferramenta ou registro equivalente com os itens relevantes e seus relacionamentos, responsabilidades e rotina de atualização
+      encaminhamento: formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos
   - S5.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
       severidade: alta
@@ -542,14 +542,14 @@ possiveis_achados:
       - (q2204ext[A] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim)
       referencias_matriz: [R5.4, P9, E9, P10, E10, P11, E11, P12, E12]
       criterios: [C7, C8, C10]
-      tipo_encaminhamento: Determinação
-      encaminhamento: formalize e execute processo de gestão de incidentes de TIC, com papéis, priorização, escalamento, tratamento, registro rastreável e comunicação dos incidentes de segurança sujeitos à LGPD
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências
 
 ---
 
 ## Questão 06 - Contratações de TIC
 
-questao: Q6. A organização adota controles mínimos na fase preparatória das contratações de TIC, com processo definido e análise técnica pela unidade competente?
+questao: Q6. A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?
 
 subquestoes:
 - A organização possui fluxo formalizado e padronizado para contratações de TIC?
@@ -625,19 +625,19 @@ possiveis_achados:
       referencias_matriz: [R6.3, P3, E3, E4]
       criterios: [C1, C5, C6, C8]
       tipo_encaminhamento: Recomendação
-      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, com avaliação técnica mínima compatível com a complexidade e o risco da solução
+      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação
   - S6.3:
       descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
       severidade: alta
       itens_questionario: [q2802ext[C], q2804[B], q2802evi]
       regra_de_identificacao:
-      - (q2804[B] != Sim) | (q2802ext[C] != Sim)
+      - (q2802ext[C] != Sim) | (q2804[B] != Sim)
       referencias_matriz: [R6.3, P4, E5]
       criterios: [C1, C2]
       tipo_encaminhamento: Determinação
-      encaminhamento: compatibilize as contratações de TIC com os instrumentos de planejamento da organização e com o Plano de Contratações Anual, quando elaborado, justificando as situações excepcionais
+      encaminhamento: integre as contratações de TIC com os instrumentos de planejamento da organização e com o Plano de Contratações Anual, quando elaborado, justificando as situações excepcionais
   - S6.4:
-      descricao: Contratações de TIC sem designação de Equipe de Planejamento com integrante técnico da área de TIC.
+      descricao: Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.
       severidade: alta
       itens_questionario: [q2804[C], q2801evi]
       regra_de_identificacao:
@@ -645,7 +645,7 @@ possiveis_achados:
       referencias_matriz: [R6.4, P5, E6]
       criterios: [C1, C4, C6]
       tipo_encaminhamento: Recomendação
-      encaminhamento: designe formalmente Equipe de Planejamento para as contratações de TIC, assegurando integrante técnico da área de TIC e definição das responsabilidades dos participantes
+      encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TICa, com definição das responsabilidades de seus integrantes
 
 ---
 
