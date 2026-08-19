@@ -15,12 +15,12 @@ questao: Q1. A organização possui área, unidade, setor ou função de TIC for
 
 subquestoes:
 - A organização possui área, unidade, setor ou função de TIC formalmente instituída?
-- A área de TIC possui atribuições formalmente definidas de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC?
-- O posicionamento organizacional da área de TIC é compatível com suas atribuições e permite atuação adequada em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos?
+- A área de TIC possui atribuições formalmente definidas relacionadas à gestão da TIC?
+- A área de TIC está posicionada em nível organizacional que favoreça sua interlocução com a alta administração e sua atuação estratégica?
 
 riscos:
 - R1.1: Devido à ausência de formalização da área de TIC, poderá não haver unidade ou função institucionalmente reconhecida para coordenar o uso da tecnologia da informação, prejudicando a responsabilização e o alinhamento da TIC aos objetivos da organização.
-- R1.2: Devido à ausência de atribuições formais da área de TIC, poderá não haver clareza sobre responsabilidades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC, favorecendo atuação reativa e fragmentada.
+- R1.2: Devido à ausência de atribuições formais da área de TIC, poderá não haver clareza sobre responsabilidades de planejamento, coordenação, gestão e controle da TIC, favorecendo atuação reativa e fragmentada.
 - R1.3: Devido ao posicionamento organizacional inadequado da área de TIC, poderá haver baixa capacidade de influência institucional, comprometendo a participação da TIC em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
 
 fontes_de_informacao:
@@ -28,51 +28,42 @@ fontes_de_informacao:
 - F2: Evidências anexadas ao questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Resposta sobre existência formal de área, unidade, setor ou função de TIC e respectivo modelo de operação predominante da TIC; [F1, q0101]
-- IR2: Evidência anexada que demonstre a formalização da área, unidade, setor ou função de TIC, como regimento, decreto, portaria, resolução, organograma, ato administrativo ou instrumento equivalente; [F2, q0101evi]
+- IR1: Resposta sobre a existência formal de área, unidade, setor ou função de TIC; [F1, q0101]
 - IR3: Resposta sobre atribuições e competências formalizadas da área de TIC; [F1, q0103]
-- IR4: Evidência anexada que demonstre atribuições formais relacionadas às principais funções de TIC, incluindo governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [F2, q0103evi]
+- IR4: Evidência anexada que demonstre atribuições formalmente definidas relacionadas à gestão da TIC; [F2, q0103evi]
 - IR5: Resposta sobre posicionamento hierárquico da área de TIC na estrutura organizacional; [F1, q0102]
-- IR6: Evidência anexada que demonstre o posicionamento organizacional da área de TIC, como organograma institucional, regimento interno ou documento equivalente; [F2, q0102evi]
 
 criterios:
 - C1: COBIT 2019, APO01.04 - Definir e implementar as estruturas organizacionais: estabelecer estruturas organizacionais internas e externas necessárias para apoiar os objetivos de governança e gestão de TI.
 - C2: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.
 - C3: COBIT 2019, APO01.06 - Aprimorar o posicionamento da função de TI: posicionar a função de tecnologia de modo compatível com sua relevância estratégica, responsabilidades e necessidade de interação com a alta administração.
-- C4: COBIT 2019, APO01.09 - Definição e comunicação de políticas e procedimentos: estabelecer e comunicar políticas e procedimentos de gestão de TI que orientem papéis, responsabilidades e controles.
-- C5: ABNT NBR ISO/IEC 38500:2025, item 5.6.1 - Governança efetiva de TI: responsabilização clara, estrutura adequada de tomada de decisão e direção organizacional compatível com o uso atual e futuro da tecnologia.
 - C6: Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.
-- C7: Constituição Federal, art. 37, caput - Princípios da legalidade e da eficiência.
-- C8: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar processos e estruturas de governança das contratações.
+- C7: Constituição Federal, art. 37, caput - Princípio da eficiência.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q0101, se a organização possui área, unidade, setor ou função de TIC formalmente instituída; [IR1]
-- P2: Validar, pela evidência anexada à q0101, a formalização da área, unidade, setor ou função de TIC; [IR2]
-- P3: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas; [IR3]
-- P4: Validar, pela evidência anexada à q0103, se as atribuições abrangem funções essenciais de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [IR4]
+- P3: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas relacionadas à gestão da TIC; [IR3]
+- P4: Validar, pela evidência anexada à q0103, a existência de atribuições formalmente definidas relacionadas à gestão da TIC; [IR4]
 - P5: Verificar, por meio da resposta à q0102, o posicionamento hierárquico da área de TIC; [IR5]
-- P6: Validar, pela evidência anexada à q0102, a compatibilidade do posicionamento da área de TIC com suas atribuições institucionais; [IR6]
 
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre formalização da área, unidade, setor ou função de TIC; [P1]
-- E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que formalize a área, unidade, setor ou função de TIC; [P2]
 - E3: Resposta negativa ou insuficiente sobre atribuições formalizadas da área de TIC; [P3]
-- E4: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que defina atribuições essenciais da área de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [P4]
+- E4: Ausência ou insuficiência de evidência que demonstre atribuições formalmente definidas relacionadas à gestão da TIC; [P4]
 - E5: Resposta que indique posicionamento inexistente ou incompatível da área de TIC; [P5]
-- E6: Evidência anexada inexistente, incompatível ou insuficiente para demonstrar posicionamento adequado da área de TIC; [P6]
 
 possiveis_achados:
-- A1: Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.
+- A1: Estrutura de TIC insuficientemente formalizada, definida ou posicionada para gerir a tecnologia da informação.
   situacoes_encontradas:
     - S1.1:
       descricao: Ausência de área, unidade, setor ou função de TIC formalmente instituída.
       severidade: alta
-      itens_questionario: [q0101, q0101evi]
+      itens_questionario: [q0101]
       regra_de_identificacao:
       - (q0101 == F)
-      referencias_matriz: [R1.1, P1, E1, P2, E2]
-      criterios: [C1, C4, C5, C7, C8]
-      tipo_encaminhamento: Determinação
+      referencias_matriz: [R1.1, P1, E1]
+      criterios: [C1, C7]
+      tipo_encaminhamento: Recomendação
       encaminhamento: formalize a área, unidade, setor ou função de TIC em instrumento compatível com a organização, definindo vinculação e responsabilidades essenciais de modo compatível com o porte, a complexidade e a dependência tecnológica da organização
     - S1.2:
       descricao: Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.
@@ -81,19 +72,19 @@ possiveis_achados:
       regra_de_identificacao:
       - (q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))
       referencias_matriz: [R1.2, P3, E3, P4, E4]
-      criterios: [C2, C4, C5, C7, C8]
-      tipo_encaminhamento: Determinação
-      encaminhamento: defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC
+      criterios: [C2, C7]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão e controle da TIC
     - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
-      itens_questionario: [q0102, q0102evi]
+      itens_questionario: [q0102]
       regra_de_identificacao:
       - (q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))
-      referencias_matriz: [R1.3, P5, E5, P6, E6]
-      criterios: [C3, C5, C6]
+      referencias_matriz: [R1.3, P5, E5]
+      criterios: [C3, C6]
       tipo_encaminhamento: Recomendação
-      encaminhamento: avalie e ajuste o posicionamento organizacional da área de TIC, atentando-se, minimamente, em assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação
+      encaminhamento: avalie o posicionamento organizacional da área de TIC e adote, quando necessário, medidas para assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação.
 
 ## Questão 02 - Governança e Comitê de TIC
 
@@ -122,13 +113,10 @@ informacoes_requeridas:
 - IR6: Evidência anexada que demonstre atuação efetiva do Comitê de TIC ou instância equivalente, como atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências; [F2, q1001evi]
 
 criterios:
-- C1: COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.
 - C2: COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.
-- C3: Decreto nº 12.198/2024, art. 5º - Instituição do CGD, colegiado responsável por definir diretrizes e estratégias sobre uso de recursos digitais nos órgãos e entidades da administração pública federal direta, autárquica e fundacional.
 - C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.
-- C5: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.
 - C6: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar estruturas de governança das contratações.
-- C7: Constituição Federal, art. 37, caput - Princípio da eficiência.
+- C8: Acórdão TCU 1.411/2014-Plenário, item 9.1.2 - Precedente sobre funcionamento permanente e composição relevante do Comitê de TIC.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q1001ext[H], se a alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC; [IR1]
@@ -156,8 +144,8 @@ possiveis_achados:
       regra_de_identificacao:
       - (q1001ext[H] != Sim)
       referencias_matriz: [R2.1, P1, E1, P2, E2]
-      criterios: [C1, C2, C4]
-      tipo_encaminhamento: Recomendação
+      criterios: [C2, C4]
+      tipo_encaminhamento: Determinação
       encaminhamento: estabeleça modelo básico de governança e gestão de TIC definindo objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração
     - S2.2:
       descricao: Comitê de TIC ou instância equivalente não instituído formalmente.
@@ -167,7 +155,7 @@ possiveis_achados:
       - (q1001ext[E] != Sim)
       - ou q1001evi é inexistente, incompatível ou insuficiente para comprovar a instituição formal do Comitê de TIC ou instância equivalente
       referencias_matriz: [R2.2, P3, E3, P4, E4]
-      criterios: [C3, C4, C5, C6]
+      criterios: [C4, C6, C8]
       tipo_encaminhamento: Determinação
       encaminhamento: institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos
     - S2.3:
@@ -175,9 +163,9 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
       regra_de_identificacao:
-      - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
+      - (q1001ext[E] == Sim) & ((q1001ext[F] != Sim) | q1001evi é inexistente, incompatível ou insuficiente para comprovar a atuação efetiva do Comitê de TIC ou instância equivalente)
       referencias_matriz: [R2.3, P5, E5, P6, E6]
-      criterios: [C2, C3, C4, C7]
+      criterios: [C2, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC
 
@@ -219,8 +207,7 @@ criterios:
 - C2: COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
 - C3: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.
 - C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.
-- C5: Lei nº 14.133/2021, arts. 11, parágrafo único, e 18, caput - Governança e planejamento da fase preparatória das contratações.
-- C6: Constituição Federal, art. 37, caput - Princípio da eficiência.
+- C5: Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento estratégico, subsidiar a elaboração das leis orçamentárias e ser observado nas licitações e na execução contratual.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q2101, se a organização executa processo formal de planejamento de TIC; [IR1]
@@ -252,7 +239,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim)
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
-      criterios: [C1, C3, C4, C5]
+      criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
   - S3.2:
@@ -262,7 +249,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2102ext[A] != Sim)
       referencias_matriz: [R3.2, P4, E4, P5, E5]
-      criterios: [C1, C3, C4, C5]
+      criterios: [C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação
   - S3.4:
@@ -273,7 +260,7 @@ possiveis_achados:
       - (q2102ext[D] != Sim)
       referencias_matriz: [R3.4, P7, E7]
       criterios: [C1, C3, C4]
-      tipo_encaminhamento: Recomendação
+      tipo_encaminhamento: Determinação
       encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
   - S3.5:
       descricao: Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.
@@ -282,8 +269,8 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2102ext[C] != Sim)
       referencias_matriz: [R3.5, P8, E8]
-      criterios: [C2, C3, C4]
-      tipo_encaminhamento: Recomendação
+      criterios: [C2, C4, C5]
+      tipo_encaminhamento: Determinação
       encaminhamento: integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização
   - S3.6:
       descricao: Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.
@@ -292,7 +279,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2102ext[E] != Sim)
       referencias_matriz: [R3.6, P9, E9]
-      criterios: [C1, C3, C4, C6]
+      criterios: [C4]
       tipo_encaminhamento: Determinação
       encaminhamento: estabeleça e execute rotina periódica de acompanhamento, revisão e atualização do plano de TIC, registrando execução, pendências, reprogramações e deliberações
 
@@ -300,23 +287,19 @@ possiveis_achados:
 
 ## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação
 
-questao: Q4. A organização dispõe de capacidade institucional mínima, em termos de força de trabalho, perfis profissionais, competências, funções e vínculos, para planejar, gerir, proteger, contratar, fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades institucionais?
+questao: Q4. A organização dispõe de capacidade institucional mínima, em termos de força de trabalho, funções e vínculos, para planejar, gerir, proteger, contratar, fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades institucionais?
 
 subquestoes:
 - A organização conhece o quantitativo de profissionais que atuam regularmente em TIC e segurança da informação, por área e tipo de vínculo?
 - A organização definiu o quantitativo necessário de pessoal de TIC e segurança da informação?
-- A organização possui cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação?
-- A organização definiu perfis profissionais esperados para gestores e colaboradores de TIC e segurança da informação?
-- A organização identifica e trata lacunas de competências dos colaboradores e gestores de TIC e segurança da informação?
+- A organização possui cargos ou funções formalmente atribuídos à TIC e à segurança da informação?
 - A dependência de terceiros é compatível com a capacidade interna de coordenação, fiscalização e retenção de conhecimento?
 
 
 riscos:
 - R4.1: Devido à ausência de informações estruturadas sobre a força de trabalho de TIC e segurança da informação, poderá não haver base mínima para dimensionamento, alocação e planejamento da capacidade institucional.
 - R4.2: Devido à ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação, poderá haver subdimensionamento ou alocação inadequada da equipe.
-- R4.3: Devido à inexistência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação, poderá haver baixa capacidade de atração, alocação, responsabilização e retenção de profissionais.
-- R4.4: Devido à ausência de perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação, poderá haver designação de pessoas sem competências compatíveis com as responsabilidades exercidas.
-- R4.5: Devido à ausência de identificação e tratamento de lacunas de competências, poderá haver incapacidade de executar práticas mínimas de planejamento, gestão, segurança, contratação, fiscalização e sustentação de TIC.
+- R4.3: Devido à ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação, poderá haver baixa clareza de responsabilidades e insuficiente capacidade de alocação e responsabilização dos profissionais.
 - R4.6: Devido à dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação e fiscalização, poderá haver perda de conhecimento, baixa governabilidade e risco de descontinuidade dos serviços.
 
 fontes_de_informacao:
@@ -326,60 +309,44 @@ fontes_de_informacao:
 informacoes_requeridas:
 - IR1: Resposta sobre quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, q0105]
 - IR2: Resposta e evidência sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, q2703, q2703evi]
-- IR3: Resposta sobre existência de cargos específicos em TIC e segurança da informação; [F1, q2708]
-- IR4: Resposta e evidência sobre perfis profissionais desejados para gestores de TIC e segurança da informação; [F1, F2, q2701, q2701evi]
-- IR5: Resposta e evidência sobre perfis profissionais desejados para colaboradores de TIC e segurança da informação; [F1, F2, q2702, q2702evi]
-- IR6: Resposta e evidência sobre escolha dos gestores de TIC e segurança da informação segundo perfis previamente definidos; [F1, F2, q2704, q2704evi]
-- IR7: Resposta e evidência sobre identificação de lacunas de competências; [F1, F2, q2705, q2705evi]
-- IR8: Resposta e evidência sobre tratamento das lacunas de competências; [F1, F2, q2706, q2706evi]
-- IR9: Respostas e evidências que permitam avaliar dependência de terceiros e capacidade interna de coordenação e fiscalização; [F1, F2, q0101, q0105, q2703, q2801, q2804]
+- IR3: Resposta sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, q2708]
+- IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
 
 criterios:
 - C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.
 - C2: COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.
-- C3: COBIT 2019, APO07.02 - Identificar pessoal-chave de TI: identificar funções e pessoas críticas para reduzir dependência individual, perda de conhecimento e descontinuidade.
-- C4: COBIT 2019, APO07.03 - Manter habilidades e competências do pessoal: identificar, desenvolver e manter competências necessárias à execução das responsabilidades de TIC.
 - C5: COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.
 - C6: COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.
-- C7: COBIT 2019, APO10.04 - Gerenciar risco de fornecedores: identificar e tratar riscos decorrentes de fornecedores, contratos e dependências externas relevantes para TIC.
-- C8: COBIT 2019, DSS01.02 - Gerenciar serviços de TI terceirizados: assegurar que serviços terceirizados sejam supervisionados, medidos e integrados aos controles da organização.
-- C9: ABNT NBR ISO/IEC 27001:2022, cláusulas 5.3 e 7.2: definir responsabilidades e autoridades para segurança da informação e assegurar competências necessárias às funções atribuídas.
-- C10: ABNT NBR ISO/IEC 27002:2022, controles 5.2 e 6.3: definir papéis e responsabilidades de segurança da informação e promover conscientização, educação e treinamento em segurança.
 - C11: Lei nº 14.133/2021, art. 117 - Dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados.
+- C12: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o quantitativo necessário ou ideal para a força de trabalho em TI.
+- C13: Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar providências para dotar o setor de TI de quantitativo adequado às necessidades de trabalho em TI, consideradas as necessidades das demais áreas.
 
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
 - P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
-- P3: Verificar, por meio da q2708, se há cargos específicos em TIC e segurança da informação; [IR3]
-- P4: Verificar, por meio das q2701 e q2702 e respectivas evidências, se há perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação; [IR4, IR5]
-- P5: Verificar, por meio da q2704 e respectiva evidência, se a escolha dos gestores de TIC e segurança da informação ocorre segundo perfis previamente definidos; [IR6]
-- P6: Verificar, por meio das q2705 e q2706 e respectivas evidências, se lacunas de competências são identificadas e tratadas; [IR7, IR8]
-- P7: Verificar, por cruzamento das respostas e evidências das q0101, q0105, q2703, q2801 e q2804, se há dependência excessiva de terceiros para atividades críticas sem capacidade interna suficiente de coordenação e fiscalização; [IR9]
+- P3: Verificar, por meio da q2708, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
+- P7: Verificar, por meio da resposta à q0101 e do quantitativo de profissionais internos informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado sem capacidade interna suficiente de coordenação e fiscalização; [IR9]
 
 evidencias:
 - E1: Quantitativo total declarado igual a zero para profissionais de TIC, desde que a organização tenha informado possuir estrutura formal de TIC; [P1]
 - E2: Resposta negativa ou insuficiente sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P2]
-- E3: Resposta negativa sobre existência de cargos específicos em TIC e segurança da informação; [P3]
-- E4: Resposta negativa ou insuficiente sobre perfis profissionais definidos para gestores ou colaboradores de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P4]
-- E5: Resposta negativa ou insuficiente sobre escolha de gestores segundo perfis profissionais definidos, ou evidência inexistente/incompatível/insuficiente; [P5]
-- E6: Resposta negativa ou insuficiente sobre identificação ou tratamento de lacunas de competências, ou evidência inexistente/incompatível/insuficiente; [P6]
-- E7: Evidência, a partir das respostas e anexos do questionário, de dependência excessiva de terceiros em atividades críticas sem capacidade interna suficiente de coordenação, fiscalização ou retenção de conhecimento; [P7]
+- E3: Resposta negativa sobre existência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
+- E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
 
 possiveis_achados:
 - A4: Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
   situacoes_encontradas:
   - S4.1:
-    descricao: Ausência de força de trabalho dedicada à TIC.
-    severidade: alta
-      itens_questionario:
-        - [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
-    regra_de_identificacao:
+      descricao: Ausência de força de trabalho dedicada à TIC.
+      severidade: alta
+      itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
+      regra_de_identificacao:
       - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
       - (q0101 != F) & (total_TI == 0)
       referencias_matriz: [R4.1, P1, E1]
-      criterios: [C2, C5, C9]
-    tipo_encaminhamento: Recomendação
-    encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
+      criterios: [C2, C13]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
   - S4.2:
       descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
       severidade: alta
@@ -387,19 +354,19 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2703ext[C] != Sim)
       referencias_matriz: [R4.2, P2, E2]
-      criterios: [C2, C5, C9]
+      criterios: [C5, C12]
       tipo_encaminhamento: Recomendação
       encaminhamento: estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes
   - S4.3:
-      descricao: Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.
+      descricao: Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.
       severidade: media
       itens_questionario: [q2708[B], q2708[D]]
       regra_de_identificacao:
       - (q2708[B] != Sim) | (q2708[D] != Sim)
       referencias_matriz: [R4.3, P3, E3]
-      criterios: [C1, C2, C3]
+      criterios: [C1, C2]
       tipo_encaminhamento: Recomendação
-      encaminhamento: avalie a necessidade de instituir cargos, funções, gratificações, perfis ou ocupações específicas de TIC e segurança da informação e adote a solução compatível com as necessidades institucionais e a capacidade administrativa da organização
+      encaminhamento: avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização
   - S4.6:
     descricao: Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.
     severidade: alta
@@ -408,7 +375,7 @@ possiveis_achados:
       - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
       - (q0101 == B) & (total_TI_interno == 0)
     referencias_matriz: [R4.6, P7, E7]
-    criterios: [C6, C7, C8, C11]
+    criterios: [C6, C11]
     tipo_encaminhamento: Determinação
     encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
 ---
@@ -458,7 +425,6 @@ criterios:
 - C4: ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
 - C5: ITIL 4, prática de gerenciamento de configuração de serviço: assegurar informações precisas e confiáveis sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura.
 - C6: COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
-- C7: ITIL 4, prática de gerenciamento de incidentes: minimizar o impacto negativo dos incidentes por meio da restauração tempestiva da operação normal dos serviços e do registro rastreável do tratamento realizado.
 - C8: COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
 - C9: Lei nº 13.709/2018, arts. 46 e 50 - Medidas técnicas e administrativas de segurança e regras de boas práticas e governança no tratamento de dados pessoais.
 - C10: Lei nº 13.709/2018, arts. 46 e 48 - Deveres de segurança e comunicação de incidente que possa acarretar risco ou dano relevante aos titulares.
@@ -521,7 +487,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2203ext[A] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
       referencias_matriz: [R5.3, P5, E5, P6, E6]
-      criterios: [C4, C5, C9]
+      criterios: [C4, C9]
       tipo_encaminhamento: Determinação
       encaminhamento: estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, sistemas, softwares, licenças, serviços em nuvem e responsáveis
   - S5.4:
@@ -541,7 +507,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2204ext[A] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim)
       referencias_matriz: [R5.4, P9, E9, P10, E10, P11, E11, P12, E12]
-      criterios: [C7, C8, C10]
+      criterios: [C8, C10]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências
 
@@ -576,7 +542,7 @@ informacoes_requeridas:
 - IR4: Resposta sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, q2804[A]]
 - IR5: Evidência específica sobre aprovação técnica da área de TIC em caso concreto; [F2, q2804eviA]
 - IR6: Resposta e evidência sobre alinhamento das contratações aos instrumentos de planejamento e ao Plano de Contratações Anual; [F1, F2, q2802ext[C], q2804[B], q2802evi]
-- IR7: Resposta e evidência sobre equipe de planejamento formalmente designada e multidisciplinar; [F1, F2, q2804[C], q2801evi]
+- IR7: Resposta sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [F1, q2804[C]]
 
 criterios:
 - C1: Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
@@ -584,8 +550,6 @@ criterios:
 - C3: Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
 - C4: Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
 - C5: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
-- C6: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir e comunicar papéis e responsabilidades relacionados à informação e à tecnologia.
-- C7: COBIT 2019, APO01.09 - Definir e comunicar políticas e procedimentos: manter políticas, procedimentos e orientações para direcionar processos de gestão de TIC.
 - C8: Instrução Normativa SGD/ME nº 94, de 23 de dezembro de 2022, art. 1º, § 1º: como referência de boa prática, a aplicação de ritos formais de contratação de TIC pode ser facultada para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando a possibilidade de fluxos simplificados para aquisições de baixa complexidade ou valor.
 
 procedimentos:
@@ -593,7 +557,7 @@ procedimentos:
 - P2: Validar, pelas evidências anexadas à q2801, a existência de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [IR1, IR2, IR3]
 - P3: Verificar, por meio da q2804[A] e da q2804eviA, se as contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC; [IR4, IR5]
 - P4: Verificar, por meio das q2802ext[C], q2804[B] e da evidência q2802evi, se as contratações de TIC estão alinhadas aos instrumentos de planejamento e ao Plano de Contratações Anual; [IR6]
-- P5: Verificar, por meio da q2804[C] e da q2801evi, se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
+- P5: Verificar, por meio da q2804[C], se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
 
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre processo formal e padronizado para contratações de TIC; [P1]
@@ -613,7 +577,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2801ext[A] != Sim) | (q2801ext[B] != Sim)
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
-      criterios: [C1, C3, C7]
+      criterios: [C1, C3]
       tipo_encaminhamento: Determinação
       encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, com etapas, responsabilidades e artefatos padronizados, admitidos fluxos proporcionais à complexidade e ao risco
   - S6.2:
@@ -623,7 +587,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2804[A] != Sim)
       referencias_matriz: [R6.3, P3, E3, E4]
-      criterios: [C1, C5, C6, C8]
+      criterios: [C1, C5, C8]
       tipo_encaminhamento: Recomendação
       encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação
   - S6.3:
@@ -639,13 +603,13 @@ possiveis_achados:
   - S6.4:
       descricao: Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.
       severidade: alta
-      itens_questionario: [q2804[C], q2801evi]
+      itens_questionario: [q2804[C]]
       regra_de_identificacao:
       - (q2804[C] != Sim)
       referencias_matriz: [R6.4, P5, E6]
-      criterios: [C1, C4, C6]
+      criterios: [C1, C4]
       tipo_encaminhamento: Recomendação
-      encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TICa, com definição das responsabilidades de seus integrantes
+      encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes
 
 ---
 

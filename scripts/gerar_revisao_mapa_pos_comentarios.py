@@ -47,9 +47,24 @@ FORMULAS = {
 
 
 Q6 = "A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?"
+CRITERIO_Q3_C5 = (
+    "Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: "
+    "o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento "
+    "estratégico, subsidiar a elaboração das leis orçamentárias e ser observado nas licitações "
+    "e na execução contratual."
+)
+CRITERIO_Q4_C12 = (
+    "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o "
+    "quantitativo necessário ou ideal para a força de trabalho em TI."
+)
+CRITERIO_Q4_C13 = (
+    "Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar "
+    "providências para dotar o setor de TI de quantitativo adequado às necessidades "
+    "de trabalho em TI, consideradas as necessidades das demais áreas."
+)
 SITUACOES = {
     "s1.1": "Ausência de área, unidade, setor ou função de TIC formalmente instituída.",
-    "s1.2": "Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de governança, planejamento ou gestão de TIC.",
+    "s1.2": "Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.",
     "s1.3": "Posicionamento organizacional inadequado da área de TIC.",
     "s2.1": "Ausência de objetivos, indicadores ou metas para a gestão de TIC.",
     "s2.2": "Comitê de TIC ou instância equivalente não instituído formalmente.",
@@ -61,7 +76,7 @@ SITUACOES = {
     "s3.6": "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.",
     "s4.1": "Ausência de força de trabalho dedicada à TIC.",
     "s4.2": "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
-    "s4.3": "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação.",
+    "s4.3": "Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.",
     "s4.6": "Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.",
     "s5.1": "Inexistência ou insuficiência do catálogo de serviços de TIC.",
     "s5.2": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
@@ -71,7 +86,7 @@ SITUACOES = {
     "s6.1": "Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC.",
     "s6.2": "Contratações de TIC sem análise prévia e aprovação técnica da área de TIC.",
     "s6.3": "Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.",
-    "s6.4": "Contratações de TIC sem designação de Equipe de Planejamento com integrante técnico da área de TIC.",
+    "s6.4": "Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.",
 }
 
 
@@ -106,87 +121,150 @@ SITUACOES_ANTERIORES = {
 
 
 DETERMINACOES = {
-    "s1.1",
-    "s1.2",
+    "s2.1",
     "s2.2",
     "s2.3",
     "s3.1",
     "s3.2",
+    "s3.4",
+    "s3.5",
     "s3.6",
     "s4.6",
     "s5.3",
-    "s5.5",
     "s6.1",
     "s6.3",
 }
 
 
-CRITERIOS_ADICIONAIS = {
+CRITERIOS_POR_SITUACAO = {
     "s1.1": (
-        "Constituição Federal, art. 37, caput: princípios da legalidade e da eficiência.",
-        "Lei nº 14.133/2021, art. 11, parágrafo único: dever da alta administração de implementar processos e estruturas de governança das contratações.",
+        "COBIT 2019, APO01.04 - Definir e implementar as estruturas organizacionais: estabelecer estruturas organizacionais internas e externas necessárias para apoiar os objetivos de governança e gestão de TI.\n"
+        "Constituição Federal, art. 37, caput - Princípio da eficiência."
     ),
     "s1.2": (
-        "Constituição Federal, art. 37, caput: princípios da legalidade e da eficiência.",
-        "Lei nº 14.133/2021, art. 11, parágrafo único: dever da alta administração de implementar processos e estruturas de governança das contratações.",
+        "COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.\n"
+        "Constituição Federal, art. 37, caput - Princípio da eficiência."
+    ),
+    "s1.3": (
+        "COBIT 2019, APO01.06 - Aprimorar o posicionamento da função de TI: posicionar a função de tecnologia de modo compatível com sua relevância estratégica, responsabilidades e necessidade de interação com a alta administração.\n"
+        "Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos."
+    ),
+    "s2.1": (
+        "COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.\n"
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas."
     ),
     "s2.2": (
-        "Lei nº 14.133/2021, art. 11, parágrafo único: dever da alta administração de implementar estruturas de governança das contratações.",
-        "Acórdão TCU nº 1.411/2014-Plenário, item 9.1.2: precedente sobre funcionamento permanente e composição relevante do Comitê de TIC.",
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.\n"
+        "Lei nº 14.133/2021, art. 11, parágrafo único: dever da alta administração de implementar estruturas de governança das contratações.\n"
+        "Acórdão TCU nº 1.411/2014-Plenário, item 9.1.2: precedente sobre funcionamento permanente e composição relevante do Comitê de TIC."
     ),
     "s2.3": (
-        "Constituição Federal, art. 37, caput: princípio da eficiência.",
-        "Acórdão TCE-RJ nº 44.490/2024-PLEN, item II.1: precedente de determinação para Comitê de TIC com responsabilidades de alinhamento, priorização e monitoramento.",
+        "COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.\n"
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas."
     ),
     "s3.1": (
-        "Lei nº 14.133/2021, arts. 11, parágrafo único, e 18, caput: governança e planejamento da fase preparatória das contratações.",
+        "COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.\n"
+        "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.\n"
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
     ),
     "s3.2": (
-        "Lei nº 14.133/2021, arts. 11, parágrafo único, e 18, caput: governança e planejamento da fase preparatória das contratações.",
+        "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.\n"
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+    ),
+    "s3.4": (
+        "COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.\n"
+        "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.\n"
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+    ),
+    "s3.5": (
+        "COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.\n"
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.\n"
+        + CRITERIO_Q3_C5
     ),
     "s3.6": (
-        "Constituição Federal, art. 37, caput: princípio da eficiência.",
-        "Acórdão TCE-RJ nº 44.490/2024-PLEN, item II.3.5: precedente de determinação para divulgação e monitoramento do PDTI após aprovação.",
+        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+    ),
+    "s4.1": (
+        "COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.\n"
+        + CRITERIO_Q4_C13
+    ),
+    "s4.2": (
+        "COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.\n"
+        + CRITERIO_Q4_C12
+    ),
+    "s4.3": (
+        "COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.\n"
+        "COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC."
     ),
     "s4.6": (
-        "Lei nº 14.133/2021, art. 117: dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados.",
+        "COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.\n"
+        "Lei nº 14.133/2021, art. 117: dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados."
+    ),
+    "s5.1": (
+        "ITIL 4, prática de gerenciamento do catálogo de serviços: manter fonte única de informações consistentes sobre serviços e ofertas de serviço, disponível para usuários e equipes de suporte.\n"
+        "COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados."
+    ),
+    "s5.2": (
+        "COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.\n"
+        "ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias."
     ),
     "s5.3": (
-        "Lei nº 13.709/2018, arts. 46 e 50: medidas técnicas e administrativas de segurança e regras de boas práticas e governança no tratamento de dados pessoais.",
+        "ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.\n"
+        "Lei nº 13.709/2018, arts. 46 e 50: medidas técnicas e administrativas de segurança e regras de boas práticas e governança no tratamento de dados pessoais."
+    ),
+    "s5.4": (
+        "ITIL 4, prática de gerenciamento de configuração de serviço: assegurar informações precisas e confiáveis sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura.\n"
+        "COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração."
     ),
     "s5.5": (
-        "Lei nº 13.709/2018, arts. 46 e 48: deveres de segurança e comunicação de incidente que possa acarretar risco ou dano relevante aos titulares.",
-        "Acórdão TCE-RJ nº 44.490/2024-PLEN: precedente de controle sobre governança e gestão de TIC.",
+        "COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.\n"
+        "Lei nº 13.709/2018, arts. 46 e 48: deveres de segurança e comunicação de incidente que possa acarretar risco ou dano relevante aos titulares."
     ),
     "s6.1": (
-        "Lei nº 14.133/2021, arts. 11, parágrafo único, e 19, IV: governança das contratações e instituição de modelos padronizados.",
+        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
+        "Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos."
+    ),
+    "s6.2": (
+        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
+        "COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.\n"
+        "Instrução Normativa SGD/ME nº 94, de 23 de dezembro de 2022, art. 1º, § 1º: como referência de boa prática, a aplicação de ritos formais de contratação de TIC pode ser facultada para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando a possibilidade de fluxos simplificados para aquisições de baixa complexidade ou valor."
     ),
     "s6.3": (
-        "Lei nº 14.133/2021, arts. 12, VII, e 18, caput: plano de contratações anual e compatibilização da fase preparatória com o PCA, sempre que elaborado, e com as leis orçamentárias.",
+        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
+        "Art. 18, caput e §1º, incisos I, IV, V, VIII, IX, X e XIII, da Lei 14.133/2021: fase preparatória caracterizada pelo planejamento, compatibilização com o plano de contratações anual e elementos mínimos do estudo técnico preliminar."
+    ),
+    "s6.4": (
+        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
+        "Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação."
     ),
 }
 
 
 ENCAMINHAMENTOS = {
-    "s1.1": "formalize a área, unidade, setor ou função de TIC em instrumento compatível com a organização, definindo vinculação e responsabilidades essenciais, admitida estrutura equivalente que assegure o resultado de governança exigido",
-    "s1.2": "defina formalmente as atribuições da área de TIC, incluindo, no mínimo, responsabilidades de governança, planejamento e gestão de TIC, em instrumento compatível com a estrutura da organização",
-    "s2.1": "estabeleça objetivos, indicadores e metas para a gestão de TIC, aprovados ou formalmente definidos pela alta administração, e mantenha-os vinculados aos resultados institucionais pretendidos",
-    "s2.2": "institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, com composição, competências, periodicidade e forma de registro definidas",
-    "s2.3": "assegure o funcionamento efetivo do Comitê de TIC ou instância equivalente, realizando reuniões, registrando deliberações e acompanhando os encaminhamentos relevantes",
-    "s3.1": "institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, com participação das áreas demandantes, critérios de priorização, etapas e responsabilidades definidos",
-    "s3.2": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do ato de aprovação",
+    "s1.1": "formalize a área, unidade, setor ou função de TIC em instrumento compatível com a organização, definindo vinculação e responsabilidades essenciais de modo compatível com o porte, a complexidade e a dependência tecnológica da organização",
+    "s1.2": "defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão e controle da TIC",
+    "s1.3": "avalie o posicionamento organizacional da área de TIC e adote, quando necessário, medidas para assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação.",
+    "s2.1": "estabeleça modelo básico de governança e gestão de TIC definindo objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração",
+    "s2.2": "institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos",
+    "s2.3": "assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC",
+    "s3.1": "institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC",
+    "s3.2": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação",
+    "s3.4": "revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos",
     "s3.5": "integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização",
     "s3.6": "estabeleça e execute rotina periódica de acompanhamento, revisão e atualização do plano de TIC, registrando execução, pendências, reprogramações e deliberações",
-    "s4.1": "avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, contratação, fiscalização e sustentação dos serviços e ativos de TIC",
-    "s4.6": "assegure capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
-    "s5.2": "defina, pactue e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, incluindo metas no catálogo, indicadores, responsáveis e periodicidade de medição",
-    "s5.3": "estabeleça e mantenha atualizado inventário de ativos de TIC, com informações suficientes sobre equipamentos, sistemas, softwares, licenças, serviços em nuvem, responsáveis e ciclo de vida",
-    "s5.4": "formalize e execute processo de gestão de configuração, mantendo base, ferramenta ou registro equivalente com os itens relevantes e seus relacionamentos, responsabilidades e rotina de atualização",
-    "s5.5": "formalize e execute processo de gestão de incidentes de TIC, com papéis, priorização, escalamento, tratamento, registro rastreável e comunicação dos incidentes de segurança sujeitos à LGPD",
+    "s4.1": "avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC",
+    "s4.2": "estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes",
+    "s4.3": "avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização",
+    "s4.6": "avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
+    "s5.1": "institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes",
+    "s5.2": "defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados",
+    "s5.3": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, sistemas, softwares, licenças, serviços em nuvem e responsáveis",
+    "s5.4": "formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos",
+    "s5.5": "formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências",
     "s6.1": "formalize e padronize o processo de planejamento das contratações de TIC, com etapas, responsabilidades e artefatos padronizados, admitidos fluxos proporcionais à complexidade e ao risco",
-    "s6.2": "estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, com avaliação técnica mínima compatível com a complexidade e o risco da solução",
-    "s6.3": "compatibilize as contratações de TIC com os instrumentos de planejamento da organização e com o Plano de Contratações Anual, quando elaborado, justificando as situações excepcionais",
-    "s6.4": "designe formalmente Equipe de Planejamento para as contratações de TIC, assegurando integrante técnico da área de TIC e definição das responsabilidades dos participantes",
+    "s6.2": "estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação",
+    "s6.3": "integre as contratações de TIC com os instrumentos de planejamento da organização e com o Plano de Contratações Anual, quando elaborado, justificando as situações excepcionais",
+    "s6.4": "designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes",
 }
 
 
@@ -226,15 +304,6 @@ def rewrite_sheet(ws, headers: list[str], rows: list[dict], template_row: int = 
     ws.auto_filter.ref = f"A3:{get_column_letter(len(headers))}{max(3, 3 + len(rows))}"
 
 
-def append_criterio(row: dict, textos: tuple[str, ...]) -> None:
-    criterio = str(row.get("criterio") or "").strip()
-    partes = [criterio] if criterio else []
-    for texto in textos:
-        if texto not in criterio:
-            partes.append(texto)
-    row["criterio"] = "\n".join(partes)
-
-
 def gerar_mapa() -> tuple[list[str], list[str]]:
     shutil.copy2(MAPA_ORIGINAL, MAPA_SAIDA)
     wb = load_workbook(MAPA_SAIDA)
@@ -254,6 +323,15 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     proc_headers, procedimentos = rows_as_dicts(ws_proc)
     for proc in procedimentos:
         proc["logica_achado"] = FORMULAS[proc["id"]]
+        if proc["id"] == "PA01":
+            proc["nome_achado"] = "Estrutura de TIC insuficientemente formalizada, definida ou posicionada para gerir a tecnologia da informação."
+        if proc["id"] == "PA04":
+            proc["descricao"] = (
+                "Procedimento para verificar a questão Q4: A organização dispõe de capacidade institucional mínima, "
+                "em termos de força de trabalho, funções e vínculos, para planejar, gerir, proteger, contratar, "
+                "fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades "
+                "institucionais?"
+            )
         if proc["id"] == "PA06":
             proc["descricao"] = f"Procedimento para verificar a questão Q6: {Q6}"
     rewrite_sheet(ws_proc, proc_headers, procedimentos)
@@ -304,21 +382,17 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     if ids_usados != set(id_para_situacao):
         raise AssertionError("Cadastro de situações não coincide com as ações usadas nas fórmulas.")
 
-    criterios_nivel_servico = por_id["AV57"]["criterio"]
     acoes = []
     for acao_id in sorted(ids_usados, key=lambda valor: int(valor[2:])):
         row = copy.deepcopy(por_id[acao_id])
         sid = id_para_situacao[acao_id]
         row["descricao_situacao_inconforme"] = SITUACOES[sid]
         row["tipo_encaminhamento"] = "Determinação" if sid in DETERMINACOES else "Recomendação"
+        row["criterio"] = CRITERIOS_POR_SITUACAO[sid]
         if sid in ENCAMINHAMENTOS:
             row["encaminhamento"] = ENCAMINHAMENTOS[sid]
-        append_criterio(row, CRITERIOS_ADICIONAIS.get(sid, ()))
         if acao_id == "AV45":
             row["situacao_inconforme"] = "b) Centralizada Terceirizada: Há uma área de TI centralizada e formal que faz a gestão, mas a execução operacional/técnica é predominantemente terceirizada (ex: fábricas de software, service desk)."
-        if acao_id in {"AV54", "AV124"}:
-            row["criterio"] = criterios_nivel_servico
-            row["encaminhamento"] = ENCAMINHAMENTOS["s5.2"]
         acoes.append(row)
     rewrite_sheet(ws_acoes, acao_headers, acoes)
 
@@ -338,6 +412,10 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
+        elif motivo["id"] == "MR062":
+            motivo["texto_motivo"] = "A organização informou modelo de operação de TIC com execução predominantemente terceirizada, o que levou à análise de sua capacidade interna de coordenação e fiscalização"
+        elif motivo["id"] == "MR063":
+            motivo["texto_motivo"] = "Não foram identificados profissionais internos de TIC para coordenar e fiscalizar a execução das atividades de tecnologia da informação"
         ids_motivo = ids_formula(str(motivo.get("condicao_exibicao") or "")) | ids_formula(str(motivo.get("acoes_referencia") or ""))
         if not ids_motivo.issubset(ids_usados):
             continue
@@ -353,7 +431,7 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         descricao_situacao_inconforme=SITUACOES["s6.1"],
         condicao_exibicao="AV152 & ~AV153",
         acoes_referencia="AV152",
-        texto_motivo="Item 2801b: a organização informou que não disponibiliza artefatos padronizados para a fase de planejamento das contratações de TIC",
+        texto_motivo="No subitem b) do item 2801, não houve declaração afirmativa quanto à prática avaliada: são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TI, como Documento de Formalização da Demanda (DFD), Estudo Técnico Preliminar (ETP), Termo de Referência (TR), Matriz de Riscos ou documentos equivalentes",
     )
     motivo_b_evidencia = copy.deepcopy(next(row for row in motivos_originais if row["id"] == "MR092"))
     motivo_b_evidencia.update(
@@ -361,7 +439,7 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         descricao_situacao_inconforme=SITUACOES["s6.1"],
         condicao_exibicao="AV153",
         acoes_referencia="AV153",
-        texto_motivo="Item 2801b: a organização declarou disponibilizar artefatos padronizados para o planejamento das contratações de TIC, mas a evidência foi insuficiente para comprovar a prática",
+        texto_motivo="No subitem b) do item 2801, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TI, como Documento de Formalização da Demanda (DFD), Estudo Técnico Preliminar (ETP), Termo de Referência (TR), Matriz de Riscos ou documentos equivalentes",
     )
     motivos.extend([motivo_b, motivo_b_evidencia])
     grupos: dict[tuple[str, str], list[dict]] = defaultdict(list)
@@ -500,8 +578,62 @@ def replace_one_of(text: str, olds: tuple[str, ...], new: str) -> str:
     return text.replace(encontrados[0], new, 1)
 
 
+def remove_once(text: str, line: str) -> str:
+    """Remove uma linha exata, exigindo ocorrência única."""
+    alvo = line + "\n"
+    count = text.count(alvo)
+    if count != 1:
+        raise AssertionError(f"Esperada uma ocorrência da linha, encontradas {count}: {line[:100]!r}")
+    return text.replace(alvo, "", 1)
+
+
 def gerar_matriz() -> None:
     text = MATRIZ_ORIGINAL.read_text(encoding="utf-8")
+    text = replace_once(
+        text,
+        "- A área de TIC possui atribuições formalmente definidas de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC?",
+        "- A área de TIC possui atribuições formalmente definidas relacionadas à gestão da TIC?",
+    )
+    text = replace_once(
+        text,
+        "- O posicionamento organizacional da área de TIC é compatível com suas atribuições e permite atuação adequada em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos?",
+        "- A área de TIC está posicionada em nível organizacional que favoreça sua interlocução com a alta administração e sua atuação estratégica?",
+    )
+    text = replace_once(
+        text,
+        "- R1.2: Devido à ausência de atribuições formais da área de TIC, poderá não haver clareza sobre responsabilidades de planejamento, coordenação, gestão, execução, monitoramento e controle da TIC, favorecendo atuação reativa e fragmentada.",
+        "- R1.2: Devido à ausência de atribuições formais da área de TIC, poderá não haver clareza sobre responsabilidades de planejamento, coordenação, gestão e controle da TIC, favorecendo atuação reativa e fragmentada.",
+    )
+    text = replace_once(
+        text,
+        "- IR1: Resposta sobre existência formal de área, unidade, setor ou função de TIC e respectivo modelo de operação predominante da TIC; [F1, q0101]",
+        "- IR1: Resposta sobre a existência formal de área, unidade, setor ou função de TIC; [F1, q0101]",
+    )
+    text = replace_once(
+        text,
+        "- IR4: Evidência anexada que demonstre atribuições formais relacionadas às principais funções de TIC, incluindo governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [F2, q0103evi]",
+        "- IR4: Evidência anexada que demonstre atribuições formalmente definidas relacionadas à gestão da TIC; [F2, q0103evi]",
+    )
+    text = replace_once(
+        text,
+        "- P3: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas; [IR3]",
+        "- P3: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas relacionadas à gestão da TIC; [IR3]",
+    )
+    text = replace_once(
+        text,
+        "- P4: Validar, pela evidência anexada à q0103, se as atribuições abrangem funções essenciais de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [IR4]",
+        "- P4: Validar, pela evidência anexada à q0103, a existência de atribuições formalmente definidas relacionadas à gestão da TIC; [IR4]",
+    )
+    text = replace_once(
+        text,
+        "- E4: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que defina atribuições essenciais da área de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [P4]",
+        "- E4: Ausência ou insuficiência de evidência que demonstre atribuições formalmente definidas relacionadas à gestão da TIC; [P4]",
+    )
+    text = replace_once(
+        text,
+        "- A1: Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informação.",
+        "- A1: Estrutura de TIC insuficientemente formalizada, definida ou posicionada para gerir a tecnologia da informação.",
+    )
     text = replace_once(
         text,
         "questao: Q6. A organização adota processo formal e padronizado para planejamento, contratação, fiscalização e gestão de soluções de TIC, com participação técnica da área de TIC e alinhamento ao planejamento?",
@@ -549,12 +681,11 @@ def gerar_matriz() -> None:
     )
     insercoes = {
         "- C6: Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.": [
-            "- C7: Constituição Federal, art. 37, caput - Princípios da legalidade e da eficiência.",
+            "- C7: Constituição Federal, art. 37, caput - Princípio da eficiência.",
             "- C8: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar processos e estruturas de governança das contratações.",
         ],
         "- C5: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.": [
             "- C6: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar estruturas de governança das contratações.",
-            "- C7: Constituição Federal, art. 37, caput - Princípio da eficiência.",
         ],
         "- C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.": [
             "- C5: Lei nº 14.133/2021, arts. 11, parágrafo único, e 18, caput - Governança e planejamento da fase preparatória das contratações.",
@@ -570,6 +701,129 @@ def gerar_matriz() -> None:
     }
     for anchor, novas in insercoes.items():
         text = replace_once(text, anchor, anchor + "\n" + "\n".join(novas))
+
+    # Enxugamento aprovado dos catálogos de critérios: mantém somente os critérios
+    # citados pelas situações inconformes, com 2 a 3 critérios essenciais por situação.
+    linhas_criterio_removidas = [
+        "- C4: COBIT 2019, APO01.09 - Definição e comunicação de políticas e procedimentos: estabelecer e comunicar políticas e procedimentos de gestão de TI que orientem papéis, responsabilidades e controles.",
+        "- C5: ABNT NBR ISO/IEC 38500:2025, item 5.6.1 - Governança efetiva de TI: responsabilização clara, estrutura adequada de tomada de decisão e direção organizacional compatível com o uso atual e futuro da tecnologia.",
+        "- C8: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar processos e estruturas de governança das contratações.",
+        "- C1: COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.",
+        "- C3: Decreto nº 12.198/2024, art. 5º - Instituição do CGD, colegiado responsável por definir diretrizes e estratégias sobre uso de recursos digitais nos órgãos e entidades da administração pública federal direta, autárquica e fundacional.",
+        "- C5: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.",
+        "- C5: Lei nº 14.133/2021, arts. 11, parágrafo único, e 18, caput - Governança e planejamento da fase preparatória das contratações.",
+        "- C6: Constituição Federal, art. 37, caput - Princípio da eficiência.",
+        "- C3: COBIT 2019, APO07.02 - Identificar pessoal-chave de TI: identificar funções e pessoas críticas para reduzir dependência individual, perda de conhecimento e descontinuidade.",
+        "- C4: COBIT 2019, APO07.03 - Manter habilidades e competências do pessoal: identificar, desenvolver e manter competências necessárias à execução das responsabilidades de TIC.",
+        "- C7: COBIT 2019, APO10.04 - Gerenciar risco de fornecedores: identificar e tratar riscos decorrentes de fornecedores, contratos e dependências externas relevantes para TIC.",
+        "- C8: COBIT 2019, DSS01.02 - Gerenciar serviços de TI terceirizados: assegurar que serviços terceirizados sejam supervisionados, medidos e integrados aos controles da organização.",
+        "- C9: ABNT NBR ISO/IEC 27001:2022, cláusulas 5.3 e 7.2: definir responsabilidades e autoridades para segurança da informação e assegurar competências necessárias às funções atribuídas.",
+        "- C10: ABNT NBR ISO/IEC 27002:2022, controles 5.2 e 6.3: definir papéis e responsabilidades de segurança da informação e promover conscientização, educação e treinamento em segurança.",
+        "- C7: ITIL 4, prática de gerenciamento de incidentes: minimizar o impacto negativo dos incidentes por meio da restauração tempestiva da operação normal dos serviços e do registro rastreável do tratamento realizado.",
+        "- C6: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir e comunicar papéis e responsabilidades relacionados à informação e à tecnologia.",
+        "- C7: COBIT 2019, APO01.09 - Definir e comunicar políticas e procedimentos: manter políticas, procedimentos e orientações para direcionar processos de gestão de TIC.",
+    ]
+    for linha in linhas_criterio_removidas:
+        text = remove_once(text, linha)
+
+    # Q1: procedimentos e evidências sem ação de verificação correspondente no mapa
+    # (q0101evi é impossível quando q0101 = F; q0102evi não é avaliado documentalmente).
+    linhas_q1_removidas = [
+        "- IR2: Evidência anexada que demonstre a formalização da área, unidade, setor ou função de TIC, como regimento, decreto, portaria, resolução, organograma, ato administrativo ou instrumento equivalente; [F2, q0101evi]",
+        "- IR6: Evidência anexada que demonstre o posicionamento organizacional da área de TIC, como organograma institucional, regimento interno ou documento equivalente; [F2, q0102evi]",
+        "- P2: Validar, pela evidência anexada à q0101, a formalização da área, unidade, setor ou função de TIC; [IR2]",
+        "- P6: Validar, pela evidência anexada à q0102, a compatibilidade do posicionamento da área de TIC com suas atribuições institucionais; [IR6]",
+        "- E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que formalize a área, unidade, setor ou função de TIC; [P2]",
+        "- E6: Evidência anexada inexistente, incompatível ou insuficiente para demonstrar posicionamento adequado da área de TIC; [P6]",
+    ]
+    for linha in linhas_q1_removidas:
+        text = remove_once(text, linha)
+
+    # Critérios jurisprudenciais incorporados pela revisão, com âncora própria no catálogo.
+    insercoes_criterios = {
+        "- C6: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar estruturas de governança das contratações.": [
+            "- C8: Acórdão TCU 1.411/2014-Plenário, item 9.1.2 - Precedente sobre funcionamento permanente e composição relevante do Comitê de TIC.",
+        ],
+        "- C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.": [
+            f"- C5: {CRITERIO_Q3_C5}",
+        ],
+        "- C11: Lei nº 14.133/2021, art. 117 - Dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados.": [
+            f"- C12: {CRITERIO_Q4_C12}",
+            f"- C13: {CRITERIO_Q4_C13}",
+        ],
+    }
+    for anchor, novas in insercoes_criterios.items():
+        text = replace_once(text, anchor, anchor + "\n" + "\n".join(novas))
+
+    # Q4: escopo reduzido à capacidade institucional efetivamente testada (força de
+    # trabalho, quantitativo, cargos e dependência de terceiros); perfis e lacunas de
+    # competências deixam de sustentar situação inconforme e saem da matriz.
+    text = replace_once(
+        text,
+        "questao: Q4. A organização dispõe de capacidade institucional mínima, em termos de força de trabalho, perfis profissionais, competências, funções e vínculos, para planejar, gerir, proteger, contratar, fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades institucionais?",
+        "questao: Q4. A organização dispõe de capacidade institucional mínima, em termos de força de trabalho, funções e vínculos, para planejar, gerir, proteger, contratar, fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades institucionais?",
+    )
+    text = replace_once(
+        text,
+        "- A organização possui cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação?",
+        "- A organização possui cargos ou funções formalmente atribuídos à TIC e à segurança da informação?",
+    )
+    text = replace_once(
+        text,
+        "- R4.3: Devido à inexistência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação, poderá haver baixa capacidade de atração, alocação, responsabilização e retenção de profissionais.",
+        "- R4.3: Devido à ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação, poderá haver baixa clareza de responsabilidades e insuficiente capacidade de alocação e responsabilização dos profissionais.",
+    )
+    for linha in [
+        "- A organização definiu perfis profissionais esperados para gestores e colaboradores de TIC e segurança da informação?",
+        "- A organização identifica e trata lacunas de competências dos colaboradores e gestores de TIC e segurança da informação?",
+        "- R4.4: Devido à ausência de perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação, poderá haver designação de pessoas sem competências compatíveis com as responsabilidades exercidas.",
+        "- R4.5: Devido à ausência de identificação e tratamento de lacunas de competências, poderá haver incapacidade de executar práticas mínimas de planejamento, gestão, segurança, contratação, fiscalização e sustentação de TIC.",
+    ]:
+        text = remove_once(text, linha)
+    text = replace_once(
+        text,
+        """- IR3: Resposta sobre existência de cargos específicos em TIC e segurança da informação; [F1, q2708]
+- IR4: Resposta e evidência sobre perfis profissionais desejados para gestores de TIC e segurança da informação; [F1, F2, q2701, q2701evi]
+- IR5: Resposta e evidência sobre perfis profissionais desejados para colaboradores de TIC e segurança da informação; [F1, F2, q2702, q2702evi]
+- IR6: Resposta e evidência sobre escolha dos gestores de TIC e segurança da informação segundo perfis previamente definidos; [F1, F2, q2704, q2704evi]
+- IR7: Resposta e evidência sobre identificação de lacunas de competências; [F1, F2, q2705, q2705evi]
+- IR8: Resposta e evidência sobre tratamento das lacunas de competências; [F1, F2, q2706, q2706evi]
+- IR9: Respostas e evidências que permitam avaliar dependência de terceiros e capacidade interna de coordenação e fiscalização; [F1, F2, q0101, q0105, q2703, q2801, q2804]""",
+        """- IR3: Resposta sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, q2708]
+- IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]""",
+    )
+    text = replace_once(
+        text,
+        """- P3: Verificar, por meio da q2708, se há cargos específicos em TIC e segurança da informação; [IR3]
+- P4: Verificar, por meio das q2701 e q2702 e respectivas evidências, se há perfis profissionais definidos para gestores e colaboradores de TIC e segurança da informação; [IR4, IR5]
+- P5: Verificar, por meio da q2704 e respectiva evidência, se a escolha dos gestores de TIC e segurança da informação ocorre segundo perfis previamente definidos; [IR6]
+- P6: Verificar, por meio das q2705 e q2706 e respectivas evidências, se lacunas de competências são identificadas e tratadas; [IR7, IR8]
+- P7: Verificar, por cruzamento das respostas e evidências das q0101, q0105, q2703, q2801 e q2804, se há dependência excessiva de terceiros para atividades críticas sem capacidade interna suficiente de coordenação e fiscalização; [IR9]""",
+        """- P3: Verificar, por meio da q2708, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
+- P7: Verificar, por meio da resposta à q0101 e do quantitativo de profissionais internos informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado sem capacidade interna suficiente de coordenação e fiscalização; [IR9]""",
+    )
+    text = replace_once(
+        text,
+        """- E3: Resposta negativa sobre existência de cargos específicos em TIC e segurança da informação; [P3]
+- E4: Resposta negativa ou insuficiente sobre perfis profissionais definidos para gestores ou colaboradores de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P4]
+- E5: Resposta negativa ou insuficiente sobre escolha de gestores segundo perfis profissionais definidos, ou evidência inexistente/incompatível/insuficiente; [P5]
+- E6: Resposta negativa ou insuficiente sobre identificação ou tratamento de lacunas de competências, ou evidência inexistente/incompatível/insuficiente; [P6]
+- E7: Evidência, a partir das respostas e anexos do questionário, de dependência excessiva de terceiros em atividades críticas sem capacidade interna suficiente de coordenação, fiscalização ou retenção de conhecimento; [P7]""",
+        """- E3: Resposta negativa sobre existência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
+- E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]""",
+    )
+    # Q6: a equipe de planejamento é verificada pela resposta declarada (q2804[C]);
+    # a evidência genérica de processo (q2801evi) não é testada nesta situação.
+    text = replace_once(
+        text,
+        "- IR7: Resposta e evidência sobre equipe de planejamento formalmente designada e multidisciplinar; [F1, F2, q2804[C], q2801evi]",
+        "- IR7: Resposta sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [F1, q2804[C]]",
+    )
+    text = replace_once(
+        text,
+        "- P5: Verificar, por meio da q2804[C] e da q2801evi, se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]",
+        "- P5: Verificar, por meio da q2804[C], se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]",
+    )
 
     text = replace_one_of(
         text,
@@ -655,37 +909,121 @@ def gerar_matriz() -> None:
             start, end = blocks[sid_remover]
             del lines[start:end]
 
+    # Histórico da renumeração anteriormente proposta. A lista é mantida somente
+    # para documentar a reversão; identificadores de auditoria são estáveis e as
+    # lacunas decorrentes de itens retirados devem ser preservadas.
+    renumeracoes = [
+        # Q1
+        ("- IR3: Resposta sobre atribuições e competências formalizadas da área de TIC; [F1, q0103]",
+         "- IR2: Resposta sobre atribuições e competências formalizadas da área de TIC; [F1, q0103]"),
+        ("- IR4: Evidência anexada que demonstre atribuições formais relacionadas às principais funções de TIC, incluindo governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [F2, q0103evi]",
+         "- IR3: Evidência anexada que demonstre atribuições formais relacionadas às principais funções de TIC, incluindo governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [F2, q0103evi]"),
+        ("- IR5: Resposta sobre posicionamento hierárquico da área de TIC na estrutura organizacional; [F1, q0102]",
+         "- IR4: Resposta sobre posicionamento hierárquico da área de TIC na estrutura organizacional; [F1, q0102]"),
+        ("- P3: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas; [IR3]",
+         "- P2: Verificar, por meio da resposta à q0103, se a área de TIC possui atribuições formalmente definidas; [IR2]"),
+        ("- P4: Validar, pela evidência anexada à q0103, se as atribuições abrangem funções essenciais de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [IR4]",
+         "- P3: Validar, pela evidência anexada à q0103, se as atribuições abrangem funções essenciais de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [IR3]"),
+        ("- P5: Verificar, por meio da resposta à q0102, o posicionamento hierárquico da área de TIC; [IR5]",
+         "- P4: Verificar, por meio da resposta à q0102, o posicionamento hierárquico da área de TIC; [IR4]"),
+        ("- E3: Resposta negativa ou insuficiente sobre atribuições formalizadas da área de TIC; [P3]",
+         "- E2: Resposta negativa ou insuficiente sobre atribuições formalizadas da área de TIC; [P2]"),
+        ("- E4: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que defina atribuições essenciais da área de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [P4]",
+         "- E3: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que defina atribuições essenciais da área de TIC, como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados ou atividades correlatas; [P3]"),
+        ("- E5: Resposta que indique posicionamento inexistente ou incompatível da área de TIC; [P5]",
+         "- E4: Resposta que indique posicionamento inexistente ou incompatível da área de TIC; [P4]"),
+        ("referencias_matriz: [R1.2, P3, E3, P4, E4]", "referencias_matriz: [R1.2, P2, E2, P3, E3]"),
+        ("referencias_matriz: [R1.3, P5, E5, P6, E6]", "referencias_matriz: [R1.3, P4, E4]"),
+        # Q3
+        ("- R3.4: Devido à falta de alinhamento do plano de TIC ao planejamento institucional, poderão ser executadas ações de TIC com baixo valor para a organização.",
+         "- R3.3: Devido à falta de alinhamento do plano de TIC ao planejamento institucional, poderão ser executadas ações de TIC com baixo valor para a organização."),
+        ("- R3.5: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas.",
+         "- R3.4: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas."),
+        ("- R3.6: Devido à ausência de acompanhamento e revisão do plano de TIC, poderão permanecer metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.",
+         "- R3.5: Devido à ausência de acompanhamento e revisão do plano de TIC, poderão permanecer metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas."),
+        ("- IR7: Resposta e evidência sobre alinhamento do plano de TIC ao planejamento institucional; [F1, F2, q2102, q2102evi]",
+         "- IR6: Resposta e evidência sobre alinhamento do plano de TIC ao planejamento institucional; [F1, F2, q2102, q2102evi]"),
+        ("- IR8: Resposta e evidência sobre a previsão, no plano de TIC, dos recursos orçamentários necessários à execução das iniciativas; [F1, F2, q2102ext[C], q2102evi]",
+         "- IR7: Resposta e evidência sobre a previsão, no plano de TIC, dos recursos orçamentários necessários à execução das iniciativas; [F1, F2, q2102ext[C], q2102evi]"),
+        ("- IR9: Resposta e evidência sobre acompanhamento, revisão ou atualização do plano de TIC; [F1, F2, q2102, q2102evi]",
+         "- IR8: Resposta e evidência sobre acompanhamento, revisão ou atualização do plano de TIC; [F1, F2, q2102, q2102evi]"),
+        ("- P7: Verificar, por meio da resposta e das evidências da q2102, se o plano está alinhado ao planejamento institucional; [IR7]",
+         "- P6: Verificar, por meio da resposta e das evidências da q2102, se o plano está alinhado ao planejamento institucional; [IR6]"),
+        ("- P8: Verificar, por meio da resposta e da evidência da q2102ext[C], se o plano de TIC prevê os recursos orçamentários necessários à execução das iniciativas; [IR8]",
+         "- P7: Verificar, por meio da resposta e da evidência da q2102ext[C], se o plano de TIC prevê os recursos orçamentários necessários à execução das iniciativas; [IR7]"),
+        ("- P9: Verificar, por meio da resposta e das evidências da q2102, se há acompanhamento, revisão ou atualização periódica do plano de TIC; [IR9]",
+         "- P8: Verificar, por meio da resposta e das evidências da q2102, se há acompanhamento, revisão ou atualização periódica do plano de TIC; [IR8]"),
+        ("- E7: Inexistência ou insuficiência de alinhamento entre plano de TIC e planejamento institucional; [P7]",
+         "- E6: Inexistência ou insuficiência de alinhamento entre plano de TIC e planejamento institucional; [P6]"),
+        ("- E8: Inexistência ou insuficiência de previsão orçamentária no plano de TIC; [P8]",
+         "- E7: Inexistência ou insuficiência de previsão orçamentária no plano de TIC; [P7]"),
+        ("- E9: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P9]",
+         "- E8: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P8]"),
+        ("  - S3.4:", "  - S3.3:"),
+        ("  - S3.5:", "  - S3.4:"),
+        ("  - S3.6:", "  - S3.5:"),
+        ("referencias_matriz: [R3.4, P7, E7]", "referencias_matriz: [R3.3, P6, E6]"),
+        ("referencias_matriz: [R3.5, P8, E8]", "referencias_matriz: [R3.4, P7, E7]"),
+        ("referencias_matriz: [R3.6, P9, E9]", "referencias_matriz: [R3.5, P8, E8]"),
+        # Q4
+        ("- R4.6: Devido à dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação e fiscalização, poderá haver perda de conhecimento, baixa governabilidade e risco de descontinuidade dos serviços.",
+         "- R4.4: Devido à dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação e fiscalização, poderá haver perda de conhecimento, baixa governabilidade e risco de descontinuidade dos serviços."),
+        ("- IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]",
+         "- IR4: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]"),
+        ("- P7: Verificar, por meio da resposta à q0101 e do quantitativo de profissionais internos informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado sem capacidade interna suficiente de coordenação e fiscalização; [IR9]",
+         "- P4: Verificar, por meio da resposta à q0101 e do quantitativo de profissionais internos informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado sem capacidade interna suficiente de coordenação e fiscalização; [IR4]"),
+        ("- E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]",
+         "- E4: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P4]"),
+        ("  - S4.6:", "  - S4.4:"),
+        ("    referencias_matriz: [R4.6, P7, E7]", "    referencias_matriz: [R4.4, P4, E4]"),
+    ]
+    renumeracoes = []
+    texto_renumerado = "\n".join(lines)
+    for antigo, novo in renumeracoes:
+        n = texto_renumerado.count(antigo)
+        if n != 1:
+            raise AssertionError(f"Renumeração esperava uma ocorrência, encontradas {n}: {antigo[:90]!r}")
+        texto_renumerado = texto_renumerado.replace(antigo, novo, 1)
+    lines = texto_renumerado.splitlines()
+
     updates = {
-        "S1.1": dict(descricao=SITUACOES["s1.1"], criterios="[C1, C4, C5, C7, C8]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s1.1"]),
-        "S1.2": dict(descricao=SITUACOES["s1.2"], itens_questionario="[q0101, q0103, q0103[D], q0103[G], q0103evi]", referencias_matriz="[R1.2, P3, E3, P4, E4]", criterios="[C2, C4, C5, C7, C8]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s1.2"]),
-        "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
-        "S2.2": dict(itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C3, C4, C5, C6]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
-        "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C2, C3, C4, C7]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
-        "S3.1": dict(itens_questionario="[q2101ext[A], q2101ext[B], q2101ext[D], q2101evi]", criterios="[C1, C3, C4, C5]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.1"]),
-        "S3.2": dict(criterios="[C1, C3, C4, C5]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.2"]),
-        "S3.5": dict(descricao=SITUACOES["s3.5"], itens_questionario="[q2102ext[C], q2102evi]", referencias_matriz="[R3.5, P8, E8]", encaminhamento=ENCAMINHAMENTOS["s3.5"]),
-        "S3.6": dict(criterios="[C1, C3, C4, C6]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.6"]),
-        "S4.1": dict(descricao=SITUACOES["s4.1"], encaminhamento=ENCAMINHAMENTOS["s4.1"]),
-        "S4.6": dict(itens_questionario="[q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]", criterios="[C6, C7, C8, C11]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s4.6"]),
-        "S5.1": dict(itens_questionario="[q2201, q2201ext[B], q2201ext[C], q2201evi]"),
+        "S1.1": dict(descricao=SITUACOES["s1.1"], itens_questionario="[q0101]", referencias_matriz="[R1.1, P1, E1]", criterios="[C1, C7]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s1.1"]),
+        "S1.2": dict(descricao=SITUACOES["s1.2"], itens_questionario="[q0101, q0103, q0103[D], q0103[G], q0103evi]", referencias_matriz="[R1.2, P3, E3, P4, E4]", criterios="[C2, C7]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s1.2"]),
+        "S1.3": dict(itens_questionario="[q0102]", criterios="[C3, C6]", referencias_matriz="[R1.3, P5, E5]", encaminhamento=ENCAMINHAMENTOS["s1.3"]),
+        "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
+        "S2.2": dict(itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C4, C6, C8]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
+        "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C2, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
+        "S3.1": dict(itens_questionario="[q2101ext[A], q2101ext[B], q2101ext[D], q2101evi]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.1"]),
+        "S3.2": dict(criterios="[C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.2"]),
+        "S3.4": dict(criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.4"]),
+        "S3.5": dict(descricao=SITUACOES["s3.5"], itens_questionario="[q2102ext[C], q2102evi]", referencias_matriz="[R3.5, P8, E8]", criterios="[C2, C4, C5]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.5"]),
+        "S3.6": dict(criterios="[C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.6"]),
+        "S4.1": dict(descricao=SITUACOES["s4.1"], criterios="[C2, C13]", encaminhamento=ENCAMINHAMENTOS["s4.1"]),
+        "S4.2": dict(criterios="[C5, C12]", encaminhamento=ENCAMINHAMENTOS["s4.2"]),
+        "S4.3": dict(descricao=SITUACOES["s4.3"], criterios="[C1, C2]", encaminhamento=ENCAMINHAMENTOS["s4.3"]),
+        "S4.6": dict(itens_questionario="[q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]", criterios="[C6, C11]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s4.6"]),
+        "S5.1": dict(itens_questionario="[q2201, q2201ext[B], q2201ext[C], q2201evi]", encaminhamento=ENCAMINHAMENTOS["s5.1"]),
         "S5.2": dict(itens_questionario="[q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]", encaminhamento=ENCAMINHAMENTOS["s5.2"]),
-        "S5.3": dict(criterios="[C4, C5, C9]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s5.3"]),
+        "S5.3": dict(criterios="[C4, C9]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s5.3"]),
         "S5.4": dict(itens_questionario="[q2203ext[C], q2203evi]", encaminhamento=ENCAMINHAMENTOS["s5.4"]),
-        "S5.5": dict(criterios="[C7, C8, C10]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s5.5"]),
-        "S6.1": dict(descricao=SITUACOES["s6.1"], itens_questionario="[q2801ext[A], q2801ext[B], q2801evi]", criterios="[C1, C3, C7]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.1"]),
-        "S6.2": dict(descricao=SITUACOES["s6.2"], encaminhamento=ENCAMINHAMENTOS["s6.2"]),
+        "S5.5": dict(criterios="[C8, C10]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s5.5"]),
+        "S6.1": dict(descricao=SITUACOES["s6.1"], itens_questionario="[q2801ext[A], q2801ext[B], q2801evi]", criterios="[C1, C3]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.1"]),
+        "S6.2": dict(descricao=SITUACOES["s6.2"], criterios="[C1, C5, C8]", encaminhamento=ENCAMINHAMENTOS["s6.2"]),
         "S6.3": dict(descricao=SITUACOES["s6.3"], itens_questionario="[q2802ext[C], q2804[B], q2802evi]", criterios="[C1, C2]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.3"]),
-        "S6.4": dict(descricao=SITUACOES["s6.4"], encaminhamento=ENCAMINHAMENTOS["s6.4"]),
+        "S6.4": dict(descricao=SITUACOES["s6.4"], itens_questionario="[q2804[C]]", criterios="[C1, C4]", encaminhamento=ENCAMINHAMENTOS["s6.4"]),
     }
     rules = {
         "S1.2": ["(q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))"],
+        "S1.3": ["(q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))"],
         "S2.1": ["(q1001ext[H] != Sim)"],
         "S2.2": [
             "(q1001ext[E] != Sim)",
             "ou q1001evi é inexistente, incompatível ou insuficiente para comprovar a instituição formal do Comitê de TIC ou instância equivalente",
         ],
-        "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
-        "S3.1": ["(q2101ext[D] != Sim) | ((q2101ext[A] != Sim) | (q2101ext[B] != Sim))"],
+        "S2.3": [
+            "(q1001ext[E] == Sim) & ((q1001ext[F] != Sim) | q1001evi é inexistente, incompatível ou insuficiente para comprovar a atuação efetiva do Comitê de TIC ou instância equivalente)"
+        ],
+        "S3.1": ["(q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim)"],
         "S3.5": ["(q2102ext[C] != Sim)"],
         "S4.1": [
             "total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]",
@@ -699,7 +1037,7 @@ def gerar_matriz() -> None:
         "S5.2": ["(q2201ext[A] != Sim) | (q2201ext[D] != Sim) | (q2201ext[E] != Sim)"],
         "S5.4": ["(q2203ext[C] != Sim)"],
         "S6.1": ["(q2801ext[A] != Sim) | (q2801ext[B] != Sim)"],
-        "S6.3": ["(q2804[B] != Sim) | (q2802ext[C] != Sim)"],
+        "S6.3": ["(q2802ext[C] != Sim) | (q2804[B] != Sim)"],
     }
     blocks = situation_blocks(lines)
     for sid, fields in updates.items():
@@ -709,6 +1047,20 @@ def gerar_matriz() -> None:
             block = set_field(block, field, value)
         if sid in rules:
             block = set_rule(block, rules[sid])
+        if sid == "S4.1":
+            block = [
+                "  - S4.1:",
+                f"      descricao: {SITUACOES['s4.1']}",
+                "      severidade: alta",
+                "      itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]",
+                "      regra_de_identificacao:",
+                "      - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]",
+                "      - (q0101 != F) & (total_TI == 0)",
+                "      referencias_matriz: [R4.1, P1, E1]",
+                "      criterios: [C2, C13]",
+                "      tipo_encaminhamento: Recomendação",
+                f"      encaminhamento: {ENCAMINHAMENTOS['s4.1']}",
+            ]
         lines[start:end] = block
         blocks = situation_blocks(lines)
 
@@ -744,18 +1096,32 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-038", "Mapa e matriz/S1.2 × S2.1", "q0103D e q1001C podiam gerar situações distintas pelo mesmo fato", "S1.2 mantém competências formais por q0103; S2.1 usa somente q1001H (AV08/AV86)", "Elimina sobreposição entre competência formal da área de TIC e direção estratégica exercida pela alta administração."),
         ("AJ-039", "Mapa e matriz/PA03/S3.5", "Plano de TIC sem previsão orçamentária demonstrada; encaminhamento exigia estimativa dos recursos e memória ou referência", SITUACOES["s3.5"] + " Encaminhamento: " + ENCAMINHAMENTOS["s3.5"], "Alinha a situação e o encaminhamento ao conteúdo efetivamente verificado por q2102ext[C], sem exigir estimativa orçamentária ou memória de cálculo não avaliadas pelo questionário."),
         ("AJ-040", "Mapa e matriz/PA06/Q6", "A organização adota controles mínimos na fase preparatória das contratações de TIC, com processo definido e análise técnica pela unidade competente?", Q6, "Substitui expressão genérica por requisitos verificáveis e cobre processo formal e padronizado, responsabilidades, análise técnica e alinhamento ao planejamento."),
+        ("AJ-041", "Matriz/Q1, Q3 e Q4/identificadores", "Referências e situações renumeradas para eliminar lacunas", "Restaurar IR/P/E originais; S3.4, S3.5, S3.6 e S4.6", "Identificadores de auditoria são estáveis; a retirada de conteúdo deve preservar as lacunas e a rastreabilidade histórica."),
+        ("AJ-042", "Matriz/PA02/S2.3", "Somente negativa declaratória de q1001ext[F]", "q1001ext[E] = Sim e (q1001ext[F] != Sim ou evidência de atuação insuficiente)", "Reproduz conceitualmente a fórmula AV12 & (AV13 | AV91) já utilizada no mapa."),
+        ("AJ-043", "Mapa/Procedimentos de Auditoria/PA04", "Descrição anterior de Q4 com perfis profissionais e competências", "Descrição vigente da Q4 com força de trabalho, funções e vínculos", "Mantém identidade entre a questão da matriz e a descrição do procedimento operacional."),
+        ("AJ-044", "Mapa e matriz/PA04/S4.3", "Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação", SITUACOES["s4.3"], "Limita a descrição ao conteúdo efetivamente testado por q2708[B] e q2708[D]."),
+        ("AJ-045", "Matriz/PA01/S1.3", "itens_questionario: [q0102, q0102evi]", "itens_questionario: [q0102]", "Remove referência residual a evidência que não integra IR, procedimento, evidência nem ação de verificação da situação."),
+        ("AJ-046", "Matriz/PA04/S4.1", "Indentação inconsistente nos campos da situação", "Indentação uniforme dos campos e regras", "Preserva a estrutura documental e evita ambiguidade de leitura ou processamento."),
+        ("AJ-047", "Mapa/Motivos do Relatório/MR062", "Menção também à estrutura central externa", "Menção somente à execução predominantemente terceirizada", "AV45 aceita exclusivamente o modelo q0101=B; o motivo deve descrever o mesmo gatilho."),
+        ("AJ-048", "Mapa/Motivos do Relatório/MR063", "Quantitativo interno insuficiente", "Ausência de profissionais internos de TIC", "AV46 testa total interno exatamente igual a zero, e não insuficiência quantitativa."),
+        ("AJ-049", "Matriz/Q3/C5", "Critério legal específico ausente", f"C5: {CRITERIO_Q3_C5}", "Acrescenta à Q3 fundamento legal específico sobre integração entre PCA, planejamento estratégico e leis orçamentárias."),
+        ("AJ-050", "Mapa e matriz/PA03/S3.4-S3.5", "S3.4: [C3, C4]; S3.5: [C2, C3, C4]", "S3.4: [C1, C3, C4]; S3.5: [C2, C4, C5]", "Limita cada situação a três critérios diretamente relacionados ao respectivo objeto; em S3.5, substitui o C3 pelo fundamento legal C5."),
+        ("AJ-051", "Matriz/Q4/C12-C13", "Critérios jurisprudenciais específicos sobre força de trabalho de TIC ausentes", f"C12: {CRITERIO_Q4_C12} C13: {CRITERIO_Q4_C13}", "Cria identificadores novos para não reutilizar C3 e C4 removidos e preserva a rastreabilidade histórica."),
+        ("AJ-052", "Mapa e matriz/PA04/S4.1-S4.2", "S4.1: [C2, C9]; S4.2: [C5, C9]", "S4.1: [C2, C13]; S4.2: [C5, C12]", "Substitui o critério ISO genérico por precedentes do TCU diretamente aderentes à existência e ao dimensionamento da força de trabalho de TIC."),
+        ("AJ-053", "Mapa e matriz/PA01/Q1", "Escopo amplo das atribuições, C4 em S1.2 e título genérico do achado", "Gestão da TIC como núcleo; S1.2 com [C2, C7]; achado sobre formalização, definição e posicionamento", "Restringe a Q1 ao mínimo essencial efetivamente testado e mantém correspondência entre subquestão, informação requerida, procedimento, evidência, situação e critério."),
+        ("AJ-054", "Mapa e matriz/PA01/S1.1-S1.3", "S1.1 e S1.2 como determinação; encaminhamentos anteriores de S1.2 e S1.3", "Todas as situações da Q1 como recomendação; encaminhamentos revisados", "Os gatilhos são predominantemente declaratórios ou apoiados em referenciais de boa prática e preservam espaço para solução organizacional proporcional."),
     ]
     tipo_rows = [
-        ("S1.1", "Recomendação", "Determinação", "CF/88, art. 37; Lei nº 14.133/2021, art. 11, parágrafo único", "Dever de resultado; admitir estrutura equivalente e observar a competência de auto-organização."),
-        ("S1.2", "Recomendação", "Determinação", "CF/88, art. 37; Lei nº 14.133/2021, art. 11, parágrafo único", "Exigir atribuições mínimas, sem impor desenho organizacional único."),
         ("S2.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 11; Acórdãos TCE-RJ nº 44.490/2024 e TCU nº 1.411/2014", "O precedente TCE-RJ contém determinação; o precedente TCU citado contém recomendação."),
+        ("S2.1", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.1", "Monitorar o desempenho da TI com base em indicadores e metas pressupõe objetivos, indicadores e metas estabelecidos pela alta administração."),
+        ("S3.4", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3", "O processo estruturado do PDTI determinado contempla objetivos, indicadores e metas de TI alinhados aos objetivos de negócio."),
+        ("S3.5", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 12, VII e § 1º; Acórdão TCE-RJ nº 44.490/2024, item II.3", "Integração do plano de TIC à proposta orçamentária e ao PCA, observado o condicionamento legal 'quando elaborado'."),
         ("S2.3", "Recomendação", "Determinação", "CF/88, art. 37; Acórdão TCE-RJ nº 44.490/2024", "Aplicável somente se a entidade declarou possuir Comitê."),
         ("S3.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Admitir instrumento equivalente a PDTI/PEDTIC, desde que satisfaça o resultado."),
         ("S3.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "A aprovação deve ser pela instância competente, sem impor colegiado específico."),
-        ("S3.6", "Recomendação", "Determinação", "CF/88, art. 37; Acórdão TCE-RJ nº 44.490/2024, item II.3.5", "Vincular a obrigação ao plano efetivamente adotado."),
+        ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3.5", "Vincular a obrigação ao plano efetivamente adotado."),
         ("S4.6", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 117", "Art. 117 exige fiscalização, não quadro próprio de TIC; regra calibrada para terceirização e ausência total de capacidade interna."),
         ("S5.3", "Recomendação", "Determinação", "LGPD, arts. 46 e 50", "A LGPD impõe segurança, mas não nomeia inventário; encaminhamento deve exigir resultado equivalente e proporcional ao tratamento de dados."),
-        ("S5.5", "Recomendação", "Determinação", "LGPD, arts. 46 e 48", "Art. 48 alcança incidentes com risco ou dano relevante; a rotina deve contemplar essa qualificação."),
         ("S6.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 19, IV", "Art. 19, IV dirige-se aos órgãos com competência regulamentar; para os demais, exigir adoção de modelos aplicáveis, próprios ou compartilhados."),
         ("S6.3", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 12, VII, e 18", "A compatibilização com o PCA é obrigatória quando o plano tiver sido elaborado."),
     ]
@@ -832,16 +1198,16 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
     ws = wb.create_sheet("Encaminhamentos")
     ws.append(["Situação", "Tipo anterior", "Tipo aplicado", "Fundamento consolidado", "Ressalva de aplicação"])
     for sid, _, _, fundamento, ressalva in [
-        ("S1.1", "Recomendação", "Determinação", "CF/88, art. 37; Lei nº 14.133/2021, art. 11, parágrafo único", "Admitir estrutura equivalente; não impor criação de órgão por ato do jurisdicionado se houver reserva legal."),
-        ("S1.2", "Recomendação", "Determinação", "CF/88, art. 37; Lei nº 14.133/2021, art. 11, parágrafo único", "Exigir atribuições mínimas, não desenho organizacional único."),
         ("S2.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 11; Acórdãos TCE-RJ nº 44.490/2024 e TCU nº 1.411/2014", "TCU 1.411/2014, item 9.1, é recomendação; TCE-RJ 44.490/2024 contém determinação para casos auditados."),
+        ("S2.1", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.1", "Monitorar o desempenho com base em indicadores e metas pressupõe objetivos, indicadores e metas estabelecidos."),
+        ("S3.4", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3", "PDTI determinado contempla objetivos, indicadores e metas de TI alinhados aos objetivos de negócio."),
+        ("S3.5", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 12, VII e § 1º; Acórdão TCE-RJ nº 44.490/2024, item II.3", "Integração do plano de TIC à proposta orçamentária e ao PCA, observado o condicionamento legal 'quando elaborado'."),
         ("S2.3", "Recomendação", "Determinação", "CF/88, art. 37; Acórdão TCE-RJ nº 44.490/2024", "Somente para quem declarou Comitê."),
         ("S3.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Admitir instrumento equivalente a PDTI/PEDTIC."),
         ("S3.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Aprovação pela instância competente."),
-        ("S3.6", "Recomendação", "Determinação", "CF/88, art. 37; Acórdão TCE-RJ nº 44.490/2024, II.3.5", "Vincular ao plano adotado."),
+        ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, II.3.5", "Vincular ao plano adotado."),
         ("S4.6", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 117", "A norma impõe fiscalização, não quadro próprio; regra exige terceirização e zero de pessoal interno."),
         ("S5.3", "Recomendação", "Determinação", "LGPD, arts. 46 e 50", "Inventário é meio de demonstrar segurança/governança, não artefato nominal da LGPD."),
-        ("S5.5", "Recomendação", "Determinação", "LGPD, arts. 46 e 48", "Comunicação legal para incidentes com risco ou dano relevante."),
         ("S6.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 19, IV", "Art. 19, IV, tem destinatário qualificado; admitir modelos compartilhados aplicáveis."),
         ("S6.3", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 12, VII, e 18", "Compatibilização com PCA quando elaborado."),
     ]:
