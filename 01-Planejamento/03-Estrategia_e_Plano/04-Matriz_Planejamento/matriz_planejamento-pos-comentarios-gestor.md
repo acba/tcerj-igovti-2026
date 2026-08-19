@@ -88,17 +88,17 @@ possiveis_achados:
 
 ## Questão 02 - Governança e Comitê de TIC
 
-questao: Q2. A organização possui mecanismos básicos de governança de TIC estabelecidos pela alta administração, incluindo modelo de governança e gestão, objetivos, indicadores, metas e Comitê de TIC ou instância equivalente formalmente instituída e atuante?
+questao: Q2. A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?
 
 subquestoes:
 - A alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC?
-- O Comitê de TIC ou instância equivalente está formalmente instituído?
-- O Comitê de TIC ou instância equivalente atua de forma efetiva, com reuniões, registros de deliberação ou encaminhamentos formais?
+- O Comitê de TIC ou instância equivalente está formalmente instituído e conta com representantes de áreas relevantes da organização?
+- O Comitê de TIC ou instância equivalente realiza as atividades previstas em seu ato constitutivo?
 
 riscos:
 - R2.1: Devido à ausência de objetivos, indicadores ou metas para a gestão de TIC, poderá haver dificuldade para direcionar prioridades, medir resultados e acompanhar a contribuição da TIC para os objetivos institucionais.
-- R2.2: Devido à inexistência de Comitê de TIC ou instância equivalente, poderá não haver instância colegiada para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
-- R2.3: Devido à ausência de evidências de atuação efetiva do Comitê de TIC ou instância equivalente, poderá não haver deliberação efetiva sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+- R2.2: Devido à inexistência de Comitê de TIC ou instância equivalente, ou à ausência de representação de áreas relevantes em sua composição, poderá não haver instância colegiada adequada para alinhar prioridades e decisões relevantes de TIC às necessidades e aos objetivos institucionais.
+- R2.3: Devido à ausência de atuação efetiva do Comitê de TIC ou instância equivalente, o colegiado poderá existir apenas formalmente, sem contribuir efetivamente para o direcionamento, a priorização e o acompanhamento da TIC.
 
 fontes_de_informacao:
 - F1: Respostas ao questionário eletrônico iGovTI.
@@ -107,31 +107,31 @@ fontes_de_informacao:
 informacoes_requeridas:
 - IR1: Resposta sobre objetivos, indicadores e metas para a gestão de TIC estabelecidos pela alta administração; [F1, q1001ext[H]]
 - IR2: Evidência anexada que demonstre a formalização dos objetivos, indicadores e metas para a gestão de TIC; [F2, q1001evi]
-- IR3: Resposta sobre existência de Comitê de TIC ou instância equivalente formalmente instituído; [F1, q1001ext[E]]
-- IR4: Evidência anexada que demonstre instituição formal do Comitê de TIC ou instância equivalente, com composição, competências, periodicidade ou forma de deliberação; [F2, q1001evi]
-- IR5: Resposta sobre existência de reuniões ou atuação efetiva do Comitê de TIC ou instância equivalente; [F1, q1001ext[F]]
+- IR3: Resposta sobre existência de Comitê de TIC ou instância equivalente composto por representantes de áreas relevantes da organização; [F1, q1001ext[E]]
+- IR4: Evidência anexada que demonstre a instituição formal e a composição do Comitê de TIC ou instância equivalente; [F2, q1001evi]
+- IR5: Resposta sobre a realização das atividades previstas no ato constitutivo do Comitê de TIC ou instância equivalente; [F1, q1001ext[F]]
 - IR6: Evidência anexada que demonstre atuação efetiva do Comitê de TIC ou instância equivalente, como atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências; [F2, q1001evi]
 
 criterios:
+- C1: COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.
 - C2: COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.
-- C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.
-- C6: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar estruturas de governança das contratações.
-- C8: Acórdão TCU 1.411/2014-Plenário, item 9.1.2 - Precedente sobre funcionamento permanente e composição relevante do Comitê de TIC.
+- C3: Decreto nº 12.198/2024, arts. 5º e 6º, § 2º – Referência de governança digital: instituição, no âmbito da Administração Pública federal direta, autárquica e fundacional, de Comitê de Governança Digital ou colegiado equivalente com função deliberativa sobre ações de governo digital e uso de recursos de TIC, incluindo a aprovação dos instrumentos de planejamento previstos no Decreto.
+- C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC.
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q1001ext[H], se a alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC; [IR1]
 - P2: Validar, pela evidência anexada à q1001, a formalização dos objetivos, indicadores e metas para a gestão de TIC; [IR2]
-- P3: Verificar, por meio da resposta à q1001ext[E], se o Comitê de TIC ou instância equivalente está formalmente instituído; [IR3]
-- P4: Validar, pela evidência anexada à q1001, se há ato, norma, regimento, portaria ou documento equivalente que formalize o Comitê de TIC ou instância equivalente; [IR4]
-- P5: Verificar, por meio da resposta à q1001ext[F], se há reuniões, deliberações ou atuação efetiva do Comitê de TIC ou instância equivalente; [IR5]
+- P3: Verificar, por meio da resposta à q1001ext[E], se a organização declarou dispor de Comitê de TIC ou instância equivalente composto por representantes de áreas relevantes; [IR3]
+- P4: Validar, pela evidência anexada à q1001, a instituição formal e a composição do Comitê de TIC ou instância equivalente; [IR4]
+- P5: Verificar, por meio da resposta à q1001ext[F], se o Comitê de TIC ou instância equivalente realiza as atividades previstas em seu ato constitutivo; [IR5]
 - P6: Validar, pela evidência anexada à q1001, se há atas, pautas, registros de deliberação, encaminhamentos ou acompanhamento de decisões do Comitê de TIC ou instância equivalente; [IR6]
 
 evidencias:
 - E1: Resposta negativa sobre o estabelecimento de objetivos, indicadores ou metas para a gestão de TIC; [P1]
 - E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que demonstre objetivos, indicadores e metas para a gestão de TIC; [P2]
-- E3: Resposta negativa ou insuficiente sobre instituição formal de Comitê de TIC ou instância equivalente; [P3]
-- E4: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que formalize Comitê de TIC ou instância equivalente; [P4]
-- E5: Resposta negativa ou insuficiente sobre reuniões, deliberações ou atuação efetiva do Comitê de TIC ou instância equivalente; [P5]
+- E3: Resposta que indique inexistência de Comitê de TIC ou instância equivalente com representação de áreas relevantes da organização; [P3]
+- E4: Ausência ou insuficiência de evidência que demonstre a instituição formal e a composição do Comitê de TIC ou instância equivalente; [P4]
+- E5: Resposta que indique que o Comitê de TIC ou instância equivalente não realiza as atividades previstas em seu ato constitutivo; [P5]
 - E6: Ausência, desatualização, incompatibilidade ou insuficiência de atas, registros de deliberação, encaminhamentos ou acompanhamento de decisões do Comitê de TIC ou instância equivalente; [P6]
 
 possiveis_achados:
@@ -144,30 +144,29 @@ possiveis_achados:
       regra_de_identificacao:
       - (q1001ext[H] != Sim)
       referencias_matriz: [R2.1, P1, E1, P2, E2]
-      criterios: [C2, C4]
-      tipo_encaminhamento: Determinação
-      encaminhamento: estabeleça modelo básico de governança e gestão de TIC definindo objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração
+      criterios: [C2]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça objetivos, indicadores e metas para a gestão de TIC, de modo a possibilitar o acompanhamento periódico do desempenho da TIC pela alta administração
     - S2.2:
-      descricao: Comitê de TIC ou instância equivalente não instituído formalmente.
+      descricao: Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.
       severidade: alta
       itens_questionario: [q1001ext[E], q1001evi]
       regra_de_identificacao:
       - (q1001ext[E] != Sim)
-      - ou q1001evi é inexistente, incompatível ou insuficiente para comprovar a instituição formal do Comitê de TIC ou instância equivalente
       referencias_matriz: [R2.2, P3, E3, P4, E4]
-      criterios: [C4, C6, C8]
+      criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
-      encaminhamento: institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos
+      encaminhamento: institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, definindo em seu ato constitutivo, minimamente, a participação de representantes de áreas relevantes da organização, suas competências, a periodicidade de reuniões, a forma de registro das deliberações e os mecanismos de acompanhamento dos encaminhamentos
     - S2.3:
       descricao: Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.
       severidade: media
       itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
       regra_de_identificacao:
-      - (q1001ext[E] == Sim) & ((q1001ext[F] != Sim) | q1001evi é inexistente, incompatível ou insuficiente para comprovar a atuação efetiva do Comitê de TIC ou instância equivalente)
+      - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
       referencias_matriz: [R2.3, P5, E5, P6, E6]
-      criterios: [C2, C4]
+      criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
-      encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC
+      encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos
 
 ## Questão 03 - Planejamento de TIC
 

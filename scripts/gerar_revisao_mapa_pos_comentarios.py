@@ -38,7 +38,7 @@ RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditor
 
 FORMULAS = {
     "PA01": "(AV01 | (AV02 & (AV03 | (AV04 | AV84))) | (AV05 & AV06))",
-    "PA02": "((AV08 | AV86) | (AV11 | AV89) | (AV12 & (AV13 | AV91)))",
+    "PA02": "(AV08 | AV11 | (AV12 & AV13))",
     "PA03": "(((AV17 | AV95) | ((AV14 | AV92) | (AV15 | AV93))) | (AV18 | AV96) | (AV19 | AV97) | (AV20 | AV98) | (AV24 | AV101))",
     "PA04": "((AV26 & AV25) | (AV29 | AV103) | ((AV31 | AV105) | (AV33 | AV107)) | (AV45 & AV46))",
     "PA05": "(((AV55 | AV125) | (AV56 | AV126)) | ((AV54 | AV124) | (AV57 | AV127) | (AV58 | AV128)) | ((AV59 | AV129) | (AV62 | AV132) | (AV63 | AV133)) | (AV66 | AV136) | ((AV67 | AV137) | (AV70 | AV140) | (AV71 | AV141)))",
@@ -47,6 +47,89 @@ FORMULAS = {
 
 
 Q6 = "A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?"
+Q2 = "A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?"
+A2 = "Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação."
+Q2_BLOCK = """## Questão 02 - Governança e Comitê de TIC
+
+questao: Q2. A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?
+
+subquestoes:
+- A alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC?
+- O Comitê de TIC ou instância equivalente está formalmente instituído e conta com representantes de áreas relevantes da organização?
+- O Comitê de TIC ou instância equivalente realiza as atividades previstas em seu ato constitutivo?
+
+riscos:
+- R2.1: Devido à ausência de objetivos, indicadores ou metas para a gestão de TIC, poderá haver dificuldade para direcionar prioridades, medir resultados e acompanhar a contribuição da TIC para os objetivos institucionais.
+- R2.2: Devido à inexistência de Comitê de TIC ou instância equivalente, ou à ausência de representação de áreas relevantes em sua composição, poderá não haver instância colegiada adequada para alinhar prioridades e decisões relevantes de TIC às necessidades e aos objetivos institucionais.
+- R2.3: Devido à ausência de atuação efetiva do Comitê de TIC ou instância equivalente, o colegiado poderá existir apenas formalmente, sem contribuir efetivamente para o direcionamento, a priorização e o acompanhamento da TIC.
+
+fontes_de_informacao:
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas ao questionário eletrônico.
+
+informacoes_requeridas:
+- IR1: Resposta sobre objetivos, indicadores e metas para a gestão de TIC estabelecidos pela alta administração; [F1, q1001ext[H]]
+- IR2: Evidência anexada que demonstre a formalização dos objetivos, indicadores e metas para a gestão de TIC; [F2, q1001evi]
+- IR3: Resposta sobre existência de Comitê de TIC ou instância equivalente composto por representantes de áreas relevantes da organização; [F1, q1001ext[E]]
+- IR4: Evidência anexada que demonstre a instituição formal e a composição do Comitê de TIC ou instância equivalente; [F2, q1001evi]
+- IR5: Resposta sobre a realização das atividades previstas no ato constitutivo do Comitê de TIC ou instância equivalente; [F1, q1001ext[F]]
+- IR6: Evidência anexada que demonstre atuação efetiva do Comitê de TIC ou instância equivalente, como atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências; [F2, q1001evi]
+
+criterios:
+- C1: COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.
+- C2: COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.
+- C3: Decreto nº 12.198/2024, arts. 5º e 6º, § 2º – Referência de governança digital: instituição, no âmbito da Administração Pública federal direta, autárquica e fundacional, de Comitê de Governança Digital ou colegiado equivalente com função deliberativa sobre ações de governo digital e uso de recursos de TIC, incluindo a aprovação dos instrumentos de planejamento previstos no Decreto.
+- C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC.
+
+procedimentos:
+- P1: Verificar, por meio da resposta à q1001ext[H], se a alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC; [IR1]
+- P2: Validar, pela evidência anexada à q1001, a formalização dos objetivos, indicadores e metas para a gestão de TIC; [IR2]
+- P3: Verificar, por meio da resposta à q1001ext[E], se a organização declarou dispor de Comitê de TIC ou instância equivalente composto por representantes de áreas relevantes; [IR3]
+- P4: Validar, pela evidência anexada à q1001, a instituição formal e a composição do Comitê de TIC ou instância equivalente; [IR4]
+- P5: Verificar, por meio da resposta à q1001ext[F], se o Comitê de TIC ou instância equivalente realiza as atividades previstas em seu ato constitutivo; [IR5]
+- P6: Validar, pela evidência anexada à q1001, se há atas, pautas, registros de deliberação, encaminhamentos ou acompanhamento de decisões do Comitê de TIC ou instância equivalente; [IR6]
+
+evidencias:
+- E1: Resposta negativa sobre o estabelecimento de objetivos, indicadores ou metas para a gestão de TIC; [P1]
+- E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que demonstre objetivos, indicadores e metas para a gestão de TIC; [P2]
+- E3: Resposta que indique inexistência de Comitê de TIC ou instância equivalente com representação de áreas relevantes da organização; [P3]
+- E4: Ausência ou insuficiência de evidência que demonstre a instituição formal e a composição do Comitê de TIC ou instância equivalente; [P4]
+- E5: Resposta que indique que o Comitê de TIC ou instância equivalente não realiza as atividades previstas em seu ato constitutivo; [P5]
+- E6: Ausência, desatualização, incompatibilidade ou insuficiência de atas, registros de deliberação, encaminhamentos ou acompanhamento de decisões do Comitê de TIC ou instância equivalente; [P6]
+
+possiveis_achados:
+- A2: Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação.
+  situacoes_encontradas:
+    - S2.1:
+      descricao: Ausência de objetivos, indicadores ou metas para a gestão de TIC.
+      severidade: alta
+      itens_questionario: [q1001ext[H], q1001evi]
+      regra_de_identificacao:
+      - (q1001ext[H] != Sim)
+      referencias_matriz: [R2.1, P1, E1, P2, E2]
+      criterios: [C2]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça objetivos, indicadores e metas para a gestão de TIC, de modo a possibilitar o acompanhamento periódico do desempenho da TIC pela alta administração
+    - S2.2:
+      descricao: Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.
+      severidade: alta
+      itens_questionario: [q1001ext[E], q1001evi]
+      regra_de_identificacao:
+      - (q1001ext[E] != Sim)
+      referencias_matriz: [R2.2, P3, E3, P4, E4]
+      criterios: [C1, C3, C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, definindo em seu ato constitutivo, minimamente, a participação de representantes de áreas relevantes da organização, suas competências, a periodicidade de reuniões, a forma de registro das deliberações e os mecanismos de acompanhamento dos encaminhamentos
+    - S2.3:
+      descricao: Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.
+      severidade: media
+      itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
+      regra_de_identificacao:
+      - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
+      referencias_matriz: [R2.3, P5, E5, P6, E6]
+      criterios: [C1, C3, C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos"""
 CRITERIO_Q3_C5 = (
     "Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: "
     "o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento "
@@ -67,7 +150,7 @@ SITUACOES = {
     "s1.2": "Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.",
     "s1.3": "Posicionamento organizacional inadequado da área de TIC.",
     "s2.1": "Ausência de objetivos, indicadores ou metas para a gestão de TIC.",
-    "s2.2": "Comitê de TIC ou instância equivalente não instituído formalmente.",
+    "s2.2": "Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.",
     "s2.3": "Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.",
     "s3.1": "Inexistência ou fragilidade do processo formal de planejamento de TIC.",
     "s3.2": "Ausência de aprovação formal do plano de TIC.",
@@ -95,7 +178,7 @@ SITUACOES_ANTERIORES = {
     "s1.2": "Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.",
     "s1.3": SITUACOES["s1.3"],
     "s2.1": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.",
-    "s2.2": SITUACOES["s2.2"],
+    "s2.2": "Comitê de TIC ou instância equivalente não instituído formalmente.",
     "s2.3": "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.",
     "s3.1": SITUACOES["s3.1"],
     "s3.2": SITUACOES["s3.2"],
@@ -121,7 +204,6 @@ SITUACOES_ANTERIORES = {
 
 
 DETERMINACOES = {
-    "s2.1",
     "s2.2",
     "s2.3",
     "s3.1",
@@ -150,17 +232,17 @@ CRITERIOS_POR_SITUACAO = {
         "Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos."
     ),
     "s2.1": (
-        "COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.\n"
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas."
+        "COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas."
     ),
     "s2.2": (
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas.\n"
-        "Lei nº 14.133/2021, art. 11, parágrafo único: dever da alta administração de implementar estruturas de governança das contratações.\n"
-        "Acórdão TCU nº 1.411/2014-Plenário, item 9.1.2: precedente sobre funcionamento permanente e composição relevante do Comitê de TIC."
+        "COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.\n"
+        "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º – Referência de governança digital: instituição, no âmbito da Administração Pública federal direta, autárquica e fundacional, de Comitê de Governança Digital ou colegiado equivalente com função deliberativa sobre ações de governo digital e uso de recursos de TIC, incluindo a aprovação dos instrumentos de planejamento previstos no Decreto.\n"
+        "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC."
     ),
     "s2.3": (
-        "COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.\n"
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.1: necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes, responsabilidade de alinhar as ações de TI aos objetivos institucionais, priorizar investimentos e monitorar o desempenho da TI com base em indicadores e metas."
+        "COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.\n"
+        "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º – Referência de governança digital: instituição, no âmbito da Administração Pública federal direta, autárquica e fundacional, de Comitê de Governança Digital ou colegiado equivalente com função deliberativa sobre ações de governo digital e uso de recursos de TIC, incluindo a aprovação dos instrumentos de planejamento previstos no Decreto.\n"
+        "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC."
     ),
     "s3.1": (
         "COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.\n"
@@ -244,9 +326,9 @@ ENCAMINHAMENTOS = {
     "s1.1": "formalize a área, unidade, setor ou função de TIC em instrumento compatível com a organização, definindo vinculação e responsabilidades essenciais de modo compatível com o porte, a complexidade e a dependência tecnológica da organização",
     "s1.2": "defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão e controle da TIC",
     "s1.3": "avalie o posicionamento organizacional da área de TIC e adote, quando necessário, medidas para assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação.",
-    "s2.1": "estabeleça modelo básico de governança e gestão de TIC definindo objetivos, indicadores, metas e forma de acompanhamento periódico do desempenho da TIC pela alta administração",
-    "s2.2": "institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em definir sua composição, competências, periodicidade de reuniões, forma de registro das deliberações e acompanhamento dos encaminhamentos",
-    "s2.3": "assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, atentando-se, minimamente, em realizar reuniões periódicas, registrar deliberações e acompanhar decisões sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC",
+    "s2.1": "estabeleça objetivos, indicadores e metas para a gestão de TIC, de modo a possibilitar o acompanhamento periódico do desempenho da TIC pela alta administração",
+    "s2.2": "institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, definindo em seu ato constitutivo, minimamente, a participação de representantes de áreas relevantes da organização, suas competências, a periodicidade de reuniões, a forma de registro das deliberações e os mecanismos de acompanhamento dos encaminhamentos",
+    "s2.3": "assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos",
     "s3.1": "institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC",
     "s3.2": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação",
     "s3.4": "revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos",
@@ -325,6 +407,9 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         proc["logica_achado"] = FORMULAS[proc["id"]]
         if proc["id"] == "PA01":
             proc["nome_achado"] = "Estrutura de TIC insuficientemente formalizada, definida ou posicionada para gerir a tecnologia da informação."
+        if proc["id"] == "PA02":
+            proc["descricao"] = f"Procedimento para verificar a questão Q2: {Q2}"
+            proc["nome_achado"] = A2
         if proc["id"] == "PA04":
             proc["descricao"] = (
                 "Procedimento para verificar a questão Q4: A organização dispõe de capacidade institucional mínima, "
@@ -355,9 +440,9 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         "s1.1": {"AV01"},
         "s1.2": {"AV02", "AV03", "AV04", "AV84"},
         "s1.3": {"AV05", "AV06"},
-        "s2.1": {"AV08", "AV86"},
-        "s2.2": {"AV11", "AV89"},
-        "s2.3": {"AV12", "AV13", "AV91"},
+        "s2.1": {"AV08"},
+        "s2.2": {"AV11"},
+        "s2.3": {"AV12", "AV13"},
         "s3.1": {"AV14", "AV15", "AV17", "AV92", "AV93", "AV95"},
         "s3.2": {"AV18", "AV96"},
         "s3.4": {"AV19", "AV97"},
@@ -401,14 +486,14 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     motivos = []
     for motivo in motivos_originais:
         motivo = copy.deepcopy(motivo)
-        if motivo["id"] == "MR016":
-            motivo["condicao_exibicao"] = "AV11 & ~AV89"
+        if motivo["id"] == "MR010":
+            motivo["condicao_exibicao"] = "AV08"
+        elif motivo["id"] == "MR016":
+            motivo["condicao_exibicao"] = "AV11"
         elif motivo["id"] == "MR018":
-            motivo["condicao_exibicao"] = "AV12 & (AV13 | AV91)"
+            motivo["condicao_exibicao"] = "AV12 & AV13"
         elif motivo["id"] == "MR020":
-            motivo["condicao_exibicao"] = "AV12 & AV13 & ~AV91"
-        elif motivo["id"] == "MR021":
-            motivo["condicao_exibicao"] = "AV12 & AV91"
+            motivo["condicao_exibicao"] = "AV12 & AV13"
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
@@ -984,15 +1069,18 @@ def gerar_matriz() -> None:
         if n != 1:
             raise AssertionError(f"Renumeração esperava uma ocorrência, encontradas {n}: {antigo[:90]!r}")
         texto_renumerado = texto_renumerado.replace(antigo, novo, 1)
+    inicio_q2 = texto_renumerado.index("## Questão 02 - Governança e Comitê de TIC")
+    inicio_q3 = texto_renumerado.index("## Questão 03 - Planejamento de TIC", inicio_q2)
+    texto_renumerado = texto_renumerado[:inicio_q2] + Q2_BLOCK + "\n\n" + texto_renumerado[inicio_q3:]
     lines = texto_renumerado.splitlines()
 
     updates = {
         "S1.1": dict(descricao=SITUACOES["s1.1"], itens_questionario="[q0101]", referencias_matriz="[R1.1, P1, E1]", criterios="[C1, C7]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s1.1"]),
         "S1.2": dict(descricao=SITUACOES["s1.2"], itens_questionario="[q0101, q0103, q0103[D], q0103[G], q0103evi]", referencias_matriz="[R1.2, P3, E3, P4, E4]", criterios="[C2, C7]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s1.2"]),
         "S1.3": dict(itens_questionario="[q0102]", criterios="[C3, C6]", referencias_matriz="[R1.3, P5, E5]", encaminhamento=ENCAMINHAMENTOS["s1.3"]),
-        "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
-        "S2.2": dict(itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C4, C6, C8]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
-        "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C2, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
+        "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
+        "S2.2": dict(descricao=SITUACOES["s2.2"], itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
+        "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
         "S3.1": dict(itens_questionario="[q2101ext[A], q2101ext[B], q2101ext[D], q2101evi]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.1"]),
         "S3.2": dict(criterios="[C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.2"]),
         "S3.4": dict(criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.4"]),
@@ -1016,13 +1104,8 @@ def gerar_matriz() -> None:
         "S1.2": ["(q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))"],
         "S1.3": ["(q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))"],
         "S2.1": ["(q1001ext[H] != Sim)"],
-        "S2.2": [
-            "(q1001ext[E] != Sim)",
-            "ou q1001evi é inexistente, incompatível ou insuficiente para comprovar a instituição formal do Comitê de TIC ou instância equivalente",
-        ],
-        "S2.3": [
-            "(q1001ext[E] == Sim) & ((q1001ext[F] != Sim) | q1001evi é inexistente, incompatível ou insuficiente para comprovar a atuação efetiva do Comitê de TIC ou instância equivalente)"
-        ],
+        "S2.2": ["(q1001ext[E] != Sim)"],
+        "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
         "S3.1": ["(q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim)"],
         "S3.5": ["(q2102ext[C] != Sim)"],
         "S4.1": [
@@ -1093,7 +1176,7 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-022", "Mapa/Fontes de Informação", "Base pós-evidências e texto com erro de codificação", "Base e painel pós-comentários; acentuação corrigida", "A versão do mapa deve apontar para o mesmo estado temporal dos dados usados na reexecução."),
         ("AJ-023", "Painel pós-comentários", "Sem q2801ext[B]", "Coluna e metadados q2801ext[B] incorporados ao painel vigente", "O catálogo já avaliava B, mas o painel fora filtrado pelo mapa antigo; a ação documental exige a coluna."),
         ("AJ-024", "Matriz de Planejamento", "Regras, itens, descrições e tipos anteriores", "Versão pós-comentários sincronizada", "As condições do possível achado devem ser idênticas às ações e fórmulas operacionais do mapa."),
-        ("AJ-038", "Mapa e matriz/S1.2 × S2.1", "q0103D e q1001C podiam gerar situações distintas pelo mesmo fato", "S1.2 mantém competências formais por q0103; S2.1 usa somente q1001H (AV08/AV86)", "Elimina sobreposição entre competência formal da área de TIC e direção estratégica exercida pela alta administração."),
+        ("AJ-038", "Mapa e matriz/S1.2 × S2.1", "q0103D e q1001C podiam gerar situações distintas pelo mesmo fato", "S1.2 mantém competências formais por q0103; S2.1 usa somente q1001H (AV08)", "Elimina sobreposição entre competência formal da área de TIC e direção estratégica exercida pela alta administração."),
         ("AJ-039", "Mapa e matriz/PA03/S3.5", "Plano de TIC sem previsão orçamentária demonstrada; encaminhamento exigia estimativa dos recursos e memória ou referência", SITUACOES["s3.5"] + " Encaminhamento: " + ENCAMINHAMENTOS["s3.5"], "Alinha a situação e o encaminhamento ao conteúdo efetivamente verificado por q2102ext[C], sem exigir estimativa orçamentária ou memória de cálculo não avaliadas pelo questionário."),
         ("AJ-040", "Mapa e matriz/PA06/Q6", "A organização adota controles mínimos na fase preparatória das contratações de TIC, com processo definido e análise técnica pela unidade competente?", Q6, "Substitui expressão genérica por requisitos verificáveis e cobre processo formal e padronizado, responsabilidades, análise técnica e alinhamento ao planejamento."),
         ("AJ-041", "Matriz/Q1, Q3 e Q4/identificadores", "Referências e situações renumeradas para eliminar lacunas", "Restaurar IR/P/E originais; S3.4, S3.5, S3.6 e S4.6", "Identificadores de auditoria são estáveis; a retirada de conteúdo deve preservar as lacunas e a rastreabilidade histórica."),
@@ -1110,13 +1193,14 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-052", "Mapa e matriz/PA04/S4.1-S4.2", "S4.1: [C2, C9]; S4.2: [C5, C9]", "S4.1: [C2, C13]; S4.2: [C5, C12]", "Substitui o critério ISO genérico por precedentes do TCU diretamente aderentes à existência e ao dimensionamento da força de trabalho de TIC."),
         ("AJ-053", "Mapa e matriz/PA01/Q1", "Escopo amplo das atribuições, C4 em S1.2 e título genérico do achado", "Gestão da TIC como núcleo; S1.2 com [C2, C7]; achado sobre formalização, definição e posicionamento", "Restringe a Q1 ao mínimo essencial efetivamente testado e mantém correspondência entre subquestão, informação requerida, procedimento, evidência, situação e critério."),
         ("AJ-054", "Mapa e matriz/PA01/S1.1-S1.3", "S1.1 e S1.2 como determinação; encaminhamentos anteriores de S1.2 e S1.3", "Todas as situações da Q1 como recomendação; encaminhamentos revisados", "Os gatilhos são predominantemente declaratórios ou apoiados em referenciais de boa prática e preservam espaço para solução organizacional proporcional."),
+        ("AJ-055", "Mapa e matriz/PA02/Q2", "Questão, riscos, critérios e encaminhamentos anteriores", "Q2 revisada com C1 a C4 e foco em objetivos, composição e atuação do Comitê", "Mantém apenas os elementos essenciais de governança efetivamente abrangidos pelos itens H, E e F da q1001."),
+        ("AJ-056", "Mapa e matriz/PA02/S2.1-S2.3", "AV08 | AV86; AV11 | AV89; AV12 & (AV13 | AV91)", "AV08; AV11; AV12 & AV13", "A decisão mais recente trata a avaliação documental como evidência de suporte, sem convertê-la em gatilho autônomo das situações; S2.1 retorna a recomendação."),
     ]
     tipo_rows = [
-        ("S2.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 11; Acórdãos TCE-RJ nº 44.490/2024 e TCU nº 1.411/2014", "O precedente TCE-RJ contém determinação; o precedente TCU citado contém recomendação."),
-        ("S2.1", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.1", "Monitorar o desempenho da TI com base em indicadores e metas pressupõe objetivos, indicadores e metas estabelecidos pela alta administração."),
+        ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; a determinação se apoia também no precedente do TCE-RJ e deve admitir instância equivalente."),
         ("S3.4", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3", "O processo estruturado do PDTI determinado contempla objetivos, indicadores e metas de TI alinhados aos objetivos de negócio."),
         ("S3.5", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 12, VII e § 1º; Acórdão TCE-RJ nº 44.490/2024, item II.3", "Integração do plano de TIC à proposta orçamentária e ao PCA, observado o condicionamento legal 'quando elaborado'."),
-        ("S2.3", "Recomendação", "Determinação", "CF/88, art. 37; Acórdão TCE-RJ nº 44.490/2024", "Aplicável somente se a entidade declarou possuir Comitê."),
+        ("S2.3", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "Aplicável somente se a entidade declarou possuir Comitê; a atuação exigida deve observar seu ato constitutivo."),
         ("S3.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Admitir instrumento equivalente a PDTI/PEDTIC, desde que satisfaça o resultado."),
         ("S3.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "A aprovação deve ser pela instância competente, sem impor colegiado específico."),
         ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3.5", "Vincular a obrigação ao plano efetivamente adotado."),
@@ -1129,6 +1213,9 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         {"ID": rid, "Artefato / objeto": obj, "DE": old, "PARA": new, "Motivação / justificativa": why, "Situação": "Aplicado"}
         for rid, obj, old, new, why in rows
     ]
+    for row in result:
+        if row["ID"] in {"AJ-003", "AJ-004", "AJ-005", "AJ-042"}:
+            row["Situação"] = "Superado por AJ-056"
     for idx, (sid, old, new, fundamento, ressalva) in enumerate(tipo_rows, start=25):
         result.append(
             {
@@ -1183,7 +1270,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
     ws = wb.create_sheet("Contradições resolvidas")
     ws.append(["Tema", "Propostas em tensão", "Decisão aplicada", "Justificativa"])
     contradicoes = [
-        ("S2.2", "Proposta anterior de restringir a situação a AV11 versus orientação de manter a avaliação documental AV89", "AV11 | AV89", "A negativa declarada e a insuficiência da prova de instituição formal permanecem como gatilhos alternativos; a eventual concomitância com S2.3 deve ser interpretada como formalização não comprovada e atuação não comprovada."),
+        ("S2.2", "Orientação anterior de manter AV89 como gatilho alternativo versus nova regra declaratória", "AV11", "Prevalece a decisão mais recente: a evidência documental permanece prevista na matriz como suporte, mas não gera autonomamente a situação."),
         ("S4.1", "AV26 & (AV25 | AV27) versus instrução posterior AV26 & AV25 e retirada de total_SI", "AV26 & AV25", "Prevalece a instrução posterior e específica; zero em SI não prova ausência da função."),
         ("S6.3", "Menção inicial a q2802 C-D e q2804B versus fórmula final AV82 | (AV80 | AV150)", "q2804B e q2802C", "Prevalece a fórmula final expressa; q2802D foi excluído."),
         ("S4.6", "Determinação por falta de fiscalização versus predomínio de terceiros como gatilho", "q0101B & total_TI_interno=0", "Predomínio, isoladamente, não prova infração ao art. 117; modelo C é legítimo."),
@@ -1198,11 +1285,10 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
     ws = wb.create_sheet("Encaminhamentos")
     ws.append(["Situação", "Tipo anterior", "Tipo aplicado", "Fundamento consolidado", "Ressalva de aplicação"])
     for sid, _, _, fundamento, ressalva in [
-        ("S2.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 11; Acórdãos TCE-RJ nº 44.490/2024 e TCU nº 1.411/2014", "TCU 1.411/2014, item 9.1, é recomendação; TCE-RJ 44.490/2024 contém determinação para casos auditados."),
-        ("S2.1", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.1", "Monitorar o desempenho com base em indicadores e metas pressupõe objetivos, indicadores e metas estabelecidos."),
+        ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; admitir Comitê ou instância equivalente compatível com a organização."),
         ("S3.4", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3", "PDTI determinado contempla objetivos, indicadores e metas de TI alinhados aos objetivos de negócio."),
         ("S3.5", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 12, VII e § 1º; Acórdão TCE-RJ nº 44.490/2024, item II.3", "Integração do plano de TIC à proposta orçamentária e ao PCA, observado o condicionamento legal 'quando elaborado'."),
-        ("S2.3", "Recomendação", "Determinação", "CF/88, art. 37; Acórdão TCE-RJ nº 44.490/2024", "Somente para quem declarou Comitê."),
+        ("S2.3", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "Somente para quem declarou Comitê; observar as competências do ato constitutivo."),
         ("S3.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Admitir instrumento equivalente a PDTI/PEDTIC."),
         ("S3.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Aprovação pela instância competente."),
         ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, II.3.5", "Vincular ao plano adotado."),
