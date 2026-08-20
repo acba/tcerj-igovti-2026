@@ -78,9 +78,9 @@ possiveis_achados:
     - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
-      itens_questionario: [q0102]
+      itens_questionario: [q0101, q0102]
       regra_de_identificacao:
-      - (q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))
+      - ((q0101 == A) | (q0101 == B) | (q0101 == E)) & ((q0102 == C) | (q0102 == D) | (q0102 == E))
       referencias_matriz: [R1.3, P5, E5]
       criterios: [C3, C6]
       tipo_encaminhamento: Recomendação
@@ -487,9 +487,9 @@ possiveis_achados:
   - S5.3:
       descricao: Inventário e controle de ativos e configurações de TIC inexistente ou insuficiente.
       severidade: alta
-      itens_questionario: [q2203, q2203ext[A], q2203evi, q2504, q2504ext[A], q2504ext[B], q2504evi]
+      itens_questionario: [q2504, q2504ext[A], q2504ext[B], q2504evi]
       regra_de_identificacao:
-      - (avaliacao_documental[q2203ext[A]] == Não conforme) | (q2504ext[A] != Sim) | (avaliacao_documental[q2504ext[A]] == Não conforme) | (q2504ext[B] != Sim) | (avaliacao_documental[q2504ext[B]] == Não conforme)
+      - (q2504ext[A] != Sim) | (avaliacao_documental[q2504ext[A]] == Não conforme) | (q2504ext[B] != Sim) | (avaliacao_documental[q2504ext[B]] == Não conforme)
       referencias_matriz: [R5.3, P5, E5, P6, E6, P7, E7, P8, E8]
       criterios: [C4, C12]
       tipo_encaminhamento: Recomendação
@@ -552,7 +552,7 @@ criterios:
 - C3: Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
 - C4: Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
 - C5: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
-- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 1º, §1º, 10, II, 11, §2º, e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, participação da área técnica e instituição da Equipe de Planejamento, observada sua aplicação direta aos integrantes do SISP e a possibilidade de procedimentos simplificados.
+- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 1º, §1º, 10, II, 11, §2º, e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, instituição da Equipe de Planejamento da Contratação e participação do integrante técnico da área de TIC, observada sua aplicação direta aos integrantes do SISP e as hipóteses de simplificação de procedimentos previstas na norma.
 - C9: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do processo de planejamento anual das contratações, contemplando consolidação das demandas, participação das áreas, aprovação e publicidade do plano.
 - C10: Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e formalização de processo de trabalho para o planejamento de cada contratação, com controles internos mínimos.
 
