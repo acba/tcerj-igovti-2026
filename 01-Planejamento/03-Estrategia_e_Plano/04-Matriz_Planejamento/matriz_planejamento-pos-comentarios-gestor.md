@@ -173,7 +173,7 @@ possiveis_achados:
 questao: Q3. A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?
 
 subquestoes:
-- A organização executa processo formal de planejamento de TIC, com critérios definidos para seleção e priorização das iniciativas?
+- A organização executa processo formal de planejamento de TIC?
 - As áreas demandantes participam do processo de planejamento de TIC?
 - O plano de TIC foi formalmente aprovado pela instância competente?
 - O plano de TIC está alinhado ao planejamento institucional?
@@ -181,7 +181,7 @@ subquestoes:
 - O plano de TIC é acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes?
 
 riscos:
-- R3.1: Devido à inexistência ou insuficiência do processo de planejamento de TIC, poderá não haver plano vigente e critérios adequados para seleção e priorização das iniciativas, favorecendo atuação reativa e desalinhada às necessidades institucionais.
+- R3.1: Devido à inexistência ou insuficiência do processo de planejamento de TIC, poderá não haver plano vigente e participação adequada das áreas demandantes, favorecendo atuação reativa e desalinhada às necessidades institucionais.
 - R3.2: Devido à ausência de aprovação formal do plano de TIC pela instância competente, o instrumento poderá não possuir legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações de TIC.
 - R3.4: Devido ao alinhamento insuficiente do plano de TIC ao planejamento institucional poderão ser executadas ações de TIC com baixo valor ou desconectadas das prioridades da organização.
 - R3.5: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas.
@@ -192,7 +192,7 @@ fontes_de_informacao:
 - F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Respostas sobre execução do processo de planejamento de TIC, sua formalização e existência de critérios para seleção e priorização das iniciativas, bem como sobre a existência de plano de TIC vigente; [F1, q2101, q2101ext[B], q2101ext[D], q2102]
+- IR1: Respostas sobre execução e formalização do processo de planejamento de TIC, bem como sobre a existência de plano de TIC vigente; [F1, q2101, q2101ext[D], q2102]
 - IR2: Evidência que demonstre a formalização do processo de planejamento de TIC; [F2, q2101evi]
 - IR3: Resposta sobre participação das áreas demandantes no processo de planejamento de TIC; [F1, q2101ext[A]]
 - IR4: Resposta sobre aprovação formal do plano de TIC pela instância competente; [F1, q2102ext[A]]
@@ -208,7 +208,7 @@ criterios:
 - C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, com participação das áreas relevantes, elaboração, manutenção e revisão periódica de PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta administração.
 
 procedimentos:
-- P1: Verificar, por meio das respostas à q2101, q2101ext[B] e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado e com critérios definidos para seleção e priorização das iniciativas; [IR1]
+- P1: Verificar, por meio das respostas à q2101 e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado; [IR1]
 - P2: Validar, pela evidência anexada à q2101, a formalização mínima do processo de planejamento de TIC; [IR2]
 - P3: Verificar, por meio da q2101ext[A], se há participação das áreas demandantes no processo de planejamento de TIC; [IR3]
 - P4: Verificar, por meio da resposta à q2102ext[A], se o plano de TIC foi aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado integrante da alta administração; [IR4]
@@ -238,13 +238,13 @@ possiveis_achados:
   - S3.1:
       descricao: Inexistência ou insuficiência do processo de planejamento de TIC para produzir e manter plano de TIC adequado.
       severidade: alta
-      itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[D], q2101evi, q2102]
+      itens_questionario: [q2101ext[A], q2101ext[D], q2101evi, q2102]
       regra_de_identificacao:
-      - (q2101ext[A] != Sim) | (avaliacao_documental[q2101ext[A]] == Não conforme) | (q2101ext[B] != Sim) | (avaliacao_documental[q2101ext[B]] == Não conforme) | (q2101ext[D] != Sim) | (avaliacao_documental[q2101ext[D]] == Não conforme) | ~existe_plano_ti
+      - (q2101ext[A] != Sim) | (avaliacao_documental[q2101ext[A]] == Não conforme) | (q2101ext[D] != Sim) | (avaliacao_documental[q2101ext[D]] == Não conforme) | ~existe_plano_ti
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
-      encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
+      encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades e participação das áreas demandantes
   - S3.2:
       descricao: Ausência de aprovação formal do plano de TIC.
       severidade: alta
@@ -310,7 +310,7 @@ informacoes_requeridas:
 - IR1: Resposta sobre quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, q0105]
 - IR2: Resposta e evidência sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, q2703, q2703evi]
 - IR3: Resposta e evidência sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, F2, q2708, q2708evi]
-- IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
+- IR9: Resposta sobre o modelo de operação predominante de TIC e os quantitativos total e interno de profissionais de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
 
 criterios:
 - C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.
@@ -325,13 +325,13 @@ procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
 - P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
 - P3: Verificar, por meio da q2708 e da respectiva evidência, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
-- P7: Verificar, por meio da resposta à q0101 e do quantitativo informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado e não há profissionais internos de TIC; [IR9]
+- P7: Verificar, por meio da resposta à q0101 e dos quantitativos informados na q0105, se o modelo de operação de TIC é predominantemente terceirizado, há profissionais atuando em TIC e não há profissionais internos de TIC; [IR9]
 
 evidencias:
 - E1: Quantitativo total declarado igual a zero para profissionais de TIC, desde que a organização tenha informado possuir estrutura formal de TIC; [P1]
 - E2: Resposta negativa ou insuficiente sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P2]
 - E3: Resposta negativa ou evidência inexistente, incompatível ou insuficiente sobre cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
-- E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
+- E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B), com profissionais atuando em TIC, mas sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
 
 variaveis_derivadas:
 - nome: total_TI
@@ -377,9 +377,9 @@ possiveis_achados:
   - S4.6:
     descricao: Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.
     severidade: alta
-    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]
+    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
     regra_de_identificacao:
-      - (q0101 == B) & (total_TI_interno == 0)
+      - (q0101 == B) & (total_TI_interno == 0) & (total_TI > 0)
     referencias_matriz: [R4.6, P7, E7]
     criterios: [C6, C14]
     tipo_encaminhamento: Recomendação
