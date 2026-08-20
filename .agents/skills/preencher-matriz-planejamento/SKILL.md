@@ -24,7 +24,7 @@ Quando solicitado, manter planilha apartada de checklists de verificação de ev
 
 2. Identificar a estrutura esperada.
    - Preservar o formato existente quando houver matriz prévia.
-   - Quando criar uma matriz nova sem modelo local, usar seções nesta ordem: `questao`, `subquestoes`, `riscos`, `fontes_de_informacao`, `informacoes_requeridas`, `criterios`, `procedimentos`, `evidencias`, `possiveis_achados`.
+   - Quando criar uma matriz nova sem modelo local, usar seções nesta ordem: `questao`, `subquestoes`, `riscos`, `fontes_de_informacao`, `informacoes_requeridas`, `criterios`, `procedimentos`, `evidencias`, `variaveis_derivadas` (quando houver) e `possiveis_achados`.
    - Manter identificadores rastreáveis, como `Q1`, `R1.1`, `F1`, `IR1`, `C1`, `P1`, `E1`, `A1`, `S1.1`.
    - Em `possiveis_achados`, preferir poucos achados estruturantes por questão, compostos por `situacoes_encontradas`, quando isso reduzir fragmentação sem perder rastreabilidade.
    - Quando a questão tiver caráter de levantamento, usar `natureza: levantamento` e `gera_achado: false`, substituir `possiveis_achados` por campos como `o_que_a_analise_permite_dizer` e `limitacoes_e_cautelas`, e não criar `situacoes_encontradas`.
@@ -49,6 +49,7 @@ Quando solicitado, manter planilha apartada de checklists de verificação de ev
    - Toda informação requerida deve apontar fonte: `IR3: ...; [F1, F2]`.
    - Todo procedimento deve apontar informação requerida e, quando aplicável, questão ou item do instrumento: `P3: ...; [IR3, q2201]`.
    - Toda evidência deve apontar procedimento: `E3: ...; [P3]`.
+   - Quando uma expressão calculada for reutilizada nas regras de identificação, defini-la uma única vez em `variaveis_derivadas`, com apenas `nome`, `descricao` e `regra_de_calculo`; não repetir sua fórmula dentro das situações encontradas.
    - Toda situação encontrada deve apontar, em `referencias_matriz`, risco, procedimento e evidência: `referencias_matriz: [R3.2, P3, E3, P4, E4]`.
    - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario` ou `fontes_de_verificacao`, `regra_de_identificacao`, `referencias_matriz`, `criterios`, `tipo_encaminhamento` e `encaminhamento`.
    - Questões de levantamento com `gera_achado: false` não devem conter `possiveis_achados`, `situacoes_encontradas`, `severidade`, `regra_de_identificacao` ou encaminhamentos individuais; devem conter procedimentos, evidências e limites suficientes para sustentar análise descritiva, agregada ou comparativa.
@@ -192,6 +193,17 @@ Incluir tanto respostas declaratórias quanto documentos ou registros:
 - Registros operacionais incompatíveis com a declaração.
 - Amostra documental que comprove falha de implementação.
 
+### variaveis_derivadas
+
+Usar esta seção somente quando uma expressão calculada for reutilizada nas regras de identificação. Posicioná-la depois de `evidencias` e antes de `possiveis_achados`. Manter cada definição limitada a `nome`, `descricao` e `regra_de_calculo`, em sincronia com o mapa de verificação.
+
+```yaml
+variaveis_derivadas:
+- nome: existe_controle
+  descricao: Indica que a organização declarou possuir o controle avaliado.
+  regra_de_calculo: (qXXXX == Sim) | (qXXXX == Parcialmente)
+```
+
 ### possiveis_achados
 
 Formular como hipótese de deficiência estruturante, com escopo claro e rastreável. Quando houver muitas fragilidades relacionadas, preferir um achado estruturante com situações encontradas em vez de dezenas de achados pequenos.
@@ -322,6 +334,11 @@ procedimentos:
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre [controle]; [P1]
 - E2: Ausência, desatualização ou insuficiência da documentação de [controle]; [P2]
+
+variaveis_derivadas:
+- nome: existe_controle
+  descricao: Indica que a organização declarou possuir o controle avaliado.
+  regra_de_calculo: (qXXXX == Sim) | (qXXXX == Parcialmente)
 
 possiveis_achados:
 - A1: [Achado estruturante]

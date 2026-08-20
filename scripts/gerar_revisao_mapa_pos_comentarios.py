@@ -33,16 +33,16 @@ PAINEL_SAIDA = PAINEL_ORIGINAL
 AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 PLANILHA_AJUSTES = ROOT / "docs/revisao-mapa/ajustes-mapa-verificacao-achados-pos-comentarios-gestor-2026-08-17.xlsx"
 RESULTADO_ANTERIOR = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditoria-mapa-original-pos-comentarios.json")
-RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q6/resultado_auditoria.json")
+RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-restauracao-evidencias/resultado_auditoria.json")
 
 
 FORMULAS = {
     "PA01": "(AV01 | (AV02 & (AV03 | (AV04 | AV84))) | (AV05 & AV06))",
-    "PA02": "(AV08 | AV11 | (AV12 & AV13))",
-    "PA03": "((AV14 | AV15 | AV17 | AV154) | (AV155 & (AV18 | AV19 | AV20 | AV24)))",
-    "PA04": "((AV26 & AV25) | AV29 | (AV31 | AV33) | (AV45 & AV46))",
-    "PA05": "((AV55 | AV56) | (AV54 | AV57 | AV58) | (AV62 | AV63) | (AV59 | AV66) | (AV67 | AV70 | AV71))",
-    "PA06": "((AV73 | AV152) | AV78 | AV82 | AV83)",
+    "PA02": "((AV08 | AV86) | (AV11 | AV89) | ((AV12 & ~AV90) & (AV13 | AV91)))",
+    "PA03": "(((AV14 | AV92) | (AV15 | AV93) | (AV17 | AV95) | AV154) | (AV155 & ((AV18 | AV96) | (AV19 | AV97) | (AV20 | AV98) | (AV24 | AV101))))",
+    "PA04": "((AV26 & AV25) | (AV29 | AV103) | ((AV31 | AV105) | (AV33 | AV107)) | (AV45 & AV46))",
+    "PA05": "(((AV55 | AV125) | (AV56 | AV126)) | ((AV54 | AV124) | (AV57 | AV127) | (AV58 | AV128)) | (AV129 | (AV62 | AV132) | (AV63 | AV133)) | ((AV59 | AV134) | (AV66 | AV136)) | ((AV67 | AV137) | (AV70 | AV140) | (AV71 | AV141)))",
+    "PA06": "(((AV73 | AV143) | (AV152 | AV153)) | (AV78 | AV148) | AV82 | AV83)",
 }
 
 
@@ -273,7 +273,7 @@ fontes_de_informacao:
 informacoes_requeridas:
 - IR1: Resposta sobre quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, q0105]
 - IR2: Resposta e evidência sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, q2703, q2703evi]
-- IR3: Resposta sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, q2708]
+- IR3: Resposta e evidência sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, F2, q2708, q2708evi]
 - IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
 
 criterios:
@@ -288,13 +288,13 @@ criterios:
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
 - P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
-- P3: Verificar, por meio da q2708, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
+- P3: Verificar, por meio da q2708 e da respectiva evidência, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
 - P7: Verificar, por meio da resposta à q0101 e do quantitativo informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado e não há profissionais internos de TIC; [IR9]
 
 evidencias:
 - E1: Quantitativo total declarado igual a zero para profissionais de TIC, desde que a organização tenha informado possuir estrutura formal de TIC; [P1]
 - E2: Resposta negativa ou insuficiente sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P2]
-- E3: Resposta negativa sobre existência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
+- E3: Resposta negativa ou evidência inexistente, incompatível ou insuficiente sobre cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
 - E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
 
 possiveis_achados:
@@ -691,7 +691,7 @@ SITUACOES = {
     "s4.6": "Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.",
     "s5.1": "Inexistência ou insuficiência do catálogo de serviços de TIC.",
     "s5.2": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
-    "s5.3": "Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.",
+    "s5.3": "Inventário e controle de ativos e configurações de TIC inexistente ou insuficiente.",
     "s5.4": "Ausência ou fragilidade do processo de gestão de configuração.",
     "s5.5": "Inexistência ou fragilidade do processo de gestão de incidentes de TIC.",
     "s6.1": "Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC.",
@@ -862,7 +862,7 @@ ENCAMINHAMENTOS = {
     "s4.6": "avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
     "s5.1": "institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes",
     "s5.2": "defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento",
-    "s5.3": "estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle",
+    "s5.3": "estabeleça e mantenha inventário atualizado dos ativos tecnológicos e base consolidada das configurações relevantes, contemplando, minimamente, dispositivos, softwares e seus relacionamentos, com informações suficientes para identificação e controle",
     "s5.4": "formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos",
     "s5.5": "formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências",
     "s6.1": "formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação",
@@ -985,25 +985,25 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         "s1.1": {"AV01"},
         "s1.2": {"AV02", "AV03", "AV04", "AV84"},
         "s1.3": {"AV05", "AV06"},
-        "s2.1": {"AV08"},
-        "s2.2": {"AV11"},
-        "s2.3": {"AV12", "AV13"},
-        "s3.1": {"AV14", "AV15", "AV17", "AV154"},
-        "s3.2": {"AV18"},
-        "s3.4": {"AV19"},
-        "s3.5": {"AV20"},
-        "s3.6": {"AV24"},
+        "s2.1": {"AV08", "AV86"},
+        "s2.2": {"AV11", "AV89"},
+        "s2.3": {"AV12", "AV13", "AV90", "AV91"},
+        "s3.1": {"AV14", "AV15", "AV17", "AV92", "AV93", "AV95", "AV154"},
+        "s3.2": {"AV18", "AV96"},
+        "s3.4": {"AV19", "AV97"},
+        "s3.5": {"AV20", "AV98"},
+        "s3.6": {"AV24", "AV101"},
         "s4.1": {"AV25", "AV26"},
-        "s4.2": {"AV29"},
-        "s4.3": {"AV31", "AV33"},
+        "s4.2": {"AV29", "AV103"},
+        "s4.3": {"AV31", "AV33", "AV105", "AV107"},
         "s4.6": {"AV45", "AV46"},
-        "s5.1": {"AV55", "AV56"},
-        "s5.2": {"AV54", "AV57", "AV58"},
-        "s5.3": {"AV62", "AV63"},
-        "s5.4": {"AV59", "AV66"},
-        "s5.5": {"AV67", "AV70", "AV71"},
-        "s6.1": {"AV73", "AV152"},
-        "s6.2": {"AV78"},
+        "s5.1": {"AV55", "AV56", "AV125", "AV126"},
+        "s5.2": {"AV54", "AV57", "AV58", "AV124", "AV127", "AV128"},
+        "s5.3": {"AV62", "AV63", "AV129", "AV132", "AV133"},
+        "s5.4": {"AV59", "AV66", "AV134", "AV136"},
+        "s5.5": {"AV67", "AV70", "AV71", "AV137", "AV140", "AV141"},
+        "s6.1": {"AV73", "AV143", "AV152", "AV153"},
+        "s6.2": {"AV78", "AV148"},
         "s6.3": {"AV82"},
         "s6.4": {"AV83"},
     }
@@ -1043,61 +1043,61 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     for motivo in motivos_originais:
         motivo = copy.deepcopy(motivo)
         if motivo["id"] == "MR010":
-            motivo["condicao_exibicao"] = "AV08"
+            motivo["condicao_exibicao"] = "AV08 & ~AV86"
         elif motivo["id"] == "MR016":
-            motivo["condicao_exibicao"] = "AV11"
+            motivo["condicao_exibicao"] = "AV11 & ~AV89"
         elif motivo["id"] == "MR018":
-            motivo["condicao_exibicao"] = "AV12 & AV13"
+            motivo["condicao_exibicao"] = "AV12 & ~AV90 & (AV13 | AV91)"
         elif motivo["id"] == "MR020":
-            motivo["condicao_exibicao"] = "AV12 & AV13"
+            motivo["condicao_exibicao"] = "AV13 & ~AV91 & AV12 & ~AV90"
         elif motivo["id"] == "MR022":
-            motivo["condicao_exibicao"] = "AV14"
+            motivo["condicao_exibicao"] = "AV14 & ~AV92"
         elif motivo["id"] == "MR024":
-            motivo["condicao_exibicao"] = "AV15"
+            motivo["condicao_exibicao"] = "AV15 & ~AV93"
         elif motivo["id"] == "MR028":
-            motivo["condicao_exibicao"] = "AV17"
+            motivo["condicao_exibicao"] = "AV17 & ~AV95"
         elif motivo["id"] == "MR030":
-            motivo["condicao_exibicao"] = "AV155 & AV18"
+            motivo["condicao_exibicao"] = "AV155 & AV18 & ~AV96"
         elif motivo["id"] == "MR032":
-            motivo["condicao_exibicao"] = "AV155 & AV19"
+            motivo["condicao_exibicao"] = "AV155 & AV19 & ~AV97"
         elif motivo["id"] == "MR034":
-            motivo["condicao_exibicao"] = "AV155 & AV20"
+            motivo["condicao_exibicao"] = "AV155 & AV20 & ~AV98"
         elif motivo["id"] == "MR041":
-            motivo["condicao_exibicao"] = "AV155 & AV24"
+            motivo["condicao_exibicao"] = "AV155 & AV24 & ~AV101"
         elif motivo["id"] == "MR045":
-            motivo["condicao_exibicao"] = "AV29"
+            motivo["condicao_exibicao"] = "AV29 & ~AV103"
         elif motivo["id"] == "MR047":
-            motivo["condicao_exibicao"] = "AV31"
+            motivo["condicao_exibicao"] = "AV31 & ~AV105"
         elif motivo["id"] == "MR049":
-            motivo["condicao_exibicao"] = "AV33"
+            motivo["condicao_exibicao"] = "AV33 & ~AV107"
         elif motivo["id"] == "MR065":
-            motivo["condicao_exibicao"] = "AV54"
+            motivo["condicao_exibicao"] = "AV54 & ~AV124"
         elif motivo["id"] == "MR067":
-            motivo["condicao_exibicao"] = "AV55"
+            motivo["condicao_exibicao"] = "AV55 & ~AV125"
         elif motivo["id"] == "MR069":
-            motivo["condicao_exibicao"] = "AV56"
+            motivo["condicao_exibicao"] = "AV56 & ~AV126"
         elif motivo["id"] == "MR071":
-            motivo["condicao_exibicao"] = "AV57"
+            motivo["condicao_exibicao"] = "AV57 & ~AV127"
         elif motivo["id"] == "MR073":
-            motivo["condicao_exibicao"] = "AV58"
+            motivo["condicao_exibicao"] = "AV58 & ~AV128"
         elif motivo["id"] == "MR075":
-            motivo["condicao_exibicao"] = "AV59"
+            motivo["condicao_exibicao"] = "AV59 & ~AV134"
         elif motivo["id"] == "MR077":
-            motivo["condicao_exibicao"] = "AV62"
+            motivo["condicao_exibicao"] = "AV62 & ~AV132"
         elif motivo["id"] == "MR079":
-            motivo["condicao_exibicao"] = "AV63"
+            motivo["condicao_exibicao"] = "AV63 & ~AV133"
         elif motivo["id"] == "MR083":
-            motivo["condicao_exibicao"] = "AV66"
+            motivo["condicao_exibicao"] = "AV66 & ~AV136"
         elif motivo["id"] == "MR085":
-            motivo["condicao_exibicao"] = "AV67"
+            motivo["condicao_exibicao"] = "AV67 & ~AV137"
         elif motivo["id"] == "MR087":
-            motivo["condicao_exibicao"] = "AV70"
+            motivo["condicao_exibicao"] = "AV70 & ~AV140"
         elif motivo["id"] == "MR089":
-            motivo["condicao_exibicao"] = "AV71"
+            motivo["condicao_exibicao"] = "AV71 & ~AV141"
         elif motivo["id"] == "MR091":
-            motivo["condicao_exibicao"] = "AV73"
+            motivo["condicao_exibicao"] = "AV73 & ~AV143"
         elif motivo["id"] == "MR101":
-            motivo["condicao_exibicao"] = "AV78"
+            motivo["condicao_exibicao"] = "AV78 & ~AV148"
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
@@ -1118,7 +1118,7 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     motivo_b.update(
         id="MR111",
         descricao_situacao_inconforme=SITUACOES["s6.1"],
-        condicao_exibicao="AV152",
+        condicao_exibicao="AV152 & ~AV153",
         acoes_referencia="AV152",
         texto_motivo="No subitem b) do item 2801, não houve declaração afirmativa quanto à prática avaliada: são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TI, como Documento de Formalização da Demanda (DFD), Estudo Técnico Preliminar (ETP), Termo de Referência (TR), Matriz de Riscos ou documentos equivalentes",
     )
@@ -1713,16 +1713,33 @@ def gerar_matriz() -> None:
         "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
         "S2.2": dict(descricao=SITUACOES["s2.2"], itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
         "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
+        "S4.3": dict(itens_questionario="[q2708[B], q2708[D], q2708evi]"),
+        "S5.3": dict(descricao=SITUACOES["s5.3"], itens_questionario="[q2203, q2203ext[A], q2203evi, q2504, q2504ext[A], q2504ext[B], q2504evi]", referencias_matriz="[R5.3, P5, E5, P6, E6, P7, E7, P8, E8]", encaminhamento=ENCAMINHAMENTOS["s5.3"]),
     }
     rules = {
-        "S1.2": ["(q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))"],
+        "S1.2": ["(q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não) | (avaliacao_documental[q0103[D]] == Não conforme))"],
         "S1.3": ["(q0101 != F) & ((q0102 == C) | (q0102 == D) | (q0102 == E))"],
-        "S2.1": ["(q1001ext[H] != Sim)"],
-        "S2.2": ["(q1001ext[E] != Sim)"],
-        "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
+        "S2.1": ["(q1001ext[H] != Sim) | (avaliacao_documental[q1001ext[H]] == Não conforme)"],
+        "S2.2": ["(q1001ext[E] != Sim) | (avaliacao_documental[q1001ext[E]] == Não conforme)"],
+        "S2.3": ["(q1001ext[E] == Sim) & (avaliacao_documental[q1001ext[E]] != Não conforme) & ((q1001ext[F] != Sim) | (avaliacao_documental[q1001ext[F]] == Não conforme))"],
+        "S3.1": ["(q2101ext[A] != Sim) | (avaliacao_documental[q2101ext[A]] == Não conforme) | (q2101ext[B] != Sim) | (avaliacao_documental[q2101ext[B]] == Não conforme) | (q2101ext[D] != Sim) | (avaliacao_documental[q2101ext[D]] == Não conforme) | ~existe_plano_ti"],
+        "S3.2": ["existe_plano_ti & ((q2102ext[A] != Sim) | (avaliacao_documental[q2102ext[A]] == Não conforme))"],
+        "S3.4": ["existe_plano_ti & ((q2102ext[D] != Sim) | (avaliacao_documental[q2102ext[D]] == Não conforme))"],
+        "S3.5": ["existe_plano_ti & ((q2102ext[C] != Sim) | (avaliacao_documental[q2102ext[C]] == Não conforme))"],
+        "S3.6": ["existe_plano_ti & ((q2102ext[E] != Sim) | (avaliacao_documental[q2102ext[E]] == Não conforme))"],
+        "S4.2": ["(q2703ext[C] != Sim) | (avaliacao_documental[q2703ext[C]] == Não conforme)"],
+        "S4.3": ["(q2708[B] != Sim) | (avaliacao_documental[q2708[B]] == Não conforme) | (q2708[D] != Sim) | (avaliacao_documental[q2708[D]] == Não conforme)"],
+        "S5.1": ["(q2201ext[B] != Sim) | (avaliacao_documental[q2201ext[B]] == Não conforme) | (q2201ext[C] != Sim) | (avaliacao_documental[q2201ext[C]] == Não conforme)"],
+        "S5.2": ["(q2201ext[A] != Sim) | (avaliacao_documental[q2201ext[A]] == Não conforme) | (q2201ext[D] != Sim) | (avaliacao_documental[q2201ext[D]] == Não conforme) | (q2201ext[E] != Sim) | (avaliacao_documental[q2201ext[E]] == Não conforme)"],
+        "S5.3": ["(avaliacao_documental[q2203ext[A]] == Não conforme) | (q2504ext[A] != Sim) | (avaliacao_documental[q2504ext[A]] == Não conforme) | (q2504ext[B] != Sim) | (avaliacao_documental[q2504ext[B]] == Não conforme)"],
+        "S5.4": ["(q2203ext[A] != Sim) | (avaliacao_documental[q2203ext[A]] == Não conforme) | (q2203ext[C] != Sim) | (avaliacao_documental[q2203ext[C]] == Não conforme)"],
+        "S5.5": ["(q2204ext[A] != Sim) | (avaliacao_documental[q2204ext[A]] == Não conforme) | (q2204ext[D] != Sim) | (avaliacao_documental[q2204ext[D]] == Não conforme) | (q2204ext[E] != Sim) | (avaliacao_documental[q2204ext[E]] == Não conforme)"],
+        "S6.1": ["(q2801ext[A] != Sim) | (avaliacao_documental[q2801ext[A]] == Não conforme) | (q2801ext[B] != Sim) | (avaliacao_documental[q2801ext[B]] == Não conforme)"],
+        "S6.2": ["(q2804[A] != Sim) | (avaliacao_documental[q2804[A]] == Não conforme)"],
     }
     blocks = situation_blocks(lines)
-    for sid, fields in updates.items():
+    for sid in sorted(set(updates) | set(rules), key=lambda item: blocks[item][0]):
+        fields = updates.get(sid, {})
         start, end = blocks[sid]
         block = lines[start:end]
         for field, value in fields.items():
@@ -1788,6 +1805,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-062", "Mapa/PA05/S5.1-S5.5", "Evidências documentais como gatilhos autônomos; q2203A em S5.3; S5.3 como determinação", "Regras declaratórias; q2504A/B em S5.3; q2203A/C em S5.4; todas as situações como recomendação", "Trata as evidências como suporte, separa inventário de ativos da gestão de configuração e ajusta a natureza dos encaminhamentos aos referenciais predominantemente orientadores."),
         ("AJ-063", "Mapa e matriz/PA06/Q6", "Questão, riscos, critérios, procedimentos e situações anteriores", "Q6 revisada com processo padronizado, análise técnica, alinhamento ao planejamento e equipe de planejamento", "Consolida os elementos mínimos da fase preparatória e mantém correspondência direta entre subquestões, riscos, informações requeridas, procedimentos, evidências e situações."),
         ("AJ-064", "Mapa/PA06/S6.1-S6.4", "Gatilhos documentais autônomos; S6.3 também acionada por q2802ext[C]; S6.1 como determinação", "AV73 | AV152 | AV78 | AV82 | AV83; S6.3 acionada somente por q2804[B]; S6.1 como recomendação", "Mantém as evidências como suporte, elimina dupla medição do alinhamento ao PCA e adequa o tipo de S6.1 à natureza declaratória da regra e aos referenciais utilizados."),
+        ("AJ-065", "Mapa/Ações de avaliação documental", "Somente AV84 participava das fórmulas do mapa revisado", "Restaurar AV86, AV89-AV93, AV95-AV98, AV101, AV103, AV105, AV107, AV124-AV129, AV132-AV134, AV136, AV137, AV140, AV141, AV143 e AV148; incluir AV153", "Reincorpora a validação documental das práticas essenciais expressamente selecionadas pela equipe e inclui q2801ext[B] no planejamento das contratações."),
+        ("AJ-066", "Matriz/Q2-Q6/regras de identificação", "Avaliações documentais descritas apenas como suporte", "Regras passam a considerar resultado documental Não conforme nos itens selecionados", "Sincroniza a matriz com as fórmulas operacionais e preserva, em S2.3, gate que impede dupla imputação quando a própria instituição do Comitê não foi comprovada."),
     ]
     tipo_rows = [
         ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; a determinação se apoia também no precedente do TCE-RJ e deve admitir instância equivalente."),
@@ -1817,6 +1836,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
             row["Situação"] = "Superado por AJ-061/AJ-062"
         if row["ID"] in {"AJ-008", "AJ-016", "AJ-023"}:
             row["Situação"] = "Superado por AJ-063/AJ-064"
+        if row["ID"] in {"AJ-056", "AJ-058", "AJ-060", "AJ-062", "AJ-064"}:
+            row["Situação"] = "Parcialmente superado por AJ-065/AJ-066"
     for idx, (sid, old, new, fundamento, ressalva) in enumerate(tipo_rows, start=25):
         result.append(
             {

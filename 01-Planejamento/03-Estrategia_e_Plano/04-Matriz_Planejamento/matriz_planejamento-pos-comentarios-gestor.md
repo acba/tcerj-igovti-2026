@@ -70,7 +70,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q0101, q0103, q0103[D], q0103[G], q0103evi]
       regra_de_identificacao:
-      - (q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))
+      - (q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não) | (avaliacao_documental[q0103[D]] == Não conforme))
       referencias_matriz: [R1.2, P3, E3, P4, E4]
       criterios: [C2, C7]
       tipo_encaminhamento: Recomendação
@@ -142,7 +142,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q1001ext[H], q1001evi]
       regra_de_identificacao:
-      - (q1001ext[H] != Sim)
+      - (q1001ext[H] != Sim) | (avaliacao_documental[q1001ext[H]] == Não conforme)
       referencias_matriz: [R2.1, P1, E1, P2, E2]
       criterios: [C2]
       tipo_encaminhamento: Recomendação
@@ -152,7 +152,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q1001ext[E], q1001evi]
       regra_de_identificacao:
-      - (q1001ext[E] != Sim)
+      - (q1001ext[E] != Sim) | (avaliacao_documental[q1001ext[E]] == Não conforme)
       referencias_matriz: [R2.2, P3, E3, P4, E4]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
@@ -162,7 +162,7 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q1001ext[E], q1001ext[F], q1001evi]
       regra_de_identificacao:
-      - (q1001ext[E] == Sim) & (q1001ext[F] != Sim)
+      - (q1001ext[E] == Sim) & (avaliacao_documental[q1001ext[E]] != Não conforme) & ((q1001ext[F] != Sim) | (avaliacao_documental[q1001ext[F]] == Não conforme))
       referencias_matriz: [R2.3, P5, E5, P6, E6]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
@@ -227,6 +227,11 @@ evidencias:
 - E8: Ausência ou insuficiência de evidência de utilização do plano de TIC como referência para a proposta orçamentária da área de TIC e o plano de contratações; [P8]
 - E9: Ausência ou insuficiência de evidência de acompanhamento da execução do plano de TIC; [P9]
 
+variaveis_derivadas:
+- nome: existe_plano_ti
+  descricao: Indica que a organização declarou possuir plano de TIC vigente, ao menos parcialmente adotado.
+  regra_de_calculo: (q2102 == Adota parcialmente.) | (q2102 == Adota em maior parte ou totalmente.)
+
 possiveis_achados:
 - A3: Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
   situacoes_encontradas:
@@ -235,8 +240,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[D], q2101evi, q2102]
       regra_de_identificacao:
-      - existe_plano_ti = (q2102 == Adota parcialmente) | (q2102 == Adota em maior parte ou totalmente)
-      - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim) | ~existe_plano_ti
+      - (q2101ext[A] != Sim) | (avaliacao_documental[q2101ext[A]] == Não conforme) | (q2101ext[B] != Sim) | (avaliacao_documental[q2101ext[B]] == Não conforme) | (q2101ext[D] != Sim) | (avaliacao_documental[q2101ext[D]] == Não conforme) | ~existe_plano_ti
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
@@ -246,7 +250,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q2102, q2102ext[A], q2102evi]
       regra_de_identificacao:
-      - existe_plano_ti & (q2102ext[A] != Sim)
+      - existe_plano_ti & ((q2102ext[A] != Sim) | (avaliacao_documental[q2102ext[A]] == Não conforme))
       referencias_matriz: [R3.2, P4, E4, P5, E5]
       criterios: [C3, C4]
       tipo_encaminhamento: Determinação
@@ -256,7 +260,7 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q2102, q2102ext[D], q2102evi]
       regra_de_identificacao:
-      - existe_plano_ti & (q2102ext[D] != Sim)
+      - existe_plano_ti & ((q2102ext[D] != Sim) | (avaliacao_documental[q2102ext[D]] == Não conforme))
       referencias_matriz: [R3.4, P7, E7]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
@@ -266,7 +270,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q2102, q2102ext[C], q2102evi]
       regra_de_identificacao:
-      - existe_plano_ti & (q2102ext[C] != Sim)
+      - existe_plano_ti & ((q2102ext[C] != Sim) | (avaliacao_documental[q2102ext[C]] == Não conforme))
       referencias_matriz: [R3.5, P8, E8]
       criterios: [C2, C4]
       tipo_encaminhamento: Determinação
@@ -276,7 +280,7 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q2102, q2102ext[E], q2102evi]
       regra_de_identificacao:
-      - existe_plano_ti & (q2102ext[E] != Sim)
+      - existe_plano_ti & ((q2102ext[E] != Sim) | (avaliacao_documental[q2102ext[E]] == Não conforme))
       referencias_matriz: [R3.6, P9, E9]
       criterios: [C4]
       tipo_encaminhamento: Determinação
@@ -305,7 +309,7 @@ fontes_de_informacao:
 informacoes_requeridas:
 - IR1: Resposta sobre quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, q0105]
 - IR2: Resposta e evidência sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, q2703, q2703evi]
-- IR3: Resposta sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, q2708]
+- IR3: Resposta e evidência sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, F2, q2708, q2708evi]
 - IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
 
 criterios:
@@ -320,14 +324,22 @@ criterios:
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
 - P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
-- P3: Verificar, por meio da q2708, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
+- P3: Verificar, por meio da q2708 e da respectiva evidência, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
 - P7: Verificar, por meio da resposta à q0101 e do quantitativo informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado e não há profissionais internos de TIC; [IR9]
 
 evidencias:
 - E1: Quantitativo total declarado igual a zero para profissionais de TIC, desde que a organização tenha informado possuir estrutura formal de TIC; [P1]
 - E2: Resposta negativa ou insuficiente sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P2]
-- E3: Resposta negativa sobre existência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
+- E3: Resposta negativa ou evidência inexistente, incompatível ou insuficiente sobre cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
 - E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
+
+variaveis_derivadas:
+- nome: total_TI
+  descricao: Total de profissionais que atuam regularmente em tecnologia da informação.
+  regra_de_calculo: q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
+- nome: total_TI_interno
+  descricao: Total de profissionais internos de tecnologia da informação, excluídos terceirizados e estagiários.
+  regra_de_calculo: q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
 
 possiveis_achados:
 - A4: Capacidade institucional de pessoal de TIC e segurança da informação insuficientemente estruturada ou dimensionada
@@ -337,7 +349,6 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
       regra_de_identificacao:
-      - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
       - (q0101 in [A, B, D, E]) & (total_TI == 0)
       referencias_matriz: [R4.1, P1, E1]
       criterios: [C2, C13]
@@ -348,7 +359,7 @@ possiveis_achados:
       severidade: média
       itens_questionario: [q2703ext[C], q2703evi]
       regra_de_identificacao:
-      - (q2703ext[C] != Sim)
+      - (q2703ext[C] != Sim) | (avaliacao_documental[q2703ext[C]] == Não conforme)
       referencias_matriz: [R4.2, P2, E2]
       criterios: [C5, C12]
       tipo_encaminhamento: Recomendação
@@ -356,9 +367,9 @@ possiveis_achados:
   - S4.3:
       descricao: Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.
       severidade: media
-      itens_questionario: [q2708[B], q2708[D]]
+      itens_questionario: [q2708[B], q2708[D], q2708evi]
       regra_de_identificacao:
-      - (q2708[B] != Sim) | (q2708[D] != Sim)
+      - (q2708[B] != Sim) | (avaliacao_documental[q2708[B]] == Não conforme) | (q2708[D] != Sim) | (avaliacao_documental[q2708[D]] == Não conforme)
       referencias_matriz: [R4.3, P3, E3]
       criterios: [C1, C2]
       tipo_encaminhamento: Recomendação
@@ -368,7 +379,6 @@ possiveis_achados:
     severidade: alta
     itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]
     regra_de_identificacao:
-      - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
       - (q0101 == B) & (total_TI_interno == 0)
     referencias_matriz: [R4.6, P7, E7]
     criterios: [C6, C14]
@@ -459,7 +469,7 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q2201, q2201ext[B], q2201ext[C], q2201evi]
       regra_de_identificacao:
-      - (q2201ext[B] != Sim) | (q2201ext[C] != Sim)
+      - (q2201ext[B] != Sim) | (avaliacao_documental[q2201ext[B]] == Não conforme) | (q2201ext[C] != Sim) | (avaliacao_documental[q2201ext[C]] == Não conforme)
       referencias_matriz: [R5.1, P1, E1, P2, E2]
       criterios: [C2, C11, C15]
       tipo_encaminhamento: Recomendação
@@ -469,27 +479,27 @@ possiveis_achados:
       severidade: media
       itens_questionario: [q2201, q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]
       regra_de_identificacao:
-      - (q2201ext[A] != Sim) | (q2201ext[D] != Sim) | (q2201ext[E] != Sim)
+      - (q2201ext[A] != Sim) | (avaliacao_documental[q2201ext[A]] == Não conforme) | (q2201ext[D] != Sim) | (avaliacao_documental[q2201ext[D]] == Não conforme) | (q2201ext[E] != Sim) | (avaliacao_documental[q2201ext[E]] == Não conforme)
       referencias_matriz: [R5.2, P3, E3, P4, E4]
       criterios: [C3, C14]
       tipo_encaminhamento: Recomendação
       encaminhamento: defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento
   - S5.3:
-      descricao: Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.
+      descricao: Inventário e controle de ativos e configurações de TIC inexistente ou insuficiente.
       severidade: alta
-      itens_questionario: [q2504, q2504ext[A], q2504ext[B], q2504evi]
+      itens_questionario: [q2203, q2203ext[A], q2203evi, q2504, q2504ext[A], q2504ext[B], q2504evi]
       regra_de_identificacao:
-      - (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
-      referencias_matriz: [R5.3, P5, E5, P6, E6]
+      - (avaliacao_documental[q2203ext[A]] == Não conforme) | (q2504ext[A] != Sim) | (avaliacao_documental[q2504ext[A]] == Não conforme) | (q2504ext[B] != Sim) | (avaliacao_documental[q2504ext[B]] == Não conforme)
+      referencias_matriz: [R5.3, P5, E5, P6, E6, P7, E7, P8, E8]
       criterios: [C4, C12]
       tipo_encaminhamento: Recomendação
-      encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle
+      encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos e base consolidada das configurações relevantes, contemplando, minimamente, dispositivos, softwares e seus relacionamentos, com informações suficientes para identificação e controle
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
       itens_questionario: [q2203, q2203ext[A], q2203ext[C], q2203evi]
       regra_de_identificacao:
-      - (q2203ext[A] != Sim) | (q2203ext[C] != Sim)
+      - (q2203ext[A] != Sim) | (avaliacao_documental[q2203ext[A]] == Não conforme) | (q2203ext[C] != Sim) | (avaliacao_documental[q2203ext[C]] == Não conforme)
       referencias_matriz: [R5.3, P7, E7, P8, E8]
       criterios: [C6, C12, C16]
       tipo_encaminhamento: Recomendação
@@ -499,7 +509,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q2204, q2204ext[A], q2204ext[D], q2204ext[E], q2204evi]
       regra_de_identificacao:
-      - (q2204ext[A] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim)
+      - (q2204ext[A] != Sim) | (avaliacao_documental[q2204ext[A]] == Não conforme) | (q2204ext[D] != Sim) | (avaliacao_documental[q2204ext[D]] == Não conforme) | (q2204ext[E] != Sim) | (avaliacao_documental[q2204ext[E]] == Não conforme)
       referencias_matriz: [R5.4, P9, E9, P10, E10, P12, E12]
       criterios: [C8, C13, C17]
       tipo_encaminhamento: Recomendação
@@ -569,7 +579,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q2801, q2801ext[A], q2801ext[B], q2801evi]
       regra_de_identificacao:
-      - (q2801ext[A] != Sim) | (q2801ext[B] != Sim)
+      - (q2801ext[A] != Sim) | (avaliacao_documental[q2801ext[A]] == Não conforme) | (q2801ext[B] != Sim) | (avaliacao_documental[q2801ext[B]] == Não conforme)
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
       criterios: [C1, C3, C10]
       tipo_encaminhamento: Recomendação
@@ -579,7 +589,7 @@ possiveis_achados:
       severidade: alta
       itens_questionario: [q2804[A], q2804eviA]
       regra_de_identificacao:
-      - (q2804[A] != Sim)
+      - (q2804[A] != Sim) | (avaliacao_documental[q2804[A]] == Não conforme)
       referencias_matriz: [R6.3, P3, E3, E4]
       criterios: [C1, C5, C8]
       tipo_encaminhamento: Recomendação
