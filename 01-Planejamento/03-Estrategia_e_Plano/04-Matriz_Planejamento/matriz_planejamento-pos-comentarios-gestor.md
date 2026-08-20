@@ -193,7 +193,7 @@ fontes_de_informacao:
 
 informacoes_requeridas:
 - IR1: Respostas sobre execução do processo de planejamento de TIC, sua formalização e existência de critérios para seleção e priorização das iniciativas, bem como sobre a existência de plano de TIC vigente; [F1, q2101, q2101ext[B], q2101ext[D], q2102]
-- IR2: Evidências que demonstrem a formalização do processo de planejamento de TIC e a existência de plano de TIC vigente; [F2, q2101evi, q2102evi]
+- IR2: Evidência que demonstre a formalização do processo de planejamento de TIC; [F2, q2101evi]
 - IR3: Resposta sobre participação das áreas demandantes no processo de planejamento de TIC; [F1, q2101ext[A]]
 - IR4: Resposta sobre aprovação formal do plano de TIC pela instância competente; [F1, q2102ext[A]]
 - IR5: Evidência anexada do ato de aprovação formal do plano de TIC; [F2, q2102evi]
@@ -209,7 +209,7 @@ criterios:
 
 procedimentos:
 - P1: Verificar, por meio das respostas à q2101, q2101ext[B] e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado e com critérios definidos para seleção e priorização das iniciativas; [IR1]
-- P2: Validar, pelas evidências anexadas à q2101 e q2102, a formalização mínima do processo de planejamento de TIC e sua materialização em plano de TIC vigente; [IR2]
+- P2: Validar, pela evidência anexada à q2101, a formalização mínima do processo de planejamento de TIC; [IR2]
 - P3: Verificar, por meio da q2101ext[A], se há participação das áreas demandantes no processo de planejamento de TIC; [IR3]
 - P4: Verificar, por meio da resposta à q2102ext[A], se o plano de TIC foi aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado integrante da alta administração; [IR4]
 - P5: Validar, pelas evidências anexadas à q2102, a aprovação formal do plano de TIC pela instância competente; [IR5]
@@ -485,15 +485,15 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       encaminhamento: defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento
   - S5.3:
-      descricao: Inventário e controle de ativos e configurações de TIC inexistente ou insuficiente.
+      descricao: Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.
       severidade: alta
       itens_questionario: [q2504, q2504ext[A], q2504ext[B], q2504evi]
       regra_de_identificacao:
       - (q2504ext[A] != Sim) | (avaliacao_documental[q2504ext[A]] == Não conforme) | (q2504ext[B] != Sim) | (avaliacao_documental[q2504ext[B]] == Não conforme)
-      referencias_matriz: [R5.3, P5, E5, P6, E6, P7, E7, P8, E8]
+      referencias_matriz: [R5.3, P5, E5, P6, E6]
       criterios: [C4, C12]
       tipo_encaminhamento: Recomendação
-      encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos e base consolidada das configurações relevantes, contemplando, minimamente, dispositivos, softwares e seus relacionamentos, com informações suficientes para identificação e controle
+      encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
@@ -543,7 +543,7 @@ informacoes_requeridas:
 - IR3: Resposta sobre disponibilização de modelos e artefatos padronizados para o planejamento das contratações de TIC; [F1, q2801, q2801ext[B]]
 - IR4: Resposta sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, q2804[A]]
 - IR5: Evidência específica sobre aprovação técnica da área de TIC; [F2, q2804eviA]
-- IR6: Resposta e evidência sobre alinhamento das contratações aos instrumentos de planejamento e ao Plano de Contratações Anual; [F1, F2, q2802ext[C], q2804[B], q2802evi]
+- IR6: Resposta sobre alinhamento das contratações aos instrumentos de planejamento e ao Plano de Contratações Anual; [F1, q2804[B]]
 - IR7: Resposta sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [F1, q2804[C]]
 
 criterios:
@@ -552,7 +552,7 @@ criterios:
 - C3: Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
 - C4: Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
 - C5: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
-- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 1º, §1º, 10, II, 11, §2º, e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, instituição da Equipe de Planejamento da Contratação e participação do integrante técnico da área de TIC, observada sua aplicação direta aos integrantes do SISP e as hipóteses de simplificação de procedimentos previstas na norma.
+- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 2º, IV, 9º, 10, 11 e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, instituição da Equipe de Planejamento da Contratação e participação do integrante técnico da área de TIC, observada sua aplicação direta aos integrantes do SISP e as hipóteses de simplificação de procedimentos previstas na norma.
 - C9: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do processo de planejamento anual das contratações, contemplando consolidação das demandas, participação das áreas, aprovação e publicidade do plano.
 - C10: Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e formalização de processo de trabalho para o planejamento de cada contratação, com controles internos mínimos.
 
@@ -560,7 +560,7 @@ procedimentos:
 - P1: Verificar, por meio da q2801 e das q2801ext[A] e [B], se o processo de planejamento das contratações de TIC possui etapas e responsabilidades definidas e artefatos padronizados; [IR1, IR2, IR3]
 - P2: Validar, pelas evidências anexadas à q2801, a existência de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [IR1, IR2, IR3]
 - P3: Verificar, por meio da q2804[A] e da q2804eviA, se as contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC; [IR4, IR5]
-- P4: Verificar, por meio das q2802ext[C], q2804[B] e da evidência q2802evi, se as contratações de TIC estão alinhadas aos instrumentos de planejamento e ao Plano de Contratações Anual; [IR6]
+- P4: Verificar, por meio da q2804[B], se as contratações de TIC estão alinhadas aos instrumentos de planejamento e ao Plano de Contratações Anual; [IR6]
 - P5: Verificar, por meio da q2804[C], se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
 
 evidencias:
@@ -597,7 +597,7 @@ possiveis_achados:
   - S6.3:
       descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
       severidade: alta
-      itens_questionario: [q2802ext[C], q2804[B], q2802evi]
+      itens_questionario: [q2804[B]]
       regra_de_identificacao:
       - (q2804[B] != Sim)
       referencias_matriz: [R6.3, P4, E5]
@@ -614,6 +614,64 @@ possiveis_achados:
       criterios: [C1, C4, C8]
       tipo_encaminhamento: Recomendação
       encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes
+
+---
+
+## Questão Transversal - Diagnóstico do iGovTI 2026
+
+natureza: levantamento
+gera_achado: false
+questao: QTD. Qual é o grau de adoção das práticas de governança e gestão de TIC pelas organizações avaliadas no iGovTI 2026, globalmente e por componente e dimensão?
+
+subquestoes:
+- Como se distribuem os resultados do iGovTI 2026 entre as faixas de maturidade definidas na metodologia?
+- Qual é o desempenho agregado das organizações nos componentes Governança de TIC e Gestão de TIC e nas dimensões que compõem o índice?
+- Há diferenças relevantes nos resultados entre segmentos institucionais com quantidade suficiente de organizações para análise?
+- Quais práticas avaliadas apresentam os maiores e os menores graus de adoção?
+
+fontes_de_informacao:
+- F1: Respostas válidas e processadas do questionário eletrônico iGovTI 2026.
+- F2: Metodologia de cálculo e estrutura do índice iGovTI 2026.
+- F3: Resultados individuais e agregados calculados para o iGovTI 2026, seus componentes e suas dimensões.
+- F4: Cadastro das organizações avaliadas, com os atributos institucionais necessários aos recortes analíticos.
+
+informacoes_requeridas:
+- IR1: Universo de organizações avaliadas, respondentes válidos e respectivos atributos institucionais; [F1, F4]
+- IR2: Resultado individual do iGovTI 2026, respectiva faixa de maturidade e resultados dos componentes Governança de TIC e Gestão de TIC; [F2, F3]
+- IR3: Resultados individuais e agregados das dimensões Planejamento de TIC, Gestão de serviços de TIC, Riscos de TI e de segurança da informação, Estrutura de segurança da informação, Processos de segurança da informação e Gestão de soluções de TIC; [F2, F3]
+- IR4: Pontuações normalizadas das práticas e dos itens que compõem o iGovTI 2026, com seus denominadores e regras de tratamento; [F1, F2, F3]
+- IR5: Registros de completude, consistência, ajustes e limitações relevantes das bases utilizadas no cálculo; [F1, F2, F3]
+
+procedimentos:
+- P1: Validar o universo de organizações avaliadas e calcular ou conferir, conforme a metodologia do iGovTI 2026, o índice, a faixa de maturidade, os componentes e as dimensões de cada organização; [IR1, IR2, IR3]
+- P2: Consolidar a distribuição das organizações por faixa de maturidade e calcular medidas descritivas do iGovTI 2026 para o universo avaliado; [IR1, IR2]
+- P3: Consolidar e comparar os resultados dos componentes Governança de TIC e Gestão de TIC e das seis dimensões que compõem o índice; [IR2, IR3]
+- P4: Segregar os resultados por Poder, esfera, natureza institucional ou outro segmento pertinente, quando a quantidade e a composição das organizações permitirem comparação descritiva adequada; [IR1, IR2, IR3]
+- P5: Identificar as práticas e os itens com maiores e menores graus de adoção, informando a medida utilizada, o número de respostas válidas e o tratamento das respostas não aplicáveis; [IR4]
+- P6: Verificar a completude e a consistência das bases e registrar as limitações que afetem o cálculo ou a interpretação dos resultados; [IR5]
+
+evidencias:
+- E1: Relação consolidada das organizações avaliadas, dos respondentes válidos e dos atributos institucionais utilizados na análise; [P1]
+- E2: Memória de cálculo ou base de resultados com o iGovTI 2026, a faixa de maturidade, os componentes e as dimensões de cada organização; [P1]
+- E3: Tabelas, gráficos ou painéis com a distribuição por faixa de maturidade e as medidas descritivas do iGovTI 2026; [P2]
+- E4: Tabelas, gráficos ou painéis com os resultados agregados dos componentes e das dimensões do índice; [P3]
+- E5: Quadros comparativos por segmento institucional, acompanhados do quantitativo de organizações de cada grupo; [P4]
+- E6: Relação das práticas e dos itens com maiores e menores graus de adoção, acompanhada dos respectivos percentuais, pontuações ou medidas de síntese e denominadores; [P5]
+- E7: Registro das verificações de completude e consistência e das limitações relevantes para interpretação dos resultados; [P6]
+
+o_que_a_analise_permite_dizer:
+- Qual é o grau de adoção das práticas de governança e gestão de TIC no universo avaliado em 2026, segundo o índice e as faixas de maturidade definidas na metodologia.
+- Como se comportam, em termos agregados, os componentes Governança de TIC e Gestão de TIC e as seis dimensões que compõem o iGovTI 2026.
+- Quais segmentos institucionais apresentam resultados distintos, quando houver quantidade e composição adequadas para comparação descritiva.
+- Quais práticas e itens do questionário concentram os maiores e os menores graus de adoção.
+
+limitacoes_e_cautelas:
+- A questão tem caráter de levantamento e diagnóstico agregado, não gerando achado ou encaminhamento individual por organização.
+- O iGovTI 2026 mensura o grau de adoção segundo as respostas e as regras da metodologia; o resultado não comprova, isoladamente, a efetividade das práticas nem conformidade jurídica.
+- Os resultados agregados não substituem a avaliação individualizada das fragilidades abrangidas pelas Questões 1 a 6.
+- Médias e demais medidas de síntese devem ser apresentadas com a distribuição dos resultados, para evitar que ocultem diferenças relevantes entre as organizações.
+- Comparações entre segmentos institucionais devem considerar o tamanho, a composição e a cobertura de cada grupo e não devem ser tratadas como inferência causal.
+- Práticas ou itens com universos de respostas distintos devem ser comparados somente com indicação dos respectivos denominadores e do tratamento das respostas não aplicáveis.
 
 ---
 

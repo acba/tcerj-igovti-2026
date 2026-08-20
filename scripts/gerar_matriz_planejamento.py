@@ -267,13 +267,19 @@ def parse_matrix(markdown: str) -> Matrix:
         end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
         content = text[start:end]
         raw_number = match.group(1) or ""
-        q_id = f"Q{int(raw_number)}" if raw_number else "QT"
+        question_text = get_single_line(content, "questao")
+        transverse_id_match = re.match(r"^(Q[A-Z0-9]+)\.\s*", question_text)
+        q_id = (
+            f"Q{int(raw_number)}"
+            if raw_number
+            else (transverse_id_match.group(1) if transverse_id_match else "QT")
+        )
         natureza = get_single_line(content, "natureza")
         gera_achado = parse_bool(get_single_line(content, "gera_achado"), default=True)
         q = Question(
             id=q_id,
             title=match.group(2).strip(),
-            question=get_single_line(content, "questao") or f"{q_id}. [QUESTÃO DE AUDITORIA]",
+            question=question_text or f"{q_id}. [QUESTÃO DE AUDITORIA]",
             natureza=natureza,
             gera_achado=gera_achado,
             subquestoes=parse_list(get_section_block(content, "subquestoes")),
@@ -425,7 +431,7 @@ def format_items(items: Iterable[ListItem]) -> list[str]:
 
 
 def format_question_text(question: Question) -> str:
-    text = re.sub(r"^Q[T\d]+\.\s*", "", question.question).strip()
+    text = re.sub(r"^Q[A-Z0-9]+\.\s*", "", question.question).strip()
     prefix = question.id
     if question.natureza:
         return f"{prefix}: {text} ({question.natureza})"
@@ -437,6 +443,8 @@ def format_risk_or_comparability(question: Question) -> list[str]:
         return format_items(question.riscos)
     if question.criterios_comparabilidade:
         return ["Critérios de comparabilidade:"] + format_items(question.criterios_comparabilidade)
+    if question.natureza:
+        return ["Não se aplica: questão de levantamento, sem formulação de risco de achado."]
     return [MISSING_MARKDOWN_PLACEHOLDER]
 
 
@@ -444,6 +452,8 @@ def format_criteria(question: Question) -> list[str]:
     criteria = list(question.criterios)
     if question.criterios_comparabilidade:
         criteria.extend(question.criterios_comparabilidade)
+    if not criteria and question.natureza:
+        return ["Não se aplica como critério de conformidade: análise orientada pelas fontes e pelos procedimentos definidos."]
     return [move_leading_markdown_link_to_end(item) for item in format_items(criteria)]
 
 
