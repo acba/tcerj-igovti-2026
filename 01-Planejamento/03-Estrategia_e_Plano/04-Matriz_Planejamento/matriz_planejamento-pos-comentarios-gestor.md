@@ -173,7 +173,7 @@ possiveis_achados:
 questao: Q3. A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?
 
 subquestoes:
-- A organização executa processo formal de planejamento de TIC?
+- A organização executa processo formal de planejamento de TIC, com critérios definidos para seleção e priorização das iniciativas?
 - As áreas demandantes participam do processo de planejamento de TIC?
 - O plano de TIC foi formalmente aprovado pela instância competente?
 - O plano de TIC está alinhado ao planejamento institucional?
@@ -181,42 +181,41 @@ subquestoes:
 - O plano de TIC é acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes?
 
 riscos:
-- R3.1: Devido à inexistência ou fragilidade do processo formal de planejamento de TIC, poderá haver atuação reativa, sem critérios objetivos de seleção e priorização de iniciativas.
+- R3.1: Devido à inexistência ou insuficiência do processo de planejamento de TIC, poderá não haver plano vigente e critérios adequados para seleção e priorização das iniciativas, favorecendo atuação reativa e desalinhada às necessidades institucionais.
 - R3.2: Devido à ausência de aprovação formal do plano de TIC pela instância competente, o instrumento poderá não possuir legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações de TIC.
-- R3.4: Devido à falta de alinhamento do plano de TIC ao planejamento institucional, poderão ser executadas ações de TIC com baixo valor para a organização.
+- R3.4: Devido ao alinhamento insuficiente do plano de TIC ao planejamento institucional poderão ser executadas ações de TIC com baixo valor ou desconectadas das prioridades da organização.
 - R3.5: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas.
-- R3.6: Devido à ausência de acompanhamento e revisão do plano de TIC, poderão permanecer metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
+- R3.6: Devido à ausência de acompanhamento da execução do plano de TIC, poderão deixar de ser identificados tempestivamente desvios, pendências ou mudanças que demandem ajustes nas iniciativas e prioridades planejadas.
 
 fontes_de_informacao:
 - F1: Respostas ao questionário eletrônico iGovTI.
 - F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Resposta sobre existência de processo formal de planejamento de TIC; [F1, q2101]
-- IR2: Evidência anexada sobre norma, procedimento, guia ou instrumento equivalente que discipline o processo de planejamento de TIC; [F2, q2101evi]
+- IR1: Respostas sobre execução do processo de planejamento de TIC, sua formalização e existência de critérios para seleção e priorização das iniciativas, bem como sobre a existência de plano de TIC vigente; [F1, q2101, q2101ext[B], q2101ext[D], q2102]
+- IR2: Evidências que demonstrem a formalização do processo de planejamento de TIC e a existência de plano de TIC vigente; [F2, q2101evi, q2102evi]
 - IR3: Resposta sobre participação das áreas demandantes no processo de planejamento de TIC; [F1, q2101ext[A]]
 - IR4: Resposta sobre aprovação formal do plano de TIC pela instância competente; [F1, q2102ext[A]]
 - IR5: Evidência anexada do ato de aprovação formal do plano de TIC; [F2, q2102evi]
-- IR7: Resposta e evidência sobre alinhamento do plano de TIC ao planejamento institucional; [F1, F2, q2102, q2102evi]
-- IR8: Resposta e evidência sobre a previsão, no plano de TIC, dos recursos orçamentários necessários à execução das iniciativas; [F1, F2, q2102ext[C], q2102evi]
-- IR9: Resposta e evidência sobre acompanhamento, revisão ou atualização do plano de TIC; [F1, F2, q2102, q2102evi]
+- IR7: Resposta e evidência sobre alinhamento das iniciativas do plano de TIC ao planejamento institucional; [F1, F2, q2102ext[D], q2102evi]
+- IR8: Resposta e evidência sobre a utilização do plano de TIC como referência para a elaboração da proposta orçamentária da área de TIC e do plano de contratações; [F1, F2, q2102ext[C], q2102evi]
+- IR9: Resposta e evidência sobre acompanhamento da execução do plano de TIC; [F1, F2, q2102ext[E], q2102evi]
 
 criterios:
 - C1: COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.
 - C2: COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
 - C3: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.
-- C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.
-- C5: Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento estratégico, subsidiar a elaboração das leis orçamentárias e ser observado nas licitações e na execução contratual.
+- C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, com participação das áreas relevantes, elaboração, manutenção e revisão periódica de PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta administração.
 
 procedimentos:
-- P1: Verificar, por meio da resposta à q2101, se a organização executa processo formal de planejamento de TIC; [IR1]
-- P2: Validar, pelas evidências anexadas à q2101, a formalização mínima do processo de planejamento de TIC; [IR2]
+- P1: Verificar, por meio das respostas à q2101, q2101ext[B] e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado e com critérios definidos para seleção e priorização das iniciativas; [IR1]
+- P2: Validar, pelas evidências anexadas à q2101 e q2102, a formalização mínima do processo de planejamento de TIC e sua materialização em plano de TIC vigente; [IR2]
 - P3: Verificar, por meio da q2101ext[A], se há participação das áreas demandantes no processo de planejamento de TIC; [IR3]
 - P4: Verificar, por meio da resposta à q2102ext[A], se o plano de TIC foi aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado integrante da alta administração; [IR4]
 - P5: Validar, pelas evidências anexadas à q2102, a aprovação formal do plano de TIC pela instância competente; [IR5]
 - P7: Verificar, por meio da resposta e das evidências da q2102, se o plano está alinhado ao planejamento institucional; [IR7]
-- P8: Verificar, por meio da resposta e da evidência da q2102ext[C], se o plano de TIC prevê os recursos orçamentários necessários à execução das iniciativas; [IR8]
-- P9: Verificar, por meio da resposta e das evidências da q2102, se há acompanhamento, revisão ou atualização periódica do plano de TIC; [IR9]
+- P8: Verificar, por meio da resposta à q2102ext[C] e da evidência correspondente, se o plano de TIC fundamenta a proposta orçamentária da área de TIC e o plano de contratações; [IR8]
+- P9: Verificar, por meio da resposta à q2102ext[E] e das evidências correspondentes, se é realizado acompanhamento concomitante à execução do plano de TIC; [IR9]
 
 evidencias:
 - E1: Resposta negativa ou insuficiente sobre a existência de processo de planejamento de TIC; [P1]
@@ -225,28 +224,29 @@ evidencias:
 - E4: Resposta negativa ou insuficiente sobre a aprovação formal do plano de TIC pela instância competente; [P4]
 - E5: Ausência ou insuficiência de evidência do ato de aprovação formal do plano de TIC pela instância competente; [P5]
 - E7: Inexistência ou insuficiência de alinhamento entre plano de TIC e planejamento institucional; [P7]
-- E8: Inexistência ou insuficiência de previsão orçamentária no plano de TIC; [P8]
-- E9: Ausência de registros de acompanhamento, revisão ou atualização do plano de TIC; [P9]
+- E8: Ausência ou insuficiência de evidência de utilização do plano de TIC como referência para a proposta orçamentária da área de TIC e o plano de contratações; [P8]
+- E9: Ausência ou insuficiência de evidência de acompanhamento da execução do plano de TIC; [P9]
 
 possiveis_achados:
 - A3: Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
   situacoes_encontradas:
   - S3.1:
-      descricao: Inexistência ou fragilidade do processo formal de planejamento de TIC.
+      descricao: Inexistência ou insuficiência do processo de planejamento de TIC para produzir e manter plano de TIC adequado.
       severidade: alta
-      itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[D], q2101evi]
+      itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[D], q2101evi, q2102]
       regra_de_identificacao:
-      - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim)
+      - existe_plano_ti = (q2102 == Adota parcialmente) | (q2102 == Adota em maior parte ou totalmente)
+      - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim) | ~existe_plano_ti
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
-      encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
+      encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
   - S3.2:
       descricao: Ausência de aprovação formal do plano de TIC.
       severidade: alta
-      itens_questionario: [q2102ext[A], q2102evi]
+      itens_questionario: [q2102, q2102ext[A], q2102evi]
       regra_de_identificacao:
-      - (q2102ext[A] != Sim)
+      - existe_plano_ti & (q2102ext[A] != Sim)
       referencias_matriz: [R3.2, P4, E4, P5, E5]
       criterios: [C3, C4]
       tipo_encaminhamento: Determinação
@@ -254,9 +254,9 @@ possiveis_achados:
   - S3.4:
       descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
       severidade: media
-      itens_questionario: [q2102ext[D], q2102evi]
+      itens_questionario: [q2102, q2102ext[D], q2102evi]
       regra_de_identificacao:
-      - (q2102ext[D] != Sim)
+      - existe_plano_ti & (q2102ext[D] != Sim)
       referencias_matriz: [R3.4, P7, E7]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
@@ -264,25 +264,23 @@ possiveis_achados:
   - S3.5:
       descricao: Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.
       severidade: alta
-      itens_questionario: [q2102ext[C], q2102evi]
+      itens_questionario: [q2102, q2102ext[C], q2102evi]
       regra_de_identificacao:
-      - (q2102ext[C] != Sim)
+      - existe_plano_ti & (q2102ext[C] != Sim)
       referencias_matriz: [R3.5, P8, E8]
-      criterios: [C2, C4, C5]
+      criterios: [C2, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização
   - S3.6:
-      descricao: Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.
+      descricao: Ausência de acompanhamento da execução do plano de TIC.
       severidade: media
-      itens_questionario: [q2102ext[E], q2102evi]
+      itens_questionario: [q2102, q2102ext[E], q2102evi]
       regra_de_identificacao:
-      - (q2102ext[E] != Sim)
+      - existe_plano_ti & (q2102ext[E] != Sim)
       referencias_matriz: [R3.6, P9, E9]
       criterios: [C4]
       tipo_encaminhamento: Determinação
-      encaminhamento: estabeleça e execute rotina periódica de acompanhamento, revisão e atualização do plano de TIC, registrando execução, pendências, reprogramações e deliberações
-
----
+      encaminhamento: estabeleça e execute rotina periódica de acompanhamento da execução do plano de TIC, promovendo sua revisão periódica e os ajustes ou atualizações necessários, com registro das principais decisões e reprogramações
 
 ## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação
 

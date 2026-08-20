@@ -33,13 +33,13 @@ PAINEL_SAIDA = PAINEL_ORIGINAL
 AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 PLANILHA_AJUSTES = ROOT / "docs/revisao-mapa/ajustes-mapa-verificacao-achados-pos-comentarios-gestor-2026-08-17.xlsx"
 RESULTADO_ANTERIOR = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditoria-mapa-original-pos-comentarios.json")
-RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditoria-mapa-revisado.json")
+RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q3/resultado_auditoria.json")
 
 
 FORMULAS = {
     "PA01": "(AV01 | (AV02 & (AV03 | (AV04 | AV84))) | (AV05 & AV06))",
     "PA02": "(AV08 | AV11 | (AV12 & AV13))",
-    "PA03": "(((AV17 | AV95) | ((AV14 | AV92) | (AV15 | AV93))) | (AV18 | AV96) | (AV19 | AV97) | (AV20 | AV98) | (AV24 | AV101))",
+    "PA03": "((AV14 | AV15 | AV17 | AV154) | (AV155 & (AV18 | AV19 | AV20 | AV24)))",
     "PA04": "((AV26 & AV25) | (AV29 | AV103) | ((AV31 | AV105) | (AV33 | AV107)) | (AV45 & AV46))",
     "PA05": "(((AV55 | AV125) | (AV56 | AV126)) | ((AV54 | AV124) | (AV57 | AV127) | (AV58 | AV128)) | ((AV59 | AV129) | (AV62 | AV132) | (AV63 | AV133)) | (AV66 | AV136) | ((AV67 | AV137) | (AV70 | AV140) | (AV71 | AV141)))",
     "PA06": "(((AV73 | AV143) | (AV152 | AV153)) | (AV78 | AV148) | (AV82 | (AV80 | AV150)) | AV83)",
@@ -49,6 +49,8 @@ FORMULAS = {
 Q6 = "A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?"
 Q2 = "A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?"
 A2 = "Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação."
+Q3 = "A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?"
+A3 = "Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC"
 Q2_BLOCK = """## Questão 02 - Governança e Comitê de TIC
 
 questao: Q2. A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?
@@ -130,11 +132,132 @@ possiveis_achados:
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos"""
+Q3_BLOCK = """## Questão 03 - Planejamento de TIC
+
+questao: Q3. A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?
+
+subquestoes:
+- A organização executa processo formal de planejamento de TIC, com critérios definidos para seleção e priorização das iniciativas?
+- As áreas demandantes participam do processo de planejamento de TIC?
+- O plano de TIC foi formalmente aprovado pela instância competente?
+- O plano de TIC está alinhado ao planejamento institucional?
+- O plano de TIC está integrado à proposta orçamentária da área de TIC e ao plano de contratações?
+- O plano de TIC é acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes?
+
+riscos:
+- R3.1: Devido à inexistência ou insuficiência do processo de planejamento de TIC, poderá não haver plano vigente e critérios adequados para seleção e priorização das iniciativas, favorecendo atuação reativa e desalinhada às necessidades institucionais.
+- R3.2: Devido à ausência de aprovação formal do plano de TIC pela instância competente, o instrumento poderá não possuir legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações de TIC.
+- R3.4: Devido ao alinhamento insuficiente do plano de TIC ao planejamento institucional poderão ser executadas ações de TIC com baixo valor ou desconectadas das prioridades da organização.
+- R3.5: Devido à ausência de integração entre planejamento de TIC, orçamento e contratações, poderão ocorrer aquisições reativas, não priorizadas ou desalinhadas.
+- R3.6: Devido à ausência de acompanhamento da execução do plano de TIC, poderão deixar de ser identificados tempestivamente desvios, pendências ou mudanças que demandem ajustes nas iniciativas e prioridades planejadas.
+
+fontes_de_informacao:
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
+
+informacoes_requeridas:
+- IR1: Respostas sobre execução do processo de planejamento de TIC, sua formalização e existência de critérios para seleção e priorização das iniciativas, bem como sobre a existência de plano de TIC vigente; [F1, q2101, q2101ext[B], q2101ext[D], q2102]
+- IR2: Evidências que demonstrem a formalização do processo de planejamento de TIC e a existência de plano de TIC vigente; [F2, q2101evi, q2102evi]
+- IR3: Resposta sobre participação das áreas demandantes no processo de planejamento de TIC; [F1, q2101ext[A]]
+- IR4: Resposta sobre aprovação formal do plano de TIC pela instância competente; [F1, q2102ext[A]]
+- IR5: Evidência anexada do ato de aprovação formal do plano de TIC; [F2, q2102evi]
+- IR7: Resposta e evidência sobre alinhamento das iniciativas do plano de TIC ao planejamento institucional; [F1, F2, q2102ext[D], q2102evi]
+- IR8: Resposta e evidência sobre a utilização do plano de TIC como referência para a elaboração da proposta orçamentária da área de TIC e do plano de contratações; [F1, F2, q2102ext[C], q2102evi]
+- IR9: Resposta e evidência sobre acompanhamento da execução do plano de TIC; [F1, F2, q2102ext[E], q2102evi]
+
+criterios:
+- C1: COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.
+- C2: COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
+- C3: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.
+- C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, com participação das áreas relevantes, elaboração, manutenção e revisão periódica de PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta administração.
+
+procedimentos:
+- P1: Verificar, por meio das respostas à q2101, q2101ext[B] e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado e com critérios definidos para seleção e priorização das iniciativas; [IR1]
+- P2: Validar, pelas evidências anexadas à q2101 e q2102, a formalização mínima do processo de planejamento de TIC e sua materialização em plano de TIC vigente; [IR2]
+- P3: Verificar, por meio da q2101ext[A], se há participação das áreas demandantes no processo de planejamento de TIC; [IR3]
+- P4: Verificar, por meio da resposta à q2102ext[A], se o plano de TIC foi aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado integrante da alta administração; [IR4]
+- P5: Validar, pelas evidências anexadas à q2102, a aprovação formal do plano de TIC pela instância competente; [IR5]
+- P7: Verificar, por meio da resposta e das evidências da q2102, se o plano está alinhado ao planejamento institucional; [IR7]
+- P8: Verificar, por meio da resposta à q2102ext[C] e da evidência correspondente, se o plano de TIC fundamenta a proposta orçamentária da área de TIC e o plano de contratações; [IR8]
+- P9: Verificar, por meio da resposta à q2102ext[E] e das evidências correspondentes, se é realizado acompanhamento concomitante à execução do plano de TIC; [IR9]
+
+evidencias:
+- E1: Resposta negativa ou insuficiente sobre a existência de processo de planejamento de TIC; [P1]
+- E2: Ausência, desatualização, incompatibilidade ou insuficiência de evidência que discipline o processo de planejamento de TIC; [P2]
+- E3: Resposta negativa ou insuficiente sobre participação das áreas demandantes; [P3]
+- E4: Resposta negativa ou insuficiente sobre a aprovação formal do plano de TIC pela instância competente; [P4]
+- E5: Ausência ou insuficiência de evidência do ato de aprovação formal do plano de TIC pela instância competente; [P5]
+- E7: Inexistência ou insuficiência de alinhamento entre plano de TIC e planejamento institucional; [P7]
+- E8: Ausência ou insuficiência de evidência de utilização do plano de TIC como referência para a proposta orçamentária da área de TIC e o plano de contratações; [P8]
+- E9: Ausência ou insuficiência de evidência de acompanhamento da execução do plano de TIC; [P9]
+
+possiveis_achados:
+- A3: Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
+  situacoes_encontradas:
+  - S3.1:
+      descricao: Inexistência ou insuficiência do processo de planejamento de TIC para produzir e manter plano de TIC adequado.
+      severidade: alta
+      itens_questionario: [q2101ext[A], q2101ext[B], q2101ext[D], q2101evi, q2102]
+      regra_de_identificacao:
+      - existe_plano_ti = (q2102 == Adota parcialmente) | (q2102 == Adota em maior parte ou totalmente)
+      - (q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim) | ~existe_plano_ti
+      referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
+      criterios: [C1, C3, C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC
+  - S3.2:
+      descricao: Ausência de aprovação formal do plano de TIC.
+      severidade: alta
+      itens_questionario: [q2102, q2102ext[A], q2102evi]
+      regra_de_identificacao:
+      - existe_plano_ti & (q2102ext[A] != Sim)
+      referencias_matriz: [R3.2, P4, E4, P5, E5]
+      criterios: [C3, C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação
+  - S3.4:
+      descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
+      severidade: media
+      itens_questionario: [q2102, q2102ext[D], q2102evi]
+      regra_de_identificacao:
+      - existe_plano_ti & (q2102ext[D] != Sim)
+      referencias_matriz: [R3.4, P7, E7]
+      criterios: [C1, C3, C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
+  - S3.5:
+      descricao: Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.
+      severidade: alta
+      itens_questionario: [q2102, q2102ext[C], q2102evi]
+      regra_de_identificacao:
+      - existe_plano_ti & (q2102ext[C] != Sim)
+      referencias_matriz: [R3.5, P8, E8]
+      criterios: [C2, C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização
+  - S3.6:
+      descricao: Ausência de acompanhamento da execução do plano de TIC.
+      severidade: media
+      itens_questionario: [q2102, q2102ext[E], q2102evi]
+      regra_de_identificacao:
+      - existe_plano_ti & (q2102ext[E] != Sim)
+      referencias_matriz: [R3.6, P9, E9]
+      criterios: [C4]
+      tipo_encaminhamento: Determinação
+      encaminhamento: estabeleça e execute rotina periódica de acompanhamento da execução do plano de TIC, promovendo sua revisão periódica e os ajustes ou atualizações necessários, com registro das principais decisões e reprogramações"""
 CRITERIO_Q3_C5 = (
     "Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: "
     "o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento "
     "estratégico, subsidiar a elaboração das leis orçamentárias e ser observado nas licitações "
     "e na execução contratual."
+)
+CRITERIO_Q3_C4 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – "
+    "Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, "
+    "com participação das áreas relevantes, elaboração, manutenção e revisão periódica de "
+    "PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, "
+    "projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta "
+    "administração."
 )
 CRITERIO_Q4_C12 = (
     "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o "
@@ -152,11 +275,11 @@ SITUACOES = {
     "s2.1": "Ausência de objetivos, indicadores ou metas para a gestão de TIC.",
     "s2.2": "Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.",
     "s2.3": "Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.",
-    "s3.1": "Inexistência ou fragilidade do processo formal de planejamento de TIC.",
+    "s3.1": "Inexistência ou insuficiência do processo de planejamento de TIC para produzir e manter plano de TIC adequado.",
     "s3.2": "Ausência de aprovação formal do plano de TIC.",
     "s3.4": "Plano de TIC sem alinhamento adequado ao planejamento institucional.",
     "s3.5": "Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.",
-    "s3.6": "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.",
+    "s3.6": "Ausência de acompanhamento da execução do plano de TIC.",
     "s4.1": "Ausência de força de trabalho dedicada à TIC.",
     "s4.2": "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
     "s4.3": "Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.",
@@ -180,11 +303,11 @@ SITUACOES_ANTERIORES = {
     "s2.1": "Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.",
     "s2.2": "Comitê de TIC ou instância equivalente não instituído formalmente.",
     "s2.3": "Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva.",
-    "s3.1": SITUACOES["s3.1"],
+    "s3.1": "Inexistência ou fragilidade do processo formal de planejamento de TIC.",
     "s3.2": SITUACOES["s3.2"],
     "s3.4": SITUACOES["s3.4"],
     "s3.5": "Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC",
-    "s3.6": SITUACOES["s3.6"],
+    "s3.6": "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.",
     "s4.1": "Ausência de força de trabalho dedicada à TIC ou à segurança da informação.",
     "s4.2": SITUACOES["s4.2"],
     "s4.3": SITUACOES["s4.3"],
@@ -247,24 +370,23 @@ CRITERIOS_POR_SITUACAO = {
     "s3.1": (
         "COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.\n"
         "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.\n"
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+        + CRITERIO_Q3_C4
     ),
     "s3.2": (
         "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.\n"
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+        + CRITERIO_Q3_C4
     ),
     "s3.4": (
         "COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.\n"
         "Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.\n"
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+        + CRITERIO_Q3_C4
     ),
     "s3.5": (
         "COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.\n"
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.\n"
-        + CRITERIO_Q3_C5
+        + CRITERIO_Q3_C4
     ),
     "s3.6": (
-        "Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima."
+        CRITERIO_Q3_C4
     ),
     "s4.1": (
         "COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.\n"
@@ -329,11 +451,11 @@ ENCAMINHAMENTOS = {
     "s2.1": "estabeleça objetivos, indicadores e metas para a gestão de TIC, de modo a possibilitar o acompanhamento periódico do desempenho da TIC pela alta administração",
     "s2.2": "institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, definindo em seu ato constitutivo, minimamente, a participação de representantes de áreas relevantes da organização, suas competências, a periodicidade de reuniões, a forma de registro das deliberações e os mecanismos de acompanhamento dos encaminhamentos",
     "s2.3": "assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos",
-    "s3.1": "institua processo formal de planejamento de TIC, compatível com o porte e a maturidade da organização, atentando-se, minimamente, em definir etapas, responsáveis, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC",
+    "s3.1": "institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades, participação das áreas demandantes e critérios de priorização das necessidades e iniciativas de TIC",
     "s3.2": "submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação",
     "s3.4": "revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos",
     "s3.5": "integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização",
-    "s3.6": "estabeleça e execute rotina periódica de acompanhamento, revisão e atualização do plano de TIC, registrando execução, pendências, reprogramações e deliberações",
+    "s3.6": "estabeleça e execute rotina periódica de acompanhamento da execução do plano de TIC, promovendo sua revisão periódica e os ajustes ou atualizações necessários, com registro das principais decisões e reprogramações",
     "s4.1": "avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC",
     "s4.2": "estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes",
     "s4.3": "avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização",
@@ -410,6 +532,9 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         if proc["id"] == "PA02":
             proc["descricao"] = f"Procedimento para verificar a questão Q2: {Q2}"
             proc["nome_achado"] = A2
+        if proc["id"] == "PA03":
+            proc["descricao"] = f"Procedimento para verificar a questão Q3: {Q3}"
+            proc["nome_achado"] = A3
         if proc["id"] == "PA04":
             proc["descricao"] = (
                 "Procedimento para verificar a questão Q4: A organização dispõe de capacidade institucional mínima, "
@@ -436,6 +561,26 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     por_id["AV152"] = av152
     por_id["AV153"] = av153
 
+    av154 = copy.deepcopy(por_id["AV25"])
+    av154.update(
+        id="AV154",
+        informacao_requerida="existe_plano_ti",
+        descricao_evidencia="Resposta ao item 2102 que não caracteriza a existência de plano de TIC vigente, ainda que parcialmente adotado",
+        situacao_inconforme="False",
+    )
+    av155 = copy.deepcopy(av154)
+    av155.update(
+        id="AV155",
+        descricao_evidencia="Plano de TIC vigente declarado no item 2102, ao menos parcialmente adotado",
+        descricao_situacao_inconforme=None,
+        situacao_inconforme="True",
+        tipo_encaminhamento="Determinação",
+        encaminhamento=ENCAMINHAMENTOS["s3.1"],
+        criterio=CRITERIOS_POR_SITUACAO["s3.1"],
+    )
+    por_id["AV154"] = av154
+    por_id["AV155"] = av155
+
     situacao_por_ids = {
         "s1.1": {"AV01"},
         "s1.2": {"AV02", "AV03", "AV04", "AV84"},
@@ -443,11 +588,11 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         "s2.1": {"AV08"},
         "s2.2": {"AV11"},
         "s2.3": {"AV12", "AV13"},
-        "s3.1": {"AV14", "AV15", "AV17", "AV92", "AV93", "AV95"},
-        "s3.2": {"AV18", "AV96"},
-        "s3.4": {"AV19", "AV97"},
-        "s3.5": {"AV20", "AV98"},
-        "s3.6": {"AV24", "AV101"},
+        "s3.1": {"AV14", "AV15", "AV17", "AV154"},
+        "s3.2": {"AV18"},
+        "s3.4": {"AV19"},
+        "s3.5": {"AV20"},
+        "s3.6": {"AV24"},
         "s4.1": {"AV25", "AV26"},
         "s4.2": {"AV29", "AV103"},
         "s4.3": {"AV31", "AV33", "AV105", "AV107"},
@@ -464,13 +609,17 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     }
     id_para_situacao = {acao_id: sid for sid, ids in situacao_por_ids.items() for acao_id in ids}
     ids_usados = set().union(*(ids_formula(formula) for formula in FORMULAS.values()))
-    if ids_usados != set(id_para_situacao):
+    ids_sem_situacao = {"AV155"}
+    if ids_usados != set(id_para_situacao) | ids_sem_situacao:
         raise AssertionError("Cadastro de situações não coincide com as ações usadas nas fórmulas.")
 
     acoes = []
     for acao_id in sorted(ids_usados, key=lambda valor: int(valor[2:])):
         row = copy.deepcopy(por_id[acao_id])
-        sid = id_para_situacao[acao_id]
+        sid = id_para_situacao.get(acao_id)
+        if sid is None:
+            acoes.append(row)
+            continue
         row["descricao_situacao_inconforme"] = SITUACOES[sid]
         row["tipo_encaminhamento"] = "Determinação" if sid in DETERMINACOES else "Recomendação"
         row["criterio"] = CRITERIOS_POR_SITUACAO[sid]
@@ -494,6 +643,20 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             motivo["condicao_exibicao"] = "AV12 & AV13"
         elif motivo["id"] == "MR020":
             motivo["condicao_exibicao"] = "AV12 & AV13"
+        elif motivo["id"] == "MR022":
+            motivo["condicao_exibicao"] = "AV14"
+        elif motivo["id"] == "MR024":
+            motivo["condicao_exibicao"] = "AV15"
+        elif motivo["id"] == "MR028":
+            motivo["condicao_exibicao"] = "AV17"
+        elif motivo["id"] == "MR030":
+            motivo["condicao_exibicao"] = "AV155 & AV18"
+        elif motivo["id"] == "MR032":
+            motivo["condicao_exibicao"] = "AV155 & AV19"
+        elif motivo["id"] == "MR034":
+            motivo["condicao_exibicao"] = "AV155 & AV20"
+        elif motivo["id"] == "MR041":
+            motivo["condicao_exibicao"] = "AV155 & AV24"
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
@@ -527,6 +690,15 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         texto_motivo="No subitem b) do item 2801, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TI, como Documento de Formalização da Demanda (DFD), Estudo Técnico Preliminar (ETP), Termo de Referência (TR), Matriz de Riscos ou documentos equivalentes",
     )
     motivos.extend([motivo_b, motivo_b_evidencia])
+    motivo_sem_plano = copy.deepcopy(next(row for row in motivos_originais if row["id"] == "MR030"))
+    motivo_sem_plano.update(
+        id="MR113",
+        descricao_situacao_inconforme=SITUACOES["s3.1"],
+        condicao_exibicao="AV154",
+        acoes_referencia="AV154",
+        texto_motivo="No item 2102, a organização não declarou possuir plano de tecnologia da informação vigente, ainda que parcialmente adotado",
+    )
+    motivos.append(motivo_sem_plano)
     grupos: dict[tuple[str, str], list[dict]] = defaultdict(list)
     for motivo in motivos:
         grupos[(motivo["id_procedimento"], motivo["descricao_situacao_inconforme"])].append(motivo)
@@ -540,6 +712,15 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     ws_vars = wb["Variáveis Temporárias"]
     vars_headers, variaveis_originais = rows_as_dicts(ws_vars)
     variaveis = [row for row in variaveis_originais if row["id"] in {"VT01", "VT03"}]
+    variaveis.append(
+        {
+            "id": "VT06",
+            "id_fonte_informacao": "questionario",
+            "nome": "existe_plano_ti",
+            "expressao": "(q2102 == 'Adota parcialmente.') | (q2102 == 'Adota em maior parte ou totalmente.')",
+            "descricao": "Indica que a organização declarou possuir plano de TIC vigente, ao menos parcialmente adotado.",
+        }
+    )
     rewrite_sheet(ws_vars, vars_headers, variaveis)
 
     wb.save(MAPA_SAIDA)
@@ -560,9 +741,11 @@ def gerar_painel() -> int:
     presentes = [coluna in headers for coluna in colunas]
     if any(presentes) and not all(presentes):
         raise ValueError("O painel contém apenas parte das colunas q2801ext[B]; revisão manual necessária.")
+    alterado = False
     if not all(presentes):
         for coluna in colunas:
             ws.cell(1, ws.max_column + 1, coluna)
+        alterado = True
 
     ajustes = pd.read_excel(AJUSTES_EVIDENCIAS)
     ajustes = ajustes[ajustes["Código do item avaliado"].astype(str).eq("q2801ext[B]")].copy()
@@ -576,21 +759,25 @@ def gerar_painel() -> int:
     header_map = {cell.value: cell.column for cell in ws[1]}
     auditado_col = header_map["Auditado"]
     novos_headers = {cell.value: cell.column for cell in ws[1]}
-    for row_index in range(2, ws.max_row + 1):
-        for coluna in colunas:
-            ws.cell(row_index, novos_headers[coluna]).value = None
     preenchidos = 0
     for row_index in range(2, ws.max_row + 1):
         auditado = str(ws.cell(row_index, auditado_col).value or "").strip().upper()
         registro = registros.get(auditado)
-        if registro is None:
-            continue
-        ws.cell(row_index, novos_headers["q2801ext[B]"], "Não conforme")
-        ws.cell(row_index, novos_headers["q2801ext[B]__resposta_afirmada"], str(registro.get("Resposta afirmada") or ""))
-        ws.cell(row_index, novos_headers["q2801ext[B]__justificativa"], str(registro.get("justificativa_final") or ""))
-        ws.cell(row_index, novos_headers["q2801ext[B]__pratica"], "são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TIC")
-        preenchidos += 1
-    wb.save(PAINEL_ORIGINAL)
+        valores = {
+            "q2801ext[B]": "Não conforme" if registro is not None else None,
+            "q2801ext[B]__resposta_afirmada": str(registro.get("Resposta afirmada") or "") if registro is not None else None,
+            "q2801ext[B]__justificativa": str(registro.get("justificativa_final") or "") if registro is not None else None,
+            "q2801ext[B]__pratica": "são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TIC" if registro is not None else None,
+        }
+        for coluna, valor in valores.items():
+            cell = ws.cell(row_index, novos_headers[coluna])
+            if cell.value != valor:
+                cell.value = valor
+                alterado = True
+        if registro is not None:
+            preenchidos += 1
+    if alterado:
+        wb.save(PAINEL_ORIGINAL)
     return preenchidos
 
 
@@ -828,9 +1015,6 @@ def gerar_matriz() -> None:
     insercoes_criterios = {
         "- C6: Lei nº 14.133/2021, art. 11, parágrafo único - Dever da alta administração de implementar estruturas de governança das contratações.": [
             "- C8: Acórdão TCU 1.411/2014-Plenário, item 9.1.2 - Precedente sobre funcionamento permanente e composição relevante do Comitê de TIC.",
-        ],
-        "- C4: Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.": [
-            f"- C5: {CRITERIO_Q3_C5}",
         ],
         "- C11: Lei nº 14.133/2021, art. 117 - Dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados.": [
             f"- C12: {CRITERIO_Q4_C12}",
@@ -1072,6 +1256,9 @@ def gerar_matriz() -> None:
     inicio_q2 = texto_renumerado.index("## Questão 02 - Governança e Comitê de TIC")
     inicio_q3 = texto_renumerado.index("## Questão 03 - Planejamento de TIC", inicio_q2)
     texto_renumerado = texto_renumerado[:inicio_q2] + Q2_BLOCK + "\n\n" + texto_renumerado[inicio_q3:]
+    inicio_q3 = texto_renumerado.index("## Questão 03 - Planejamento de TIC")
+    inicio_q4 = texto_renumerado.index("## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação", inicio_q3)
+    texto_renumerado = texto_renumerado[:inicio_q3] + Q3_BLOCK + "\n\n" + texto_renumerado[inicio_q4:]
     lines = texto_renumerado.splitlines()
 
     updates = {
@@ -1081,11 +1268,6 @@ def gerar_matriz() -> None:
         "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
         "S2.2": dict(descricao=SITUACOES["s2.2"], itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
         "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
-        "S3.1": dict(itens_questionario="[q2101ext[A], q2101ext[B], q2101ext[D], q2101evi]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.1"]),
-        "S3.2": dict(criterios="[C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.2"]),
-        "S3.4": dict(criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.4"]),
-        "S3.5": dict(descricao=SITUACOES["s3.5"], itens_questionario="[q2102ext[C], q2102evi]", referencias_matriz="[R3.5, P8, E8]", criterios="[C2, C4, C5]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.5"]),
-        "S3.6": dict(criterios="[C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s3.6"]),
         "S4.1": dict(descricao=SITUACOES["s4.1"], criterios="[C2, C13]", encaminhamento=ENCAMINHAMENTOS["s4.1"]),
         "S4.2": dict(criterios="[C5, C12]", encaminhamento=ENCAMINHAMENTOS["s4.2"]),
         "S4.3": dict(descricao=SITUACOES["s4.3"], criterios="[C1, C2]", encaminhamento=ENCAMINHAMENTOS["s4.3"]),
@@ -1106,8 +1288,6 @@ def gerar_matriz() -> None:
         "S2.1": ["(q1001ext[H] != Sim)"],
         "S2.2": ["(q1001ext[E] != Sim)"],
         "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
-        "S3.1": ["(q2101ext[A] != Sim) | (q2101ext[B] != Sim) | (q2101ext[D] != Sim)"],
-        "S3.5": ["(q2102ext[C] != Sim)"],
         "S4.1": [
             "total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]",
             "(q0101 != F) & (total_TI == 0)",
@@ -1195,6 +1375,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-054", "Mapa e matriz/PA01/S1.1-S1.3", "S1.1 e S1.2 como determinação; encaminhamentos anteriores de S1.2 e S1.3", "Todas as situações da Q1 como recomendação; encaminhamentos revisados", "Os gatilhos são predominantemente declaratórios ou apoiados em referenciais de boa prática e preservam espaço para solução organizacional proporcional."),
         ("AJ-055", "Mapa e matriz/PA02/Q2", "Questão, riscos, critérios e encaminhamentos anteriores", "Q2 revisada com C1 a C4 e foco em objetivos, composição e atuação do Comitê", "Mantém apenas os elementos essenciais de governança efetivamente abrangidos pelos itens H, E e F da q1001."),
         ("AJ-056", "Mapa e matriz/PA02/S2.1-S2.3", "AV08 | AV86; AV11 | AV89; AV12 & (AV13 | AV91)", "AV08; AV11; AV12 & AV13", "A decisão mais recente trata a avaliação documental como evidência de suporte, sem convertê-la em gatilho autônomo das situações; S2.1 retorna a recomendação."),
+        ("AJ-057", "Mapa e matriz/PA03/Q3", "Questão, riscos, procedimentos, evidências e situações anteriores", "Q3 revisada com processo formal, plano vigente, aprovação, alinhamento, integração e acompanhamento", "Consolida a rastreabilidade da questão e preserva a lacuna S3.3, mantendo estáveis os identificadores das situações."),
+        ("AJ-058", "Mapa/PA03/S3.1-S3.6", "Ações declaratórias e documentais sem gate comum de plano vigente", "VT06 existe_plano_ti; S3.1 inclui AV154; S3.2-S3.6 exigem AV155", "Restringe as situações sobre atributos do plano às organizações que declararam plano vigente ao menos parcialmente adotado; evidências permanecem como suporte, sem gatilho autônomo."),
     ]
     tipo_rows = [
         ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; a determinação se apoia também no precedente do TCE-RJ e deve admitir instância equivalente."),
@@ -1216,6 +1398,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
     for row in result:
         if row["ID"] in {"AJ-003", "AJ-004", "AJ-005", "AJ-042"}:
             row["Situação"] = "Superado por AJ-056"
+        if row["ID"] in {"AJ-006", "AJ-049", "AJ-050"}:
+            row["Situação"] = "Superado por AJ-057/AJ-058"
     for idx, (sid, old, new, fundamento, ressalva) in enumerate(tipo_rows, start=25):
         result.append(
             {
@@ -1276,6 +1460,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S4.6", "Determinação por falta de fiscalização versus predomínio de terceiros como gatilho", "q0101B & total_TI_interno=0", "Predomínio, isoladamente, não prova infração ao art. 117; modelo C é legítimo."),
         ("S6.1", "Exigir q2801B com painel sem a coluna", "Painel vigente ampliado com B e metadados", f"Foram materializados {painel_preenchidos} registros não conformes já avaliados; nenhum resultado foi inventado."),
         ("S1.2 × S2.1", "q0103D e q1001C mediam, em grande parte, a mesma formalização de responsabilidades", "S1.2 conserva q0103D; S2.1 passa a usar somente q1001H", "Distingue competência formal da unidade de direção estratégica por objetivos, indicadores e metas."),
+        ("Q3/plano vigente", "Itens de detalhamento q2102ext aplicados mesmo quando não havia plano vigente", "VT06 define existe_plano_ti; S3.2 a S3.6 dependem desse gate", "Evita imputar deficiências de aprovação, alinhamento, integração ou acompanhamento a quem ainda não possui plano vigente; nesses casos, aplica-se S3.1."),
         ("Natureza jurídica", "Determinação baseada em dever de resultado versus norma sem artefato nominal", "Determinação com equivalência funcional e proporcionalidade", "Evita transformar PDTI, Comitê ou inventário em modelo organizacional único quando o dever jurídico admite solução equivalente."),
     ]
     for row in contradicoes:
@@ -1315,7 +1500,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         (4, "Calibrar as ações declaratórias e documentais", "Aba Ações de Verificação", "Todas as colunas existem nas fontes e cada ação pertence a uma fórmula."),
         (5, "Reescrever as seis fórmulas de achado", "Aba Procedimentos de Auditoria", "Fórmulas parseáveis e sem ação inexistente."),
         (6, "Sincronizar motivos do relatório", "Aba Motivos do Relatório", "Condições e referências usam somente ações mantidas."),
-        (7, "Eliminar variáveis temporárias não usadas", "Aba Variáveis Temporárias", "Somente total_TI e total_TI_interno permanecem."),
+        (7, "Eliminar variáveis temporárias não usadas e criar o gate do plano", "Aba Variáveis Temporárias", "Permanecem total_TI, total_TI_interno e existe_plano_ti."),
         (8, "Materializar q2801B no painel pós-comentários", "Painel revisado", "Coluna e metadados presentes; dados derivados de avaliações existentes."),
         (9, "Sincronizar a matriz de planejamento", "Matriz pós-comentários", "Descrições, itens, regras, critérios e tipos iguais ao mapa."),
         (10, "Executar validação estrutural", "Validador do executa_auditoria.py", "Sem erro e sem aviso de ação órfã."),
