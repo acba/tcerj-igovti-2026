@@ -377,16 +377,15 @@ possiveis_achados:
 
 ## Questão 05 - Gestão de Serviços de TIC
 
-questao: Q5. A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, continuidade, rastreabilidade e qualidade dos serviços prestados?
+questao: Q5. A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, rastreabilidade e qualidade dos serviços prestados?
 
 subquestoes:
-- A organização possui catálogo de serviços de TIC formalmente instituído, atualizado e acessível aos usuários e às áreas demandantes?
+- A organização mantém catálogo de serviços de TIC atualizado e acessível aos usuários e às equipes de suporte?
 - O catálogo de serviços de TIC contém informações mínimas sobre os serviços efetivamente prestados?
 - Existem Acordos de Níveis de Serviço ou metas mínimas formalmente definidas e monitoradas para os principais serviços de TIC?
 - A organização mantém inventário atualizado dos ativos de TIC?
 - Há processo formal de gestão de configuração, com identificação de itens de configuração relevantes para os serviços de TIC?
 - A organização possui processo formal de gestão de incidentes de TIC?
-- Os incidentes de TIC são registrados de forma sistemática, com rastreabilidade e histórico?
 
 riscos:
 - R5.1: Devido à inexistência ou desatualização do catálogo de serviços de TIC, poderá não haver definição clara e padronizada dos serviços prestados, levando à prestação reativa e pouco transparente de serviços de TIC.
@@ -399,43 +398,44 @@ fontes_de_informacao:
 - F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Resposta sobre atualização e disponibilidade do catálogo de serviços de TIC; [F1, q2201ext[B], q2201ext[C]]
+- IR1: Resposta sobre adoção, atualização e disponibilidade do catálogo de serviços de TIC; [F1, q2201, q2201ext[B], q2201ext[C]]
 - IR2: Evidência anexada contendo catálogo de serviços de TIC; [F2, q2201evi]
-- IR3: Resposta sobre metas no catálogo e existência de ANS ou metas mínimas de nível de serviço; [F1, q2201ext[A], q2201ext[D]]
+- IR3: Resposta sobre adoção da prática, metas no catálogo e existência de ANS ou metas mínimas de nível de serviço; [F1, q2201, q2201ext[A], q2201ext[D]]
 - IR4: Resposta sobre monitoramento de ANS ou metas mínimas; [F1, q2201ext[E]]
 - IR5: Evidência anexada contendo ANS, metas ou registros de monitoramento; [F2, q2201evi]
-- IR6: Resposta sobre existência de inventário de ativos de TIC; [F1, q2203, q2501, q2504]
-- IR7: Evidência anexada contendo inventário de ativos de TIC; [F2, q2203evi, q2501evi, q2504evi]
-- IR8: Resposta sobre existência de processo formal de gestão de configuração; [F1, q2203]
+- IR6: Resposta sobre inventário e controle de dispositivos e softwares de TIC; [F1, q2504, q2504ext[A], q2504ext[B]]
+- IR7: Evidência anexada contendo inventário de ativos de TIC; [F2, q2504evi]
+- IR8: Respostas sobre existência de base consolidada de configurações e formalização do processo de gestão de configuração; [F1, q2203, q2203ext[A], q2203ext[C]]
 - IR9: Evidência anexada contendo norma, procedimento, CMDB ou base equivalente de gestão de configuração; [F2, q2203evi]
-- IR10: Resposta sobre existência de processo formal de gestão de incidentes de TIC; [F1, q2204]
+- IR10: Respostas sobre adoção e formalização do processo de gestão de incidentes, critérios de priorização e escalamento e tratamento de incidentes de segurança da informação; [F1, q2204, q2204ext[A], q2204ext[D], q2204ext[E]]
 - IR11: Evidência anexada contendo norma, procedimento ou fluxo de gestão de incidentes de TIC; [F2, q2204evi]
-- IR12: Resposta sobre registro sistemático dos incidentes de TIC; [F1, q2204]
 - IR13: Evidência anexada contendo registros de incidentes, chamados, tickets, relatórios de atendimento ou sistema equivalente; [F2, q2204evi]
 
 criterios:
-- C1: ITIL 4, prática de gerenciamento do catálogo de serviços: manter fonte única de informações consistentes sobre serviços e ofertas de serviço, disponível para usuários e equipes de suporte.
 - C2: COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.
 - C3: ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias.
 - C4: ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
-- C5: ITIL 4, prática de gerenciamento de configuração de serviço: assegurar informações precisas e confiáveis sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura.
 - C6: COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
 - C8: COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
-- C9: Lei nº 13.709/2018, arts. 46 e 50 - Medidas técnicas e administrativas de segurança e regras de boas práticas e governança no tratamento de dados pessoais.
-- C10: Lei nº 13.709/2018, arts. 46 e 48 - Deveres de segurança e comunicação de incidente que possa acarretar risco ou dano relevante aos titulares.
+- C11: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 – Recomendações quanto à estruturação do catálogo de serviços de TIC, incluindo descrição dos serviços, metas, formas de acesso e disponibilidade aos usuários.
+- C12: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 – Recomendações quanto à gestão de configuração e ativos de TIC, incluindo formalização do processo e manutenção de base consolidada de ativos e itens de configuração.
+- C13: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 – Recomendações quanto à formalização e execução do processo de gestão de incidentes, incluindo registros, classificação, escalamento e tratamento.
+- C14: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 – Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço.
+- C15: ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 – Gerenciamento de catálogo de serviço: orienta que o catálogo descreva os serviços e seus resultados pretendidos, contenha informações relevantes para sua utilização e seja disponibilizado às partes interessadas que necessitem acessá-lo.
+- C16: ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 – Gerenciamento de configuração: orienta a identificação, o registro, o controle, o rastreamento e a verificação dos itens de configuração, bem como a manutenção de informações de configuração precisas relacionadas aos serviços.
+- C17: ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 – Gerenciamento de incidente: orienta que os incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu tratamento, incluindo procedimento documentado para incidentes graves.
 
 procedimentos:
-- P1: Verificar, por meio das respostas às q2201ext[B] e q2201ext[C], a atualização e a disponibilidade do catálogo de serviços de TIC; [IR1]
+- P1: Verificar, por meio da q2201 e das q2201ext[B] e [C], a adoção da prática e a atualização e disponibilidade do catálogo de serviços de TIC; [IR1]
 - P2: Validar, pela evidência anexada à q2201, se o catálogo contém informações mínimas sobre os serviços prestados; [IR2]
-- P3: Verificar, por meio das q2201ext[A], q2201ext[D] e q2201ext[E], a definição, pactuação e monitoramento de metas ou níveis de serviço; [IR3, IR4]
+- P3: Verificar, por meio da q2201 e das q2201ext[A], [D] e [E], a adoção, definição, pactuação e monitoramento de metas ou níveis de serviço; [IR3, IR4]
 - P4: Validar, pela evidência anexada à q2201, a existência de ANS, metas ou registros de monitoramento; [IR5]
-- P5: Verificar, por meio das respostas às q2203, q2501 e q2504, a existência de inventário de ativos de TIC; [IR6]
-- P6: Validar, pelas evidências anexadas às q2203, q2501 e q2504, a existência e suficiência do inventário de ativos de TIC; [IR7]
-- P7: Verificar, por meio da resposta à q2203, a existência de processo formal de gestão de configuração; [IR8]
+- P5: Verificar, por meio da q2504 e das q2504ext[A] e [B], se a organização inventaria e controla dispositivos e softwares; [IR6]
+- P6: Validar, pela evidência anexada à q2504, a existência e atualização do inventário de dispositivos e softwares; [IR7]
+- P7: Verificar, por meio da q2203 e das q2203ext[A] e [C], se a organização mantém base consolidada de configurações e processo formalizado de gestão de configuração; [IR8]
 - P8: Validar, pela evidência anexada à q2203, a existência de procedimento, base ou mecanismo equivalente de gestão de configuração; [IR9]
-- P9: Verificar, por meio da resposta à q2204, a existência de processo formal de gestão de incidentes de TIC; [IR10]
+- P9: Verificar, por meio da q2204 e das q2204ext[A], [D] e [E], se a organização possui processo de gestão de incidentes formalizado, com critérios de priorização e escalamento e procedimentos para incidentes de segurança da informação; [IR10]
 - P10: Validar, pela evidência anexada à q2204, a existência de procedimento ou fluxo formal de gestão de incidentes; [IR11]
-- P11: Verificar, por meio da resposta à q2204, se há registro sistemático dos incidentes de TIC; [IR12]
 - P12: Validar, pela evidência anexada à q2204, a existência de registros rastreáveis de incidentes, chamados ou tickets; [IR13]
 
 evidencias:
@@ -445,11 +445,10 @@ evidencias:
 - E4: Ausência, desatualização ou insuficiência de ANS, metas ou registros de monitoramento; [P4]
 - E5: Resposta negativa ou insuficiente sobre inventário de ativos de TIC; [P5]
 - E6: Ausência, desatualização ou insuficiência de inventário de ativos de TIC; [P6]
-- E7: Resposta negativa ou insuficiente sobre processo formal de gestão de configuração; [P7]
+- E7: Resposta negativa ou insuficiente quanto à manutenção de base consolidada de configurações ou à formalização do processo de gestão de configuração; [P7]
 - E8: Ausência, desatualização ou insuficiência de norma, procedimento, CMDB ou base equivalente de gestão de configuração; [P8]
 - E9: Resposta negativa ou insuficiente sobre processo formal de gestão de incidentes de TIC; [P9]
 - E10: Ausência, desatualização ou insuficiência de norma, procedimento ou fluxo formal de gestão de incidentes; [P10]
-- E11: Resposta negativa ou insuficiente sobre registro sistemático de incidentes de TIC; [P11]
 - E12: Ausência, insuficiência ou baixa rastreabilidade dos registros de incidentes, chamados ou tickets; [P12]
 
 possiveis_achados:
@@ -462,51 +461,49 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2201ext[B] != Sim) | (q2201ext[C] != Sim)
       referencias_matriz: [R5.1, P1, E1, P2, E2]
-      criterios: [C1, C2]
+      criterios: [C2, C11, C15]
       tipo_encaminhamento: Recomendação
       encaminhamento: institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes
   - S5.2:
       descricao: Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.
       severidade: media
-      itens_questionario: [q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]
+      itens_questionario: [q2201, q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]
       regra_de_identificacao:
       - (q2201ext[A] != Sim) | (q2201ext[D] != Sim) | (q2201ext[E] != Sim)
       referencias_matriz: [R5.2, P3, E3, P4, E4]
-      criterios: [C2, C3]
+      criterios: [C3, C14]
       tipo_encaminhamento: Recomendação
-      encaminhamento: defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados
+      encaminhamento: defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento
   - S5.3:
-      descricao: Inexistência ou fragilidade do inventário de ativos de TIC.
+      descricao: Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.
       severidade: alta
-      itens_questionario: [q2203ext[A], q2504ext[A], q2504ext[B], q2203evi, q2504evi]
+      itens_questionario: [q2504, q2504ext[A], q2504ext[B], q2504evi]
       regra_de_identificacao:
-      - (q2203ext[A] != Sim) | (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
+      - (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
       referencias_matriz: [R5.3, P5, E5, P6, E6]
-      criterios: [C4, C9]
-      tipo_encaminhamento: Determinação
-      encaminhamento: estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, sistemas, softwares, licenças, serviços em nuvem e responsáveis
+      criterios: [C4, C12]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
-      itens_questionario: [q2203ext[C], q2203evi]
+      itens_questionario: [q2203, q2203ext[A], q2203ext[C], q2203evi]
       regra_de_identificacao:
-      - (q2203ext[C] != Sim)
+      - (q2203ext[A] != Sim) | (q2203ext[C] != Sim)
       referencias_matriz: [R5.3, P7, E7, P8, E8]
-      criterios: [C5, C6]
+      criterios: [C6, C12, C16]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos
   - S5.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
       severidade: alta
-      itens_questionario: [q2204ext[A], q2204ext[D], q2204ext[E], q2204evi]
+      itens_questionario: [q2204, q2204ext[A], q2204ext[D], q2204ext[E], q2204evi]
       regra_de_identificacao:
       - (q2204ext[A] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim)
-      referencias_matriz: [R5.4, P9, E9, P10, E10, P11, E11, P12, E12]
-      criterios: [C8, C10]
+      referencias_matriz: [R5.4, P9, E9, P10, E10, P12, E12]
+      criterios: [C8, C13, C17]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências
-
----
 
 ## Questão 06 - Contratações de TIC
 

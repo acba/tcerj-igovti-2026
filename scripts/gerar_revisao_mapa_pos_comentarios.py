@@ -33,7 +33,7 @@ PAINEL_SAIDA = PAINEL_ORIGINAL
 AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 PLANILHA_AJUSTES = ROOT / "docs/revisao-mapa/ajustes-mapa-verificacao-achados-pos-comentarios-gestor-2026-08-17.xlsx"
 RESULTADO_ANTERIOR = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditoria-mapa-original-pos-comentarios.json")
-RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q4/resultado_auditoria.json")
+RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q5/resultado_auditoria.json")
 
 
 FORMULAS = {
@@ -41,7 +41,7 @@ FORMULAS = {
     "PA02": "(AV08 | AV11 | (AV12 & AV13))",
     "PA03": "((AV14 | AV15 | AV17 | AV154) | (AV155 & (AV18 | AV19 | AV20 | AV24)))",
     "PA04": "((AV26 & AV25) | AV29 | (AV31 | AV33) | (AV45 & AV46))",
-    "PA05": "(((AV55 | AV125) | (AV56 | AV126)) | ((AV54 | AV124) | (AV57 | AV127) | (AV58 | AV128)) | ((AV59 | AV129) | (AV62 | AV132) | (AV63 | AV133)) | (AV66 | AV136) | ((AV67 | AV137) | (AV70 | AV140) | (AV71 | AV141)))",
+    "PA05": "((AV55 | AV56) | (AV54 | AV57 | AV58) | (AV62 | AV63) | (AV59 | AV66) | (AV67 | AV70 | AV71))",
     "PA06": "(((AV73 | AV143) | (AV152 | AV153)) | (AV78 | AV148) | (AV82 | (AV80 | AV150)) | AV83)",
 }
 
@@ -53,6 +53,8 @@ Q3 = "A organização utiliza o planejamento de TIC como instrumento efetivo de 
 A3 = "Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC"
 Q4 = "A organização dispõe de mecanismos mínimos para estruturar e dimensionar sua força de trabalho de TIC e segurança da informação, formalizar funções e preservar capacidade interna nos modelos de operação predominantemente terceirizados?"
 A4 = "Capacidade institucional de pessoal de TIC e segurança da informação insuficientemente estruturada ou dimensionada"
+Q5 = "A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, rastreabilidade e qualidade dos serviços prestados?"
+A5 = "Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes"
 Q2_BLOCK = """## Questão 02 - Governança e Comitê de TIC
 
 questao: Q2. A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?
@@ -339,6 +341,135 @@ possiveis_achados:
     criterios: [C6, C14]
     tipo_encaminhamento: Recomendação
     encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento"""
+Q5_BLOCK = """## Questão 05 - Gestão de Serviços de TIC
+
+questao: Q5. A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, rastreabilidade e qualidade dos serviços prestados?
+
+subquestoes:
+- A organização mantém catálogo de serviços de TIC atualizado e acessível aos usuários e às equipes de suporte?
+- O catálogo de serviços de TIC contém informações mínimas sobre os serviços efetivamente prestados?
+- Existem Acordos de Níveis de Serviço ou metas mínimas formalmente definidas e monitoradas para os principais serviços de TIC?
+- A organização mantém inventário atualizado dos ativos de TIC?
+- Há processo formal de gestão de configuração, com identificação de itens de configuração relevantes para os serviços de TIC?
+- A organização possui processo formal de gestão de incidentes de TIC?
+
+riscos:
+- R5.1: Devido à inexistência ou desatualização do catálogo de serviços de TIC, poderá não haver definição clara e padronizada dos serviços prestados, levando à prestação reativa e pouco transparente de serviços de TIC.
+- R5.2: Devido à inexistência de níveis de serviço formalmente definidos ou monitorados, poderá não haver parâmetros objetivos de desempenho e qualidade dos serviços de TIC.
+- R5.3: Devido à inexistência ou fragilidade do inventário de ativos e da gestão de configuração, poderá não haver controle adequado dos recursos tecnológicos e suas relações com os serviços prestados.
+- R5.4: Devido à inexistência ou fragilidade do processo de gestão de incidentes de TIC, poderá não haver tratamento padronizado, tempestivo e rastreável dos incidentes.
+
+fontes_de_informacao:
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
+
+informacoes_requeridas:
+- IR1: Resposta sobre adoção, atualização e disponibilidade do catálogo de serviços de TIC; [F1, q2201, q2201ext[B], q2201ext[C]]
+- IR2: Evidência anexada contendo catálogo de serviços de TIC; [F2, q2201evi]
+- IR3: Resposta sobre adoção da prática, metas no catálogo e existência de ANS ou metas mínimas de nível de serviço; [F1, q2201, q2201ext[A], q2201ext[D]]
+- IR4: Resposta sobre monitoramento de ANS ou metas mínimas; [F1, q2201ext[E]]
+- IR5: Evidência anexada contendo ANS, metas ou registros de monitoramento; [F2, q2201evi]
+- IR6: Resposta sobre inventário e controle de dispositivos e softwares de TIC; [F1, q2504, q2504ext[A], q2504ext[B]]
+- IR7: Evidência anexada contendo inventário de ativos de TIC; [F2, q2504evi]
+- IR8: Respostas sobre existência de base consolidada de configurações e formalização do processo de gestão de configuração; [F1, q2203, q2203ext[A], q2203ext[C]]
+- IR9: Evidência anexada contendo norma, procedimento, CMDB ou base equivalente de gestão de configuração; [F2, q2203evi]
+- IR10: Respostas sobre adoção e formalização do processo de gestão de incidentes, critérios de priorização e escalamento e tratamento de incidentes de segurança da informação; [F1, q2204, q2204ext[A], q2204ext[D], q2204ext[E]]
+- IR11: Evidência anexada contendo norma, procedimento ou fluxo de gestão de incidentes de TIC; [F2, q2204evi]
+- IR13: Evidência anexada contendo registros de incidentes, chamados, tickets, relatórios de atendimento ou sistema equivalente; [F2, q2204evi]
+
+criterios:
+- C2: COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.
+- C3: ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias.
+- C4: ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
+- C6: COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
+- C8: COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
+- C11: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 – Recomendações quanto à estruturação do catálogo de serviços de TIC, incluindo descrição dos serviços, metas, formas de acesso e disponibilidade aos usuários.
+- C12: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 – Recomendações quanto à gestão de configuração e ativos de TIC, incluindo formalização do processo e manutenção de base consolidada de ativos e itens de configuração.
+- C13: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 – Recomendações quanto à formalização e execução do processo de gestão de incidentes, incluindo registros, classificação, escalamento e tratamento.
+- C14: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 – Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço.
+- C15: ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 – Gerenciamento de catálogo de serviço: orienta que o catálogo descreva os serviços e seus resultados pretendidos, contenha informações relevantes para sua utilização e seja disponibilizado às partes interessadas que necessitem acessá-lo.
+- C16: ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 – Gerenciamento de configuração: orienta a identificação, o registro, o controle, o rastreamento e a verificação dos itens de configuração, bem como a manutenção de informações de configuração precisas relacionadas aos serviços.
+- C17: ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 – Gerenciamento de incidente: orienta que os incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu tratamento, incluindo procedimento documentado para incidentes graves.
+
+procedimentos:
+- P1: Verificar, por meio da q2201 e das q2201ext[B] e [C], a adoção da prática e a atualização e disponibilidade do catálogo de serviços de TIC; [IR1]
+- P2: Validar, pela evidência anexada à q2201, se o catálogo contém informações mínimas sobre os serviços prestados; [IR2]
+- P3: Verificar, por meio da q2201 e das q2201ext[A], [D] e [E], a adoção, definição, pactuação e monitoramento de metas ou níveis de serviço; [IR3, IR4]
+- P4: Validar, pela evidência anexada à q2201, a existência de ANS, metas ou registros de monitoramento; [IR5]
+- P5: Verificar, por meio da q2504 e das q2504ext[A] e [B], se a organização inventaria e controla dispositivos e softwares; [IR6]
+- P6: Validar, pela evidência anexada à q2504, a existência e atualização do inventário de dispositivos e softwares; [IR7]
+- P7: Verificar, por meio da q2203 e das q2203ext[A] e [C], se a organização mantém base consolidada de configurações e processo formalizado de gestão de configuração; [IR8]
+- P8: Validar, pela evidência anexada à q2203, a existência de procedimento, base ou mecanismo equivalente de gestão de configuração; [IR9]
+- P9: Verificar, por meio da q2204 e das q2204ext[A], [D] e [E], se a organização possui processo de gestão de incidentes formalizado, com critérios de priorização e escalamento e procedimentos para incidentes de segurança da informação; [IR10]
+- P10: Validar, pela evidência anexada à q2204, a existência de procedimento ou fluxo formal de gestão de incidentes; [IR11]
+- P12: Validar, pela evidência anexada à q2204, a existência de registros rastreáveis de incidentes, chamados ou tickets; [IR13]
+
+evidencias:
+- E1: Resposta negativa ou insuficiente sobre catálogo de serviços de TIC; [P1]
+- E2: Ausência, desatualização, inacessibilidade ou insuficiência do catálogo de serviços de TIC; [P2]
+- E3: Resposta negativa ou insuficiente sobre ANS ou metas mínimas de nível de serviço; [P3]
+- E4: Ausência, desatualização ou insuficiência de ANS, metas ou registros de monitoramento; [P4]
+- E5: Resposta negativa ou insuficiente sobre inventário de ativos de TIC; [P5]
+- E6: Ausência, desatualização ou insuficiência de inventário de ativos de TIC; [P6]
+- E7: Resposta negativa ou insuficiente quanto à manutenção de base consolidada de configurações ou à formalização do processo de gestão de configuração; [P7]
+- E8: Ausência, desatualização ou insuficiência de norma, procedimento, CMDB ou base equivalente de gestão de configuração; [P8]
+- E9: Resposta negativa ou insuficiente sobre processo formal de gestão de incidentes de TIC; [P9]
+- E10: Ausência, desatualização ou insuficiência de norma, procedimento ou fluxo formal de gestão de incidentes; [P10]
+- E12: Ausência, insuficiência ou baixa rastreabilidade dos registros de incidentes, chamados ou tickets; [P12]
+
+possiveis_achados:
+- A5: Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes
+  situacoes_encontradas:
+  - S5.1:
+      descricao: Inexistência ou insuficiência do catálogo de serviços de TIC.
+      severidade: media
+      itens_questionario: [q2201, q2201ext[B], q2201ext[C], q2201evi]
+      regra_de_identificacao:
+      - (q2201ext[B] != Sim) | (q2201ext[C] != Sim)
+      referencias_matriz: [R5.1, P1, E1, P2, E2]
+      criterios: [C2, C11, C15]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes
+  - S5.2:
+      descricao: Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.
+      severidade: media
+      itens_questionario: [q2201, q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]
+      regra_de_identificacao:
+      - (q2201ext[A] != Sim) | (q2201ext[D] != Sim) | (q2201ext[E] != Sim)
+      referencias_matriz: [R5.2, P3, E3, P4, E4]
+      criterios: [C3, C14]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento
+  - S5.3:
+      descricao: Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.
+      severidade: alta
+      itens_questionario: [q2504, q2504ext[A], q2504ext[B], q2504evi]
+      regra_de_identificacao:
+      - (q2504ext[A] != Sim) | (q2504ext[B] != Sim)
+      referencias_matriz: [R5.3, P5, E5, P6, E6]
+      criterios: [C4, C12]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle
+  - S5.4:
+      descricao: Ausência ou fragilidade do processo de gestão de configuração.
+      severidade: media
+      itens_questionario: [q2203, q2203ext[A], q2203ext[C], q2203evi]
+      regra_de_identificacao:
+      - (q2203ext[A] != Sim) | (q2203ext[C] != Sim)
+      referencias_matriz: [R5.3, P7, E7, P8, E8]
+      criterios: [C6, C12, C16]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos
+  - S5.5:
+      descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
+      severidade: alta
+      itens_questionario: [q2204, q2204ext[A], q2204ext[D], q2204ext[E], q2204evi]
+      regra_de_identificacao:
+      - (q2204ext[A] != Sim) | (q2204ext[D] != Sim) | (q2204ext[E] != Sim)
+      referencias_matriz: [R5.4, P9, E9, P10, E10, P12, E12]
+      criterios: [C8, C13, C17]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências"""
 CRITERIO_Q3_C5 = (
     "Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: "
     "o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento "
@@ -368,6 +499,42 @@ CRITERIO_Q4_C14 = (
     "quantitativa e qualitativa e à preservação de capacidade interna em atividades de "
     "planejamento, coordenação, fiscalização e controle."
 )
+CRITERIO_Q5_C11 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 – "
+    "Recomendações quanto à estruturação do catálogo de serviços de TIC, incluindo descrição "
+    "dos serviços, metas, formas de acesso e disponibilidade aos usuários."
+)
+CRITERIO_Q5_C12 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 – "
+    "Recomendações quanto à gestão de configuração e ativos de TIC, incluindo formalização "
+    "do processo e manutenção de base consolidada de ativos e itens de configuração."
+)
+CRITERIO_Q5_C13 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 – "
+    "Recomendações quanto à formalização e execução do processo de gestão de incidentes, "
+    "incluindo registros, classificação, escalamento e tratamento."
+)
+CRITERIO_Q5_C14 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 – "
+    "Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço."
+)
+CRITERIO_Q5_C15 = (
+    "ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 – Gerenciamento de catálogo de serviço: "
+    "orienta que o catálogo descreva os serviços e seus resultados pretendidos, contenha "
+    "informações relevantes para sua utilização e seja disponibilizado às partes interessadas "
+    "que necessitem acessá-lo."
+)
+CRITERIO_Q5_C16 = (
+    "ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 – Gerenciamento de configuração: orienta a "
+    "identificação, o registro, o controle, o rastreamento e a verificação dos itens de configuração, "
+    "bem como a manutenção de informações de configuração precisas relacionadas aos serviços."
+)
+CRITERIO_Q5_C17 = (
+    "ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 – Gerenciamento de incidente: orienta que os "
+    "incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua "
+    "resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu "
+    "tratamento, incluindo procedimento documentado para incidentes graves."
+)
 SITUACOES = {
     "s1.1": "Ausência de área, unidade, setor ou função de TIC formalmente instituída.",
     "s1.2": "Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.",
@@ -386,7 +553,7 @@ SITUACOES = {
     "s4.6": "Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.",
     "s5.1": "Inexistência ou insuficiência do catálogo de serviços de TIC.",
     "s5.2": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
-    "s5.3": "Inexistência ou fragilidade do inventário de ativos de TIC.",
+    "s5.3": "Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.",
     "s5.4": "Ausência ou fragilidade do processo de gestão de configuração.",
     "s5.5": "Inexistência ou fragilidade do processo de gestão de incidentes de TIC.",
     "s6.1": "Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC.",
@@ -416,7 +583,7 @@ SITUACOES_ANTERIORES = {
     "s4.6": "Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.",
     "s5.1": SITUACOES["s5.1"],
     "s5.2": SITUACOES["s5.2"],
-    "s5.3": SITUACOES["s5.3"],
+    "s5.3": "Inexistência ou fragilidade do inventário de ativos de TIC.",
     "s5.4": SITUACOES["s5.4"],
     "s5.5": SITUACOES["s5.5"],
     "s6.1": "Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.",
@@ -434,7 +601,6 @@ DETERMINACOES = {
     "s3.4",
     "s3.5",
     "s3.6",
-    "s5.3",
     "s6.1",
     "s6.3",
 }
@@ -504,24 +670,27 @@ CRITERIOS_POR_SITUACAO = {
         + CRITERIO_Q4_C14
     ),
     "s5.1": (
-        "ITIL 4, prática de gerenciamento do catálogo de serviços: manter fonte única de informações consistentes sobre serviços e ofertas de serviço, disponível para usuários e equipes de suporte.\n"
-        "COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados."
+        "COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.\n"
+        + CRITERIO_Q5_C11 + "\n"
+        + CRITERIO_Q5_C15
     ),
     "s5.2": (
-        "COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.\n"
-        "ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias."
+        "ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias.\n"
+        + CRITERIO_Q5_C14
     ),
     "s5.3": (
         "ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.\n"
-        "Lei nº 13.709/2018, arts. 46 e 50: medidas técnicas e administrativas de segurança e regras de boas práticas e governança no tratamento de dados pessoais."
+        + CRITERIO_Q5_C12
     ),
     "s5.4": (
-        "ITIL 4, prática de gerenciamento de configuração de serviço: assegurar informações precisas e confiáveis sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura.\n"
-        "COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração."
+        "COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.\n"
+        + CRITERIO_Q5_C12 + "\n"
+        + CRITERIO_Q5_C16
     ),
     "s5.5": (
         "COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.\n"
-        "Lei nº 13.709/2018, arts. 46 e 48: deveres de segurança e comunicação de incidente que possa acarretar risco ou dano relevante aos titulares."
+        + CRITERIO_Q5_C13 + "\n"
+        + CRITERIO_Q5_C17
     ),
     "s6.1": (
         "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
@@ -560,8 +729,8 @@ ENCAMINHAMENTOS = {
     "s4.3": "avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização",
     "s4.6": "avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
     "s5.1": "institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes",
-    "s5.2": "defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados",
-    "s5.3": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, sistemas, softwares, licenças, serviços em nuvem e responsáveis",
+    "s5.2": "defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento",
+    "s5.3": "estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle",
     "s5.4": "formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos",
     "s5.5": "formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências",
     "s6.1": "formalize e padronize o processo de planejamento das contratações de TIC, com etapas, responsabilidades e artefatos padronizados, admitidos fluxos proporcionais à complexidade e ao risco",
@@ -637,6 +806,9 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         if proc["id"] == "PA04":
             proc["descricao"] = f"Procedimento para verificar a questão Q4: {Q4}"
             proc["nome_achado"] = A4
+        if proc["id"] == "PA05":
+            proc["descricao"] = f"Procedimento para verificar a questão Q5: {Q5}"
+            proc["nome_achado"] = A5
         if proc["id"] == "PA06":
             proc["descricao"] = f"Procedimento para verificar a questão Q6: {Q6}"
     rewrite_sheet(ws_proc, proc_headers, procedimentos)
@@ -692,11 +864,11 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         "s4.2": {"AV29"},
         "s4.3": {"AV31", "AV33"},
         "s4.6": {"AV45", "AV46"},
-        "s5.1": {"AV55", "AV56", "AV125", "AV126"},
-        "s5.2": {"AV54", "AV57", "AV58", "AV124", "AV127", "AV128"},
-        "s5.3": {"AV59", "AV62", "AV63", "AV129", "AV132", "AV133"},
-        "s5.4": {"AV66", "AV136"},
-        "s5.5": {"AV67", "AV70", "AV71", "AV137", "AV140", "AV141"},
+        "s5.1": {"AV55", "AV56"},
+        "s5.2": {"AV54", "AV57", "AV58"},
+        "s5.3": {"AV62", "AV63"},
+        "s5.4": {"AV59", "AV66"},
+        "s5.5": {"AV67", "AV70", "AV71"},
         "s6.1": {"AV73", "AV143", "AV152", "AV153"},
         "s6.2": {"AV78", "AV148"},
         "s6.3": {"AV80", "AV82", "AV150"},
@@ -765,6 +937,30 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             motivo["condicao_exibicao"] = "AV31"
         elif motivo["id"] == "MR049":
             motivo["condicao_exibicao"] = "AV33"
+        elif motivo["id"] == "MR065":
+            motivo["condicao_exibicao"] = "AV54"
+        elif motivo["id"] == "MR067":
+            motivo["condicao_exibicao"] = "AV55"
+        elif motivo["id"] == "MR069":
+            motivo["condicao_exibicao"] = "AV56"
+        elif motivo["id"] == "MR071":
+            motivo["condicao_exibicao"] = "AV57"
+        elif motivo["id"] == "MR073":
+            motivo["condicao_exibicao"] = "AV58"
+        elif motivo["id"] == "MR075":
+            motivo["condicao_exibicao"] = "AV59"
+        elif motivo["id"] == "MR077":
+            motivo["condicao_exibicao"] = "AV62"
+        elif motivo["id"] == "MR079":
+            motivo["condicao_exibicao"] = "AV63"
+        elif motivo["id"] == "MR083":
+            motivo["condicao_exibicao"] = "AV66"
+        elif motivo["id"] == "MR085":
+            motivo["condicao_exibicao"] = "AV67"
+        elif motivo["id"] == "MR087":
+            motivo["condicao_exibicao"] = "AV70"
+        elif motivo["id"] == "MR089":
+            motivo["condicao_exibicao"] = "AV71"
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
@@ -1370,6 +1566,9 @@ def gerar_matriz() -> None:
     inicio_q4 = texto_renumerado.index("## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação")
     inicio_q5 = texto_renumerado.index("## Questão 05 - Gestão de Serviços de TIC", inicio_q4)
     texto_renumerado = texto_renumerado[:inicio_q4] + Q4_BLOCK + "\n\n" + texto_renumerado[inicio_q5:]
+    inicio_q5 = texto_renumerado.index("## Questão 05 - Gestão de Serviços de TIC")
+    inicio_q6 = texto_renumerado.index("## Questão 06 - Contratações de TIC", inicio_q5)
+    texto_renumerado = texto_renumerado[:inicio_q5] + Q5_BLOCK + "\n\n" + texto_renumerado[inicio_q6:]
     lines = texto_renumerado.splitlines()
 
     updates = {
@@ -1379,11 +1578,6 @@ def gerar_matriz() -> None:
         "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
         "S2.2": dict(descricao=SITUACOES["s2.2"], itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
         "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
-        "S5.1": dict(itens_questionario="[q2201, q2201ext[B], q2201ext[C], q2201evi]", encaminhamento=ENCAMINHAMENTOS["s5.1"]),
-        "S5.2": dict(itens_questionario="[q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]", encaminhamento=ENCAMINHAMENTOS["s5.2"]),
-        "S5.3": dict(criterios="[C4, C9]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s5.3"]),
-        "S5.4": dict(itens_questionario="[q2203ext[C], q2203evi]", encaminhamento=ENCAMINHAMENTOS["s5.4"]),
-        "S5.5": dict(criterios="[C8, C10]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s5.5"]),
         "S6.1": dict(descricao=SITUACOES["s6.1"], itens_questionario="[q2801ext[A], q2801ext[B], q2801evi]", criterios="[C1, C3]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.1"]),
         "S6.2": dict(descricao=SITUACOES["s6.2"], criterios="[C1, C5, C8]", encaminhamento=ENCAMINHAMENTOS["s6.2"]),
         "S6.3": dict(descricao=SITUACOES["s6.3"], itens_questionario="[q2802ext[C], q2804[B], q2802evi]", criterios="[C1, C2]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.3"]),
@@ -1395,9 +1589,6 @@ def gerar_matriz() -> None:
         "S2.1": ["(q1001ext[H] != Sim)"],
         "S2.2": ["(q1001ext[E] != Sim)"],
         "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
-        "S5.1": ["(q2201ext[B] != Sim) | (q2201ext[C] != Sim)"],
-        "S5.2": ["(q2201ext[A] != Sim) | (q2201ext[D] != Sim) | (q2201ext[E] != Sim)"],
-        "S5.4": ["(q2203ext[C] != Sim)"],
         "S6.1": ["(q2801ext[A] != Sim) | (q2801ext[B] != Sim)"],
         "S6.3": ["(q2802ext[C] != Sim) | (q2804[B] != Sim)"],
     }
@@ -1464,6 +1655,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-058", "Mapa/PA03/S3.1-S3.6", "Ações declaratórias e documentais sem gate comum de plano vigente", "VT06 existe_plano_ti; S3.1 inclui AV154; S3.2-S3.6 exigem AV155", "Restringe as situações sobre atributos do plano às organizações que declararam plano vigente ao menos parcialmente adotado; evidências permanecem como suporte, sem gatilho autônomo."),
         ("AJ-059", "Mapa e matriz/PA04/Q4", "Questão, riscos, critérios e situações anteriores", "Q4 revisada com foco em estruturação, dimensionamento, funções e capacidade interna nos modelos terceirizados", "Delimita a questão aos mecanismos mínimos efetivamente testados e incorpora o C14 como precedente específico do TCE-RJ."),
         ("AJ-060", "Mapa/PA04/S4.1-S4.6", "AV26 aceitava todo modelo diferente de F; AV103/AV105/AV107 eram gatilhos; S4.6 era determinação", "AV26 restrito a A/B/D/E; retirada dos gatilhos documentais; S4.6 como recomendação", "Exclui o modelo centralizado externo de S4.1, trata evidências documentais como suporte e reconhece que a regra de S4.6 indica oportunidade de melhoria sem comprovar irregularidade concreta de fiscalização."),
+        ("AJ-061", "Mapa e matriz/PA05/Q5", "Questão, riscos, critérios, procedimentos e situações anteriores", "Q5 revisada com catálogo, níveis de serviço, inventário de ativos, gestão de configuração e incidentes", "Mantém apenas as práticas mínimas efetivamente testadas, explicita a rastreabilidade e incorpora referências específicas do TCE-RJ e da ABNT NBR ISO/IEC 20000-2:2021."),
+        ("AJ-062", "Mapa/PA05/S5.1-S5.5", "Evidências documentais como gatilhos autônomos; q2203A em S5.3; S5.3 como determinação", "Regras declaratórias; q2504A/B em S5.3; q2203A/C em S5.4; todas as situações como recomendação", "Trata as evidências como suporte, separa inventário de ativos da gestão de configuração e ajusta a natureza dos encaminhamentos aos referenciais predominantemente orientadores."),
     ]
     tipo_rows = [
         ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; a determinação se apoia também no precedente do TCE-RJ e deve admitir instância equivalente."),
@@ -1489,6 +1682,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
             row["Situação"] = "Superado por AJ-057/AJ-058"
         if row["ID"] in {"AJ-032", "AJ-043"}:
             row["Situação"] = "Superado por AJ-059/AJ-060"
+        if row["ID"] == "AJ-009":
+            row["Situação"] = "Superado por AJ-061/AJ-062"
     for idx, (sid, old, new, fundamento, ressalva) in enumerate(tipo_rows, start=25):
         result.append(
             {
@@ -1497,7 +1692,11 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
                 "DE": old,
                 "PARA": new,
                 "Motivação / justificativa": f"{fundamento}. Ressalva de aplicação: {ressalva}",
-                "Situação": "Superado por AJ-059/AJ-060" if sid == "S4.6" else "Aplicado",
+                "Situação": (
+                    "Superado por AJ-059/AJ-060" if sid == "S4.6" else
+                    "Superado por AJ-061/AJ-062" if sid == "S5.3" else
+                    "Aplicado"
+                ),
             }
         )
     result.append(
@@ -1547,6 +1746,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S4.1", "AV26 & (AV25 | AV27) versus instrução posterior AV26 & AV25 e retirada de total_SI", "AV26 & AV25", "Prevalece a instrução posterior e específica; zero em SI não prova ausência da função."),
         ("S6.3", "Menção inicial a q2802 C-D e q2804B versus fórmula final AV82 | (AV80 | AV150)", "q2804B e q2802C", "Prevalece a fórmula final expressa; q2802D foi excluído."),
         ("S4.6", "Determinação por falta de fiscalização versus regra que testa apenas terceirização e ausência de pessoal interno", "q0101B & total_TI_interno=0, com recomendação", "A condição indica risco de insuficiência de capacidade interna, mas não comprova irregularidade concreta na fiscalização; o C14 sustenta avaliação proporcional."),
+        ("S5.3 × S5.4", "q2203A tratado como inventário de ativos versus conteúdo de base consolidada de configurações", "q2504A/B em S5.3; q2203A/C em S5.4", "O inventário de dispositivos e softwares permanece distinto da base de itens de configuração e de seus relacionamentos; as evidências documentais apoiam a validação, mas não são gatilhos autônomos."),
         ("S6.1", "Exigir q2801B com painel sem a coluna", "Painel vigente ampliado com B e metadados", f"Foram materializados {painel_preenchidos} registros não conformes já avaliados; nenhum resultado foi inventado."),
         ("S1.2 × S2.1", "q0103D e q1001C mediam, em grande parte, a mesma formalização de responsabilidades", "S1.2 conserva q0103D; S2.1 passa a usar somente q1001H", "Distingue competência formal da unidade de direção estratégica por objetivos, indicadores e metas."),
         ("Q3/plano vigente", "Itens de detalhamento q2102ext aplicados mesmo quando não havia plano vigente", "VT06 define existe_plano_ti; S3.2 a S3.6 dependem desse gate", "Evita imputar deficiências de aprovação, alinhamento, integração ou acompanhamento a quem ainda não possui plano vigente; nesses casos, aplica-se S3.1."),
@@ -1567,7 +1767,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S3.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Aprovação pela instância competente."),
         ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, II.3.5", "Vincular ao plano adotado."),
         ("S4.6", "Determinação", "Recomendação", "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3", "A regra demonstra risco de capacidade interna, mas não comprova descumprimento concreto do dever de fiscalização."),
-        ("S5.3", "Recomendação", "Determinação", "LGPD, arts. 46 e 50", "Inventário é meio de demonstrar segurança/governança, não artefato nominal da LGPD."),
+        ("S5.3", "Determinação", "Recomendação", CRITERIO_Q5_C12, "O precedente formula recomendações e o gatilho declaratório não demonstra, por si só, descumprimento de dever legal expresso."),
         ("S6.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 19, IV", "Art. 19, IV, tem destinatário qualificado; admitir modelos compartilhados aplicáveis."),
         ("S6.3", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 12, VII, e 18", "Compatibilização com PCA quando elaborado."),
     ]:
