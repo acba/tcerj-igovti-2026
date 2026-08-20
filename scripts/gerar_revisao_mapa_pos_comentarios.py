@@ -33,14 +33,14 @@ PAINEL_SAIDA = PAINEL_ORIGINAL
 AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 PLANILHA_AJUSTES = ROOT / "docs/revisao-mapa/ajustes-mapa-verificacao-achados-pos-comentarios-gestor-2026-08-17.xlsx"
 RESULTADO_ANTERIOR = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditoria-mapa-original-pos-comentarios.json")
-RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q3/resultado_auditoria.json")
+RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q4/resultado_auditoria.json")
 
 
 FORMULAS = {
     "PA01": "(AV01 | (AV02 & (AV03 | (AV04 | AV84))) | (AV05 & AV06))",
     "PA02": "(AV08 | AV11 | (AV12 & AV13))",
     "PA03": "((AV14 | AV15 | AV17 | AV154) | (AV155 & (AV18 | AV19 | AV20 | AV24)))",
-    "PA04": "((AV26 & AV25) | (AV29 | AV103) | ((AV31 | AV105) | (AV33 | AV107)) | (AV45 & AV46))",
+    "PA04": "((AV26 & AV25) | AV29 | (AV31 | AV33) | (AV45 & AV46))",
     "PA05": "(((AV55 | AV125) | (AV56 | AV126)) | ((AV54 | AV124) | (AV57 | AV127) | (AV58 | AV128)) | ((AV59 | AV129) | (AV62 | AV132) | (AV63 | AV133)) | (AV66 | AV136) | ((AV67 | AV137) | (AV70 | AV140) | (AV71 | AV141)))",
     "PA06": "(((AV73 | AV143) | (AV152 | AV153)) | (AV78 | AV148) | (AV82 | (AV80 | AV150)) | AV83)",
 }
@@ -51,6 +51,8 @@ Q2 = "A organização possui mecanismos básicos de governança de TIC, incluind
 A2 = "Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação."
 Q3 = "A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?"
 A3 = "Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC"
+Q4 = "A organização dispõe de mecanismos mínimos para estruturar e dimensionar sua força de trabalho de TIC e segurança da informação, formalizar funções e preservar capacidade interna nos modelos de operação predominantemente terceirizados?"
+A4 = "Capacidade institucional de pessoal de TIC e segurança da informação insuficientemente estruturada ou dimensionada"
 Q2_BLOCK = """## Questão 02 - Governança e Comitê de TIC
 
 questao: Q2. A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?
@@ -245,6 +247,98 @@ possiveis_achados:
       criterios: [C4]
       tipo_encaminhamento: Determinação
       encaminhamento: estabeleça e execute rotina periódica de acompanhamento da execução do plano de TIC, promovendo sua revisão periódica e os ajustes ou atualizações necessários, com registro das principais decisões e reprogramações"""
+Q4_BLOCK = """## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação
+
+questao: Q4. A organização dispõe de mecanismos mínimos para estruturar e dimensionar sua força de trabalho de TIC e segurança da informação, formalizar funções e preservar capacidade interna nos modelos de operação predominantemente terceirizados?
+
+subquestoes:
+- A organização dispõe de profissionais que atuam regularmente em TIC?
+- A organização definiu o quantitativo necessário de pessoal de TIC e segurança da informação?
+- A organização possui cargos ou funções formalmente atribuídos à TIC e à segurança da informação?
+- Nos modelos de operação predominantemente terceirizados, a organização mantém força de trabalho interna de TIC?
+
+riscos:
+- R4.1: Devido à ausência de profissionais atuando regularmente em TIC, poderá não haver capacidade operacional mínima para coordenar e sustentar as atividades e serviços tecnológicos da organização.
+- R4.2: Devido à ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação, poderá haver subdimensionamento ou alocação inadequada da equipe.
+- R4.3: Devido à ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação, poderá haver baixa clareza de responsabilidades e insuficiente capacidade de alocação e responsabilização dos profissionais.
+- R4.6: Devido à operação predominantemente terceirizada sem profissionais internos de TIC, poderá haver insuficiência de capacidade interna para coordenação, supervisão e fiscalização das atividades terceirizadas, além de maior risco de dependência externa, perda de conhecimento e descontinuidade.
+
+fontes_de_informacao:
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
+
+informacoes_requeridas:
+- IR1: Resposta sobre quantitativo de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [F1, q0105]
+- IR2: Resposta e evidência sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação; [F1, F2, q2703, q2703evi]
+- IR3: Resposta sobre existência de cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [F1, q2708]
+- IR9: Resposta sobre o modelo de operação predominante de TIC e o quantitativo de profissionais internos de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
+
+criterios:
+- C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.
+- C2: COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.
+- C5: COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.
+- C6: COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.
+- C12: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o quantitativo necessário ou ideal para a força de trabalho em TI.
+- C13: Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar providências para dotar o setor de TI de quantitativo adequado às necessidades de trabalho em TI, consideradas as necessidades das demais áreas.
+- C14: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 – Referência para avaliação da estrutura de recursos humanos de TIC quanto à suficiência quantitativa e qualitativa e à preservação de capacidade interna em atividades de planejamento, coordenação, fiscalização e controle.
+
+procedimentos:
+- P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
+- P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
+- P3: Verificar, por meio da q2708, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
+- P7: Verificar, por meio da resposta à q0101 e do quantitativo informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado e não há profissionais internos de TIC; [IR9]
+
+evidencias:
+- E1: Quantitativo total declarado igual a zero para profissionais de TIC, desde que a organização tenha informado possuir estrutura formal de TIC; [P1]
+- E2: Resposta negativa ou insuficiente sobre definição do quantitativo necessário de pessoal de TIC e segurança da informação, ou evidência inexistente/incompatível/insuficiente; [P2]
+- E3: Resposta negativa sobre existência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação; [P3]
+- E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
+
+possiveis_achados:
+- A4: Capacidade institucional de pessoal de TIC e segurança da informação insuficientemente estruturada ou dimensionada
+  situacoes_encontradas:
+  - S4.1:
+      descricao: Ausência de força de trabalho dedicada à TIC.
+      severidade: alta
+      itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
+      regra_de_identificacao:
+      - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
+      - (q0101 in [A, B, D, E]) & (total_TI == 0)
+      referencias_matriz: [R4.1, P1, E1]
+      criterios: [C2, C13]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
+  - S4.2:
+      descricao: Ausência ou insuficiência de definição documentada do quantitativo necessário de pessoal de TIC e segurança da informação.
+      severidade: média
+      itens_questionario: [q2703ext[C], q2703evi]
+      regra_de_identificacao:
+      - (q2703ext[C] != Sim)
+      referencias_matriz: [R4.2, P2, E2]
+      criterios: [C5, C12]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes
+  - S4.3:
+      descricao: Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.
+      severidade: media
+      itens_questionario: [q2708[B], q2708[D]]
+      regra_de_identificacao:
+      - (q2708[B] != Sim) | (q2708[D] != Sim)
+      referencias_matriz: [R4.3, P3, E3]
+      criterios: [C1, C2]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização
+  - S4.6:
+    descricao: Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.
+    severidade: alta
+    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]
+    regra_de_identificacao:
+      - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
+      - (q0101 == B) & (total_TI_interno == 0)
+    referencias_matriz: [R4.6, P7, E7]
+    criterios: [C6, C14]
+    tipo_encaminhamento: Recomendação
+    encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento"""
 CRITERIO_Q3_C5 = (
     "Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: "
     "o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento "
@@ -268,6 +362,12 @@ CRITERIO_Q4_C13 = (
     "providências para dotar o setor de TI de quantitativo adequado às necessidades "
     "de trabalho em TI, consideradas as necessidades das demais áreas."
 )
+CRITERIO_Q4_C14 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 – "
+    "Referência para avaliação da estrutura de recursos humanos de TIC quanto à suficiência "
+    "quantitativa e qualitativa e à preservação de capacidade interna em atividades de "
+    "planejamento, coordenação, fiscalização e controle."
+)
 SITUACOES = {
     "s1.1": "Ausência de área, unidade, setor ou função de TIC formalmente instituída.",
     "s1.2": "Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.",
@@ -281,9 +381,9 @@ SITUACOES = {
     "s3.5": "Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.",
     "s3.6": "Ausência de acompanhamento da execução do plano de TIC.",
     "s4.1": "Ausência de força de trabalho dedicada à TIC.",
-    "s4.2": "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
+    "s4.2": "Ausência ou insuficiência de definição documentada do quantitativo necessário de pessoal de TIC e segurança da informação.",
     "s4.3": "Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.",
-    "s4.6": "Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.",
+    "s4.6": "Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.",
     "s5.1": "Inexistência ou insuficiência do catálogo de serviços de TIC.",
     "s5.2": "Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.",
     "s5.3": "Inexistência ou fragilidade do inventário de ativos de TIC.",
@@ -309,11 +409,11 @@ SITUACOES_ANTERIORES = {
     "s3.5": "Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC",
     "s3.6": "Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.",
     "s4.1": "Ausência de força de trabalho dedicada à TIC ou à segurança da informação.",
-    "s4.2": SITUACOES["s4.2"],
+    "s4.2": "A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.",
     "s4.3": SITUACOES["s4.3"],
     "s4.4": "Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.",
     "s4.5": "Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas.",
-    "s4.6": SITUACOES["s4.6"],
+    "s4.6": "Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.",
     "s5.1": SITUACOES["s5.1"],
     "s5.2": SITUACOES["s5.2"],
     "s5.3": SITUACOES["s5.3"],
@@ -334,7 +434,6 @@ DETERMINACOES = {
     "s3.4",
     "s3.5",
     "s3.6",
-    "s4.6",
     "s5.3",
     "s6.1",
     "s6.3",
@@ -402,7 +501,7 @@ CRITERIOS_POR_SITUACAO = {
     ),
     "s4.6": (
         "COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.\n"
-        "Lei nº 14.133/2021, art. 117: dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados."
+        + CRITERIO_Q4_C14
     ),
     "s5.1": (
         "ITIL 4, prática de gerenciamento do catálogo de serviços: manter fonte única de informações consistentes sobre serviços e ofertas de serviço, disponível para usuários e equipes de suporte.\n"
@@ -459,7 +558,7 @@ ENCAMINHAMENTOS = {
     "s4.1": "avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC",
     "s4.2": "estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes",
     "s4.3": "avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização",
-    "s4.6": "avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
+    "s4.6": "avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento",
     "s5.1": "institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes",
     "s5.2": "defina e monitore níveis mínimos de serviço ou metas de atendimento para os serviços de TIC relevantes, estabelecendo indicadores, responsáveis, periodicidade de medição e forma de comunicação dos resultados",
     "s5.3": "estabeleça e mantenha atualizado inventário de ativos de TIC, atentando-se, minimamente, em registrar equipamentos, sistemas, softwares, licenças, serviços em nuvem e responsáveis",
@@ -536,12 +635,8 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             proc["descricao"] = f"Procedimento para verificar a questão Q3: {Q3}"
             proc["nome_achado"] = A3
         if proc["id"] == "PA04":
-            proc["descricao"] = (
-                "Procedimento para verificar a questão Q4: A organização dispõe de capacidade institucional mínima, "
-                "em termos de força de trabalho, funções e vínculos, para planejar, gerir, proteger, contratar, "
-                "fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades "
-                "institucionais?"
-            )
+            proc["descricao"] = f"Procedimento para verificar a questão Q4: {Q4}"
+            proc["nome_achado"] = A4
         if proc["id"] == "PA06":
             proc["descricao"] = f"Procedimento para verificar a questão Q6: {Q6}"
     rewrite_sheet(ws_proc, proc_headers, procedimentos)
@@ -594,8 +689,8 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         "s3.5": {"AV20"},
         "s3.6": {"AV24"},
         "s4.1": {"AV25", "AV26"},
-        "s4.2": {"AV29", "AV103"},
-        "s4.3": {"AV31", "AV33", "AV105", "AV107"},
+        "s4.2": {"AV29"},
+        "s4.3": {"AV31", "AV33"},
         "s4.6": {"AV45", "AV46"},
         "s5.1": {"AV55", "AV56", "AV125", "AV126"},
         "s5.2": {"AV54", "AV57", "AV58", "AV124", "AV127", "AV128"},
@@ -627,6 +722,13 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             row["encaminhamento"] = ENCAMINHAMENTOS[sid]
         if acao_id == "AV45":
             row["situacao_inconforme"] = "b) Centralizada Terceirizada: Há uma área de TI centralizada e formal que faz a gestão, mas a execução operacional/técnica é predominantemente terceirizada (ex: fábricas de software, service desk)."
+        if acao_id == "AV26":
+            row["situacao_inconforme"] = (
+                "(a) Centralizada Interna: Há uma área de TI centralizada e formal que atende toda a organização, utilizando equipe técnica majoritariamente própria (servidores). | "
+                "b) Centralizada Terceirizada: Há uma área de TI centralizada e formal que faz a gestão, mas a execução operacional/técnica é predominantemente terceirizada (ex: fábricas de software, service desk). | "
+                "d) Descentralizada: Diferentes secretarias, unidades ou setores possuem autonomia e mantêm suas próprias equipes, contratos ou infraestruturas de TI de forma independente. | "
+                "e) Híbrida: Existe uma TI central formal para diretrizes e infraestrutura corporativa, mas as áreas de negócio possuem equipes próprias para sustentar sistemas específicos.)"
+            )
         acoes.append(row)
     rewrite_sheet(ws_acoes, acao_headers, acoes)
 
@@ -657,6 +759,12 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             motivo["condicao_exibicao"] = "AV155 & AV20"
         elif motivo["id"] == "MR041":
             motivo["condicao_exibicao"] = "AV155 & AV24"
+        elif motivo["id"] == "MR045":
+            motivo["condicao_exibicao"] = "AV29"
+        elif motivo["id"] == "MR047":
+            motivo["condicao_exibicao"] = "AV31"
+        elif motivo["id"] == "MR049":
+            motivo["condicao_exibicao"] = "AV33"
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
@@ -1259,6 +1367,9 @@ def gerar_matriz() -> None:
     inicio_q3 = texto_renumerado.index("## Questão 03 - Planejamento de TIC")
     inicio_q4 = texto_renumerado.index("## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação", inicio_q3)
     texto_renumerado = texto_renumerado[:inicio_q3] + Q3_BLOCK + "\n\n" + texto_renumerado[inicio_q4:]
+    inicio_q4 = texto_renumerado.index("## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação")
+    inicio_q5 = texto_renumerado.index("## Questão 05 - Gestão de Serviços de TIC", inicio_q4)
+    texto_renumerado = texto_renumerado[:inicio_q4] + Q4_BLOCK + "\n\n" + texto_renumerado[inicio_q5:]
     lines = texto_renumerado.splitlines()
 
     updates = {
@@ -1268,10 +1379,6 @@ def gerar_matriz() -> None:
         "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
         "S2.2": dict(descricao=SITUACOES["s2.2"], itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
         "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
-        "S4.1": dict(descricao=SITUACOES["s4.1"], criterios="[C2, C13]", encaminhamento=ENCAMINHAMENTOS["s4.1"]),
-        "S4.2": dict(criterios="[C5, C12]", encaminhamento=ENCAMINHAMENTOS["s4.2"]),
-        "S4.3": dict(descricao=SITUACOES["s4.3"], criterios="[C1, C2]", encaminhamento=ENCAMINHAMENTOS["s4.3"]),
-        "S4.6": dict(itens_questionario="[q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]", criterios="[C6, C11]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s4.6"]),
         "S5.1": dict(itens_questionario="[q2201, q2201ext[B], q2201ext[C], q2201evi]", encaminhamento=ENCAMINHAMENTOS["s5.1"]),
         "S5.2": dict(itens_questionario="[q2201ext[A], q2201ext[D], q2201ext[E], q2201evi]", encaminhamento=ENCAMINHAMENTOS["s5.2"]),
         "S5.3": dict(criterios="[C4, C9]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s5.3"]),
@@ -1288,14 +1395,6 @@ def gerar_matriz() -> None:
         "S2.1": ["(q1001ext[H] != Sim)"],
         "S2.2": ["(q1001ext[E] != Sim)"],
         "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
-        "S4.1": [
-            "total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]",
-            "(q0101 != F) & (total_TI == 0)",
-        ],
-        "S4.6": [
-            "total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]",
-            "(q0101 == B) & (total_TI_interno == 0)",
-        ],
         "S5.1": ["(q2201ext[B] != Sim) | (q2201ext[C] != Sim)"],
         "S5.2": ["(q2201ext[A] != Sim) | (q2201ext[D] != Sim) | (q2201ext[E] != Sim)"],
         "S5.4": ["(q2203ext[C] != Sim)"],
@@ -1310,20 +1409,6 @@ def gerar_matriz() -> None:
             block = set_field(block, field, value)
         if sid in rules:
             block = set_rule(block, rules[sid])
-        if sid == "S4.1":
-            block = [
-                "  - S4.1:",
-                f"      descricao: {SITUACOES['s4.1']}",
-                "      severidade: alta",
-                "      itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]",
-                "      regra_de_identificacao:",
-                "      - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]",
-                "      - (q0101 != F) & (total_TI == 0)",
-                "      referencias_matriz: [R4.1, P1, E1]",
-                "      criterios: [C2, C13]",
-                "      tipo_encaminhamento: Recomendação",
-                f"      encaminhamento: {ENCAMINHAMENTOS['s4.1']}",
-            ]
         lines[start:end] = block
         blocks = situation_blocks(lines)
 
@@ -1377,6 +1462,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-056", "Mapa e matriz/PA02/S2.1-S2.3", "AV08 | AV86; AV11 | AV89; AV12 & (AV13 | AV91)", "AV08; AV11; AV12 & AV13", "A decisão mais recente trata a avaliação documental como evidência de suporte, sem convertê-la em gatilho autônomo das situações; S2.1 retorna a recomendação."),
         ("AJ-057", "Mapa e matriz/PA03/Q3", "Questão, riscos, procedimentos, evidências e situações anteriores", "Q3 revisada com processo formal, plano vigente, aprovação, alinhamento, integração e acompanhamento", "Consolida a rastreabilidade da questão e preserva a lacuna S3.3, mantendo estáveis os identificadores das situações."),
         ("AJ-058", "Mapa/PA03/S3.1-S3.6", "Ações declaratórias e documentais sem gate comum de plano vigente", "VT06 existe_plano_ti; S3.1 inclui AV154; S3.2-S3.6 exigem AV155", "Restringe as situações sobre atributos do plano às organizações que declararam plano vigente ao menos parcialmente adotado; evidências permanecem como suporte, sem gatilho autônomo."),
+        ("AJ-059", "Mapa e matriz/PA04/Q4", "Questão, riscos, critérios e situações anteriores", "Q4 revisada com foco em estruturação, dimensionamento, funções e capacidade interna nos modelos terceirizados", "Delimita a questão aos mecanismos mínimos efetivamente testados e incorpora o C14 como precedente específico do TCE-RJ."),
+        ("AJ-060", "Mapa/PA04/S4.1-S4.6", "AV26 aceitava todo modelo diferente de F; AV103/AV105/AV107 eram gatilhos; S4.6 era determinação", "AV26 restrito a A/B/D/E; retirada dos gatilhos documentais; S4.6 como recomendação", "Exclui o modelo centralizado externo de S4.1, trata evidências documentais como suporte e reconhece que a regra de S4.6 indica oportunidade de melhoria sem comprovar irregularidade concreta de fiscalização."),
     ]
     tipo_rows = [
         ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; a determinação se apoia também no precedente do TCE-RJ e deve admitir instância equivalente."),
@@ -1400,6 +1487,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
             row["Situação"] = "Superado por AJ-056"
         if row["ID"] in {"AJ-006", "AJ-049", "AJ-050"}:
             row["Situação"] = "Superado por AJ-057/AJ-058"
+        if row["ID"] in {"AJ-032", "AJ-043"}:
+            row["Situação"] = "Superado por AJ-059/AJ-060"
     for idx, (sid, old, new, fundamento, ressalva) in enumerate(tipo_rows, start=25):
         result.append(
             {
@@ -1408,7 +1497,7 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
                 "DE": old,
                 "PARA": new,
                 "Motivação / justificativa": f"{fundamento}. Ressalva de aplicação: {ressalva}",
-                "Situação": "Aplicado",
+                "Situação": "Superado por AJ-059/AJ-060" if sid == "S4.6" else "Aplicado",
             }
         )
     result.append(
@@ -1457,7 +1546,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S2.2", "Orientação anterior de manter AV89 como gatilho alternativo versus nova regra declaratória", "AV11", "Prevalece a decisão mais recente: a evidência documental permanece prevista na matriz como suporte, mas não gera autonomamente a situação."),
         ("S4.1", "AV26 & (AV25 | AV27) versus instrução posterior AV26 & AV25 e retirada de total_SI", "AV26 & AV25", "Prevalece a instrução posterior e específica; zero em SI não prova ausência da função."),
         ("S6.3", "Menção inicial a q2802 C-D e q2804B versus fórmula final AV82 | (AV80 | AV150)", "q2804B e q2802C", "Prevalece a fórmula final expressa; q2802D foi excluído."),
-        ("S4.6", "Determinação por falta de fiscalização versus predomínio de terceiros como gatilho", "q0101B & total_TI_interno=0", "Predomínio, isoladamente, não prova infração ao art. 117; modelo C é legítimo."),
+        ("S4.6", "Determinação por falta de fiscalização versus regra que testa apenas terceirização e ausência de pessoal interno", "q0101B & total_TI_interno=0, com recomendação", "A condição indica risco de insuficiência de capacidade interna, mas não comprova irregularidade concreta na fiscalização; o C14 sustenta avaliação proporcional."),
         ("S6.1", "Exigir q2801B com painel sem a coluna", "Painel vigente ampliado com B e metadados", f"Foram materializados {painel_preenchidos} registros não conformes já avaliados; nenhum resultado foi inventado."),
         ("S1.2 × S2.1", "q0103D e q1001C mediam, em grande parte, a mesma formalização de responsabilidades", "S1.2 conserva q0103D; S2.1 passa a usar somente q1001H", "Distingue competência formal da unidade de direção estratégica por objetivos, indicadores e metas."),
         ("Q3/plano vigente", "Itens de detalhamento q2102ext aplicados mesmo quando não havia plano vigente", "VT06 define existe_plano_ti; S3.2 a S3.6 dependem desse gate", "Evita imputar deficiências de aprovação, alinhamento, integração ou acompanhamento a quem ainda não possui plano vigente; nesses casos, aplica-se S3.1."),
@@ -1469,7 +1558,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
 
     ws = wb.create_sheet("Encaminhamentos")
     ws.append(["Situação", "Tipo anterior", "Tipo aplicado", "Fundamento consolidado", "Ressalva de aplicação"])
-    for sid, _, _, fundamento, ressalva in [
+    for sid, tipo_anterior, tipo_aplicado, fundamento, ressalva in [
         ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; admitir Comitê ou instância equivalente compatível com a organização."),
         ("S3.4", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, item II.3", "PDTI determinado contempla objetivos, indicadores e metas de TI alinhados aos objetivos de negócio."),
         ("S3.5", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 12, VII e § 1º; Acórdão TCE-RJ nº 44.490/2024, item II.3", "Integração do plano de TIC à proposta orçamentária e ao PCA, observado o condicionamento legal 'quando elaborado'."),
@@ -1477,12 +1566,12 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S3.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Admitir instrumento equivalente a PDTI/PEDTIC."),
         ("S3.2", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 18; precedentes TCU/TCE-RJ", "Aprovação pela instância competente."),
         ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, II.3.5", "Vincular ao plano adotado."),
-        ("S4.6", "Recomendação", "Determinação", "Lei nº 14.133/2021, art. 117", "A norma impõe fiscalização, não quadro próprio; regra exige terceirização e zero de pessoal interno."),
+        ("S4.6", "Determinação", "Recomendação", "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3", "A regra demonstra risco de capacidade interna, mas não comprova descumprimento concreto do dever de fiscalização."),
         ("S5.3", "Recomendação", "Determinação", "LGPD, arts. 46 e 50", "Inventário é meio de demonstrar segurança/governança, não artefato nominal da LGPD."),
         ("S6.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 19, IV", "Art. 19, IV, tem destinatário qualificado; admitir modelos compartilhados aplicáveis."),
         ("S6.3", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 12, VII, e 18", "Compatibilização com PCA quando elaborado."),
     ]:
-        ws.append([sid, "Recomendação", "Determinação", fundamento, ressalva])
+        ws.append([sid, tipo_anterior, tipo_aplicado, fundamento, ressalva])
     estilizar_planilha(ws, {"A": 12, "B": 18, "C": 18, "D": 70, "E": 90})
 
     ws = wb.create_sheet("Ações removidas")

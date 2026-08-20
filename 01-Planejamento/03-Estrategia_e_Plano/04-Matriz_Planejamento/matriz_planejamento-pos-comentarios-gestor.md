@@ -284,20 +284,19 @@ possiveis_achados:
 
 ## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação
 
-questao: Q4. A organização dispõe de capacidade institucional mínima, em termos de força de trabalho, funções e vínculos, para planejar, gerir, proteger, contratar, fiscalizar e sustentar a TIC e a segurança da informação de forma adequada às suas necessidades institucionais?
+questao: Q4. A organização dispõe de mecanismos mínimos para estruturar e dimensionar sua força de trabalho de TIC e segurança da informação, formalizar funções e preservar capacidade interna nos modelos de operação predominantemente terceirizados?
 
 subquestoes:
-- A organização conhece o quantitativo de profissionais que atuam regularmente em TIC e segurança da informação, por área e tipo de vínculo?
+- A organização dispõe de profissionais que atuam regularmente em TIC?
 - A organização definiu o quantitativo necessário de pessoal de TIC e segurança da informação?
 - A organização possui cargos ou funções formalmente atribuídos à TIC e à segurança da informação?
-- A dependência de terceiros é compatível com a capacidade interna de coordenação, fiscalização e retenção de conhecimento?
-
+- Nos modelos de operação predominantemente terceirizados, a organização mantém força de trabalho interna de TIC?
 
 riscos:
-- R4.1: Devido à ausência de informações estruturadas sobre a força de trabalho de TIC e segurança da informação, poderá não haver base mínima para dimensionamento, alocação e planejamento da capacidade institucional.
+- R4.1: Devido à ausência de profissionais atuando regularmente em TIC, poderá não haver capacidade operacional mínima para coordenar e sustentar as atividades e serviços tecnológicos da organização.
 - R4.2: Devido à ausência de definição do quantitativo necessário de pessoal de TIC e segurança da informação, poderá haver subdimensionamento ou alocação inadequada da equipe.
 - R4.3: Devido à ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação, poderá haver baixa clareza de responsabilidades e insuficiente capacidade de alocação e responsabilização dos profissionais.
-- R4.6: Devido à dependência excessiva de terceiros para atividades críticas de TIC, sem capacidade interna suficiente de coordenação e fiscalização, poderá haver perda de conhecimento, baixa governabilidade e risco de descontinuidade dos serviços.
+- R4.6: Devido à operação predominantemente terceirizada sem profissionais internos de TIC, poderá haver insuficiência de capacidade interna para coordenação, supervisão e fiscalização das atividades terceirizadas, além de maior risco de dependência externa, perda de conhecimento e descontinuidade.
 
 fontes_de_informacao:
 - F1: Respostas ao questionário eletrônico iGovTI.
@@ -314,15 +313,15 @@ criterios:
 - C2: COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.
 - C5: COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.
 - C6: COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.
-- C11: Lei nº 14.133/2021, art. 117 - Dever de acompanhamento e fiscalização da execução contratual por representantes da Administração especialmente designados.
 - C12: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o quantitativo necessário ou ideal para a força de trabalho em TI.
 - C13: Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar providências para dotar o setor de TI de quantitativo adequado às necessidades de trabalho em TI, consideradas as necessidades das demais áreas.
+- C14: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 – Referência para avaliação da estrutura de recursos humanos de TIC quanto à suficiência quantitativa e qualitativa e à preservação de capacidade interna em atividades de planejamento, coordenação, fiscalização e controle.
 
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
 - P2: Verificar, por meio da q2703 e respectiva evidência, se há definição do quantitativo necessário de pessoal de TIC e segurança da informação; [IR2]
 - P3: Verificar, por meio da q2708, se há cargos ou funções formalmente atribuídos à TIC e à segurança da informação; [IR3]
-- P7: Verificar, por meio da resposta à q0101 e do quantitativo de profissionais internos informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado sem capacidade interna suficiente de coordenação e fiscalização; [IR9]
+- P7: Verificar, por meio da resposta à q0101 e do quantitativo informado na q0105, se o modelo de operação de TIC é predominantemente terceirizado e não há profissionais internos de TIC; [IR9]
 
 evidencias:
 - E1: Quantitativo total declarado igual a zero para profissionais de TIC, desde que a organização tenha informado possuir estrutura formal de TIC; [P1]
@@ -331,7 +330,7 @@ evidencias:
 - E7: Modelo de operação de TIC predominantemente terceirizado (q0101 = B) sem profissionais internos de TIC (total de efetivos, comissionados, cedidos e temporários igual a zero); [P7]
 
 possiveis_achados:
-- A4: Capacidade institucional insuficiente para sustentar a gestão de TIC e segurança da informação
+- A4: Capacidade institucional de pessoal de TIC e segurança da informação insuficientemente estruturada ou dimensionada
   situacoes_encontradas:
   - S4.1:
       descricao: Ausência de força de trabalho dedicada à TIC.
@@ -339,14 +338,14 @@ possiveis_achados:
       itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
       regra_de_identificacao:
       - total_TI = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_terceirizados] + q0105[TI_cedidos] + q0105[TI_temporarios] + q0105[TI_estagiarios]
-      - (q0101 != F) & (total_TI == 0)
+      - (q0101 in [A, B, D, E]) & (total_TI == 0)
       referencias_matriz: [R4.1, P1, E1]
       criterios: [C2, C13]
       tipo_encaminhamento: Recomendação
       encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
   - S4.2:
-      descricao: A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação.
-      severidade: alta
+      descricao: Ausência ou insuficiência de definição documentada do quantitativo necessário de pessoal de TIC e segurança da informação.
+      severidade: média
       itens_questionario: [q2703ext[C], q2703evi]
       regra_de_identificacao:
       - (q2703ext[C] != Sim)
@@ -365,17 +364,16 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       encaminhamento: avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização
   - S4.6:
-    descricao: Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC.
+    descricao: Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.
     severidade: alta
     itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_cedidos], q0105[TI_temporarios]]
     regra_de_identificacao:
       - total_TI_interno = q0105[TI_efetivos] + q0105[TI_comissionados] + q0105[TI_cedidos] + q0105[TI_temporarios]
       - (q0101 == B) & (total_TI_interno == 0)
     referencias_matriz: [R4.6, P7, E7]
-    criterios: [C6, C11]
-    tipo_encaminhamento: Determinação
-    encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, aprovar tecnicamente e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
----
+    criterios: [C6, C14]
+    tipo_encaminhamento: Recomendação
+    encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
 
 ## Questão 05 - Gestão de Serviços de TIC
 
