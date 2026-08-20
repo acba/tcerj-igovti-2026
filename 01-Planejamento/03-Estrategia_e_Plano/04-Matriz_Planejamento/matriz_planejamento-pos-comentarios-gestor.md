@@ -528,24 +528,26 @@ fontes_de_informacao:
 - F2: Evidências anexadas no questionário eletrônico.
 
 informacoes_requeridas:
-- IR1: Resposta e evidência sobre processos de trabalho relativos às contratações de TIC; [F1, F2, q2801, q2801evi]
+- IR1: Resposta sobre definição do processo de planejamento das contratações de TIC, incluindo etapas, responsabilidades e artefatos resultantes; [F1, q2801, q2801ext[A]]
 - IR2: Resposta e evidência sobre papéis e responsabilidades nas contratações de TIC; [F1, F2, q2801, q2801evi]
-- IR3: Resposta e evidência sobre modelos, manuais, checklists ou normativos orientativos para contratações de TIC; [F1, F2, q2801, q2801evi]
+- IR3: Resposta sobre disponibilização de modelos e artefatos padronizados para o planejamento das contratações de TIC; [F1, q2801, q2801ext[B]]
 - IR4: Resposta sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, q2804[A]]
-- IR5: Evidência específica sobre aprovação técnica da área de TIC em caso concreto; [F2, q2804eviA]
+- IR5: Evidência específica sobre aprovação técnica da área de TIC; [F2, q2804eviA]
 - IR6: Resposta e evidência sobre alinhamento das contratações aos instrumentos de planejamento e ao Plano de Contratações Anual; [F1, F2, q2802ext[C], q2804[B], q2802evi]
 - IR7: Resposta sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [F1, q2804[C]]
 
 criterios:
-- C1: Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
-- C2: Art. 18, caput e §1º, incisos I, IV, V, VIII, IX, X e XIII, da Lei 14.133/2021: fase preparatória caracterizada pelo planejamento, compatibilização com o plano de contratações anual e elementos mínimos do estudo técnico preliminar.
-- C3: Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
-- C4: Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
+- C1: Lei nº 14.133/2021, art. 11, parágrafo único: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
+- C2: Lei nº 14.133/2021, arts. 12, VII e §1º, e 18, caput e §1º, II – a fase preparatória deve compatibilizar-se com o Plano de Contratações Anual, quando elaborado, e deve ser demonstrado o alinhamento da contratação com o planejamento da Administração.
+- C3: Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
+- C4: Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
 - C5: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
-- C8: Instrução Normativa SGD/ME nº 94, de 23 de dezembro de 2022, art. 1º, § 1º: como referência de boa prática, a aplicação de ritos formais de contratação de TIC pode ser facultada para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando a possibilidade de fluxos simplificados para aquisições de baixa complexidade ou valor.
+- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 1º, §1º, 10, II, 11, §2º, e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, participação da área técnica e instituição da Equipe de Planejamento, observada sua aplicação direta aos integrantes do SISP e a possibilidade de procedimentos simplificados.
+- C9: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do processo de planejamento anual das contratações, contemplando consolidação das demandas, participação das áreas, aprovação e publicidade do plano.
+- C10: Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e formalização de processo de trabalho para o planejamento de cada contratação, com controles internos mínimos.
 
 procedimentos:
-- P1: Verificar, por meio da q2801, a existência de processo formal e padronizado para contratações de TIC; [IR1]
+- P1: Verificar, por meio da q2801 e das q2801ext[A] e [B], se o processo de planejamento das contratações de TIC possui etapas e responsabilidades definidas e artefatos padronizados; [IR1, IR2, IR3]
 - P2: Validar, pelas evidências anexadas à q2801, a existência de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [IR1, IR2, IR3]
 - P3: Verificar, por meio da q2804[A] e da q2804eviA, se as contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC; [IR4, IR5]
 - P4: Verificar, por meio das q2802ext[C], q2804[B] e da evidência q2802evi, se as contratações de TIC estão alinhadas aos instrumentos de planejamento e ao Plano de Contratações Anual; [IR6]
@@ -555,7 +557,7 @@ evidencias:
 - E1: Resposta negativa ou insuficiente sobre processo formal e padronizado para contratações de TIC; [P1]
 - E2: Ausência, desatualização ou insuficiência de evidências de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [P2]
 - E3: Resposta negativa ou insuficiente sobre análise prévia e aprovação técnica da área de TIC; [P3]
-- E4: Ausência de evidência específica de aprovação técnica da área de TIC em caso concreto; [P3]
+- E4: Quando declarada a adoção da prática, ausência ou insuficiência de norma que estabeleça a análise e aprovação técnica da área de TIC ou de evidência de sua aplicação em caso concreto; [P3]
 - E5: Resposta negativa ou insuficiente sobre aderência das contratações ao plano de TIC ou ao plano de contratações; [P4]
 - E6: Resposta negativa ou insuficiente sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [P5]
 
@@ -565,13 +567,13 @@ possiveis_achados:
   - S6.1:
       descricao: Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC.
       severidade: alta
-      itens_questionario: [q2801ext[A], q2801ext[B], q2801evi]
+      itens_questionario: [q2801, q2801ext[A], q2801ext[B], q2801evi]
       regra_de_identificacao:
       - (q2801ext[A] != Sim) | (q2801ext[B] != Sim)
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
-      criterios: [C1, C3]
-      tipo_encaminhamento: Determinação
-      encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, com etapas, responsabilidades e artefatos padronizados, admitidos fluxos proporcionais à complexidade e ao risco
+      criterios: [C1, C3, C10]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação
   - S6.2:
       descricao: Contratações de TIC sem análise prévia e aprovação técnica da área de TIC.
       severidade: alta
@@ -581,17 +583,17 @@ possiveis_achados:
       referencias_matriz: [R6.3, P3, E3, E4]
       criterios: [C1, C5, C8]
       tipo_encaminhamento: Recomendação
-      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação
+      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo procedimentos simplificados e proporcionais à natureza, ao risco e ao valor da contratação, preservada análise técnica compatível
   - S6.3:
       descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
       severidade: alta
       itens_questionario: [q2802ext[C], q2804[B], q2802evi]
       regra_de_identificacao:
-      - (q2802ext[C] != Sim) | (q2804[B] != Sim)
+      - (q2804[B] != Sim)
       referencias_matriz: [R6.3, P4, E5]
-      criterios: [C1, C2]
+      criterios: [C1, C2, C9]
       tipo_encaminhamento: Determinação
-      encaminhamento: integre as contratações de TIC com os instrumentos de planejamento da organização e com o Plano de Contratações Anual, quando elaborado, justificando as situações excepcionais
+      encaminhamento: assegure que as contratações de TIC sejam compatíveis com os instrumentos de planejamento de TIC e, quando elaborado, com o Plano de Contratações Anual, promovendo os ajustes ou justificativas cabíveis nos casos excepcionais
   - S6.4:
       descricao: Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.
       severidade: alta
@@ -599,7 +601,7 @@ possiveis_achados:
       regra_de_identificacao:
       - (q2804[C] != Sim)
       referencias_matriz: [R6.4, P5, E6]
-      criterios: [C1, C4]
+      criterios: [C1, C4, C8]
       tipo_encaminhamento: Recomendação
       encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes
 

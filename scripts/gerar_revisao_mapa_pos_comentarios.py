@@ -33,7 +33,7 @@ PAINEL_SAIDA = PAINEL_ORIGINAL
 AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 PLANILHA_AJUSTES = ROOT / "docs/revisao-mapa/ajustes-mapa-verificacao-achados-pos-comentarios-gestor-2026-08-17.xlsx"
 RESULTADO_ANTERIOR = Path("/tmp/tcerj-igovti-2026/revisao-mapa/resultado-auditoria-mapa-original-pos-comentarios.json")
-RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q5/resultado_auditoria.json")
+RESULTADO_REVISADO = Path("/tmp/tcerj-igovti-2026/validacao-q6/resultado_auditoria.json")
 
 
 FORMULAS = {
@@ -42,11 +42,12 @@ FORMULAS = {
     "PA03": "((AV14 | AV15 | AV17 | AV154) | (AV155 & (AV18 | AV19 | AV20 | AV24)))",
     "PA04": "((AV26 & AV25) | AV29 | (AV31 | AV33) | (AV45 & AV46))",
     "PA05": "((AV55 | AV56) | (AV54 | AV57 | AV58) | (AV62 | AV63) | (AV59 | AV66) | (AV67 | AV70 | AV71))",
-    "PA06": "(((AV73 | AV143) | (AV152 | AV153)) | (AV78 | AV148) | (AV82 | (AV80 | AV150)) | AV83)",
+    "PA06": "((AV73 | AV152) | AV78 | AV82 | AV83)",
 }
 
 
 Q6 = "A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?"
+A6 = "Fragilidades na governança técnica da fase preparatória das contratações de TIC"
 Q2 = "A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?"
 A2 = "Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação."
 Q3 = "A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?"
@@ -470,6 +471,105 @@ possiveis_achados:
       criterios: [C8, C13, C17]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências"""
+Q6_BLOCK = """## Questão 06 - Contratações de TIC
+
+questao: Q6. A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?
+
+subquestoes:
+- A organização possui fluxo formalizado e padronizado para contratações de TIC?
+- A organização definiu papéis e responsabilidades nas contratações de TIC?
+- A organização dispõe de modelos, manuais, checklists ou normativos orientativos para elaboração dos artefatos das contratações de TIC?
+- As contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC?
+- As contratações de TIC estão alinhadas ao plano de TIC e ao plano de contratações?
+- A equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC?
+
+riscos:
+- R6.1: Devido à inexistência ou fragilidade de fluxo formal e padronizado para contratações de TIC, poderá não haver clareza quanto às etapas, instâncias decisórias e critérios de aprovação.
+- R6.2: Devido à ausência de definição formal de papéis, responsabilidades, modelos e orientações, poderá haver instrução processual incompleta, inconsistente ou tecnicamente frágil.
+- R6.3: Devido à ausência de análise técnica prévia da área de TIC e de alinhamento ao planejamento, poderão ser contratadas soluções incompatíveis com padrões técnicos, requisitos institucionais ou prioridades definidas.
+- R6.4: Devido à ausência de equipe de planejamento formalmente designada e de participação técnica da área de TIC, a instrução da contratação poderá não considerar adequadamente as necessidades institucionais e os aspectos técnicos da solução.
+
+fontes_de_informacao:
+- F1: Respostas ao questionário eletrônico iGovTI.
+- F2: Evidências anexadas no questionário eletrônico.
+
+informacoes_requeridas:
+- IR1: Resposta sobre definição do processo de planejamento das contratações de TIC, incluindo etapas, responsabilidades e artefatos resultantes; [F1, q2801, q2801ext[A]]
+- IR2: Resposta e evidência sobre papéis e responsabilidades nas contratações de TIC; [F1, F2, q2801, q2801evi]
+- IR3: Resposta sobre disponibilização de modelos e artefatos padronizados para o planejamento das contratações de TIC; [F1, q2801, q2801ext[B]]
+- IR4: Resposta sobre submissão obrigatória das contratações de TIC à análise prévia e aprovação técnica da área de TIC; [F1, q2804[A]]
+- IR5: Evidência específica sobre aprovação técnica da área de TIC; [F2, q2804eviA]
+- IR6: Resposta e evidência sobre alinhamento das contratações aos instrumentos de planejamento e ao Plano de Contratações Anual; [F1, F2, q2802ext[C], q2804[B], q2802evi]
+- IR7: Resposta sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [F1, q2804[C]]
+
+criterios:
+- C1: Lei nº 14.133/2021, art. 11, parágrafo único: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
+- C2: Lei nº 14.133/2021, arts. 12, VII e §1º, e 18, caput e §1º, II – a fase preparatória deve compatibilizar-se com o Plano de Contratações Anual, quando elaborado, e deve ser demonstrado o alinhamento da contratação com o planejamento da Administração.
+- C3: Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
+- C4: Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
+- C5: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
+- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 1º, §1º, 10, II, 11, §2º, e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, participação da área técnica e instituição da Equipe de Planejamento, observada sua aplicação direta aos integrantes do SISP e a possibilidade de procedimentos simplificados.
+- C9: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do processo de planejamento anual das contratações, contemplando consolidação das demandas, participação das áreas, aprovação e publicidade do plano.
+- C10: Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e formalização de processo de trabalho para o planejamento de cada contratação, com controles internos mínimos.
+
+procedimentos:
+- P1: Verificar, por meio da q2801 e das q2801ext[A] e [B], se o processo de planejamento das contratações de TIC possui etapas e responsabilidades definidas e artefatos padronizados; [IR1, IR2, IR3]
+- P2: Validar, pelas evidências anexadas à q2801, a existência de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [IR1, IR2, IR3]
+- P3: Verificar, por meio da q2804[A] e da q2804eviA, se as contratações de TIC são submetidas à análise prévia e aprovação técnica da área de TIC; [IR4, IR5]
+- P4: Verificar, por meio das q2802ext[C], q2804[B] e da evidência q2802evi, se as contratações de TIC estão alinhadas aos instrumentos de planejamento e ao Plano de Contratações Anual; [IR6]
+- P5: Verificar, por meio da q2804[C], se a equipe de planejamento da contratação é formalmente designada e possui participação técnica de TIC; [IR7]
+
+evidencias:
+- E1: Resposta negativa ou insuficiente sobre processo formal e padronizado para contratações de TIC; [P1]
+- E2: Ausência, desatualização ou insuficiência de evidências de fluxo, papéis, responsabilidades, modelos, manuais, checklists ou normativos orientativos; [P2]
+- E3: Resposta negativa ou insuficiente sobre análise prévia e aprovação técnica da área de TIC; [P3]
+- E4: Quando declarada a adoção da prática, ausência ou insuficiência de norma que estabeleça a análise e aprovação técnica da área de TIC ou de evidência de sua aplicação em caso concreto; [P3]
+- E5: Resposta negativa ou insuficiente sobre aderência das contratações ao plano de TIC ou ao plano de contratações; [P4]
+- E6: Resposta negativa ou insuficiente sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [P5]
+
+possiveis_achados:
+- A6: Fragilidades na governança técnica da fase preparatória das contratações de TIC
+  situacoes_encontradas:
+  - S6.1:
+      descricao: Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC.
+      severidade: alta
+      itens_questionario: [q2801, q2801ext[A], q2801ext[B], q2801evi]
+      regra_de_identificacao:
+      - (q2801ext[A] != Sim) | (q2801ext[B] != Sim)
+      referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
+      criterios: [C1, C3, C10]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação
+  - S6.2:
+      descricao: Contratações de TIC sem análise prévia e aprovação técnica da área de TIC.
+      severidade: alta
+      itens_questionario: [q2804[A], q2804eviA]
+      regra_de_identificacao:
+      - (q2804[A] != Sim)
+      referencias_matriz: [R6.3, P3, E3, E4]
+      criterios: [C1, C5, C8]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo procedimentos simplificados e proporcionais à natureza, ao risco e ao valor da contratação, preservada análise técnica compatível
+  - S6.3:
+      descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
+      severidade: alta
+      itens_questionario: [q2802ext[C], q2804[B], q2802evi]
+      regra_de_identificacao:
+      - (q2804[B] != Sim)
+      referencias_matriz: [R6.3, P4, E5]
+      criterios: [C1, C2, C9]
+      tipo_encaminhamento: Determinação
+      encaminhamento: assegure que as contratações de TIC sejam compatíveis com os instrumentos de planejamento de TIC e, quando elaborado, com o Plano de Contratações Anual, promovendo os ajustes ou justificativas cabíveis nos casos excepcionais
+  - S6.4:
+      descricao: Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.
+      severidade: alta
+      itens_questionario: [q2804[C]]
+      regra_de_identificacao:
+      - (q2804[C] != Sim)
+      referencias_matriz: [R6.4, P5, E6]
+      criterios: [C1, C4, C8]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes"""
 CRITERIO_Q3_C5 = (
     "Lei nº 14.133/2021, art. 12, inciso VII e § 1º - Planejamento das contratações: "
     "o Plano de Contratações Anual, quando elaborado, deve alinhar-se ao planejamento "
@@ -534,6 +634,44 @@ CRITERIO_Q5_C17 = (
     "incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua "
     "resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu "
     "tratamento, incluindo procedimento documentado para incidentes graves."
+)
+CRITERIO_Q6_C1 = (
+    "Lei nº 14.133/2021, art. 11, parágrafo único: responsabilidade da alta administração pela "
+    "governança das contratações, com processos, estruturas, gestão de riscos e controles internos."
+)
+CRITERIO_Q6_C2 = (
+    "Lei nº 14.133/2021, arts. 12, VII e §1º, e 18, caput e §1º, II – a fase preparatória deve "
+    "compatibilizar-se com o Plano de Contratações Anual, quando elaborado, e deve ser demonstrado "
+    "o alinhamento da contratação com o planejamento da Administração."
+)
+CRITERIO_Q6_C3 = (
+    "Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos "
+    "de referência, contratos padronizados e demais documentos."
+)
+CRITERIO_Q6_C4 = (
+    "Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos "
+    "para funções essenciais, observados atribuições, formação, segregação de funções e inexistência "
+    "de vínculos que comprometam a atuação."
+)
+CRITERIO_Q6_C5 = (
+    "COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos "
+    "requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução."
+)
+CRITERIO_Q6_C8 = (
+    "Instrução Normativa SGD/ME nº 94/2022, arts. 1º, §1º, 10, II, 11, §2º, e 12, §6º – "
+    "referência de boa prática para estruturação da fase de planejamento das contratações de TIC, "
+    "participação da área técnica e instituição da Equipe de Planejamento, observada sua aplicação "
+    "direta aos integrantes do SISP e a possibilidade de procedimentos simplificados."
+)
+CRITERIO_Q6_C9 = (
+    "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do "
+    "processo de planejamento anual das contratações, contemplando consolidação das demandas, "
+    "participação das áreas, aprovação e publicidade do plano."
+)
+CRITERIO_Q6_C10 = (
+    "Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e "
+    "formalização de processo de trabalho para o planejamento de cada contratação, com controles "
+    "internos mínimos."
 )
 SITUACOES = {
     "s1.1": "Ausência de área, unidade, setor ou função de TIC formalmente instituída.",
@@ -601,7 +739,6 @@ DETERMINACOES = {
     "s3.4",
     "s3.5",
     "s3.6",
-    "s6.1",
     "s6.3",
 }
 
@@ -693,21 +830,16 @@ CRITERIOS_POR_SITUACAO = {
         + CRITERIO_Q5_C17
     ),
     "s6.1": (
-        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
-        "Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos."
+        CRITERIO_Q6_C1 + "\n" + CRITERIO_Q6_C3 + "\n" + CRITERIO_Q6_C10
     ),
     "s6.2": (
-        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
-        "COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.\n"
-        "Instrução Normativa SGD/ME nº 94, de 23 de dezembro de 2022, art. 1º, § 1º: como referência de boa prática, a aplicação de ritos formais de contratação de TIC pode ser facultada para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando a possibilidade de fluxos simplificados para aquisições de baixa complexidade ou valor."
+        CRITERIO_Q6_C1 + "\n" + CRITERIO_Q6_C5 + "\n" + CRITERIO_Q6_C8
     ),
     "s6.3": (
-        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
-        "Art. 18, caput e §1º, incisos I, IV, V, VIII, IX, X e XIII, da Lei 14.133/2021: fase preparatória caracterizada pelo planejamento, compatibilização com o plano de contratações anual e elementos mínimos do estudo técnico preliminar."
+        CRITERIO_Q6_C1 + "\n" + CRITERIO_Q6_C2 + "\n" + CRITERIO_Q6_C9
     ),
     "s6.4": (
-        "Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.\n"
-        "Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação."
+        CRITERIO_Q6_C1 + "\n" + CRITERIO_Q6_C4 + "\n" + CRITERIO_Q6_C8
     ),
 }
 
@@ -733,9 +865,9 @@ ENCAMINHAMENTOS = {
     "s5.3": "estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle",
     "s5.4": "formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos",
     "s5.5": "formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências",
-    "s6.1": "formalize e padronize o processo de planejamento das contratações de TIC, com etapas, responsabilidades e artefatos padronizados, admitidos fluxos proporcionais à complexidade e ao risco",
-    "s6.2": "estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo fluxos simplificados para contratações de baixa complexidade ou baixo valor, desde que preservada análise técnica mínima compatível com o risco da contratação",
-    "s6.3": "integre as contratações de TIC com os instrumentos de planejamento da organização e com o Plano de Contratações Anual, quando elaborado, justificando as situações excepcionais",
+    "s6.1": "formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação",
+    "s6.2": "estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo procedimentos simplificados e proporcionais à natureza, ao risco e ao valor da contratação, preservada análise técnica compatível",
+    "s6.3": "assegure que as contratações de TIC sejam compatíveis com os instrumentos de planejamento de TIC e, quando elaborado, com o Plano de Contratações Anual, promovendo os ajustes ou justificativas cabíveis nos casos excepcionais",
     "s6.4": "designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes",
 }
 
@@ -811,6 +943,7 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             proc["nome_achado"] = A5
         if proc["id"] == "PA06":
             proc["descricao"] = f"Procedimento para verificar a questão Q6: {Q6}"
+            proc["nome_achado"] = A6
     rewrite_sheet(ws_proc, proc_headers, procedimentos)
 
     ws_acoes = wb["Ações de Verificação"]
@@ -869,9 +1002,9 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
         "s5.3": {"AV62", "AV63"},
         "s5.4": {"AV59", "AV66"},
         "s5.5": {"AV67", "AV70", "AV71"},
-        "s6.1": {"AV73", "AV143", "AV152", "AV153"},
-        "s6.2": {"AV78", "AV148"},
-        "s6.3": {"AV80", "AV82", "AV150"},
+        "s6.1": {"AV73", "AV152"},
+        "s6.2": {"AV78"},
+        "s6.3": {"AV82"},
         "s6.4": {"AV83"},
     }
     id_para_situacao = {acao_id: sid for sid, ids in situacao_por_ids.items() for acao_id in ids}
@@ -961,6 +1094,10 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
             motivo["condicao_exibicao"] = "AV70"
         elif motivo["id"] == "MR089":
             motivo["condicao_exibicao"] = "AV71"
+        elif motivo["id"] == "MR091":
+            motivo["condicao_exibicao"] = "AV73"
+        elif motivo["id"] == "MR101":
+            motivo["condicao_exibicao"] = "AV78"
         elif motivo["id"] == "MR043":
             motivo["condicao_exibicao"] = "AV26 & AV25"
             motivo["texto_motivo"] = "Item 0105: embora a organização tenha declarado estrutura formal de TIC no item 0101, informou não possuir profissionais atuando regularmente em tecnologia da informação"
@@ -981,19 +1118,11 @@ def gerar_mapa() -> tuple[list[str], list[str]]:
     motivo_b.update(
         id="MR111",
         descricao_situacao_inconforme=SITUACOES["s6.1"],
-        condicao_exibicao="AV152 & ~AV153",
+        condicao_exibicao="AV152",
         acoes_referencia="AV152",
         texto_motivo="No subitem b) do item 2801, não houve declaração afirmativa quanto à prática avaliada: são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TI, como Documento de Formalização da Demanda (DFD), Estudo Técnico Preliminar (ETP), Termo de Referência (TR), Matriz de Riscos ou documentos equivalentes",
     )
-    motivo_b_evidencia = copy.deepcopy(next(row for row in motivos_originais if row["id"] == "MR092"))
-    motivo_b_evidencia.update(
-        id="MR112",
-        descricao_situacao_inconforme=SITUACOES["s6.1"],
-        condicao_exibicao="AV153",
-        acoes_referencia="AV153",
-        texto_motivo="No subitem b) do item 2801, a organização declarou a prática avaliada, mas a evidência foi insuficiente para comprovar que são disponibilizados artefatos padronizados para a fase de planejamento das contratações de TI, como Documento de Formalização da Demanda (DFD), Estudo Técnico Preliminar (ETP), Termo de Referência (TR), Matriz de Riscos ou documentos equivalentes",
-    )
-    motivos.extend([motivo_b, motivo_b_evidencia])
+    motivos.append(motivo_b)
     motivo_sem_plano = copy.deepcopy(next(row for row in motivos_originais if row["id"] == "MR030"))
     motivo_sem_plano.update(
         id="MR113",
@@ -1569,6 +1698,12 @@ def gerar_matriz() -> None:
     inicio_q5 = texto_renumerado.index("## Questão 05 - Gestão de Serviços de TIC")
     inicio_q6 = texto_renumerado.index("## Questão 06 - Contratações de TIC", inicio_q5)
     texto_renumerado = texto_renumerado[:inicio_q5] + Q5_BLOCK + "\n\n" + texto_renumerado[inicio_q6:]
+    inicio_q6 = texto_renumerado.index("## Questão 06 - Contratações de TIC")
+    inicio_transversal = texto_renumerado.index("## Questão Transversal - Evolução agregada em relação à fiscalização anterior", inicio_q6)
+    separador_transversal = texto_renumerado.rfind("---", inicio_q6, inicio_transversal)
+    if separador_transversal < inicio_q6:
+        raise AssertionError("Separador entre a Q6 e a questão transversal não encontrado.")
+    texto_renumerado = texto_renumerado[:inicio_q6] + Q6_BLOCK + "\n\n---\n\n" + texto_renumerado[inicio_transversal:]
     lines = texto_renumerado.splitlines()
 
     updates = {
@@ -1578,10 +1713,6 @@ def gerar_matriz() -> None:
         "S2.1": dict(descricao=SITUACOES["s2.1"], itens_questionario="[q1001ext[H], q1001evi]", criterios="[C2]", tipo_encaminhamento="Recomendação", encaminhamento=ENCAMINHAMENTOS["s2.1"]),
         "S2.2": dict(descricao=SITUACOES["s2.2"], itens_questionario="[q1001ext[E], q1001evi]", referencias_matriz="[R2.2, P3, E3, P4, E4]", criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.2"]),
         "S2.3": dict(descricao=SITUACOES["s2.3"], criterios="[C1, C3, C4]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s2.3"]),
-        "S6.1": dict(descricao=SITUACOES["s6.1"], itens_questionario="[q2801ext[A], q2801ext[B], q2801evi]", criterios="[C1, C3]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.1"]),
-        "S6.2": dict(descricao=SITUACOES["s6.2"], criterios="[C1, C5, C8]", encaminhamento=ENCAMINHAMENTOS["s6.2"]),
-        "S6.3": dict(descricao=SITUACOES["s6.3"], itens_questionario="[q2802ext[C], q2804[B], q2802evi]", criterios="[C1, C2]", tipo_encaminhamento="Determinação", encaminhamento=ENCAMINHAMENTOS["s6.3"]),
-        "S6.4": dict(descricao=SITUACOES["s6.4"], itens_questionario="[q2804[C]]", criterios="[C1, C4]", encaminhamento=ENCAMINHAMENTOS["s6.4"]),
     }
     rules = {
         "S1.2": ["(q0101 != F) & ((q0103[G] == Sim) | (q0103[D] == Não))"],
@@ -1589,8 +1720,6 @@ def gerar_matriz() -> None:
         "S2.1": ["(q1001ext[H] != Sim)"],
         "S2.2": ["(q1001ext[E] != Sim)"],
         "S2.3": ["(q1001ext[E] == Sim) & (q1001ext[F] != Sim)"],
-        "S6.1": ["(q2801ext[A] != Sim) | (q2801ext[B] != Sim)"],
-        "S6.3": ["(q2802ext[C] != Sim) | (q2804[B] != Sim)"],
     }
     blocks = situation_blocks(lines)
     for sid, fields in updates.items():
@@ -1657,6 +1786,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
         ("AJ-060", "Mapa/PA04/S4.1-S4.6", "AV26 aceitava todo modelo diferente de F; AV103/AV105/AV107 eram gatilhos; S4.6 era determinação", "AV26 restrito a A/B/D/E; retirada dos gatilhos documentais; S4.6 como recomendação", "Exclui o modelo centralizado externo de S4.1, trata evidências documentais como suporte e reconhece que a regra de S4.6 indica oportunidade de melhoria sem comprovar irregularidade concreta de fiscalização."),
         ("AJ-061", "Mapa e matriz/PA05/Q5", "Questão, riscos, critérios, procedimentos e situações anteriores", "Q5 revisada com catálogo, níveis de serviço, inventário de ativos, gestão de configuração e incidentes", "Mantém apenas as práticas mínimas efetivamente testadas, explicita a rastreabilidade e incorpora referências específicas do TCE-RJ e da ABNT NBR ISO/IEC 20000-2:2021."),
         ("AJ-062", "Mapa/PA05/S5.1-S5.5", "Evidências documentais como gatilhos autônomos; q2203A em S5.3; S5.3 como determinação", "Regras declaratórias; q2504A/B em S5.3; q2203A/C em S5.4; todas as situações como recomendação", "Trata as evidências como suporte, separa inventário de ativos da gestão de configuração e ajusta a natureza dos encaminhamentos aos referenciais predominantemente orientadores."),
+        ("AJ-063", "Mapa e matriz/PA06/Q6", "Questão, riscos, critérios, procedimentos e situações anteriores", "Q6 revisada com processo padronizado, análise técnica, alinhamento ao planejamento e equipe de planejamento", "Consolida os elementos mínimos da fase preparatória e mantém correspondência direta entre subquestões, riscos, informações requeridas, procedimentos, evidências e situações."),
+        ("AJ-064", "Mapa/PA06/S6.1-S6.4", "Gatilhos documentais autônomos; S6.3 também acionada por q2802ext[C]; S6.1 como determinação", "AV73 | AV152 | AV78 | AV82 | AV83; S6.3 acionada somente por q2804[B]; S6.1 como recomendação", "Mantém as evidências como suporte, elimina dupla medição do alinhamento ao PCA e adequa o tipo de S6.1 à natureza declaratória da regra e aos referenciais utilizados."),
     ]
     tipo_rows = [
         ("S2.2", "Recomendação", "Determinação", "Decreto nº 12.198/2024, arts. 5º e 6º, § 2º; Acórdão TCE-RJ nº 44.490/2024, itens II.1, III.1 e V.1", "O Decreto é referência federal; a determinação se apoia também no precedente do TCE-RJ e deve admitir instância equivalente."),
@@ -1684,6 +1815,8 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
             row["Situação"] = "Superado por AJ-059/AJ-060"
         if row["ID"] == "AJ-009":
             row["Situação"] = "Superado por AJ-061/AJ-062"
+        if row["ID"] in {"AJ-008", "AJ-016", "AJ-023"}:
+            row["Situação"] = "Superado por AJ-063/AJ-064"
     for idx, (sid, old, new, fundamento, ressalva) in enumerate(tipo_rows, start=25):
         result.append(
             {
@@ -1695,6 +1828,7 @@ def ajuste_rows(removidas: list[str]) -> list[dict]:
                 "Situação": (
                     "Superado por AJ-059/AJ-060" if sid == "S4.6" else
                     "Superado por AJ-061/AJ-062" if sid == "S5.3" else
+                    "Superado por AJ-063/AJ-064" if sid == "S6.1" else
                     "Aplicado"
                 ),
             }
@@ -1747,6 +1881,7 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S6.3", "Menção inicial a q2802 C-D e q2804B versus fórmula final AV82 | (AV80 | AV150)", "q2804B e q2802C", "Prevalece a fórmula final expressa; q2802D foi excluído."),
         ("S4.6", "Determinação por falta de fiscalização versus regra que testa apenas terceirização e ausência de pessoal interno", "q0101B & total_TI_interno=0, com recomendação", "A condição indica risco de insuficiência de capacidade interna, mas não comprova irregularidade concreta na fiscalização; o C14 sustenta avaliação proporcional."),
         ("S5.3 × S5.4", "q2203A tratado como inventário de ativos versus conteúdo de base consolidada de configurações", "q2504A/B em S5.3; q2203A/C em S5.4", "O inventário de dispositivos e softwares permanece distinto da base de itens de configuração e de seus relacionamentos; as evidências documentais apoiam a validação, mas não são gatilhos autônomos."),
+        ("S6.3", "q2802ext[C] e q2804[B] como gatilhos cumulativos de alinhamento", "Somente q2804[B] gera S6.3; q2802ext[C] e q2802evi permanecem como suporte", "q2804[B] verifica diretamente se as contratações executadas estavam previstas nos instrumentos vigentes; evita imputação adicional pelo modo de elaboração do PCA."),
         ("S6.1", "Exigir q2801B com painel sem a coluna", "Painel vigente ampliado com B e metadados", f"Foram materializados {painel_preenchidos} registros não conformes já avaliados; nenhum resultado foi inventado."),
         ("S1.2 × S2.1", "q0103D e q1001C mediam, em grande parte, a mesma formalização de responsabilidades", "S1.2 conserva q0103D; S2.1 passa a usar somente q1001H", "Distingue competência formal da unidade de direção estratégica por objetivos, indicadores e metas."),
         ("Q3/plano vigente", "Itens de detalhamento q2102ext aplicados mesmo quando não havia plano vigente", "VT06 define existe_plano_ti; S3.2 a S3.6 dependem desse gate", "Evita imputar deficiências de aprovação, alinhamento, integração ou acompanhamento a quem ainda não possui plano vigente; nesses casos, aplica-se S3.1."),
@@ -1768,8 +1903,8 @@ def gerar_planilha_ajustes(removidas: list[str], painel_preenchidos: int) -> Non
         ("S3.6", "Recomendação", "Determinação", "Acórdão TCE-RJ nº 44.490/2024, II.3.5", "Vincular ao plano adotado."),
         ("S4.6", "Determinação", "Recomendação", "Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3", "A regra demonstra risco de capacidade interna, mas não comprova descumprimento concreto do dever de fiscalização."),
         ("S5.3", "Determinação", "Recomendação", CRITERIO_Q5_C12, "O precedente formula recomendações e o gatilho declaratório não demonstra, por si só, descumprimento de dever legal expresso."),
-        ("S6.1", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 11 e 19, IV", "Art. 19, IV, tem destinatário qualificado; admitir modelos compartilhados aplicáveis."),
-        ("S6.3", "Recomendação", "Determinação", "Lei nº 14.133/2021, arts. 12, VII, e 18", "Compatibilização com PCA quando elaborado."),
+        ("S6.1", "Determinação", "Recomendação", f"{CRITERIO_Q6_C1} {CRITERIO_Q6_C3} {CRITERIO_Q6_C10}", "O gatilho é declaratório e os critérios admitem modelos institucionais ou centralizados e fluxos proporcionais."),
+        ("S6.3", "Recomendação", "Determinação", f"{CRITERIO_Q6_C1} {CRITERIO_Q6_C2} {CRITERIO_Q6_C9}", "Compatibilização com o PCA quando elaborado, admitidos ajustes ou justificativas em casos excepcionais."),
     ]:
         ws.append([sid, tipo_anterior, tipo_aplicado, fundamento, ressalva])
     estilizar_planilha(ws, {"A": 12, "B": 18, "C": 18, "D": 70, "E": 90})
