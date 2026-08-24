@@ -126,7 +126,7 @@ Em razão de a segurança da informação e a segurança cibernética terem sido
 
 O objeto do presente trabalho consiste nas práticas de governança e gestão de TI de 119 jurisdicionados estaduais e municipais do Estado do Rio de Janeiro.
 
-Os objetivos específicos da fiscalização compreendem: mensurar o índice de maturidade de governança e gestão de TI (iGovTI) dos jurisdicionados que integram a fiscalização; analisar a evolução temporal das capacidades de TIC por meio da comparação dos resultados de 2026 com os levantados em 2023; e verificar a existência de inconformidades na governança e gestão de TIC pelas organizações e propor encaminhamentos de melhoria de controles internos.
+Os objetivos específicos da fiscalização compreendem: mensurar o grau de adoção das práticas de governança e gestão de TIC, expresso pelo índice de maturidade iGovTI 2026; analisar sua evolução em relação a 2023, considerando as organizações avaliadas nos dois ciclos e uma base comparável de práticas; e identificar fragilidades relevantes e situações inconformes na governança e na gestão de TIC das organizações avaliadas, propondo encaminhamentos para o aprimoramento dos controles internos.
 
 Para orientar os exames, foi formulada a seguinte questão geral de auditoria: **Qual é o grau de adoção das práticas de governança e gestão de TIC das organizações avaliadas, segundo o iGovTI 2026, e quais fragilidades relevantes estão presentes?**
 
