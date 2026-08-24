@@ -59,9 +59,9 @@ toc-title: SUMÁRIO
 
 O TCE-RJ realizou auditoria de conformidade, com contornos operacionais, para avaliar a adoção de boas práticas de governança e gestão de TIC nas organizações públicas do Rio de Janeiro, traçar um panorama de maturidade e analisar a evolução em relação ao cenário mensurado em 2023.
 
-A fiscalização abrangeu 119 organizações, sendo 35 prefeituras e 84 organizações estaduais de diferentes poderes e naturezas jurídicas. Destas, 113 responderam ao questionário e integraram o cálculo do iGovTI e os achados consolidados. As outras 6 foram classificadas como não respondentes e tratadas separadamente[^nao_respondentes_obstrucao].
+A fiscalização abrangeu 119 organizações, sendo 35 prefeituras e 84 organizações estaduais de diferentes poderes e naturezas jurídicas. Destas, 113 responderam ao questionário e integraram o cálculo do iGovTI e os achados consolidados. As outras 6 foram classificadas como não respondentes e tratadas separadamente.
 
-A avaliação examinou a estrutura e a governança de TIC, o planejamento, a força de trabalho, a gestão de serviços e as contratações. A metodologia combinou questionário eletrônico de autoavaliação, análise documental, procedimentos de auditoria, cálculo do iGovTI 2026 e classificação em quatro níveis de maturidade (Inexpressivo, Iniciando, Intermediário e Aprimorado). A comparação longitudinal considerou as 68 organizações presentes em 2023 e 2026.
+O questionário mensurou práticas de governança e gestão de TIC. Os procedimentos de auditoria examinaram a estrutura e a governança de TIC, o planejamento, a força de trabalho, a gestão de serviços e as contratações. A metodologia combinou questionário eletrônico de autoavaliação, análise documental, cálculo do iGovTI 2026 e classificação em quatro níveis de maturidade (Inexpressivo, Iniciando, Intermediário e Aprimorado). A comparação longitudinal considerou as 68 organizações presentes em 2023 e 2026.
 
 Os resultados finais apresentados neste relatório incorporam os ajustes decorrentes da análise documental e dos comentários dos gestores.
 
@@ -72,6 +72,8 @@ A fiscalização constatou cenário de baixa maturidade e fragilidades recorrent
 Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas após os ajustes iniciais indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados finais não permitem afirmar que ocorreu melhora ou piora geral. A Estrutura de Segurança da Informação foi o único componente com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
 
 [^comparacao_longitudinal_cenarios]: Em 2026, foram solicitadas e avaliadas evidências para todas as práticas passíveis de comprovação. Em 2023, embora também tenha havido análise pela equipe, a exigência de anexos e o exame direto abrangeram conjunto menor de práticas. O cenário final de 2026 possui, portanto, maior grau de verificação. O cenário-base aproxima a comparação das respostas declaradas, mas não comprova, por si só, a efetiva adoção das práticas. A metodologia, os cálculos e as demais ressalvas constam do Anexo AN11.
+
+As organizações estaduais apresentaram média de 0,220 no iGovTI, enquanto os municípios registraram 0,120. Observou-se, ainda, que instrumentos formais, como política de segurança da informação e plano de TIC, estão relativamente mais disseminados do que práticas contínuas de monitoramento e controle.
 
 Foram consolidados seis achados de auditoria:
 
@@ -86,21 +88,21 @@ Entre as manifestações individualizadas recebidas na etapa de comentários do 
 
 #### Qual é a proposta de encaminhamento?
 
-Propõem-se determinações e recomendações individualizadas nos relatórios das organizações avaliadas, complementadas por recomendações transversais destinadas ao aprimoramento da governança e da gestão de TIC, organizadas em cinco eixos:
+Propõe-se comunicar os relatórios individuais às 113 organizações avaliadas e determinar que elaborem, no prazo de 60 dias, plano de ação para o cumprimento das determinações e a avaliação da adoção das recomendações constantes de cada relatório. As medidas individualizadas abrangem, em síntese, cinco eixos:
 
-* **Estrutura e Governança:** formalização da TI e instituição ativa de comitês gestores multidisciplinares.
-* **Planejamento:** elaboração e revisão do PDTI com vinculação direta ao orçamento anual.
-* **Recursos Humanos:** dimensionamento de equipes e planos para reduzir a dependência crítica de terceirizados.
+* **Estrutura e Governança:** formalização da função de TIC e instituição e funcionamento efetivo de comitê ou instância equivalente com representação das áreas relevantes.
+* **Planejamento:** elaboração, aprovação, acompanhamento e revisão do plano de TIC, integrado à proposta orçamentária e ao plano de contratações.
+* **Capacidade institucional:** dimensionamento da força de trabalho e preservação de capacidade interna nos modelos predominantemente terceirizados.
 * **Serviços e Ativos:** instituição de catálogo de serviços, inventário de ativos e gestão de incidentes.
-* **Contratações:** padronização do fluxo de contratações e obrigatoriedade de anuência técnica prévia da área de TIC.
+* **Contratações:** padronização do planejamento das contratações e análise técnica prévia pela área de TIC.
+
+Propõem-se, ainda, a abertura de processos apartados para apurar as circunstâncias da ausência de resposta válida das seis organizações não respondentes, a comunicação das unidades de controle interno para acompanhamento dos planos de ação e o arquivamento do processo após as comunicações.
 
 Os benefícios esperados da adoção dessas medidas incluem o fortalecimento da governança e da gestão de TIC, o aprimoramento do planejamento, da capacidade institucional, da gestão de serviços e das contratações e a elevação gradual do nível de maturidade das organizações avaliadas.
 
 #### Quais os próximos passos?
 
 O Tribunal poderá acompanhar a implementação por meio de monitoramento ou de avaliações futuras, nos termos da Resolução TCE-RJ nº 422/2023, com foco na execução dos planos de ação registrados em processo administrativo eletrônico e na institucionalização das práticas e dos controles objeto dos encaminhamentos.
-
-[^nao_respondentes_obstrucao]: Para as organizações que não apresentaram resposta válida ao questionário eletrônico, será sugerida a abertura de processos apartados para apuração das circunstâncias da ausência de resposta, assegurada aos responsáveis a oportunidade de apresentar razões de defesa.
 
 \newpage
 
