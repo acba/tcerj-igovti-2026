@@ -85,7 +85,7 @@ def carregar_achados(repo: Path):
 
 
 def carregar_acoes(repo: Path):
-    path = repo / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
+    path = repo / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx"
     workbook = load_workbook(path, read_only=False, data_only=False)
     try:
         ws_acoes = workbook["Ações de Verificação"]

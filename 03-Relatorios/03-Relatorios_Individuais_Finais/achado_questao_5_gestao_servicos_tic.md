@@ -3,7 +3,7 @@
 {% if achado %}
 {% set situacao_catalogo = 'Inexistência ou insuficiência do catálogo de serviços de TIC.' %}
 {% set situacao_ans = 'Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.' %}
-{% set situacao_inventario = 'Inexistência ou fragilidade do inventário de ativos de TIC.' %}
+{% set situacao_inventario = 'Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.' %}
 {% set situacao_configuracao = 'Ausência ou fragilidade do processo de gestão de configuração.' %}
 {% set situacao_incidentes = 'Inexistência ou fragilidade do processo de gestão de incidentes de TIC.' %}
 {% set motivos_catalogo = auditado.get_motivos_situacao(nome_achado, situacao_catalogo) %}
@@ -24,24 +24,27 @@
 
 ### Critérios
 {% if tem_catalogo %}
-* ITIL 4, prática de gerenciamento do catálogo de serviços: manter fonte única de informações consistentes sobre serviços e ofertas de serviço, disponível para usuários e equipes de suporte;
-{% endif %}
-{% if tem_catalogo or tem_ans %}
 * COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados;
+* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 - Recomendações quanto à estruturação do catálogo de serviços de TIC;
+* ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 - Gerenciamento de catálogo de serviço.
 {% endif %}
 {% if tem_ans %}
 * ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias;
+* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 - Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço.
 {% endif %}
 {% if tem_inventario %}
 * ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão;
+* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 - Recomendações quanto à gestão de configuração e ativos de TIC;
 {% endif %}
 {% if tem_configuracao %}
-* ITIL 4, prática de gerenciamento de configuração de serviço: assegurar informações precisas e confiáveis sobre itens de configuração e seus relacionamentos com serviços, sistemas e infraestrutura;
 * COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração;
+* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 - Recomendações quanto à gestão de configuração e ativos de TIC;
+* ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 - Gerenciamento de configuração.
 {% endif %}
 {% if tem_incidentes %}
-* ITIL 4, prática de gerenciamento de incidentes: minimizar o impacto negativo dos incidentes por meio da restauração tempestiva da operação normal dos serviços e do registro rastreável do tratamento realizado;
-* COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
+* COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço;
+* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 - Recomendações quanto à formalização e execução da gestão de incidentes;
+* ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 - Gerenciamento de incidente.
 {% endif %}
 
 ### Evidências
@@ -58,24 +61,24 @@
 
 A gestão de serviços de TIC organiza a forma como as soluções e o suporte tecnológico são entregues aos usuários e às áreas demandantes do órgão. Catálogo de serviços, Acordos de Nível de Serviço (ANS), inventário de ativos, gestão de configuração e gestão de incidentes constituem práticas básicas e integradas necessárias para assegurar a transparência operacional, continuidade do negócio, governabilidade financeira, controle de ativos e qualidade de suporte técnico.
 
-Os critérios de boas práticas baseados na ITIL 4 e no COBIT 2019 indicam que a organização deve manter fonte unificada e consistente de informações sobre seu catálogo, estabelecer metas mensuráveis de atendimento, administrar ativamente o ciclo de vida dos ativos tecnológicos, rastrear os relacionamentos lógicos de configuração e registrar de forma sistemática e auditável todas as ocorrências operacionais e incidentes de segurança[^explica_gestao_servicos_tic].
+Os critérios aplicáveis indicam que a organização deve manter catálogo de serviços, estabelecer e monitorar níveis de serviço, administrar o ciclo de vida dos ativos tecnológicos, controlar os itens de configuração relevantes e tratar os incidentes de forma padronizada e rastreável[^explica_gestao_servicos_tic].
 
 Com base na análise das respostas aos itens 2201, 2203, 2204 e 2504 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrada adoção suficiente dessas práticas mínimas. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
 {% if tem_catalogo %}
-* **Catálogo de serviços de TIC**: a fragilidade ou ausência do catálogo não demonstra aderência à ITIL 4 e ao COBIT 2019 (APO09.02), podendo resultar em prestação reativa, sem transparência ou definição clara das entregas técnicas disponíveis.
+* **Catálogo de serviços de TIC**: a fragilidade ou ausência do catálogo não demonstra aderência ao COBIT 2019, APO09.02, ao Acórdão TCE-RJ nº 44.490/2024-PLEN e à ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4, podendo resultar em prestação reativa, sem transparência ou definição clara das entregas técnicas disponíveis.
 {% endif %}
 {% if tem_ans %}
-* **Níveis mínimos de serviço**: a ausência de parâmetros ou acompanhamento não demonstra aderência aos critérios de catálogo e gerenciamento de nível de serviço (ITIL 4 e COBIT 2019, APO09.02), dificultando a avaliação objetiva da qualidade e tempestividade dos serviços prestados.
+* **Níveis mínimos de serviço**: a ausência de parâmetros ou acompanhamento não demonstra aderência à prática de gerenciamento de nível de serviço da ITIL 4 e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, dificultando a avaliação objetiva da qualidade e tempestividade dos serviços prestados.
 {% endif %}
 {% if tem_inventario %}
-* **Inventário de ativos de TIC**: a fragilidade ou inexistência de inventário não demonstra aderência à prática de gerenciamento de ativos de TI (ITIL 4), reduzindo o controle sobre recursos tecnológicos, licenciamentos de software, custos e riscos associados.
+* **Inventário de ativos de TIC**: a fragilidade ou inexistência de inventário não demonstra aderência à prática de gerenciamento de ativos de TI da ITIL 4 e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, reduzindo o controle sobre recursos tecnológicos, licenciamentos de software, custos e riscos associados.
 {% endif %}
 {% if tem_configuracao %}
-* **Gestão de configuração**: a ausência de mapeamento lógico não demonstra aderência à ITIL 4 e ao COBIT 2019 (BAI10.01), podendo prejudicar a confiabilidade das dependências operacionais entre infraestrutura, sistemas e serviços críticos.
+* **Gestão de configuração**: a ausência de processo formal e de base consolidada não demonstra aderência ao COBIT 2019, BAI10.01, ao Acórdão TCE-RJ nº 44.490/2024-PLEN e à ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6, podendo prejudicar a confiabilidade das informações sobre os itens de configuração e seus relacionamentos.
 {% endif %}
 {% if tem_incidentes %}
-* **Gestão de incidentes de TIC**: a inexecução ou informalidade no processo de atendimento não demonstra aderência à ITIL 4 e ao COBIT 2019 (DSS02.02, DSS02.04 e DSS02.07), dificultando o tratamento padronizado, tempestivo e rastreável de falhas tecnológicas.
+* **Gestão de incidentes de TIC**: a inexecução ou informalidade no processo de atendimento não demonstra aderência ao COBIT 2019, DSS02.02, DSS02.04 e DSS02.07, ao Acórdão TCE-RJ nº 44.490/2024-PLEN e à ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1, dificultando o tratamento padronizado, tempestivo e rastreável de falhas tecnológicas.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -84,7 +87,7 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-[^explica_gestao_servicos_tic]: As práticas de gestão de serviços de TIC adotadas como critério baseiam-se em ITIL 4 e COBIT 2019 e abrangem catálogo, níveis de serviço, ativos, configuração e incidentes.
+[^explica_gestao_servicos_tic]: Os critérios variam conforme a situação: COBIT APO09.02, Acórdão TCE-RJ nº 44.490/2024-PLEN e ISO/IEC 20000-2 para catálogo; ITIL 4 e o Acórdão para níveis de serviço e ativos; COBIT BAI10.01, o Acórdão e ISO/IEC 20000-2 para configuração; e COBIT DSS02, o Acórdão e ISO/IEC 20000-2 para incidentes.
 
 {% set situacao = situacao_catalogo %}
 {% if tem_catalogo %}
@@ -92,7 +95,7 @@ Essas situações ensejaram o presente achado e serão detalhadas nas subseçõe
 
 O catálogo de serviços de TIC deve constituir fonte única de informações consistentes sobre os serviços prestados, acessível aos usuários e às áreas demandantes. Deve conter informações mínimas sobre os serviços efetivamente prestados, suas características, requisitos, canais de atendimento e níveis esperados de serviço.
 
-A ITIL 4, na prática de gerenciamento do catálogo de serviços, orienta a manutenção de informações consistentes e disponíveis sobre serviços e ofertas de serviço. O COBIT 2019, APO09.02, exige a definição, manutenção e comunicação do catálogo de serviços facilitados por TI.
+O COBIT 2019, APO09.02, exige a definição, manutenção e comunicação do catálogo de serviços facilitados por TIC. O Acórdão TCE-RJ nº 44.490/2024-PLEN e a ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4, também orientam a estruturação e disponibilização do catálogo.
 
 Da análise das respostas ao item 2201 e da documentação apresentada, verificou-se que a existência de catálogo de serviços de TIC atualizado, acessível aos usuários e com informações mínimas sobre os serviços prestados não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -115,7 +118,7 @@ A inexistência, desatualização ou falta de divulgação do catálogo de servi
 
 A definição de Acordos de Níveis de Serviço, metas mínimas ou parâmetros equivalentes permite pactuar expectativas, medir desempenho e avaliar a qualidade dos principais serviços de TIC.
 
-A ITIL 4, na prática de gerenciamento de nível de serviço, orienta a definição, monitoramento, avaliação e reporte de metas e níveis de serviço alinhados às necessidades das áreas usuárias. O COBIT 2019, APO09.02, também relaciona o catálogo à comunicação de requisitos e níveis de serviço esperados.
+A ITIL 4, na prática de gerenciamento de nível de serviço, orienta a definição, o monitoramento, a avaliação e o reporte de metas e níveis de serviço alinhados às necessidades das áreas usuárias. O Acórdão TCE-RJ nº 44.490/2024-PLEN também recomenda a definição, a pactuação e o monitoramento de níveis de serviço.
 
 Da análise das respostas ao item 2201 e da documentação apresentada, verificou-se que a definição ou o monitoramento de níveis mínimos de serviço, metas ou parâmetros equivalentes para os serviços de TIC relevantes não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -136,11 +139,11 @@ A ausência de níveis mínimos de serviço, metas estruturadas ou parâmetros e
 {% if tem_inventario %}
 #### Inventário de ativos de TIC
 
-O inventário de ativos de TIC deve permitir conhecer e controlar equipamentos, servidores, sistemas, *softwares*, licenças, serviços em nuvem, responsáveis e componentes de infraestrutura.
+O inventário de ativos de TIC deve permitir conhecer e controlar os dispositivos conectados à rede e os *softwares* instalados.
 
-A ITIL 4, na prática de gerenciamento de ativos de TI, orienta o gerenciamento do ciclo de vida dos ativos, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
+A ITIL 4, na prática de gerenciamento de ativos de TI, orienta o gerenciamento do ciclo de vida dos ativos, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão. O Acórdão TCE-RJ nº 44.490/2024-PLEN também recomenda a estruturação da gestão de ativos de TIC.
 
-Da análise das respostas aos itens 2203 e 2504 e da documentação apresentada, verificou-se que a existência de inventário de ativos de TIC atualizado e abrangente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2504 e da documentação apresentada, verificou-se que a existência de inventário de dispositivos e softwares de TIC atualizado e abrangente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -151,7 +154,7 @@ Da análise das respostas aos itens 2203 e 2504 e da documentação apresentada,
 {% endfor %}
 {% endif %}
 
-A ausência de inventário atualizado e abrangente de ativos de TIC reduz a segurança quanto ao controle sobre equipamentos, sistemas, softwares, licenças, serviços em nuvem e componentes de infraestrutura, elevando riscos relacionados a custos, conformidade, segurança da informação e planejamento de capacidade.
+A ausência de inventário atualizado de dispositivos e *softwares* reduz a segurança quanto ao controle dos recursos tecnológicos, elevando riscos relacionados a custos, conformidade e segurança da informação.
 {% endif %}
 
 {% set situacao = situacao_configuracao %}
@@ -160,7 +163,7 @@ A ausência de inventário atualizado e abrangente de ativos de TIC reduz a segu
 
 A gestão de configuração deve manter informações precisas e confiáveis sobre itens de configuração relevantes, seus atributos, responsáveis e relacionamentos com ativos, sistemas, infraestrutura e serviços.
 
-A ITIL 4, na prática de gerenciamento de configuração de serviço, orienta assegurar informações confiáveis sobre itens de configuração e seus relacionamentos. O COBIT 2019, BAI10.01, exige a definição de escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
+O COBIT 2019, BAI10.01, exige a definição de escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração. O Acórdão TCE-RJ nº 44.490/2024-PLEN e a ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6, também orientam a formalização do processo e a manutenção de informações confiáveis sobre os itens de configuração.
 
 Da análise das respostas ao item 2203 e da documentação apresentada, verificou-se que a existência de processo mínimo de gestão de configuração com registro de itens relevantes, atributos, responsáveis e relacionamentos entre ativos, sistemas, infraestrutura e serviços não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -181,11 +184,11 @@ A ausência de registros suficientes de configuração dificulta o mapeamento l�
 {% if tem_incidentes %}
 #### Gestão de incidentes de TIC
 
-A gestão de incidentes de TIC deve definir papéis, responsabilidades, critérios de priorização, escalamento, tratamento, registro sistemático, histórico das ocorrências e análise posterior de incidentes relevantes ou recorrentes.
+A gestão de incidentes de TIC deve definir papéis, critérios de priorização e escalamento, procedimentos para incidentes de serviços e de segurança da informação e registros sistemáticos e rastreáveis das ocorrências.
 
-A ITIL 4, na prática de gerenciamento de incidentes, orienta minimizar impactos negativos por meio da restauração tempestiva da operação normal e do registro rastreável do tratamento realizado. O COBIT 2019, DSS02.02, DSS02.04 e DSS02.07, exige registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
+O COBIT 2019, DSS02.02, DSS02.04 e DSS02.07, orienta registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço. O Acórdão TCE-RJ nº 44.490/2024-PLEN e a ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1, também orientam a formalização, a execução e a rastreabilidade do processo.
 
-Da análise das respostas ao item 2204 e da documentação apresentada, verificou-se que a existência de processo mínimo de gestão de incidentes de TIC com papéis, critérios de priorização, escalamento, tratamento, registro sistemático e análise posterior de ocorrências relevantes ou recorrentes não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2204 e da documentação apresentada, verificou-se que a existência de processo formal de gestão de incidentes de TIC, com critérios de priorização e escalamento, procedimentos para incidentes de segurança da informação e registros rastreáveis, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -196,7 +199,7 @@ Da análise das respostas ao item 2204 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-O tratamento assistemático ou sem registro centralizado das falhas tecnológicas dificulta o acompanhamento do histórico de incidentes, a identificação de causas raiz e a redução do período de indisponibilidade dos sistemas corporativos.
+O tratamento assistemático ou sem registro centralizado das falhas tecnológicas dificulta o acompanhamento do histórico de incidentes e a restauração tempestiva dos serviços afetados.
 
 {% endif %}
 

@@ -26,14 +26,14 @@
   "pendencias_ajustes": 0,
   "impactos": {
     "universo": 119,
-    "situacoes_antes": 2140,
-    "situacoes_atuais": 2096,
-    "situacoes_removidas": 52,
-    "organizacoes_com_situacoes_removidas": 30,
-    "achados_antes": 625,
-    "achados_atuais": 620,
-    "achados_removidos": 5,
-    "organizacoes_com_achados_removidos": 5,
+    "situacoes_antes": 1458,
+    "situacoes_atuais": 1419,
+    "situacoes_removidas": 47,
+    "organizacoes_com_situacoes_removidas": 28,
+    "achados_antes": 602,
+    "achados_atuais": 591,
+    "achados_removidos": 11,
+    "organizacoes_com_achados_removidos": 9,
     "organizacoes_com_igovti_alterado": 23,
     "organizacoes_com_igovti_aumentado": 23,
     "organizacoes_com_igovti_reduzido": 0,
@@ -42,6 +42,6 @@
     "variacao_media_igovti": 0.004928762841379266,
     "variacao_media_entre_alterados": 0.02421522613373292,
     "variacao_maxima_igovti": 0.1600875785828462,
-    "organizacoes_com_algum_impacto": 36
+    "organizacoes_com_algum_impacto": 34
   }
 }

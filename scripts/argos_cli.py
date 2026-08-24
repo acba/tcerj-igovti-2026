@@ -187,7 +187,7 @@ ROUTINES: list[Routine] = [
         script=ROOT / "scripts/executa_auditoria.py",
         params=[
             Param("auditados", "--auditados", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx", "Base de auditados."),
-            Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx", "Mapa de verificacao e achados."),
+            Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx", "Mapa de verificacao e achados."),
             Param(
                 "fontes",
                 "--fontes",
@@ -389,7 +389,7 @@ ROUTINES: list[Routine] = [
         script=ROOT / "scripts/gerar_fonte_ajustes_evidencias_auditoria.py",
         params=[
             Param("ajustes", "--ajustes", "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx", "Minuta revisada de ajustes."),
-            Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx", "Mapa de auditoria."),
+            Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx", "Mapa de auditoria."),
             Param("output", "--output", "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx", "Painel de saída."),
         ],
         group="Avaliação de evidências",
@@ -508,7 +508,7 @@ def comments_params() -> list[Param]:
         Param("evidencias_comentarios", "--evidencias-comentarios-root", p(COMMENTS_EVIDENCE), "Raiz dos anexos já extraídos por organização."),
         Param("lss", "--lss", "02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss", "LSS que originou o survey."),
         Param("resultado_auditoria", "--resultado-auditoria", "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json", "Resultado compacto da auditoria."),
-        Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx", "Mapa de verificação e achados."),
+        Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx", "Mapa de verificação e achados."),
         Param("ajustes", "--ajustes-pos-avaliacao-evidencias", "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx", "Avaliação consolidada anterior e itens elegíveis."),
         Param("respostas_base", "--respostas-questionario-base", "02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx", "Base pós-avaliação de evidências sobre a qual serão propostos ajustes."),
         Param("painel_evidencias", "--painel-avaliacao-evidencias", "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx", "Painel de evidências que será saneado para a auditoria final."),

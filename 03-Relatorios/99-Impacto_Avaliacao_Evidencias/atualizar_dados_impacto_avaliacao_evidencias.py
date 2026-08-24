@@ -209,8 +209,15 @@ def comparar_conjuntos(pre: dict, final: dict, chave: str, rotulo: str) -> pd.Da
 
 
 def carregar_impacto_auditoria(pre_path: Path, final_path: Path, universo_path: Path) -> dict[str, pd.DataFrame]:
-    universo = json.loads(universo_path.read_text(encoding="utf-8"))
-    validos = {a for a, r in universo.items() if r.get("foi_auditado")}
+    if universo_path.suffix.lower() == ".xlsx":
+        # O cadastro delimita o universo da fiscalização, mas a condição de
+        # respondente válido está registrada no resultado da auditoria.
+        cadastro = set(pd.read_excel(universo_path)["sigla"].dropna().astype(str))
+        universo = json.loads(pre_path.read_text(encoding="utf-8"))
+        validos = {a for a, r in universo.items() if a in cadastro and r.get("foi_auditado")}
+    else:
+        universo = json.loads(universo_path.read_text(encoding="utf-8"))
+        validos = {a for a, r in universo.items() if r.get("foi_auditado")}
     if len(validos) != 113:
         raise ValueError(f"Esperadas 113 organizações avaliadas; encontradas {len(validos)}.")
     pre, final = extrair_auditoria(pre_path, validos), extrair_auditoria(final_path, validos)

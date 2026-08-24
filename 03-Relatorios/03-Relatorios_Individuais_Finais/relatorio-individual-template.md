@@ -356,6 +356,8 @@ Com base na avaliação das respostas, das evidências e dos comentários da org
 
 Esta seção apresenta a manifestação da Equipe de Auditoria sobre os comentários e documentos encaminhados pela organização. As conclusões refletem a situação verificada em **{{ comentarios_gestor.data_referencia }}**. O acolhimento de uma manifestação pode afastar situação inconforme, remover achado dela decorrente ou restaurar resposta do questionário até o limite do valor originalmente declarado.
 
+As manifestações reproduzidas nas Seções 4.1 e 4.2 referem-se às situações e aos itens constantes do relatório individual preliminar. Após essa etapa, a Equipe de Auditoria calibrou e simplificou os procedimentos e reexecutou os três cenários com o mapa revisado. Por isso, a posição corrente e a síntese de impactos da Seção 4.3 foram recalculadas com as regras revisadas e podem diferir, em quantidade ou redação, das situações sobre as quais o gestor se manifestou.
+
 {% if teve_comentarios_gestor %}
 
 ## 4.1. Manifestações sobre situações e achados

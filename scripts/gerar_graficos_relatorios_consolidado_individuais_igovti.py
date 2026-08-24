@@ -49,7 +49,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS_FILE = RESULTADOS_2026
 RAW_FILE = RESPOSTAS_2026
 METHODOLOGY_FILE = ROOT / "01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml"
-PROCEDURES_FILE = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
+PROCEDURES_FILE = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx"
 DEFAULT_OUTPUT_ROOT = Path(tempfile.gettempdir()) / "tcerj-igovti-2026"
 CONSOLIDATED_IMG = DEFAULT_OUTPUT_ROOT / "relatorio-consolidado/img"
 INDIVIDUAL_IMG = DEFAULT_OUTPUT_ROOT / "relatorios-individuais/img"
@@ -219,10 +219,10 @@ def load_data(results_file: Path = RESULTS_FILE, raw_file: Path = RAW_FILE) -> t
     return results, raw, category_scores
 
 
-def load_procedure_profiles(raw: pd.DataFrame) -> pd.DataFrame:
-    actions = pd.read_excel(PROCEDURES_FILE, sheet_name="Ações de Verificação", header=2)
-    procedures = pd.read_excel(PROCEDURES_FILE, sheet_name="Procedimentos de Auditoria", header=2)
-    variables = pd.read_excel(PROCEDURES_FILE, sheet_name="Variáveis Temporárias", header=2)
+def load_procedure_profiles(raw: pd.DataFrame, procedures_file: Path = PROCEDURES_FILE) -> pd.DataFrame:
+    actions = pd.read_excel(procedures_file, sheet_name="Ações de Verificação", header=2)
+    procedures = pd.read_excel(procedures_file, sheet_name="Procedimentos de Auditoria", header=2)
+    variables = pd.read_excel(procedures_file, sheet_name="Variáveis Temporárias", header=2)
     action_by_id = actions.set_index("id").to_dict("index")
     procedure_actions = {
         row["id"]: list(dict.fromkeys(re.findall(r"\bAV\d+\b", str(row["logica_achado"]))))
@@ -908,6 +908,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--comparavel-2026", type=Path, default=COMPARAVEL_2026)
     parser.add_argument("--setic-2023", type=Path, default=COMPARAVEL_2023_SETIC)
     parser.add_argument("--municipios-2023", type=Path, default=COMPARAVEL_2023_MUNICIPIOS)
+    parser.add_argument("--mapa", type=Path, default=PROCEDURES_FILE, help="Mapa de verificação usado nos perfis das questões Q1 a Q6.")
     return parser.parse_args()
 
 
@@ -925,7 +926,7 @@ def main() -> None:
     CONSOLIDATED_IMG.mkdir(parents=True, exist_ok=True)
     INDIVIDUAL_IMG.mkdir(parents=True, exist_ok=True)
     results, raw, category_scores = load_data(args.resultados_2026, args.respostas_2026)
-    profiles = load_procedure_profiles(raw)
+    profiles = load_procedure_profiles(raw, args.mapa)
     pairs = load_pairs(args.comparavel_2026, args.setic_2023, args.municipios_2023)
     consolidated_count = 0
     if not args.somente_individuais:

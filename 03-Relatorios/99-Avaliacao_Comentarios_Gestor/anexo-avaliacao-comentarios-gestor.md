@@ -219,9 +219,9 @@ Os ajustes restauraram somente valores anteriormente declarados e tecnicamente s
 
 ### 5.2. Redução de situações e achados
 
-Na comparação por identidade, 52 situações deixaram de subsistir em 30 organizações. Como a reexecução integral também atualizou as combinações de condições que formam cada situação, o estoque agregado apresentou redução líquida de 44 registros, passando de 2.140 para 2.096, queda de 2,1%.
+Na comparação por identidade, 47 situações deixaram de subsistir em 28 organizações, enquanto oito situações foram acrescentadas pela recomposição das condições avaliadas. O estoque agregado apresentou redução líquida de 39 registros, passando de 1.458 para 1.419, queda de 2,7%.
 
-Cinco achados foram afastados, cada um em uma organização distinta. O total agregado passou de 625 para 620 achados, redução de 0,8%. A redução de situações foi superior à de achados porque um achado pode permanecer caracterizado por outras situações inconformes ainda existentes na mesma organização.
+Foram afastadas 11 marcações de achado em nove organizações. O total agregado passou de 602 para 591 marcações, redução de 1,8%. A redução de situações foi superior à de achados porque um achado pode permanecer caracterizado por outras situações inconformes ainda existentes na mesma organização.
 
 ### 5.3. Melhoria do iGovTI
 
@@ -233,17 +233,18 @@ O iGovTI aumentou em 23 das 113 organizações com resposta válida, sem reduç�
 |---|---:|
 | Ajustes distintos aplicados | 160 |
 | Organizações com respostas ajustadas | 41 |
-| Situações removidas por identidade | 52, em 30 organizações |
-| Redução líquida do estoque de situações | 44, de 2.140 para 2.096 |
-| Achados afastados | 5, em 5 organizações |
-| Redução do estoque de achados | de 625 para 620 |
+| Situações removidas por identidade | 47, em 28 organizações |
+| Situações acrescentadas por identidade | 8 |
+| Redução líquida do estoque de situações | 39, de 1.458 para 1.419 |
+| Marcações de achado afastadas | 11, em 9 organizações |
+| Redução do estoque de achados | de 602 para 591 |
 | Organizações com aumento do iGovTI | 23 |
 | Variação da média do iGovTI | de 0,1841 para 0,1890 |
-| Organizações com algum impacto em situação, achado ou iGovTI | 36 |
+| Organizações com algum impacto em situação, achado ou iGovTI | 34 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria a partir da comparação dos resultados anterior e posterior aos comentários do gestor)</div>
 
-Em 36 das 119 organizações houve impacto em pelo menos uma das três dimensões finais: situação encontrada, achado ou iGovTI. O alcance foi, portanto, material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
+Em 34 das 119 organizações houve impacto em pelo menos uma das três dimensões finais: situação encontrada, achado ou iGovTI. O alcance foi, portanto, material e individualizável, embora não tenha alterado de forma ampla o diagnóstico consolidado da fiscalização.
 
 Esse alcance organizacional é apresentado na [@fig:comentarios_impactos_organizacoes].
 
@@ -285,7 +286,7 @@ Essas organizações não integraram o cálculo do iGovTI nem a apuração dos a
 
 A etapa cumpriu três funções. Em primeiro lugar, confirmou a aderência geral do diagnóstico, pois 84,0% das manifestações concordaram com as situações encontradas. Em segundo, permitiu corrigir conclusões específicas: houve 52 acolhimentos integrais ou parciais nas 261 manifestações submetidas a decisão individualizada e 46 nos 337 pedidos de reavaliação remanescentes. Em terceiro, distinguiu a situação existente na data-base das providências posteriores, sem reescrever a situação histórica da auditoria.
 
-O saldo quantitativo foi de 160 ajustes em 41 organizações, com reflexo final em ao menos uma dimensão para 36 organizações. Foram removidas 52 situações por identidade, afastados cinco achados e elevados os índices de 23 organizações. Apesar desses efeitos, permaneceram 2.096 situações e 620 achados no estado atualizado, e o aumento médio do iGovTI foi de 0,49 ponto percentual. Os resultados demonstram que o contraditório produziu correções concretas e rastreáveis, mas não alterou substancialmente o panorama de baixa maturidade identificado pela fiscalização.
+O saldo quantitativo foi de 160 ajustes em 41 organizações, com reflexo final em ao menos uma dimensão para 34 organizações. Foram removidas 47 situações por identidade, acrescentadas oito, afastadas 11 marcações de achado e elevados os índices de 23 organizações. Apesar desses efeitos, permaneceram 1.419 situações e 591 marcações por organização e achado no estado atualizado, e o aumento médio do iGovTI foi de 0,49 ponto percentual. Os resultados demonstram que o contraditório produziu correções concretas e rastreáveis, mas não alterou substancialmente o panorama de baixa maturidade identificado pela fiscalização.
 
 As manifestações sobre medidas em curso e correções posteriores também possuem valor prospectivo. Ainda que não afastem a situação na data-base, fornecem subsídios para a elaboração e o acompanhamento dos planos de ação, especialmente quanto a responsáveis, prazos, produtos esperados e evidências de conclusão. O acompanhamento deverá verificar a implementação efetiva, e não apenas a existência de compromissos ou documentos preparatórios.
 
@@ -293,6 +294,6 @@ As manifestações sobre medidas em curso e correções posteriores também poss
 
 A análise dos comentários do gestor preservou o contraditório, corrigiu situações para as quais foram apresentados elementos suficientes e manteve os apontamentos cujo suporte probatório permaneceu válido. A predominância de não acolhimentos decorreu principalmente da concordância expressa com as deficiências, da ausência de medidas adotadas, da apresentação de providências ainda em curso ou posteriores à data-base e da insuficiência dos elementos para demonstrar todos os atributos exigidos pelos critérios de auditoria.
 
-Os impactos verificados - 160 ajustes, 52 situações removidas, cinco achados afastados e aumento do iGovTI em 23 organizações - confirmam que a etapa não foi meramente formal. Ao mesmo tempo, a permanência da maior parte das situações e dos achados demonstra que as manifestações acolhidas foram pontuais e não afastaram as conclusões estruturais do trabalho.
+Os impactos verificados - 160 ajustes, 47 situações removidas, 11 marcações de achado afastadas e aumento do iGovTI em 23 organizações - confirmam que a etapa não foi meramente formal. Ao mesmo tempo, a permanência da maior parte das situações e dos achados demonstra que as manifestações acolhidas foram pontuais e não afastaram as conclusões estruturais do trabalho.
 
 As decisões consolidadas, os ajustes e seus reflexos constituem papéis de trabalho rastreáveis e foram submetidos à validação final da Equipe de Auditoria antes da aprovação do relatório. Todas as manifestações recebidas foram examinadas, e as 598 manifestações submetidas a decisão técnica individualizada nas duas seções foram integralmente avaliadas. Para as seis organizações sem resposta válida, a análise permanece apartada dos resultados do iGovTI e dos achados derivados do questionário, sem prejuízo da apuração específica das circunstâncias da não participação.

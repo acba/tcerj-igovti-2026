@@ -482,6 +482,7 @@ def main() -> int:
     parser.add_argument("--municipios-2023", default=None, help="XLSX comparável dos municípios 2023 usado para gerar gráficos do relatório consolidado.")
     parser.add_argument("--auditados-xlsx", default=None, help="Base de auditados XLSX usada para gerar gráficos consolidados de achados.")
     parser.add_argument("--resultado-auditoria-json", default=None, help="Resultado estruturado da auditoria em JSON usado para gerar gráficos consolidados de achados.")
+    parser.add_argument("--mapa", default=None, help="Mapa de verificação revisado usado nos perfis das questões Q1 a Q6.")
     args = parser.parse_args()
 
     input_str = args.input_positional or args.input or "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
@@ -571,6 +572,7 @@ def main() -> int:
                 ("--comparavel-2026", args.comparavel_2026),
                 ("--setic-2023", args.setic_2023),
                 ("--municipios-2023", args.municipios_2023),
+                ("--mapa", args.mapa),
             ]:
                 if value:
                     cmd_graficos_gerais.extend([option, value])

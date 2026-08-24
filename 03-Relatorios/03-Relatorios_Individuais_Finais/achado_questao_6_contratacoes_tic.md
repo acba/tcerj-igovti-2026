@@ -1,10 +1,10 @@
 {% set nome_achado = 'Fragilidades na governança técnica da fase preparatória das contratações de TIC' %}
 {% set achado = auditado.get_achado_por_nome(nome_achado) %}
 {% if achado %}
-{% set situacao_processo = 'Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.' %}
-{% set situacao_aprovacao = 'Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC.' %}
-{% set situacao_aderencia = 'Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária.' %}
-{% set situacao_equipe = 'Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC.' %}
+{% set situacao_processo = 'Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC.' %}
+{% set situacao_aprovacao = 'Contratações de TIC sem análise prévia e aprovação técnica da área de TIC.' %}
+{% set situacao_aderencia = 'Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.' %}
+{% set situacao_equipe = 'Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.' %}
 {% set motivos_processo = auditado.get_motivos_situacao(nome_achado, situacao_processo) %}
 {% set motivos_aprovacao = auditado.get_motivos_situacao(nome_achado, situacao_aprovacao) %}
 {% set motivos_aderencia = auditado.get_motivos_situacao(nome_achado, situacao_aderencia) %}
@@ -20,14 +20,16 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_processo or tem_aderencia %}
+{% if tem_processo or tem_aprovacao or tem_aderencia or tem_equipe %}
 * Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos;
 {% endif %}
 {% if tem_aderencia %}
-* Art. 18, caput e §1º, incisos I, IV, V, VIII, IX, X e XIII, da Lei 14.133/2021: fase preparatória caracterizada pelo planejamento, compatibilização com o plano de contratações anual e elementos mínimos do estudo técnico preliminar;
+* Lei nº 14.133/2021, arts. 12, VII e § 1º, e 18, caput e § 1º, II - Compatibilização com o Plano de Contratações Anual, quando elaborado, e demonstração do alinhamento da contratação ao planejamento da Administração;
+* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 - Determinações para estruturação do planejamento anual das contratações;
 {% endif %}
 {% if tem_processo %}
 * Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos;
+* Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 - Precedente quanto à formalização do processo de trabalho para o planejamento de cada contratação;
 {% endif %}
 {% if tem_equipe %}
 * Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação;
@@ -36,13 +38,7 @@
 * COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução;
 {% endif %}
 {% if tem_aprovacao or tem_equipe %}
-* COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir e comunicar papéis e responsabilidades relacionados à informação e à tecnologia;
-{% endif %}
-{% if tem_processo %}
-* COBIT 2019, APO01.09 - Definir e comunicar políticas e procedimentos: manter políticas, procedimentos e orientações para direcionar processos de gestão de TIC;
-{% endif %}
-{% if tem_aprovacao %}
-* Instrução Normativa SGD/ME nº 94, de 23 de dezembro de 2022, art. 1º, § 1º: como referência de boa prática, a aplicação de ritos formais de contratação de TIC pode ser facultada para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando a possibilidade de fluxos simplificados para aquisições de baixa complexidade ou valor.
+* Instrução Normativa SGD/ME nº 94/2022, arts. 2º, IV, 9º, 10, 11 e 12, § 6º - Referência de boa prática para estruturação da fase de planejamento, participação técnica e instituição da Equipe de Planejamento.
 {% endif %}
 
 ### Evidências
@@ -59,21 +55,21 @@
 
 As contratações de TIC devem observar governança técnica, planejamento prévio proporcional à complexidade do objeto, participação da área de tecnologia quando cabível e alinhamento aos instrumentos de planejamento. A complexidade dos ativos de tecnologia e a dependência das atividades finalísticas em relação aos serviços de TIC demandam controles compatíveis com a relevância, o risco e o valor da contratação.
 
-Os critérios previstos na Lei 14.133/2021 e nos objetivos do COBIT 2019 disciplinam que a alta administração responde pela governança das contratações, que a fase preparatória deve ser compatível com o planejamento institucional e que os papéis e as responsabilidades relacionados à informação e à tecnologia devem ser definidos e comunicados[^explica_contratacoes_tic].
+Os critérios aplicáveis estabelecem a responsabilidade da alta administração pela governança das contratações, a padronização dos documentos da fase preparatória, o alinhamento da contratação ao planejamento, a designação dos agentes responsáveis e a aprovação técnica dos requisitos da solução[^explica_contratacoes_tic].
 
-Com base na análise das respostas aos itens 2801, 2804, 2102 e 2802 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento suficiente das contratações de TIC da organização a essas diretrizes. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
+Com base na análise das respostas aos itens 2801 e 2804 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento suficiente das contratações de TIC da organização a essas diretrizes. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
 {% if tem_processo %}
-* **Processo de contratação de TIC**: a fragilidade ou ausência de fluxo padronizado contraria a governança de contratações (Lei 14.133/2021, art. 11/art. 19, IV) e o COBIT 2019 (APO01.09), acarretando indefinição de papéis, ritos processuais e prazos internos.
+* **Processo de contratação de TIC**: a fragilidade ou ausência de fluxo padronizado não demonstra aderência aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e ao Acórdão nº 2.342/2016-TCU-Plenário, acarretando indefinição de etapas, responsabilidades e artefatos aplicáveis.
 {% endif %}
 {% if tem_aprovacao %}
-* **Aprovação técnica de TIC**: a falta de avaliação prévia pela área técnica, quando necessária, contraria a governança institucional (COBIT 2019, BAI02.04 e APO01.05), favorecendo aquisições de soluções desalinhadas do ambiente tecnológico existente.
+* **Aprovação técnica de TIC**: a falta de avaliação prévia pela área técnica não demonstra aderência ao art. 11, parágrafo único, da Lei nº 14.133/2021, ao COBIT 2019, BAI02.04, e à Instrução Normativa SGD/ME nº 94/2022, adotada como referência de boa prática, favorecendo a contratação de soluções incompatíveis com o ambiente tecnológico existente.
 {% endif %}
 {% if tem_aderencia %}
-* **Alinhamento ao planejamento**: a ausência de alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária não demonstra aderência à Lei 14.133/2021 (arts. 11 e 18), podendo resultar em aquisições reativas ou sem lastro orçamentário adequado.
+* **Alinhamento ao planejamento**: a ausência de alinhamento demonstrado ao planejamento de TIC e ao Plano de Contratações Anual não demonstra aderência aos arts. 11, 12 e 18 da Lei nº 14.133/2021 e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, podendo resultar em contratações reativas ou desconectadas das prioridades institucionais.
 {% endif %}
 {% if tem_equipe %}
-* **Equipe de planejamento**: a ausência de portaria ou designação de equipe mista com representação técnica de TIC, quando aplicável, não demonstra aderência à governança pública e à Lei 14.133/2021 (art. 7º), podendo comprometer a qualidade e a imparcialidade das especificações técnicas.
+* **Equipe de planejamento**: a ausência de designação formal de equipe com integrante técnico da área de TIC não demonstra aderência aos arts. 7º e 11 da Lei nº 14.133/2021 e à Instrução Normativa SGD/ME nº 94/2022, adotada como referência de boa prática, podendo comprometer a qualidade técnica da instrução da contratação.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -82,7 +78,7 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-[^explica_contratacoes_tic]: Os critérios de contratações de TIC combinam requisitos legais da Lei 14.133/2021 e boas práticas do COBIT 2019 sobre aprovação técnica, papéis, responsabilidades, políticas e procedimentos.
+[^explica_contratacoes_tic]: Os critérios de contratações de TIC combinam os arts. 7º, 11, 12, 18 e 19 da Lei nº 14.133/2021, o COBIT 2019, BAI02.04, a Instrução Normativa SGD/ME nº 94/2022 e os Acórdãos TCU nº 2.342/2016-Plenário e TCE-RJ nº 44.490/2024-PLEN, conforme a situação examinada.
 
 {% set situacao = situacao_processo %}
 {% if tem_processo %}
@@ -90,9 +86,9 @@ Essas situações ensejaram o presente achado e serão detalhadas nas subseçõe
 
 O processo de contratação de TIC deve estabelecer fluxo, etapas, papéis, responsabilidades, modelos mínimos de artefatos, manuais, checklists ou orientações internas. Esses elementos reduzem improvisação, aumentam padronização e permitem controle sobre a qualidade da instrução processual.
 
-O art. 11, parágrafo único, da Lei 14.133/2021 atribui à alta administração responsabilidade pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos. O art. 19, inciso IV, prevê a instituição de modelos de documentos padronizados, e o COBIT 2019, APO01.09, orienta a definição e comunicação de políticas e procedimentos.
+O art. 11, parágrafo único, da Lei nº 14.133/2021 atribui à alta administração responsabilidade pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos. O art. 19, inciso IV, prevê a instituição de modelos de documentos padronizados. O Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7, constitui precedente quanto à formalização do processo de trabalho para o planejamento de cada contratação.
 
-Da análise das respostas ao item 2801 e da documentação apresentada, verificou-se que a existência de processo formal e padronizado para contratações de TIC, com fluxo, etapas, papéis, responsabilidades, instâncias de aprovação e modelos de artefatos proporcionais ao porte e aos riscos das contratações, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2801 e da documentação apresentada, verificou-se que a existência de processo formal e padronizado para contratações de TIC, com etapas, responsabilidades e artefatos aplicáveis, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -113,7 +109,7 @@ A ausência de fluxo processual regulamentado e de modelos padronizados reduz a 
 
 As contratações de TIC devem ser submetidas à análise prévia e aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas da organização. Essa análise é necessária para verificar compatibilidade técnica, integração com o ambiente existente e aderência a padrões institucionais.
 
-O COBIT 2019, BAI02.04, orienta a obtenção de aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução. O COBIT 2019, APO01.05, reforça a definição de papéis e responsabilidades relacionados à informação e à tecnologia. De forma complementar, o art. 1º, § 1º, da Instrução Normativa SGD/ME nº 94/2022, adotado como referência de boa prática, aponta a possibilidade de facultar a aplicação de ritos formais para contratações diretas por dispensa em razão do valor (inciso II do art. 75 da Lei nº 14.133/2021), indicando que os controles e pareceres podem ser proporcionais à relevância estratégica, complexidade e valor da aquisição.
+O art. 11, parágrafo único, da Lei nº 14.133/2021 atribui à alta administração responsabilidade pela governança das contratações. O COBIT 2019, BAI02.04, orienta a obtenção de aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução. De forma complementar, a Instrução Normativa SGD/ME nº 94/2022, adotada como referência de boa prática, disciplina a participação da área técnica na fase de planejamento, admitida a proporcionalidade dos procedimentos à relevância estratégica, à complexidade e ao valor da aquisição.
 
 Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a submissão das contratações de TIC à análise prévia ou aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -132,13 +128,13 @@ A ausência de análise prévia ou aprovação técnica da área de TIC reduz a 
 
 {% set situacao = situacao_aderencia %}
 {% if tem_aderencia %}
-#### Alinhamento ao planejamento, plano de contratações e proposta orçamentária
+#### Alinhamento ao planejamento de TIC e ao Plano de Contratações Anual
 
-As contratações de TIC devem estar vinculadas ao planejamento de TIC, ao plano de contratações e à proposta orçamentária. Essa vinculação demonstra que a contratação decorre de prioridade definida, possui respaldo orçamentário e contribui para objetivos institucionais.
+As contratações de TIC devem estar alinhadas ao planejamento de TIC e, quando elaborado, ao Plano de Contratações Anual. Essa vinculação demonstra que a contratação decorre de necessidade planejada e contribui para os objetivos institucionais.
 
-O art. 18 da Lei 14.133/2021 prevê a compatibilização da contratação com o plano de contratações anual e o planejamento da Administração. O art. 11 também reforça a responsabilidade da alta administração pela governança das contratações.
+Os arts. 12 e 18 da Lei nº 14.133/2021 preveem a compatibilização da contratação com o Plano de Contratações Anual, quando elaborado, e a demonstração de seu alinhamento com o planejamento da Administração. O art. 11 reforça a responsabilidade da alta administração pela governança das contratações. O Acórdão TCE-RJ nº 44.490/2024-PLEN também fundamenta a estruturação do planejamento anual das contratações.
 
-Da análise das respostas aos itens 2102, 2802 e 2804 e da documentação apresentada, verificou-se que o alinhamento das contratações de TIC ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que o alinhamento das contratações de TIC ao planejamento de TIC e ao Plano de Contratações Anual não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -149,7 +145,7 @@ Da análise das respostas aos itens 2102, 2802 e 2804 e da documentação aprese
 {% endfor %}
 {% endif %}
 
-A ausência de alinhamento das contratações de TIC ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária eleva o risco de fragmentação de despesas, contratações reativas ou insuficientemente priorizadas e uso pouco eficiente dos recursos orçamentários.
+A ausência de alinhamento das contratações de TIC ao planejamento de TIC e ao Plano de Contratações Anual eleva o risco de contratações reativas, desconectadas das prioridades institucionais ou incompatíveis com a programação anual da Administração.
 
 {% endif %}
 
@@ -157,11 +153,11 @@ A ausência de alinhamento das contratações de TIC ao planejamento de TIC, ao 
 {% if tem_equipe %}
 #### Equipe de planejamento da contratação de TIC
 
-As contratações de TIC devem contar com equipe de planejamento formalmente designada, com participação da área requisitante, da área técnica de TIC e das demais áreas necessárias. A designação formal favorece responsabilização, segregação de funções e qualidade técnica da instrução.
+As contratações de TIC devem contar com equipe de planejamento formalmente designada e com participação de integrante técnico da área de TIC. A designação formal favorece a responsabilização e a qualidade técnica da instrução.
 
-O art. 7º da Lei 14.133/2021 trata da designação de agentes públicos para funções essenciais, observadas atribuições, formação e segregação de funções. O COBIT 2019, APO01.05, orienta a definição e comunicação de papéis e responsabilidades.
+O art. 7º da Lei nº 14.133/2021 trata da designação de agentes públicos para funções essenciais, observadas atribuições, formação e segregação de funções. O art. 11 atribui à alta administração a responsabilidade pela governança das contratações. A Instrução Normativa SGD/ME nº 94/2022, adotada como referência de boa prática, prevê a instituição de Equipe de Planejamento da Contratação com participação técnica.
 
-Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a designação formal de equipe de planejamento da contratação de TIC com participação da área requisitante, da área técnica de TIC e das demais áreas necessárias não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a designação formal de equipe de planejamento da contratação de TIC com integrante técnico da área de TIC não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -180,7 +176,7 @@ A ausência de designação formal da equipe de planejamento, com participação
 
 As fragilidades evidenciadas na fase preparatória das contratações de TIC reduzem a segurança de que a organização disponha de controles suficientes para assegurar, conforme aplicável ao caso concreto, processo formal de contratação, participação técnica da área de TIC, alinhamento ao planejamento e adequada instrução dos processos. Essas fragilidades elevam o risco de contratações insuficientemente fundamentadas, pouco rastreáveis ou desalinhadas às necessidades institucionais, à complexidade e aos riscos das soluções de TIC pretendidas.
 
-Em razão das lacunas descritas, são propostas recomendações voltadas à estruturação e à adequação dos aspectos da fase preparatória das contratações de TIC efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas medidas de encaminhamento, na forma de recomendação ou determinação, conforme a situação identificada, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}

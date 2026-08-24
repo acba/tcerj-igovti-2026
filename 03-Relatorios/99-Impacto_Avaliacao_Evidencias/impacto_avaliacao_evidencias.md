@@ -173,55 +173,55 @@ Esses resultados mostram que a avaliação de evidências não produziu apenas r
 
 # 8. Impacto nos achados e situações inconformes
 
-Quando a auditoria é comparada no critério metodologicamente adequado, isto é, cenário inicial com apenas a fonte de respostas contra cenário pós-evidência com respostas ajustadas e painel de avaliação de evidências, observa-se impacto relevante sobre os achados. No cenário com ajuste inicial e sem painel de evidências, foram identificadas **598 marcações de achados por auditado**. No cenário pós-evidência, esse total passou para **625**, acréscimo de **27 marcações**.
+Quando a auditoria é comparada no critério metodologicamente adequado, isto é, cenário inicial com apenas a fonte de respostas contra cenário pós-evidência com respostas ajustadas e painel de avaliação de evidências, observa-se impacto relevante sobre os achados. Ambos os cenários foram reexecutados com o mapa de verificação revisado após os comentários do gestor. No cenário com ajuste inicial e sem painel de evidências, foram identificadas **565 marcações de achados por auditado**. No cenário pós-evidência, esse total passou para **602**, acréscimo de **37 marcações**.
 
-O impacto foi ainda mais expressivo nas situações inconformes. O total passou de **1.887**, no cenário inicial, para **2.140**, no cenário pós-evidência, com acréscimo de **253 situações inconformes**. O mesmo acréscimo ocorreu nos encaminhamentos associados. Não houve remoção de marcações: a avaliação de evidências apenas acrescentou achados, situações inconformes e encaminhamentos que não seriam identificados pela autodeclaração saneada isoladamente.
+O impacto foi ainda mais expressivo nas situações inconformes. O total passou de **1.252**, no cenário inicial, para **1.458**, no cenário pós-evidência, com acréscimo líquido de **206 situações inconformes**. O mesmo acréscimo líquido ocorreu nos encaminhamentos associados. A comparação por organização registrou aumento de situações em 80 organizações, estabilidade em 38 e redução em uma, em razão da recomposição de condições de uma regra composta.
 
 : Impacto dos ajustes pós-evidência nos achados e situações inconformes {#tbl:impacto_evidencias_achados_situacoes#}
 
 | Medida | Cenário com ajuste inicial | Cenário pós-evidência | Variação | Organizações com aumento | Organizações sem variação | Organizações com redução |
 |---|---:|---:|---:|---:|---:|---:|
-| Marcações de achados por auditado | 598 | 625 | +27 | 21 | 92 | 0 |
-| Situações inconformes | 1.887 | 2.140 | +253 | 82 | 31 | 0 |
-| Encaminhamentos associados | 1.887 | 2.140 | +253 | 82 | 31 | 0 |
+| Marcações de achados por auditado | 565 | 602 | +37 | 31 | 88 | 0 |
+| Situações inconformes | 1.252 | 1.458 | +206 | 80 | 38 | 1 |
+| Encaminhamentos associados | 1.252 | 1.458 | +206 | 80 | 38 | 1 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na execução comparativa dos procedimentos de auditoria)</div>
 
-O acréscimo concentrou-se nos achados relativos a contratações de TIC e planejamento de TIC. O Achado 6 passou de **102** para **112** organizações, e o Achado 3 passou de **100** para **109**. Também houve aumento nos achados de estrutura de TIC, governança de TIC e gestão de serviços de TIC.
+O acréscimo concentrou-se no achado relativo às contratações de TIC, que passou de **87** para **105** organizações. Também houve aumento nos demais achados, sobretudo em planejamento e governança de TIC.
 
 : Impacto por achado {#tbl:impacto_evidencias_por_achado#}
 
 | Achado | Cenário com ajuste inicial | Cenário pós-evidência | Variação |
 |---|---:|---:|---:|
-| 1. Estrutura de TIC insuficiente | 67 | 71 | +4 |
-| 2. Governança de TIC insuficiente | 104 | 107 | +3 |
-| 3. Planejamento de TIC insuficiente | 100 | 109 | +9 |
-| 4. Capacidade institucional insuficiente | 113 | 113 | 0 |
+| 1. Estrutura de TIC insuficiente | 65 | 69 | +4 |
+| 2. Governança de TIC insuficiente | 98 | 103 | +5 |
+| 3. Planejamento de TIC insuficiente | 96 | 102 | +6 |
+| 4. Capacidade institucional insuficiente | 107 | 110 | +3 |
 | 5. Gestão de serviços de TIC insuficiente | 112 | 113 | +1 |
-| 6. Fragilidades na fase preparatória das contratações de TIC | 102 | 112 | +10 |
+| 6. Fragilidades na fase preparatória das contratações de TIC | 87 | 105 | +18 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na execução comparativa dos procedimentos de auditoria)</div>
 
-As situações inconformes com maior acréscimo foram aquelas em que a resposta afirmativa dependia de documentação formal capaz de demonstrar planejamento, aprovação, integração orçamentária, análise técnica ou inventário. O maior impacto ocorreu na situação relativa a contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC, cujo registro passou de **38** para **86** organizações.
+As situações inconformes com maior acréscimo foram aquelas em que a resposta afirmativa dependia de documentação formal capaz de demonstrar planejamento, aprovação, estruturação do processo, análise técnica ou inventário. O maior impacto ocorreu na situação relativa a contratações de TIC sem análise prévia e aprovação técnica da área de TIC, cujo registro passou de **38** para **86** organizações.
 
 : Situações inconformes com maior acréscimo {#tbl:impacto_evidencias_situacoes_maior_acrescimo#}
 
 | Situação inconforme | Cenário com ajuste inicial | Cenário pós-evidência | Variação |
 |---|---:|---:|---:|
-| Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC | 38 | 86 | +48 |
-| Ausência de aprovação formal do plano de TIC | 65 | 87 | +22 |
-| Inexistência ou fragilidade do inventário de ativos de TIC | 85 | 106 | +21 |
-| Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC | 89 | 108 | +19 |
-| Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária | 89 | 108 | +19 |
-| Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC | 85 | 99 | +14 |
-| Comitê de TIC ou instância equivalente não instituído formalmente | 75 | 86 | +11 |
-| Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação | 82 | 93 | +11 |
-| Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores | 101 | 112 | +11 |
+| Contratações de TIC sem análise prévia e aprovação técnica da área de TIC | 38 | 86 | +48 |
+| Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente | 70 | 94 | +24 |
+| Ausência de aprovação formal do plano de TIC | 10 | 29 | +19 |
+| Inexistência ou fragilidade de processo formal e padronizado para o planejamento das contratações de TIC | 71 | 87 | +16 |
+| Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização | 75 | 86 | +11 |
+| Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação | 82 | 93 | +11 |
 | Inexistência ou insuficiência do catálogo de serviços de TIC | 99 | 110 | +11 |
+| Ausência de objetivos, indicadores ou metas para a gestão de TIC | 87 | 96 | +9 |
+| Comitê de TIC ou instância equivalente sem atuação efetiva comprovada | 15 | 23 | +8 |
+| Plano de TIC sem alinhamento adequado ao planejamento institucional | 11 | 18 | +7 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base na execução comparativa dos procedimentos de auditoria)</div>
 
-As organizações com maior acréscimo de situações inconformes foram **SEFAZ** (+11), **DETRAN** (+10), **SES** (+10), **CGE** (+10), **RIOPREVIDENCIA** (+8), **FAPERJ** (+7) e **IEEA** (+7). Em termos de achados, o maior acréscimo ocorreu na **SEFAZ**, que passou de 3 para 6 achados. Também se destacaram **DETRAN**, **RJPREV**, **PGE** e **CEPERJ**, com acréscimo de 2 achados cada.
+As organizações com maior acréscimo de situações inconformes foram **SEFAZ** (+11), **SES** (+9), **DETRAN** (+7), **TERESÓPOLIS** (+7), **CGE** (+6) e **SEEDUC** (+6). Em termos de achados, **CGE**, **DETRAN**, **IPEM**, **SEFAZ**, **SES** e **TJRJ** apresentaram acréscimo de duas marcações cada.
 
 Esse resultado demonstra que a avaliação de evidências teve dupla função. No iGovTI, reduziu a pontuação quando práticas declaradas não foram comprovadas. Na execução dos procedimentos de auditoria, ampliou a identificação de inconformidades, especialmente em temas que exigem documentação institucionalizada e rastreável. Assim, o cenário pós-evidência representa diagnóstico mais rigoroso e mais aderente à comprovação documental disponível.
 
@@ -239,6 +239,6 @@ Sob a perspectiva do relatório consolidado, a avaliação de evidências aument
 
 A avaliação de evidências foi determinante para o resultado intermediário pós-evidência do iGovTI 2026. Sem essa etapa, a média do índice seria **0,235**; com a validação documental, a média pós-evidência foi **0,184**. A diferença decorreu de **1.964 alterações efetivas** em respostas de **103 organizações**, com redução no iGovTI de **90 organizações** e deslocamento de **18 organizações** para níveis inferiores de maturidade.
 
-Os resultados demonstram que a etapa de validação documental não foi acessória. Ela alterou materialmente a leitura do cenário de governança e gestão de tecnologia da informação, sobretudo em serviços de TI, planejamento de TI, processos de segurança da informação e contratações de TI. Também ampliou a matriz de achados, com acréscimo de **27 marcações de achados por auditado** e **253 situações inconformes** quando comparado o cenário de autodeclaração saneada com o cenário validado por evidências. Dessa forma, o resultado pós-evidência e os achados correspondentes devem ser compreendidos como produtos intermediários apurados a partir de respostas submetidas a teste de consistência documental e da análise probatória registrada nas fontes de informação. Os efeitos posteriores dos comentários do gestor são tratados em anexo próprio.
+Os resultados demonstram que a etapa de validação documental não foi acessória. Ela alterou materialmente a leitura do cenário de governança e gestão da tecnologia da informação, sobretudo em serviços de TIC, planejamento de TIC e contratações de TIC. Também ampliou a matriz de achados, com acréscimo de **37 marcações de achados por auditado** e **206 situações inconformes** quando comparado o cenário de autodeclaração saneada com o cenário validado por evidências. Dessa forma, o resultado pós-evidência e os achados correspondentes devem ser compreendidos como produtos intermediários apurados a partir de respostas submetidas a teste de consistência documental e da análise probatória registrada nas fontes de informação. Os efeitos posteriores dos comentários do gestor são tratados em anexo próprio.
 
 Essa conclusão reforça a necessidade de que as organizações aprimorem não apenas a execução das práticas de governança e gestão de TI, mas também sua formalização, documentação, atualização e capacidade de comprovação perante instâncias de controle.

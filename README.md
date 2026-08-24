@@ -59,7 +59,7 @@ Os principais produtos do trabalho são:
 - `01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md`: matriz de planejamento em formato estruturado.
 - `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-01-pos-ajuste-inicial.xlsx`: base após os ajustes iniciais.
 - `02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx`: base após ajustes decorrentes da avaliação de evidências.
-- `02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx`: matriz que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos.
+- `02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx`: mapa revisado e vigente, que liga fontes, procedimentos, situações encontradas, achados e encaminhamentos. O arquivo `mapa-verificacao-achados.xlsx` preserva a versão histórica empregada nos relatórios preliminares.
 - `02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json`: resultado compacto da execução dos procedimentos de auditoria.
 - `02-Execucao/05-Comentarios_Gestor/02-Avaliacao_Comentarios_Gestor/`: avaliações individuais, pareceres consolidados, ajustes e painel saneado dos comentários do gestor.
 - `02-Execucao/05-Comentarios_Gestor/03-Produtos_Pos_Comentarios/`: quadro revisável e contexto dos produtos pós-comentários.
@@ -188,7 +188,7 @@ A matriz de procedimentos traduz a matriz de planejamento em verificações exec
 Artefato principal:
 
 ```text
-02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx
+02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx
 ```
 
 O repositório usa a skill local `preencher-matriz-procedimentos-auditoria` para apoiar essa geração a partir da matriz de planejamento. A matriz de achados em DOCX é gerada por:
@@ -655,7 +655,7 @@ A execução automatizada cruza o banco de auditados, a matriz de procedimentos 
 ```bash
 scripts/.venv/bin/python scripts/executa_auditoria.py \
   --auditados 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
-  --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx \
+  --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx \
   --fontes \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \
