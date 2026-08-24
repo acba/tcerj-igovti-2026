@@ -34,7 +34,7 @@ EFEITOS = {
         ("Governança meramente formal", "Inexistência de reuniões, deliberações e acompanhamento efetivo das decisões relacionadas à TIC."),
     ],
     "A3": [
-        ("Atuação reativa", "Seleção e priorização de iniciativas de TIC sem processo formal e sem critérios objetivos."),
+        ("Atuação reativa", "Planejamento de TIC sem processo formal e sem participação adequada das áreas demandantes."),
         ("Baixa legitimidade institucional", "Plano de TIC sem aprovação formal suficiente para orientar projetos, orçamento e contratações."),
         ("Desalinhamento institucional", "Execução de ações de TIC com baixo valor para os objetivos e resultados da organização."),
         ("Ineficiência na alocação de recursos", "Aquisições reativas, não priorizadas ou desconectadas do orçamento e do plano de contratações."),
@@ -42,7 +42,7 @@ EFEITOS = {
     ],
     "A4": [
         ("Subdimensionamento da força de trabalho", "Ausência de base estruturada para estimar, alocar e acompanhar a capacidade necessária de pessoal de TIC e segurança da informação."),
-        ("Perda de capacidade institucional", "Dificuldade para atrair, designar, desenvolver e reter profissionais com competências compatíveis com as responsabilidades exercidas."),
+        ("Baixa clareza de responsabilidades", "Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação."),
         ("Execução insuficiente de funções críticas", "Risco de incapacidade para planejar, gerir, proteger, contratar, fiscalizar e sustentar serviços e ativos de TIC."),
         ("Dependência excessiva de terceiros", "Perda de conhecimento, redução da governabilidade e risco de descontinuidade dos serviços quando não houver capacidade interna mínima de coordenação e fiscalização."),
     ],
@@ -73,7 +73,7 @@ def carregar_modulo_matriz(repo: Path):
 
 def carregar_achados(repo: Path):
     module = carregar_modulo_matriz(repo)
-    matriz = repo / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md"
+    matriz = repo / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md"
     text = matriz.read_text(encoding="utf-8")
     result = []
     for section in module.split_sections(text):
