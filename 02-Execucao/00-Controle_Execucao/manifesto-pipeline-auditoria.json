@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pipeline": "igovti-2026",
   "created_at": "2026-07-19T01:38:08.602356+00:00",
-  "updated_at": "2026-08-24T10:55:56.682029+00:00",
+  "updated_at": "2026-08-24T12:46:23.664104+00:00",
   "status": "running",
   "stages": {
     "01-ajustes-iniciais": {
@@ -2079,7 +2079,7 @@
       "title": "Gerando relatório consolidado final",
       "scenario": "03-pos-comentarios-gestor",
       "status": "completed",
-      "started_at": "2026-08-24T10:55:46.428390+00:00",
+      "started_at": "2026-08-24T12:46:11.349061+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_relatorio_consolidado.py",
@@ -2112,8 +2112,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md",
           "exists": true,
-          "size": 129265,
-          "sha256": "ee445ee128e4101ea94b42cf09595c9d9c9b19f85f8a8c8b7b92bbc794a816a2"
+          "size": 128539,
+          "sha256": "603f5c18b856adff672428f8f242a87a12ca61a4c2d81941a952031581c6324e"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/dados/diagnostico-transversal-igovti-2026.json",
@@ -2160,14 +2160,14 @@
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/25-relatorio-consolidado.log",
-      "finished_at": "2026-08-24T10:55:56.682003+00:00",
+      "finished_at": "2026-08-24T12:46:23.664056+00:00",
       "returncode": 0,
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx",
           "exists": true,
-          "size": 4345531,
-          "sha256": "0d3aab1f26781687c4f3c75efa847a68212925de4535f2e180b4c726a6d31be8"
+          "size": 4345385,
+          "sha256": "56dd7d1057a70746f8f6826f174e1220d6d6735095381c2764b4e68a1909c496"
         }
       ],
       "output_directories": []

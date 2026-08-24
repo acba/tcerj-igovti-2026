@@ -182,10 +182,10 @@ Em seguida, as respostas e evidências foram analisadas para verificar se a docu
 
 Com a base ajustada pós-avaliação dos comentários do gestor, foi calculado o iGovTI 2026. O índice é medido em escala de 0 a 1. Para calcular a nota, as respostas categóricas foram convertidas em coeficientes numéricos: Não adota = 0,00; Há decisão formal ou plano aprovado para adotá-lo = 0,05; Adota em menor parte = 0,15; Adota parcialmente = 0,50; e Adota em maior parte ou totalmente = 1,00. Nas questões com itens de detalhamento, a pontuação da questão principal sofre deduções proporcionais aos itens não atendidos. Depois disso, os valores são consolidados por agregação ponderada.
 
-O índice final é composto por dois blocos principais, conforme sintetizado na [@fig:composicao_igovti_2026]: Governança de TIC, com peso de 47,8%, formado por quatro questões de agregação direta; e Gestão de TIC (iGestTI), com peso de 52,2%, estruturado em seis dimensões operacionais que consolidam vinte questões principais ponderadas.
-
 ![Composição do iGovTI 2026](igovti_2026_composicao_infografico.png){#fig:composicao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+O índice final é composto por dois blocos principais, conforme sintetizado na [@fig:composicao_igovti_2026]: Governança de TIC, com peso de 47,8%, formado por quatro questões de agregação direta; e Gestão de TIC (iGestTI), com peso de 52,2%, estruturado em seis dimensões operacionais que consolidam vinte questões principais ponderadas.
 
 Com base na pontuação consolidada, cada organização com resposta válida foi classificada em um de quatro níveis de maturidade: Inexpressivo (0,00 ≤ iGovTI < 0,15), Iniciando (0,15 ≤ iGovTI < 0,40), Intermediário (0,40 ≤ iGovTI < 0,70) e Aprimorado (0,70 ≤ iGovTI ≤ 1,00).
 
