@@ -67,7 +67,7 @@ Os resultados finais apresentados neste relatório incorporam os ajustes decorre
 
 #### O que o TCE-RJ encontrou?
 
-A fiscalização constatou cenário de baixa maturidade e fragilidades recorrentes na governança e gestão de TIC fluminense. A média do iGovTI 2026 foi de 0,189 (mediana de 0,136), com 87,6% (99 de 113 respondentes) das organizações nos níveis mais baixos (53,1% Inexpressivo e 34,5% Iniciando). Apenas 9 atingiram o nível Intermediário e 5 o Aprimorado.
+A fiscalização constatou cenário de baixa maturidade e fragilidades recorrentes na governança e gestão de TIC fluminense. A média do iGovTI 2026 foi de 0,189 (mediana de 0,136), com 87,6% (99 de 113 respondentes) das organizações nos níveis mais baixos (53,1% Inexpressivo e 34,5% Iniciando). Apenas 9 atingiram o nível Intermediário e 5 alcançaram o nível Aprimorado.
 
 Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas após os ajustes iniciais indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados finais não permitem afirmar que ocorreu melhora ou piora geral. A Estrutura de Segurança da Informação foi o único componente com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
 
@@ -120,9 +120,7 @@ Um importante marco nesse tema foi o levantamento realizado no âmbito do Proces
 
 Posteriormente, no ano de 2023, o Tribunal realizou duas auditorias de conformidade com o escopo de verificar as políticas de governança e gestão de TI como norteadoras das contratações de TIC. A primeira delas, autuada no Processo nº 205.089-9/2023, avaliou a maturidade dessas práticas em nível municipal, alcançando as prefeituras de Maricá, Rio das Ostras, Saquarema e Volta Redonda. A segunda, processada sob o nº 109.009-4/2023, concentrou-se nas organizações que compõem o Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC) do Executivo Estadual.
 
-Paralelamente às avaliações gerais de governança, este Tribunal realizou fiscalizações dedicadas a aspectos específicos de segurança. Nesse sentido, as auditorias de conformidade dos Processos nº 105.895-5/2024 e 107.097-5/2025 verificaram a adoção de controles e a aderência das organizações públicas estaduais às boas práticas de segurança da informação, como a ISO 27001/2022 e os Controles CIS v8.
-
-Em razão de a segurança da informação e a segurança cibernética terem sido objeto de fiscalizações específicas recentes a presente auditoria não formulou questão de auditoria nem achado autônomo destinado a avaliar a implementação ou a efetividade dos controles e processos específicos desses temas.
+Paralelamente às avaliações gerais de governança, este Tribunal realizou fiscalizações dedicadas a aspectos específicos de segurança. Nesse sentido, as auditorias de conformidade dos Processos nº 105.895-5/2024, 107.097-5/2025 e 224.058-1/2025 verificaram a adoção de controles e a aderência das organizações públicas estaduais e prefeituras às boas práticas de segurança da informação, como a ISO 27001/2022 e os Controles CIS v8. Em razão de a segurança da informação e a segurança cibernética terem sido objeto dessas fiscalizações específicas recentes, a presente auditoria não formulou questão de auditoria nem achado autônomo destinado a avaliar a implementação ou a efetividade dos controles e processos específicos desses temas. Permaneceram no escopo, contudo, aspectos relacionados à capacidade institucional de segurança da informação e à gestão de incidentes, bem como as práticas consideradas no diagnóstico agregado do iGovTI 2026.
 
 ## 2.2 Objetivo e escopo
 
@@ -144,6 +142,8 @@ A questão geral foi desdobrada em seis questões específicas, que estruturaram
 Cada questão específica corresponde ao achado de mesmo número apresentado na Seção 4.3. A cadeia de rastreabilidade do trabalho é completada pelos critérios sintetizados na Seção 2.4, pelos procedimentos e pelo tratamento das evidências descritos na Seção 2.5 e detalhados nos anexos, e pelos encaminhamentos consolidados no Capítulo 7 e individualizados nos relatórios das organizações auditadas.
 
 O escopo abrangeu 119 organizações, sendo 84 organizações estaduais de diferentes poderes e naturezas jurídicas e 35 prefeituras municipais. Desse total, 113 (cento e treze) apresentaram resposta válida ao questionário e foram consideradas nos resultados do iGovTI e nos achados consolidados. As seis organizações sem resposta válida foram tratadas como não respondentes. O período de execução dos trabalhos de campo ocorreu entre fevereiro e julho de 2026.
+
+Na esfera estadual, a seleção compreendeu as organizações integrantes do Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC), acrescidas das organizações pertencentes aos demais Poderes e dos órgãos autônomos, a exemplo do Tribunal de Justiça do Estado do Rio de Janeiro (TJRJ), da Defensoria Pública do Estado do Rio de Janeiro (DPGE), do Ministério Público do Estado do Rio de Janeiro (MPRJ), do Tribunal de Contas do Estado do Rio de Janeiro (TCE-RJ) e da Assembleia Legislativa do Estado do Rio de Janeiro (ALERJ). Na esfera municipal, foram selecionadas as prefeituras com maiores gastos em TIC, conforme levantamentos internos da Equipe de Auditoria.
 
 ## 2.3 Limitações
 
@@ -180,7 +180,7 @@ O questionário foi disponibilizado em meio eletrônico, por meio do sistema *Li
 
 Após a coleta, a base de respostas passou por saneamento e ajustes registrados pela Equipe de Auditoria, incluindo retificações solicitadas pelos auditados, correções de inconsistências e tratamento de problemas identificados no questionário. Essa base constitui o cenário-base de autodeclaração: preserva a visão declarada pelo auditado, após os ajustes iniciais, mas ainda sem a influência dos juízos da Equipe de Auditoria sobre a suficiência das evidências.
 
-Em seguida, as respostas e evidências foram analisadas para verificar se a documentação apresentada sustentava as práticas declaradas. Quando a evidência não comprovou a resposta afirmada, a resposta foi ajustada ou considerada não conforme, conforme a regra aplicável ao item avaliado. O recálculo do índice e a reexecução dos procedimentos sobre essa base formaram o cenário pós-avaliação de evidências. Depois da apreciação dos comentários dos gestores e das evidências complementares aceitas, novo recálculo e nova execução formaram o cenário pós-comentários do gestor, adotado para as conclusões e os encaminhamentos finais.
+Em seguida, as respostas e evidências foram analisadas para verificar se a documentação apresentada sustentava as práticas declaradas. Quando a evidência não comprovou a resposta afirmada, a resposta foi ajustada ou considerada não conforme, de acordo com a regra aplicável ao item avaliado. O recálculo do índice e a reexecução dos procedimentos sobre essa base formaram o cenário pós-avaliação de evidências. Depois da apreciação dos comentários dos gestores e das evidências complementares aceitas, novo recálculo e nova execução formaram o cenário pós-comentários do gestor, adotado para as conclusões e os encaminhamentos finais.
 
 Com a base ajustada pós-avaliação dos comentários do gestor, foi calculado o iGovTI 2026. O índice é medido em escala de 0 a 1. Para calcular a nota, as respostas categóricas foram convertidas em coeficientes numéricos: Não adota = 0,00; Há decisão formal ou plano aprovado para adotá-lo = 0,05; Adota em menor parte = 0,15; Adota parcialmente = 0,50; e Adota em maior parte ou totalmente = 1,00. Nas questões com itens de detalhamento, a pontuação da questão principal sofre deduções proporcionais aos itens não atendidos. Depois disso, os valores são consolidados por agregação ponderada.
 
@@ -202,6 +202,8 @@ Depois da apreciação dos comentários e das evidências complementares, a Equi
 ## 2.6 Benefícios estimados
 
 Espera-se que a implementação dos encaminhamentos decorrentes desta fiscalização contribua para o aprimoramento da governança e da gestão de TIC nas organizações avaliadas, especialmente quanto à estrutura, ao planejamento, à capacidade institucional, à gestão de serviços e às contratações de tecnologia.
+
+Para a sociedade fluminense, o fortalecimento dessas capacidades pode contribuir para maior continuidade, confiabilidade e eficiência dos serviços públicos apoiados por tecnologia, para a redução de falhas e interrupções e para a utilização mais racional dos recursos públicos destinados à TIC.
 
 A efetiva obtenção desses benefícios dependerá das medidas adotadas pelas organizações e poderá ser verificada em ações posteriores de controle.
 
@@ -356,7 +358,7 @@ Os indicadores descritivos apresentados na [@tbl:estatisticas_componentes_igovti
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos três indicadores. O resultado em Gestão de TIC superou o de Governança de TIC em 75 organizações (66,4%); o movimento inverso ocorreu em 33 (29,2%); e houve igualdade em 5 (4,4%). O padrão indica que, para a maior parte das organizações, as capacidades operacionais de gestão se situaram em patamar superior ao dos mecanismos de direção, monitoramento e controle exercidos pela alta administração. Essa diferença, contudo, não elimina a baixa maturidade da gestão: 96 organizações (85,0%) também obtiveram resultado em Gestão de TIC inferior a 0,40.
+A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos três indicadores. O resultado em Gestão de TIC superou o de Governança de TIC em 75 organizações (66,4%); o movimento inverso ocorreu em 33 (29,2%); e houve igualdade em 5 (4,4%). O padrão indica que, para a maior parte das organizações, as capacidades operacionais de gestão se situaram em patamar superior ao dos mecanismos de direção, monitoramento e controle observados no componente Governança de TIC. Essa diferença, contudo, não elimina a baixa maturidade da gestão: 96 organizações (85,0%) também obtiveram resultado em Gestão de TIC inferior a 0,40.
 
 ![Distribuição do iGovTI 2026 e dos componentes Governança de TIC e Gestão de TIC](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -622,7 +624,7 @@ A [@fig:institucionalizacao_ia] evidencia o descompasso entre a utilização ins
 
 Conforme demonstra a [@fig:institucionalizacao_ia], o principal risco identificado decorre da combinação entre a disponibilidade crescente de ferramentas de IA, especialmente generativa, e a baixa formalização de inventários, diretrizes e controles institucionais.
 
-Esse cenário amplia a possibilidade de uso difuso dessas ferramentas sem regras para dados em *prompts*, avaliação prévia de riscos, validação, transparência e revisão humana, e recomenda atuação preventiva e orientativa, sem prejuízo de fiscalizações específicas quando o uso de IA envolver dados sensíveis, serviços críticos, contratações relevantes ou decisões que afetem direitos de cidadãos.
+Esse cenário amplia a possibilidade de uso difuso dessas ferramentas sem regras para dados em *prompts*, avaliação prévia de riscos, validação, transparência e revisão humana. Diante desse contexto, mostra-se pertinente a adoção de abordagem preventiva e orientativa, sem prejuízo de fiscalizações específicas quando o uso de IA envolver dados sensíveis, serviços críticos, contratações relevantes ou decisões que afetem direitos de cidadãos.
 
 A análise detalhada consta no anexo "AN09 – Cenário de utilização de IA no ERJ".
 
@@ -674,7 +676,7 @@ Foram registradas 1.471 manifestações individualizadas sobre situações encon
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Os resultados demonstram elevada convergência dos gestores com o diagnóstico preliminar, mas o reconhecimento das fragilidades não equivale à sua correção. Apenas 1,7% das manifestações declarou atendimento concluído, enquanto 42,6% reconheceu a situação sem indicar medida adotada e 39,7% informou providências ainda em curso. As medidas anunciadas deverão, portanto, ser acompanhadas quanto à formalização, ao prazo, à abrangência e à efetiva implementação.
+Os resultados demonstram elevada convergência dos gestores com o diagnóstico preliminar, mas o reconhecimento das fragilidades não equivale à sua correção. Apenas 1,7% das manifestações declararam atendimento concluído, enquanto 42,6% reconheceram a situação sem indicar medida adotada e 39,7% informaram providências ainda em curso. As medidas anunciadas deverão, portanto, ser acompanhadas quanto à formalização, ao prazo, à abrangência e à efetiva implementação.
 
 A leitura estruturada dos campos livres identificou como temas mais recorrentes: formalização, normas e governança; ferramentas, ativos e processos operacionais; planejamento e planos de ação; força de trabalho e competências; documentos e evidências adicionais; e orçamento, recursos e contratações. Também foram mencionadas dependência de terceiros ou de estruturas compartilhadas e solicitações de orientação.
 
