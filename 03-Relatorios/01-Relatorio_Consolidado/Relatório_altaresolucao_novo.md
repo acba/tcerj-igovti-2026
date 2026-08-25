@@ -16,7 +16,7 @@ toc-title: SUMÁRIO
 | Modalidade: | AUDITORIA DE CONFORMIDADE |
 | Forma de autorização: | ORDINÁRIA |
 | Ato originário: | PROCESSO TCE-RJ nº 303.389-0/2025 |
-| Jurisdicionados: | 84 organizações estaduais (AGENERSA, AGERIO, AGETRANSP, ALERJ, CEASA, CECIERJ, CEDAE, CEHAB, CENTRAL, CEPERJ, CGE, CODERTE, CODIN, DEGASE, DER-RJ, DETRAN, DETRO, DPGE, DRM, EMATER, EMOP, FAETEC, FAPERJ, FIA, FIPERJ, FLXIII, FMIS, FSERJ, FSC, FTM, FUNARJ, GSI, IEEA, INEA, IOERJ, IPEM, IRM, ISP, ITERJ, IVB, JUCERJA, LOTERJ, MPRJ, PESAGRO, PGE, PROCON, PRODERJ, RIOPREVIDENCIA, RIOTRILHOS, RJPREV, SEAP, SEAPPA, SECC, SECEC, SECID, SECTI, SEDCON, SEDEC, SEDEICS, SEDSDH, SEEDUC, SEEL, SEENEMAR, SEFAZ, SEGOV, SEHAB, SEIJES, SEINFRA, SEPLAG, SEPM, SEPOL, SERGB, SES, SESP, SETD, SETRAB, SETRANS, SETUR, SUDERJ, TCE-RJ, TJRJ, TURISRIO, UENF e UERJ) e 35 prefeituras municipais (Angra dos Reis, Araruama, Armação dos Búzios, Arraial do Cabo, Barra do Piraí, Belford Roxo, Cabo Frio, Campos dos Goytacazes, Casimiro de Abreu, Duque de Caxias, Guapimirim, Itaguaí, Japeri, Macaé, Magé, Maricá, Mesquita, Niterói, Nova Friburgo, Nova Iguaçu, Paraty, Petrópolis, Porto Real, Quatis, Queimados, Quissamã, Rio das Ostras, São Gonçalo, São João da Barra, São João de Meriti, São Pedro da Aldeia, Saquarema, Seropédica, Teresópolis e Volta Redonda). |
+| Jurisdicionados: | 84 organizações estaduais (AGENERSA, AGERIO, AGETRANSP, ALERJ, CEASA, CECIERJ, CEDAE, CEHAB, CENTRAL, CEPERJ, CGE, CODERTE, CODIN, DEGASE, DERRJ, DETRAN, DETRO, DPGE, DRM, EMATER, EMOP, FAETEC, FAPERJ, FIA, FIPERJ, FLXIII, FMIS, FS, FSC, FTM, FUNARJ, GSI, IEEA, INEA, IOERJ, IPEM, IRM, ISP, ITERJ, IVB, JUCERJA, LOTERJ, MPERJ, PESAGRO, PGE, PROCON, PRODERJ, RIOPREVIDENCIA, RIOTRILHOS, RJPREV, SEAP, SEAPPA, SECC, SECEC, SECID, SECTI, SEDCON, SEDEC, SEDEICS, SEDSDH, SEEDUC, SEEL, SEENEMAR, SEFAZ, SEGOV, SEHAB, SEIJES, SEINFRA, SEPLAG, SEPM, SEPOL, SERGB, SES, SESP, SETD, SETRAB, SETRANS, SETUR, SUDERJ, TCE-RJ, TJRJ, TURISRIO, UENF e UERJ) e 35 prefeituras municipais (Angra dos Reis, Araruama, Armação dos Búzios, Arraial do Cabo, Barra do Piraí, Belford Roxo, Cabo Frio, Campos dos Goytacazes, Casimiro de Abreu, Duque de Caxias, Guapimirim, Itaguaí, Japeri, Macaé, Magé, Maricá, Mesquita, Niterói, Nova Friburgo, Nova Iguaçu, Paraty, Petrópolis, Porto Real, Quatis, Queimados, Quissamã, Rio das Ostras, São Gonçalo, São João da Barra, São João de Meriti, São Pedro da Aldeia, Saquarema, Seropédica, Teresópolis e Volta Redonda). |
 | Objetivo da fiscalização: | Avaliar o grau de adoção dos jurisdicionados às boas práticas de governança e gestão de TI. |
 | Ofícios de apresentação: | AUD/SGE/GAP 3232/25 a 3241/25, 3243/25 a 3268/25 todos de 06/08/2025. |
 | Período abrangido: | janeiro/24 a julho/26 |
@@ -143,7 +143,7 @@ Cada questão específica corresponde ao achado de mesmo número apresentado na 
 
 O escopo abrangeu 119 organizações, sendo 84 organizações estaduais de diferentes poderes e naturezas jurídicas e 35 prefeituras municipais. Desse total, 113 (cento e treze) concluíram e submeteram resposta válida ao questionário e foram consideradas nos resultados do iGovTI e nos achados consolidados. As seis organizações sem resposta válida foram tratadas separadamente; a EMOP iniciou o preenchimento, mas não concluiu nem submeteu o questionário. O período de execução dos trabalhos de campo ocorreu entre fevereiro e julho de 2026.
 
-Na esfera estadual, a seleção compreendeu as organizações integrantes do Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC), acrescidas das organizações pertencentes aos demais Poderes e dos órgãos autônomos, a exemplo do Tribunal de Justiça do Estado do Rio de Janeiro (TJRJ), da Defensoria Pública do Estado do Rio de Janeiro (DPGE), do Ministério Público do Estado do Rio de Janeiro (MPRJ), do Tribunal de Contas do Estado do Rio de Janeiro (TCE-RJ) e da Assembleia Legislativa do Estado do Rio de Janeiro (ALERJ). Na esfera municipal, foram selecionadas as prefeituras com maiores gastos em TIC, conforme levantamentos internos da Equipe de Auditoria.
+Na esfera estadual, a seleção compreendeu as organizações integrantes do Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC), acrescidas das organizações pertencentes aos demais Poderes e dos órgãos autônomos, a exemplo do Tribunal de Justiça do Estado do Rio de Janeiro (TJRJ), da Defensoria Pública do Estado do Rio de Janeiro (DPGE), do Ministério Público do Estado do Rio de Janeiro (MPERJ), do Tribunal de Contas do Estado do Rio de Janeiro (TCE-RJ) e da Assembleia Legislativa do Estado do Rio de Janeiro (ALERJ). Na esfera municipal, foram selecionadas as prefeituras com maiores gastos em TIC, conforme levantamentos internos da Equipe de Auditoria.
 
 ## 2.3 Limitações
 
@@ -304,7 +304,7 @@ Esta seção apresenta os resultados consolidados obtidos na avaliação do Índ
 
 A mensuração da maturidade em governança e gestão de tecnologia da informação e comunicação, realizada junto a 113 organizações jurisdicionadas da Administração Pública Estadual e Municipal do Estado do Rio de Janeiro, revela um cenário predominantemente incipiente e marcado por fragilidades recorrentes de formalização, coordenação, planejamento, capacidade institucional e controle operacional da TIC.
 
-A análise do Índice de Governança e Gestão de TI (iGovTI 2026) demonstra concentração de organizações com avaliações baixas. Esse resultado indica que, para a maioria das organizações avaliadas, os mecanismos de direção e os processos operacionais de tecnologia ainda não apresentam grau de formalização e efetividade compatível com o nível mínimo esperado de maturidade institucional.
+A análise do Índice de Governança e Gestão de TI (iGovTI 2026) demonstra concentração de organizações com avaliações baixas. Esse resultado indica que, para a maioria das organizações avaliadas, os mecanismos de direção e os processos operacionais de tecnologia ainda não apresentam adoção e formalização em nível compatível com o mínimo esperado de maturidade institucional.
 
 ![Distribuição das organizações por nível de maturidade do iGovTI 2026](igovti_2026_distribuicao_maturidade.png){#fig:distribuicao_maturidade_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -335,7 +335,7 @@ A avaliação das evidências influenciou materialmente os resultados. Da base p
 
 O cenário-base é relevante como referência da percepção institucional dos auditados, mas não constitui asseguração independente da existência ou da efetividade das práticas. Para as conclusões, os achados e os encaminhamentos deste relatório, prevalece o cenário pós-comentários do gestor.
 
-[^impacto_evidencias_igovti]: A comparação considerou a base após os ajustes iniciais de saneamento e a base resultante da avaliação das evidências. Foram efetivamente alteradas 1.964 células de respostas de 103 organizações. A análise detalhada consta do Anexo "AN07 – Impacto da avaliação das evidências".
+[^impacto_evidencias_igovti]: A comparação considerou a base após os ajustes iniciais de saneamento e a base resultante da avaliação das evidências. Foram efetivamente alteradas 1.964 células de respostas de 103 organizações. A análise detalhada consta do Anexo AN07 – Impacto da avaliação das evidências.
 
 A distribuição contínua da [@fig:distribuicao_continua_igovti_2026] complementa a classificação por faixas e permite observar a concentração dos resultados, os limites de maturidade e a distância entre a mediana e os valores mais elevados. A leitura conjunta das duas figuras demonstra que a baixa maturidade não decorre apenas do enquadramento por faixas, mas também da distribuição efetiva das notas, concentrada nos intervalos inferiores da escala.
 
@@ -441,7 +441,7 @@ Apesar da posição relativa, nenhuma dessas práticas alcançou média igual ou
 
 As menores médias foram registradas na elaboração do catálogo de serviços e no monitoramento dos níveis de serviço, no recebimento de serviços de auditoria interna pela instância superior de governança, na classificação e no tratamento de informações, no monitoramento da gestão de TIC pela alta administração e na gestão de configuração e ativos. As médias variaram de 0,103 a 0,142. Em três dessas práticas — catálogo e níveis de serviço, auditoria interna e monitoramento pela alta administração — a mediana foi igual a zero, indicando que pelo menos metade das organizações não alcançou pontuação nesses itens.
 
-O contraste sugere que instrumentos formais, como política e plano de TIC, estão relativamente mais disseminados do que práticas que exigem execução contínua, acompanhamento da alta administração, avaliação independente e manutenção sistemática de informações operacionais. Esse resultado reforça o diagnóstico de que o principal desafio não se limita à elaboração de documentos, mas envolve sua utilização efetiva para dirigir, monitorar e controlar a TIC.
+O contraste sugere que instrumentos formais, como política e plano de TIC, estão relativamente mais disseminados do que práticas que exigem execução contínua, acompanhamento da alta administração, avaliação independente e manutenção sistemática de informações operacionais. Esse resultado reforça o diagnóstico de que o principal desafio não se limita à elaboração de documentos, mas envolve sua utilização regular para dirigir, monitorar e controlar a TIC.
 
 ## 4.2. Comparação longitudinal entre 2023 e 2026
 
@@ -507,7 +507,7 @@ A execução dos mesmos procedimentos nos três cenários permite distinguir a v
 
 A validação documental ampliou a identificação de fragilidades em relação ao cenário-base, com acréscimo de 37 marcações e 206 situações.[^impacto_evidencias_achados] O contraditório reduziu o resultado para 591 marcações por organização e achado e 1.419 situações. A síntese e as narrativas seguintes refletem esse estado final.
 
-[^impacto_evidencias_achados]: Na execução dos procedimentos de auditoria sobre a base pós-avaliação de evidências, foram registradas 602 marcações de achados por auditado e 1.458 situações inconformes. A metodologia, os resultados por organização e as limitações da comparação constam do Anexo "AN07 – Impacto da avaliação das evidências".
+[^impacto_evidencias_achados]: Na execução dos procedimentos de auditoria sobre a base pós-avaliação de evidências, foram registradas 602 marcações de achados por auditado e 1.458 situações inconformes. A metodologia, os resultados por organização e as limitações da comparação constam do Anexo AN07 – Impacto da avaliação das evidências.
 
 : Síntese quantitativa dos achados e situações inconformes {#tbl:sintese_achados_auditoria#}
 
@@ -623,7 +623,7 @@ Conforme demonstra a [@fig:institucionalizacao_ia], o principal risco identifica
 
 Esse cenário amplia a possibilidade de uso difuso dessas ferramentas sem regras para dados em *prompts*, avaliação prévia de riscos, validação, transparência e revisão humana. Diante desse contexto, mostra-se pertinente a adoção de abordagem preventiva e orientativa, sem prejuízo de fiscalizações específicas quando o uso de IA envolver dados sensíveis, serviços críticos, contratações relevantes ou decisões que afetem direitos de cidadãos.
 
-A análise detalhada consta no anexo "AN09 – Cenário de utilização de IA no ERJ".
+A análise detalhada consta do Anexo AN09 – Cenário de utilização de IA no ERJ.
 
 ## 4.5. Ausência de resposta ao questionário e necessidade de apuração específica
 
@@ -633,7 +633,7 @@ A comunicação inicial ocorreu mediante envio do ofício de apresentação e do
 
 Na fase de comentários do gestor, foi encaminhado o TSID 3 também às organizações sem resposta válida, para que pudessem confirmar a não participação, prestar esclarecimentos ou apresentar justificativas. EMOP e PESAGRO concluíram o questionário eletrônico dessa etapa e confirmaram a ausência de resposta válida. A SESP manifestou-se por e-mail e pelo Ofício SESP-GABSEC nº 1.067, recebido em 21/7/2026. No conjunto dessa documentação, informou que a servidora anteriormente indicada como ponto focal havia se desvinculado da Secretaria, que a demanda somente fora encaminhada internamente em 17/7/2026 e que, quando a pendência foi identificada, o link estava expirado; indicou novo ponto focal e solicitou novo prazo e acesso. A Equipe informou à SESP, em 24/7/2026, que os prazos haviam se encerrado, mas que a manifestação seria considerada no relatório final. CEHAB, SEDCON e SEPOL não apresentaram esclarecimentos nessa etapa.
 
-Os registros de envio, ciência e recebimento das comunicações, com indicação de data e hora, encontram-se reunidos no Anexo AN10 – Comunicações da fiscalização e registros de ciência. Em conjunto com de respostas coletadas, esses elementos justificam a abertura de processos apartados para apuração individualizada das circunstâncias da ausência de resposta válida, assegurando-se aos responsáveis a oportunidade de apresentar razões de defesa. A documentação demonstra a ausência de submissão válida, mas não basta, isoladamente, para caracterizar obstrução ou sonegação de informações. A proposta constante do capítulo 7 não pressupõe reconhecimento antecipado de responsabilidade nem aplicação automática de sanção.
+Os registros de envio, ciência e recebimento das comunicações, com indicação de data e hora, encontram-se reunidos no Anexo AN10 – Comunicações da fiscalização e registros de ciência. Em conjunto com os registros das respostas coletadas, esses elementos justificam a abertura de processos apartados para apuração individualizada das circunstâncias da ausência de resposta válida, assegurando-se aos responsáveis a oportunidade de apresentar razões de defesa. A documentação demonstra a ausência de submissão válida, mas não basta, isoladamente, para caracterizar obstrução ou sonegação de informações. A proposta constante do capítulo 7 não pressupõe reconhecimento antecipado de responsabilidade nem aplicação automática de sanção.
 
 \newpage
 
@@ -643,7 +643,7 @@ Visando fortalecer o caráter dialógico da fiscalização e assegurar o contrad
 
 Foram consideradas somente submissões concluídas e, nos casos de reenvio, preservou-se a manifestação mais recente. A consolidação abrangeu os comentários sobre as situações e os encaminhamentos, os pedidos de reavaliação de respostas ajustadas após o exame das evidências e as manifestações das organizações sem resposta válida ao questionário.
 
-As manifestações foram confrontadas com os critérios aplicáveis e o conjunto probatório de evidências enviadas. Todas as manifestações recebidas foram examinadas.
+As manifestações foram confrontadas com os critérios aplicáveis e o conjunto probatório de evidências enviadas. A avaliação técnica individualizada e o exame dos documentos apresentados concentraram-se nas discordâncias, nas declarações de atendimento concluído e nos pedidos de reavaliação de evidências, conforme a metodologia descrita nesta seção.
 
 ## 5.1. Participação e panorama geral
 
@@ -716,7 +716,7 @@ No Achado 2, foram recebidas 148 manifestações, das quais 124 expressaram conc
 ![Manifestações sobre as situações encontradas do Achado 2](../99-Avaliacao_Comentarios_Gestor/img/achado-2-situacoes.png){#fig:comentarios_gestor_achado_2#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A análise técnica deve distinguir a existência formal dos mecanismos de governança de sua atuação efetiva. Atos de instituição ou designação, desacompanhados de registros de deliberações, priorização, acompanhamento e responsabilização, não comprovam necessariamente o funcionamento regular da governança de TIC.
+A análise técnica distinguiu a existência formal dos mecanismos de governança de sua atuação documentalmente demonstrada. Atos de instituição ou designação, desacompanhados de registros de deliberações, priorização, acompanhamento e responsabilização, não comprovaram o funcionamento regular da governança de TIC.
 
 ### 5.2.3. Achado 3 - Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
 
@@ -734,7 +734,7 @@ No Achado 4, foram recebidas 339 manifestações, das quais 305 expressaram conc
 ![Manifestações sobre as situações encontradas do Achado 4](../99-Avaliacao_Comentarios_Gestor/img/achado-4-situacoes.png){#fig:comentarios_gestor_achado_4#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Estudos de dimensionamento e atos de atribuição de cargos ou funções à TIC e à segurança da informação devem ser examinados quanto à vigência, abrangência e aplicação. Alegações de escassez de pessoal, ausência de cargos especializados ou restrição orçamentária contextualizam as dificuldades enfrentadas, mas não afastam automaticamente a insuficiência de capacidade institucional.
+Os estudos de dimensionamento e os atos de atribuição de cargos ou funções à TIC e à segurança da informação foram examinados quanto à vigência, à abrangência e à aplicação. As alegações de escassez de pessoal, ausência de cargos especializados ou restrição orçamentária contextualizaram as dificuldades enfrentadas, mas não afastaram automaticamente a insuficiência de capacidade institucional.
 
 ### 5.2.5. Achado 5 - Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes
 
@@ -743,7 +743,7 @@ No Achado 5, foram recebidas 375 manifestações: uma informou atendimento concl
 ![Manifestações sobre as situações encontradas do Achado 5](../99-Avaliacao_Comentarios_Gestor/img/achado-5-situacoes.png){#fig:comentarios_gestor_achado_5#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Catálogos de serviços, inventários, registros de configuração, definições de níveis de serviço e registros de incidentes devem demonstrar formalização, atualização, abrangência e uso efetivo. Relações incompletas de ativos, controles informais ou documentos sem data e responsabilidade definida devem ser avaliados com cautela, pois podem demonstrar atividade parcial sem comprovar o processo requerido.
+Os catálogos de serviços, inventários, registros de configuração, definições de níveis de serviço e registros de incidentes foram examinados quanto à formalização, à atualização, à abrangência e ao uso regularmente demonstrado. Relações incompletas de ativos, controles informais ou documentos sem data e responsabilidade definida foram avaliados com cautela, pois podem demonstrar atividade parcial sem comprovar o processo requerido.
 
 ### 5.2.6. Achado 6 - Fragilidades na governança técnica da fase preparatória das contratações de TIC
 
@@ -752,7 +752,7 @@ No Achado 6, foram recebidas 236 manifestações: cinco informaram atendimento c
 ![Manifestações sobre as situações encontradas do Achado 6](../99-Avaliacao_Comentarios_Gestor/img/achado-6-situacoes.png){#fig:comentarios_gestor_achado_6#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A análise das discordâncias deve verificar se as contratações de TIC foram submetidas a processo padronizado e proporcional ao risco, à complexidade e ao valor, com participação da área técnica e vínculo demonstrado com o planejamento de TIC e o Plano de Contratações Anual. A regularidade formal do procedimento licitatório, isoladamente, não comprova a suficiência da governança técnica da contratação de TIC.
+A análise das discordâncias verificou se as contratações de TIC foram submetidas a processo padronizado e proporcional ao risco, à complexidade e ao valor, com participação da área técnica e vínculo demonstrado com o planejamento de TIC e o Plano de Contratações Anual. A regularidade formal do procedimento licitatório, isoladamente, não comprovou a suficiência da governança técnica da contratação de TIC.
 
 ## 5.3. Pedidos de reavaliação de evidências
 
@@ -769,18 +769,18 @@ As questões 2504, 2802, 2708, 2801, 2804 e 2102 concentraram o maior número ab
 
 | Questão-base | Elegíveis | Pedidos | % dos elegíveis | Arquivos |
 |---|---:|---:|---:|---:|
-| Q2504 | 56 | 27 | 48,2% | 10 |
-| Q2802 | 55 | 25 | 45,5% | 11 |
-| Q2708 | 38 | 21 | 55,3% | 8 |
-| Q2801 | 32 | 20 | 62,5% | 4 |
-| Q2804 | 48 | 20 | 41,7% | 7 |
-| Q2102 | 39 | 20 | 51,3% | 10 |
-| Q2201 | 30 | 15 | 50,0% | 5 |
-| Q2501 | 30 | 14 | 46,7% | 6 |
-| Q2701 | 28 | 14 | 50,0% | 3 |
-| Q0103 | 31 | 13 | 41,9% | 6 |
-| Q1001 | 30 | 13 | 43,3% | 7 |
-| Q2702 | 28 | 13 | 46,4% | 3 |
+| 2504 | 56 | 27 | 48,2% | 10 |
+| 2802 | 55 | 25 | 45,5% | 11 |
+| 2708 | 38 | 21 | 55,3% | 8 |
+| 2801 | 32 | 20 | 62,5% | 4 |
+| 2804 | 48 | 20 | 41,7% | 7 |
+| 2102 | 39 | 20 | 51,3% | 10 |
+| 2201 | 30 | 15 | 50,0% | 5 |
+| 2501 | 30 | 14 | 46,7% | 6 |
+| 2701 | 28 | 14 | 50,0% | 3 |
+| 0103 | 31 | 13 | 41,9% | 6 |
+| 1001 | 30 | 13 | 43,3% | 7 |
+| 2702 | 28 | 13 | 46,4% | 3 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
@@ -855,7 +855,7 @@ Entre as manifestações recebidas, 84,0% expressaram concordância com as situa
 
 O saldo final foi de 160 ajustes em 41 organizações, com impacto em situação inconforme, achado ou iGovTI para 34 organizações. Foram removidas 47 situações por identidade, afastadas 11 marcações de achado e elevados os índices de 23 organizações. Apesar desses efeitos, permaneceram 1.419 situações e 591 marcações por organização e achado no estado atualizado, e o aumento médio do iGovTI foi de 0,49 ponto percentual. As manifestações acolhidas corrigiram conclusões específicas, mas não afastaram o quadro estrutural de baixa maturidade identificado pela fiscalização.
 
-As providências em curso e as correções posteriores também fornecem subsídios para os planos de ação. Seu acompanhamento deverá verificar responsáveis, prazos, abrangência e evidências de implementação efetiva. A metodologia, a participação, as razões de não acolhimento e a memória detalhada dos impactos constam do Anexo "AN08 – Avaliação dos comentários do gestor".
+As providências em curso e as correções posteriores também fornecem subsídios para os planos de ação. Seu acompanhamento deverá verificar responsáveis, prazos, abrangência e evidências de implementação efetiva. A metodologia, a participação, as razões de não acolhimento e a memória detalhada dos impactos constam do Anexo AN08 – Avaliação dos comentários do gestor.
 
 Após a etapa de comentários dos gestores, a Equipe de Auditoria promoveu simplificação dos procedimentos de auditoria. A revisão refinou regras de identificação e eliminou sobreposições. Os resultados apresentados neste relatório foram integralmente recalculados com base nos procedimentos revisados, inclusive nos cenários pós-ajuste inicial, pós-avaliação de evidências e pós-comentários do gestor. Por essa razão, as quantidades finais não são diretamente comparáveis às constantes dos relatórios preliminares.
 
@@ -869,7 +869,7 @@ Os resultados demonstram que a governança e a gestão de TIC ainda se encontram
 
 A comparação longitudinal entre os ciclos de 2023 e 2026, realizada sobre bases ajustadas e comparáveis, apresenta duas leituras complementares. O cenário-base indica evolução das respostas declaradas: a média passou de 0,180 para 0,248. No cenário final, após a avaliação das evidências e dos comentários dos gestores, a média ficou em 0,189, e os resultados não permitem afirmar que houve melhora ou piora geral. A melhora da Estrutura de Segurança da Informação foi confirmada nos dois cenários. Esse quadro recomenda cautela na leitura da evolução, sem desconsiderar os avanços declarados nem atribuir automaticamente à piora institucional as reduções decorrentes de uma verificação documental mais abrangente.
 
-Os procedimentos de auditoria confirmaram a materialidade das fragilidades apontadas pelo índice. Foram consolidados seis achados, relacionados à estrutura de TIC, governança de TIC, planejamento de TIC, capacidade institucional, gestão de serviços de TIC e contratações de TIC. Em todos esses temas, verificou-se incidência expressiva de situações inconformes, com destaque para fragilidades na definição de papéis e responsabilidades, na atuação da alta administração, na integração entre planejamento, orçamento e contratações, no dimensionamento da força de trabalho, na atribuição formal de funções e na preservação de capacidade interna, no controle de serviços, ativos e incidentes e na governança técnica das aquisições de tecnologia.
+Os procedimentos de auditoria detalharam e individualizaram as fragilidades indicadas pelo índice. Foram consolidados seis achados, relacionados à estrutura de TIC, governança de TIC, planejamento de TIC, capacidade institucional, gestão de serviços de TIC e contratações de TIC. Em todos esses temas, verificou-se incidência expressiva de situações inconformes, com destaque para fragilidades na definição de papéis e responsabilidades, na atuação da alta administração, na integração entre planejamento, orçamento e contratações, no dimensionamento da força de trabalho, na atribuição formal de funções e na preservação de capacidade interna, no controle de serviços, ativos e incidentes e na governança técnica das aquisições de tecnologia.
 
 A preservação dos três cenários amplia a transparência do diagnóstico. No cenário-base de autodeclaração saneada, a média do iGovTI foi 0,235 e a execução das regras revisadas produziu 565 sinalizações e 1.252 situações. Após a avaliação das evidências, a média passou a 0,184, com 602 marcações de achado e 1.458 situações; após os comentários dos gestores, alcançou 0,189, com 591 marcações e 1.419 situações. A diferença evidencia a distância entre o que foi autodeclarado, o que pôde ser documentalmente assegurado e o que foi revisto no contraditório, sem autorizar a conclusão automática de que toda prática não comprovada inexista.
 
@@ -897,7 +897,7 @@ Os resultados indicam a necessidade de atuação indutora deste Tribunal para pr
 
 **CONSIDERANDO** que os resultados decorrentes das ações previstas no Plano de Ação poderão ser objeto de avaliação futura por meio de Monitoramento, considerando os preceitos definidos na Resolução TCE-RJ nº 422/2023;
 
-**CONSIDERANDO** que a metodologia empregada neste trabalho não abordou as causas específicas dos problemas identificados e que as recomendações focam na implementação de medidas de governança e gestão de TIC baseadas no COBIT 2019 e no ITIL 4, conforme os critérios e referenciais adotados na auditoria;
+**CONSIDERANDO** que a metodologia empregada neste trabalho não abordou as causas específicas dos problemas identificados e que as determinações e recomendações propostas se fundamentam nos critérios legais, jurisprudenciais e técnicos sintetizados na Seção 2.4 e individualizados nos relatórios das organizações avaliadas;
 
 Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes propostas:
 
@@ -914,7 +914,7 @@ Para orientar a elaboração do plano de ação, apresenta-se o modelo referenci
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-3. **ABERTURA DE PROCESSOS APARTADOS PARA APURAÇÃO INDIVIDUALIZADA DAS CIRCUNSTÂNCIAS DA AUSÊNCIA DE RESPOSTA VÁLIDA E DE EVENTUAL OBSTRUÇÃO OU SONEGAÇÃO DE INFORMAÇÕES**, para cada uma das organizações fiscalizadas que não apresentaram submissão válida ao questionário eletrônico, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa. Na instrução, deverão ser considerados os registros do Anexo AN10, a resposta parcial e o pedido de reabertura apresentados pela EMOP, os esclarecimentos e o Ofício SESP-GABSEC nº 1.067 encaminhados pela SESP e os demais elementos individualizados, avaliando-se, somente se comprovada a conduta correspondente, a incidência do art. 63, incisos V ou VI, da Lei Complementar Estadual n.º 63/1990;
+3. **ABERTURA DE PROCESSOS APARTADOS PARA APURAÇÃO INDIVIDUALIZADA DAS CIRCUNSTÂNCIAS DA AUSÊNCIA DE RESPOSTA VÁLIDA E DE EVENTUAL OBSTRUÇÃO OU SONEGAÇÃO DE INFORMAÇÕES**, para cada uma das organizações fiscalizadas que não apresentaram submissão válida ao questionário eletrônico, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa. Na instrução, deverão ser considerados os registros do Anexo AN10, a resposta parcial e o pedido de reabertura apresentados pela EMOP, os esclarecimentos e o Ofício SESP-GABSEC nº 1.067 encaminhados pela SESP e os demais elementos individualizados, avaliando-se, somente se comprovada a conduta correspondente, a incidência do art. 63, incisos V ou VI, da Lei Complementar Estadual nº 63/1990;
 4. **COMUNICAÇÃO às Unidades de Controle Interno das 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do Relatório Individual da correspondente organização (AN12 a AN124), e acompanhem a elaboração e a execução do respectivo plano de ação, a fim de assegurar seu efetivo cumprimento;
 5. **ARQUIVAMENTO** do presente processo.
 

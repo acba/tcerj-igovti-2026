@@ -40,6 +40,10 @@ from argos_utils import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 TOC_MARKER_FILTER = Path(__file__).resolve().parent / "resources" / "toc-marker.lua"
+DEFAULT_CONTEXT_JSON = (
+    Path(__file__).resolve().parent.parent
+    / "03-Relatorios/01-Relatorio_Consolidado/dados/diagnostico-transversal-igovti-2026.json"
+)
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = f"{{{W_NS}}}"
 
@@ -466,8 +470,11 @@ def main() -> int:
     )
     parser.add_argument(
         "--context-json",
-        default=None,
-        help="Caminho para um arquivo JSON contendo variáveis de contexto para renderização Jinja2."
+        default=str(DEFAULT_CONTEXT_JSON),
+        help=(
+            "Caminho para um arquivo JSON contendo variáveis de contexto para renderização Jinja2. "
+            "Por padrão, utiliza o diagnóstico transversal oficial do iGovTI 2026."
+        ),
     )
     parser.add_argument(
         "--context-vars",
