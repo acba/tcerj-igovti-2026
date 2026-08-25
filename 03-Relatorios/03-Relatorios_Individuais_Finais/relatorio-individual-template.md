@@ -17,15 +17,23 @@ O trabalho abrangeu órgãos e entidades de todos os poderes da Administração 
 
 A organização **{{ auditado.sigla }}** integrou o universo da Fiscalização TCE-RJ nº 18/2026. Contudo, não foi identificada resposta válida ao questionário iGovTI 2026 nas bases processadas pela Equipe de Auditoria.
 
-Em razão da ausência de informações declaradas e de documentação comprobatória, não foi possível calcular o índice individual, avaliar a consistência das práticas declaradas ou executar os procedimentos de auditoria individualizados previstos para as organizações respondentes.
+Como não houve submissão final, eventuais registros incompletos não constituem declaração definitiva da organização. Por essa razão, não foi possível calcular o índice individual, avaliar a consistência das práticas declaradas ou executar os procedimentos de auditoria individualizados previstos para as organizações respondentes.
 
 Assim, este relatório registra a ausência de resposta válida e não contém achados decorrentes da avaliação de evidências. Na etapa de comentários do gestor, foi facultado à organização apresentar esclarecimentos, comprovação de eventual resposta encaminhada ou justificativa para a ausência de resposta.
 
-{% if teve_comentarios_gestor %}
-A organização apresentou manifestação nessa etapa, mas não trouxe elementos que permitissem reconhecer resposta válida ou realizar a avaliação individualizada prevista para as organizações respondentes.
+{% if auditado.sigla == "EMOP" %}
+A exportação integral da coleta registra que a EMOP iniciou o preenchimento, respondeu parte dos blocos do questionário e anexou cinco arquivos. O registro, contudo, permaneceu incompleto e sem data de submissão final. Em 23/6/2026, o ponto focal solicitou a reabertura do questionário e informou ter estado ausente por problemas de saúde. Na etapa de comentários do gestor, a EMOP confirmou a ausência de resposta válida, sem acrescentar, naquele instrumento, justificativa textual ou arquivo comprobatório.
+{% elif auditado.sigla == "PESAGRO" %}
+Na etapa de comentários do gestor, a PESAGRO confirmou a ausência de resposta válida, sem apresentar justificativa textual ou arquivo comprobatório naquele instrumento.
+{% elif auditado.sigla == "SESP" %}
+A SESP não concluiu o questionário eletrônico de comentários, mas apresentou esclarecimentos por e-mail e pelo Ofício SESP-GABSEC nº 1.067, recebido em 21/7/2026. Informou que a servidora anteriormente indicada como ponto focal havia se desvinculado da Secretaria, que a demanda somente fora encaminhada internamente em 17/7/2026 e que, quando a pendência foi identificada, o link estava expirado; indicou novo ponto focal e solicitou novo prazo e acesso. Em 24/7/2026, a Equipe informou que os prazos da fiscalização haviam se encerrado, mas que a manifestação seria considerada no relatório final.
 {% else %}
-Não foi identificada manifestação da organização nessa etapa. Permanece, portanto, a ausência de elementos que permitam reconhecer resposta válida ou realizar a avaliação individualizada prevista para as organizações respondentes.
+Não foi identificada manifestação da organização na etapa de comentários do gestor. Permanece, portanto, a ausência de esclarecimentos nessa etapa.
 {% endif %}
+
+Os registros acima não equivalem a resposta válida nem permitem incorporar dados ao cálculo do iGovTI. Constituem, contudo, elementos relevantes para a análise das circunstâncias e do grau de cooperação da organização. As comunicações da fiscalização e os respectivos registros de ciência integram o Anexo AN10 do relatório consolidado.
+
+O relatório consolidado propõe a abertura de processo apartado para apuração individualizada das circunstâncias da ausência de resposta válida, com oportunidade para apresentação de razões de defesa. A ausência de submissão válida, isoladamente, não caracteriza obstrução à auditoria ou sonegação de informações, nem pressupõe reconhecimento antecipado de responsabilidade ou aplicação automática de sanção.
 
 {% else %}
 
