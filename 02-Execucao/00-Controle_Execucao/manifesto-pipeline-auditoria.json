@@ -2,8 +2,8 @@
   "schema_version": 1,
   "pipeline": "igovti-2026",
   "created_at": "2026-07-19T01:38:08.602356+00:00",
-  "updated_at": "2026-08-24T13:28:44.864068+00:00",
-  "status": "running",
+  "updated_at": "2026-08-25T17:37:27.811579+00:00",
+  "status": "completed",
   "stages": {
     "01-ajustes-iniciais": {
       "key": "01-ajustes-iniciais",
@@ -1996,7 +1996,7 @@
       "title": "Gerando relatórios individuais finais",
       "scenario": "03-pos-comentarios-gestor",
       "status": "completed",
-      "started_at": "2026-08-24T10:14:45.731072+00:00",
+      "started_at": "2026-08-25T17:33:42.124197+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_relatorios_individuais.py",
@@ -2032,8 +2032,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/relatorio-individual-template.md",
           "exists": true,
-          "size": 51764,
-          "sha256": "e7000df5d66273419e3dc317f306f14df5ef4367b5f7ec1d280ddfb7e330fb47"
+          "size": 54376,
+          "sha256": "aa8d50fc88b1bc793fb846eeac4872f2ddba3cf28dd56ed91cc0f194ccec9045"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-contexto-relatorios-igovti-2026.xlsx",
@@ -2060,7 +2060,7 @@
         ]
       },
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/24-relatorios-finais.log",
-      "finished_at": "2026-08-24T10:16:10.780357+00:00",
+      "finished_at": "2026-08-25T17:35:19.981303+00:00",
       "returncode": 0,
       "outputs": [],
       "output_directories": [
@@ -2068,9 +2068,9 @@
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/03-Relatorios_Individuais_Finais/gerados",
           "exists": true,
           "kind": "directory",
-          "files": 238,
-          "size": 247723936,
-          "sha256": "fdfc1d94f35558160d730f05a76aa24e8f8ed26089075875273bdbbc0df983de"
+          "files": 244,
+          "size": 250180941,
+          "sha256": "e00db540c51c09454973269c63c2eccd836ce69206f1695ed58f974469aefece"
         }
       ]
     },
@@ -2079,7 +2079,7 @@
       "title": "Gerando relatório consolidado final",
       "scenario": "03-pos-comentarios-gestor",
       "status": "completed",
-      "started_at": "2026-08-24T13:28:33.440832+00:00",
+      "started_at": "2026-08-25T17:35:20.277822+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/gerar_relatorio_consolidado.py",
@@ -2112,8 +2112,8 @@
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md",
           "exists": true,
-          "size": 129573,
-          "sha256": "a7a5dbdb33c2a1876a8d14726da2eddfaa8c612651a12189da68862d62a88db7"
+          "size": 135521,
+          "sha256": "2da121ed51cc620a35b585263f2a879102eebe59845c169e33507202d41b03a8"
         },
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/dados/diagnostico-transversal-igovti-2026.json",
@@ -2160,14 +2160,14 @@
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/25-relatorio-consolidado.log",
-      "finished_at": "2026-08-24T13:28:44.864040+00:00",
+      "finished_at": "2026-08-25T17:35:31.915883+00:00",
       "returncode": 0,
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx",
           "exists": true,
-          "size": 4345581,
-          "sha256": "cdf83b8f031c0f96a4c32a3d809ab05699c0bd2a27bd529946833383fe728eb4"
+          "size": 4347580,
+          "sha256": "9b511aecc4b389961cd993774ebe41395e00f6c41a60aebfa345df25c0ff568f"
         }
       ],
       "output_directories": []
@@ -2177,7 +2177,7 @@
       "title": "Validando produtos e recursos finais",
       "scenario": null,
       "status": "completed",
-      "started_at": "2026-08-24T10:16:16.311792+00:00",
+      "started_at": "2026-08-25T17:37:21.771590+00:00",
       "command": [
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/.venv/bin/python",
         "/home/acba/workspace/fiscalizacoes/202601-igovti/scripts/validar_produtos_pipeline.py",
@@ -2393,14 +2393,14 @@
       ],
       "metadata": {},
       "log": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/logs/26-validacao-final.log",
-      "finished_at": "2026-08-24T10:16:16.509354+00:00",
+      "finished_at": "2026-08-25T17:37:22.016543+00:00",
       "returncode": 0,
       "outputs": [
         {
           "path": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/validacao-final.json",
           "exists": true,
           "size": 533,
-          "sha256": "02078306bf2ec4a10d28823ad6dec8007f4816d4bfa351868242fc78c2240243"
+          "sha256": "378881b28ca9f987e8cfbce22e9bd5ce5f07bdead49a24764cb1a2cb0b7d7bbf"
         }
       ],
       "output_directories": []
@@ -2484,10 +2484,10 @@
     "output_root": "/home/acba/workspace/fiscalizacoes/202601-igovti",
     "prefixo": "20260621",
     "stages": [
-      "25-relatorio-consolidado"
+      "26-validacao-final"
     ]
   },
-  "finished_at": "2026-08-24T10:16:16.511251+00:00",
+  "finished_at": "2026-08-25T17:37:22.019285+00:00",
   "inventory": {
     "json": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/inventario-artefatos.json",
     "xlsx": "/home/acba/workspace/fiscalizacoes/202601-igovti/02-Execucao/00-Controle_Execucao/inventario-artefatos.xlsx"
