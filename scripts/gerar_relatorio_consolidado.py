@@ -40,6 +40,10 @@ from argos_utils import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 TOC_MARKER_FILTER = Path(__file__).resolve().parent / "resources" / "toc-marker.lua"
+DEFAULT_CONTEXT_JSON = (
+    Path(__file__).resolve().parent.parent
+    / "03-Relatorios/01-Relatorio_Consolidado/dados/diagnostico-transversal-igovti-2026.json"
+)
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = f"{{{W_NS}}}"
 
@@ -466,8 +470,11 @@ def main() -> int:
     )
     parser.add_argument(
         "--context-json",
-        default=None,
-        help="Caminho para um arquivo JSON contendo variáveis de contexto para renderização Jinja2."
+        default=str(DEFAULT_CONTEXT_JSON),
+        help=(
+            "Caminho para um arquivo JSON contendo variáveis de contexto para renderização Jinja2. "
+            "Por padrão, utiliza o diagnóstico transversal oficial do iGovTI 2026."
+        ),
     )
     parser.add_argument(
         "--context-vars",
@@ -482,6 +489,7 @@ def main() -> int:
     parser.add_argument("--municipios-2023", default=None, help="XLSX comparável dos municípios 2023 usado para gerar gráficos do relatório consolidado.")
     parser.add_argument("--auditados-xlsx", default=None, help="Base de auditados XLSX usada para gerar gráficos consolidados de achados.")
     parser.add_argument("--resultado-auditoria-json", default=None, help="Resultado estruturado da auditoria em JSON usado para gerar gráficos consolidados de achados.")
+    parser.add_argument("--mapa", default=None, help="Mapa de verificação revisado usado nos perfis das questões Q1 a Q6.")
     args = parser.parse_args()
 
     input_str = args.input_positional or args.input or "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
@@ -571,6 +579,7 @@ def main() -> int:
                 ("--comparavel-2026", args.comparavel_2026),
                 ("--setic-2023", args.setic_2023),
                 ("--municipios-2023", args.municipios_2023),
+                ("--mapa", args.mapa),
             ]:
                 if value:
                     cmd_graficos_gerais.extend([option, value])

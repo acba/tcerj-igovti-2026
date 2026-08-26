@@ -28,7 +28,7 @@ DEFAULT_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/01-Coleta_LimeSurvey/Ev
 DEFAULT_AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Respostas/ajustes_respostas_questionario_pos_avaliacao_evidencias.xlsx"
 DEFAULT_PAINEL_EVIDENCIAS = ROOT / "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx"
 DEFAULT_AUDITADOS = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx"
-DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
+DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx"
 DEFAULT_QUESTIONARIO = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 DEFAULT_PROMPTS = ROOT / "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 DEFAULT_CATALOG = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
@@ -42,7 +42,7 @@ DEFAULT_TEMPLATE_FINAL = ROOT / "03-Relatorios/03-Relatorios_Individuais_Finais/
 DEFAULT_RELATORIO_CONSOLIDADO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
 DEFAULT_REFERENCE = ROOT / "scripts/resources/template-base-estilos-sigiloso.docx"
 DEFAULT_REFERENCE_CONSOLIDADO = ROOT / "scripts/resources/template-base-estilos.docx"
-DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/02-Relatorios_Individuais_Preliminares/img/igovti_2026_composicao_infografico.png"
+DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/img/igovti_2026_composicao_infografico.png"
 DEFAULT_WORKERS = max(1, min(8, os.cpu_count() or 1))
 
 
@@ -200,6 +200,9 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
     contexto_comentarios = produtos_comentarios / "contexto-relatorios-comentarios-gestor.json"
     impactos_comentarios_json = produtos_comentarios / "impactos-comentarios-gestor.json"
     impactos_comentarios_xlsx = produtos_comentarios / "impactos-comentarios-gestor.xlsx"
+    diagnostico_root = root / "03-Relatorios/01-Relatorio_Consolidado/dados"
+    diagnostico_json = diagnostico_root / "diagnostico-transversal-igovti-2026.json"
+    diagnostico_xlsx = diagnostico_root / "diagnostico-transversal-igovti-2026.xlsx"
 
     stages: list[Stage] = []
     stages.append(Stage(
@@ -294,8 +297,9 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
                 SCRIPTS / "gerar_graficos_relatorios_consolidado_individuais_igovti.py",
                 "--output-root", graficos_02, "--resultados-2026", igovti_outputs(i2, prefixo)[0],
                 "--respostas-2026", r2, "--comparavel-2026", igovti_outputs(i2, prefixo)[1],
+                "--mapa", args.mapa,
                 "--jobs", args.graficos_jobs, "--dpi", args.graficos_dpi,
-            ), inputs=(igovti_outputs(i2, prefixo)[0], r2, igovti_outputs(i2, prefixo)[1]), outputs=(),
+            ), inputs=(igovti_outputs(i2, prefixo)[0], r2, igovti_outputs(i2, prefixo)[1], args.mapa), outputs=(),
             scenario="02-pos-avaliacao-evidencias",
             metadata={"output_dirs": [str(graficos_02 / "relatorios-individuais/img"), str(graficos_02 / "relatorio-consolidado/img")]},
         ))
@@ -415,11 +419,22 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
                 SCRIPTS / "gerar_graficos_relatorios_consolidado_individuais_igovti.py",
                 "--output-root", graficos_03, "--resultados-2026", igovti_outputs(i3, prefixo_atual)[0],
                 "--respostas-2026", r3, "--comparavel-2026", igovti_outputs(i3, prefixo_atual)[1],
+                "--mapa", args.mapa,
                 "--jobs", args.graficos_jobs, "--dpi", args.graficos_dpi,
-            ), inputs=(igovti_outputs(i3, prefixo_atual)[0], r3, igovti_outputs(i3, prefixo_atual)[1]),
+            ), inputs=(igovti_outputs(i3, prefixo_atual)[0], r3, igovti_outputs(i3, prefixo_atual)[1], args.mapa),
             outputs=(), scenario="03-pos-comentarios-gestor",
             metadata={"output_dirs": [str(graficos_03 / "relatorios-individuais/img"), str(graficos_03 / "relatorio-consolidado/img")]},
         ))
+    stages.append(Stage(
+        "23b-diagnostico-transversal", "Consolidando o diagnóstico transversal do iGovTI 2026", cmd(
+            SCRIPTS / "gerar_diagnostico_transversal_igovti.py",
+            "--respostas", r3, "--resultados", igovti_outputs(i3, prefixo_atual)[0],
+            "--auditados", args.auditados, "--questionario", args.questionario,
+            "--output-json", diagnostico_json, "--output-xlsx", diagnostico_xlsx,
+        ), inputs=(r3, igovti_outputs(i3, prefixo_atual)[0], args.auditados, args.questionario,
+                   ROOT / "01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml"),
+        outputs=(diagnostico_json, diagnostico_xlsx), scenario="03-pos-comentarios-gestor",
+    ))
     if not args.skip_relatorios:
         final_cmd = list(cmd(
             SCRIPTS / "gerar_relatorios_individuais.py", "--auditados", a3 / "resultado_auditoria.json",
@@ -444,13 +459,15 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
             "25-relatorio-consolidado", "Gerando relatório consolidado final", cmd(
                 SCRIPTS / "gerar_relatorio_consolidado.py", "--input", args.relatorio_consolidado_md,
                 "--output", consolidado_docx, "--reference-docx", args.reference_docx_consolidado,
+                "--context-json", diagnostico_json,
                 "--resource-files", root / "03-Relatorios/01-Relatorio_Consolidado/img",
                 graficos_03 / "relatorio-consolidado/img", root / "03-Relatorios/99-Avaliacao_IgovTi_Achados/img",
                 "--resultados-2026", igovti_outputs(i3, prefixo_atual)[0], "--respostas-2026", r3,
                 "--comparavel-2026", igovti_outputs(i3, prefixo_atual)[1], "--auditados-xlsx", args.auditados,
-                "--resultado-auditoria-json", a3 / "resultado_auditoria.json",
-            ), inputs=(args.relatorio_consolidado_md, igovti_outputs(i3, prefixo_atual)[0], r3,
-                       igovti_outputs(i3, prefixo_atual)[1], args.auditados, a3 / "resultado_auditoria.json"),
+                "--resultado-auditoria-json", a3 / "resultado_auditoria.json", "--mapa", args.mapa,
+            ), inputs=(args.relatorio_consolidado_md, diagnostico_json, igovti_outputs(i3, prefixo_atual)[0], r3,
+                       igovti_outputs(i3, prefixo_atual)[1], args.auditados, a3 / "resultado_auditoria.json",
+                       args.mapa),
             outputs=(consolidado_docx,), scenario="03-pos-comentarios-gestor",
         ))
     required_final = [
@@ -459,6 +476,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
         a1 / "resultado_auditoria.json", a2 / "resultado_auditoria.json", a3 / "resultado_auditoria.json",
         ajustes_evidencias, painel_evidencias, ajustes_comentarios, painel_comentarios,
         pareceres_comentarios, contexto_comentarios, impactos_comentarios_json, impactos_comentarios_xlsx,
+        diagnostico_json, diagnostico_xlsx,
     ]
     report_dirs: list[Path] = [] if args.skip_relatorios else [relatorios_pre, relatorios_final]
     validation_output = root / "02-Execucao/00-Controle_Execucao/validacao-final.json"

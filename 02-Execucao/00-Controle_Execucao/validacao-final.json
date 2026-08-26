@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-10T17:44:31.225503+00:00",
+  "generated_at": "2026-08-25T17:37:22.002012+00:00",
   "status": "ok",
-  "required_files": 26,
+  "required_files": 28,
   "missing_or_empty": [],
   "report_counts": {
     "/home/acba/workspace/fiscalizacoes/202601-igovti/03-Relatorios/02-Relatorios_Individuais_Preliminares/gerados": 119,

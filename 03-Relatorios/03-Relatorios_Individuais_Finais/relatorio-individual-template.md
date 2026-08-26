@@ -17,9 +17,23 @@ O trabalho abrangeu órgãos e entidades de todos os poderes da Administração 
 
 A organização **{{ auditado.sigla }}** integrou o universo da Fiscalização TCE-RJ nº 18/2026. Contudo, não foi identificada resposta válida ao questionário iGovTI 2026 nas bases processadas pela Equipe de Auditoria.
 
-Em razão da ausência de informações declaradas e de documentação comprobatória, não foi possível calcular o índice individual, avaliar a consistência das práticas declaradas ou executar os procedimentos de auditoria individualizados previstos para as organizações respondentes.
+Como não houve submissão final, eventuais registros incompletos não constituem declaração definitiva da organização. Por essa razão, não foi possível calcular o índice individual, avaliar a consistência das práticas declaradas ou executar os procedimentos de auditoria individualizados previstos para as organizações respondentes.
 
-Assim, este relatório registra a ausência de resposta válida e não contém achados decorrentes da avaliação de evidências. Na fase de comentários do gestor, a organização poderá utilizar seção própria do questionário eletrônico para apresentar esclarecimentos, comprovação de eventual resposta encaminhada ou justificativa para a ausência de resposta. Essa manifestação não corresponde à contestação de achados ou à reavaliação de evidências, pois não houve resposta válida e documentação comprobatória avaliadas para a organização.
+Assim, este relatório registra a ausência de resposta válida e não contém achados decorrentes da avaliação de evidências. Na etapa de comentários do gestor, foi facultado à organização apresentar esclarecimentos, comprovação de eventual resposta encaminhada ou justificativa para a ausência de resposta.
+
+{% if auditado.sigla == "EMOP" %}
+A exportação integral da coleta registra que a EMOP iniciou o preenchimento, respondeu parte dos blocos do questionário e anexou cinco arquivos. O registro, contudo, permaneceu incompleto e sem data de submissão final. Em 23/6/2026, o ponto focal solicitou a reabertura do questionário e informou ter estado ausente por problemas de saúde. Na etapa de comentários do gestor, a EMOP confirmou a ausência de resposta válida, sem acrescentar, naquele instrumento, justificativa textual ou arquivo comprobatório.
+{% elif auditado.sigla == "PESAGRO" %}
+Na etapa de comentários do gestor, a PESAGRO confirmou a ausência de resposta válida, sem apresentar justificativa textual ou arquivo comprobatório naquele instrumento.
+{% elif auditado.sigla == "SESP" %}
+A SESP não concluiu o questionário eletrônico de comentários, mas apresentou esclarecimentos por e-mail e pelo Ofício SESP-GABSEC nº 1.067, recebido em 21/7/2026. Informou que a servidora anteriormente indicada como ponto focal havia se desvinculado da Secretaria, que a demanda somente fora encaminhada internamente em 17/7/2026 e que, quando a pendência foi identificada, o link estava expirado; indicou novo ponto focal e solicitou novo prazo e acesso. Em 24/7/2026, a Equipe informou que os prazos da fiscalização haviam se encerrado, mas que a manifestação seria considerada no relatório final.
+{% else %}
+Não foi identificada manifestação da organização na etapa de comentários do gestor. Permanece, portanto, a ausência de esclarecimentos nessa etapa.
+{% endif %}
+
+Os registros acima não equivalem a resposta válida nem permitem incorporar dados ao cálculo do iGovTI. Constituem, contudo, elementos relevantes para a análise das circunstâncias e do grau de cooperação da organização. As comunicações da fiscalização e os respectivos registros de ciência integram o Anexo AN10 do relatório consolidado.
+
+O relatório consolidado propõe a abertura de processo apartado para apuração individualizada das circunstâncias da ausência de resposta válida, com oportunidade para apresentação de razões de defesa. A ausência de submissão válida, isoladamente, não caracteriza obstrução à auditoria ou sonegação de informações, nem pressupõe reconhecimento antecipado de responsabilidade ou aplicação automática de sanção.
 
 {% else %}
 
@@ -151,7 +165,7 @@ A [@fig:distribuicao_componentes_igovti_2026] permite comparar a dispersão dos 
 ![Distribuição do iGovTI 2026 e dos componentes Governança de TIC e Gestão de TIC](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das organizações nos dois componentes. Pontos abaixo da diagonal representam resultado de gestão superior ao de governança; pontos acima da diagonal representam a situação inversa.
+A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das organizações nos dois componentes. Pontos acima da diagonal representam resultado de gestão superior ao de governança; pontos abaixo da diagonal representam a situação inversa.
 
 ![Relação entre os resultados de governança e gestão de TIC](igovti_2026_governanca_vs_gestao.png){#fig:governanca_vs_gestao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -296,9 +310,9 @@ No âmbito desta fiscalização, foram definidas questões de auditoria para ori
 | Questão | Tema | Síntese do objeto avaliado |
 |---|---|---|
 | **Q1** | Estrutura de TIC | Existência formal, atribuições e posicionamento organizacional da área, unidade, setor ou função responsável pela TIC. |
-| **Q2** | Governança e comitê de TIC | Modelo de governança e gestão de TIC, objetivos, indicadores, metas e atuação do comitê ou instância equivalente. |
+| **Q2** | Governança e comitê de TIC | Estabelecimento de objetivos, indicadores e metas e instituição e atuação do Comitê de TIC ou instância equivalente. |
 | **Q3** | Planejamento de TIC | Processo de planejamento, plano de TIC vigente, aprovação, alinhamento institucional, integração orçamentária e acompanhamento. |
-| **Q4** | Capacidade institucional de TIC e segurança da informação | Força de trabalho, perfis, competências, funções, vínculos e capacidade interna para sustentar a TIC e a segurança da informação. |
+| **Q4** | Capacidade institucional de TIC e segurança da informação | Existência e dimensionamento da força de trabalho, atribuição formal de cargos ou funções e capacidade interna em modelos de operação predominantemente terceirizados. |
 | **Q5** | Gestão de serviços de TIC | Catálogo de serviços, níveis mínimos de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes. |
 | **Q6** | Contratações de TIC | Fluxo de contratação, papéis, modelos orientativos, aprovação técnica, alinhamento ao planejamento e equipe de planejamento. |
 
@@ -327,7 +341,7 @@ O presente relatório individual adota uma estrutura analítica de apresentaçã
 * **Evidências**: a relação das informações e dos documentos anexados pela organização que serviram de suporte factual para as constatações;
 * **Situação Encontrada**: a descrição detalhada da realidade operacional e documental identificada no jurisdicionado, destacando-se as fragilidades e lacunas específicas em relação aos critérios adotados;
 * **Conclusão da Equipe de Auditoria**: a análise técnica e o juízo profissional formulado a partir da correlação entre a situação factual e as regras de controle estabelecidas no mapa de verificação;
-* **Propostas de Encaminhamento**: as recomendações propostas com o intuito de orientar a organização na correção de fragilidades e no aprimoramento de suas capacidades de governança e gestão de TIC.
+* **Propostas de Encaminhamento**: as determinações e recomendações propostas, conforme a situação identificada, para corrigir fragilidades e aprimorar as capacidades de governança e gestão de TIC da organização.
 
 As constatações apresentadas já consideram as manifestações e os documentos encaminhados na etapa de comentários do gestor, conforme detalhado na Seção 4.
 
@@ -355,6 +369,8 @@ Com base na avaliação das respostas, das evidências e dos comentários da org
 # 4. Análise dos comentários do gestor
 
 Esta seção apresenta a manifestação da Equipe de Auditoria sobre os comentários e documentos encaminhados pela organização. As conclusões refletem a situação verificada em **{{ comentarios_gestor.data_referencia }}**. O acolhimento de uma manifestação pode afastar situação inconforme, remover achado dela decorrente ou restaurar resposta do questionário até o limite do valor originalmente declarado.
+
+As manifestações reproduzidas nas Seções 4.1 e 4.2 referem-se às situações e aos itens constantes do relatório individual preliminar. Após essa etapa, a Equipe de Auditoria calibrou e simplificou os procedimentos e reexecutou os três cenários com o mapa revisado. Por isso, a posição corrente e a síntese de impactos da Seção 4.3 foram recalculadas com as regras revisadas e podem diferir, em quantidade ou redação, das situações sobre as quais o gestor se manifestou.
 
 {% if teve_comentarios_gestor %}
 
@@ -399,13 +415,15 @@ A organização não apresentou manifestação avaliável sobre itens do questio
 ## 4.3. Impacto das manifestações na posição corrente
 
 {% set impacto = comentarios_gestor.resumo_impacto %}
+{% set variacao_situacoes = (impacto.situacoes_atuais|int) - (impacto.situacoes_antes|int) %}
+{% set variacao_achados = (impacto.achados_atuais|int) - (impacto.achados_antes|int) %}
 
 : Síntese dos efeitos dos comentários do gestor {#tbl:comentarios_gestor_impactos#}
 
 | Indicador | Antes dos comentários | Posição em {{ comentarios_gestor.data_referencia }} | Variação |
 |---|---:|---:|---:|
-| Situações inconformes | {{ impacto.situacoes_antes }} | {{ impacto.situacoes_atuais }} | -{{ impacto.situacoes_removidas }} |
-| Achados | {{ impacto.achados_antes }} | {{ impacto.achados_atuais }} | -{{ impacto.achados_removidos }} |
+| Situações inconformes | {{ impacto.situacoes_antes }} | {{ impacto.situacoes_atuais }} | {{ ('+' ~ variacao_situacoes) if variacao_situacoes > 0 else variacao_situacoes }} |
+| Achados | {{ impacto.achados_antes }} | {{ impacto.achados_atuais }} | {{ ('+' ~ variacao_achados) if variacao_achados > 0 else variacao_achados }} |
 {% if impacto.igovti_anterior is not none and impacto.igovti_atual is not none %}
 | iGovTI | {{ ('%0.4f' | format(impacto.igovti_anterior|float)) | replace('.', ',') }} | {{ ('%0.4f' | format(impacto.igovti_atual|float)) | replace('.', ',') }} | {{ ('%+0.4f' | format(impacto.variacao_igovti|float)) | replace('.', ',') }} |
 {% endif %}
@@ -426,14 +444,14 @@ Não foi identificada resposta válida da organização ao questionário de come
 
 Para facilitar o atendimento das propostas constantes da Seção 3, a Equipe de Auditoria apresenta modelo de plano de ação contendo os encaminhamentos mantidos após a análise dos comentários do gestor.
 
-Cumpre registrar que, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementar as recomendações. Ressalta-se, contudo, que a eventual decisão pela não aderência deve ser motivada: o gestor deve apresentar justificativa formal que demonstre, à luz das circunstâncias do caso concreto, as razões da decisão e, quando cabível, as medidas alternativas adotadas para tratar a situação que ensejou a recomendação.
+Para fins de elaboração do plano de ação, as medidas associadas a determinações deverão ser tratadas como providências de cumprimento, caso sejam acolhidas na decisão plenária. Quanto às recomendações, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementá-las. A eventual decisão pela não adoção deverá ser motivada, com indicação das razões consideradas e, quando cabível, das medidas alternativas destinadas a tratar a situação que ensejou a recomendação.
 
 : Plano de ação contendo os encaminhamentos propostos {#tbl:plano_acao#}
 
-| Achado | Medida proposta | Avaliação de Viabilidade | Quem? | Quando? |
-|---|---|---|---|---|
+| Achado | Tipo | Medida proposta | Avaliação de viabilidade | Quem? | Quando? |
+|---|---|---|---|---|---|
 {%- for item in auditado.get_plano_acao() %}
-| **{{ item.achado_num }}** | {{ item.encaminhamento }} | | | |{% endfor %}
+| **{{ item.achado_num }}** | **{{ item.tipo }}** | {{ item.encaminhamento }} | | | |{% endfor %}
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 

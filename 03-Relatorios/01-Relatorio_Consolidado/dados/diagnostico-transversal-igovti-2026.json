@@ -1,0 +1,137 @@
+{
+  "diagnostico_universo_n": 113,
+  "diagnostico_igovti_media": 0.18903844699548822,
+  "diagnostico_igovti_mediana": 0.1357040382268071,
+  "diagnostico_segmentos": [
+    {
+      "segmento": "Organizações estaduais",
+      "n": 78,
+      "iGovTI_media": 0.22023279610257632,
+      "iGovTI_mediana": 0.1519224389472565,
+      "GovernancaTI_media": 0.18660546502667602,
+      "GovernancaTI_mediana": 0.1216576931116455,
+      "iGestTI_media": 0.2509881814931877,
+      "iGestTI_mediana": 0.18395084224146374,
+      "PlanejamentoTI_media": 0.39637695086187846,
+      "PlanejamentoTI_mediana": 0.30123475885475304,
+      "ServicosTI_media": 0.17911407862832412,
+      "ServicosTI_mediana": 0.1074474302823675,
+      "RiscosTISegInfo_media": 0.18545104359179776,
+      "RiscosTISegInfo_mediana": 0.1029624262516887,
+      "EstruturaSegInfo_media": 0.2835246515733262,
+      "EstruturaSegInfo_mediana": 0.16898697452480554,
+      "ProcessoSegInfo_media": 0.23948835963316958,
+      "ProcessoSegInfo_mediana": 0.18240883656322884,
+      "GerirSoluçõesTI_media": 0.24253414849455873,
+      "GerirSoluçõesTI_mediana": 0.16292961009283866
+    },
+    {
+      "segmento": "Municípios",
+      "n": 35,
+      "iGovTI_media": 0.1195196118425492,
+      "iGovTI_mediana": 0.07736736662296344,
+      "GovernancaTI_media": 0.12023749767094914,
+      "GovernancaTI_mediana": 0.07457531793850132,
+      "iGestTI_media": 0.11886303712750368,
+      "iGestTI_mediana": 0.08643160391026779,
+      "PlanejamentoTI_media": 0.10206157758444483,
+      "PlanejamentoTI_mediana": 0.02511225080497755,
+      "ServicosTI_media": 0.08438745791153963,
+      "ServicosTI_mediana": 0.0740393739288,
+      "RiscosTISegInfo_media": 0.11970000511156849,
+      "RiscosTISegInfo_mediana": 0.0694769252099365,
+      "EstruturaSegInfo_media": 0.20112035288146515,
+      "EstruturaSegInfo_mediana": 0.0675360445798938,
+      "ProcessoSegInfo_media": 0.12768029622977056,
+      "ProcessoSegInfo_mediana": 0.09544694339318133,
+      "GerirSoluçõesTI_media": 0.08249239194477506,
+      "GerirSoluçõesTI_mediana": 0.0736082159485815
+    }
+  ],
+  "diagnostico_praticas_menor_adocao": [
+    {
+      "id": "q2201",
+      "descricao": "2201. A organização elabora um catálogo de serviços de tecnologia da informação e monitora níveis de serviço.",
+      "media": 0.1027433628318584,
+      "mediana": 0.0,
+      "respostas_validas": 113,
+      "nao_aplicavel": 2
+    },
+    {
+      "id": "q1003",
+      "descricao": "1003. A instância superior de governança recebe serviços de auditoria interna que adicionam valor à organização.",
+      "media": 0.11924778761061947,
+      "mediana": 0.0,
+      "respostas_validas": 113,
+      "nao_aplicavel": 1
+    },
+    {
+      "id": "q2503",
+      "descricao": "2503. A organização executa processo para classificação e tratamento de informações.",
+      "media": 0.12411504424778763,
+      "mediana": 0.05,
+      "respostas_validas": 113,
+      "nao_aplicavel": 1
+    },
+    {
+      "id": "q1002",
+      "descricao": "1002. A alta administração monitora o desempenho da gestão de tecnologia da informação.",
+      "media": 0.12688053097345134,
+      "mediana": 0.0,
+      "respostas_validas": 113,
+      "nao_aplicavel": 1
+    },
+    {
+      "id": "q2203",
+      "descricao": "2203. A organização executa processo de gestão de configuração e ativos (de serviços de tecnologia da informação).",
+      "media": 0.14174041297935103,
+      "mediana": 0.15,
+      "respostas_validas": 113,
+      "nao_aplicavel": 3
+    }
+  ],
+  "diagnostico_praticas_maior_adocao": [
+    {
+      "id": "q2401",
+      "descricao": "2401. A organização dispõe de uma política de segurança da informação.",
+      "media": 0.33796460176991155,
+      "mediana": 0.15,
+      "respostas_validas": 113,
+      "nao_aplicavel": 4
+    },
+    {
+      "id": "q2101",
+      "descricao": "2101. A organização executa processo de planejamento de tecnologia da informação.",
+      "media": 0.3141592920353982,
+      "mediana": 0.15,
+      "respostas_validas": 113,
+      "nao_aplicavel": 1
+    },
+    {
+      "id": "q2102",
+      "descricao": "2102. A organização possui plano de tecnologia da informação vigente.",
+      "media": 0.2961946902654867,
+      "mediana": 0.15,
+      "respostas_validas": 113,
+      "nao_aplicavel": 2
+    },
+    {
+      "id": "_q4251(TCU)",
+      "descricao": "2501/2502. Gestão de ativos associados à informação e controle de acesso, conforme composição prevista na metodologia.",
+      "media": 0.2408554572271386,
+      "mediana": 0.12499999999999997,
+      "respostas_validas": 113,
+      "nao_aplicavel": 1
+    },
+    {
+      "id": "q2504",
+      "descricao": "2504. A organização executa atividades de gestão da segurança dos recursos de processamento da informação, inclusive dos recursos de computação em nuvem.",
+      "media": 0.2382139983909895,
+      "mediana": 0.15,
+      "respostas_validas": 113,
+      "nao_aplicavel": 4
+    }
+  ],
+  "diagnostico_nao_aplicavel_tratamento": "As respostas 'Não se aplica' recebem pontuação parcial (0,5), conforme a metodologia oficial.",
+  "diagnostico_limitacoes": "A comparação por segmento é descritiva e restrita à esfera estadual ou municipal, único atributo institucional disponível no cadastro. O índice mede adoção declarada, após os ajustes aplicáveis, e não comprova isoladamente efetividade ou conformidade jurídica."
+}

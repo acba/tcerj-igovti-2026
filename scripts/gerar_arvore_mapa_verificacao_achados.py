@@ -14,7 +14,7 @@ from openpyxl import load_workbook
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados.xlsx"
+DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx"
 DEFAULT_QUESTIONARIO = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 DEFAULT_OUTPUT = Path("/tmp/arvore-mapa-verificacao-achados.html")
 

@@ -1,11 +1,11 @@
 {% set nome_achado = 'Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC' %}
 {% set achado = auditado.get_achado_por_nome(nome_achado) %}
 {% if achado %}
-{% set situacao_processo = 'Inexistência ou fragilidade do processo formal de planejamento de TIC.' %}
+{% set situacao_processo = 'Inexistência ou insuficiência do processo de planejamento de TIC para produzir e manter plano de TIC adequado.' %}
 {% set situacao_plano = 'Ausência de aprovação formal do plano de TIC.' %}
 {% set situacao_alinhamento = 'Plano de TIC sem alinhamento adequado ao planejamento institucional.' %}
-{% set situacao_integracao = 'Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC' %}
-{% set situacao_acompanhamento = 'Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC.' %}
+{% set situacao_integracao = 'Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.' %}
+{% set situacao_acompanhamento = 'Ausência de acompanhamento da execução do plano de TIC.' %}
 {% set motivos_processo = auditado.get_motivos_situacao(nome_achado, situacao_processo) %}
 {% set motivos_plano = auditado.get_motivos_situacao(nome_achado, situacao_plano) %}
 {% set motivos_alinhamento = auditado.get_motivos_situacao(nome_achado, situacao_alinhamento) %}
@@ -23,13 +23,13 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_processo or tem_plano or tem_alinhamento or tem_acompanhamento %}
+{% if tem_processo or tem_alinhamento %}
 * COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados;
 {% endif %}
 {% if tem_integracao %}
 * COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas;
 {% endif %}
-{% if tem_plano or tem_alinhamento or tem_integracao %}
+{% if tem_processo or tem_plano or tem_alinhamento %}
 * Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI;
 {% endif %}
 {% if tem_processo or tem_plano or tem_alinhamento or tem_integracao or tem_acompanhamento %}
@@ -52,22 +52,22 @@ O planejamento de TIC é instrumento fundamental para traduzir diretrizes instit
 
 Os critérios de boas práticas indicam que o planejamento de TIC deve estabelecer plano e roteiro estratégico, manter orçamento alinhado ao portfólio e às prioridades aprovadas, vincular ações de TIC a indicadores, metas e orçamento de TI, e contemplar processo estruturado de elaboração, manutenção e revisão periódica do PDTI[^explica_planejamento_tic].
 
-Com base na análise das respostas aos itens 2101, 2102, 2802 e 2804 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de planejamento. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
+Com base na análise das respostas aos itens 2101 e 2102 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de planejamento. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
 {% if tem_processo %}
-* **Processo formal de planejamento**: a fragilidade no processo de elaboração não demonstra aderência aos critérios do COBIT 2019 (APO02.05), do Acórdão 1.411/2014-TCU-Plenário e do Acórdão TCE-RJ 44.490/2024-PLEN, o que pode favorecer atuação reativa e sem critérios objetivos de seleção e priorização de iniciativas.
+* **Processo formal de planejamento**: a fragilidade no processo de elaboração não demonstra aderência ao COBIT 2019, APO02.05, ao Acórdão nº 1.411/2014-TCU-Plenário e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, o que pode favorecer atuação reativa e insuficiente participação das áreas demandantes.
 {% endif %}
 {% if tem_plano %}
-* **Aprovação formal do plano**: a ausência de aprovação formal não demonstra aderência aos critérios de formalização do planejamento de TIC, reduzindo sua legitimidade institucional para orientar a gestão, os projetos, o orçamento e as contratações da organização.
+* **Aprovação formal do plano**: a ausência de aprovação formal não demonstra aderência ao Acórdão nº 1.411/2014-TCU-Plenário e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, reduzindo a legitimidade institucional do plano para orientar a gestão, os projetos, o orçamento e as contratações da organização.
 {% endif %}
 {% if tem_alinhamento %}
-* **Alinhamento estratégico**: a falta de alinhamento ao planejamento institucional não demonstra aderência ao princípio de vinculação da TIC aos objetivos de negócio, o que pode resultar em investimentos e iniciativas com baixo valor público para o órgão.
+* **Alinhamento estratégico**: a falta de alinhamento ao planejamento institucional não demonstra aderência ao COBIT 2019, APO02.05, ao Acórdão nº 1.411/2014-TCU-Plenário e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, o que pode resultar em investimentos e iniciativas com baixo valor público para o órgão.
 {% endif %}
 {% if tem_integracao %}
-* **Integração orçamentária e operacional**: a ausência de vínculo demonstrado com orçamento e contratações de TIC não demonstra aderência ao COBIT 2019 (APO06.03), ao Acórdão 1.411/2014-TCU-Plenário e ao Acórdão TCE-RJ 44.490/2024-PLEN, favorecendo aquisições reativas, não priorizadas e desalinhadas das metas de TIC.
+* **Integração com orçamento e contratações**: a ausência de utilização do plano de TIC como referência para a proposta orçamentária e o plano de contratações não demonstra aderência ao COBIT 2019, APO06.03, e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, favorecendo a desconexão entre as iniciativas planejadas e os recursos necessários à sua execução.
 {% endif %}
 {% if tem_acompanhamento %}
-* **Acompanhamento e revisão**: a ausência de acompanhamento ou atualização periódica não demonstra aderência aos critérios de manutenção e monitoramento do PDTI, elevando o risco de manutenção de metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
+* **Acompanhamento e revisão**: a ausência de acompanhamento ou atualização periódica não demonstra aderência ao Acórdão TCE-RJ nº 44.490/2024-PLEN, elevando o risco de manutenção de metas, iniciativas e prioridades incompatíveis com mudanças institucionais, orçamentárias ou tecnológicas.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -82,13 +82,13 @@ Essas situações ensejaram o presente achado e serão detalhadas nas subseçõe
 {% if tem_processo %}
 #### Processo formal de planejamento de TIC
 
-O processo formal de planejamento de TIC deve definir etapas, responsáveis, participação das áreas demandantes e critérios mínimos de priorização. Esse processo é necessário para que o planejamento deixe de ser uma atividade eventual e passe a constituir rotina institucional de identificação, seleção, priorização e acompanhamento de demandas de tecnologia.
+O processo formal de planejamento de TIC deve definir etapas, responsáveis e participação das áreas demandantes. Esse processo é necessário para que o planejamento deixe de ser uma atividade eventual e passe a constituir rotina institucional de elaboração e manutenção do plano de TIC.
 
 O COBIT 2019, no objetivo APO02.05, orienta a definição de plano e roteiro estratégico de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados. O Acórdão TCE-RJ 44.490/2024-PLEN, item II.3, também aponta a necessidade de processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI.
 
 O processo deve ser demonstrado por norma, procedimento, guia ou instrumento equivalente que discipline a elaboração, revisão, aprovação e acompanhamento do planejamento de TIC.
 
-Da análise das respostas ao item 2101 e da documentação apresentada, verificou-se que o processo formal de planejamento de TIC não se mostrou suficientemente estruturado quanto a etapas, responsáveis, participação das áreas demandantes e critérios de priorização, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2101 e da documentação apresentada, verificou-se que o processo formal de planejamento de TIC não se mostrou suficientemente estruturado quanto a etapas, responsáveis e participação das áreas demandantes, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -99,7 +99,7 @@ Da análise das respostas ao item 2101 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A inexistência ou fragilidade desse processo expõe a organização a uma atuação reativa e à alocação de recursos em iniciativas de tecnologia sem critérios claros de priorização.
+A inexistência ou fragilidade desse processo expõe a organização a uma atuação reativa e reduz a participação das áreas demandantes na definição das necessidades de tecnologia.
 
 {% endif %}
 
@@ -134,7 +134,7 @@ A ausência de comprovação da aprovação formal do plano de TIC reduz a segur
 
 O plano de TIC deve demonstrar como suas iniciativas apoiam os objetivos institucionais, as diretrizes superiores e as necessidades das áreas finalísticas e administrativas.
 
-O Acórdão 1.411/2014-TCU-Plenário exige o desdobramento de diretrizes estratégicas e a vinculação das ações de TI a indicadores e metas de negócio. O Acórdão TCE-RJ 44.490/2024-PLEN também prevê objetivos, indicadores e metas de TI alinhados aos objetivos de negócio.
+O COBIT 2019, APO02.05, orienta que o plano e o roteiro estratégico traduzam a estratégia institucional em iniciativas de TIC. O Acórdão nº 1.411/2014-TCU-Plenário exige o desdobramento de diretrizes estratégicas e a vinculação das ações de TI a indicadores e metas de negócio. O Acórdão TCE-RJ nº 44.490/2024-PLEN também prevê objetivos, indicadores e metas de TI alinhados aos objetivos de negócio.
 
 Da análise das respostas ao item 2102 e da documentação apresentada, verificou-se que o alinhamento do plano de TIC ao planejamento institucional, às diretrizes superiores ou às necessidades das áreas finalísticas e administrativas não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -155,11 +155,11 @@ A ausência desse alinhamento eleva o risco de execução de iniciativas tecnol�
 {% if tem_integracao %}
 #### Vínculo com orçamento e contratações de TIC
 
-O planejamento de TIC deve ser vinculado com a proposta orçamentária, o plano de contratações e as contratações executadas. Essa integração é necessária para que as iniciativas priorizadas tenham suporte financeiro, sejam convertidas em contratações coerentes e possam ser acompanhadas ao longo da execução.
+O plano de TIC deve ser utilizado como referência para a elaboração da proposta orçamentária da área de TIC e do plano de contratações. Essa integração contribui para que as iniciativas planejadas sejam consideradas na alocação de recursos e na programação das contratações.
 
-O COBIT 2019, APO06.03, orienta a criação e manutenção de orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas. O Acórdão 1.411/2014-TCU-Plenário também exige vinculação das ações priorizadas ao orçamento de TI, e o Acórdão TCE-RJ 44.490/2024-PLEN prevê projetos, aquisições, ações necessárias e alocação de recursos no PDTI.
+O COBIT 2019, APO06.03, orienta a criação e manutenção de orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas. O Acórdão TCE-RJ nº 44.490/2024-PLEN prevê que o PDTI contemple projetos, aquisições, ações necessárias e alocação de recursos.
 
-Da análise das respostas aos itens 2102, 2802 e 2804 e da documentação apresentada, verificou-se que o vínculo entre o plano de TIC, a proposta orçamentária, o plano de contratações ou as contratações de TIC executadas não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
+Da análise das respostas ao item 2102 e da documentação apresentada, verificou-se que a utilização do plano de TIC como referência para a elaboração da proposta orçamentária e do plano de contratações não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
 {% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
 {% if motivos %}
@@ -170,7 +170,7 @@ Da análise das respostas aos itens 2102, 2802 e 2804 e da documentação aprese
 {% endfor %}
 {% endif %}
 
-A falta de integração demonstrada entre o planejamento de tecnologia, as previsões orçamentárias, o plano de contratações e as contratações executadas eleva o risco de aquisições isoladas, reativas ou insuficientemente priorizadas sob a perspectiva técnica.
+A falta de integração demonstrada entre o plano de TIC, a proposta orçamentária e o plano de contratações eleva o risco de insuficiência de recursos para as iniciativas planejadas e de contratações desconectadas das prioridades institucionais.
 
 {% endif %}
 
@@ -201,7 +201,7 @@ A ausência de rotina sistemática de monitoramento e atualização dificulta a 
 
 As fragilidades identificadas no planejamento de TIC reduzem a segurança de que a organização disponha, conforme aplicável ao caso concreto, de processo e instrumento suficientes para direcionar iniciativas, priorizar recursos, alinhar projetos às necessidades institucionais e integrar orçamento e contratações à estratégia de tecnologia.
 
-Em razão das lacunas descritas, são propostas recomendações voltadas à adequação dos aspectos de planejamento de TIC efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
+Em razão das lacunas descritas, são propostas determinações voltadas à adequação dos aspectos de planejamento de TIC efetivamente apontados neste achado, observados os critérios aplicáveis indicados nas seções anteriores.
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
