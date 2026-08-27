@@ -189,6 +189,12 @@ ROUTINES: list[Routine] = [
             Param("auditados", "--auditados", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx", "Base de auditados."),
             Param("mapa", "--mapa", "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx", "Mapa de verificacao e achados."),
             Param(
+                "matriz",
+                "--matriz",
+                "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md",
+                "Matriz de planejamento usada na validação Matriz × Mapa × Auditados.",
+            ),
+            Param(
                 "fontes",
                 "--fontes",
                 f"{OUTPUT_ROOT}/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx "

@@ -11,6 +11,9 @@ import argparse
 import copy
 import re
 import sys
+import textwrap
+import unicodedata
+import yaml
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable
@@ -44,10 +47,15 @@ FIELDS = [
     "fontes_de_informacao",
     "informacoes_requeridas",
     "criterios",
+    # Mantidos apenas como delimitadores para que o parser possa rejeitar o
+    # formato legado com uma mensagem específica.
+    "metadados_criterios",
+    "criterios_especificos",
     "criterios_de_comparabilidade",
     "procedimentos",
     "evidencias",
     "possiveis_achados",
+    "variantes_especificas",
     "o_que_a_analise_permite_dizer",
     "limitacoes_e_cautelas",
 ]
@@ -61,12 +69,35 @@ class ListItem:
     refs: list[str] = field(default_factory=list)
 
 
+@dataclass(frozen=True)
+class Criterion:
+    id: str
+    descricao: str
+    natureza_fundamento: str
+    apto_a_fundamentar_determinacao: bool
+    publico: str = ""
+    aplica_se: dict[str, list[str]] = field(default_factory=dict)
+
+    @property
+    def especifico(self) -> bool:
+        return bool(self.aplica_se)
+
+
 @dataclass
 class CellParagraph:
     text: str
     bold: bool | None = None
     left_indent: int = 0
     spacing_after: int = 120
+
+
+@dataclass(frozen=True)
+class SituationVariant:
+    publico: str
+    aplica_se: dict[str, list[str]]
+    criterios: list[str] | None = None
+    tipo_encaminhamento: str | None = None
+    encaminhamento: str | None = None
 
 
 @dataclass
@@ -78,7 +109,9 @@ class Situation:
     regra: list[str] = field(default_factory=list)
     referencias: list[str] = field(default_factory=list)
     criterios: list[str] = field(default_factory=list)
+    tipo_encaminhamento: str = ""
     encaminhamento: str = ""
+    variantes: list[SituationVariant] = field(default_factory=list)
 
 
 @dataclass
@@ -99,7 +132,7 @@ class Question:
     riscos: list[ListItem] = field(default_factory=list)
     fontes: list[ListItem] = field(default_factory=list)
     informacoes: list[ListItem] = field(default_factory=list)
-    criterios: list[ListItem] = field(default_factory=list)
+    criterios: list[Criterion] = field(default_factory=list)
     criterios_comparabilidade: list[ListItem] = field(default_factory=list)
     procedimentos: list[ListItem] = field(default_factory=list)
     evidencias: list[ListItem] = field(default_factory=list)
@@ -151,6 +184,223 @@ def parse_bool(value: str, default: bool = True) -> bool:
     return value.strip().lower() in {"true", "sim", "yes", "1"}
 
 
+def parse_structured_list(block: str, field_name: str) -> list[dict]:
+    if not block:
+        return []
+    try:
+        data = yaml.safe_load(block)
+    except yaml.YAMLError as exc:
+        raise ValueError(f"Bloco {field_name} inválido: {exc}") from exc
+    if data is None:
+        return []
+    if not isinstance(data, list) or not all(isinstance(item, dict) for item in data):
+        raise ValueError(f"Bloco {field_name} deve ser uma lista de objetos.")
+    return data
+
+
+CRITERION_FIELDS = {
+    "id",
+    "descricao",
+    "natureza_fundamento",
+    "apto_a_fundamentar_determinacao",
+    "publico",
+    "aplica_se",
+}
+SELECTOR_FIELDS = {
+    "segmentos",
+    "naturezas",
+    "tags_todas",
+    "tags_alguma",
+    "tags_excluidas",
+}
+VARIANT_FIELDS = {
+    "publico",
+    "aplica_se",
+    "criterios",
+    "tipo_encaminhamento",
+    "encaminhamento",
+}
+
+
+def parse_criteria(block: str, question_id: str) -> list[Criterion]:
+    raw_items = parse_structured_list(block, "criterios")
+    criteria: list[Criterion] = []
+    identifiers: set[str] = set()
+    for position, item in enumerate(raw_items, 1):
+        unknown = sorted(str(key) for key in set(item) - CRITERION_FIELDS)
+        if unknown:
+            raise ValueError(
+                f"{question_id}.criterios[{position}]: campos desconhecidos: {', '.join(unknown)}."
+            )
+
+        criterion_id = str(item.get("id") or "").strip().upper()
+        if not re.fullmatch(r"C\d+", criterion_id):
+            raise ValueError(
+                f"{question_id}.criterios[{position}].id deve seguir o formato Cn."
+            )
+        if criterion_id in identifiers:
+            raise ValueError(f"{question_id}: critério duplicado: {criterion_id}.")
+        identifiers.add(criterion_id)
+
+        description = str(item.get("descricao") or "").strip()
+        foundation = str(item.get("natureza_fundamento") or "").strip()
+        if not description:
+            raise ValueError(f"{question_id}.{criterion_id}.descricao não pode ser vazia.")
+        if not foundation:
+            raise ValueError(
+                f"{question_id}.{criterion_id}.natureza_fundamento não pode ser vazia."
+            )
+        determination = item.get("apto_a_fundamentar_determinacao")
+        if not isinstance(determination, bool):
+            raise ValueError(
+                f"{question_id}.{criterion_id}.apto_a_fundamentar_determinacao "
+                "deve ser declarado explicitamente como true ou false."
+            )
+
+        audience = str(item.get("publico") or "").strip()
+        selector_declared = "aplica_se" in item
+        raw_selector = item.get("aplica_se")
+        if selector_declared and not isinstance(raw_selector, dict):
+            raise ValueError(f"{question_id}.{criterion_id}.aplica_se deve ser um objeto.")
+        selector = raw_selector or {}
+        unknown_selectors = sorted(set(selector) - SELECTOR_FIELDS)
+        if unknown_selectors:
+            raise ValueError(
+                f"{question_id}.{criterion_id}.aplica_se contém seletores desconhecidos: "
+                f"{', '.join(unknown_selectors)}."
+            )
+        normalized_selector: dict[str, list[str]] = {}
+        for key, value in selector.items():
+            if not isinstance(value, list):
+                raise ValueError(
+                    f"{question_id}.{criterion_id}.aplica_se.{key} deve ser uma lista."
+                )
+            normalized_selector[key] = [str(entry).strip() for entry in value if str(entry).strip()]
+        selector_nonempty = any(normalized_selector.values())
+        if selector_declared and not selector_nonempty:
+            raise ValueError(f"{question_id}.{criterion_id}: critério específico sem seletor preenchido.")
+        if selector_nonempty and not audience:
+            raise ValueError(f"{question_id}.{criterion_id}: critério específico sem publico.")
+        if audience and not selector_nonempty:
+            raise ValueError(f"{question_id}.{criterion_id}: publico exige aplica_se preenchido.")
+
+        criteria.append(
+            Criterion(
+                id=criterion_id,
+                descricao=description,
+                natureza_fundamento=foundation,
+                apto_a_fundamentar_determinacao=determination,
+                publico=audience,
+                aplica_se=normalized_selector,
+            )
+        )
+    return criteria
+
+
+def _normalize_selector(selector: object, context: str) -> dict[str, list[str]]:
+    if not isinstance(selector, dict):
+        raise ValueError(f"{context}.aplica_se deve ser um objeto.")
+    unknown = sorted(str(key) for key in set(selector) - SELECTOR_FIELDS)
+    if unknown:
+        raise ValueError(
+            f"{context}.aplica_se contém seletores desconhecidos: {', '.join(unknown)}."
+        )
+    normalized: dict[str, list[str]] = {}
+    for key, value in selector.items():
+        if not isinstance(value, list):
+            raise ValueError(f"{context}.aplica_se.{key} deve ser uma lista.")
+        normalized[key] = [str(entry).strip() for entry in value if str(entry).strip()]
+    if not any(normalized.values()):
+        raise ValueError(f"{context}: variante específica sem seletor preenchido.")
+    return normalized
+
+
+def parse_situation_variants(block: str, situation_id: str) -> list[SituationVariant]:
+    raw_items = parse_structured_list(textwrap.dedent(block), f"{situation_id}.variantes")
+    variants: list[SituationVariant] = []
+    for position, item in enumerate(raw_items, 1):
+        context = f"{situation_id}.variantes[{position}]"
+        unknown = sorted(str(key) for key in set(item) - VARIANT_FIELDS)
+        if unknown:
+            raise ValueError(f"{context}: campos desconhecidos: {', '.join(unknown)}.")
+
+        audience = str(item.get("publico") or "").strip()
+        if not audience:
+            raise ValueError(f"{context}.publico não pode ser vazio.")
+        if "aplica_se" not in item:
+            raise ValueError(f"{context}.aplica_se deve ser informado.")
+        selector = _normalize_selector(item.get("aplica_se"), context)
+
+        criteria: list[str] | None = None
+        if "criterios" in item:
+            raw_criteria = item.get("criterios")
+            if not isinstance(raw_criteria, list):
+                raise ValueError(f"{context}.criterios deve ser uma lista.")
+            criteria = [str(value).strip() for value in raw_criteria if str(value).strip()]
+            if not criteria:
+                raise ValueError(f"{context}.criterios não pode ser vazio quando declarado.")
+
+        referral_type: str | None = None
+        if "tipo_encaminhamento" in item:
+            referral_type = str(item.get("tipo_encaminhamento") or "").strip()
+            if referral_type.lower() not in {"recomendação", "determinacao", "determinação", "recomendacao"}:
+                raise ValueError(
+                    f"{context}.tipo_encaminhamento deve ser Recomendação ou Determinação."
+                )
+
+        referral: str | None = None
+        if "encaminhamento" in item:
+            referral = str(item.get("encaminhamento") or "").strip()
+            if not referral:
+                raise ValueError(f"{context}.encaminhamento não pode ser vazio quando declarado.")
+
+        if criteria is None and referral_type is None and referral is None:
+            raise ValueError(f"{context}: informe ao menos um campo a sobrescrever.")
+        variants.append(
+            SituationVariant(
+                publico=audience,
+                aplica_se=selector,
+                criterios=criteria,
+                tipo_encaminhamento=referral_type,
+                encaminhamento=referral,
+            )
+        )
+
+    identifiers: set[str] = set()
+    for variant in variants:
+        identifier = situation_variant_id(situation_id, variant)
+        if identifier in identifiers:
+            raise ValueError(f"{situation_id}: identificador automático de variante duplicado: {identifier}.")
+        identifiers.add(identifier)
+    return variants
+
+
+def _identifier_fragment(value: str) -> str:
+    ascii_value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^A-Z0-9]+", "_", ascii_value.upper()).strip("_")
+
+
+def situation_variant_id(situation_id: str, variant: SituationVariant) -> str:
+    segments = variant.aplica_se.get("segmentos", [])
+    suffix = _identifier_fragment(segments[0]) if len(segments) == 1 else _identifier_fragment(variant.publico)
+    if not suffix:
+        raise ValueError(f"{situation_id}: não foi possível gerar o identificador da variante.")
+    return f"{situation_id}.{suffix}"
+
+
+def materialize_situation_variant(
+    situation: Situation, variant: SituationVariant
+) -> tuple[str, list[str], str, str]:
+    return (
+        situation_variant_id(situation.id, variant),
+        list(variant.criterios if variant.criterios is not None else situation.criterios),
+        variant.tipo_encaminhamento
+        if variant.tipo_encaminhamento is not None
+        else situation.tipo_encaminhamento,
+        variant.encaminhamento if variant.encaminhamento is not None else situation.encaminhamento,
+    )
+
+
 def parse_item(text: str) -> ListItem:
     raw = text.strip()
     item_id = ""
@@ -187,13 +437,21 @@ def parse_findings(block: str) -> list[Finding]:
     current_finding: Finding | None = None
     current_situation: Situation | None = None
     current_prop = ""
+    variant_lines: list[str] = []
+    reading_variants = False
 
     def finish_situation() -> None:
-        nonlocal current_situation, current_prop
+        nonlocal current_situation, current_prop, variant_lines, reading_variants
+        if current_situation and variant_lines:
+            current_situation.variantes = parse_situation_variants(
+                "\n".join(variant_lines), current_situation.id
+            )
         if current_finding and current_situation:
             current_finding.situacoes.append(current_situation)
         current_situation = None
         current_prop = ""
+        variant_lines = []
+        reading_variants = False
 
     def finish_finding() -> None:
         nonlocal current_finding
@@ -218,10 +476,22 @@ def parse_findings(block: str) -> list[Finding]:
         if not current_situation:
             continue
 
+        if reading_variants:
+            if line.strip():
+                variant_lines.append(line)
+            continue
+
         prop_match = re.match(r"^\s{4,}([a-zA-Z_]+):\s*(.*)$", line)
         if prop_match:
             current_prop = prop_match.group(1)
             value = prop_match.group(2).strip()
+            if current_prop == "variantes":
+                if value:
+                    raise ValueError(
+                        f"{current_situation.id}.variantes deve ser declarado como lista em bloco."
+                    )
+                reading_variants = True
+                continue
             assign_situation_prop(current_situation, current_prop, value)
             continue
 
@@ -248,6 +518,8 @@ def assign_situation_prop(situation: Situation, prop: str, value: str) -> None:
         situation.referencias = split_csv_list(value)
     elif prop == "criterios":
         situation.criterios = split_csv_list(value)
+    elif prop == "tipo_encaminhamento":
+        situation.tipo_encaminhamento = value
     elif prop == "encaminhamento":
         situation.encaminhamento = value
     elif prop == "regra_de_identificacao":
@@ -276,6 +548,21 @@ def parse_matrix(markdown: str) -> Matrix:
         )
         natureza = get_single_line(content, "natureza")
         gera_achado = parse_bool(get_single_line(content, "gera_achado"), default=True)
+        legacy_criteria_fields = [
+            field_name
+            for field_name in ("metadados_criterios", "criterios_especificos")
+            if re.search(rf"^{field_name}\s*:", content, flags=re.M)
+        ]
+        if legacy_criteria_fields:
+            raise ValueError(
+                f"{q_id}: blocos de critérios legados não são aceitos: "
+                f"{', '.join(legacy_criteria_fields)}. Use somente o bloco criterios estruturado."
+            )
+        if re.search(r"^variantes_especificas\s*:", content, flags=re.M):
+            raise ValueError(
+                f"{q_id}: o bloco global variantes_especificas não é aceito. "
+                "Use variantes aninhadas na situação."
+            )
         q = Question(
             id=q_id,
             title=match.group(2).strip(),
@@ -286,7 +573,7 @@ def parse_matrix(markdown: str) -> Matrix:
             riscos=parse_list(get_section_block(content, "riscos")),
             fontes=parse_list(get_section_block(content, "fontes_de_informacao")),
             informacoes=parse_list(get_section_block(content, "informacoes_requeridas")),
-            criterios=parse_list(get_section_block(content, "criterios")),
+            criterios=parse_criteria(get_section_block(content, "criterios"), q_id),
             criterios_comparabilidade=parse_list(get_section_block(content, "criterios_de_comparabilidade")),
             procedimentos=parse_list(get_section_block(content, "procedimentos")),
             evidencias=parse_list(get_section_block(content, "evidencias")),
@@ -448,13 +735,31 @@ def format_risk_or_comparability(question: Question) -> list[str]:
     return [MISSING_MARKDOWN_PLACEHOLDER]
 
 
-def format_criteria(question: Question) -> list[str]:
-    criteria = list(question.criterios)
+def format_criteria(question: Question) -> list[str | CellParagraph]:
+    general_criteria = [criterion for criterion in question.criterios if not criterion.especifico]
+    specific_criteria = [criterion for criterion in question.criterios if criterion.especifico]
+    criteria = [f"{criterion.id}: {criterion.descricao}" for criterion in general_criteria]
     if question.criterios_comparabilidade:
-        criteria.extend(question.criterios_comparabilidade)
-    if not criteria and question.natureza:
+        criteria.extend(format_items(question.criterios_comparabilidade))
+    if not criteria and not specific_criteria and question.natureza:
         return ["Não se aplica como critério de conformidade: análise orientada pelas fontes e pelos procedimentos definidos."]
-    return [move_leading_markdown_link_to_end(item) for item in format_items(criteria)]
+    result: list[str | CellParagraph] = [move_leading_markdown_link_to_end(item) for item in criteria]
+    if not result and not specific_criteria:
+        result.append(MISSING_MARKDOWN_PLACEHOLDER)
+    publico_anterior = None
+    for criterio in specific_criteria:
+        publico = criterio.publico
+        if publico != publico_anterior:
+            result.append(CellParagraph(publico, bold=True, spacing_after=60))
+            publico_anterior = publico
+        result.append(
+            CellParagraph(
+                f"{criterio.id}: {criterio.descricao}",
+                left_indent=240,
+                spacing_after=80,
+            )
+        )
+    return result
 
 
 def format_findings_or_analysis(question: Question) -> list[str | CellParagraph]:
@@ -470,9 +775,21 @@ def format_findings_or_analysis(question: Question) -> list[str | CellParagraph]
                 parts.append(f"Referências: {', '.join(situation.referencias)}")
             if situation.criterios:
                 parts.append(f"Critérios: {', '.join(situation.criterios)}")
+            if situation.tipo_encaminhamento:
+                parts.append(f"Tipo: {situation.tipo_encaminhamento}")
             if situation.encaminhamento:
                 parts.append(f"Encaminhamento: {situation.encaminhamento}")
             lines.append(CellParagraph("- " + "; ".join(parts), left_indent=360, spacing_after=120))
+            for variante in situation.variantes:
+                _, materialized_criteria, materialized_type, materialized_referral = (
+                    materialize_situation_variant(situation, variante)
+                )
+                criterios = ", ".join(materialized_criteria)
+                texto = (
+                    f"{variante.publico}: critérios {criterios}; tipo: "
+                    f"{materialized_type}; encaminhamento: {materialized_referral}"
+                )
+                lines.append(CellParagraph(texto, bold=True, left_indent=600, spacing_after=100))
 
     if lines:
         return lines

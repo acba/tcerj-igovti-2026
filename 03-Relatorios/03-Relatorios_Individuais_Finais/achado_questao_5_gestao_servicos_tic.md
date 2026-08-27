@@ -23,29 +23,9 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_catalogo %}
-* COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 - Recomendações quanto à estruturação do catálogo de serviços de TIC;
-* ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 - Gerenciamento de catálogo de serviço.
-{% endif %}
-{% if tem_ans %}
-* ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 - Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço.
-{% endif %}
-{% if tem_inventario %}
-* ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 - Recomendações quanto à gestão de configuração e ativos de TIC;
-{% endif %}
-{% if tem_configuracao %}
-* COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 - Recomendações quanto à gestão de configuração e ativos de TIC;
-* ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 - Gerenciamento de configuração.
-{% endif %}
-{% if tem_incidentes %}
-* COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 - Recomendações quanto à formalização e execução da gestão de incidentes;
-* ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 - Gerenciamento de incidente.
-{% endif %}
+{% for criterio in auditado.get_criterios_achado(nome_achado) %}
+* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
+{% endfor %}
 
 ### Evidências
 {% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}

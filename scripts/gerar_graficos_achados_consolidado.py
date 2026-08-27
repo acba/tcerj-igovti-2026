@@ -104,6 +104,14 @@ def parse_excel_spheres(path: Path) -> dict[str, str]:
                             val = v.text
                             if t_attr == 's':
                                 val = shared_strings[int(val)]
+                        elif t_attr == 'inlineStr':
+                            inline = c.find('ns:is', ns)
+                            if inline is not None:
+                                textos = [
+                                    no.text or ""
+                                    for no in inline.findall('.//ns:t', ns)
+                                ]
+                                val = "".join(textos)
                         row_cells[r_attr] = val
                     rows.append(row_cells)
                 

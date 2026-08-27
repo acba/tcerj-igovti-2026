@@ -20,23 +20,9 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_cargos %}
-* COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC;
-{% endif %}
-{% if tem_forca or tem_cargos %}
-* COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC;
-{% endif %}
-{% if tem_quantitativo %}
-* COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC;
-* Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o quantitativo necessário ou ideal para a força de trabalho em TI;
-{% endif %}
-{% if tem_forca %}
-* Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar providências para dotar o setor de TI de quantitativo adequado às necessidades de trabalho em TI;
-{% endif %}
-{% if tem_terceiros %}
-* COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 - Referência para preservação de capacidade interna de planejamento, coordenação, fiscalização e controle.
-{% endif %}
+{% for criterio in auditado.get_criterios_achado(nome_achado) %}
+* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
+{% endfor %}
 
 ### Evidências
 {% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}

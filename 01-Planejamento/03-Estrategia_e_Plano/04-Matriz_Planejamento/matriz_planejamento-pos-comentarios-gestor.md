@@ -34,11 +34,31 @@ informacoes_requeridas:
 - IR5: Resposta sobre posicionamento hierárquico da área de TIC na estrutura organizacional; [F1, q0102]
 
 criterios:
-- C1: COBIT 2019, APO01.04 - Definir e implementar as estruturas organizacionais: estabelecer estruturas organizacionais internas e externas necessárias para apoiar os objetivos de governança e gestão de TI.
-- C2: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.
-- C3: COBIT 2019, APO01.06 - Aprimorar o posicionamento da função de TI: posicionar a função de tecnologia de modo compatível com sua relevância estratégica, responsabilidades e necessidade de interação com a alta administração.
-- C6: Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.
-- C7: Constituição Federal, art. 37, caput - Princípio da eficiência.
+- id: C1
+  descricao: >-
+    COBIT 2019, APO01.04 - Definir e implementar as estruturas organizacionais: estabelecer estruturas organizacionais internas e externas necessárias para apoiar os objetivos de governança e gestão de TI.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C2
+  descricao: >-
+    COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C3
+  descricao: >-
+    COBIT 2019, APO01.06 - Aprimorar o posicionamento da função de TI: posicionar a função de tecnologia de modo compatível com sua relevância estratégica, responsabilidades e necessidade de interação com a alta administração.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C6
+  descricao: >-
+    Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: para a obtenção de melhores resultados, a área de TIC de cada órgão ou entidade deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.
+  natureza_fundamento: referencial_nao_vinculante
+  apto_a_fundamentar_determinacao: false
+- id: C7
+  descricao: >-
+    Constituição Federal, art. 37, caput - Princípio da eficiência.
+  natureza_fundamento: norma_geral
+  apto_a_fundamentar_determinacao: false
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q0101, se a organização possui área, unidade, setor ou função de TIC formalmente instituída; [IR1]
@@ -113,10 +133,26 @@ informacoes_requeridas:
 - IR6: Evidência anexada que demonstre atuação efetiva do Comitê de TIC ou instância equivalente, como atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências; [F2, q1001evi]
 
 criterios:
-- C1: COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.
-- C2: COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.
-- C3: Decreto nº 12.198/2024, arts. 5º e 6º, § 2º – Referência de governança digital: instituição, no âmbito da Administração Pública federal direta, autárquica e fundacional, de Comitê de Governança Digital ou colegiado equivalente com função deliberativa sobre ações de governo digital e uso de recursos de TIC, incluindo a aprovação dos instrumentos de planejamento previstos no Decreto.
-- C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC.
+- id: C1
+  descricao: >-
+    COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C2
+  descricao: >-
+    COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C3
+  descricao: >-
+    Decreto nº 12.198/2024, arts. 5º e 6º, § 2º – Referência de governança digital: instituição, no âmbito da Administração Pública federal direta, autárquica e fundacional, de Comitê de Governança Digital ou colegiado equivalente com função deliberativa sobre ações de governo digital e uso de recursos de TIC, incluindo a aprovação dos instrumentos de planejamento previstos no Decreto.
+  natureza_fundamento: referencial_nao_vinculante
+  apto_a_fundamentar_determinacao: false
+- id: C4
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: true
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q1001ext[H], se a alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC; [IR1]
@@ -202,10 +238,26 @@ informacoes_requeridas:
 - IR9: Resposta e evidência sobre acompanhamento da execução do plano de TIC; [F1, F2, q2102ext[E], q2102evi]
 
 criterios:
-- C1: COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.
-- C2: COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
-- C3: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.
-- C4: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, com participação das áreas relevantes, elaboração, manutenção e revisão periódica de PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta administração.
+- id: C1
+  descricao: >-
+    COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C2
+  descricao: >-
+    COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C3
+  descricao: >-
+    Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI.
+  natureza_fundamento: jurisprudencia_outro_orgao
+  apto_a_fundamentar_determinacao: false
+- id: C4
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, com participação das áreas relevantes, elaboração, manutenção e revisão periódica de PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta administração.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: true
 
 procedimentos:
 - P1: Verificar, por meio das respostas à q2101 e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado; [IR1]
@@ -313,13 +365,41 @@ informacoes_requeridas:
 - IR9: Resposta sobre o modelo de operação predominante de TIC e os quantitativos total e interno de profissionais de TIC, para avaliação da dependência de terceiros e da capacidade interna de coordenação e fiscalização; [F1, q0101, q0105]
 
 criterios:
-- C1: COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.
-- C2: COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.
-- C5: COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.
-- C6: COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.
-- C12: Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o quantitativo necessário ou ideal para a força de trabalho em TI.
-- C13: Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar providências para dotar o setor de TI de quantitativo adequado às necessidades de trabalho em TI, consideradas as necessidades das demais áreas.
-- C14: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 – Referência para avaliação da estrutura de recursos humanos de TIC quanto à suficiência quantitativa e qualitativa e à preservação de capacidade interna em atividades de planejamento, coordenação, fiscalização e controle.
+- id: C1
+  descricao: >-
+    COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TIC.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C2
+  descricao: >-
+    COBIT 2019, APO07.01 - Adquirir e manter pessoal adequado e apropriado: assegurar quantidade e perfil de profissionais compatíveis com as necessidades de TIC.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C5
+  descricao: >-
+    COBIT 2019, APO07.05 - Planejar e monitorar o uso de recursos humanos de TI e de negócio: planejar, alocar e acompanhar capacidade de pessoal para iniciativas, operações e serviços de TIC.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C6
+  descricao: >-
+    COBIT 2019, APO07.06 - Gerenciar pessoal contratado: controlar o uso de pessoal terceirizado ou externo, preservando responsabilização, supervisão e retenção de conhecimento.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C12
+  descricao: >-
+    Acórdão 1.411/2014-TCU-Plenário, item 9.1.6.5 - O PDTI deve contemplar o quantitativo necessário ou ideal para a força de trabalho em TI.
+  natureza_fundamento: jurisprudencia_outro_orgao
+  apto_a_fundamentar_determinacao: false
+- id: C13
+  descricao: >-
+    Acórdão 1.411/2014-TCU-Plenário, item 9.1.7 - A organização deve adotar providências para dotar o setor de TI de quantitativo adequado às necessidades de trabalho em TI, consideradas as necessidades das demais áreas.
+  natureza_fundamento: jurisprudencia_outro_orgao
+  apto_a_fundamentar_determinacao: false
+- id: C14
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 – Referência para avaliação da estrutura de recursos humanos de TIC quanto à suficiência quantitativa e qualitativa e à preservação de capacidade interna em atividades de planejamento, coordenação, fiscalização e controle.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: true
 
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
@@ -422,18 +502,66 @@ informacoes_requeridas:
 - IR13: Evidência anexada contendo registros de incidentes, chamados, tickets, relatórios de atendimento ou sistema equivalente; [F2, q2204evi]
 
 criterios:
-- C2: COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.
-- C3: ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias.
-- C4: ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
-- C6: COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
-- C8: COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
-- C11: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 – Recomendações quanto à estruturação do catálogo de serviços de TIC, incluindo descrição dos serviços, metas, formas de acesso e disponibilidade aos usuários.
-- C12: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 – Recomendações quanto à gestão de configuração e ativos de TIC, incluindo formalização do processo e manutenção de base consolidada de ativos e itens de configuração.
-- C13: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 – Recomendações quanto à formalização e execução do processo de gestão de incidentes, incluindo registros, classificação, escalamento e tratamento.
-- C14: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 – Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço.
-- C15: ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 – Gerenciamento de catálogo de serviço: orienta que o catálogo descreva os serviços e seus resultados pretendidos, contenha informações relevantes para sua utilização e seja disponibilizado às partes interessadas que necessitem acessá-lo.
-- C16: ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 – Gerenciamento de configuração: orienta a identificação, o registro, o controle, o rastreamento e a verificação dos itens de configuração, bem como a manutenção de informações de configuração precisas relacionadas aos serviços.
-- C17: ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 – Gerenciamento de incidente: orienta que os incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu tratamento, incluindo procedimento documentado para incidentes graves.
+- id: C2
+  descricao: >-
+    COBIT 2019, APO09.02 - Catalogar serviços facilitados por TI: definir, manter e comunicar catálogo de serviços, incluindo serviços prestados, características, requisitos e níveis de serviço esperados.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C3
+  descricao: >-
+    ITIL 4, prática de gerenciamento de nível de serviço: definir, acordar, monitorar, avaliar e reportar metas e níveis de serviço alinhados às necessidades das áreas usuárias.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C4
+  descricao: >-
+    ITIL 4, prática de gerenciamento de ativos de TI: planejar e gerenciar o ciclo de vida dos ativos de TI, mantendo informações suficientes para apoiar controle, custo, risco, valor e tomada de decisão.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C6
+  descricao: >-
+    COBIT 2019, BAI10.01 - Estabelecer e manter um modelo de configuração: definir escopo, granularidade, atributos, relacionamentos e responsáveis pela base de configuração.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C8
+  descricao: >-
+    COBIT 2019, DSS02.02, DSS02.04 e DSS02.07 - Requisições de serviço e incidentes gerenciados: registrar, classificar, priorizar, investigar, diagnosticar, resolver, acompanhar e reportar incidentes e requisições de serviço.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C11
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.4, III.9.4 e V.6.1 – Recomendações quanto à estruturação do catálogo de serviços de TIC, incluindo descrição dos serviços, metas, formas de acesso e disponibilidade aos usuários.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: false
+- id: C12
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.5, III.9.5 e V.6.2 – Recomendações quanto à gestão de configuração e ativos de TIC, incluindo formalização do processo e manutenção de base consolidada de ativos e itens de configuração.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: false
+- id: C13
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.6, III.9.6 e V.6.3 – Recomendações quanto à formalização e execução do processo de gestão de incidentes, incluindo registros, classificação, escalamento e tratamento.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: false
+- id: C14
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.7.7, III.9.7 e V.6.4 – Recomendações quanto à definição, pactuação e monitoramento de níveis de serviço.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: false
+- id: C15
+  descricao: >-
+    ABNT NBR ISO/IEC 20000-2:2021, item 8.2.4 – Gerenciamento de catálogo de serviço: orienta que o catálogo descreva os serviços e seus resultados pretendidos, contenha informações relevantes para sua utilização e seja disponibilizado às partes interessadas que necessitem acessá-lo.
+  natureza_fundamento: norma_tecnica
+  apto_a_fundamentar_determinacao: false
+- id: C16
+  descricao: >-
+    ABNT NBR ISO/IEC 20000-2:2021, item 8.2.6 – Gerenciamento de configuração: orienta a identificação, o registro, o controle, o rastreamento e a verificação dos itens de configuração, bem como a manutenção de informações de configuração precisas relacionadas aos serviços.
+  natureza_fundamento: norma_tecnica
+  apto_a_fundamentar_determinacao: false
+- id: C17
+  descricao: >-
+    ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 – Gerenciamento de incidente: orienta que os incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu tratamento, incluindo procedimento documentado para incidentes graves.
+  natureza_fundamento: norma_tecnica
+  apto_a_fundamentar_determinacao: false
 
 procedimentos:
 - P1: Verificar, por meio da q2201 e das q2201ext[B] e [C], a adoção da prática e a atualização e disponibilidade do catálogo de serviços de TIC; [IR1]
@@ -547,14 +675,70 @@ informacoes_requeridas:
 - IR7: Resposta sobre equipe de planejamento formalmente designada e com participação técnica de TIC; [F1, q2804[C]]
 
 criterios:
-- C1: Lei nº 14.133/2021, art. 11, parágrafo único: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
-- C2: Lei nº 14.133/2021, arts. 12, VII e §1º, e 18, caput e §1º, II – a fase preparatória deve compatibilizar-se com o Plano de Contratações Anual, quando elaborado, e deve ser demonstrado o alinhamento da contratação com o planejamento da Administração.
-- C3: Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
-- C4: Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
-- C5: COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
-- C8: Instrução Normativa SGD/ME nº 94/2022, arts. 2º, IV, 9º, 10, 11 e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, instituição da Equipe de Planejamento da Contratação e participação do integrante técnico da área de TIC, observada sua aplicação direta aos integrantes do SISP e as hipóteses de simplificação de procedimentos previstas na norma.
-- C9: Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do processo de planejamento anual das contratações, contemplando consolidação das demandas, participação das áreas, aprovação e publicidade do plano.
-- C10: Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e formalização de processo de trabalho para o planejamento de cada contratação, com controles internos mínimos.
+- id: C1
+  descricao: >-
+    Lei nº 14.133/2021, art. 11, parágrafo único: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
+  natureza_fundamento: norma_legal_vinculante
+  apto_a_fundamentar_determinacao: true
+- id: C2
+  descricao: >-
+    Lei nº 14.133/2021, arts. 12, VII e §1º, e 18, caput e §1º, II – a fase preparatória deve compatibilizar-se com o Plano de Contratações Anual, quando elaborado, e deve ser demonstrado o alinhamento da contratação com o planejamento da Administração.
+  natureza_fundamento: norma_legal_vinculante
+  apto_a_fundamentar_determinacao: true
+- id: C3
+  descricao: >-
+    Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
+  natureza_fundamento: norma_legal_vinculante
+  apto_a_fundamentar_determinacao: true
+- id: C4
+  descricao: >-
+    Lei nº 14.133/2021, art. 7º, caput, incisos I a III e §1º: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação.
+  natureza_fundamento: norma_legal_vinculante
+  apto_a_fundamentar_determinacao: true
+- id: C5
+  descricao: >-
+    COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C8
+  descricao: >-
+    Instrução Normativa SGD/ME nº 94/2022, arts. 2º, IV, 9º, 10, 11 e 12, §6º – referência de boa prática para estruturação da fase de planejamento das contratações de TIC, instituição da Equipe de Planejamento da Contratação e participação do integrante técnico da área de TIC, observada sua aplicação direta aos integrantes do SISP e as hipóteses de simplificação de procedimentos previstas na norma.
+  natureza_fundamento: referencial_nao_vinculante
+  apto_a_fundamentar_determinacao: false
+- id: C9
+  descricao: >-
+    Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 – Determinações para estruturação do processo de planejamento anual das contratações, contemplando consolidação das demandas, participação das áreas, aprovação e publicidade do plano.
+  natureza_fundamento: jurisprudencia_tce_rj
+  apto_a_fundamentar_determinacao: true
+- id: C10
+  descricao: >-
+    Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 – Precedente quanto à definição, aprovação e formalização de processo de trabalho para o planejamento de cada contratação, com controles internos mínimos.
+  natureza_fundamento: jurisprudencia_outro_orgao
+  apto_a_fundamentar_determinacao: false
+- id: C11
+  descricao: >-
+    Decreto Estadual nº 48.816/2023, no âmbito de aplicação do ato — referência específica para a fase preparatória das contratações; não é considerado, isoladamente, fundamento suficiente para determinar a composição mínima da equipe de planejamento.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: false
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C12
+  descricao: >-
+    Resolução CNJ nº 468/2022, art. 7º — a equipe de planejamento da contratação de solução de TIC deve ser formalmente instituída e conter integrantes demandante, técnico e administrativo.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C13
+  descricao: >-
+    Resolução CNMP nº 283/2024, arts. 8º e 9º — a equipe de planejamento da contratação de solução de TIC deve ser instituída com integrante técnico, integrante requisitante e integrante administrativo.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio da q2801 e das q2801ext[A] e [B], se o processo de planejamento das contratações de TIC possui etapas e responsabilidades definidas e artefatos padronizados; [IR1, IR2, IR3]
@@ -614,6 +798,22 @@ possiveis_achados:
       criterios: [C1, C4, C8]
       tipo_encaminhamento: Recomendação
       encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+          naturezas: [ADMINISTRACAO_DIRETA, AUTARQUIA, FUNDACAO]
+        criterios: [C1, C4, C11]
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C4, C12]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C4, C13]
+        tipo_encaminhamento: Determinação
 
 ---
 

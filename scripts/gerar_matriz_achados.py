@@ -14,6 +14,14 @@ from pathlib import Path
 from lxml import etree
 from openpyxl import load_workbook
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
+from matriz_aplicabilidade import carregar_catalogo_matriz
+
+try:
+    from scripts.gerar_matriz_planejamento import parse_matrix as parse_planning_matrix
+except ImportError:
+    from gerar_matriz_planejamento import parse_matrix as parse_planning_matrix
+
 
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
@@ -74,14 +82,15 @@ def carregar_modulo_matriz(repo: Path):
 def carregar_achados(repo: Path):
     module = carregar_modulo_matriz(repo)
     matriz = repo / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md"
-    text = matriz.read_text(encoding="utf-8")
-    result = []
-    for section in module.split_sections(text):
-        achados = module.parse_achados(section)
-        riscos = module.parse_keyed_list(section, "riscos")
-        for achado in achados:
-            result.append((achado, riscos))
-    return result
+    planning_matrix = parse_planning_matrix(matriz.read_text(encoding="utf-8"))
+    risks_by_question = {
+        question.id: {risk.id: risk.text for risk in question.riscos}
+        for question in planning_matrix.questions
+    }
+    return [
+        (finding, risks_by_question.get(finding.questao_codigo, {}))
+        for finding in module.parse_matrix(matriz)
+    ]
 
 
 def carregar_acoes(repo: Path):
@@ -314,6 +323,15 @@ def atualizar_documento(document_xml: bytes, dados):
             ]))
             if criterion_index < len(item["criterios"]) - 1:
                 paragraphs.append(blank_paragraph(templates["criterion_blank"]))
+        for publico, criterios in item.get("criterios_especificos", {}).items():
+            if paragraphs:
+                paragraphs.append(blank_paragraph(templates["criterion_blank"]))
+            paragraphs.append(make_paragraph(templates["criterion"], [(publico, props["bold"])]))
+            for criterio in criterios:
+                paragraphs.append(make_paragraph(templates["criterion"], [
+                    (criterio["id_exibicao"] + ":", props["bold"]),
+                    (" " + criterio["descricao"], props["criterion_normal"]),
+                ]))
         replace_cell(cells[1], paragraphs)
 
         paragraphs = [make_paragraph(templates["evidence_intro"], [
@@ -351,6 +369,15 @@ def atualizar_documento(document_xml: bytes, dados):
             ]))
             if referral_index < len(achado.situacoes) - 1:
                 paragraphs.append(blank_paragraph(templates["referral_blank"]))
+            for variante in item.get("variantes_por_situacao", {}).get(situacao.codigo, []):
+                paragraphs.append(make_paragraph(templates["referral"], [
+                    (variante.rotulo_publico, props["referral_label"]),
+                    (
+                        f" — {variante.tipo_encaminhamento} para que "
+                        f"{variante.encaminhamento.rstrip('.')} [{situacao.codigo}].",
+                        props["referral_normal"],
+                    ),
+                ]))
         replace_cell(cells[5], paragraphs)
 
     for table in tables[1:6]:
@@ -408,14 +435,38 @@ def atualizar_cabecalho(header_xml: bytes, auditados: int):
 def montar_dados(repo: Path):
     achados = carregar_achados(repo)
     acoes, por_achado = carregar_acoes(repo)
+    matriz_path = repo / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md"
+    catalogo = carregar_catalogo_matriz(matriz_path)
     dados = []
     for achado, riscos in achados:
+        ids_situacoes = {situacao.codigo for situacao in achado.situacoes}
+        variantes_especificas = [
+            variante for variante in catalogo.variantes
+            if not variante.geral and variante.id_situacao in ids_situacoes
+        ]
+        criterios_especificos = {}
+        ids_criterios = {
+            criterio_id for variante in variantes_especificas for criterio_id in variante.criterios
+        }
+        for criterio in catalogo.criterios:
+            if criterio.id not in ids_criterios or criterio.seletor.vazio:
+                continue
+            publico = criterio.rotulo_publico or "Público específico"
+            criterios_especificos.setdefault(publico, []).append({
+                "id_exibicao": criterio.id.split(".", 1)[-1],
+                "descricao": criterio.descricao,
+            })
+        variantes_por_situacao = {}
+        for variante in variantes_especificas:
+            variantes_por_situacao.setdefault(variante.id_situacao, []).append(variante)
         dados.append({
             "achado": achado,
             "criterios": criterios_do_achado(achado),
             "evidencias": evidencias_do_achado(achado, por_achado[achado.codigo], acoes),
             "riscos": list(riscos.values()),
             "efeitos": EFEITOS[achado.codigo],
+            "criterios_especificos": criterios_especificos,
+            "variantes_por_situacao": variantes_por_situacao,
         })
     if len(dados) != 6:
         raise ValueError(f"Esperados 6 achados, encontrados {len(dados)}")
