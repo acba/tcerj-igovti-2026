@@ -1,11 +1,14 @@
 import tempfile
 import unittest
+import shutil
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
 from scripts.gerar_matriz_planejamento import (
     DEFAULT_TEMPLATE,
+    AUDITED_ENTITIES_HEADER,
+    AUDIT_OBJECTIVE_HEADER,
     W,
     CellParagraph,
     compact_display_identifiers,
@@ -62,7 +65,7 @@ class MatrizPlanejamentoDocxTest(unittest.TestCase):
 
         self.assertEqual(mapping["C6"], "C4")
         self.assertEqual(mapping["C7"], "C5")
-        self.assertEqual(question.criterios[-1].id, "C7")
+        self.assertEqual(next(item.id for item in question.criterios if item.id == "C7"), "C7")
 
         criteria = format_criteria(question, mapping)
         criteria_text = [item.text if isinstance(item, CellParagraph) else item for item in criteria]
@@ -85,6 +88,7 @@ class MatrizPlanejamentoDocxTest(unittest.TestCase):
             generate_docx(DEFAULT_TEMPLATE, MATRIX_PATH, output)
             with ZipFile(output) as archive:
                 root = ET.fromstring(archive.read("word/document.xml"))
+                header_root = ET.fromstring(archive.read("word/header1.xml"))
 
         body = root.find(f"{W}body")
         self.assertIsNotNone(body)
@@ -102,6 +106,17 @@ class MatrizPlanejamentoDocxTest(unittest.TestCase):
 
         document_text = "".join(element.text or "" for element in root.iter(f"{W}t"))
         self.assertNotIn("JURISDICIONADOS:", document_text)
+        header_text = "".join(element.text or "" for element in header_root.iter(f"{W}t"))
+        self.assertIn(f"JURISDICIONADOS: {AUDITED_ENTITIES_HEADER}", header_text)
+        self.assertIn(f"OBJETIVO DA AUDITORIA: {AUDIT_OBJECTIVE_HEADER}", header_text)
+
+    def test_geracao_pode_atualizar_o_proprio_arquivo_modelo(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "matriz.docx"
+            shutil.copy2(DEFAULT_TEMPLATE, output)
+            generate_docx(output, MATRIX_PATH, output)
+            with ZipFile(output) as archive:
+                self.assertIsNotNone(archive.getinfo("word/document.xml"))
 
 
 if __name__ == "__main__":

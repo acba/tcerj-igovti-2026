@@ -22,9 +22,13 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_TEMPLATE = REPO_ROOT / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/02-Matriz de Planejamento Pós Revisão da Sub.docx"
+DEFAULT_TEMPLATE = REPO_ROOT / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/AN02 – Matriz de planejamento.docx"
 DEFAULT_OUTPUT = REPO_ROOT / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento_gerada.docx"
 MISSING_MARKDOWN_PLACEHOLDER = "[NÃO LOCALIZADO NO MARKDOWN]"
+AUDITED_ENTITIES_HEADER = "119 organizações públicas estaduais e prefeituras municipais"
+AUDIT_OBJECTIVE_HEADER = (
+    "Avaliar o grau de adoção dos jurisdicionados às boas práticas de governança e gestão de TI."
+)
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 R_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -641,6 +645,54 @@ def set_paragraph_text(paragraph: ET.Element, text: str, *, bold: bool | None = 
     text_el.text = text
 
 
+def set_labeled_paragraph_text(paragraph: ET.Element, label: str, value: str) -> None:
+    runs = paragraph.findall(f"{W}r")
+    label_rpr = (
+        copy.deepcopy(runs[0].find(f"{W}rPr"))
+        if runs and runs[0].find(f"{W}rPr") is not None
+        else ET.Element(f"{W}rPr")
+    )
+    value_run = next((run for run in runs[1:] if run.find(f"{W}rPr") is not None), None)
+    value_rpr = (
+        copy.deepcopy(value_run.find(f"{W}rPr"))
+        if value_run is not None
+        else ET.Element(f"{W}rPr")
+    )
+
+    for child in list(paragraph):
+        if local_name(child) != "pPr":
+            paragraph.remove(child)
+
+    for text, properties in ((label, label_rpr), (f": {value}", value_rpr)):
+        run = ET.SubElement(paragraph, f"{W}r")
+        if len(properties):
+            run.append(properties)
+        text_element = ET.SubElement(run, f"{W}t")
+        if text[:1].isspace() or text[-1:].isspace():
+            text_element.set(f"{XML}space", "preserve")
+        text_element.text = text
+
+
+def update_header_xml(header_xml: bytes) -> bytes:
+    root = ET.fromstring(header_xml)
+    replacements = {
+        "JURISDICIONADOS": AUDITED_ENTITIES_HEADER,
+        "OBJETIVO DA AUDITORIA": AUDIT_OBJECTIVE_HEADER,
+    }
+    found: set[str] = set()
+    for paragraph in root.iter(f"{W}p"):
+        current_text = text_of(paragraph).strip()
+        for label, value in replacements.items():
+            if current_text.startswith(f"{label}:"):
+                set_labeled_paragraph_text(paragraph, label, value)
+                found.add(label)
+                break
+    missing = sorted(set(replacements) - found)
+    if missing:
+        raise ValueError(f"Cabeçalho sem campos esperados: {', '.join(missing)}.")
+    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
+
+
 def clone_paragraph(
     template: ET.Element,
     text: str,
@@ -1004,7 +1056,12 @@ def find_template_parts(body: ET.Element) -> tuple[list[ET.Element], ET.Element,
     tables = [child for child in children if local_name(child) == "tbl"]
     if not tables:
         raise ValueError("Template sem tabela de matriz.")
-    matrix_table = tables[0]
+    matrix_table = copy.deepcopy(tables[0])
+    if len(matrix_table.findall(f"{W}tr")) < 4:
+        if len(tables) < 2 or len(tables[1].findall(f"{W}tr")) < 2:
+            raise ValueError("Template sem as tabelas de questão e detalhamento esperadas.")
+        for row in tables[1].findall(f"{W}tr"):
+            matrix_table.append(copy.deepcopy(row))
     signature_table = tables[-1] if len(tables[-1].findall(f"{W}tr")) <= 6 else None
     sect_pr = children[-1] if children and local_name(children[-1]) == "sectPr" else ET.Element(f"{W}sectPr")
     intro = children[:5] if len(children) >= 5 else children[:]
@@ -1038,38 +1095,42 @@ def generate_docx(template_path: Path, markdown_path: Path, output_path: Path) -
         raise ValueError("Nenhuma questão foi encontrada no Markdown.")
 
     with ZipFile(template_path, "r") as zin:
-        document_xml = zin.read("word/document.xml")
-        root = ET.fromstring(document_xml)
-        body = root.find(f"{W}body")
-        if body is None:
-            raise ValueError("Template DOCX sem word/body.")
-        intro, table_template, signature_parts, sect_pr = find_template_parts(body)
+        archive = [(copy.copy(item), zin.read(item.filename)) for item in zin.infolist()]
 
-        for child in list(body):
-            body.remove(child)
+    files = {item.filename: data for item, data in archive}
+    root = ET.fromstring(files["word/document.xml"])
+    body = root.find(f"{W}body")
+    if body is None:
+        raise ValueError("Template DOCX sem word/body.")
+    intro, table_template, signature_parts, sect_pr = find_template_parts(body)
 
-        for element in replace_intro_text(intro, matrix):
-            body.append(element)
+    for child in list(body):
+        body.remove(child)
 
-        blank_paragraph = ET.Element(f"{W}p")
-        for question in matrix.questions:
-            summary_table, details_table = build_question_tables(table_template, question)
-            body.append(page_break_paragraph())
-            body.append(summary_table)
-            body.append(details_table)
+    for element in replace_intro_text(intro, matrix):
+        body.append(element)
 
-        for part in signature_parts:
-            body.append(copy.deepcopy(blank_paragraph))
-            body.append(copy.deepcopy(part))
+    blank_paragraph = ET.Element(f"{W}p")
+    for question in matrix.questions:
+        summary_table, details_table = build_question_tables(table_template, question)
+        body.append(page_break_paragraph())
+        body.append(summary_table)
+        body.append(details_table)
 
-        body.append(copy.deepcopy(sect_pr))
-        new_document = ET.tostring(root, encoding="utf-8", xml_declaration=True)
+    for part in signature_parts:
+        body.append(copy.deepcopy(blank_paragraph))
+        body.append(copy.deepcopy(part))
 
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        with ZipFile(output_path, "w", ZIP_DEFLATED) as zout:
-            for item in zin.infolist():
-                data = new_document if item.filename == "word/document.xml" else zin.read(item.filename)
-                zout.writestr(item, data)
+    body.append(copy.deepcopy(sect_pr))
+    files["word/document.xml"] = ET.tostring(root, encoding="utf-8", xml_declaration=True)
+    if "word/header1.xml" not in files:
+        raise ValueError("Template DOCX sem word/header1.xml.")
+    files["word/header1.xml"] = update_header_xml(files["word/header1.xml"])
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with ZipFile(output_path, "w", ZIP_DEFLATED) as zout:
+        for item, _ in archive:
+            zout.writestr(item, files[item.filename])
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:

@@ -18,9 +18,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
 from matriz_aplicabilidade import carregar_catalogo_matriz
 
 try:
-    from scripts.gerar_matriz_planejamento import parse_matrix as parse_planning_matrix
+    from scripts.gerar_matriz_planejamento import (
+        AUDITED_ENTITIES_HEADER,
+        AUDIT_OBJECTIVE_HEADER,
+        parse_matrix as parse_planning_matrix,
+    )
 except ImportError:
-    from gerar_matriz_planejamento import parse_matrix as parse_planning_matrix
+    from gerar_matriz_planejamento import (  # type: ignore
+        AUDITED_ENTITIES_HEADER,
+        AUDIT_OBJECTIVE_HEADER,
+        parse_matrix as parse_planning_matrix,
+    )
 
 
 NS = {
@@ -407,7 +415,7 @@ def atualizar_documento(document_xml: bytes, dados):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone="yes")
 
 
-def atualizar_cabecalho(header_xml: bytes, auditados: int):
+def atualizar_cabecalho(header_xml: bytes):
     root = etree.fromstring(header_xml)
     cell = root.find(".//w:tbl/w:tr/w:tc[3]", NS)
     paragraphs = cell.findall("w:p", NS)
@@ -421,11 +429,11 @@ def atualizar_cabecalho(header_xml: bytes, auditados: int):
         make_paragraph(templates[0], [("FISCALIZAÇÃO", bold[0]), (": 18/2026", normal[0])]),
         make_paragraph(templates[1], [
             ("JURISDICIONADOS", bold[1]),
-            (f": {auditados} organizações públicas estaduais e municipais respondentes do iGovTI 2026.", normal[1]),
+            (f": {AUDITED_ENTITIES_HEADER}", normal[1]),
         ]),
         make_paragraph(templates[2], [
             ("OBJETIVO DA AUDITORIA", bold[2]),
-            (": Avaliar o grau de adoção das organizações públicas às boas práticas de governança e gestão de tecnologia da informação, mediante aplicação do iGovTI 2026.", normal[2]),
+            (f": {AUDIT_OBJECTIVE_HEADER}", normal[2]),
         ]),
     ]
     replace_cell(cell, new_paragraphs)
@@ -476,13 +484,15 @@ def montar_dados(repo: Path):
 def gerar(modelo: Path, saida: Path, repo: Path):
     dados = montar_dados(repo)
     auditados = contar_auditados(repo)
-    with zipfile.ZipFile(modelo, "r") as source, zipfile.ZipFile(saida, "w") as target:
-        for info in source.infolist():
-            content = source.read(info.filename)
+    with zipfile.ZipFile(modelo, "r") as source:
+        archive = [(copy.copy(info), source.read(info.filename)) for info in source.infolist()]
+    with zipfile.ZipFile(saida, "w") as target:
+        for info, original_content in archive:
+            content = original_content
             if info.filename == "word/document.xml":
                 content = atualizar_documento(content, dados)
             elif info.filename == "word/header1.xml":
-                content = atualizar_cabecalho(content, auditados)
+                content = atualizar_cabecalho(content)
             target.writestr(info, content)
     print(f"OK: {len(dados)} achados e {auditados} jurisdicionados -> {saida}")
 
@@ -490,7 +500,11 @@ def gerar(modelo: Path, saida: Path, repo: Path):
 def parse_args():
     repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--modelo", type=Path, default=Path.home() / "Downloads/01-Matriz de Achados.docx")
+    parser.add_argument(
+        "--modelo",
+        type=Path,
+        default=repo_root / "02-Execucao/04-Matriz_Achados/AN06 – Matriz de achados.docx",
+    )
     parser.add_argument("--saida", type=Path, default=repo_root / "02-Execucao/04-Matriz_Achados/01-Matriz de Achados.docx")
     parser.add_argument("--repo", type=Path, default=repo_root)
     return parser.parse_args()

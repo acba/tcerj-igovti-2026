@@ -174,10 +174,7 @@ metadados_criterios:
         gerais = [criterio for criterio in catalogo.criterios if criterio.seletor.vazio]
         especificos = [criterio for criterio in catalogo.criterios if not criterio.seletor.vazio]
         self.assertEqual(len(gerais), 40)
-        self.assertEqual(
-            {criterio.id for criterio in especificos},
-            {"Q6.C11", "Q6.C12", "Q6.C13"},
-        )
+        self.assertEqual(len(especificos), 21)
         self.assertTrue(
             all(len(criterio.seletor.segmentos) == 1 for criterio in especificos)
         )
@@ -298,14 +295,19 @@ variantes_especificas:
         )
         catalog = carregar_catalogo_matriz(caminho)
         specifics = {variant.id for variant in catalog.variantes if not variant.geral}
-        self.assertEqual(
-            specifics,
-            {
-                "S6.4.EXECUTIVO_ESTADUAL",
-                "S6.4.JUDICIARIO_ESTADUAL",
-                "S6.4.MINISTERIO_PUBLICO_ESTADUAL",
-            },
-        )
+        self.assertEqual(len(specifics), 72)
+        for variant in catalog.variantes:
+            if not variant.geral:
+                self.assertTrue(
+                    any(
+                        variant.id.endswith(sufixo)
+                        for sufixo in (
+                            "EXECUTIVO_ESTADUAL",
+                            "JUDICIARIO_ESTADUAL",
+                            "MINISTERIO_PUBLICO_ESTADUAL",
+                        )
+                    )
+                )
 
 
 class SeletorAplicabilidadeTest(unittest.TestCase):

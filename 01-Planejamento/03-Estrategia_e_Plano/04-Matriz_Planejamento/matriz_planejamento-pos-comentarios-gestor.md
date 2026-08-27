@@ -59,6 +59,30 @@ criterios:
     Constituição Federal, art. 37, caput - Princípio da eficiência.
   natureza_fundamento: norma_geral
   apto_a_fundamentar_determinacao: false
+- id: C8
+  descricao: >-
+    Decreto Estadual nº 47.278/2020 (alterado pelo Decreto nº 48.997/2024), arts. 4º e 6º, I a XI, e Portaria PRODERJ/PRE nº 825/2021, Anexo A, arts. 1º, IX, 8º e 9º — estruturação obrigatória do Sistema Estadual de TIC (SETIC), instituição dos Níveis Setoriais de TIC (NSTIC) e definição das atribuições mínimas da unidade de TIC nos órgãos e entidades do Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C9
+  descricao: >-
+    Resolução CNJ nº 370/2021, arts. 21 a 23 e Ato Normativo TJ nº 32/2023, arts. 3º e 8º a 10 — dever de estruturação organizacional formal de TIC, com definição de atribuições regimentais e posicionamento compatível no Poder Judiciário Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C10
+  descricao: >-
+    Resolução CNMP nº 171/2017, arts. 9º, 16, 18 e 33 e Resoluções GPGJ nº 2.675/2025 e nº 2.785/2026, arts. 7º a 10 e 13 — instituição formal da unidade de TIC, atribuições de gestão e posicionamento estratégico subordinado à alta administração no Ministério Público Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q0101, se a organização possui área, unidade, setor ou função de TIC formalmente instituída; [IR1]
@@ -85,6 +109,22 @@ possiveis_achados:
       criterios: [C1, C7]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize a área, unidade, setor ou função de TIC em instrumento compatível com a organização, definindo vinculação e responsabilidades essenciais de modo compatível com o porte, a complexidade e a dependência tecnológica da organização
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C8]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C9]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C10]
+        tipo_encaminhamento: Determinação
     - S1.2:
       descricao: Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.
       severidade: alta
@@ -95,6 +135,22 @@ possiveis_achados:
       criterios: [C2, C7]
       tipo_encaminhamento: Recomendação
       encaminhamento: defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão e controle da TIC
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C2, C8]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C2, C9]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C2, C10]
+        tipo_encaminhamento: Determinação
     - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
@@ -105,6 +161,22 @@ possiveis_achados:
       criterios: [C3, C6]
       tipo_encaminhamento: Recomendação
       encaminhamento: avalie o posicionamento organizacional da área de TIC e adote, quando necessário, medidas para assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação.
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C3, C8]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C3, C9]
+        tipo_encaminhamento: Recomendação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C3, C10]
+        tipo_encaminhamento: Recomendação
 
 ## Questão 02 - Governança e Comitê de TIC
 
@@ -153,6 +225,30 @@ criterios:
     Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 – Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, com responsabilidade pelo alinhamento das ações de TIC aos objetivos institucionais, priorização dos investimentos e monitoramento do desempenho da TIC.
   natureza_fundamento: jurisprudencia_tce_rj
   apto_a_fundamentar_determinacao: true
+- id: C5
+  descricao: >-
+    Portaria PRODERJ/PRE nº 825/2021, Anexo C, arts. 2º, 5º, 6º, 13 e 14 e Decreto Estadual nº 46.644/2019, arts. 3º e 4º — instituição obrigatória do Comitê Permanente do PEDTIC com composição multidisciplinar, definição de metas, indicadores e registros formais das deliberações no Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C6
+  descricao: >-
+    Resolução CNJ nº 370/2021, arts. 7º, 8º, 42, 44, 46 e 48 e Atos Normativos TJ nº 27/2022 e nº 32/2023 — instituição obrigatória do Comitê de Governança de TIC (CGTIC), metas, indicadores estratégicos e reuniões periódicas no Poder Judiciário Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C7
+  descricao: >-
+    Resolução CNMP nº 171/2017, arts. 11 a 14 e Resoluções GPGJ nº 2.540/2023 e nº 2.785/2026 — instituição obrigatória do Comitê Estratégico de TI (CETI), metas, reuniões trimestrais e relatório anual no Ministério Público Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio da resposta à q1001ext[H], se a alta administração estabeleceu objetivos, indicadores e metas para a gestão de TIC; [IR1]
@@ -183,6 +279,22 @@ possiveis_achados:
       criterios: [C2]
       tipo_encaminhamento: Recomendação
       encaminhamento: estabeleça objetivos, indicadores e metas para a gestão de TIC, de modo a possibilitar o acompanhamento periódico do desempenho da TIC pela alta administração
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C2, C5]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C2, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C2, C7]
+        tipo_encaminhamento: Determinação
     - S2.2:
       descricao: Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.
       severidade: alta
@@ -193,6 +305,22 @@ possiveis_achados:
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, definindo em seu ato constitutivo, minimamente, a participação de representantes de áreas relevantes da organização, suas competências, a periodicidade de reuniões, a forma de registro das deliberações e os mecanismos de acompanhamento dos encaminhamentos
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C4, C7]
+        tipo_encaminhamento: Determinação
     - S2.3:
       descricao: Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.
       severidade: media
@@ -203,6 +331,22 @@ possiveis_achados:
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C4, C7]
+        tipo_encaminhamento: Determinação
 
 ## Questão 03 - Planejamento de TIC
 
@@ -258,6 +402,30 @@ criterios:
     Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.3 e III.3 e respectivos subitens – Precedentes quanto ao estabelecimento formal de processo estruturado de planejamento de TIC, com participação das áreas relevantes, elaboração, manutenção e revisão periódica de PDTI, contemplando objetivos, indicadores e metas alinhados aos objetivos institucionais, riscos, projetos, aquisições, recursos necessários e ações de monitoramento após aprovação pela alta administração.
   natureza_fundamento: jurisprudencia_tce_rj
   apto_a_fundamentar_determinacao: true
+- id: C5
+  descricao: >-
+    Portaria PRODERJ/PRE nº 825/2021, arts. 1º a 5º e Anexo C, arts. 1º a 14, e IN PRODERJ/PRE nº 05/2024, art. 5º — obrigatoriedade de elaboração, alinhamento institucional, aprovação pela autoridade máxima, integração com orçamento/PCA e revisão periódica do PEDTIC no Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C6
+  descricao: >-
+    Resolução CNJ nº 370/2021, arts. 6º a 8º, 42, 46 e 48 e Atos Normativos TJ nº 32/2023 e nº 27/2022 — rito de elaboração, alinhamento, aprovação pela Presidência, integração orçamentária e acompanhamento do PDTIC no Poder Judiciário Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C7
+  descricao: >-
+    Resolução CNMP nº 171/2017, arts. 9º, 11, 12, 14 e 16, Resolução CNMP nº 283/2024, arts. 4º a 6º e Resoluções GPGJ nº 2.785/2026 e nº 2.540/2023 — rito de elaboração, alinhamento institucional, aprovação pelo PGJ, integração orçamentária/PAC e acompanhamento do PETI/PDTI no Ministério Público Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio das respostas à q2101 e q2101ext[D], se a organização executa processo de planejamento de TIC formalizado; [IR1]
@@ -297,6 +465,22 @@ possiveis_achados:
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades e participação das áreas demandantes
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C4, C7]
+        tipo_encaminhamento: Determinação
   - S3.2:
       descricao: Ausência de aprovação formal do plano de TIC.
       severidade: alta
@@ -307,6 +491,22 @@ possiveis_achados:
       criterios: [C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C4, C7]
+        tipo_encaminhamento: Determinação
   - S3.4:
       descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
       severidade: media
@@ -317,6 +517,22 @@ possiveis_achados:
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C4, C7]
+        tipo_encaminhamento: Determinação
   - S3.5:
       descricao: Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.
       severidade: alta
@@ -327,6 +543,22 @@ possiveis_achados:
       criterios: [C2, C4]
       tipo_encaminhamento: Determinação
       encaminhamento: integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C2, C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C2, C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C2, C4, C7]
+        tipo_encaminhamento: Determinação
   - S3.6:
       descricao: Ausência de acompanhamento da execução do plano de TIC.
       severidade: media
@@ -337,6 +569,22 @@ possiveis_achados:
       criterios: [C4]
       tipo_encaminhamento: Determinação
       encaminhamento: estabeleça e execute rotina periódica de acompanhamento da execução do plano de TIC, promovendo sua revisão periódica e os ajustes ou atualizações necessários, com registro das principais decisões e reprogramações
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C4, C5]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C4, C6]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C4, C7]
+        tipo_encaminhamento: Determinação
 
 ## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação
 
@@ -400,6 +648,30 @@ criterios:
     Acórdão TCE-RJ nº 44.490/2024-PLEN, itens I.10.11, III.9.11 e IV.11.3 – Referência para avaliação da estrutura de recursos humanos de TIC quanto à suficiência quantitativa e qualitativa e à preservação de capacidade interna em atividades de planejamento, coordenação, fiscalização e controle.
   natureza_fundamento: jurisprudencia_tce_rj
   apto_a_fundamentar_determinacao: true
+- id: C15
+  descricao: >-
+    Decreto Estadual nº 47.278/2020, arts. 4º e 6º e IN PRODERJ/PRE nº 07/2025, arts. 11, 17 e 18 — capacidade técnica da área de TIC e designação formal obrigatória de Gestor de Segurança da Informação e responsável por incidentes no Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C16
+  descricao: >-
+    Resolução CNJ nº 370/2021, art. 24, caput e §§ 1º a 3º, Resolução CNJ nº 468/2022, art. 8º, § 1º e Resolução CNJ nº 396/2021, art. 7º — exigência de quadro permanente e exclusivo de servidores de TIC, dimensionamento documentado por guia técnico, vedação de terceirização de gestão e papéis formais de cibersegurança no Poder Judiciário Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C17
+  descricao: >-
+    Resolução CNMP nº 171/2017, arts. 16 e 33, Resolução CNMP nº 283/2024, art. 9º, § 2º e art. 33 e Resoluções GPGJ nº 2.675/2025 e nº 2.757/2025 — quadro próprio de TIC, vedação de terceirização de atividades exclusivas e atribuição de funções formais de TIC e segurança no Ministério Público Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio da q0105, o quantitativo informado de profissionais que atuam em TIC e segurança da informação, por área e tipo de vínculo; [IR1]
@@ -434,9 +706,25 @@ possiveis_achados:
       criterios: [C2, C13]
       tipo_encaminhamento: Recomendação
       encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C2, C15]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C2, C16]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C2, C17]
+        tipo_encaminhamento: Recomendação
   - S4.2:
       descricao: Ausência ou insuficiência de definição documentada do quantitativo necessário de pessoal de TIC e segurança da informação.
-      severidade: média
+      severidade: media
       itens_questionario: [q2703ext[C], q2703evi]
       regra_de_identificacao:
       - (q2703ext[C] != Sim) | (avaliacao_documental[q2703ext[C]] == Não conforme)
@@ -444,6 +732,22 @@ possiveis_achados:
       criterios: [C5, C12]
       tipo_encaminhamento: Recomendação
       encaminhamento: estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C5, C15]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C5, C16]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C5, C17]
+        tipo_encaminhamento: Recomendação
   - S4.3:
       descricao: Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.
       severidade: media
@@ -454,16 +758,48 @@ possiveis_achados:
       criterios: [C1, C2]
       tipo_encaminhamento: Recomendação
       encaminhamento: avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C15]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C16]
+        tipo_encaminhamento: Recomendação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C17]
+        tipo_encaminhamento: Recomendação
   - S4.6:
-    descricao: Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.
-    severidade: alta
-    itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
-    regra_de_identificacao:
+      descricao: Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.
+      severidade: alta
+      itens_questionario: [q0101, q0105[TI_efetivos], q0105[TI_comissionados], q0105[TI_terceirizados], q0105[TI_cedidos], q0105[TI_temporarios], q0105[TI_estagiarios]]
+      regra_de_identificacao:
       - (q0101 == B) & (total_TI_interno == 0) & (total_TI > 0)
-    referencias_matriz: [R4.6, P7, E7]
-    criterios: [C6, C14]
-    tipo_encaminhamento: Recomendação
-    encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
+      referencias_matriz: [R4.6, P7, E7]
+      criterios: [C6, C14]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C6, C14, C15]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C6, C14, C16]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C6, C14, C17]
+        tipo_encaminhamento: Determinação
 
 ## Questão 05 - Gestão de Serviços de TIC
 
@@ -562,6 +898,30 @@ criterios:
     ABNT NBR ISO/IEC 20000-2:2021, item 8.6.1 – Gerenciamento de incidente: orienta que os incidentes sejam registrados, classificados e priorizados, que as ações adotadas para sua resolução sejam registradas e rastreáveis e que sejam definidas responsabilidades para seu tratamento, incluindo procedimento documentado para incidentes graves.
   natureza_fundamento: norma_tecnica
   apto_a_fundamentar_determinacao: false
+- id: C18
+  descricao: >-
+    Decreto Estadual nº 47.278/2020, arts. 5º, XI e 6º, V e IN PRODERJ/PRE nº 07/2025, arts. 11 a 13, 17 e 18 e Anexo (itens 7.1, 8.1, 8.9.2.1, 8.14) — obrigatoriedade de inventário permanente de ativos e licenças, gestão de incidentes de segurança e SLA contratual no Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C19
+  descricao: >-
+    Resolução CNJ nº 370/2021, arts. 18 a 21, 23 e 34, Resolução CNJ nº 396/2021, arts. 6º a 8º e Ato Normativo TJ nº 28/2022 — obrigatoriedade de catálogo de serviços de TIC, acordos de níveis de serviço com metas operacionais, inventário de ativos e gestão de incidentes no Poder Judiciário Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C20
+  descricao: >-
+    Resolução CNMP nº 171/2017, arts. 14, 23, 26, 27 e 28, Resolução CNMP nº 294/2024 e Resoluções GPGJ nº 2.785/2026 e nº 2.757/2025 — obrigatoriedade de catálogo de serviços, ANS, inventário permanente de ativos e gestão de incidentes de serviços e segurança no Ministério Público Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio da q2201 e das q2201ext[B] e [C], a adoção da prática e a atualização e disponibilidade do catálogo de serviços de TIC; [IR1]
@@ -602,6 +962,22 @@ possiveis_achados:
       criterios: [C2, C11, C15]
       tipo_encaminhamento: Recomendação
       encaminhamento: institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C2, C11, C15, C18]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C2, C15, C19]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C2, C15, C20]
+        tipo_encaminhamento: Determinação
   - S5.2:
       descricao: Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.
       severidade: media
@@ -612,6 +988,22 @@ possiveis_achados:
       criterios: [C3, C14]
       tipo_encaminhamento: Recomendação
       encaminhamento: defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C3, C14, C18]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C3, C19]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C3, C20]
+        tipo_encaminhamento: Determinação
   - S5.3:
       descricao: Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.
       severidade: alta
@@ -622,6 +1014,22 @@ possiveis_achados:
       criterios: [C4, C12]
       tipo_encaminhamento: Recomendação
       encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C4, C18]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C4, C19]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C4, C20]
+        tipo_encaminhamento: Determinação
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
@@ -632,6 +1040,22 @@ possiveis_achados:
       criterios: [C6, C12, C16]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C6, C16, C18]
+        tipo_encaminhamento: Recomendação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C6, C16, C19]
+        tipo_encaminhamento: Recomendação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C6, C16, C20]
+        tipo_encaminhamento: Recomendação
   - S5.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
       severidade: alta
@@ -642,6 +1066,22 @@ possiveis_achados:
       criterios: [C8, C13, C17]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C8, C17, C18]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C8, C17, C19]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C8, C17, C20]
+        tipo_encaminhamento: Determinação
 
 ## Questão 06 - Contratações de TIC
 
@@ -739,6 +1179,30 @@ criterios:
   publico: Ministério Público Estadual
   aplica_se:
     segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+- id: C14
+  descricao: >-
+    IN PRODERJ/PRE nº 05/2024, arts. 1º, 4º a 8º, 11 e 28, Decreto Estadual nº 47.278/2020, art. 7º e Decreto Estadual nº 48.749/2023 — rito de planejamento com DOD, ETP, Riscos e TR, aprovação prévia técnica da área de TIC, anuência do PRODERJ e vedação de contratação fora do PEDTIC e PCA no Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+- id: C15
+  descricao: >-
+    Resolução CNJ nº 468/2022, arts. 4º a 7º, 10, 11, 14, 15 e 29 e Ato Normativo TJ nº 27/2022, arts. 5º e 6º — rito de planejamento das contratações de TIC, alinhamento ao PDTIC/PAC e assinatura técnica obrigatória da área de TIC no Poder Judiciário Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Judiciário Estadual
+  aplica_se:
+    segmentos: [JUDICIARIO_ESTADUAL]
+- id: C16
+  descricao: >-
+    Resolução CNMP nº 283/2024, arts. 2º, 4º a 6º, 8º a 10, 16, 17, 20 e 33 e Resolução GPGJ nº 2.785/2026, art. 13, III — rito padronizado de contratação de TI, alinhamento ao PDTI/PAC e validação/subscrição técnica compulsória no Ministério Público Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Ministério Público Estadual
+  aplica_se:
+    segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
 
 procedimentos:
 - P1: Verificar, por meio da q2801 e das q2801ext[A] e [B], se o processo de planejamento das contratações de TIC possui etapas e responsabilidades definidas e artefatos padronizados; [IR1, IR2, IR3]
@@ -768,6 +1232,22 @@ possiveis_achados:
       criterios: [C1, C3, C10]
       tipo_encaminhamento: Recomendação
       encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C3, C14]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C3, C15]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C3, C16]
+        tipo_encaminhamento: Determinação
   - S6.2:
       descricao: Contratações de TIC sem análise prévia e aprovação técnica da área de TIC.
       severidade: alta
@@ -778,6 +1258,22 @@ possiveis_achados:
       criterios: [C1, C5, C8]
       tipo_encaminhamento: Recomendação
       encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo procedimentos simplificados e proporcionais à natureza, ao risco e ao valor da contratação, preservada análise técnica compatível
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C14]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C15]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C16]
+        tipo_encaminhamento: Determinação
   - S6.3:
       descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
       severidade: alta
@@ -788,6 +1284,22 @@ possiveis_achados:
       criterios: [C1, C2, C9]
       tipo_encaminhamento: Determinação
       encaminhamento: assegure que as contratações de TIC sejam compatíveis com os instrumentos de planejamento de TIC e, quando elaborado, com o Plano de Contratações Anual, promovendo os ajustes ou justificativas cabíveis nos casos excepcionais
+      variantes:
+      - publico: Poder Executivo Estadual
+        aplica_se:
+          segmentos: [EXECUTIVO_ESTADUAL]
+        criterios: [C1, C2, C9, C14]
+        tipo_encaminhamento: Determinação
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        criterios: [C1, C2, C9, C15]
+        tipo_encaminhamento: Determinação
+      - publico: Ministério Público Estadual
+        aplica_se:
+          segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
+        criterios: [C1, C2, C9, C16]
+        tipo_encaminhamento: Determinação
   - S6.4:
       descricao: Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.
       severidade: alta
@@ -944,4 +1456,4 @@ limitacoes_e_cautelas:
 - A comparação não deve ser feita questão a questão quando não houver equivalência metodológica suficiente entre os instrumentos de avaliação.
 - A evolução agregada não autoriza, isoladamente, concluir que todas as organizações evoluíram individualmente.
 - A regressão agregada não autoriza, isoladamente, concluir descumprimento individual de encaminhamento anterior.
-- O atendimento dos encaminhamentos anteriores deve ser analisado conforme o conteúdo de cada encaminhamento, as evidências disponíveis e a compatibilidade com os dados coletados no iGovTI 2026.
+- O atendimento dos encaminhamentos anteriores deve ser analisado conforme o conteúdo de cada encaminhamento, as evidências disponíveis e a compatibilidade com os dados coletados no iGovTI 2026.\n
