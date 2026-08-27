@@ -54,6 +54,7 @@ FIELDS = [
     "criterios_de_comparabilidade",
     "procedimentos",
     "evidencias",
+    "variaveis_derivadas",
     "possiveis_achados",
     "variantes_especificas",
     "o_que_a_analise_permite_dizer",
@@ -713,8 +714,59 @@ def move_leading_markdown_link_to_end(text: str) -> str:
     return f"{match.group(2).strip()} {match.group(1).strip()}"
 
 
-def format_items(items: Iterable[ListItem]) -> list[str]:
-    return [item.raw for item in items] or [MISSING_MARKDOWN_PLACEHOLDER]
+def compact_display_identifiers(question: Question) -> dict[str, str]:
+    """Cria IDs sequenciais apenas para a visualização da questão no DOCX."""
+    identifiers = [
+        item.id
+        for collection in (
+            question.riscos,
+            question.fontes,
+            question.informacoes,
+            question.criterios_comparabilidade,
+            question.procedimentos,
+            question.evidencias,
+        )
+        for item in collection
+        if item.id
+    ]
+    identifiers.extend(criterion.id for criterion in question.criterios)
+
+    mapping: dict[str, str] = {}
+    counters: dict[str, int] = {}
+    for identifier in identifiers:
+        if identifier in mapping:
+            continue
+        match = re.fullmatch(r"([A-Z]+)(\d+)(?:\.(\d+))?", identifier)
+        if not match:
+            mapping[identifier] = identifier
+            continue
+        letters, major, minor = match.groups()
+        family = f"{letters}{major}." if minor is not None else letters
+        counters[family] = counters.get(family, 0) + 1
+        mapping[identifier] = f"{family}{counters[family]}"
+    return mapping
+
+
+def display_identifier(identifier: str, mapping: dict[str, str]) -> str:
+    return mapping.get(identifier, identifier)
+
+
+def remap_display_references(text: str, mapping: dict[str, str]) -> str:
+    if not mapping:
+        return text
+    pattern = "|".join(re.escape(identifier) for identifier in sorted(mapping, key=len, reverse=True))
+    return re.sub(
+        rf"(?<![A-Za-z0-9_.])(?:{pattern})(?![A-Za-z0-9_.])",
+        lambda match: mapping[match.group(0)],
+        text,
+    )
+
+
+def format_items(items: Iterable[ListItem], mapping: dict[str, str] | None = None) -> list[str]:
+    display_mapping = mapping or {}
+    return [remap_display_references(item.raw, display_mapping) for item in items] or [
+        MISSING_MARKDOWN_PLACEHOLDER
+    ]
 
 
 def format_question_text(question: Question) -> str:
@@ -725,22 +777,32 @@ def format_question_text(question: Question) -> str:
     return f"{prefix}: {text}"
 
 
-def format_risk_or_comparability(question: Question) -> list[str]:
+def format_risk_or_comparability(
+    question: Question, mapping: dict[str, str] | None = None
+) -> list[str]:
     if question.riscos:
-        return format_items(question.riscos)
+        return format_items(question.riscos, mapping)
     if question.criterios_comparabilidade:
-        return ["Critérios de comparabilidade:"] + format_items(question.criterios_comparabilidade)
+        return ["Critérios de comparabilidade:"] + format_items(
+            question.criterios_comparabilidade, mapping
+        )
     if question.natureza:
         return ["Não se aplica: questão de levantamento, sem formulação de risco de achado."]
     return [MISSING_MARKDOWN_PLACEHOLDER]
 
 
-def format_criteria(question: Question) -> list[str | CellParagraph]:
+def format_criteria(
+    question: Question, mapping: dict[str, str] | None = None
+) -> list[str | CellParagraph]:
+    display_mapping = mapping or {}
     general_criteria = [criterion for criterion in question.criterios if not criterion.especifico]
     specific_criteria = [criterion for criterion in question.criterios if criterion.especifico]
-    criteria = [f"{criterion.id}: {criterion.descricao}" for criterion in general_criteria]
+    criteria = [
+        f"{display_identifier(criterion.id, display_mapping)}: {criterion.descricao}"
+        for criterion in general_criteria
+    ]
     if question.criterios_comparabilidade:
-        criteria.extend(format_items(question.criterios_comparabilidade))
+        criteria.extend(format_items(question.criterios_comparabilidade, display_mapping))
     if not criteria and not specific_criteria and question.natureza:
         return ["Não se aplica como critério de conformidade: análise orientada pelas fontes e pelos procedimentos definidos."]
     result: list[str | CellParagraph] = [move_leading_markdown_link_to_end(item) for item in criteria]
@@ -754,7 +816,7 @@ def format_criteria(question: Question) -> list[str | CellParagraph]:
             publico_anterior = publico
         result.append(
             CellParagraph(
-                f"{criterio.id}: {criterio.descricao}",
+                f"{display_identifier(criterio.id, display_mapping)}: {criterio.descricao}",
                 left_indent=240,
                 spacing_after=80,
             )
@@ -762,34 +824,73 @@ def format_criteria(question: Question) -> list[str | CellParagraph]:
     return result
 
 
-def format_findings_or_analysis(question: Question) -> list[str | CellParagraph]:
+def format_findings_or_analysis(
+    question: Question, mapping: dict[str, str] | None = None
+) -> list[str | CellParagraph]:
+    display_mapping = mapping or {}
     lines: list[str | CellParagraph] = []
     for finding in question.achados:
         if finding.title:
-            lines.append(CellParagraph(f"{finding.id}: {finding.title}", bold=True, left_indent=0, spacing_after=80))
+            lines.append(
+                CellParagraph(
+                    f"{finding.title.rstrip('.')}.",
+                    bold=True,
+                    left_indent=0,
+                    spacing_after=80,
+                )
+            )
         for situation in finding.situacoes:
-            parts = [f"{situation.id}: {situation.descricao}"]
-            # if situation.severidade:
-            #     parts.append(f"Severidade: {situation.severidade}")
-            if situation.referencias:
-                parts.append(f"Referências: {', '.join(situation.referencias)}")
-            if situation.criterios:
-                parts.append(f"Critérios: {', '.join(situation.criterios)}")
+            references = [
+                display_identifier(identifier, display_mapping)
+                for identifier in dict.fromkeys(situation.referencias + situation.criterios)
+            ]
+            description = f"{situation.descricao.rstrip('.')}."
+            if references:
+                description += f"[{', '.join(references)}];"
+            lines.append(CellParagraph(description, left_indent=360, spacing_after=40))
             if situation.tipo_encaminhamento:
-                parts.append(f"Tipo: {situation.tipo_encaminhamento}")
+                lines.append(
+                    CellParagraph(
+                        f"Tipo: {situation.tipo_encaminhamento};",
+                        left_indent=720,
+                        spacing_after=40,
+                    )
+                )
             if situation.encaminhamento:
-                parts.append(f"Encaminhamento: {situation.encaminhamento}")
-            lines.append(CellParagraph("- " + "; ".join(parts), left_indent=360, spacing_after=120))
+                lines.append(
+                    CellParagraph(
+                        f"Encaminhamento: {situation.encaminhamento}",
+                        left_indent=720,
+                        spacing_after=100,
+                    )
+                )
             for variante in situation.variantes:
                 _, materialized_criteria, materialized_type, materialized_referral = (
                     materialize_situation_variant(situation, variante)
                 )
-                criterios = ", ".join(materialized_criteria)
-                texto = (
-                    f"{variante.publico}: critérios {criterios}; tipo: "
-                    f"{materialized_type}; encaminhamento: {materialized_referral}"
+                lines.append(
+                    CellParagraph(
+                        f"{variante.publico}: "
+                        f"[{', '.join(display_identifier(item, display_mapping) for item in materialized_criteria)}];",
+                        bold=True,
+                        left_indent=720,
+                        spacing_after=40,
+                    )
                 )
-                lines.append(CellParagraph(texto, bold=True, left_indent=600, spacing_after=100))
+                lines.append(
+                    CellParagraph(
+                        f"Tipo: {materialized_type};",
+                        left_indent=1080,
+                        spacing_after=40,
+                    )
+                )
+                lines.append(
+                    CellParagraph(
+                        f"Encaminhamento: {materialized_referral}",
+                        left_indent=1080,
+                        spacing_after=100,
+                    )
+                )
 
     if lines:
         return lines
@@ -798,10 +899,10 @@ def format_findings_or_analysis(question: Question) -> list[str | CellParagraph]
         lines.append("Não se aplica: questão de levantamento, sem geração de achado individual.")
         if question.analise_permite_dizer:
             lines.append("O que a análise permite dizer:")
-            lines.extend(format_items(question.analise_permite_dizer))
+            lines.extend(format_items(question.analise_permite_dizer, display_mapping))
         if question.limitacoes:
             lines.append("Limitações e cautelas:")
-            lines.extend(format_items(question.limitacoes))
+            lines.extend(format_items(question.limitacoes, display_mapping))
         return lines
 
     return [MISSING_MARKDOWN_PLACEHOLDER]
@@ -846,7 +947,8 @@ def build_question_summary_table(template_table: ET.Element, question: Question)
     for subquestion in question.subquestoes:
         row0_cell.append(clone_paragraph(subquestion_p, subquestion.text))
 
-    fill_cell(row1_cell, format_risk_or_comparability(question), risk_p)
+    display_mapping = compact_display_identifiers(question)
+    fill_cell(row1_cell, format_risk_or_comparability(question, display_mapping), risk_p)
     remove_table_rows(table, [2, 3])
     return table
 
@@ -874,13 +976,14 @@ def build_question_details_table(template_table: ET.Element, question: Question)
     for cell, header in zip(header_cells, headers):
         fill_cell(cell, [header], first_paragraph(cell), bold=True, spacing_after=0)
 
+    display_mapping = compact_display_identifiers(question)
     cell_payloads = [
-        format_items(question.fontes),
-        format_items(question.informacoes),
-        format_criteria(question),
-        format_items(question.procedimentos),
-        format_items(question.evidencias),
-        format_findings_or_analysis(question),
+        format_items(question.fontes, display_mapping),
+        format_items(question.informacoes, display_mapping),
+        format_criteria(question, display_mapping),
+        format_items(question.procedimentos, display_mapping),
+        format_items(question.evidencias, display_mapping),
+        format_findings_or_analysis(question, display_mapping),
     ]
     for cell, payload in zip(data_cells, cell_payloads):
         fill_cell(cell, payload, first_paragraph(cell))
@@ -909,7 +1012,7 @@ def find_template_parts(body: ET.Element) -> tuple[list[ET.Element], ET.Element,
     return intro, matrix_table, ([signature_table] if signature_table is not None and signature_table is not matrix_table else []), sect_pr
 
 
-def replace_intro_text(intro: list[ET.Element], matrix: Matrix, jurisdicionados: str) -> list[ET.Element]:
+def replace_intro_text(intro: list[ET.Element], matrix: Matrix) -> list[ET.Element]:
     result = [copy.deepcopy(element) for element in intro]
     text_paragraphs = [element for element in result if local_name(element) == "p"]
     non_empty = [p for p in text_paragraphs if text_of(p).strip()]
@@ -918,13 +1021,18 @@ def replace_intro_text(intro: list[ET.Element], matrix: Matrix, jurisdicionados:
     if len(non_empty) > 1:
         set_paragraph_text(non_empty[1], f"QUESTÃO GERAL DE AUDITORIA: {matrix.questao_geral}")
 
-    if jurisdicionados:
-        template = non_empty[1] if len(non_empty) > 1 else (text_paragraphs[-1] if text_paragraphs else ET.Element(f"{W}p"))
-        result.append(clone_paragraph(template, f"JURISDICIONADOS: {jurisdicionados}"))
     return result
 
 
-def generate_docx(template_path: Path, markdown_path: Path, output_path: Path, jurisdicionados: str) -> None:
+def page_break_paragraph() -> ET.Element:
+    paragraph = ET.Element(f"{W}p")
+    run = ET.SubElement(paragraph, f"{W}r")
+    page_break = ET.SubElement(run, f"{W}br")
+    page_break.set(f"{W}type", "page")
+    return paragraph
+
+
+def generate_docx(template_path: Path, markdown_path: Path, output_path: Path) -> None:
     matrix = parse_matrix(markdown_path.read_text(encoding="utf-8"))
     if not matrix.questions:
         raise ValueError("Nenhuma questão foi encontrada no Markdown.")
@@ -940,16 +1048,15 @@ def generate_docx(template_path: Path, markdown_path: Path, output_path: Path, j
         for child in list(body):
             body.remove(child)
 
-        for element in replace_intro_text(intro, matrix, jurisdicionados):
+        for element in replace_intro_text(intro, matrix):
             body.append(element)
 
         blank_paragraph = ET.Element(f"{W}p")
         for question in matrix.questions:
             summary_table, details_table = build_question_tables(table_template, question)
+            body.append(page_break_paragraph())
             body.append(summary_table)
-            body.append(copy.deepcopy(blank_paragraph))
             body.append(details_table)
-            body.append(copy.deepcopy(blank_paragraph))
 
         for part in signature_parts:
             body.append(copy.deepcopy(blank_paragraph))
@@ -970,14 +1077,13 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("markdown", type=Path, help="Markdown da matriz de planejamento.")
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE, help="DOCX usado como template.")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="DOCX de saída.")
-    parser.add_argument("--jurisdicionados", default="[JURISDICIONADOS]", help="Texto para o campo de jurisdicionados.")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     try:
-        generate_docx(args.template, args.markdown, args.output, args.jurisdicionados)
+        generate_docx(args.template, args.markdown, args.output)
     except Exception as exc:  # noqa: BLE001 - mensagem amigável para CLI
         print(f"Erro ao gerar DOCX: {exc}", file=sys.stderr)
         return 1
