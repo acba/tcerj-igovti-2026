@@ -23,18 +23,9 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_processo or tem_alinhamento %}
-* COBIT 2019, APO02.05 - Definir o plano e o roteiro estratégico: estabelecer plano e roteiro de TIC que traduzam a estratégia em iniciativas, prioridades, recursos, dependências, prazos e benefícios esperados;
-{% endif %}
-{% if tem_integracao %}
-* COBIT 2019, APO06.03 - Criar e manter orçamentos: elaborar e manter orçamento de TIC alinhado ao portfólio, ao planejamento e às prioridades aprovadas;
-{% endif %}
-{% if tem_processo or tem_plano or tem_alinhamento %}
-* Acórdão 1.411/2014-TCU-Plenário, item 9.1.6 e subitens 9.1.6.1 a 9.1.6.4: necessidade de instituir formalmente plano diretor de TI, contemplando desdobramento de diretrizes estratégicas, vinculação das ações de TI a indicadores e metas de negócio, vinculação das ações de TI a indicadores e metas de serviços ao cidadão e vinculação das ações priorizadas ao orçamento de TI;
-{% endif %}
-{% if tem_processo or tem_plano or tem_alinhamento or tem_integracao or tem_acompanhamento %}
-* Acórdão TCE-RJ 44.490/2024-PLEN, item II.3 e subitens II.3.1 a II.3.5: necessidade de estabelecer processo estruturado, com participação de representantes das principais secretarias, para elaborar, manter e revisar periodicamente o PDTI, contemplando objetivos, indicadores e metas de TI alinhados aos objetivos de negócio, riscos que possam impactar objetivos e metas, projetos, aquisições e ações necessárias, alocação de recursos e ações de divulgação e monitoramento do PDTI após aprovação pela autoridade máxima.
-{% endif %}
+{% for criterio in auditado.get_criterios_achado(nome_achado) %}
+* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
+{% endfor %}
 
 ### Evidências
 {% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}

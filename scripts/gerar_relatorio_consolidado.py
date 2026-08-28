@@ -48,6 +48,69 @@ W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = f"{{{W_NS}}}"
 
 
+def _nota_criterios_especificos(resultado_path: str | None, id_situacao: str) -> str:
+    if not resultado_path or not Path(resultado_path).is_file():
+        return ""
+    dados = json.loads(Path(resultado_path).read_text(encoding="utf-8"))
+    por_variante = {}
+    for auditado in dados.values():
+        if not isinstance(auditado, dict):
+            continue
+        for procedimento in auditado.get("procedimentos_executados", []):
+            achado = procedimento.get("achado") or {}
+            for situacao in achado.get("situacoes_detalhadas", []):
+                if situacao.get("id_situacao") != id_situacao:
+                    continue
+                variante = situacao.get("id_variante", "")
+                if variante.endswith(".GERAL"):
+                    continue
+                registro = por_variante.setdefault(
+                    variante,
+                    {
+                        "publico": situacao.get("publico") or variante,
+                        "tipo": situacao.get("tipo_encaminhamento", ""),
+                        "criterios": situacao.get("criterios", []),
+                        "auditados": [],
+                    },
+                )
+                registro["auditados"].append(auditado.get("sigla", ""))
+    partes = []
+    for registro in por_variante.values():
+        criterios = "; ".join(
+            f"{item.get('id_exibicao')}: {str(item.get('descricao') or '').rstrip('.')}"
+            for item in registro["criterios"]
+            if item.get("especifico")
+        )
+        if not criterios:
+            continue
+        auditados = ", ".join(sorted(filter(None, registro["auditados"])))
+        partes.append(
+            f"{registro['publico']} — {registro['tipo']}; critérios aplicados: {criterios}. "
+            f"Organizações alcançadas no resultado: {auditados}."
+        )
+    return " ".join(partes)
+
+
+def _rotulo_tipos_situacao(resultado_path: str | None, id_situacao: str) -> str:
+    if not resultado_path or not Path(resultado_path).is_file():
+        return "recomendação ou determinação, conforme o âmbito normativo aplicável"
+    dados = json.loads(Path(resultado_path).read_text(encoding="utf-8"))
+    tipos = set()
+    for auditado in dados.values():
+        if not isinstance(auditado, dict):
+            continue
+        for procedimento in auditado.get("procedimentos_executados", []):
+            for situacao in (procedimento.get("achado") or {}).get("situacoes_detalhadas", []):
+                if situacao.get("id_situacao") == id_situacao:
+                    tipos.add(str(situacao.get("tipo_encaminhamento") or "").strip().lower())
+    tipos.discard("")
+    if tipos == {"recomendação"}:
+        return "recomendação"
+    if tipos == {"determinação"}:
+        return "determinação"
+    return "determinação ou recomendação, conforme o âmbito normativo aplicável"
+
+
 def _texto_elemento_docx(elemento) -> str:
     return "".join(
         no.text or ""
@@ -518,6 +581,12 @@ def main() -> int:
         "data_hoje_abnt": data_hoje_abnt(),
         "data_hoje": data_hoje(),
     }
+    contexto["nota_criterios_especificos_s6_4"] = _nota_criterios_especificos(
+        args.resultado_auditoria_json, "S6.4"
+    )
+    contexto["tipo_encaminhamento_s6_4_texto"] = _rotulo_tipos_situacao(
+        args.resultado_auditoria_json, "S6.4"
+    )
     if args.context_json:
         context_json_path = Path(args.context_json)
         if context_json_path.exists():

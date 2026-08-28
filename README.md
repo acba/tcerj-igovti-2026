@@ -131,17 +131,38 @@ Não há script único para esta etapa; trata-se de atividade analítica e docum
 
 A matriz de planejamento organiza questões de auditoria, subquestões, riscos, fontes de informação, informações requeridas, critérios, procedimentos, evidências esperadas, possíveis achados e encaminhamentos.
 
+Quando um critério é vinculante apenas para determinado público, a matriz também declara sua aplicabilidade e a variante de encaminhamento correspondente, aninhada na própria situação encontrada. A variante herda os critérios, o tipo e o texto do encaminhamento geral quando esses campos forem omitidos e substitui integralmente os que declarar; seu identificador é gerado automaticamente. O cadastro de auditados materializa `segmento_institucional`, `natureza_administrativa` e `tags_aplicabilidade`; o motor não infere essas classificações nem converte recomendações em determinações. Campos ausentes ou listas vazias no seletor não restringem a aplicação, e classificações adicionais apenas estreitam o público selecionado.
+
+Todos os critérios gerais e específicos são declarados no bloco único `criterios`. Cada item contém `id`, `descricao`, `natureza_fundamento` e `apto_a_fundamentar_determinacao`; critérios específicos acrescentam `publico` e `aplica_se`. O formato é estrito e não aceita os antigos blocos separados de metadados ou critérios específicos. Exemplo:
+
+```yaml
+criterios:
+- id: C1
+  descricao: >-
+    Critério geral com a referência e a obrigação ou prática examinada.
+  natureza_fundamento: boa_pratica
+  apto_a_fundamentar_determinacao: false
+- id: C11
+  descricao: >-
+    Critério aplicável especificamente ao Poder Executivo Estadual.
+  natureza_fundamento: norma_regulamentar_vinculante
+  apto_a_fundamentar_determinacao: true
+  publico: Poder Executivo Estadual
+  aplica_se:
+    segmentos: [EXECUTIVO_ESTADUAL]
+```
+
 Fonte principal:
 
 ```text
-01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md
 ```
 
 Geração do DOCX:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_matriz_planejamento.py \
-  01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento.md
+  01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md
 ```
 
 ### 3. Criação da metodologia e do índice iGovTI
@@ -185,13 +206,29 @@ Essa ferramenta permite carregar uma fonte de informação, aplicar a estrutura 
 
 A matriz de procedimentos traduz a matriz de planejamento em verificações executáveis: fontes de informação, procedimentos, ações de verificação, lógica de achado, situações encontradas e encaminhamentos.
 
+No mapa vigente, as ações mantêm a verificação factual e o `id_situacao`. As abas `Critérios de Auditoria` e `Variantes de Encaminhamento` são sincronizadas da matriz por `scripts/sincronizar_aplicabilidade_juridica.py`. Antes da execução, `scripts/validar_aplicabilidade_juridica.py` bloqueia divergências entre matriz e mapa, classificações ausentes e conflitos de variantes.
+
 Artefato principal:
 
 ```text
 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx
 ```
 
-O repositório usa a skill local `preencher-matriz-procedimentos-auditoria` para apoiar essa geração a partir da matriz de planejamento. A matriz de achados em DOCX é gerada por:
+O repositório usa a skill local `preencher-matriz-procedimentos-auditoria` para apoiar essa geração a partir da matriz de planejamento.
+
+Depois de revisar critérios ou variantes aninhadas nas situações da matriz, sincronize e valide os três artefatos antes de executar a auditoria:
+
+```bash
+scripts/.venv/bin/python scripts/sincronizar_aplicabilidade_juridica.py
+scripts/.venv/bin/python scripts/validar_aplicabilidade_juridica.py \
+  --relatorio-xlsx 02-Execucao/00-Controle_Execucao/cobertura-aplicabilidade-juridica.xlsx
+```
+
+Os seletores aceitos são `segmentos`, `naturezas`, `tags_todas`, `tags_alguma` e `tags_excluidas`. Há OR entre valores de uma lista e AND entre as dimensões preenchidas. Por exemplo, apenas `segmentos: [EXECUTIVO_ESTADUAL]` alcança todas as naturezas desse segmento; acrescentar `naturezas` ou tags restringe o conjunto. A planilha de cobertura materializa a variante, o tipo e os critérios resolvidos para revisão humana.
+
+A classificação inicial dos 119 auditados foi materializada por lista explícita, sem regra residual para organizações desconhecidas. Novos auditados devem ser classificados deliberadamente no cadastro; o script falha se não houver declaração expressa.
+
+A matriz de achados em DOCX é gerada por:
 
 ```bash
 scripts/.venv/bin/python scripts/gerar_matriz_achados.py
@@ -656,6 +693,7 @@ A execução automatizada cruza o banco de auditados, a matriz de procedimentos 
 scripts/.venv/bin/python scripts/executa_auditoria.py \
   --auditados 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
   --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx \
+  --matriz 01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md \
   --fontes \
     02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
     02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx \

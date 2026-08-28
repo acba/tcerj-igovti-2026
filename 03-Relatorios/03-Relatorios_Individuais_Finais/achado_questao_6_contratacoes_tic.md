@@ -20,26 +20,9 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_processo or tem_aprovacao or tem_aderencia or tem_equipe %}
-* Art. 11, parágrafo único, da Lei 14.133/2021: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos;
-{% endif %}
-{% if tem_aderencia %}
-* Lei nº 14.133/2021, arts. 12, VII e § 1º, e 18, caput e § 1º, II - Compatibilização com o Plano de Contratações Anual, quando elaborado, e demonstração do alinhamento da contratação ao planejamento da Administração;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens III.7 e IV.9 - Determinações para estruturação do planejamento anual das contratações;
-{% endif %}
-{% if tem_processo %}
-* Art. 19, inciso IV, da Lei 14.133/2021: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos;
-* Acórdão nº 2.342/2016-TCU-Plenário, item 9.1.7 - Precedente quanto à formalização do processo de trabalho para o planejamento de cada contratação;
-{% endif %}
-{% if tem_equipe %}
-* Art. 7º, caput, incisos I a III e §1º, da Lei 14.133/2021: designação de agentes públicos para funções essenciais, observados atribuições, formação, segregação de funções e inexistência de vínculos que comprometam a atuação;
-{% endif %}
-{% if tem_aprovacao %}
-* COBIT 2019, BAI02.04 - Obter aprovação dos requisitos da solução: obter aprovação formal dos requisitos funcionais, técnicos, de segurança e de conformidade antes de prosseguir com a solução;
-{% endif %}
-{% if tem_aprovacao or tem_equipe %}
-* Instrução Normativa SGD/ME nº 94/2022, arts. 2º, IV, 9º, 10, 11 e 12, § 6º - Referência de boa prática para estruturação da fase de planejamento, participação técnica e instituição da Equipe de Planejamento.
-{% endif %}
+{% for criterio in auditado.get_criterios_achado(nome_achado) %}
+* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
+{% endfor %}
 
 ### Evidências
 {% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}
@@ -55,7 +38,7 @@
 
 As contratações de TIC devem observar governança técnica, planejamento prévio proporcional à complexidade do objeto, participação da área de tecnologia quando cabível e alinhamento aos instrumentos de planejamento. A complexidade dos ativos de tecnologia e a dependência das atividades finalísticas em relação aos serviços de TIC demandam controles compatíveis com a relevância, o risco e o valor da contratação.
 
-Os critérios aplicáveis estabelecem a responsabilidade da alta administração pela governança das contratações, a padronização dos documentos da fase preparatória, o alinhamento da contratação ao planejamento, a designação dos agentes responsáveis e a aprovação técnica dos requisitos da solução[^explica_contratacoes_tic].
+Os critérios aplicáveis estabelecem, conforme cada situação examinada, a responsabilidade da alta administração pela governança das contratações, a padronização dos documentos da fase preparatória, o alinhamento da contratação ao planejamento, a designação dos agentes responsáveis e a aprovação técnica dos requisitos da solução[^explica_contratacoes_tic].
 
 Com base na análise das respostas aos itens 2801 e 2804 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento suficiente das contratações de TIC da organização a essas diretrizes. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
@@ -69,7 +52,8 @@ Com base na análise das respostas aos itens 2801 e 2804 do questionário aplica
 * **Alinhamento ao planejamento**: a ausência de alinhamento demonstrado ao planejamento de TIC e ao Plano de Contratações Anual não demonstra aderência aos arts. 11, 12 e 18 da Lei nº 14.133/2021 e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, podendo resultar em contratações reativas ou desconectadas das prioridades institucionais.
 {% endif %}
 {% if tem_equipe %}
-* **Equipe de planejamento**: a ausência de designação formal de equipe com integrante técnico da área de TIC não demonstra aderência aos arts. 7º e 11 da Lei nº 14.133/2021 e à Instrução Normativa SGD/ME nº 94/2022, adotada como referência de boa prática, podendo comprometer a qualidade técnica da instrução da contratação.
+{% set criterios_equipe = auditado.get_criterios_situacao(nome_achado, 'S6.4') %}
+* **Equipe de planejamento**: a ausência de designação formal de equipe com integrante técnico da área de TIC não demonstra aderência aos critérios {% for criterio in criterios_equipe %}{{ criterio.id_exibicao }}{{ ', ' if not loop.last else '' }}{% endfor %}, descritos na seção Critérios, podendo comprometer a qualidade técnica da instrução da contratação.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -78,7 +62,7 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-[^explica_contratacoes_tic]: Os critérios de contratações de TIC combinam os arts. 7º, 11, 12, 18 e 19 da Lei nº 14.133/2021, o COBIT 2019, BAI02.04, a Instrução Normativa SGD/ME nº 94/2022 e os Acórdãos TCU nº 2.342/2016-Plenário e TCE-RJ nº 44.490/2024-PLEN, conforme a situação examinada.
+[^explica_contratacoes_tic]: A relação dos critérios efetivamente aplicáveis e sua vinculação com cada situação encontra-se na seção Critérios deste achado.
 
 {% set situacao = situacao_processo %}
 {% if tem_processo %}
@@ -155,7 +139,8 @@ A ausência de alinhamento das contratações de TIC ao planejamento de TIC e ao
 
 As contratações de TIC devem contar com equipe de planejamento formalmente designada e com participação de integrante técnico da área de TIC. A designação formal favorece a responsabilização e a qualidade técnica da instrução.
 
-O art. 7º da Lei nº 14.133/2021 trata da designação de agentes públicos para funções essenciais, observadas atribuições, formação e segregação de funções. O art. 11 atribui à alta administração a responsabilidade pela governança das contratações. A Instrução Normativa SGD/ME nº 94/2022, adotada como referência de boa prática, prevê a instituição de Equipe de Planejamento da Contratação com participação técnica.
+{% set criterios_equipe = auditado.get_criterios_situacao(nome_achado, 'S6.4') %}
+Para esta situação, foram aplicados os critérios {% for criterio in criterios_equipe %}{{ criterio.id_exibicao }}{{ ', ' if not loop.last else '' }}{% endfor %}, apresentados na seção Critérios, conforme o regime normativo aplicável à organização.
 
 Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a designação formal de equipe de planejamento da contratação de TIC com integrante técnico da área de TIC não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 

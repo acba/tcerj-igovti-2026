@@ -53,14 +53,15 @@ python3 .agents/skills/preencher-matriz-procedimentos-auditoria/scripts/gerar_ma
 - `Fontes de Informação`: registrar cada tabela/arquivo analisado e a coluna que identifica o auditado.
 - `Variáveis Temporárias`: registrar cálculos derivados que serão materializados em memória antes das ações, sem alterar os arquivos de origem.
 - `Procedimentos de Auditoria`: criar um procedimento por possível achado (`A1`, `A2` etc.), com `logica_achado` composta pelos IDs das ações de verificação aplicáveis.
-- `Ações de Verificação`: criar uma ação por coluna ou variável temporária usada nas regras das situações encontradas (`S1.1`, `S1.2` etc.). Repetir `descricao_situacao_inconforme`, `tipo_encaminhamento` e `encaminhamento` nas ações da mesma situação.
+- `Ações de Verificação`: criar uma ação por coluna ou variável temporária usada nas regras das situações encontradas (`S1.1`, `S1.2` etc.) e registrar `id_situacao`. As ações permanecem factuais; não criar ações distintas apenas porque critérios ou encaminhamentos variam por público.
+- Quando houver aplicabilidade jurídica condicionada, sincronizar da lista estruturada única `criterios` da matriz as abas `Critérios de Auditoria` e `Variantes de Encaminhamento`. A matriz de planejamento é a fonte de verdade; os campos jurídicos repetidos nas ações são apenas compatibilidade legada.
 - Combinar em `logica_achado` as ações de cada situação conforme seus operadores originais (`&`, `|` e parênteses) e combinar as diferentes situações encontradas de um mesmo achado com `|`.
 - Quando uma regra precisar de soma, diferença, comparação entre colunas ou outro cálculo derivado, definir uma variável na aba `Variáveis Temporárias` e fazer a ação atuar sobre essa variável.
 - Regras com códigos de questionário usam a fonte `questionario`.
 - Regras com `avaliacao[ID]` usam a fonte `avaliacao_evidencias`.
 - Quando uma regra mistura fonte de questionário e avaliação de evidência, usar a fonte composta `questionario_e_avaliacao_evidencias`, preservar a expressão em `situacao_inconforme` e revisar manualmente.
-- Copiar o valor explícito de `tipo_encaminhamento` da situação encontrada. Aceitar somente `Determinação` ou `Recomendação`.
-- Para compatibilidade com matrizes antigas sem o atributo, inferir `Recomendação` quando o texto iniciar por "Recomendar" e `Determinação` quando iniciar por "Determinar"; na ausência desses prefixos, assumir `Recomendação`.
+- Materializar a variante geral a partir dos campos da situação e, nas abas jurídicas, todas as variantes aninhadas. Nas específicas, herdar os campos jurídicos omitidos e substituir integralmente os declarados; `criterios` não é mesclado. Aceitar somente `Determinação` ou `Recomendação`; nunca inferir o tipo pela classificação do auditado.
+- Validar Matriz × Mapa × cadastro antes da execução. Exigir uma variante geral por situação, no máximo uma específica aplicável por auditado e ao menos um critério aplicável marcado como apto em cada determinação.
 - Manter o texto de `encaminhamento` iniciado diretamente pelo verbo da providência, sem os prefixos "Determinar que" ou "Recomendar que".
 
 ## Validação
@@ -76,7 +77,7 @@ Verificar manualmente:
 
 - A aba `Ações de Verificação` tem cabeçalho na linha 3.
 - A aba `Variáveis Temporárias` tem cabeçalho na linha 3 e respeita a ordem de cálculo das dependências.
-- Toda ação tem `id`, `id_fonte_informacao`, `informacao_requerida`, `criterio`, `descricao_evidencia`, `descricao_situacao_inconforme`, `situacao_inconforme`, `tipo_encaminhamento` e `encaminhamento`.
+- Toda ação tem `id`, `id_fonte_informacao`, `informacao_requerida`, `id_situacao`, `descricao_evidencia`, `descricao_situacao_inconforme` e `situacao_inconforme`; os campos jurídicos legados podem ser mantidos para compatibilidade, mas a resolução vigente vem das abas jurídicas.
 - Toda ação referencia uma única coluna ou variável em `informacao_requerida`.
 - Toda ação citada em `logica_achado` existe.
 - Toda fonte citada em `Ações de Verificação` existe em `Fontes de Informação`.

@@ -17,14 +17,9 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_modelo %}
-* COBIT 2019, MEA01.04 - Avaliar o desempenho: monitorar e avaliar periodicamente o desempenho e a conformidade da TI em relação a objetivos, indicadores, metas e expectativas das partes interessadas;
-{% endif %}
-{% if tem_comite_formal or tem_comite_atuacao %}
-* COBIT 2019, EDM01.02 - Dirigir o sistema de governança: orientar estruturas, princípios, processos e práticas de governança para assegurar que a TI apoie os objetivos organizacionais;
-* Decreto nº 12.198/2024, arts. 5º e 6º, § 2º - Referência de governança digital para instituição de comitê ou colegiado equivalente;
-* Acórdão TCE-RJ nº 44.490/2024-PLEN, itens II.1, III.1 e V.1 - Precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC.
-{% endif %}
+{% for criterio in auditado.get_criterios_achado(nome_achado) %}
+* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
+{% endfor %}
 
 ### Evidências
 {% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}

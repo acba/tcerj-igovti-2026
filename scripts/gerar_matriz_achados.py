@@ -14,6 +14,26 @@ from pathlib import Path
 from lxml import etree
 from openpyxl import load_workbook
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
+from matriz_aplicabilidade import carregar_catalogo_matriz
+
+try:
+    from scripts.gerar_matriz_planejamento import (
+        AUDITED_ENTITIES_HEADER,
+        AUDIT_OBJECTIVE_HEADER,
+        compact_display_identifiers,
+        display_identifier,
+        parse_matrix as parse_planning_matrix,
+    )
+except ImportError:
+    from gerar_matriz_planejamento import (  # type: ignore
+        AUDITED_ENTITIES_HEADER,
+        AUDIT_OBJECTIVE_HEADER,
+        compact_display_identifiers,
+        display_identifier,
+        parse_matrix as parse_planning_matrix,
+    )
+
 
 NS = {
     "w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
@@ -74,14 +94,16 @@ def carregar_modulo_matriz(repo: Path):
 def carregar_achados(repo: Path):
     module = carregar_modulo_matriz(repo)
     matriz = repo / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md"
-    text = matriz.read_text(encoding="utf-8")
-    result = []
-    for section in module.split_sections(text):
-        achados = module.parse_achados(section)
-        riscos = module.parse_keyed_list(section, "riscos")
-        for achado in achados:
-            result.append((achado, riscos))
-    return result
+    planning_matrix = parse_planning_matrix(matriz.read_text(encoding="utf-8"))
+    questions = {question.id: question for question in planning_matrix.questions}
+    return [
+        (
+            finding,
+            {risk.id: risk.text for risk in questions[finding.questao_codigo].riscos},
+            questions[finding.questao_codigo],
+        )
+        for finding in module.parse_matrix(matriz)
+    ]
 
 
 def carregar_acoes(repo: Path):
@@ -183,21 +205,129 @@ def evidencias_do_achado(achado, action_ids, acoes):
             field = action["informacao_requerida"]
             condition = formatar_condicao(action["situacao_inconforme"])
             conditions.setdefault(condition, []).append(field)
-        parts = [f"{condition} em {listar_campos(fields)}" for condition, fields in conditions.items()]
-        detail = "; ".join(parts) if parts else "condição prevista na matriz de procedimentos"
-        evidencias.append(
-            (f"{situacao.codigo} - {situacao.descricao}", f"{detail}, observada a composição lógica definida na Matriz de Procedimentos de Auditoria.")
-        )
+        items = [
+            f"{condition} em {listar_campos(fields)}"
+            for condition, fields in conditions.items()
+        ] or ["Condição prevista na Matriz de Procedimentos de Auditoria"]
+        evidencias.append({
+            "situacao": f"{situacao.codigo} - {situacao.descricao.rstrip('.')}",
+            "itens": items,
+        })
     return evidencias
 
 
-def criterios_do_achado(achado):
-    references = []
+def _id_local_criterio(criterion_id: str) -> str:
+    return criterion_id.rsplit(".", 1)[-1]
+
+
+def criterios_do_achado(question, achado, variantes_especificas):
+    """Materializa a visão sequencial dos critérios usados pelo achado."""
+    display_mapping = compact_display_identifiers(question)
+    usados = {
+        reference
+        for situacao in achado.situacoes
+        for reference in situacao.criterios
+    }
+    usados.update(
+        _id_local_criterio(reference)
+        for variante in variantes_especificas
+        for reference in variante.criterios
+    )
+
+    gerais = []
+    especificos = {}
+    for criterion in question.criterios:
+        if criterion.id not in usados:
+            continue
+        item = {
+            "id_exibicao": display_identifier(criterion.id, display_mapping),
+            "descricao": criterion.descricao,
+        }
+        if criterion.especifico:
+            especificos.setdefault(criterion.publico or "Público específico", []).append(item)
+        else:
+            gerais.append(item)
+    return gerais, especificos, display_mapping
+
+
+def _juntar_publicos(publicos: list[str]) -> str:
+    if len(publicos) <= 1:
+        return publicos[0] if publicos else ""
+    return ", ".join(publicos[:-1]) + " e " + publicos[-1]
+
+
+def encaminhamentos_do_achado(achado, variantes_por_situacao, display_mapping):
+    """Agrupa encaminhamentos idênticos e preserva seus fundamentos."""
+    resultado = []
     for situacao in achado.situacoes:
-        for reference in situacao.criterios:
-            if reference not in references:
-                references.append(reference)
-    return [achado.criterios[reference] for reference in references]
+        especificas = variantes_por_situacao.get(situacao.codigo, [])
+        membros = [{
+            "geral": True,
+            "publico": "Demais jurisdicionados" if especificas else "",
+            "tipo": situacao.tipo_encaminhamento or "Recomendação",
+            "encaminhamento": situacao.encaminhamento,
+            "criterios": list(situacao.criterios),
+        }]
+        membros.extend({
+            "geral": False,
+            "publico": variante.rotulo_publico,
+            "tipo": variante.tipo_encaminhamento,
+            "encaminhamento": variante.encaminhamento,
+            "criterios": [_id_local_criterio(item) for item in variante.criterios],
+        } for variante in especificas)
+
+        grupos = []
+        por_conteudo = {}
+        for membro in membros:
+            key = (
+                membro["tipo"].strip().casefold(),
+                membro["encaminhamento"].strip().rstrip(".").casefold(),
+            )
+            if key not in por_conteudo:
+                por_conteudo[key] = len(grupos)
+                grupos.append({"membros": [], "tipo": membro["tipo"],
+                               "encaminhamento": membro["encaminhamento"]})
+            grupos[por_conteudo[key]]["membros"].append(membro)
+
+        total_membros = len(membros)
+        for grupo in grupos:
+            membros_grupo = grupo["membros"]
+            contem_geral = any(membro["geral"] for membro in membros_grupo)
+            if len(membros_grupo) == total_membros and contem_geral and especificas:
+                publico = "Todos os jurisdicionados"
+            else:
+                publico = _juntar_publicos([
+                    membro["publico"] for membro in membros_grupo if membro["publico"]
+                ])
+
+            criterios = []
+            for membro in membros_grupo:
+                for criterion_id in membro["criterios"]:
+                    shown = display_identifier(criterion_id, display_mapping)
+                    if shown not in criterios:
+                        criterios.append(shown)
+            grupo["publico"] = publico
+            grupo["criterios"] = criterios
+            del grupo["membros"]
+
+        resultado.append({
+            "situacao": f"{situacao.codigo} - {situacao.descricao.rstrip('.')}",
+            "grupos": grupos,
+        })
+    return resultado
+
+
+def dividir_dispositivo_criterio(descricao: str) -> tuple[str, str]:
+    """Separa o dispositivo de sua explicação para aplicar negrito no DOCX."""
+    candidates = []
+    for separator in (" — ", " – ", " - ", ": "):
+        position = descricao.find(separator)
+        if position >= 0:
+            candidates.append((position, separator))
+    if not candidates:
+        return descricao, ""
+    position, separator = min(candidates, key=lambda item: item[0])
+    return descricao[:position], descricao[position:]
 
 
 def clone_properties(element, child_name):
@@ -226,11 +356,22 @@ def make_run(text: str, properties=None):
     return run
 
 
-def make_paragraph(template, parts):
+def make_paragraph(template, parts, *, left_indent=None, hanging=None):
     paragraph = etree.Element(W + "p")
     ppr = clone_properties(template, "pPr")
     if ppr is not None:
         paragraph.append(ppr)
+    if left_indent is not None or hanging is not None:
+        if ppr is None:
+            ppr = etree.Element(W + "pPr")
+            paragraph.insert(0, ppr)
+        indent = ppr.find("w:ind", NS)
+        if indent is None:
+            indent = etree.SubElement(ppr, W + "ind")
+        if left_indent is not None:
+            indent.set(W + "left", str(left_indent))
+        if hanging is not None:
+            indent.set(W + "hanging", str(hanging))
     for text, properties in parts:
         paragraph.append(make_run(text, properties))
     return paragraph
@@ -250,13 +391,6 @@ def replace_cell(cell, paragraphs):
             cell.remove(child)
     for paragraph in paragraphs:
         cell.append(paragraph)
-
-
-def split_label(text: str):
-    if ":" not in text:
-        return text, ""
-    label, body = text.split(":", 1)
-    return label + ":", body
 
 
 def atualizar_documento(document_xml: bytes, dados):
@@ -291,41 +425,70 @@ def atualizar_documento(document_xml: bytes, dados):
         "cause_bold": run_properties(templates["cause"], bold=True),
         "effect_bold": run_properties(templates["effect"], bold=True),
         "effect_normal": run_properties(templates["effect"], bold=False),
-        "referral_label": run_properties(templates["referral"], bold=True, underline=True),
-        "referral_normal": run_properties(templates["referral"], bold=False),
+        # A matriz oficial também é o modelo da próxima geração. As
+        # propriedades procuradas podem estar em parágrafos posteriores ao
+        # título da situação, por isso a busca abrange toda a célula.
+        "referral_label": run_properties(sample_cells[5], bold=True, underline=True),
+        "referral_normal": run_properties(sample_cells[5], bold=False),
     }
 
     for index, item in enumerate(dados):
         achado = item["achado"]
         cells = tables[index].findall("w:tr", NS)[1].findall("w:tc", NS)
 
-        replace_cell(cells[0], [
+        finding_paragraphs = [
             make_paragraph(templates["finding_bold"], [(f"ACHADO {index + 1:02d}", props["finding_bold"])]),
             blank_paragraph(templates["finding_blank"]),
             make_paragraph(templates["finding_normal"], [(achado.nome.rstrip("."), props["normal"])]),
-        ])
+            blank_paragraph(templates["finding_blank"]),
+            make_paragraph(templates["finding_normal"], [
+                ("Achado composto pela ocorrência de alguma dessas situações:", props["normal"]),
+            ]),
+        ]
+        for situacao in achado.situacoes:
+            finding_paragraphs.append(make_paragraph(
+                templates["finding_normal"],
+                [(f"• {situacao.codigo} - {situacao.descricao.rstrip('.')}", props["normal"])],
+                left_indent=300,
+                hanging=180,
+            ))
+        replace_cell(cells[0], finding_paragraphs)
 
         paragraphs = []
-        for criterion_index, criterion in enumerate(item["criterios"]):
-            label, body_text = split_label(criterion)
+        for criterion in item["criterios"]:
+            dispositivo, explicacao = dividir_dispositivo_criterio(criterion["descricao"])
             paragraphs.append(make_paragraph(templates["criterion"], [
-                (label, props["bold"]),
-                (body_text, props["criterion_normal"]),
+                (f'{criterion["id_exibicao"]}: {dispositivo}', props["bold"]),
+                (explicacao, props["criterion_normal"]),
             ]))
-            if criterion_index < len(item["criterios"]) - 1:
+            paragraphs.append(blank_paragraph(templates["criterion_blank"]))
+        for publico, criterios in item.get("criterios_especificos", {}).items():
+            paragraphs.append(make_paragraph(templates["criterion"], [(publico, props["bold"])]))
+            for criterio in criterios:
+                dispositivo, explicacao = dividir_dispositivo_criterio(criterio["descricao"])
+                paragraphs.append(make_paragraph(templates["criterion"], [
+                    (f'{criterio["id_exibicao"]}: {dispositivo}', props["bold"]),
+                    (explicacao, props["criterion_normal"]),
+                ]))
                 paragraphs.append(blank_paragraph(templates["criterion_blank"]))
+        if paragraphs:
+            paragraphs.pop()
         replace_cell(cells[1], paragraphs)
 
         paragraphs = [make_paragraph(templates["evidence_intro"], [
             ("Respostas ao Questionário iGovTI 2026", props["evidence_bold"]),
             (" - Situações caracterizadas pelas respostas declaradas às questões indicadas:", props["evidence_normal"]),
         ])]
-        for evidence_index, (label, text) in enumerate(item["evidencias"]):
-            letter = chr(ord("a") + evidence_index)
+        for evidence_index, evidence in enumerate(item["evidencias"]):
+            if evidence_index:
+                paragraphs.append(blank_paragraph(templates["criterion_blank"]))
             paragraphs.append(make_paragraph(templates["evidence_item"], [
-                (f"{letter}) {label}: ", props["bold"]),
-                (text, props["evidence_normal"]),
+                (evidence["situacao"], props["bold"]),
             ]))
+            for evidence_item in evidence["itens"]:
+                paragraphs.append(make_paragraph(templates["evidence_item"], [
+                    (f"• {evidence_item.rstrip('.')}.", props["evidence_normal"]),
+                ]))
         replace_cell(cells[2], paragraphs)
 
         replace_cell(cells[3], [
@@ -343,28 +506,48 @@ def atualizar_documento(document_xml: bytes, dados):
         replace_cell(cells[4], paragraphs)
 
         paragraphs = []
-        for referral_index, situacao in enumerate(achado.situacoes):
-            tipo = situacao.tipo_encaminhamento or "Recomendação"
-            paragraphs.append(make_paragraph(templates["referral"], [
-                (f"Comunicação com {tipo}", props["referral_label"]),
-                (f" para que {situacao.encaminhamento.rstrip('.')} [{situacao.codigo}].", props["referral_normal"]),
-            ]))
-            if referral_index < len(achado.situacoes) - 1:
+        for referral_index, situacao in enumerate(item["encaminhamentos"]):
+            if referral_index:
                 paragraphs.append(blank_paragraph(templates["referral_blank"]))
+            paragraphs.append(make_paragraph(templates["referral"], [
+                (situacao["situacao"].split(" - ", 1)[-1], props["bold"]),
+            ]))
+            for grupo in situacao["grupos"]:
+                if grupo["publico"] not in {"", "Demais jurisdicionados", "Todos os jurisdicionados"}:
+                    paragraphs.append(make_paragraph(templates["referral"], [
+                        (grupo["publico"], props["bold"]),
+                    ]))
+                codigo_situacao = situacao["situacao"].split(" - ", 1)[0]
+                referencias = ", ".join([codigo_situacao, *grupo["criterios"]])
+                paragraphs.append(make_paragraph(templates["referral"], [
+                    ("• ", props["referral_normal"]),
+                    (f'Comunicação com {grupo["tipo"]}', props["referral_label"]),
+                    (f' para que {grupo["encaminhamento"].rstrip(".")} [{referencias}].',
+                     props["referral_normal"]),
+                ], left_indent=360, hanging=180))
         replace_cell(cells[5], paragraphs)
 
+    # A propriedade pageBreakBefore dentro da primeira célula de uma tabela
+    # não é interpretada de modo consistente pelo Word. Remove-se a marcação
+    # legada e insere-se uma quebra estrutural imediatamente antes da tabela.
     for table in tables[1:6]:
         first_paragraph = table.find("w:tr/w:tc/w:p", NS)
         ppr = first_paragraph.find("w:pPr", NS)
-        if ppr is None:
-            ppr = etree.Element(W + "pPr")
-            first_paragraph.insert(0, ppr)
-        if ppr.find("w:pageBreakBefore", NS) is None:
-            ppr.append(etree.Element(W + "pageBreakBefore"))
+        if ppr is not None:
+            page_break_before = ppr.find("w:pageBreakBefore", NS)
+            if page_break_before is not None:
+                ppr.remove(page_break_before)
 
     for child in list(body):
         if child.tag == W + "p" and child.find(".//w:br[@w:type='page']", NS) is not None:
             body.remove(child)
+
+    for table in tables[1:6]:
+        paragraph = etree.Element(W + "p")
+        run = etree.SubElement(paragraph, W + "r")
+        page_break = etree.SubElement(run, W + "br")
+        page_break.set(W + "type", "page")
+        body.insert(body.index(table), paragraph)
 
     sixth_table = tables[5]
     remove = False
@@ -380,7 +563,7 @@ def atualizar_documento(document_xml: bytes, dados):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone="yes")
 
 
-def atualizar_cabecalho(header_xml: bytes, auditados: int):
+def atualizar_cabecalho(header_xml: bytes):
     root = etree.fromstring(header_xml)
     cell = root.find(".//w:tbl/w:tr/w:tc[3]", NS)
     paragraphs = cell.findall("w:p", NS)
@@ -394,11 +577,11 @@ def atualizar_cabecalho(header_xml: bytes, auditados: int):
         make_paragraph(templates[0], [("FISCALIZAÇÃO", bold[0]), (": 18/2026", normal[0])]),
         make_paragraph(templates[1], [
             ("JURISDICIONADOS", bold[1]),
-            (f": {auditados} organizações públicas estaduais e municipais respondentes do iGovTI 2026.", normal[1]),
+            (f": {AUDITED_ENTITIES_HEADER}", normal[1]),
         ]),
         make_paragraph(templates[2], [
             ("OBJETIVO DA AUDITORIA", bold[2]),
-            (": Avaliar o grau de adoção das organizações públicas às boas práticas de governança e gestão de tecnologia da informação, mediante aplicação do iGovTI 2026.", normal[2]),
+            (f": {AUDIT_OBJECTIVE_HEADER}", normal[2]),
         ]),
     ]
     replace_cell(cell, new_paragraphs)
@@ -408,14 +591,32 @@ def atualizar_cabecalho(header_xml: bytes, auditados: int):
 def montar_dados(repo: Path):
     achados = carregar_achados(repo)
     acoes, por_achado = carregar_acoes(repo)
+    matriz_path = repo / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md"
+    catalogo = carregar_catalogo_matriz(matriz_path)
     dados = []
-    for achado, riscos in achados:
+    for achado, riscos, question in achados:
+        ids_situacoes = {situacao.codigo for situacao in achado.situacoes}
+        variantes_especificas = [
+            variante for variante in catalogo.variantes
+            if not variante.geral and variante.id_situacao in ids_situacoes
+        ]
+        variantes_por_situacao = {}
+        for variante in variantes_especificas:
+            variantes_por_situacao.setdefault(variante.id_situacao, []).append(variante)
+        criterios, criterios_especificos, display_mapping = criterios_do_achado(
+            question, achado, variantes_especificas
+        )
         dados.append({
             "achado": achado,
-            "criterios": criterios_do_achado(achado),
+            "criterios": criterios,
             "evidencias": evidencias_do_achado(achado, por_achado[achado.codigo], acoes),
             "riscos": list(riscos.values()),
             "efeitos": EFEITOS[achado.codigo],
+            "criterios_especificos": criterios_especificos,
+            "variantes_por_situacao": variantes_por_situacao,
+            "encaminhamentos": encaminhamentos_do_achado(
+                achado, variantes_por_situacao, display_mapping
+            ),
         })
     if len(dados) != 6:
         raise ValueError(f"Esperados 6 achados, encontrados {len(dados)}")
@@ -425,13 +626,15 @@ def montar_dados(repo: Path):
 def gerar(modelo: Path, saida: Path, repo: Path):
     dados = montar_dados(repo)
     auditados = contar_auditados(repo)
-    with zipfile.ZipFile(modelo, "r") as source, zipfile.ZipFile(saida, "w") as target:
-        for info in source.infolist():
-            content = source.read(info.filename)
+    with zipfile.ZipFile(modelo, "r") as source:
+        archive = [(copy.copy(info), source.read(info.filename)) for info in source.infolist()]
+    with zipfile.ZipFile(saida, "w") as target:
+        for info, original_content in archive:
+            content = original_content
             if info.filename == "word/document.xml":
                 content = atualizar_documento(content, dados)
             elif info.filename == "word/header1.xml":
-                content = atualizar_cabecalho(content, auditados)
+                content = atualizar_cabecalho(content)
             target.writestr(info, content)
     print(f"OK: {len(dados)} achados e {auditados} jurisdicionados -> {saida}")
 
@@ -439,8 +642,16 @@ def gerar(modelo: Path, saida: Path, repo: Path):
 def parse_args():
     repo_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--modelo", type=Path, default=Path.home() / "Downloads/01-Matriz de Achados.docx")
-    parser.add_argument("--saida", type=Path, default=repo_root / "02-Execucao/04-Matriz_Achados/01-Matriz de Achados.docx")
+    parser.add_argument(
+        "--modelo",
+        type=Path,
+        default=repo_root / "02-Execucao/04-Matriz_Achados/AN06 – Matriz de achados.docx",
+    )
+    parser.add_argument(
+        "--saida",
+        type=Path,
+        default=repo_root / "02-Execucao/04-Matriz_Achados/AN06 – Matriz de achados.docx",
+    )
     parser.add_argument("--repo", type=Path, default=repo_root)
     return parser.parse_args()
 

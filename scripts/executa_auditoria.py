@@ -9,6 +9,7 @@ import logging
 import argparse
 import zipfile
 import io
+import hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 import pandas as pd
@@ -27,6 +28,7 @@ from argos_utils import (
 )
 from igovti_dados_utils import to_relative
 from xlsx_utils import escrever_xlsx_se_diferente
+from aplicabilidade_juridica import carregar_catalogo_planilha
 from docxtpl import DocxTemplate
 
 # Set up logging
@@ -296,6 +298,11 @@ def main():
         help='Caminho para o mapa de verificação e achados (.xlsx) (ex: mapa-verificacao-achados.xlsx).'
     )
     parser.add_argument(
+        '--matriz',
+        default=str(ROOT / '01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md'),
+        help='Matriz de planejamento usada para validar a sincronização da camada jurídica.'
+    )
+    parser.add_argument(
         '-f', '--fontes', nargs='+', default=[],
         help='Caminho para um ou mais arquivos de fontes de informação/respostas (.xlsx).'
     )
@@ -354,12 +361,17 @@ def main():
     if not os.path.exists(args.mapa):
         logger.error(f"Mapa de verificação '{args.mapa}' não encontrado.")
         sys.exit(1)
+    if not os.path.exists(args.matriz):
+        logger.error(f"Matriz de planejamento '{args.matriz}' não encontrada.")
+        sys.exit(1)
 
     # 2. Carrega planilhas do mapa
     logger.info("Carregando tabelas do mapa de verificação e auditados...")
-    cols_jurisdicionados = ['sigla', 'orgao']
+    cols_jurisdicionados = [
+        'sigla', 'orgao', 'segmento_institucional', 'natureza_administrativa', 'tags_aplicabilidade'
+    ]
     cols_procedimentos = ['id', 'descricao', 'logica_achado', 'numero_achado', 'nome_achado']
-    cols_acoes = ['id', 'id_fonte_informacao', 'informacao_requerida', 'criterio', 'situacao_inconforme', 'tipo_encaminhamento']
+    cols_acoes = ['id', 'id_fonte_informacao', 'informacao_requerida', 'id_situacao', 'criterio', 'situacao_inconforme', 'tipo_encaminhamento']
     cols_fontes = ['id', 'descricao', 'filepath', 'chave_jurisdicionado']
     cols_variaveis = ['id', 'id_fonte_informacao', 'nome', 'expressao', 'descricao']
     cols_motivos_relatorio = [
@@ -387,6 +399,9 @@ def main():
             df_motivos_relatorio = carregar_dados(args.mapa, sheet_name='Motivos do Relatório', skiprows=None, required_columns=cols_motivos_relatorio)
         else:
             df_motivos_relatorio = pd.DataFrame(columns=cols_motivos_relatorio + ['ativo'])
+        resolvedor_aplicabilidade = carregar_catalogo_planilha(args.mapa)
+        from validar_aplicabilidade_juridica import validar_consistencia
+        validar_consistencia(Path(args.matriz), Path(args.mapa), Path(args.auditados))
     except Exception as e:
         logger.error(f"Erro ao carregar arquivos de configuração da auditoria: {e}")
         sys.exit(1)
@@ -471,6 +486,7 @@ def main():
             acao_exclusiva_auditados=row.get('acao_exclusiva_auditados'),
             criterio=row.get('criterio'),
             descricao_situacao_inconforme=row.get('descricao_situacao_inconforme'),
+            id_situacao=row.get('id_situacao'),
             descricao_evidencia=row.get('descricao_evidencia'),
             situacao_inconforme=row.get('situacao_inconforme'),
             situacao_encontrada_nan_e_achado=row.get('situacao_encontrada_nan_e_achado'),
@@ -512,8 +528,21 @@ def main():
     # 7. Inicializa os auditados
     logger.info("Carregando lista de auditados...")
     auditados = {}
+    hashes_entradas = {
+        'matriz_planejamento_sha256': hashlib.sha256(Path(args.matriz).read_bytes()).hexdigest(),
+        'mapa_verificacao_sha256': hashlib.sha256(Path(args.mapa).read_bytes()).hexdigest(),
+        'bd_auditados_sha256': hashlib.sha256(Path(args.auditados).read_bytes()).hexdigest(),
+    }
     for _, row in df_jurisdicionados.iterrows():
-        auditado = Auditado(nome=row['orgao'], sigla=row['sigla'])
+        auditado = Auditado(
+            nome=row['orgao'],
+            sigla=row['sigla'],
+            segmento_institucional=row.get('segmento_institucional'),
+            natureza_administrativa=row.get('natureza_administrativa'),
+            tags_aplicabilidade=row.get('tags_aplicabilidade'),
+        )
+        auditado.resolvedor_aplicabilidade = resolvedor_aplicabilidade
+        auditado.hashes_entradas = dict(hashes_entradas)
         auditados[auditado.sigla] = auditado
 
     fonte_questionario = fontes.get("questionario")

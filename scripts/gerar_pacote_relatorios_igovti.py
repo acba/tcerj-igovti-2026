@@ -29,6 +29,7 @@ DEFAULT_AJUSTES_EVIDENCIAS = ROOT / "02-Execucao/01-Questionario/02-Ajustes_Resp
 DEFAULT_PAINEL_EVIDENCIAS = ROOT / "02-Execucao/03-Execucao_Procedimentos/99-Avaliacao_Evidencias/painel-avaliacao-evidencias.xlsx"
 DEFAULT_AUDITADOS = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx"
 DEFAULT_MAPA = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx"
+DEFAULT_MATRIZ = ROOT / "01-Planejamento/03-Estrategia_e_Plano/04-Matriz_Planejamento/matriz_planejamento-pos-comentarios-gestor.md"
 DEFAULT_QUESTIONARIO = ROOT / "01-Planejamento/02-Metodologia_iGovTI/igovti_2026.md"
 DEFAULT_PROMPTS = ROOT / "scripts/avaliacao_evidencias/prompts/igovti_2026_achados_binario_v1"
 DEFAULT_CATALOG = ROOT / "scripts/avaliacao_evidencias/prompt_catalogs/igovti_2026_achados_binario_v1.yml"
@@ -81,6 +82,7 @@ def auditoria_stage(
         SCRIPTS / "executa_auditoria.py",
         "--auditados", args.auditados,
         "--mapa", args.mapa,
+        "--matriz", args.matriz,
         "--fonte", f"questionario={respostas}",
         "--fonte", f"avaliacao_evidencias_ajustes={painel}",
         "--resultado-json", resultado,
@@ -89,7 +91,7 @@ def auditoria_stage(
     ))
     return Stage(
         key, title, tuple(command),
-        inputs=(args.auditados, args.mapa, respostas, painel),
+        inputs=(args.auditados, args.mapa, args.matriz, respostas, painel),
         outputs=(resultado, tabelas), scenario=scenario,
     )
 
@@ -105,6 +107,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-dir", "--output-root", dest="output_root", type=Path, default=ROOT)
     parser.add_argument("--auditados", type=Path, default=DEFAULT_AUDITADOS)
     parser.add_argument("--mapa", type=Path, default=DEFAULT_MAPA)
+    parser.add_argument("--matriz", type=Path, default=DEFAULT_MATRIZ)
     parser.add_argument("--questionario", type=Path, default=DEFAULT_QUESTIONARIO)
     parser.add_argument("--prompts-dir", type=Path, default=DEFAULT_PROMPTS)
     parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
@@ -205,6 +208,20 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
     diagnostico_xlsx = diagnostico_root / "diagnostico-transversal-igovti-2026.xlsx"
 
     stages: list[Stage] = []
+    cobertura_aplicabilidade = root / "02-Execucao/00-Controle_Execucao/cobertura-aplicabilidade-juridica.xlsx"
+    stages.append(Stage(
+        "00-validacao-aplicabilidade",
+        "Validando aplicabilidade jurídica da matriz e do mapa",
+        cmd(
+            SCRIPTS / "validar_aplicabilidade_juridica.py",
+            "--matriz", args.matriz,
+            "--mapa", args.mapa,
+            "--auditados", args.auditados,
+            "--relatorio-xlsx", cobertura_aplicabilidade,
+        ),
+        inputs=(args.matriz, args.mapa, args.auditados),
+        outputs=(cobertura_aplicabilidade,),
+    ))
     stages.append(Stage(
         "01-ajustes-iniciais", "Aplicando ajustes iniciais", cmd(
             SCRIPTS / "ajustar_respostas_questionario.py", "--respostas", args.respostas_bruto,

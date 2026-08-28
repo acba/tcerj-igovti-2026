@@ -266,6 +266,7 @@ class Achado:
         evidencias_detalhadas=None,
         encaminhamentos=None,
         motivos_situacoes=None,
+        situacoes_detalhadas=None,
     ):
         self.numero = numero
         self.nome = nome
@@ -274,6 +275,7 @@ class Achado:
         self.evidencias = evidencias if evidencias is not None else []
         self.evidencias_detalhadas = evidencias_detalhadas if evidencias_detalhadas is not None else []
         self.motivos_situacoes = motivos_situacoes if motivos_situacoes is not None else {}
+        self.situacoes_detalhadas = situacoes_detalhadas if situacoes_detalhadas is not None else []
 
     def __repr__(self):
         return  f"Achado(numero='{self.numero}', nome='{self.nome}')"
@@ -287,6 +289,7 @@ class Achado:
             'evidencias_detalhadas': safe_serialize(self.evidencias_detalhadas),
             'encaminhamentos': self.encaminhamentos,
             'motivos_situacoes': safe_serialize(self.motivos_situacoes),
+            'situacoes_detalhadas': safe_serialize(self.situacoes_detalhadas),
         }
 
     @classmethod
@@ -299,6 +302,7 @@ class Achado:
             evidencias_detalhadas=data.get('evidencias_detalhadas'),
             encaminhamentos=data.get('encaminhamentos'),
             motivos_situacoes=data.get('motivos_situacoes'),
+            situacoes_detalhadas=data.get('situacoes_detalhadas'),
         )
 
 
@@ -322,6 +326,9 @@ class ResultadoAcao:
             'descricao_evidencia': self.descricao_evidencia_renderizada,
             'situacao_encontrada': safe_serialize(self.situacao_encontrada),
             'resultado': bool(self.resultado) if self.resultado is not None else None,
+            'criterio': getattr(self, 'criterio', data.get('criterio')),
+            'tipo_encaminhamento': getattr(self, 'tipo_encaminhamento', data.get('tipo_encaminhamento')),
+            'encaminhamento': getattr(self, 'encaminhamento', data.get('encaminhamento')),
         })
         return data
 
@@ -332,7 +339,8 @@ class AcaoVerificacao:
     def __init__(self, fonte_informacao, informacao_requerida, descricao_evidencia, situacao_inconforme,
                  tipo_encaminhamento, encaminhamento, pre_encaminhamento, criterio, descricao_situacao_inconforme,
                  acao_exclusiva_auditados=None, auditado_inexistente_e_achado=None,
-                 descricao_auditado_inexistente=None, situacao_encontrada_nan_e_achado=None, id=None):
+                 descricao_auditado_inexistente=None, situacao_encontrada_nan_e_achado=None,
+                 id_situacao=None, id=None):
 
         if id is None:
             id = f"AV{AcaoVerificacao.contador:02d}"
@@ -355,6 +363,7 @@ class AcaoVerificacao:
 
         self.situacao_inconforme = situacao_inconforme  # Condição que indica inconformidade (ex: "Não adota")
         self.descricao_situacao_inconforme = descricao_situacao_inconforme
+        self.id_situacao = normalizar_texto_relatorio(id_situacao)
         self.situacao_encontrada_nan_e_achado = parse_bool_planilha(
             situacao_encontrada_nan_e_achado,
             default=False,
@@ -469,6 +478,7 @@ class AcaoVerificacao:
             'encaminhamento': self.encaminhamento,
             'pre_encaminhamento': self.pre_encaminhamento,
             'descricao_situacao_inconforme': self.descricao_situacao_inconforme,
+            'id_situacao': self.id_situacao,
             'acao_exclusiva_auditados': safe_serialize(self.acao_exclusiva_auditados),
             'auditado_inexistente_e_achado': safe_serialize(self.auditado_inexistente_e_achado),
             'descricao_auditado_inexistente': self.descricao_auditado_inexistente,
@@ -488,6 +498,7 @@ class AcaoVerificacao:
             encaminhamento=data.get('encaminhamento'),
             pre_encaminhamento=data.get('pre_encaminhamento'),
             descricao_situacao_inconforme=data.get('descricao_situacao_inconforme'),
+            id_situacao=data.get('id_situacao'),
             acao_exclusiva_auditados=data.get('acao_exclusiva_auditados'),
             auditado_inexistente_e_achado=data.get('auditado_inexistente_e_achado'),
             descricao_auditado_inexistente=data.get('descricao_auditado_inexistente'),
@@ -697,7 +708,7 @@ class ProcedimentoAuditoria:
 
         return encaminhamentos, evidencias, evidencias_detalhadas
 
-    def executar(self, auditado, debug=False):
+    def executar(self, auditado, debug=False, resolvedor_aplicabilidade=None, perfil_auditado=None):
         """Executa todas as ações, avalia a lógica do achado e retorna o achado, caso encontrado."""
 
         acoes_verificadas = [acao.executar(auditado, debug) for acao in self.acoes_verificacao]
@@ -805,6 +816,59 @@ class ProcedimentoAuditoria:
             achado.situacoes_encontradas = situacoes_encontradas
             achado.motivos_situacoes = motivos_situacoes
 
+            if resolvedor_aplicabilidade is not None:
+                detalhes = []
+                encaminhamentos_resolvidos = []
+                for situacao in situacoes_encontradas:
+                    ids = {
+                        acao.id_situacao for acao in acoes_verificadas
+                        if acao.resultado
+                        and acao.descricao_situacao_inconforme == situacao
+                        and getattr(acao, "id_situacao", "")
+                    }
+                    if len(ids) != 1:
+                        raise ValueError(
+                            f"{self.id}/{situacao}: esperava um id_situacao e encontrou {sorted(ids)}."
+                        )
+                    id_situacao = next(iter(ids))
+                    resolvida = resolvedor_aplicabilidade.resolver(perfil_auditado, id_situacao)
+                    criterios = [
+                        {
+                            "id": criterio.id,
+                            "id_exibicao": criterio.id.split(".", 1)[-1],
+                            "descricao": criterio.descricao,
+                            "natureza_fundamento": criterio.natureza_fundamento,
+                            "apto_a_fundamentar_determinacao": criterio.apto_a_fundamentar_determinacao,
+                            "especifico": not criterio.seletor.vazio,
+                            "publico": criterio.rotulo_publico,
+                        }
+                        for criterio in resolvida.criterios
+                    ]
+                    detalhe = {
+                        "id_situacao": id_situacao,
+                        "descricao": situacao,
+                        "id_variante": resolvida.variante.id,
+                        "publico": resolvida.variante.rotulo_publico,
+                        "criterios": criterios,
+                        "tipo_encaminhamento": resolvida.variante.tipo_encaminhamento,
+                        "encaminhamento": resolvida.variante.encaminhamento,
+                    }
+                    detalhes.append(detalhe)
+                    encaminhamentos_resolvidos.append({
+                        "id_situacao": id_situacao,
+                        "id_variante": resolvida.variante.id,
+                        "encaminhamento": resolvida.variante.encaminhamento,
+                        "tipo": resolvida.variante.tipo_encaminhamento,
+                        "criterios": criterios,
+                    })
+                    for acao in acoes_verificadas:
+                        if acao.resultado and getattr(acao, "id_situacao", "") == id_situacao:
+                            acao.criterio = "\n".join(item["descricao"] for item in criterios)
+                            acao.tipo_encaminhamento = resolvida.variante.tipo_encaminhamento
+                            acao.encaminhamento = resolvida.variante.encaminhamento
+                achado.situacoes_detalhadas = detalhes
+                achado.encaminhamentos = encaminhamentos_resolvidos
+
         return ResultadoProcedimento(
             self,
             acoes_verificacao=acoes_verificadas,
@@ -847,7 +911,8 @@ class ProcedimentoAuditoria:
 class Auditado:
     contador = 1  # Contador de instâncias para automatizar o identificador
 
-    def __init__(self, nome, sigla, id=None):
+    def __init__(self, nome, sigla, segmento_institucional="", natureza_administrativa="",
+                 tags_aplicabilidade=None, id=None):
         if id is None:
             id = f"A{Auditado.contador:02d}"
             Auditado.contador += 1  # Incrementa o contador para o próximo identificador
@@ -855,6 +920,10 @@ class Auditado:
         self.id = id
         self.nome = nome
         self.sigla = sigla
+        self.segmento_institucional = normalizar_texto_relatorio(segmento_institucional).upper()
+        self.natureza_administrativa = normalizar_texto_relatorio(natureza_administrativa).upper()
+        self.tags_aplicabilidade = sorted(parse_lista_auditados(tags_aplicabilidade) or [])
+        self.resolvedor_aplicabilidade = None
         self.foi_auditado = False
 
         # Armazena os resultados dos procedimentos de auditoria
@@ -863,6 +932,7 @@ class Auditado:
         self.respondeu_questionario = True
         self.status_avaliacao = "pendente"
         self.motivo_nao_avaliacao = ""
+        self.hashes_entradas = {}
 
     def __repr__(self):
         return (f"Auditado(id='{self.id}', sigla='{self.sigla}')\n" +
@@ -890,7 +960,21 @@ class Auditado:
             # print(f'Procedimento {procedimento.id} já foi executado')
             return
 
-        p = procedimento.executar(self.sigla, debug)
+        perfil = None
+        if self.resolvedor_aplicabilidade is not None:
+            from aplicabilidade_juridica import PerfilAuditado
+            perfil = PerfilAuditado(
+                self.sigla,
+                self.segmento_institucional,
+                self.natureza_administrativa,
+                frozenset(self.tags_aplicabilidade),
+            )
+        p = procedimento.executar(
+            self.sigla,
+            debug,
+            resolvedor_aplicabilidade=self.resolvedor_aplicabilidade,
+            perfil_auditado=perfil,
+        )
         self.procedimentos_executados.append(p)
 
         if p.achado:
@@ -1049,6 +1133,35 @@ class Auditado:
             evidencias.append(item)
         return evidencias
 
+    def get_criterios_achado(self, nome_achado):
+        """Critérios efetivamente resolvidos para as situações deste auditado."""
+        achado = self.get_achado_por_nome(nome_achado)
+        if not achado:
+            return []
+        criterios = []
+        por_id = {}
+        for situacao in getattr(achado, "situacoes_detalhadas", []) or []:
+            for criterio in situacao.get("criterios", []):
+                item = por_id.get(criterio.get("id"))
+                if item is None:
+                    item = dict(criterio)
+                    item["situacoes"] = []
+                    por_id[criterio.get("id")] = item
+                    criterios.append(item)
+                if situacao.get("id_situacao") not in item["situacoes"]:
+                    item["situacoes"].append(situacao.get("id_situacao"))
+        return criterios
+
+    def get_criterios_situacao(self, nome_achado, id_situacao):
+        """Critérios da variante efetivamente selecionada para uma situação."""
+        achado = self.get_achado_por_nome(nome_achado)
+        if not achado:
+            return []
+        for situacao in getattr(achado, "situacoes_detalhadas", []) or []:
+            if situacao.get("id_situacao") == id_situacao:
+                return list(situacao.get("criterios", []))
+        return []
+
     @staticmethod
     def _ordenar_refs(refs):
         def chave(ref):
@@ -1130,28 +1243,14 @@ class Auditado:
         for p in self.procedimentos_executados:
             if p.achado is None:
                 continue
-            if not p.acoes_verificacao:
-                for item in p.achado.encaminhamentos:
-                    encaminhamento = item.get('encaminhamento')
-                    tipo = item.get('tipo')
-                    if not encaminhamento or not tipo:
-                        continue
-                    registro = {'achado_num': p.achado.numero, 'encaminhamento': encaminhamento, 'tipo': tipo}
-                    if registro not in encaminhamentos:
-                        encaminhamentos.append(registro)
-                continue
-            for acao in p.acoes_verificacao:
-                if acao.resultado:
-                    if len(encaminhamentos):
-                        encontrou = False
-                        for e in encaminhamentos:
-                            if e['encaminhamento'] == acao.encaminhamento and e['tipo'] == acao.tipo_encaminhamento and e['achado_num'] == p.achado.numero:
-                                encontrou = True
-
-                        if not encontrou:
-                            encaminhamentos.append({'achado_num': p.achado.numero, 'encaminhamento': acao.encaminhamento, 'tipo': acao.tipo_encaminhamento})
-                    else:
-                        encaminhamentos.append({'achado_num': p.achado.numero, 'encaminhamento': acao.encaminhamento, 'tipo': acao.tipo_encaminhamento})
+            for item in p.achado.encaminhamentos:
+                encaminhamento = item.get('encaminhamento')
+                tipo = item.get('tipo')
+                if not encaminhamento or not tipo:
+                    continue
+                registro = {'achado_num': p.achado.numero, 'encaminhamento': encaminhamento, 'tipo': tipo}
+                if registro not in encaminhamentos:
+                    encaminhamentos.append(registro)
 
         return encaminhamentos
 
@@ -1290,11 +1389,15 @@ class Auditado:
             'id': self.id,
             'nome': self.nome,
             'sigla': self.sigla,
+            'segmento_institucional': self.segmento_institucional,
+            'natureza_administrativa': self.natureza_administrativa,
+            'tags_aplicabilidade': self.tags_aplicabilidade,
             'foi_auditado': safe_serialize(self.foi_auditado),
             'tem_achados': safe_serialize(self.tem_achados),
             'respondeu_questionario': safe_serialize(self.respondeu_questionario),
             'status_avaliacao': self.status_avaliacao,
             'motivo_nao_avaliacao': self.motivo_nao_avaliacao,
+            'hashes_entradas': self.hashes_entradas,
             'procedimentos_executados': [p.to_dict(compacto=compacto) for p in self.procedimentos_executados]
         }
 
@@ -1303,13 +1406,17 @@ class Auditado:
         obj = cls(
             id=data.get('id'),
             nome=data.get('nome'),
-            sigla=data.get('sigla')
+            sigla=data.get('sigla'),
+            segmento_institucional=data.get('segmento_institucional', ''),
+            natureza_administrativa=data.get('natureza_administrativa', ''),
+            tags_aplicabilidade=data.get('tags_aplicabilidade', []),
         )
         obj.foi_auditado = data.get('foi_auditado')
         obj.tem_achados = data.get('tem_achados')
         obj.respondeu_questionario = data.get('respondeu_questionario', True)
         obj.status_avaliacao = data.get('status_avaliacao') or ("avaliado" if obj.foi_auditado else "pendente")
         obj.motivo_nao_avaliacao = data.get('motivo_nao_avaliacao', "")
+        obj.hashes_entradas = data.get('hashes_entradas', {})
         obj.procedimentos_executados = [ProcedimentoAuditoria.from_dict(p) for p in data.get('procedimentos_executados', [])]
         return obj
 

@@ -17,19 +17,9 @@
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 ### Critérios
-{% if tem_formalizacao %}
-* COBIT 2019, APO01.04 - Definir e implementar as estruturas organizacionais: estabelecer estruturas organizacionais internas e externas necessárias para apoiar os objetivos de governança e gestão de TI;
-{% endif %}
-{% if tem_atribuicoes %}
-* COBIT 2019, APO01.05 - Estabelecer papéis e responsabilidades: definir, comunicar e manter papéis e responsabilidades relacionados à governança e gestão de TI;
-{% endif %}
-{% if tem_posicionamento %}
-* COBIT 2019, APO01.06 - Aprimorar o posicionamento da função de TI: posicionar a função de tecnologia de modo compatível com sua relevância estratégica, responsabilidades e necessidade de interação com a alta administração;
-* Portaria SGD/ME nº 778/2019, art. 4º, § 1º - Referência de posicionamento organizacional: a área de TIC deve, preferencialmente, estar vinculada à alta administração.
-{% endif %}
-{% if tem_formalizacao or tem_atribuicoes %}
-* Constituição Federal, art. 37, caput - Princípio da eficiência.
-{% endif %}
+{% for criterio in auditado.get_criterios_achado(nome_achado) %}
+* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
+{% endfor %}
 
 ### Evidências
 {% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}

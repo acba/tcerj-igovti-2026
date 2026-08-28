@@ -70,6 +70,7 @@ Cabeçalho na linha 3:
 | `auditado_inexistente_e_achado` | `TRUE` se ausência do auditado na fonte configura achado |
 | `descricao_auditado_inexistente` | evidência a registrar quando o auditado não existir na fonte |
 | `informacao_requerida` | uma única coluna, campo ou variável analisada, como `q1001ext[A]` ou `total_TI` |
+| `id_situacao` | identificador estável da situação, como `S6.4` |
 | `criterio` | critério aplicável, preferencialmente textual e específico |
 | `descricao_evidencia` | evidência que será registrada quando a ação for aplicada; aceita `@`, `{situacao_encontrada}`, `{item_avaliado}` e, quando existirem colunas auxiliares, `{avaliacao_justificativa}`, `{resposta_afirmada}` e `{pratica}` |
 | `complemento_evidencia` | complemento opcional |
@@ -81,6 +82,16 @@ Cabeçalho na linha 3:
 | `pre_encaminhamento` | texto opcional antes do encaminhamento |
 | `encaminhamento` | providência proposta quando a ação/situação ocorrer |
 
+Os campos `criterio`, `tipo_encaminhamento` e `encaminhamento` desta aba podem ser preservados para compatibilidade com produtos legados. Quando existirem as abas jurídicas abaixo, elas prevalecem após a identificação factual da situação.
+
+### Critérios de Auditoria
+
+Cabeçalho na linha 3. Registra `id_criterio` qualificado pela questão, `id_exibicao`, `questao`, `publico`, `descricao`, `natureza_fundamento`, `apto_a_fundamentar_determinacao` e os seletores `segmentos`, `naturezas`, `tags_todas`, `tags_alguma` e `tags_excluidas`. Esses dados são sincronizados do bloco estruturado único `criterios` da matriz de planejamento; critérios específicos são os itens que também declaram `publico` e `aplica_se`.
+
+### Variantes de Encaminhamento
+
+Cabeçalho na linha 3. Registra `id_variante`, `id_situacao`, `geral`, `publico`, os cinco seletores, `criterios`, `tipo_encaminhamento` e `encaminhamento`. Cada situação deve possuir exatamente uma variante geral. Na matriz, as específicas ficam aninhadas em `situacoes_encontradas[].variantes`; na planilha, são materializadas com os campos herdados e com identificador gerado automaticamente. Uma variante específica substitui a geral quando for a única aplicável ao auditado.
+
 ## Convenções
 
 - Manter cabeçalhos na linha 3 para compatibilidade com planilhas existentes.
@@ -89,7 +100,9 @@ Cabeçalho na linha 3:
 - Usar `questionario_e_avaliacao_evidencias` quando a regra combinar resposta declarada e resultado de avaliação de evidência na mesma expressão.
 - Preferir uma ação por condição operacionalmente testável.
 - Cada ação deve consultar exatamente uma coluna da fonte de informação. Se a regra utilizar N colunas, criar N ações.
-- Repetir nas ações oriundas da mesma situação encontrada a descrição da situação, o tipo de encaminhamento e o encaminhamento.
+- Repetir nas ações oriundas da mesma situação encontrada a descrição e o `id_situacao`. Não duplicar ações em razão de critérios específicos por público.
+- Nos seletores jurídicos, campos ausentes ou listas vazias são neutros; valores dentro da mesma lista operam por OR e dimensões preenchidas operam por AND.
+- Não usar expressões livres nem `eval` para aplicabilidade. O cadastro materializa apenas `segmento_institucional`, `natureza_administrativa` e `tags_aplicabilidade`.
 - Em regras compostas, preservar a expressão original em `situacao_inconforme` quando não houver decomposição segura.
 - Manter em `situacao_inconforme` apenas a condição aplicável à coluna da própria ação.
 - Preencher `situacao_inconforme` com os valores literais encontrados na fonte. Em itens-base de escolha única, converter o código da alternativa para seu texto completo, por exemplo `F` para `f) Inexistente / Informal: ...`; para negação, usar `~(<texto completo>)`.

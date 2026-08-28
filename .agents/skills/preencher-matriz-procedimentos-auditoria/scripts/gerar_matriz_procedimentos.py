@@ -15,6 +15,13 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 
+REPO_ROOT = Path(__file__).resolve().parents[4]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.gerar_matriz_planejamento import parse_matrix as parse_planning_matrix  # noqa: E402
+
+
 FONTES_HEADERS = ["id", "descricao", "filepath", "chave_jurisdicionado"]
 PROCEDIMENTOS_HEADERS = ["id", "descricao", "logica_achado", "numero_achado", "nome_achado"]
 VARIAVEIS_HEADERS = ["id", "id_fonte_informacao", "nome", "expressao", "descricao"]
@@ -29,6 +36,7 @@ ACOES_HEADERS = [
     "descricao_evidencia",
     "complemento_evidencia",
     "descricao_situacao_inconforme",
+    "id_situacao",
     "situacao_inconforme",
     "situacao_encontrada_nan_e_achado",
     "decodifica_sit_encontrada",
@@ -67,6 +75,7 @@ class Action:
     criterio: str
     descricao_evidencia: str
     descricao_situacao_inconforme: str
+    id_situacao: str
     situacao_inconforme: str
     tipo_encaminhamento: str
     encaminhamento: str
@@ -91,122 +100,33 @@ class QuestionDefinition:
     options: dict[str, str] = field(default_factory=dict)
 
 
-def split_sections(text: str) -> list[str]:
-    matches = list(re.finditer(r"^## Questão \d+.*$", text, flags=re.MULTILINE))
-    sections = []
-    for index, match in enumerate(matches):
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
-        sections.append(text[match.start() : end])
-    return sections
-
-
-def parse_keyed_list(section: str, key: str) -> dict[str, str]:
-    block = extract_named_block(section, key)
-    result: dict[str, str] = {}
-    for line in block.splitlines():
-        match = re.match(r"\s*-\s*([A-Z]+\d+(?:\.\d+)?):\s*(.+)", line)
-        if match:
-            result[match.group(1)] = match.group(2).strip()
-    return result
-
-
-def extract_named_block(section: str, name: str) -> str:
-    pattern = rf"^{re.escape(name)}:\s*$"
-    match = re.search(pattern, section, flags=re.MULTILINE)
-    if not match:
-        return ""
-    start = match.end()
-    next_match = re.search(
-        r"^(subquestoes|riscos|fontes_de_informacao|informacoes_requeridas|criterios|procedimentos|evidencias|possiveis_achados|natureza|gera_achado):\s*$",
-        section[start:],
-        flags=re.MULTILINE,
-    )
-    end = start + next_match.start() if next_match else len(section)
-    return section[start:end]
-
-
-def parse_inline_list(value: str) -> list[str]:
-    value = value.strip()
-    if value.startswith("[") and value.endswith("]"):
-        value = value[1:-1]
-    return [item.strip().strip("'\"") for item in value.split(",") if item.strip()]
-
-
-def field_value(block: str, field_name: str) -> str:
-    match = re.search(rf"^\s*{re.escape(field_name)}:\s*(.+?)\s*$", block, flags=re.MULTILINE)
-    return match.group(1).strip() if match else ""
-
-
-def list_field(block: str, field_name: str) -> list[str]:
-    value = field_value(block, field_name)
-    return parse_inline_list(value) if value else []
-
-
-def rule_lines(block: str) -> list[str]:
-    lines = block.splitlines()
-    rules: list[str] = []
-    collecting = False
-    for line in lines:
-        if re.match(r"^\s*regra_de_identificacao:\s*$", line):
-            collecting = True
-            continue
-        if not collecting:
-            continue
-        if re.match(r"^\s*[a-zA-Z_]+:\s*", line):
-            break
-        match = re.match(r"^\s*-\s*(.+)", line)
-        if match:
-            rules.append(match.group(1).strip())
-    return rules
-
-
-def parse_situacoes(achado_block: str) -> list[Situacao]:
-    matches = list(re.finditer(r"^\s*-\s*(S\d+\.\d+):\s*$", achado_block, flags=re.MULTILINE))
-    situacoes: list[Situacao] = []
-    for index, match in enumerate(matches):
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(achado_block)
-        block = achado_block[match.end() : end]
-        situacoes.append(
-            Situacao(
-                codigo=match.group(1),
-                descricao=field_value(block, "descricao"),
-                regras=rule_lines(block),
-                criterios=list_field(block, "criterios"),
-                tipo_encaminhamento=field_value(block, "tipo_encaminhamento"),
-                encaminhamento=field_value(block, "encaminhamento"),
-            )
-        )
-    return situacoes
-
-
-def parse_achados(section: str) -> list[Achado]:
-    questao_match = re.search(r"questao:\s*(Q\d+)\.\s*(.+)", section)
-    questao_codigo = questao_match.group(1) if questao_match else ""
-    questao_texto = questao_match.group(2).strip() if questao_match else ""
-    criterios = parse_keyed_list(section, "criterios")
-    block = extract_named_block(section, "possiveis_achados")
-    matches = list(re.finditer(r"^\s*-\s*(A\d+):\s*(.+)$", block, flags=re.MULTILINE))
-    achados: list[Achado] = []
-    for index, match in enumerate(matches):
-        end = matches[index + 1].start() if index + 1 < len(matches) else len(block)
-        achado_block = block[match.end() : end]
-        achado = Achado(
-            codigo=match.group(1),
-            nome=match.group(2).strip(),
-            questao_codigo=questao_codigo,
-            questao_texto=questao_texto,
-            criterios=criterios,
-            situacoes=parse_situacoes(achado_block),
-        )
-        achados.append(achado)
-    return achados
-
-
 def parse_matrix(path: Path) -> list[Achado]:
-    text = path.read_text(encoding="utf-8")
+    matrix = parse_planning_matrix(path.read_text(encoding="utf-8"))
     achados: list[Achado] = []
-    for section in split_sections(text):
-        achados.extend(parse_achados(section))
+    for question in matrix.questions:
+        criteria = {criterion.id: criterion.descricao for criterion in question.criterios}
+        question_text = re.sub(rf"^{re.escape(question.id)}\.\s*", "", question.question)
+        for finding in question.achados:
+            achados.append(
+                Achado(
+                    codigo=finding.id,
+                    nome=finding.title,
+                    questao_codigo=question.id,
+                    questao_texto=question_text,
+                    criterios=criteria,
+                    situacoes=[
+                        Situacao(
+                            codigo=situation.id,
+                            descricao=situation.descricao,
+                            regras=list(situation.regra),
+                            criterios=list(situation.criterios),
+                            tipo_encaminhamento=situation.tipo_encaminhamento,
+                            encaminhamento=situation.encaminhamento,
+                        )
+                        for situation in finding.situacoes
+                    ],
+                )
+            )
     return achados
 
 
@@ -596,6 +516,7 @@ def build_actions(
                             temporary_variables,
                         ),
                         descricao_situacao_inconforme=situacao.descricao,
+                        id_situacao=situacao.codigo,
                         situacao_inconforme=action_condition,
                         tipo_encaminhamento=encaminhamento_tipo(
                             situacao.tipo_encaminhamento,
@@ -698,6 +619,7 @@ def create_workbook(
                 action.descricao_evidencia,
                 None,
                 action.descricao_situacao_inconforme,
+                action.id_situacao,
                 action.situacao_inconforme,
                 None,
                 None,
@@ -801,11 +723,23 @@ def check_workbook(path: Path) -> int:
                 action_id = ws.cell(row, 1).value
                 if not action_id:
                     continue
-                tipo = ws.cell(row, 14).value
-                if tipo not in TIPOS_ENCAMINHAMENTO:
+                headers = {
+                    str(ws.cell(3, column).value): column
+                    for column in range(1, ws.max_column + 1)
+                    if ws.cell(3, column).value
+                }
+                tipo = ws.cell(row, headers["tipo_encaminhamento"]).value
+                if tipo and tipo not in TIPOS_ENCAMINHAMENTO:
                     errors.append(
                         f"tipo_encaminhamento inválido na ação {action_id}: {tipo!r}"
                     )
+                has_situation = bool(ws.cell(row, headers["descricao_situacao_inconforme"]).value)
+                if (
+                    "Critérios de Auditoria" in workbook.sheetnames
+                    and has_situation
+                    and not ws.cell(row, headers["id_situacao"]).value
+                ):
+                    errors.append(f"id_situacao ausente na ação {action_id}")
                 information = str(ws.cell(row, 6).value or "")
                 if ";" in information or "|" in information:
                     errors.append(
