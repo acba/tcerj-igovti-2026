@@ -29,6 +29,7 @@ from argos_utils import (
     data_hoje_abnt,
     data_hoje,
     aplicar_estilo_tabelas,
+    aplicar_fonte_justificativas_avaliacao,
     evitar_quebra_elementos,
     inserir_campo_sumario_docx,
     marcar_atualizacao_campos_docx,
@@ -612,6 +613,7 @@ def main():
 
                     # Apply styles to tables in Docx
                     aplicar_estilo_tabelas(docx_filename)
+                    aplicar_fonte_justificativas_avaliacao(docx_filename)
                     evitar_quebra_elementos(docx_filename)
                     marcar_atualizacao_campos_docx(docx_filename)
                     logger.info(f"[{sigla}] Relatório Word gerado em: {docx_filename}")
@@ -635,6 +637,7 @@ def main():
 
                     # Apply styling to tables
                     aplicar_estilo_tabelas(docx_filename)
+                    aplicar_fonte_justificativas_avaliacao(docx_filename)
                     evitar_quebra_elementos(docx_filename)
                     marcar_atualizacao_campos_docx(docx_filename)
                     logger.info(f"[{sigla}] Relatório Word (.docx) gerado em: {docx_filename}")

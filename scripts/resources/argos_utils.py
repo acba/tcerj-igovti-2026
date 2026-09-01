@@ -802,6 +802,46 @@ def aplicar_estilo_tabelas(docx_path, font_name='Calibri', header_size=10, body_
 
     doc.save(docx_path)
 
+
+def aplicar_fonte_justificativas_avaliacao(docx_path, tamanho=8):
+    """Aplica fonte reduzida somente aos subitens de justificativa das evidências."""
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+
+    def paragrafos_tabela(tabela):
+        for linha in tabela.rows:
+            for celula in linha.cells:
+                yield from celula.paragraphs
+                for tabela_interna in celula.tables:
+                    yield from paragrafos_tabela(tabela_interna)
+
+    documento = Document(docx_path)
+    paragrafos = list(documento.paragraphs)
+    for tabela in documento.tables:
+        paragrafos.extend(paragrafos_tabela(tabela))
+
+    tamanho_meios_pontos = str(int(tamanho * 2))
+    for paragrafo in paragrafos:
+        if not paragrafo.text.strip().startswith("Justificativa da avaliação:"):
+            continue
+
+        for trecho in paragrafo.runs:
+            trecho.font.size = Pt(tamanho)
+
+        propriedades = paragrafo._p.get_or_add_pPr()
+        propriedades_execucao = propriedades.find(qn("w:rPr"))
+        if propriedades_execucao is None:
+            propriedades_execucao = OxmlElement("w:rPr")
+            propriedades.append(propriedades_execucao)
+        for nome in ("w:sz", "w:szCs"):
+            elemento = propriedades_execucao.find(qn(nome))
+            if elemento is None:
+                elemento = OxmlElement(nome)
+                propriedades_execucao.append(elemento)
+            elemento.set(qn("w:val"), tamanho_meios_pontos)
+
+    documento.save(docx_path)
+
 def evitar_quebra_elementos(docx_path):
     """
     Pós-processa o arquivo Word (.docx) para evitar que elementos visuais
