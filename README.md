@@ -131,7 +131,7 @@ Não há script único para esta etapa; trata-se de atividade analítica e docum
 
 A matriz de planejamento organiza questões de auditoria, subquestões, riscos, fontes de informação, informações requeridas, critérios, procedimentos, evidências esperadas, possíveis achados e encaminhamentos.
 
-Quando um critério é vinculante apenas para determinado público, a matriz também declara sua aplicabilidade e a variante de encaminhamento correspondente, aninhada na própria situação encontrada. A variante herda os critérios, o tipo e o texto do encaminhamento geral quando esses campos forem omitidos e substitui integralmente os que declarar; seu identificador é gerado automaticamente. O cadastro de auditados materializa `segmento_institucional`, `natureza_administrativa` e `tags_aplicabilidade`; o motor não infere essas classificações nem converte recomendações em determinações. Campos ausentes ou listas vazias no seletor não restringem a aplicação, e classificações adicionais apenas estreitam o público selecionado.
+Quando um critério é vinculante apenas para determinado público, a matriz também declara sua aplicabilidade e a variante de encaminhamento correspondente, aninhada na própria situação encontrada. Cada situação separa `fundamentacao_encaminhamento`, texto expositivo usado no relatório, de `encaminhamento`, providência operativa cuja identidade deve permanecer estável. A variante herda os critérios, o tipo, a fundamentação e o texto do encaminhamento geral quando esses campos forem omitidos e substitui integralmente os que declarar; seu identificador é gerado automaticamente. O cadastro de auditados materializa `segmento_institucional`, `natureza_administrativa` e `tags_aplicabilidade`; o motor não infere essas classificações nem converte recomendações em determinações. Campos ausentes ou listas vazias no seletor não restringem a aplicação, e classificações adicionais apenas estreitam o público selecionado.
 
 Todos os critérios gerais e específicos são declarados no bloco único `criterios`. Cada item contém `id`, `descricao`, `natureza_fundamento` e `apto_a_fundamentar_determinacao`; critérios específicos acrescentam `publico` e `aplica_se`. O formato é estrito e não aceita os antigos blocos separados de metadados ou critérios específicos. Exemplo:
 
@@ -206,7 +206,7 @@ Essa ferramenta permite carregar uma fonte de informação, aplicar a estrutura 
 
 A matriz de procedimentos traduz a matriz de planejamento em verificações executáveis: fontes de informação, procedimentos, ações de verificação, lógica de achado, situações encontradas e encaminhamentos.
 
-No mapa vigente, as ações mantêm a verificação factual e o `id_situacao`. As abas `Critérios de Auditoria` e `Variantes de Encaminhamento` são sincronizadas da matriz por `scripts/sincronizar_aplicabilidade_juridica.py`. Antes da execução, `scripts/validar_aplicabilidade_juridica.py` bloqueia divergências entre matriz e mapa, classificações ausentes e conflitos de variantes.
+No mapa vigente, as ações mantêm a verificação factual e o `id_situacao`. As abas `Critérios de Auditoria` e `Variantes de Encaminhamento` são sincronizadas da matriz por `scripts/sincronizar_aplicabilidade_juridica.py`; esta última também materializa `fundamentacao_encaminhamento`. O campo legado `pre_encaminhamento` da aba `Ações de Verificação` não é fonte da fundamentação e permanece sem uso nessa modelagem, pois sua granularidade é a ação, não a situação. Antes da execução, `scripts/validar_aplicabilidade_juridica.py` bloqueia divergências entre matriz e mapa, classificações ausentes e conflitos de variantes.
 
 Artefato principal:
 
@@ -233,6 +233,18 @@ A matriz de achados em DOCX é gerada por:
 ```bash
 scripts/.venv/bin/python scripts/gerar_matriz_achados.py
 ```
+
+A geração utiliza, por padrão, o resultado pós-comentários do gestor. Somente
+achados, situações, critérios específicos, efeitos e encaminhamentos com
+ocorrência no resultado final são materializados. O tipo e o público de cada
+encaminhamento são resolvidos pelas variantes declaradas na matriz e pela
+classificação explícita de `bd_auditados.xlsx`; a rotina não infere o regime
+jurídico do destinatário.
+
+Ao final do DOCX, a rotina acrescenta um quadro em orientação paisagem com uma
+linha para cada organização avaliada e uma coluna para cada situação ocorrida.
+As células usam `D` para determinação, `R` para recomendação e permanecem
+vazias quando a situação não foi identificada para o auditado.
 
 ### 5. Construção do questionário e publicação no LimeSurvey
 

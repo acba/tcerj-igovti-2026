@@ -102,6 +102,7 @@ class SituationVariant:
     aplica_se: dict[str, list[str]]
     criterios: list[str] | None = None
     tipo_encaminhamento: str | None = None
+    fundamentacao_encaminhamento: str | None = None
     encaminhamento: str | None = None
 
 
@@ -115,6 +116,7 @@ class Situation:
     referencias: list[str] = field(default_factory=list)
     criterios: list[str] = field(default_factory=list)
     tipo_encaminhamento: str = ""
+    fundamentacao_encaminhamento: str = ""
     encaminhamento: str = ""
     variantes: list[SituationVariant] = field(default_factory=list)
 
@@ -223,6 +225,7 @@ VARIANT_FIELDS = {
     "aplica_se",
     "criterios",
     "tipo_encaminhamento",
+    "fundamentacao_encaminhamento",
     "encaminhamento",
 }
 
@@ -353,13 +356,26 @@ def parse_situation_variants(block: str, situation_id: str) -> list[SituationVar
                     f"{context}.tipo_encaminhamento deve ser Recomendação ou Determinação."
                 )
 
+        referral_foundation: str | None = None
+        if "fundamentacao_encaminhamento" in item:
+            referral_foundation = str(item.get("fundamentacao_encaminhamento") or "").strip()
+            if not referral_foundation:
+                raise ValueError(
+                    f"{context}.fundamentacao_encaminhamento não pode ser vazia quando declarada."
+                )
+
         referral: str | None = None
         if "encaminhamento" in item:
             referral = str(item.get("encaminhamento") or "").strip()
             if not referral:
                 raise ValueError(f"{context}.encaminhamento não pode ser vazio quando declarado.")
 
-        if criteria is None and referral_type is None and referral is None:
+        if (
+            criteria is None
+            and referral_type is None
+            and referral_foundation is None
+            and referral is None
+        ):
             raise ValueError(f"{context}: informe ao menos um campo a sobrescrever.")
         variants.append(
             SituationVariant(
@@ -367,6 +383,7 @@ def parse_situation_variants(block: str, situation_id: str) -> list[SituationVar
                 aplica_se=selector,
                 criterios=criteria,
                 tipo_encaminhamento=referral_type,
+                fundamentacao_encaminhamento=referral_foundation,
                 encaminhamento=referral,
             )
         )
@@ -395,13 +412,16 @@ def situation_variant_id(situation_id: str, variant: SituationVariant) -> str:
 
 def materialize_situation_variant(
     situation: Situation, variant: SituationVariant
-) -> tuple[str, list[str], str, str]:
+) -> tuple[str, list[str], str, str, str]:
     return (
         situation_variant_id(situation.id, variant),
         list(variant.criterios if variant.criterios is not None else situation.criterios),
         variant.tipo_encaminhamento
         if variant.tipo_encaminhamento is not None
         else situation.tipo_encaminhamento,
+        variant.fundamentacao_encaminhamento
+        if variant.fundamentacao_encaminhamento is not None
+        else situation.fundamentacao_encaminhamento,
         variant.encaminhamento if variant.encaminhamento is not None else situation.encaminhamento,
     )
 
@@ -505,8 +525,9 @@ def parse_findings(block: str) -> list[Finding]:
             current_situation.regra.append(list_item.group(1).strip())
             continue
 
-        if line.strip() and current_prop == "encaminhamento":
-            current_situation.encaminhamento = (current_situation.encaminhamento + " " + line.strip()).strip()
+        if line.strip() and current_prop in {"fundamentacao_encaminhamento", "encaminhamento"}:
+            atual = getattr(current_situation, current_prop)
+            setattr(current_situation, current_prop, (atual + " " + line.strip()).strip())
 
     finish_finding()
     return findings
@@ -525,6 +546,8 @@ def assign_situation_prop(situation: Situation, prop: str, value: str) -> None:
         situation.criterios = split_csv_list(value)
     elif prop == "tipo_encaminhamento":
         situation.tipo_encaminhamento = value
+    elif prop == "fundamentacao_encaminhamento":
+        situation.fundamentacao_encaminhamento = value
     elif prop == "encaminhamento":
         situation.encaminhamento = value
     elif prop == "regra_de_identificacao":
@@ -586,6 +609,12 @@ def parse_matrix(markdown: str) -> Matrix:
             analise_permite_dizer=parse_list(get_section_block(content, "o_que_a_analise_permite_dizer")),
             limitacoes=parse_list(get_section_block(content, "limitacoes_e_cautelas")),
         )
+        for achado in q.achados:
+            for situacao in achado.situacoes:
+                if not situacao.fundamentacao_encaminhamento.strip():
+                    raise ValueError(
+                        f"{situacao.id}.fundamentacao_encaminhamento não pode ser vazia."
+                    )
         questions.append(q)
 
     return Matrix(title, questao_geral, questions)
@@ -908,6 +937,14 @@ def format_findings_or_analysis(
                         spacing_after=40,
                     )
                 )
+            if situation.fundamentacao_encaminhamento:
+                lines.append(
+                    CellParagraph(
+                        f"Fundamentação: {situation.fundamentacao_encaminhamento};",
+                        left_indent=720,
+                        spacing_after=40,
+                    )
+                )
             if situation.encaminhamento:
                 lines.append(
                     CellParagraph(
@@ -917,7 +954,10 @@ def format_findings_or_analysis(
                     )
                 )
             for variante in situation.variantes:
-                _, materialized_criteria, materialized_type, materialized_referral = (
+                (
+                    _, materialized_criteria, materialized_type,
+                    materialized_foundation, materialized_referral,
+                ) = (
                     materialize_situation_variant(situation, variante)
                 )
                 lines.append(
@@ -932,6 +972,13 @@ def format_findings_or_analysis(
                 lines.append(
                     CellParagraph(
                         f"Tipo: {materialized_type};",
+                        left_indent=1080,
+                        spacing_after=40,
+                    )
+                )
+                lines.append(
+                    CellParagraph(
+                        f"Fundamentação: {materialized_foundation};",
                         left_indent=1080,
                         spacing_after=40,
                     )

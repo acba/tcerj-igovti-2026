@@ -100,6 +100,7 @@ class VarianteEncaminhamento:
     geral: bool
     criterios: tuple[str, ...]
     tipo_encaminhamento: str
+    fundamentacao_encaminhamento: str
     encaminhamento: str
     seletor: SeletorAplicabilidade = field(default_factory=SeletorAplicabilidade)
     rotulo_publico: str = ""
@@ -161,6 +162,10 @@ class ResolverAplicabilidade:
                     )
                 if not variante.encaminhamento.strip():
                     raise ErroAplicabilidade(f"{variante.id}: encaminhamento não informado.")
+                if not variante.fundamentacao_encaminhamento.strip():
+                    raise ErroAplicabilidade(
+                        f"{variante.id}: fundamentacao_encaminhamento não informada."
+                    )
                 ausentes = [criterio for criterio in variante.criterios if criterio not in self.criterios]
                 if ausentes:
                     raise ErroAplicabilidade(
@@ -261,6 +266,9 @@ def carregar_catalogo_planilha(caminho: str):
                 geral=geral,
                 criterios=_normalizar_lista(row.get("criterios")),
                 tipo_encaminhamento=str(row.get("tipo_encaminhamento") or "").strip(),
+                fundamentacao_encaminhamento=str(
+                    row.get("fundamentacao_encaminhamento") or ""
+                ).strip(),
                 encaminhamento=str(row.get("encaminhamento") or "").strip(),
                 seletor=seletor(row),
                 rotulo_publico=str(row.get("publico") or "").strip(),

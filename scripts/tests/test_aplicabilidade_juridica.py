@@ -174,7 +174,7 @@ metadados_criterios:
         gerais = [criterio for criterio in catalogo.criterios if criterio.seletor.vazio]
         especificos = [criterio for criterio in catalogo.criterios if not criterio.seletor.vazio]
         self.assertEqual(len(gerais), 40)
-        self.assertEqual(len(especificos), 21)
+        self.assertEqual(len(especificos), 36)
         self.assertTrue(
             all(len(criterio.seletor.segmentos) == 1 for criterio in especificos)
         )
@@ -210,6 +210,7 @@ possiveis_achados:
       referencias_matriz: [R1.1, P1, E1]
       criterios: [C1]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se ao critério geral
       encaminhamento: corrija a situação geral
       variantes:
 {variants}
@@ -226,12 +227,13 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2]"""
         )
-        identifier, criteria, referral_type, referral = materialize_situation_variant(
+        identifier, criteria, referral_type, foundation, referral = materialize_situation_variant(
             situation, situation.variantes[0]
         )
         self.assertEqual(identifier, "S1.1.JUDICIARIO_ESTADUAL")
         self.assertEqual(criteria, ["C2"])
         self.assertEqual(referral_type, "Recomendação")
+        self.assertEqual(foundation, "alinhando-se ao critério geral")
         self.assertEqual(referral, "corrija a situação geral")
 
     def test_campos_declarados_substituem_os_gerais_sem_mesclagem(self):
@@ -242,14 +244,48 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: conforme a norma específica
         encaminhamento: cumpra a norma específica"""
         )
-        _, criteria, referral_type, referral = materialize_situation_variant(
+        _, criteria, referral_type, foundation, referral = materialize_situation_variant(
             situation, situation.variantes[0]
         )
         self.assertEqual(criteria, ["C2"])
         self.assertEqual(referral_type, "Determinação")
+        self.assertEqual(foundation, "conforme a norma específica")
         self.assertEqual(referral, "cumpra a norma específica")
+
+    def test_fundamentacao_vazia_na_variante_e_rejeitada(self):
+        with self.assertRaisesRegex(ValueError, "fundamentacao_encaminhamento não pode ser vazia"):
+            self._parse(
+                """\
+      - publico: Poder Judiciário Estadual
+        aplica_se:
+          segmentos: [JUDICIARIO_ESTADUAL]
+        fundamentacao_encaminhamento: ''"""
+            )
+
+    def test_fundamentacao_geral_e_obrigatoria(self):
+        texto = _matriz_minima(
+            self.CRITERIOS,
+            """\
+possiveis_achados:
+- A1: Achado
+  situacoes_encontradas:
+  - S1.1:
+      descricao: Situação geral.
+      severidade: alta
+      itens_questionario: [q0101]
+      regra_de_identificacao:
+      - (q0101 != Sim)
+      referencias_matriz: [R1.1, P1, E1]
+      criterios: [C1]
+      tipo_encaminhamento: Recomendação
+      encaminhamento: corrija a situação geral
+""",
+        )
+        with self.assertRaisesRegex(ValueError, "fundamentacao_encaminhamento não pode ser vazia"):
+            parse_matrix(texto)
 
     def test_id_usa_publico_quando_nao_ha_segmento_unico(self):
         situation = self._parse(
@@ -295,7 +331,7 @@ variantes_especificas:
         )
         catalog = carregar_catalogo_matriz(caminho)
         specifics = {variant.id for variant in catalog.variantes if not variant.geral}
-        self.assertEqual(len(specifics), 72)
+        self.assertEqual(len(specifics), 47)
         for variant in catalog.variantes:
             if not variant.geral:
                 self.assertTrue(
@@ -378,10 +414,12 @@ class ResolverAplicabilidadeTest(unittest.TestCase):
     def _variantes(self):
         return [
             VarianteEncaminhamento(
-                "S6.4.GERAL", "S6.4", True, ("Q6.C1",), "Recomendação", "avalie"
+                "S6.4.GERAL", "S6.4", True, ("Q6.C1",), "Recomendação",
+                "alinhando-se ao critério geral", "avalie"
             ),
             VarianteEncaminhamento(
-                "S6.4.EXEC_EST", "S6.4", False, ("Q6.C11",), "Determinação", "designe",
+                "S6.4.EXEC_EST", "S6.4", False, ("Q6.C11",), "Determinação",
+                "conforme a norma específica", "designe",
                 SeletorAplicabilidade.from_mapping({"segmentos": ["EXECUTIVO_ESTADUAL"]}),
             ),
         ]
@@ -402,7 +440,8 @@ class ResolverAplicabilidadeTest(unittest.TestCase):
     def test_conflito_entre_especificas_falha(self):
         variantes = self._variantes() + [
             VarianteEncaminhamento(
-                "S6.4.SETIC", "S6.4", False, ("Q6.C11",), "Determinação", "designe",
+                "S6.4.SETIC", "S6.4", False, ("Q6.C11",), "Determinação",
+                "conforme a norma específica", "designe",
                 SeletorAplicabilidade.from_mapping({"tags_alguma": ["SETIC"]}),
             )
         ]
@@ -413,14 +452,20 @@ class ResolverAplicabilidadeTest(unittest.TestCase):
 
     def test_especifica_sem_filtro_falha(self):
         variantes = self._variantes() + [
-            VarianteEncaminhamento("S6.4.INVALIDA", "S6.4", False, ("Q6.C1",), "Recomendação", "x")
+            VarianteEncaminhamento(
+                "S6.4.INVALIDA", "S6.4", False, ("Q6.C1",), "Recomendação",
+                "alinhando-se ao critério geral", "x"
+            )
         ]
         with self.assertRaisesRegex(ErroAplicabilidade, "sem seletor preenchido"):
             ResolverAplicabilidade(self._criterios(), variantes)
 
     def test_determinacao_sem_criterio_apto_falha(self):
         variantes = [
-            VarianteEncaminhamento("S6.4.GERAL", "S6.4", True, ("Q6.C1",), "Determinação", "determine")
+            VarianteEncaminhamento(
+                "S6.4.GERAL", "S6.4", True, ("Q6.C1",), "Determinação",
+                "alinhando-se ao critério geral", "determine"
+            )
         ]
         with self.assertRaisesRegex(ErroAplicabilidade, "sem critério aplicável"):
             ResolverAplicabilidade(self._criterios(), variantes).resolver(
@@ -429,7 +474,10 @@ class ResolverAplicabilidadeTest(unittest.TestCase):
 
     def test_tipo_de_encaminhamento_deve_ser_explicito_e_valido(self):
         variantes = [
-            VarianteEncaminhamento("S6.4.GERAL", "S6.4", True, ("Q6.C1",), "Aviso", "avalie")
+            VarianteEncaminhamento(
+                "S6.4.GERAL", "S6.4", True, ("Q6.C1",), "Aviso",
+                "alinhando-se ao critério geral", "avalie"
+            )
         ]
         with self.assertRaisesRegex(ErroAplicabilidade, "Recomendação ou Determinação"):
             ResolverAplicabilidade(self._criterios(), variantes)

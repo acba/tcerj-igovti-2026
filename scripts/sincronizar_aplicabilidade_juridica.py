@@ -119,7 +119,7 @@ def sincronizar(matriz_path: Path, mapa_path: Path, output_path: Path) -> None:
     headers_variantes = [
         "id_variante", "id_situacao", "geral", "publico", "segmentos", "naturezas",
         "tags_todas", "tags_alguma", "tags_excluidas", "criterios", "tipo_encaminhamento",
-        "encaminhamento",
+        "fundamentacao_encaminhamento", "encaminhamento",
     ]
     ws_variantes = _preparar_aba(
         workbook, "Variantes de Encaminhamento", "Variantes jurídicas sincronizadas da matriz", headers_variantes
@@ -130,7 +130,8 @@ def sincronizar(matriz_path: Path, mapa_path: Path, output_path: Path) -> None:
             _lista_texto(variante.seletor.segmentos), _lista_texto(variante.seletor.naturezas),
             _lista_texto(variante.seletor.tags_todas), _lista_texto(variante.seletor.tags_alguma),
             _lista_texto(variante.seletor.tags_excluidas), _lista_texto(variante.criterios),
-            variante.tipo_encaminhamento, variante.encaminhamento,
+            variante.tipo_encaminhamento, variante.fundamentacao_encaminhamento,
+            variante.encaminhamento,
         ]
         for coluna, valor in enumerate(valores, 1):
             ws_variantes.cell(linha, coluna, valor)

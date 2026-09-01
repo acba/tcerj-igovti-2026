@@ -51,9 +51,10 @@ Quando solicitado, manter planilha apartada de checklists de verificação de ev
    - Toda evidência deve apontar procedimento: `E3: ...; [P3]`.
    - Quando uma expressão calculada for reutilizada nas regras de identificação, defini-la uma única vez em `variaveis_derivadas`, com apenas `nome`, `descricao` e `regra_de_calculo`; não repetir sua fórmula dentro das situações encontradas.
    - Toda situação encontrada deve apontar, em `referencias_matriz`, risco, procedimento e evidência: `referencias_matriz: [R3.2, P3, E3, P4, E4]`.
-   - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario` ou `fontes_de_verificacao`, `regra_de_identificacao`, `referencias_matriz`, `criterios`, `tipo_encaminhamento` e `encaminhamento`.
-   - Quando a força jurídica variar por público, manter a situação e sua regra factual únicas. Os campos `criterios`, `tipo_encaminhamento` e `encaminhamento` da situação formam a variante geral; declarar as exceções na lista `variantes`, aninhada na própria situação.
-   - Cada variante aninhada herda da situação os campos jurídicos omitidos e substitui integralmente apenas os que declarar. Em especial, `criterios` substitui a lista geral, sem mesclagem. Não permitir que variantes alterem descrição, severidade, itens, regra ou referências factuais.
+   - Toda situação encontrada deve indicar `descricao`, `severidade`, `itens_questionario` ou `fontes_de_verificacao`, `regra_de_identificacao`, `referencias_matriz`, `criterios`, `tipo_encaminhamento`, `fundamentacao_encaminhamento` e `encaminhamento`.
+   - Usar `fundamentacao_encaminhamento` para a oração expositiva que vincula a providência aos critérios no relatório. Manter `encaminhamento` restrito à providência operativa iniciada por verbo.
+   - Quando a força jurídica variar por público, manter a situação e sua regra factual únicas. Os campos `criterios`, `tipo_encaminhamento`, `fundamentacao_encaminhamento` e `encaminhamento` da situação formam a variante geral; declarar as exceções na lista `variantes`, aninhada na própria situação.
+   - Cada variante aninhada herda da situação os campos jurídicos omitidos e substitui integralmente apenas os que declarar. Em especial, `criterios` substitui a lista geral, sem mesclagem. Não permitir `fundamentacao_encaminhamento` vazia, nem no caso geral nem quando declarada em variante, e nunca inferi-la dos critérios. Não permitir que variantes alterem descrição, severidade, itens, regra ou referências factuais.
    - Não declarar `id` nem `id_situacao` nas variantes. O motor gera o identificador com o código da situação e, quando houver um único segmento, com esse segmento; nos demais casos, usa o rótulo normalizado de `publico`.
    - Qualificar internamente cada critério pela questão (`Q6.C11`), ainda que a matriz e os relatórios exibam apenas `C11`. Declarar cada critério como objeto no bloco único `criterios`, com `id`, `descricao`, `natureza_fundamento` e `apto_a_fundamentar_determinacao`.
    - No mesmo bloco `criterios`, declarar os critérios condicionais acrescentando `publico` e `aplica_se`. Os seletores admitidos são apenas `segmentos`, `naturezas`, `tags_todas`, `tags_alguma` e `tags_excluidas`. Não criar blocos separados de metadados ou critérios específicos.
@@ -259,9 +260,10 @@ Cada situação deve conter:
 - `referencias_matriz`: riscos, procedimentos e evidências da matriz.
 - `criterios`: critérios específicos aplicáveis à situação.
 - `tipo_encaminhamento`: `Determinação` ou `Recomendação`, conforme a natureza da providência.
+- `fundamentacao_encaminhamento`: oração expositiva completa que relaciona a providência aos fundamentos efetivamente aplicáveis, sem identificadores internos.
 - `encaminhamento`: providência proporcional e executável, iniciada diretamente por verbo no imperativo, sem repetir "Determinar que" ou "Recomendar que".
 
-Quando houver tratamento jurídico específico por público, acrescentar `variantes` ao final da situação. `publico` e `aplica_se` são obrigatórios; `criterios`, `tipo_encaminhamento` e `encaminhamento` são opcionais e sobrescrevem os campos gerais quando declarados:
+Quando houver tratamento jurídico específico por público, acrescentar `variantes` ao final da situação. `publico` e `aplica_se` são obrigatórios; `criterios`, `tipo_encaminhamento`, `fundamentacao_encaminhamento` e `encaminhamento` são opcionais e sobrescrevem os campos gerais quando declarados:
 
 ```yaml
       variantes:

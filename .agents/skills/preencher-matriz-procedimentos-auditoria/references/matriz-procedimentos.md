@@ -79,10 +79,10 @@ Cabeçalho na linha 3:
 | `situacao_encontrada_nan_e_achado` | `TRUE` se célula vazia/NaN configura achado |
 | `decodifica_sit_encontrada` | regra opcional para decodificar valor bruto |
 | `tipo_encaminhamento` | `Recomendação` ou `Determinação`, conforme atributo explícito da situação encontrada |
-| `pre_encaminhamento` | texto opcional antes do encaminhamento |
+| `pre_encaminhamento` | campo legado sem uso na fundamentação dos encaminhamentos por situação |
 | `encaminhamento` | providência proposta quando a ação/situação ocorrer |
 
-Os campos `criterio`, `tipo_encaminhamento` e `encaminhamento` desta aba podem ser preservados para compatibilidade com produtos legados. Quando existirem as abas jurídicas abaixo, elas prevalecem após a identificação factual da situação.
+Os campos `criterio`, `tipo_encaminhamento`, `pre_encaminhamento` e `encaminhamento` desta aba podem ser preservados para compatibilidade com produtos legados. Quando existirem as abas jurídicas abaixo, elas prevalecem após a identificação factual da situação. A fundamentação narrativa deve ser declarada na matriz de planejamento e sincronizada na aba `Variantes de Encaminhamento`, pois pertence à situação, não à ação.
 
 ### Critérios de Auditoria
 
@@ -90,7 +90,7 @@ Cabeçalho na linha 3. Registra `id_criterio` qualificado pela questão, `id_exi
 
 ### Variantes de Encaminhamento
 
-Cabeçalho na linha 3. Registra `id_variante`, `id_situacao`, `geral`, `publico`, os cinco seletores, `criterios`, `tipo_encaminhamento` e `encaminhamento`. Cada situação deve possuir exatamente uma variante geral. Na matriz, as específicas ficam aninhadas em `situacoes_encontradas[].variantes`; na planilha, são materializadas com os campos herdados e com identificador gerado automaticamente. Uma variante específica substitui a geral quando for a única aplicável ao auditado.
+Cabeçalho na linha 3. Registra `id_variante`, `id_situacao`, `geral`, `publico`, os cinco seletores, `criterios`, `tipo_encaminhamento`, `fundamentacao_encaminhamento` e `encaminhamento`. Cada situação deve possuir exatamente uma variante geral. Na matriz, as específicas ficam aninhadas em `situacoes_encontradas[].variantes`; na planilha, são materializadas com os campos herdados e com identificador gerado automaticamente. Uma variante específica substitui a geral quando for a única aplicável ao auditado.
 
 ## Convenções
 

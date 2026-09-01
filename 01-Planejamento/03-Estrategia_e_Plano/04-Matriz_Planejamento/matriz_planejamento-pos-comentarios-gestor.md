@@ -61,7 +61,7 @@ criterios:
   apto_a_fundamentar_determinacao: false
 - id: C8
   descricao: >-
-    Decreto Estadual nº 47.278/2020, art. 6º — o nível setorial do SETIC deve ser representado por assessoria de informática ou setor equivalente em cada órgão ou entidade da Administração Direta e Indireta do Poder Executivo Estadual e exercer as competências de TIC previstas no dispositivo.
+    Decreto Estadual nº 48.997/2024, art. 4º — o nível setorial do SETIC deve ser representado por assessoria de informática ou setor equivalente em cada órgão ou entidade da Administração Direta e Indireta do Poder Executivo Estadual e exercer as competências de TIC previstas no dispositivo.
   natureza_fundamento: norma_regulamentar_vinculante
   apto_a_fundamentar_determinacao: true
   publico: Poder Executivo Estadual
@@ -116,6 +116,7 @@ possiveis_achados:
       referencias_matriz: [R1.1, P1, E1]
       criterios: [C1, C7]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO01.04 (Definir e implementar as estruturas organizacionais) do COBIT 2019 e ao princípio da eficiência previsto no art. 37, caput, da Constituição Federal
       encaminhamento: formalize a área, unidade, setor ou função de TIC em instrumento compatível com a organização, definindo vinculação e responsabilidades essenciais de modo compatível com o porte, a complexidade e a dependência tecnológica da organização
       variantes:
       - publico: Poder Executivo Estadual
@@ -123,16 +124,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C1, C8]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.04 (Definir e implementar as estruturas organizacionais) do COBIT 2019 e em observância ao art. 4º do Decreto Estadual nº 48.997/2024
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C9]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.04 (Definir e implementar as estruturas organizacionais) do COBIT 2019 e em observância ao art. 21 da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C10]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.04 (Definir e implementar as estruturas organizacionais) do COBIT 2019 e em observância ao art. 16 da Resolução CNMP nº 171/2017
     - S1.2:
       descricao: Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.
       severidade: alta
@@ -142,6 +146,7 @@ possiveis_achados:
       referencias_matriz: [R1.2, P3, E3, P4, E4]
       criterios: [C2, C7]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO01.05 (Estabelecer papéis e responsabilidades) do COBIT 2019 e ao princípio da eficiência previsto no art. 37, caput, da Constituição Federal
       encaminhamento: defina formalmente as atribuições da área de TIC, atentando-se, minimamente, em abranger as atividades de planejamento, coordenação, gestão e controle da TIC
       variantes:
       - publico: Poder Executivo Estadual
@@ -149,16 +154,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C2, C8]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.05 (Estabelecer papéis e responsabilidades) do COBIT 2019 e em observância ao art. 4º do Decreto Estadual nº 48.997/2024
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2, C9]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.05 (Estabelecer papéis e responsabilidades) do COBIT 2019 e em observância ao art. 21 da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C2, C10]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.05 (Estabelecer papéis e responsabilidades) do COBIT 2019 e em observância ao art. 16 da Resolução CNMP nº 171/2017
     - S1.3:
       descricao: Posicionamento organizacional inadequado da área de TIC.
       severidade: media
@@ -168,6 +176,7 @@ possiveis_achados:
       referencias_matriz: [R1.3, P5, E5]
       criterios: [C3, C6]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO01.06 (Aprimorar o posicionamento da função de TI) do COBIT 2019 e à referência de posicionamento prevista no art. 4º, § 1º, da Portaria SGD/ME nº 778/2019
       encaminhamento: avalie o posicionamento organizacional da área de TIC e adote, quando necessário, medidas para assegurar interlocução adequada com a alta administração e participação nas decisões estratégicas, orçamentárias, contratuais e de gestão de riscos relacionadas à tecnologia da informação.
       variantes:
       - publico: Ministério Público Estadual
@@ -175,6 +184,7 @@ possiveis_achados:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C3, C11]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática APO01.06 (Aprimorar o posicionamento da função de TI) do COBIT 2019 e em observância ao art. 1º da Resolução GPGJ nº 2.675/2025
 
 ## Questão 02 - Governança e Comitê de TIC
 
@@ -300,6 +310,7 @@ possiveis_achados:
       referencias_matriz: [R2.1, P1, E1, P2, E2]
       criterios: [C2]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática MEA01.04 (Avaliar o desempenho) do COBIT 2019
       encaminhamento: estabeleça objetivos, indicadores e metas para a gestão de TIC, de modo a possibilitar o acompanhamento periódico do desempenho da TIC pela alta administração
       variantes:
       - publico: Poder Judiciário Estadual
@@ -307,11 +318,13 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2, C8]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática MEA01.04 (Avaliar o desempenho) do COBIT 2019 e em observância ao art. 7º, inciso I, da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C2, C9]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: alinhando-se à prática MEA01.04 (Avaliar o desempenho) do COBIT 2019 e em observância ao art. 11, § 1º, da Resolução CNMP nº 171/2017
     - S2.2:
       descricao: Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.
       severidade: alta
@@ -321,6 +334,7 @@ possiveis_achados:
       referencias_matriz: [R2.2, P3, E3, P4, E4]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e com a referência do art. 6º, § 2º, do Decreto nº 12.198/2024
       encaminhamento: institua formalmente Comitê de TIC ou instância colegiada equivalente, compatível com o porte e a estrutura decisória da organização, definindo em seu ato constitutivo, minimamente, a participação de representantes de áreas relevantes da organização, suas competências, a periodicidade de reuniões, a forma de registro das deliberações e os mecanismos de acompanhamento dos encaminhamentos
       variantes:
       - publico: Poder Executivo Estadual
@@ -328,16 +342,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C1, C4, C5]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 5º do Anexo C da Portaria PRODERJ/PRE nº 825/2021
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C4, C6]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 7º da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C4, C7]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 13 da Resolução CNMP nº 171/2017
     - S2.3:
       descricao: Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.
       severidade: media
@@ -347,6 +364,7 @@ possiveis_achados:
       referencias_matriz: [R2.3, P5, E5, P6, E6]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e com a referência do art. 6º, § 2º, do Decreto nº 12.198/2024
       encaminhamento: assegure o funcionamento efetivo do Comitê de TIC ou instância colegiada equivalente, mediante o exercício das competências previstas em seu ato constitutivo, com registro das deliberações e acompanhamento dos respectivos encaminhamentos
       variantes:
       - publico: Poder Judiciário Estadual
@@ -354,11 +372,13 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C4, C6]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 7º da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C4, C10]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.1 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 14 da Resolução CNMP nº 171/2017
 
 ## Questão 03 - Planejamento de TIC
 
@@ -532,6 +552,7 @@ possiveis_achados:
       referencias_matriz: [R3.1, P1, E1, P2, E2, P3, E3]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e com o item 9.1.6 do Acórdão nº 1.411/2014-TCU-Plenário
       encaminhamento: institua processo formal de planejamento de TIC, compatível com o porte e a complexidade da organização, que assegure a elaboração e manutenção de plano de TIC, atentando-se, minimamente, em definir etapas, responsabilidades e participação das áreas demandantes
       variantes:
       - publico: Poder Executivo Estadual
@@ -539,16 +560,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C1, C4, C5]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 2º da Portaria PRODERJ/PRE nº 825/2021
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C4, C9]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 6º da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C4, C11]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 12 da Resolução CNMP nº 171/2017
   - S3.2:
       descricao: Ausência de aprovação formal do plano de TIC.
       severidade: alta
@@ -558,6 +582,7 @@ possiveis_achados:
       referencias_matriz: [R3.2, P4, E4, P5, E5]
       criterios: [C3, C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e com o item 9.1.6 do Acórdão nº 1.411/2014-TCU-Plenário
       encaminhamento: submeta o plano de TIC à aprovação formal do dirigente máximo ou de instância competente da alta administração, mantendo registro do respectivo ato de aprovação
       variantes:
       - publico: Poder Executivo Estadual
@@ -565,16 +590,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C4, C6]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 11, parágrafo único, do Anexo C da Portaria PRODERJ/PRE nº 825/2021
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C4, C10]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 7º, inciso II, da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C4, C11]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 12 da Resolução CNMP nº 171/2017
   - S3.4:
       descricao: Plano de TIC sem alinhamento adequado ao planejamento institucional.
       severidade: media
@@ -584,6 +612,7 @@ possiveis_achados:
       referencias_matriz: [R3.4, P7, E7]
       criterios: [C1, C3, C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e com o item 9.1.6 do Acórdão nº 1.411/2014-TCU-Plenário
       encaminhamento: revise o plano de TIC para explicitar seu alinhamento ao planejamento institucional, às diretrizes superiores e às necessidades das áreas finalísticas e administrativas, relacionando objetivos, iniciativas, indicadores e metas de TIC aos resultados institucionais pretendidos
       variantes:
       - publico: Poder Executivo Estadual
@@ -591,16 +620,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C1, C4, C7]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 3º da Portaria PRODERJ/PRE nº 825/2021
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C4, C9]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 6º da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C4, C12]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 11 da Resolução CNMP nº 171/2017
   - S3.5:
       descricao: Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.
       severidade: alta
@@ -610,6 +642,7 @@ possiveis_achados:
       referencias_matriz: [R3.5, P8, E8]
       criterios: [C2, C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: alinhando-se à prática APO06.03 (Criar e manter orçamentos) do COBIT 2019 e em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: integre o plano de TIC à elaboração da proposta orçamentária e do plano de contratações, de maneira proporcional ao porte, à estrutura e à capacidade de planejamento da organização
       variantes:
       - publico: Poder Executivo Estadual
@@ -617,16 +650,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C2, C4, C13]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 5º da IN PRODERJ/PRE nº 5/2024
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2, C4, C9]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 6º da Resolução CNJ nº 370/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C2, C4, C14]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 5º da Resolução CNMP nº 283/2024
   - S3.6:
       descricao: Ausência de acompanhamento da execução do plano de TIC.
       severidade: media
@@ -636,6 +672,7 @@ possiveis_achados:
       referencias_matriz: [R3.6, P9, E9]
       criterios: [C4]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: estabeleça e execute rotina periódica de acompanhamento da execução do plano de TIC, promovendo sua revisão periódica e os ajustes ou atualizações necessários, com registro das principais decisões e reprogramações
       variantes:
       - publico: Poder Executivo Estadual
@@ -643,11 +680,13 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C4, C8]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 13 do Anexo C da Portaria PRODERJ/PRE nº 825/2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C4, C11]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em consonância com o item II.3 do Acórdão TCE-RJ nº 44.490/2024-PLEN e em observância ao art. 12 da Resolução CNMP nº 171/2017
 
 ## Questão 04 - Capacidade Institucional de TIC e Segurança da Informação
 
@@ -760,6 +799,7 @@ possiveis_achados:
       referencias_matriz: [R4.1, P1, E1]
       criterios: [C2, C13]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO07.01 (Adquirir e manter pessoal adequado e apropriado) do COBIT 2019 e ao item 9.1.7 do Acórdão nº 1.411/2014-TCU-Plenário
       encaminhamento: avalie a força de trabalho dedicada à TIC e adote medidas proporcionais para assegurar capacidade mínima de planejamento, gestão, proteção, contratação, fiscalização e sustentação dos serviços e ativos de TIC
       variantes:
       - publico: Poder Judiciário Estadual
@@ -767,6 +807,7 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2, C15]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 24 da Resolução CNJ nº 370/2021 e alinhando-se à prática APO07.01 (Adquirir e manter pessoal adequado e apropriado) do COBIT 2019
   - S4.2:
       descricao: Ausência ou insuficiência de definição documentada do quantitativo necessário de pessoal de TIC e segurança da informação.
       severidade: media
@@ -776,6 +817,7 @@ possiveis_achados:
       referencias_matriz: [R4.2, P2, E2]
       criterios: [C5, C12]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO07.05 (Planejar e monitorar o uso de recursos humanos de TI e de negócio) do COBIT 2019 e ao item 9.1.6.5 do Acórdão nº 1.411/2014-TCU-Plenário
       encaminhamento: estime e mantenha atualizado o quantitativo necessário de pessoal de TIC e segurança da informação, considerando o porte e a complexidade da organização, os serviços críticos, os sistemas mantidos, as contratações vigentes e os riscos relevantes
       variantes:
       - publico: Poder Judiciário Estadual
@@ -783,6 +825,7 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C5, C15]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 24 da Resolução CNJ nº 370/2021 e alinhando-se à prática APO07.05 (Planejar e monitorar o uso de recursos humanos de TI e de negócio) do COBIT 2019
   - S4.3:
       descricao: Ausência de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação.
       severidade: media
@@ -792,6 +835,7 @@ possiveis_achados:
       referencias_matriz: [R4.3, P3, E3]
       criterios: [C1, C2]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se às práticas APO01.05 (Estabelecer papéis e responsabilidades) e APO07.01 (Adquirir e manter pessoal adequado e apropriado) do COBIT 2019
       encaminhamento: avalie a necessidade de formalizar a atribuição de cargos ou funções à TIC e à segurança da informação e adote solução compatível com as necessidades institucionais e a capacidade administrativa da organização
   - S4.6:
       descricao: Operação de TIC predominantemente terceirizada sem profissionais internos de TIC.
@@ -802,6 +846,7 @@ possiveis_achados:
       referencias_matriz: [R4.6, P7, E7]
       criterios: [C6, C14]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO07.06 (Gerenciar pessoal contratado) do COBIT 2019 e ao item I.10.11 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: avalie o modelo de operação de TIC e adote medidas proporcionais para assegurar capacidade interna suficiente para coordenar, supervisionar e fiscalizar as atividades e os contratos de TIC executados predominantemente por terceiros, preservando responsabilização e retenção de conhecimento
       variantes:
       - publico: Poder Judiciário Estadual
@@ -809,6 +854,7 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C6, C14, C16]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 8º, § 1º, da Resolução CNJ nº 468/2022, em consonância com o item I.10.11 do Acórdão TCE-RJ nº 44.490/2024-PLEN e alinhando-se à prática APO07.06 (Gerenciar pessoal contratado) do COBIT 2019
 
 ## Questão 05 - Gestão de Serviços de TIC
 
@@ -909,7 +955,7 @@ criterios:
   apto_a_fundamentar_determinacao: false
 - id: C18
   descricao: >-
-    Decreto Estadual nº 47.278/2020, art. 6º, inciso V — os níveis setoriais de TIC devem manter e informar inventário permanente de equipamentos, licenças e softwares utilizados.
+    Decreto Estadual nº 48.997/2024, art. 4º, inciso V — o nível setorial deve alimentar as bases de dados do nível de Direção Geral com o inventário permanente de equipamentos, licenças e softwares utilizados.
   natureza_fundamento: norma_regulamentar_vinculante
   apto_a_fundamentar_determinacao: true
   publico: Poder Executivo Estadual
@@ -994,6 +1040,7 @@ possiveis_achados:
       referencias_matriz: [R5.1, P1, E1, P2, E2]
       criterios: [C2, C11, C15]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática APO09.02 (Catalogar serviços facilitados por TI) do COBIT 2019, ao item 8.2.4 da ABNT NBR ISO/IEC 20000-2:2021 e ao item II.7.4 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: institua e mantenha atualizado catálogo de serviços de TIC, atentando-se, minimamente, em identificar os serviços efetivamente prestados, seus responsáveis, usuários, condições de acesso e informações necessárias ao atendimento das áreas demandantes
       variantes:
       - publico: Poder Judiciário Estadual
@@ -1001,11 +1048,13 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C2, C15, C19]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 21, inciso IV, alínea "d", da Resolução CNJ nº 370/2021 e alinhando-se à prática APO09.02 (Catalogar serviços facilitados por TI) do COBIT 2019 e ao item 8.2.4 da ABNT NBR ISO/IEC 20000-2:2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C2, C15, C22]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 23 da Resolução CNMP nº 171/2017 e alinhando-se à prática APO09.02 (Catalogar serviços facilitados por TI) do COBIT 2019 e ao item 8.2.4 da ABNT NBR ISO/IEC 20000-2:2021
   - S5.2:
       descricao: Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.
       severidade: media
@@ -1015,6 +1064,7 @@ possiveis_achados:
       referencias_matriz: [R5.2, P3, E3, P4, E4]
       criterios: [C3, C14]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática de gerenciamento de nível de serviço do ITIL 4 e ao item II.7.7 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: defina, acorde e monitore níveis de serviço para os serviços de TIC relevantes, estabelecendo metas e mecanismos de acompanhamento de seu cumprimento
       variantes:
       - publico: Ministério Público Estadual
@@ -1022,6 +1072,7 @@ possiveis_achados:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C3, C22]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 23 da Resolução CNMP nº 171/2017 e alinhando-se à prática de gerenciamento de nível de serviço do ITIL 4
   - S5.3:
       descricao: Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.
       severidade: alta
@@ -1031,6 +1082,7 @@ possiveis_achados:
       referencias_matriz: [R5.3, P5, E5, P6, E6]
       criterios: [C4, C12]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática de gerenciamento de ativos de TI do ITIL 4 e ao item II.7.5 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: estabeleça e mantenha inventário atualizado dos ativos tecnológicos sob gestão da organização, contemplando, minimamente, os dispositivos e softwares utilizados, com informações suficientes para sua identificação e controle
       variantes:
       - publico: Poder Executivo Estadual
@@ -1038,16 +1090,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C4, C18]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 4º, inciso V, do Decreto Estadual nº 48.997/2024 e alinhando-se à prática de gerenciamento de ativos de TI do ITIL 4
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C4, C20]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 34, § 2º, da Resolução CNJ nº 370/2021 e alinhando-se à prática de gerenciamento de ativos de TI do ITIL 4
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C4, C23]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 26, inciso II, da Resolução CNMP nº 171/2017 e alinhando-se à prática de gerenciamento de ativos de TI do ITIL 4
   - S5.4:
       descricao: Ausência ou fragilidade do processo de gestão de configuração.
       severidade: media
@@ -1057,6 +1112,7 @@ possiveis_achados:
       referencias_matriz: [R5.3, P7, E7, P8, E8]
       criterios: [C6, C12, C16]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática BAI10.01 (Estabelecer e manter um modelo de configuração) do COBIT 2019, ao item 8.2.6 da ABNT NBR ISO/IEC 20000-2:2021 e ao item II.7.5 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: formalize e execute processo de gestão de configuração, atentando-se, minimamente, em manter base, ferramenta ou registro equivalente com os itens de configuração relevantes, seus responsáveis e os relacionamentos entre ativos
   - S5.5:
       descricao: Inexistência ou fragilidade do processo de gestão de incidentes de TIC.
@@ -1067,6 +1123,7 @@ possiveis_achados:
       referencias_matriz: [R5.4, P9, E9, P10, E10, P12, E12]
       criterios: [C8, C13, C17]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: alinhando-se à prática DSS02.02 (Classificar solicitações e incidentes) do COBIT 2019, ao item 8.6.1 da ABNT NBR ISO/IEC 20000-2:2021 e ao item II.7.6 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: formalize e execute processo de gestão de incidentes de TIC, atentando-se, minimamente, em definir papéis, critérios de priorização e escalamento, tratamento de incidentes de serviços e de segurança da informação e registro sistemático e rastreável das ocorrências
       variantes:
       - publico: Poder Judiciário Estadual
@@ -1074,11 +1131,13 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C8, C17, C21]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 21, inciso IV, alínea "f", da Resolução CNJ nº 370/2021 e alinhando-se à prática DSS02.02 (Classificar solicitações e incidentes) do COBIT 2019 e ao item 8.6.1 da ABNT NBR ISO/IEC 20000-2:2021
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C8, C17, C22]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância ao art. 23 da Resolução CNMP nº 171/2017 e alinhando-se à prática DSS02.02 (Classificar solicitações e incidentes) do COBIT 2019 e ao item 8.6.1 da ABNT NBR ISO/IEC 20000-2:2021
 
 ## Questão 06 - Contratações de TIC
 
@@ -1244,6 +1303,7 @@ possiveis_achados:
       referencias_matriz: [R6.1, R6.2, P1, E1, P2, E2]
       criterios: [C1, C3, C10]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e ao item 9.1.7 do Acórdão nº 2.342/2016-TCU-Plenário
       encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação
       variantes:
       - publico: Poder Executivo Estadual
@@ -1251,16 +1311,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C1, C3, C11]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e em observância ao art. 4º da IN PRODERJ/PRE nº 5/2024
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C3, C13]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e em observância ao art. 10 da Resolução CNJ nº 468/2022
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C3, C16]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e em observância ao art. 8º da Resolução CNMP nº 283/2024
   - S6.2:
       descricao: Contratações de TIC sem análise prévia e aprovação técnica da área de TIC.
       severidade: alta
@@ -1270,6 +1333,7 @@ possiveis_achados:
       referencias_matriz: [R6.3, P3, E3, E4]
       criterios: [C1, C5, C8]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: em observância ao art. 11, parágrafo único, da Lei nº 14.133/2021 e alinhando-se à prática BAI02.04 (Obter aprovação dos requisitos da solução) do COBIT 2019 e à referência do art. 12, § 6º, da Instrução Normativa SGD/ME nº 94/2022
       encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo procedimentos simplificados e proporcionais à natureza, ao risco e ao valor da contratação, preservada análise técnica compatível
   - S6.3:
       descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
@@ -1280,6 +1344,7 @@ possiveis_achados:
       referencias_matriz: [R6.3, P4, E5]
       criterios: [C1, C2, C9]
       tipo_encaminhamento: Determinação
+      fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em consonância com o item III.7 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: assegure que as contratações de TIC sejam compatíveis com os instrumentos de planejamento de TIC e, quando elaborado, com o Plano de Contratações Anual, promovendo os ajustes ou justificativas cabíveis nos casos excepcionais
       variantes:
       - publico: Poder Executivo Estadual
@@ -1287,16 +1352,19 @@ possiveis_achados:
           segmentos: [EXECUTIVO_ESTADUAL]
         criterios: [C1, C2, C12]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em observância ao art. 5º da IN PRODERJ/PRE nº 5/2024
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C2, C14]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em observância ao art. 4º da Resolução CNJ nº 468/2022
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C2, C17]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em observância ao art. 5º da Resolução CNMP nº 283/2024
   - S6.4:
       descricao: Contratações de TIC sem designação de equipe de planejamento com integrante técnico da área de TIC.
       severidade: alta
@@ -1306,6 +1374,7 @@ possiveis_achados:
       referencias_matriz: [R6.4, P5, E6]
       criterios: [C1, C4, C8]
       tipo_encaminhamento: Recomendação
+      fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 7º, caput, da Lei nº 14.133/2021 e alinhando-se à referência do art. 12, § 6º, da Instrução Normativa SGD/ME nº 94/2022
       encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes
       variantes:
       - publico: Poder Judiciário Estadual
@@ -1313,11 +1382,13 @@ possiveis_achados:
           segmentos: [JUDICIARIO_ESTADUAL]
         criterios: [C1, C4, C15]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 7º, caput, da Lei nº 14.133/2021 e em observância ao art. 7º da Resolução CNJ nº 468/2022
       - publico: Ministério Público Estadual
         aplica_se:
           segmentos: [MINISTERIO_PUBLICO_ESTADUAL]
         criterios: [C1, C4, C18]
         tipo_encaminhamento: Determinação
+        fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 7º, caput, da Lei nº 14.133/2021 e em observância ao art. 9º da Resolução CNMP nº 283/2024
 
 ---
 

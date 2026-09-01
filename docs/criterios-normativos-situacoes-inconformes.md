@@ -22,7 +22,7 @@ Antes da aplicação aos achados e relatórios, é fundamental observar a consol
 1. **Poder Executivo Estadual / PRODERJ:**
    - **Contratações de TIC:** A *IN PRODERJ/PRE nº 01/2021* foi **revogada** expressamente pela **Instrução Normativa PRODERJ/PRE nº 05, de 20/03/2024**, que passa a ser o marco regulatório das contratações de TIC na Administração Direta e Indireta do Executivo estadual.
    - **Segurança da Informação:** A *IN PRODERJ/PRE nº 02/2022* foi **revogada** expressamente pela **Instrução Normativa PRODERJ/PRE nº 07, de 29/05/2025**, ato vigente que disciplina a segurança da informação, papéis e resposta a incidentes.
-   - **Estrutura do SETIC / NSTIC:** O **Decreto Estadual nº 47.278/2020** foi alterado pelo **Decreto Estadual nº 48.997/2024**, devendo ser aplicado com base em sua redação consolidada.
+   - **Estrutura do SETIC / NSTIC:** O regime vigente foi consolidado pelo **Decreto Estadual nº 48.997/2024**, que reestruturou o SETIC e alterou as disposições do Decreto Estadual nº 47.278/2020.
    - **Regulamento Geral da Lei nº 14.133/2021 no ERJ:** O **Decreto Estadual nº 48.816/2023** regulamenta a governança das contratações e a equipe de planejamento da contratação no Poder Executivo estadual. O **Decreto Estadual nº 48.749/2023** regulamenta o Plano de Contratações Anual (PCA).
 
 2. **Tribunal de Justiça do Estado do Rio de Janeiro (TJRJ) / CNJ:**
@@ -46,9 +46,9 @@ Legenda de Aderência:
 
 | Código | Descrição da Situação Inconforme | Poder Executivo Estadual (Decretos e PRODERJ) | TJRJ (CNJ e TJRJ) | MPRJ (CNMP e MPRJ) |
 | :--- | :--- | :--- | :--- | :--- |
-| **S1.1** | Ausência de área, unidade, setor ou função de TIC formalmente instituída. | **(D)** Dec. Est. 47.278/2020 (arts. 4º e 6º); Port. PRODERJ 825/2021 (Anexo A, arts. 1º, IX, 8º e 9º). | **(D)** Res. CNJ 370/2021 (arts. 21 a 23); Res. TJ/OE 04/2021. | **(D)** Res. CNMP 171/2017 (arts. 9º e 16); Res. GPGJ 2.675/2025 (art. 1º); Res. GPGJ 2.785/2026 (arts. 7º a 10). |
-| **S1.2** | Área de TIC sem atribuições formais definidas ou sem atribuições de gestão de TIC. | **(D)** Dec. Est. 47.278/2020 (art. 6º, I a XI); Port. PRODERJ 825/2021 (Anexo A). | **(D)** Res. CNJ 370/2021 (arts. 21 a 23); Ato Normativo TJ 32/2023 (arts. 8º a 10). | **(D)** Res. CNMP 171/2017 (arts. 16 e 18); Res. GPGJ 2.785/2026 (arts. 7º a 10 e 13). |
-| **S1.3** | Posicionamento organizacional inadequado da área de TIC. | **(P)** Dec. Est. 47.278/2020 (art. 6º, § 1º); Port. PRODERJ 825/2021. (*Reforço: Port. SGD/ME 778/2019, art. 4º, § 1º*). | **(D)** Res. CNJ 370/2021 (arts. 22 e 23); Ato Normativo TJ 32/2023 (arts. 3º e 9º). | **(D)** Res. CNMP 171/2017 (art. 16, caput); Res. GPGJ 2.675/2025 (art. 1º); Res. GPGJ 2.785/2026 (art. 7º). |
+| **S1.1** | Ausência de área, unidade, setor ou função de TIC formalmente instituída. | **(D)** Dec. Est. 48.997/2024 (arts. 2º e 4º); Port. PRODERJ 825/2021 (Anexo A, arts. 1º, IX, 8º e 9º). | **(D)** Res. CNJ 370/2021 (arts. 21 a 23); Res. TJ/OE 04/2021. | **(D)** Res. CNMP 171/2017 (arts. 9º e 16); Res. GPGJ 2.675/2025 (art. 1º); Res. GPGJ 2.785/2026 (arts. 7º a 10). |
+| **S1.2** | Área de TIC sem atribuições formais definidas ou sem atribuições de gestão de TIC. | **(D)** Dec. Est. 48.997/2024 (art. 4º, I a XI); Port. PRODERJ 825/2021 (Anexo A). | **(D)** Res. CNJ 370/2021 (arts. 21 a 23); Ato Normativo TJ 32/2023 (arts. 8º a 10). | **(D)** Res. CNMP 171/2017 (arts. 16 e 18); Res. GPGJ 2.785/2026 (arts. 7º a 10 e 13). |
+| **S1.3** | Posicionamento organizacional inadequado da área de TIC. | **(P)** O Dec. Est. 48.997/2024 institui e coordena o nível setorial, mas não define vínculo uniforme com a alta administração. (*Reforço: Port. SGD/ME 778/2019, art. 4º, § 1º*). | **(D)** Res. CNJ 370/2021 (arts. 22 e 23); Ato Normativo TJ 32/2023 (arts. 3º e 9º). | **(D)** Res. CNMP 171/2017 (art. 16, caput); Res. GPGJ 2.675/2025 (art. 1º); Res. GPGJ 2.785/2026 (art. 7º). |
 | **S2.1** | Ausência de objetivos, indicadores ou metas para a gestão de TIC. | **(P/D)** Port. PRODERJ 825/2021 (Anexo C, arts. 2º, 13 e 14); Dec. Est. 46.644/2019 (arts. 3º e 4º). | **(D)** Res. CNJ 370/2021 (arts. 7º, I, 42, 46 e 48); Ato Normativo TJ 27/2022 (arts. 2º a 4º). | **(D)** Res. CNMP 171/2017 (arts. 11, 12 e 14); Res. GPGJ 2.540/2023 (art. 2º); Res. GPGJ 2.785/2026 (arts. 5º, 11 e 12). |
 | **S2.2** | Comitê de TIC não instituído formalmente ou sem representação relevante. | **(D)** Port. PRODERJ 825/2021 (Anexo C, art. 5º – Comitê Permanente do PEDTIC). | **(D)** Res. CNJ 370/2021 (art. 7º); Ato Normativo TJ 27/2022 e Ato Normativo TJ 32/2023 (CGTIC). | **(D)** Res. CNMP 171/2017 (arts. 13 e 14); Res. GPGJ 2.540/2023 (arts. 1º e 3º – CETI). |
 | **S2.3** | Comitê de TIC sem atuação efetiva comprovada. | **(P)** Port. PRODERJ 825/2021 (Anexo C, arts. 5º e 6º – atas em processo SEI/RJ). | **(D)** Res. CNJ 370/2021 (arts. 7º, 8º e 44); Ato Normativo TJ 27/2022 (arts. 2º e 3º). | **(D)** Res. CNMP 171/2017 (arts. 13 e 14); Res. GPGJ 2.540/2023 (arts. 2º, 4º e 5º – reuniões trimestrais e relatório anual). |
@@ -57,17 +57,17 @@ Legenda de Aderência:
 | **S3.4** | Plano de TIC sem alinhamento adequado ao planejamento institucional. | **(D)** Port. PRODERJ 825/2021 (arts. 1º, 3º e 4º; Anexo C, arts. 1º e 2º). | **(D)** Res. CNJ 370/2021 (arts. 6º e 42); Res. CNJ 325/2020; Ato Normativo TJ 27/2022 (art. 4º). | **(D)** Res. CNMP 171/2017 (arts. 11 e 12); Res. CNMP 204/2019; Res. GPGJ 2.785/2026 (arts. 5º, III, 11 e 12). |
 | **S3.5** | Plano de TIC não utilizado na elaboração da proposta orçamentária e do PCA. | **(D)** Port. PRODERJ 825/2021 (art. 1º, V-VIII; arts. 4º e 5º); IN PRODERJ 05/2024 (art. 5º); Dec. Est. 48.749/2023. | **(D)** Res. CNJ 370/2021 (art. 6º); Res. CNJ 468/2022 (arts. 4º e 5º); Ato Normativo TJ 27/2022 (arts. 5º e 6º). | **(D)** Res. CNMP 283/2024 (arts. 4º a 6º); Res. GPGJ 2.540/2023 (art. 2º, II); Res. GPGJ 2.785/2026 (art. 13, III). |
 | **S3.6** | Ausência de acompanhamento da execução do plano de TIC. | **(D)** Port. PRODERJ 825/2021 (Anexo C, arts. 3º, 7º, 11 e 13). | **(P/D)** Res. CNJ 370/2021 (arts. 8º, V, 46 e 48); Ato Normativo TJ 32/2023 (art. 11, § 2º). | **(D)** Res. CNMP 171/2017 (arts. 12, 14 e 16); Res. GPGJ 2.540/2023 (art. 2º, V); Res. GPGJ 2.785/2026 (arts. 5º e 13, I). |
-| **S4.1** | Ausência de força de trabalho dedicada à TIC. | **(P)** Dec. Est. 47.278/2020 (art. 6º); IN PRODERJ 07/2025 (art. 11, VI e § 2º). | **(D)** Res. CNJ 370/2021 (art. 24, caput – quadro permanente exclusivo). | **(P)** Res. CNMP 171/2017 (arts. 16 e 33); Res. GPGJ 2.675/2025 e 2.785/2026. |
+| **S4.1** | Ausência de força de trabalho dedicada à TIC. | **(P)** Dec. Est. 48.997/2024 (art. 4º); IN PRODERJ 07/2025 (art. 11, VI e § 2º). | **(D)** Res. CNJ 370/2021 (art. 24, caput – quadro permanente exclusivo). | **(P)** Res. CNMP 171/2017 (arts. 16 e 33); Res. GPGJ 2.675/2025 e 2.785/2026. |
 | **S4.2** | Quantitativo necessário de pessoal não definido documentadamente. | **(L/P)** Não há ato geral impositivo no Executivo. (*Reforço: COBIT 2019 APO07.01; Acórdão TCE-RJ 44.490/2024*). | **(D)** Res. CNJ 370/2021 (art. 24, §§ 1º a 3º – Guia de Dimensionamento do Judiciário). | **(L/P)** Res. CNMP 171/2017 (art. 8º, § 1º, "d"); Res. CNMP 283/2024 (art. 10, III, "b"). |
-| **S4.3** | Ausência de cargos/funções formalmente atribuídos à TIC ou Segurança. | **(P/D)** IN PRODERJ 07/2025 (arts. 11, 17 e 18 – Gestor de Segurança e ETIR); Dec. Est. 47.278/2020. | **(P)** Res. CNJ 370/2021 (arts. 23 e 24); Res. CNJ 396/2021 (art. 7º); Ato Normativo TJ 32/2023. | **(P)** Res. CNMP 171/2017 (arts. 16 e 33); Res. CNMP 294/2024; Res. GPGJ 2.675/2025 e 2.757/2025. |
-| **S4.6** | Operação de TIC predominantemente terceirizada sem profissionais internos. | **(P)** Dec. Est. 47.278/2020 (art. 6º); IN PRODERJ 07/2025. (*Reforço: Acórdão TCE-RJ 44.490/2024, II.7*). | **(D)** Res. CNJ 370/2021 (art. 24, caput); Res. CNJ 468/2022 (art. 8º, § 1º – vedada terceirização de gestão). | **(D/P)** Res. CNMP 171/2017 (arts. 16 e 33); Res. CNMP 283/2024 (art. 9º, § 2º e art. 33). |
+| **S4.3** | Ausência de cargos/funções formalmente atribuídos à TIC ou Segurança. | **(P/D)** IN PRODERJ 07/2025 (arts. 11, 17 e 18 – Gestor de Segurança e ETIR); Dec. Est. 48.997/2024 (art. 4º). | **(P)** Res. CNJ 370/2021 (arts. 23 e 24); Res. CNJ 396/2021 (art. 7º); Ato Normativo TJ 32/2023. | **(P)** Res. CNMP 171/2017 (arts. 16 e 33); Res. CNMP 294/2024; Res. GPGJ 2.675/2025 e 2.757/2025. |
+| **S4.6** | Operação de TIC predominantemente terceirizada sem profissionais internos. | **(P)** Dec. Est. 48.997/2024 (art. 4º); IN PRODERJ 07/2025. (*Reforço: Acórdão TCE-RJ 44.490/2024, II.7*). | **(D)** Res. CNJ 370/2021 (art. 24, caput); Res. CNJ 468/2022 (art. 8º, § 1º – vedada terceirização de gestão). | **(D/P)** Res. CNMP 171/2017 (arts. 16 e 33); Res. CNMP 283/2024 (art. 9º, § 2º e art. 33). |
 | **S5.1** | Inexistência ou insuficiência do catálogo de serviços de TIC. | **(L)** Sem norma geral no Executivo (*Reforço: ISO 20000-2 item 8.2.4; COBIT APO09.02; Acórdão TCE-RJ 44.490/2024*). | **(D)** Res. CNJ 370/2021 (art. 21, IV, "d"); Ato Normativo TJ 28/2022 (arts. 4º e 5º). | **(D)** Res. CNMP 171/2017 (arts. 14, V, e 23); Res. GPGJ 2.785/2026 (art. 13, IV); Res. GPGJ 2.675/2025 (art. 2º, VIII). |
 | **S5.2** | Ausência ou fragilidade na definição e no monitoramento de ANS/SLA. | **(P)** IN PRODERJ 07/2025 (Anexo, item 8.9.2.1 – SLA contratual). (*Reforço: ITIL 4; Acórdão TCE-RJ 44.490/2024*). | **(D)** Res. CNJ 370/2021 (arts. 18 a 20 e 21, IV, "d"); Ato Normativo TJ 28/2022 e Anexo (tempos e metas). | **(D)** Res. CNMP 171/2017 (arts. 14, VI, e 23); Res. GPGJ 2.785/2026 (arts. 5º, IX, e 13, IV); Res. GPGJ 2.540/2023 (art. 2º, VIII). |
-| **S5.3** | Inventário de ativos de TIC (hardware e software) inexistente ou insuficiente. | **(D)** Dec. Est. 47.278/2020 (arts. 5º, XI, e 6º, V); IN PRODERJ 07/2025 (Anexo, itens 7.1 e 8.1). | **(D)** Res. CNJ 370/2021 (art. 21, IV, "c", art. 23 e art. 34, § 2º); Res. CNJ 396/2021 (art. 6º). | **(D)** Res. CNMP 171/2017 (art. 26, II); Res. GPGJ 2.785/2026 (art. 13, VI e VII); Res. GPGJ 2.757/2025. |
+| **S5.3** | Inventário de ativos de TIC (hardware e software) inexistente ou insuficiente. | **(D)** Dec. Est. 48.997/2024 (art. 4º, V); IN PRODERJ 07/2025 (Anexo, itens 7.1 e 8.1). | **(D)** Res. CNJ 370/2021 (art. 21, IV, "c", art. 23 e art. 34, § 2º); Res. CNJ 396/2021 (art. 6º). | **(D)** Res. CNMP 171/2017 (art. 26, II); Res. GPGJ 2.785/2026 (art. 13, VI e VII); Res. GPGJ 2.757/2025. |
 | **S5.4** | Ausência ou fragilidade do processo de gestão de configuração. | **(P)** IN PRODERJ 07/2025 (Anexo, itens 7.2.1.5, 8.1.1 e 8.10 – baseline seguro). (*Reforço: ISO 20000-2; COBIT BAI10.01*). | **(P)** Res. CNJ 370/2021 (arts. 19 e 21, IV, "c"). (*Reforço: ISO 20000-2 item 8.2.6; COBIT BAI10.01*). | **(D)** Res. CNMP 171/2017 (arts. 18, 19 e 26, II); Res. GPGJ 2.785/2026 (art. 13, VI, "b"). |
 | **S5.5** | Inexistência ou fragilidade na gestão de incidentes de TIC. | **(P/D em Segurança)** IN PRODERJ 07/2025 (arts. 11 a 13, 17 e 18; Anexo item 8.14). (*Reforço em serviços: ISO 20000-2; ITIL 4*). | **(D)** Res. CNJ 370/2021 (art. 21, II, "a", e IV, "f"); Res. CNJ 396/2021 (arts. 7º e 8º); Ato Normativo TJ 28/2022 (art. 4º). | **(D)** Res. CNMP 171/2017 (arts. 23, 27 e 28); Res. CNMP 294/2024; Res. GPGJ 2.785/2026 (art. 13, IV e VII); Res. GPGJ 2.757/2025. |
 | **S6.1** | Inexistência ou fragilidade de fluxo formal para planejamento de contratações. | **(D)** IN PRODERJ 05/2024 (arts. 1º, 4º a 7º, 11 e ss. – DOD, ETP, Riscos, TR); Dec. Est. 48.816/2023; Lei 14.133/2021. | **(D)** Res. CNJ 468/2022 (arts. 6º, 7º, 10, 11, 15 e 29); Ato Normativo TJ 27/2022 (arts. 5º e 6º); Lei 14.133/2021. | **(D)** Res. CNMP 283/2024 (arts. 2º, 6º, 8º a 10, 16, 17 e 20); Res. GPGJ 2.785/2026 (art. 13, III); Lei 14.133/2021. |
-| **S6.2** | Contratações de TIC sem análise prévia e aprovação técnica da TIC. | **(D)** Dec. Est. 47.278/2020 (art. 7º); IN PRODERJ 05/2024 (arts. 4º, 7º, 8º e 28 – parecer/aprovação técnica setorial e PRODERJ). | **(D)** Res. CNJ 468/2022 (arts. 7º, 8º, 10, 14 e 15 – aprovação e assinatura obrigatória do Integrante Técnico nos artefatos). | **(D)** Res. CNMP 283/2024 (arts. 9º, 16, 20 e 33 – validação e subscrição técnica obrigatória dos artefatos). |
+| **S6.2** | Contratações de TIC sem análise prévia e aprovação técnica da TIC. | **(D)** Dec. Est. 48.997/2024 (art. 5º); IN PRODERJ 05/2024 (arts. 4º, 7º, 8º e 28 – parecer/aprovação técnica setorial e PRODERJ). | **(D)** Res. CNJ 468/2022 (arts. 7º, 8º, 10, 14 e 15 – aprovação e assinatura obrigatória do Integrante Técnico nos artefatos). | **(D)** Res. CNMP 283/2024 (arts. 9º, 16, 20 e 33 – validação e subscrição técnica obrigatória dos artefatos). |
 | **S6.3** | Contratações de TIC sem alinhamento ao Plano de TIC e ao PCA. | **(D)** IN PRODERJ 05/2024 (art. 5º – vedação expressa); Dec. Est. 48.749/2023; Lei 14.133/2021 (art. 12, VII e art. 18, § 1º, II). | **(D)** Res. CNJ 468/2022 (arts. 4º e 5º); Res. CNJ 370/2021 (art. 6º); Ato Normativo TJ 27/2022 (art. 5º); Lei 14.133/2021. | **(D)** Res. CNMP 283/2024 (arts. 4º a 6º); Res. GPGJ 2.540/2023 (art. 2º, II); Lei 14.133/2021. |
 | **S6.4** | Ausência de equipe de planejamento com integrante técnico da área de TIC. | **(D/P)** Dec. Est. 48.816/2023 (arts. 6º a 8º); IN PRODERJ 05/2024 (arts. 6º e 7º); Lei 14.133/2021 (art. 7º). | **(D)** Res. CNJ 468/2022 (art. 7º, caput e incisos I a III, e art. 8º – designação formal de integrante demandante, técnico e administrativo). | **(D)** Res. CNMP 283/2024 (art. 8º, caput e incisos I a III, e art. 9º – designação formal com integrante técnico da área de TI). |
 
@@ -79,7 +79,7 @@ Legenda de Aderência:
 
 #### S1.1 — Ausência de área, unidade, setor ou função de TIC formalmente instituída
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020 (alterado pelo Dec. nº 48.997/2024), arts. 4º e 6º:* Estrutura o Sistema Estadual de TIC (SETIC) e estabelece os Níveis Setoriais de TIC (NSTIC/RJ) representados pelas Assessorias de Informática ou setores equivalentes em todos os órgãos e entidades da Administração Direta e Indireta.
+  * *Decreto Estadual nº 48.997/2024, arts. 2º e 4º:* Reestrutura o Sistema Estadual de TIC (SETIC) e estabelece os Níveis Setoriais de TIC (NSTIC/RJ) representados pelas Assessorias de Informática ou setores equivalentes em todos os órgãos e entidades da Administração Direta e Indireta.
   * *Portaria PRODERJ/PRE nº 825/2021, Anexo A, arts. 1º (IX), 8º e 9º:* Define o NSTIC como a unidade de TIC responsável pela coordenação técnica e execução das diretrizes no órgão setorial.
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, arts. 21 a 23:* Determina que os órgãos do Poder Judiciário devem dispor de estrutura organizacional de TIC formalizada para sustentar as estratégias institucionais.
@@ -90,7 +90,7 @@ Legenda de Aderência:
 
 #### S1.2 — Área de TIC sem atribuições formais suficientes
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020, art. 6º, incisos I a XI:* Fixa expressamente o rol de competências mínimas dos setores de TIC (planejamento, segurança, governança, infraestrutura e gestão).
+  * *Decreto Estadual nº 48.997/2024, art. 4º, incisos I a XI:* Fixa expressamente o rol de competências mínimas dos setores de TIC (planejamento, segurança, governança, infraestrutura e gestão).
   * *Portaria PRODERJ/PRE nº 825/2021, Anexo A, arts. 8º e 9º:* Responsabilidades do gestor de TIC na condução do PEDTIC e governança setorial.
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, arts. 21 a 23:* Atribuições essenciais da área de TIC (planejamento, projetos, sustentação, segurança, dados e serviços).
@@ -101,7 +101,7 @@ Legenda de Aderência:
 
 #### S1.3 — Posicionamento organizacional inadequado da área de TIC
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020, art. 6º, § 1º:* Recomenda subordinação que permita comunicação direta com o dirigente máximo. (*Critério complementar: Portaria SGD/ME nº 778/2019, art. 4º, § 1º e COBIT 2019 APO01.06*).
+  * *Decreto Estadual nº 48.997/2024, art. 4º, § 1º:* Estabelece a coordenação técnica dos setores equivalentes pelo PRODERJ, sem impor vínculo hierárquico uniforme com a alta administração. (*Critério complementar: Portaria SGD/ME nº 778/2019, art. 4º, § 1º e COBIT 2019 APO01.06*).
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, arts. 22 e 23:* Determina nível hierárquico estratégico e canal direto de interlocução com a cúpula do Tribunal.
   * *Ato Normativo TJ nº 32/2023, arts. 3º e 9º:* Posiciona a SGTEC como Secretaria-Geral vinculada à Presidência.
@@ -195,7 +195,7 @@ Legenda de Aderência:
 
 #### S4.1 — Ausência de força de trabalho dedicada à TIC
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020, arts. 4º e 6º; IN PRODERJ nº 07/2025, art. 11, VI:* Previsão de equipe para sustentação do NSTIC e gestão de segurança.
+  * *Decreto Estadual nº 48.997/2024, art. 4º; IN PRODERJ nº 07/2025, art. 11, VI:* Previsão de estrutura setorial para sustentação das atribuições de TIC e de responsáveis pela gestão de segurança.
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, art. 24, caput:* Exige quadro permanente com servidores ocupantes de cargos efetivos com dedicação exclusiva à área de TIC.
 - **MPRJ / CNMP:**
@@ -211,7 +211,7 @@ Legenda de Aderência:
 
 #### S4.3 — Ausência de cargos ou funções formalmente atribuídos à TIC ou Segurança
 - **Poder Executivo Estadual:**
-  * *IN PRODERJ/PRE nº 07/2025, arts. 11, 17 e 18:* Exige a designação formal do Gestor de Segurança da Informação e do responsável pela equipe de incidentes (ETIR). *Decreto nº 47.278/2020:* Designação formal do responsável pelo NSTIC.
+  * *IN PRODERJ/PRE nº 07/2025, arts. 11, 17 e 18:* Exige a designação formal do Gestor de Segurança da Informação e do responsável pela equipe de incidentes (ETIR). *Decreto nº 48.997/2024, art. 4º:* Estrutura o nível setorial do SETIC.
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, arts. 23 e 24 e Resolução CNJ nº 396/2021, art. 7º:* Formalização de papéis de liderança técnica, segurança e equipes de resposta a incidentes cibernéticos (ETIR/CSIRT).
 - **MPRJ / CNMP:**
@@ -219,7 +219,7 @@ Legenda de Aderência:
 
 #### S4.6 — Operação de TIC predominantemente terceirizada sem capacidade interna
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020, art. 6º e IN PRODERJ nº 07/2025:* Retenção de competências de coordenação, gestão e fiscalização no órgão estatal. (*Reforço: Acórdão TCE-RJ nº 44.490/2024-PLEN*).
+  * *Decreto Estadual nº 48.997/2024, art. 4º, e IN PRODERJ nº 07/2025:* Retenção de competências de coordenação, gestão e fiscalização no órgão estatal. (*Reforço: Acórdão TCE-RJ nº 44.490/2024-PLEN*).
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, art. 24, caput e Resolução CNJ nº 468/2022, art. 8º, § 1º:* Veda expressamente a terceirização integral e a contratação de terceiros para a gestão/supervisão das soluções.
 - **MPRJ / CNMP:**
@@ -247,7 +247,7 @@ Legenda de Aderência:
 
 #### S5.3 — Inventário de ativos de TIC inexistente ou insuficiente
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020, arts. 5º (XI) e 6º (V); IN PRODERJ/PRE nº 07/2025, Anexo, itens 7.1 e 8.1:* Obrigação de manter inventário permanente e atualizado de equipamentos, licenças de software e ativos computacionais.
+  * *Decreto Estadual nº 48.997/2024, art. 4º, inciso V; IN PRODERJ/PRE nº 07/2025, Anexo, itens 7.1 e 8.1:* Obrigação de informar o inventário permanente de equipamentos, licenças de software e ativos computacionais.
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 370/2021, art. 21, IV, "c", art. 23 e art. 34, § 2º e Resolução CNJ nº 396/2021, art. 6º:* Inventário de ativos de tecnologia e segurança cibernética.
 - **MPRJ / CNMP:**
@@ -286,7 +286,7 @@ Legenda de Aderência:
 
 #### S6.2 — Contratações de TIC sem análise prévia e aprovação técnica da área de TIC
 - **Poder Executivo Estadual:**
-  * *Decreto Estadual nº 47.278/2020, art. 7º:* Exige prévia anuência técnica do PRODERJ e parecer da área setorial de TIC.
+  * *Decreto Estadual nº 48.997/2024, art. 5º:* Exige o envio e a anuência prévia do PRODERJ para a deflagração da fase externa ou a assinatura do instrumento, conforme o caso.
   * *IN PRODERJ/PRE nº 05/2024, arts. 4º, 7º, 8º e 28:* Obrigatoriedade de parecer técnico, aprovação pela área de TIC setorial (NSTIC) e encaminhamento para análise e anuência prévia do PRODERJ.
 - **TJRJ / CNJ:**
   * *Resolução CNJ nº 468/2022, arts. 7º, 8º, 10, 14 e 15:* Análise técnica e subscrição obrigatória do Integrante Técnico da área de TIC nos artefatos (ETP, Riscos e TR).
@@ -317,7 +317,7 @@ Legenda de Aderência:
 ## 4. Orientações Práticas para Relatórios e Matriz de Achados
 
 1. **Adequação Subjetiva do Critério no Relatório Individual:**
-   - Para auditados do **Poder Executivo Estadual**, cite expressamente o Decreto Estadual nº 47.278/2020 (ou 48.816/2023 para contratações) e as Instruções Normativas / Portarias do PRODERJ (Portaria nº 825/2021 para PEDTIC/Comitê; IN nº 05/2024 para Contratações; IN nº 07/2025 para Segurança/Ativos).
+   - Para auditados do **Poder Executivo Estadual**, cite expressamente o Decreto Estadual nº 48.997/2024 (ou 48.816/2023 para contratações) e as Instruções Normativas / Portarias do PRODERJ (Portaria nº 825/2021 para PEDTIC/Comitê; IN nº 05/2024 para Contratações; IN nº 07/2025 para Segurança/Ativos).
    - Para o **TJRJ**, cite expressamente as Resoluções CNJ nº 370/2021, 468/2022 e 396/2021, conjugadas com os Atos Normativos TJ nº 32/2023, 27/2022 e 28/2022.
    - Para o **MPRJ**, cite expressamente as Resoluções CNMP nº 171/2017, 283/2024 e 294/2024, conjugadas com as Resoluções GPGJ nº 2.785/2026, 2.540/2023 e 2.675/2025.
 

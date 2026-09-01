@@ -19,20 +19,9 @@
 
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
-### Critérios
-{% for criterio in auditado.get_criterios_achado(nome_achado) %}
-* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
-{% endfor %}
+{% include 'bloco_criterios_achado.md' %}
 
-### Evidências
-{% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}
-{% for evidencia in evidencias %}
-{% set complemento_evidencia = evidencia.get('complemento') %}
-{% set descricao_evidencia = evidencia.descricao.rstrip('.;') %}
-* **{{ evidencia.ref }}:** {{ descricao_evidencia }}{{ ';' if not loop.last or complemento_evidencia else '.' }}
-{% if complemento_evidencia %}  * {{ complemento_evidencia.rstrip('.;') }}{{ ';' if not loop.last else '.' }}
-{% endif %}
-{% endfor %}
+{% include 'bloco_evidencias_achado.md' %}
 
 ### Situação encontrada
 
@@ -53,7 +42,7 @@ Com base na análise das respostas aos itens 2801 e 2804 do questionário aplica
 {% endif %}
 {% if tem_equipe %}
 {% set criterios_equipe = auditado.get_criterios_situacao(nome_achado, 'S6.4') %}
-* **Equipe de planejamento**: a ausência de designação formal de equipe com integrante técnico da área de TIC não demonstra aderência aos critérios {% for criterio in criterios_equipe %}{{ criterio.id_exibicao }}{{ ', ' if not loop.last else '' }}{% endfor %}, descritos na seção Critérios, podendo comprometer a qualidade técnica da instrução da contratação.
+* **Equipe de planejamento**: a ausência de designação formal de equipe com integrante técnico da área de TIC não demonstra aderência aos critérios aplicáveis descritos na seção Critérios, podendo comprometer a qualidade técnica da instrução da contratação.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -78,8 +67,7 @@ Da análise das respostas ao item 2801 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -101,8 +89,7 @@ Da análise das respostas ao item 2804 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -124,8 +111,7 @@ Da análise das respostas ao item 2804 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -140,7 +126,7 @@ A ausência de alinhamento das contratações de TIC ao planejamento de TIC e ao
 As contratações de TIC devem contar com equipe de planejamento formalmente designada e com participação de integrante técnico da área de TIC. A designação formal favorece a responsabilização e a qualidade técnica da instrução.
 
 {% set criterios_equipe = auditado.get_criterios_situacao(nome_achado, 'S6.4') %}
-Para esta situação, foram aplicados os critérios {% for criterio in criterios_equipe %}{{ criterio.id_exibicao }}{{ ', ' if not loop.last else '' }}{% endfor %}, apresentados na seção Critérios, conforme o regime normativo aplicável à organização.
+Para esta situação, foram aplicados os critérios apresentados na seção Critérios, conforme o regime normativo aplicável à organização.
 
 Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a designação formal de equipe de planejamento da contratação de TIC com integrante técnico da área de TIC não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
@@ -148,8 +134,7 @@ Da análise das respostas ao item 2804 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -163,10 +148,7 @@ As fragilidades evidenciadas na fase preparatória das contratações de TIC red
 
 Em razão das lacunas descritas, são propostas medidas de encaminhamento, na forma de recomendação ou determinação, conforme a situação identificada, observados os critérios aplicáveis indicados nas seções anteriores.
 
-### Propostas de Encaminhamento
-{% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
-{% endfor %}
+{% include 'bloco_encaminhamentos_achado.md' %}
 
 {# Final do Achado - Contratações de TIC #}
 {% endif %}

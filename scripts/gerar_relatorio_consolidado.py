@@ -47,68 +47,135 @@ DEFAULT_CONTEXT_JSON = (
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 W = f"{{{W_NS}}}"
 
+SITUACOES_POR_ACHADO = {
+    1: ("S1.1", "S1.2", "S1.3"),
+    2: ("S2.1", "S2.2", "S2.3"),
+    3: ("S3.1", "S3.2", "S3.4", "S3.5", "S3.6"),
+    4: ("S4.1", "S4.2", "S4.3", "S4.6"),
+    5: ("S5.1", "S5.2", "S5.3", "S5.4", "S5.5"),
+    6: ("S6.1", "S6.2", "S6.3", "S6.4"),
+}
 
-def _nota_criterios_especificos(resultado_path: str | None, id_situacao: str) -> str:
-    if not resultado_path or not Path(resultado_path).is_file():
-        return ""
+
+def _resumir_dispositivo(descricao: str) -> str:
+    """Mantém a identificação do ato e do dispositivo, sem reproduzir sua explicação."""
+    return re.split(r"\s+[—–]\s+", str(descricao or "").strip(), maxsplit=1)[0].rstrip(".;")
+
+
+def _destinatarios_variantes(
+    resultado_path: str | None,
+    auditados_path: str | None,
+    resolvedor,
+) -> dict[str, set[str]]:
+    if (
+        not resultado_path
+        or not Path(resultado_path).is_file()
+        or not auditados_path
+        or not Path(auditados_path).is_file()
+    ):
+        return {}
+    import pandas as pd
+    from aplicabilidade_juridica import PerfilAuditado
+
     dados = json.loads(Path(resultado_path).read_text(encoding="utf-8"))
-    por_variante = {}
+    cadastro = pd.read_excel(auditados_path, sheet_name="auditados", keep_default_na=False)
+    perfis = {
+        perfil.sigla: perfil
+        for perfil in (
+            PerfilAuditado.from_mapping(row.to_dict())
+            for _, row in cadastro.iterrows()
+        )
+        if perfil.sigla
+    }
+    destinatarios: dict[str, set[str]] = {}
     for auditado in dados.values():
         if not isinstance(auditado, dict):
             continue
-        for procedimento in auditado.get("procedimentos_executados", []):
-            achado = procedimento.get("achado") or {}
-            for situacao in achado.get("situacoes_detalhadas", []):
-                if situacao.get("id_situacao") != id_situacao:
-                    continue
-                variante = situacao.get("id_variante", "")
-                if variante.endswith(".GERAL"):
-                    continue
-                registro = por_variante.setdefault(
-                    variante,
-                    {
-                        "publico": situacao.get("publico") or variante,
-                        "tipo": situacao.get("tipo_encaminhamento", ""),
-                        "criterios": situacao.get("criterios", []),
-                        "auditados": [],
-                    },
-                )
-                registro["auditados"].append(auditado.get("sigla", ""))
-    partes = []
-    for registro in por_variante.values():
-        criterios = "; ".join(
-            f"{item.get('id_exibicao')}: {str(item.get('descricao') or '').rstrip('.')}"
-            for item in registro["criterios"]
-            if item.get("especifico")
-        )
-        if not criterios:
-            continue
-        auditados = ", ".join(sorted(filter(None, registro["auditados"])))
-        partes.append(
-            f"{registro['publico']} — {registro['tipo']}; critérios aplicados: {criterios}. "
-            f"Organizações alcançadas no resultado: {auditados}."
-        )
-    return " ".join(partes)
-
-
-def _rotulo_tipos_situacao(resultado_path: str | None, id_situacao: str) -> str:
-    if not resultado_path or not Path(resultado_path).is_file():
-        return "recomendação ou determinação, conforme o âmbito normativo aplicável"
-    dados = json.loads(Path(resultado_path).read_text(encoding="utf-8"))
-    tipos = set()
-    for auditado in dados.values():
-        if not isinstance(auditado, dict):
-            continue
+        sigla = str(auditado.get("sigla") or "").strip().upper()
+        perfil = perfis.get(sigla)
+        if perfil is None:
+            raise ValueError(f"{sigla}: auditado do resultado final ausente do cadastro institucional.")
         for procedimento in auditado.get("procedimentos_executados", []):
             for situacao in (procedimento.get("achado") or {}).get("situacoes_detalhadas", []):
-                if situacao.get("id_situacao") == id_situacao:
-                    tipos.add(str(situacao.get("tipo_encaminhamento") or "").strip().lower())
-    tipos.discard("")
-    if tipos == {"recomendação"}:
-        return "recomendação"
-    if tipos == {"determinação"}:
-        return "determinação"
-    return "determinação ou recomendação, conforme o âmbito normativo aplicável"
+                id_situacao = str(situacao.get("id_situacao") or "").strip()
+                if not id_situacao:
+                    raise ValueError(f"{sigla}: situação final sem identificador estável.")
+                variante = resolvedor.resolver(perfil, id_situacao).variante
+                if not variante.geral:
+                    destinatarios.setdefault(variante.id, set()).add(sigla)
+    return destinatarios
+
+
+def _resumir_destinatarios(auditados: set[str]) -> str:
+    ordenados = sorted(auditados)
+    if len(ordenados) <= 5:
+        return ", ".join(ordenados)
+    return f"{len(ordenados)} organizações desse grupo institucional"
+
+
+def _nota_criterios_especificos_achado(
+    mapa_path: str | None,
+    resultado_path: str | None,
+    auditados_path: str | None,
+    ids_situacoes: tuple[str, ...],
+) -> str:
+    if not mapa_path or not Path(mapa_path).is_file():
+        return ""
+
+    from aplicabilidade_juridica import carregar_catalogo_planilha
+
+    resolvedor = carregar_catalogo_planilha(mapa_path)
+    destinatarios = _destinatarios_variantes(
+        resultado_path,
+        auditados_path,
+        resolvedor,
+    )
+    grupos: dict[str, dict] = {}
+
+    for id_situacao in ids_situacoes:
+        for variante in resolvedor.variantes_por_situacao.get(id_situacao, []):
+            if variante.geral:
+                continue
+            auditados_variante = destinatarios.get(variante.id, set())
+            if not auditados_variante:
+                continue
+            grupo = grupos.setdefault(
+                variante.rotulo_publico,
+                {"criterios": {}, "aplicacoes": []},
+            )
+            for id_criterio in variante.criterios:
+                criterio = resolvedor.criterios[id_criterio]
+                if criterio.seletor.vazio:
+                    continue
+                registro = grupo["criterios"].setdefault(
+                    id_criterio,
+                    {"criterio": criterio, "situacoes": []},
+                )
+                if id_situacao not in registro["situacoes"]:
+                    registro["situacoes"].append(id_situacao)
+            grupo["aplicacoes"].append(
+                (id_situacao, variante.tipo_encaminhamento, auditados_variante)
+            )
+
+    partes = []
+    for publico, grupo in grupos.items():
+        criterios = []
+        for id_criterio, registro in grupo["criterios"].items():
+            criterio = registro["criterio"]
+            id_exibicao = id_criterio.split(".", 1)[-1]
+            situacoes = ", ".join(registro["situacoes"])
+            criterios.append(
+                f"{id_exibicao} — {_resumir_dispositivo(criterio.descricao)} [{situacoes}]"
+            )
+        texto = f"**{publico}:** " + "; ".join(criterios) + "."
+        if grupo["aplicacoes"]:
+            aplicacoes = "; ".join(
+                f"{id_situacao} — {tipo.lower()} para {_resumir_destinatarios(auditados)}"
+                for id_situacao, tipo, auditados in grupo["aplicacoes"]
+            )
+            texto += f" Aplicação no resultado final: {aplicacoes}."
+        partes.append(texto)
+    return " ".join(partes)
 
 
 def _texto_elemento_docx(elemento) -> str:
@@ -581,12 +648,15 @@ def main() -> int:
         "data_hoje_abnt": data_hoje_abnt(),
         "data_hoje": data_hoje(),
     }
-    contexto["nota_criterios_especificos_s6_4"] = _nota_criterios_especificos(
-        args.resultado_auditoria_json, "S6.4"
-    )
-    contexto["tipo_encaminhamento_s6_4_texto"] = _rotulo_tipos_situacao(
-        args.resultado_auditoria_json, "S6.4"
-    )
+    for numero_achado, ids_situacoes in SITUACOES_POR_ACHADO.items():
+        contexto[f"nota_criterios_especificos_a{numero_achado}"] = (
+            _nota_criterios_especificos_achado(
+                args.mapa,
+                args.resultado_auditoria_json,
+                args.auditados_xlsx,
+                ids_situacoes,
+            )
+        )
     if args.context_json:
         context_json_path = Path(args.context_json)
         if context_json_path.exists():
@@ -690,6 +760,7 @@ def main() -> int:
             tmp_consolidado_img,
             tmp_individuais_img,
             "03-Relatorios/01-Relatorio_Consolidado/img",
+            "03-Relatorios/99-Analise_Longitudinal/img",
             "03-Relatorios/99-Avaliacao_IA/img",
         ]
         if args.resource_files:

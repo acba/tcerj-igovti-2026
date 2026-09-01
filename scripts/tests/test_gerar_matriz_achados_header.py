@@ -3,9 +3,13 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
+from docx import Document
+from docx.enum.section import WD_ORIENT
+
 from scripts.gerar_matriz_achados import (
     atualizar_cabecalho,
     atualizar_documento,
+    construir_painel_ocorrencias,
     montar_dados,
 )
 from scripts.gerar_matriz_planejamento import (
@@ -48,8 +52,6 @@ class MatrizAchadosConteudoTest(unittest.TestCase):
             },
             {
                 "Poder Executivo Estadual": ["C6"],
-                "Poder Judiciário Estadual": ["C7"],
-                "Ministério Público Estadual": ["C8"],
             },
         )
 
@@ -60,18 +62,17 @@ class MatrizAchadosConteudoTest(unittest.TestCase):
             evidencias[0]["situacao"],
             "S1.1 - Ausência de área, unidade, setor ou função de TIC formalmente instituída",
         )
+        self.assertEqual(evidencias[0]["quantidade"], 5)
         self.assertEqual(evidencias[0]["itens"], ["alternativa f) em q0101"])
 
     def test_variantes_comuns_sao_agrupadas_com_seus_criterios(self):
         grupos = self.dados[0]["encaminhamentos"][0]["grupos"]
 
-        self.assertEqual(grupos[0]["publico"], "Demais jurisdicionados")
-        self.assertEqual(grupos[0]["criterios"], ["C1", "C5"])
-        self.assertEqual(
-            grupos[1]["publico"],
-            "Poder Executivo Estadual, Poder Judiciário Estadual e Ministério Público Estadual",
-        )
-        self.assertEqual(grupos[1]["criterios"], ["C1", "C6", "C7", "C8"])
+        por_publico = {grupo["publico"]: grupo for grupo in grupos}
+        self.assertEqual(por_publico["Demais jurisdicionados"]["criterios"], ["C1", "C5"])
+        self.assertEqual(por_publico["Demais jurisdicionados"]["quantidade"], 2)
+        self.assertEqual(por_publico["Poder Executivo Estadual"]["criterios"], ["C1", "C6"])
+        self.assertEqual(por_publico["Poder Executivo Estadual"]["quantidade"], 3)
 
     def test_todos_os_encaminhamentos_referenciam_criterios_exibidos(self):
         for achado in self.dados:
@@ -85,6 +86,50 @@ class MatrizAchadosConteudoTest(unittest.TestCase):
                 for grupo in situacao["grupos"]:
                     self.assertTrue(grupo["criterios"])
                     self.assertTrue(set(grupo["criterios"]).issubset(exibidos))
+                    self.assertGreater(grupo["quantidade"], 0)
+
+    def test_situacoes_e_variantes_sem_ocorrencia_sao_omitidas(self):
+        achado_4 = next(item for item in self.dados if item["achado"].codigo == "A4")
+
+        self.assertNotIn(
+            "S4.1",
+            {situacao.codigo for situacao in achado_4["achado"].situacoes},
+        )
+        self.assertEqual(achado_4["criterios_especificos"], {})
+        self.assertTrue(
+            all(
+                grupo["quantidade"] > 0
+                for situacao in achado_4["encaminhamentos"]
+                for grupo in situacao["grupos"]
+            )
+        )
+
+    def test_painel_consolida_tipo_resolvido_por_auditado(self):
+        situacoes, auditados, valores = construir_painel_ocorrencias(self.dados)
+
+        self.assertEqual(len(situacoes), 23)
+        self.assertEqual(len(auditados), 113)
+        self.assertEqual(valores[("ARARUAMA", "S1.1")], "R")
+        self.assertEqual(valores[("FIA", "S1.1")], "D")
+        self.assertEqual(valores[("TJRJ", "S5.3")], "D")
+        self.assertNotIn(("TJRJ", "S1.1"), valores)
+
+    def test_documento_final_contem_painel_em_paisagem(self):
+        document = Document(str(MATRIX_PATH))
+        painel = document.tables[-1]
+        headers = [cell.text for cell in painel.rows[0].cells]
+        linhas = {
+            row.cells[0].text: dict(zip(headers[1:], (cell.text for cell in row.cells[1:])))
+            for row in painel.rows[1:]
+        }
+
+        self.assertEqual(document.sections[-1].orientation, WD_ORIENT.LANDSCAPE)
+        self.assertEqual(len(document.tables), 7)
+        self.assertEqual(len(painel.rows), 114)
+        self.assertEqual(len(painel.columns), 24)
+        self.assertEqual(linhas["ARARUAMA"]["S1.1"], "R")
+        self.assertEqual(linhas["FIA"]["S1.1"], "D")
+        self.assertEqual(linhas["TJRJ"]["S5.3"], "D")
 
     def test_documento_exibe_dispositivo_em_negrito_e_vinculos(self):
         with ZipFile(MATRIX_PATH) as archive:
@@ -104,14 +149,14 @@ class MatrizAchadosConteudoTest(unittest.TestCase):
         referral_text = "".join(node.text or "" for node in cells[5].iter(f"{W}t"))
 
         self.assertIn("C1: COBIT 2019, APO01.04", bold_text)
-        self.assertIn("C6: Decreto Estadual nº 47.278/2020 (alterado pelo Decreto nº 48.997/2024), arts. 4º e 6º, I a XI, e Portaria PRODERJ/PRE nº 825/2021, Anexo A, arts. 1º, IX, 8º e 9º", bold_text)
+        self.assertIn("C6: Decreto Estadual nº 48.997/2024, art. 4º", bold_text)
         self.assertIn("S1.1 - Ausência de área", evidence_text)
         self.assertIn("• alternativa f) em q0101.", evidence_text)
         self.assertIn(
-            "Poder Executivo Estadual, Poder Judiciário Estadual e Ministério Público Estadual",
+            "Poder Executivo Estadual — 3 organizações com ocorrência",
             referral_text,
         )
-        self.assertIn("[S1.1, C1, C6, C7, C8]", referral_text)
+        self.assertIn("[S1.1, C1, C6]", referral_text)
 
     def test_colunas_achado_e_encaminhamento_seguem_composicao_visual(self):
         with ZipFile(MATRIX_PATH) as archive:
@@ -130,11 +175,11 @@ class MatrizAchadosConteudoTest(unittest.TestCase):
         ]
 
         self.assertIn(
-            "Achado composto pela ocorrência de alguma dessas situações:",
+            "Achado composto pelas seguintes situações efetivamente identificadas:",
             finding_paragraphs,
         )
         self.assertIn(
-            "• S1.1 - Ausência de área, unidade, setor ou função de TIC formalmente instituída",
+            "• S1.1 - Ausência de área, unidade, setor ou função de TIC formalmente instituída (5 ocorrências)",
             finding_paragraphs,
         )
         self.assertIn(
@@ -144,8 +189,8 @@ class MatrizAchadosConteudoTest(unittest.TestCase):
         self.assertTrue(any(paragraph.startswith("• Comunicação com Recomendação")
                             for paragraph in referral_paragraphs))
         self.assertTrue(any("[S1.1, C1, C5]" in paragraph for paragraph in referral_paragraphs))
-        self.assertNotIn("Demais jurisdicionados", referral_paragraphs)
-        self.assertNotIn("Todos os jurisdicionados", referral_paragraphs)
+        self.assertIn("Demais jurisdicionados — 2 organizações com ocorrência", referral_paragraphs)
+        self.assertNotIn("Todos os grupos alcançados", referral_paragraphs)
         self.assertNotIn(
             "S1.1 - Ausência de área, unidade, setor ou função de TIC formalmente instituída",
             referral_paragraphs,

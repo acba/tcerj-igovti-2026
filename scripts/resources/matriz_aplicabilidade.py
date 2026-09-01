@@ -76,14 +76,19 @@ def carregar_catalogo_matriz(caminho: str | Path) -> CatalogoAplicabilidadeMatri
                         geral=True,
                         criterios=tuple(_qualificar(questao.id, cid) for cid in situacao.criterios),
                         tipo_encaminhamento=situacao.tipo_encaminhamento,
+                        fundamentacao_encaminhamento=situacao.fundamentacao_encaminhamento,
                         encaminhamento=situacao.encaminhamento,
                         rotulo_publico="Geral",
                     )
                 )
                 for item in situacao.variantes:
-                    identifier, criteria_ids, referral_type, referral = materialize_situation_variant(
-                        situacao, item
-                    )
+                    (
+                        identifier,
+                        criteria_ids,
+                        referral_type,
+                        referral_foundation,
+                        referral,
+                    ) = materialize_situation_variant(situacao, item)
                     variantes.append(
                         VarianteEncaminhamento(
                             id=identifier,
@@ -91,6 +96,7 @@ def carregar_catalogo_matriz(caminho: str | Path) -> CatalogoAplicabilidadeMatri
                             geral=False,
                             criterios=tuple(_qualificar(questao.id, cid) for cid in criteria_ids),
                             tipo_encaminhamento=referral_type,
+                            fundamentacao_encaminhamento=referral_foundation,
                             encaminhamento=referral,
                             seletor=SeletorAplicabilidade.from_mapping(item.aplica_se),
                             rotulo_publico=item.publico,

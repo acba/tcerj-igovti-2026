@@ -851,6 +851,9 @@ class ProcedimentoAuditoria:
                         "publico": resolvida.variante.rotulo_publico,
                         "criterios": criterios,
                         "tipo_encaminhamento": resolvida.variante.tipo_encaminhamento,
+                        "fundamentacao_encaminhamento": (
+                            resolvida.variante.fundamentacao_encaminhamento
+                        ),
                         "encaminhamento": resolvida.variante.encaminhamento,
                     }
                     detalhes.append(detalhe)
@@ -859,6 +862,9 @@ class ProcedimentoAuditoria:
                         "id_variante": resolvida.variante.id,
                         "encaminhamento": resolvida.variante.encaminhamento,
                         "tipo": resolvida.variante.tipo_encaminhamento,
+                        "fundamentacao_encaminhamento": (
+                            resolvida.variante.fundamentacao_encaminhamento
+                        ),
                         "criterios": criterios,
                     })
                     for acao in acoes_verificadas:
@@ -1161,6 +1167,37 @@ class Auditado:
             if situacao.get("id_situacao") == id_situacao:
                 return list(situacao.get("criterios", []))
         return []
+
+    def get_enquadramentos_especificos_achado(self, nome_achado):
+        """Enquadramentos normativos específicos efetivamente aplicados ao auditado."""
+        achado = self.get_achado_por_nome(nome_achado)
+        if not achado:
+            return []
+
+        enquadramentos = []
+        for situacao in getattr(achado, "situacoes_detalhadas", []) or []:
+            criterios_especificos = [
+                dict(criterio)
+                for criterio in situacao.get("criterios", [])
+                if criterio.get("especifico")
+            ]
+            if not criterios_especificos:
+                continue
+            enquadramentos.append({
+                "id_situacao": situacao.get("id_situacao", ""),
+                "descricao": situacao.get("descricao", ""),
+                "publico": situacao.get("publico", ""),
+                "tipo_encaminhamento": situacao.get("tipo_encaminhamento", ""),
+                "criterios": criterios_especificos,
+                "determinacao_por_criterio_especifico": (
+                    str(situacao.get("tipo_encaminhamento") or "").strip().lower() == "determinação"
+                    and any(
+                        criterio.get("apto_a_fundamentar_determinacao")
+                        for criterio in criterios_especificos
+                    )
+                ),
+            })
+        return enquadramentos
 
     @staticmethod
     def _ordenar_refs(refs):

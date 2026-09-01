@@ -59,8 +59,8 @@ CORES = {
     "sem_evidencia": "#68737D",
     "estavel": "#C7CDD1",
     "ano_2023": "#D59A2F",
-    "cenario_base": "#167D8D",
-    "cenario_final": "#704C8C",
+    "cenario_base": "#78B159",
+    "cenario_final": "#1B5E3C",
     "grade": "#D9DEE2",
     "texto": "#263238",
 }
@@ -496,20 +496,29 @@ def grafico_medias_cenarios(comparacao: pd.DataFrame, path: Path) -> None:
             [posicao, posicao, posicao],
             color="#AAB2B8", linewidth=1.8, zorder=1,
         )
-    ax.scatter(dados["media_2023_base"], y, color=CORES["ano_2023"], s=48, label="2023", zorder=3)
     ax.scatter(
-        dados["media_2026_base"], y, color=CORES["cenario_base"], s=48,
+        dados["media_2023_base"], y, color=CORES["ano_2023"], marker="o",
+        s=48, label="2023", zorder=3,
+    )
+    ax.scatter(
+        dados["media_2026_base"], y, color=CORES["cenario_base"], marker="^", s=52,
         label="2026 — cenário base", zorder=3,
     )
     ax.scatter(
-        dados["media_2026_final"], y, color=CORES["cenario_final"], s=48,
+        dados["media_2026_final"], y, color=CORES["cenario_final"], marker="s", s=48,
         label="2026 — cenário final", zorder=3,
     )
     ax.set_yticks(y, dados["descricao"])
     colunas = ["media_2023_base", "media_2026_base", "media_2026_final"]
     ax.set_xlim(0, max(0.52, float(dados[colunas].max().max()) + 0.06))
     ax.set_xlabel("Média do indicador (escala de 0 a 1)")
-    ax.legend(frameon=False, ncol=3, loc="lower right")
+    ax.legend(
+        frameon=False,
+        ncol=3,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.01),
+        borderaxespad=0,
+    )
     limpar_eixo(ax)
     salvar(fig, path)
 

@@ -337,11 +337,11 @@ Os achados de auditoria decorrem da avaliação das respostas da organização *
 
 O presente relatório individual adota uma estrutura analítica de apresentação voltada a conferir clareza, rastreabilidade e utilidade diagnóstica às constatações. Desse modo, cada achado de auditoria está estruturado a partir dos seguintes elementos fundamentais:
 
-* **Critérios**: as referências normativas, legais, regulamentares ou de boas práticas de gestão (como os objetivos do COBIT 2019 e normas da série ABNT NBR ISO/IEC) que estabelecem o padrão esperado de conformidade;
+* **Critérios**: as referências normativas, legais, regulamentares ou de boas práticas de gestão que estabelecem o padrão esperado de conformidade, incluindo critérios específicos efetivamente aplicáveis à organização;
 * **Evidências**: a relação das informações e dos documentos anexados pela organização que serviram de suporte factual para as constatações;
 * **Situação Encontrada**: a descrição detalhada da realidade operacional e documental identificada no jurisdicionado, destacando-se as fragilidades e lacunas específicas em relação aos critérios adotados;
 * **Conclusão da Equipe de Auditoria**: a análise técnica e o juízo profissional formulado a partir da correlação entre a situação factual e as regras de controle estabelecidas no mapa de verificação;
-* **Propostas de Encaminhamento**: as determinações e recomendações propostas, conforme a situação identificada, para corrigir fragilidades e aprimorar as capacidades de governança e gestão de TIC da organização.
+* **Propostas de Encaminhamento**: as determinações e recomendações propostas, conforme a situação identificada e o regime normativo aplicável ao destinatário, para corrigir fragilidades e aprimorar as capacidades de governança e gestão de TIC da organização.
 
 As constatações apresentadas já consideram as manifestações e os documentos encaminhados na etapa de comentários do gestor, conforme detalhado na Seção 4.
 

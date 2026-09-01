@@ -86,7 +86,7 @@ Attributes:
 - `numero` (`int` or `str`): finding identifier.
 - `nome` (`str`): descriptive finding title.
 - `situacoes_encontradas` (`list`): nonconforming situation strings that materialize the finding.
-- `encaminhamentos` (`list`): dictionaries/objects with keys or attributes such as `tipo` and `encaminhamento`.
+- `encaminhamentos` (`list`): dictionaries/objects with `tipo`, `fundamentacao_encaminhamento` e `encaminhamento`.
 - `evidencias` (`list`): evidence strings supporting the finding.
 
 Common usage:
@@ -110,7 +110,7 @@ Common usage:
 
 ### Propostas de Encaminhamento
 {% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento }};
+* **Comunicação com {{ e.tipo }}** para que, {{ e.fundamentacao_encaminhamento }}, {{ e.encaminhamento }};
 {% endfor %}
 
 {% endif %}
@@ -121,6 +121,8 @@ Rules:
 - Match `nome_achado` and `situacao` strings exactly with the values produced by the audit procedures.
 - Guard achado fragments with `{% if achado %}` so absent findings do not render empty sections.
 - In Jinja, dictionary keys can be accessed with dot syntax when compatible, as in `{{ e.tipo }}` and `{{ item.achado_num }}`.
+- Nos relatórios individuais finais, omitir identificadores internos de critérios, situações e evidências (`C1`, `S1.1`, `E1`). Apresentar critérios específicos no corpo, somente ao destinatário aplicável, sem nota de rodapé.
+- Usar a fundamentação declarada na matriz; não reconstruí-la no template a partir da lista de critérios.
 
 ## Figures
 

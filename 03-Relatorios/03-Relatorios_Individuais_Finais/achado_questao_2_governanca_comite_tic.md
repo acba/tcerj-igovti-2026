@@ -16,20 +16,9 @@
 
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
-### Critérios
-{% for criterio in auditado.get_criterios_achado(nome_achado) %}
-* **{{ criterio.id_exibicao }}:** {{ criterio.descricao }} [{{ criterio.situacoes | join(', ') }}]{{ '.' if loop.last else ';' }}
-{% endfor %}
+{% include 'bloco_criterios_achado.md' %}
 
-### Evidências
-{% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}
-{% for evidencia in evidencias %}
-{% set complemento_evidencia = evidencia.get('complemento') %}
-{% set descricao_evidencia = evidencia.descricao.rstrip('.;') %}
-* **{{ evidencia.ref }}:** {{ descricao_evidencia }}{{ ';' if not loop.last or complemento_evidencia else '.' }}
-{% if complemento_evidencia %}  * {{ complemento_evidencia.rstrip('.;') }}{{ ';' if not loop.last else '.' }}
-{% endif %}
-{% endfor %}
+{% include 'bloco_evidencias_achado.md' %}
 
 ### Situação encontrada
 
@@ -79,8 +68,7 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -106,8 +94,7 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -131,8 +118,7 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 {% if motivos %}
 
 {% for motivo in motivos -%}
-{% set refs_motivo = motivo.get('refs', []) -%}
-* {{ motivo.texto.rstrip('.;') }}{% if refs_motivo %} ({{ refs_motivo | join(', ') }}){% endif %}{{ '.' if loop.last else ';' }}
+* {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
 
@@ -146,10 +132,7 @@ As fragilidades identificadas na governança de TIC reduzem a segurança de que 
 
 Em razão das lacunas descritas, são propostas medidas de encaminhamento, na forma de recomendação ou determinação, conforme a situação identificada, observados os critérios aplicáveis indicados nas seções anteriores.
 
-### Propostas de Encaminhamento
-{% for e in achado.encaminhamentos %}
-* **Comunicação com {{ e.tipo }}** para que {{ e.encaminhamento.rstrip('.;') }}{{ '.' if loop.last else ';' }}
-{% endfor %}
+{% include 'bloco_encaminhamentos_achado.md' %}
 
 {# Final do Achado - Governança e Comitê de TIC #}
 {% endif %}
