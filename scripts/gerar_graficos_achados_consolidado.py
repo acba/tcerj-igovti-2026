@@ -9,6 +9,7 @@ import os
 import zipfile
 import xml.etree.ElementTree as ET
 import textwrap
+import sys
 from pathlib import Path
 
 # Configura matplotlib para rodar headless
@@ -18,15 +19,24 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
+from identidade_visual_graficos import (  # noqa: E402
+    CORES,
+    CORES_ESFERAS,
+    aplicar_estilo,
+    legenda_superior,
+    salvar_figura,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_AUDITADOS_XLSX = ROOT / "02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx"
 DEFAULT_RESULTADO_AUDITORIA_JSON = ROOT / "02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json"
 
 # Cores institucionais do TCE-RJ/CIS do iGovTI 2026
-COLOR_ESTADUAL = "#3B6EA8"   # Steel Blue
-COLOR_MUNICIPAL = "#167D8D"  # Teal
-COLOR_GRID = "#D1D5DB"       # Cinza claro
-COLOR_TEXT = "#1F2937"       # Cinza escuro
+COLOR_ESTADUAL = CORES_ESFERAS["Estadual"]
+COLOR_MUNICIPAL = CORES_ESFERAS["Municipal"]
+COLOR_GRID = CORES["neutro_claro"]
+COLOR_TEXT = CORES["texto"]
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -187,16 +197,7 @@ def main(argv: list[str] | None = None):
     (output_dir / "img").mkdir(parents=True, exist_ok=True)
 
     # Configuração de estilos do Matplotlib
-    plt.rcParams.update({
-        "font.family": "sans-serif",
-        "font.size": 10,
-        "axes.labelcolor": COLOR_TEXT,
-        "axes.titlecolor": COLOR_TEXT,
-        "xtick.color": COLOR_TEXT,
-        "ytick.color": COLOR_TEXT,
-        "figure.facecolor": "white",
-        "axes.facecolor": "white",
-    })
+    aplicar_estilo(tamanho_fonte=10)
 
     organizacoes = list(iter_organizacoes(data))
     organizacoes_avaliadas = [
@@ -290,14 +291,14 @@ def main(argv: list[str] | None = None):
             if val_m > 3:
                 ax.text(val_e + val_m / 2, y_pos, f"{val_m}", ha="center", va="center", color="white", fontweight="bold")
             
-            # Rótulo Total (com percentual relativo ao total auditado de 114 organizações)
+            # Rótulo total, relativo ao universo efetivamente avaliado.
             pct = (tot / total_geral) * 100
             ax.text(tot + 1.5, y_pos, f"{tot} ({pct:.1f}%)", ha="left", va="center", color=COLOR_TEXT, fontweight="bold")
 
         # Ajustes estéticos
         ax.set_yticks(y_positions)
         ax.set_yticklabels(wrapped_labels, fontsize=9.5)
-        ax.set_xlabel("Quantidade de Organizações com a Ocorrência", fontsize=10, labelpad=8)
+        ax.set_xlabel("Quantidade de organizações com a ocorrência", fontsize=10, labelpad=8)
         ax.set_xlim(0, total_geral + 10)
         
         # Gridlines verticais
@@ -310,8 +311,8 @@ def main(argv: list[str] | None = None):
         ax.spines["left"].set_color(COLOR_GRID)
         ax.spines["bottom"].set_color(COLOR_GRID)
 
-        # Legenda e Título
-        ax.legend(loc="upper right", frameon=True, facecolor="white", edgecolor=COLOR_GRID, fontsize=9.5)
+        # Faixa superior reservada à legenda, sem sobrepor totais ou percentuais.
+        legenda_superior(ax, ncol=2, y=1.02, fontsize=9.5)
         
         plt.tight_layout()
 
@@ -322,9 +323,8 @@ def main(argv: list[str] | None = None):
         save_path_root = output_dir / filename
         save_path_img = output_dir / "img" / filename
         
-        fig.savefig(save_path_root, dpi=180, bbox_inches="tight", facecolor="white")
-        fig.savefig(save_path_img, dpi=180, bbox_inches="tight", facecolor="white")
-        plt.close(fig)
+        salvar_figura(fig, save_path_root, fechar=False)
+        salvar_figura(fig, save_path_img)
         
         logger.info("Gráfico gerado com sucesso: %s", filename)
 

@@ -6,7 +6,20 @@ Esta avaliação examina a identidade visual, a consistência e a legibilidade d
 
 Foram considerados o relatório consolidado em Markdown, o DOCX gerado e os recursos gráficos efetivamente empregados no diagnóstico do iGovTI, na comparação longitudinal, nos achados de auditoria, na análise da utilização institucional de inteligência artificial e na avaliação dos comentários dos gestores.
 
-Esta etapa teve natureza exclusivamente avaliativa. Nenhum gráfico foi alterado em decorrência das oportunidades registradas neste documento.
+O diagnóstico foi inicialmente produzido com natureza avaliativa. Em 1º de setembro de 2026, as oportunidades aprovadas foram incorporadas aos geradores e aos gráficos utilizados pelo relatório e por seus anexos.
+
+## 1.1 Ajustes implementados
+
+- adoção de identidade visual central compartilhada entre os geradores Matplotlib;
+- uso do estilo `seaborn-v0_8-whitegrid`, com fundo branco e grades restritas ao eixo quantitativo;
+- definição explícita da família DejaVu Sans e resolução de 300 dpi;
+- reposicionamento das legendas dos achados e dos comentários para faixas superiores;
+- dimensionamento dinâmico dos gráficos de comentários;
+- identificação das cores de fundo como faixas de maturidade;
+- padronização de capitalização e terminologia;
+- substituição dos verdes dos cenários de 2026 por tons de azul, com laranja para 2023.
+
+A paleta foi posteriormente simplificada para reduzir variações desnecessárias. As cores semânticas centrais passaram a reutilizar vermelho `#B33A3A`, laranja `#FFA500`, verde-claro `#9ACD32`, verde `#228B22`, os azuis institucional, médio e claro e os neutros claro e médio. O azul-petróleo e as variações alternativas de vermelho, laranja e verde foram eliminados.
 
 ## 2. Conclusão executiva
 
@@ -57,21 +70,19 @@ Como oportunidade específica, a legenda das faixas de maturidade deve ser disti
 
 ### 5.2. Comparação longitudinal
 
-O gráfico utiliza amarelo-ocre para 2023, verde-claro para o cenário-base de 2026 e verde-escuro para o cenário final. Círculo, triângulo e quadrado complementam a diferenciação por cor, e a legenda posicionada acima da área de dados não interfere nos resultados.
-
-O uso de verde-escuro para o cenário final pode ser interpretado intuitivamente como resultado melhor, embora represente o cenário com maior nível de verificação. Os formatos distintos e a legenda reduzem esse risco. Caso se pretenda máxima neutralidade semântica em futura revisão, os cenários de 2026 podem utilizar tons claro e escuro de azul ou azul-petróleo.
+O gráfico utiliza laranja para 2023, azul-claro para o cenário-base de 2026 e azul-escuro para o cenário final. Círculo, triângulo e quadrado complementam a diferenciação por cor, e a legenda posicionada acima da área de dados não interfere nos resultados. Essa solução evita associar o cenário final a uma melhora meramente pela utilização do verde.
 
 ### 5.3. Achados de auditoria
 
 Os gráficos apresentam boa consistência interna: azul para organizações estaduais, azul-petróleo para municipais, mesma escala horizontal e valores dentro e fora das barras. Essa estabilidade permite comparar os achados.
 
-A principal fragilidade é o posicionamento da legenda no canto superior direito, que pode cobrir percentuais e totais. As duas cores também possuem luminosidade relativamente próxima, o que reduz sua diferenciação em impressão monocromática. O uso de tonalidades com maior contraste, padrões ou identificadores adicionais pode melhorar a acessibilidade.
+A legenda passou a ocupar faixa superior reservada e não cobre percentuais ou totais. A apresentação dos valores dentro das barras complementa a diferenciação cromática entre as esferas.
 
 ### 5.4. Comentários dos gestores
 
 Os gráficos utilizam uma lógica semântica compreensível: verdes para medidas atendidas ou em atendimento, laranja para ausência de medida, vermelho para discordância e cinza para situação inexistente. A ordem das categorias e os rótulos numéricos ajudam a interpretação.
 
-As figuras com várias situações, contudo, ficam densas quando reduzidas à largura da página. Os textos longos, as legendas extensas e os percentuais dentro de segmentos estreitos merecem revisão de dimensionamento e hierarquia visual.
+As figuras com várias situações passaram a utilizar altura dinâmica, maior área para os rótulos e faixa superior reservada à legenda. Os valores permanecem associados diretamente aos segmentos, preservando a leitura no DOCX.
 
 ### 5.5. Inteligência artificial
 

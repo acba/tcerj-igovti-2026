@@ -7,7 +7,9 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import os
 import re
+import sys
 import textwrap
 import unicodedata
 from collections import Counter, defaultdict
@@ -17,12 +19,24 @@ from pathlib import Path
 from typing import Any, Iterable
 from xml.etree import ElementTree
 
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib-igovti-comentarios")
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "resources"))
+from identidade_visual_graficos import (  # noqa: E402
+    CORES as CORES_BASE,
+    CORES_COMENTARIOS,
+    CORES_DECISOES,
+    aplicar_estilo,
+    cor_texto_contraste,
+    legenda_superior,
+    salvar_figura as salvar_figura_padrao,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LSS = ROOT / "02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss"
@@ -53,26 +67,41 @@ RESPOSTAS = [
     "Concorda, sem medida adotada",
     "Discorda",
 ]
-CORES = {
-    "Concorda e ja atendeu": "#228B22",
-    "Concorda e esta atendendo": "#9ACD32",
-    "Concorda, sem medida adotada": "#FFA500",
-    "Discorda": "#F1613F",
-    "Situacao encontrada inexistente": "#D2D3CF",
-}
-CORES_DECISOES = {
-    "Acolhida": "#70AD47",
-    "Parcialmente acolhida": "#FFC000",
-    "Não acolhida": "#D9534F",
-}
+CORES = CORES_COMENTARIOS
 ROTULOS_CATEGORIAS = {
-    "Concorda e ja atendeu": "Concorda e j\u00e1 atendeu \u00e0s propostas de encaminhamento",
-    "Concorda e esta atendendo": "Concorda e j\u00e1 est\u00e1 atendendo \u00e0s propostas de encaminhamento",
-    "Concorda, sem medida adotada": (
-        "Concorda, mas ainda n\u00e3o adotou nenhuma medida para atender \u00e0s propostas de encaminhamento"
-    ),
-    "Discorda": "Discorda da sinaliza\u00e7\u00e3o de inadequa\u00e7\u00e3o",
+    "Concorda e ja atendeu": "Concorda e j\u00e1 atendeu",
+    "Concorda e esta atendendo": "Concorda e est\u00e1 atendendo",
+    "Concorda, sem medida adotada": "Concorda, sem medida adotada",
+    "Discorda": "Discorda",
     "Situacao encontrada inexistente": "Situa\u00e7\u00e3o encontrada inexistente",
+}
+ROTULOS_SITUACOES_SINTETICOS = {
+    "A1G1Conc": "\u00c1rea ou fun\u00e7\u00e3o de TIC n\u00e3o formalizada",
+    "A1G2Conc": "Posicionamento inadequado da \u00e1rea de TIC",
+    "A1G3Conc": "Atribui\u00e7\u00f5es formais de TIC insuficientes",
+    "A2G4Conc": "Comit\u00ea de TIC n\u00e3o institu\u00eddo",
+    "A2G5Conc": "Atua\u00e7\u00e3o efetiva do comit\u00ea n\u00e3o comprovada",
+    "A2G6Conc": "Governan\u00e7a de TIC insuficiente",
+    "A3G7Conc": "Plano de TIC sem acompanhamento",
+    "A3G8Conc": "Plano de TIC sem aprova\u00e7\u00e3o formal",
+    "A3G9Conc": "Processo de planejamento fr\u00e1gil",
+    "A3G10Conc": "Plano de TIC desalinhado",
+    "A3G11Conc": "Plano sem v\u00ednculo a or\u00e7amento e contrata\u00e7\u00f5es",
+    "A4G12Conc": "Quantitativo necess\u00e1rio de pessoal n\u00e3o definido",
+    "A4G13Conc": "Cargos ou fun\u00e7\u00f5es de TIC e SI ausentes",
+    "A4G14Conc": "For\u00e7a de trabalho dedicada ausente",
+    "A4G15Conc": "Depend\u00eancia externa sem capacidade interna",
+    "A4G16Conc": "Lacunas de compet\u00eancias n\u00e3o tratadas",
+    "A4G17Conc": "Perfis profissionais inexistentes ou insuficientes",
+    "A5G18Conc": "Gest\u00e3o de configura\u00e7\u00e3o fr\u00e1gil",
+    "A5G19Conc": "N\u00edveis de servi\u00e7o fr\u00e1geis",
+    "A5G20Conc": "Invent\u00e1rio de ativos fr\u00e1gil",
+    "A5G21Conc": "Gest\u00e3o de incidentes fr\u00e1gil",
+    "A5G22Conc": "Cat\u00e1logo de servi\u00e7os insuficiente",
+    "A6G23Conc": "Contrata\u00e7\u00f5es desalinhadas ao planejamento",
+    "A6G24Conc": "Contrata\u00e7\u00f5es sem aprova\u00e7\u00e3o t\u00e9cnica",
+    "A6G25Conc": "Equipe de planejamento n\u00e3o formalizada",
+    "A6G26Conc": "Processo de contrata\u00e7\u00e3o n\u00e3o padronizado",
 }
 TITULOS_ACHADOS = {
     1: "Estrutura de TIC insuficiente para coordenar, gerir e sustentar a tecnologia da informacao",
@@ -471,25 +500,11 @@ def analisar_temas(textos: list[tuple[str, str]]) -> list[dict[str, Any]]:
 
 
 def configurar_grafico() -> None:
-    plt.style.use("seaborn-v0_8-whitegrid")
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 9,
-            "axes.titlesize": 11,
-            "axes.titleweight": "bold",
-            "axes.edgecolor": "#B7B7B7",
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-            "figure.facecolor": "white",
-            "axes.facecolor": "white",
-        }
-    )
+    aplicar_estilo(tamanho_fonte=9.5)
 
 
 def salvar_figura(fig: plt.Figure, path: Path) -> None:
-    fig.savefig(path, dpi=180, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
+    salvar_figura_padrao(fig, path)
 
 
 def quebrar_texto_grafico(valor: str, largura: int = 50) -> str:
@@ -501,10 +516,10 @@ def grafico_participacao(path: Path, totais: list[tuple[str, int, int]]) -> None
     labels = [acentuar_rotulo(item[0]) for item in totais][::-1]
     valores = [100 * item[1] / item[2] if item[2] else 0 for item in totais][::-1]
     fig, ax = plt.subplots(figsize=(9, 3.8))
-    bars = ax.barh(labels, valores, color="#4472C4", height=0.55)
+    bars = ax.barh(labels, valores, color=CORES_BASE["azul_medio"], height=0.55)
     ax.set_xlim(0, 100)
     ax.set_xlabel(acentuar_rotulo("Percentual de organizacoes"))
-    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    ax.grid(axis="x", color=CORES_BASE["neutro_claro"], linewidth=0.8)
     for bar, (_, numerador, denominador) in zip(bars, totais[::-1]):
         ax.text(bar.get_width() + 1, bar.get_y() + bar.get_height() / 2,
                 f"{numerador}/{denominador} ({percentual(numerador, denominador)})", va="center")
@@ -520,10 +535,10 @@ def grafico_panorama_manifestacoes(path: Path, contagem: Counter) -> None:
     bars = ax.bar(labels, valores, color=[CORES[categoria] for categoria in categorias], width=0.52)
     maior = max(valores or [1])
     ax.set_ylim(0, maior * 1.18)
-    ax.grid(axis="y", color="#D9D9D9", linestyle="--", linewidth=0.7, alpha=0.75)
+    ax.grid(axis="y", color=CORES_BASE["neutro_claro"], linestyle="--", linewidth=0.7, alpha=0.75)
     ax.set_axisbelow(True)
     ax.spines["left"].set_visible(False)
-    ax.spines["bottom"].set_color("#D9D9D9")
+    ax.spines["bottom"].set_color(CORES_BASE["neutro_claro"])
     ax.tick_params(axis="x", length=0, labelsize=8.5)
     ax.tick_params(axis="y", length=0)
     for bar, valor in zip(bars, valores):
@@ -534,7 +549,7 @@ def grafico_panorama_manifestacoes(path: Path, contagem: Counter) -> None:
             ha="center",
             va="bottom",
             fontsize=9,
-            color="#333333",
+            color=CORES_BASE["texto"],
         )
     fig.subplots_adjust(bottom=0.3)
     salvar_figura(fig, path)
@@ -558,17 +573,18 @@ def grafico_situacoes_achado(
             por_codigo[item["codigo_situacao"]][item["categoria"]] += 1
 
     linhas = []
-    for situacao in metadados:
+    for numero, situacao in enumerate(metadados, start=1):
         codigo = situacao.codigo[:-4]
         contagem = por_codigo[codigo]
         aplicaveis = sum(contagem[categoria] for categoria in RESPOSTAS)
         contagem["Situacao encontrada inexistente"] = max(0, total_respondentes - aplicaveis)
-        linhas.append((quebrar_texto_grafico(situacao.texto), contagem))
+        rotulo = ROTULOS_SITUACOES_SINTETICOS.get(situacao.codigo, situacao.texto)
+        linhas.append((f"{numero}. {quebrar_texto_grafico(rotulo, largura=38)}", contagem))
 
     linhas = linhas[::-1]
     labels = [label for label, _ in linhas]
-    altura = max(3.5, 1.05 * len(linhas) + 2.1)
-    fig, ax = plt.subplots(figsize=(12.8, altura))
+    altura = max(4.4, 1.18 * len(linhas) + 2.8)
+    fig, ax = plt.subplots(figsize=(13.2, altura))
     esquerda = np.zeros(len(linhas))
     for categoria in categorias:
         valores = np.array([contagem[categoria] for _, contagem in linhas], dtype=float)
@@ -592,28 +608,25 @@ def grafico_situacoes_achado(
                 ha="center",
                 va="center",
                 fontsize=9,
-                color="#202020",
+                color=cor_texto_contraste(CORES[categoria]),
                 linespacing=0.9,
             )
         esquerda += valores
 
     ax.set_xlim(0, max(total_respondentes, 1))
-    ax.grid(axis="x", color="#D9D9D9", linestyle="--", linewidth=0.7, alpha=0.75)
+    ax.grid(axis="x", color=CORES_BASE["neutro_claro"], linestyle="--", linewidth=0.7, alpha=0.75)
     ax.set_axisbelow(True)
     ax.spines["left"].set_visible(False)
-    ax.spines["bottom"].set_color("#D9D9D9")
+    ax.spines["bottom"].set_color(CORES_BASE["neutro_claro"])
     ax.tick_params(axis="y", length=0, labelsize=10)
     ax.tick_params(axis="x", length=0, labelsize=10)
-    ax.legend(
-        loc="lower center",
-        bbox_to_anchor=(0.5, 1.01),
+    legenda_superior(
+        ax,
         ncol=3,
-        frameon=False,
+        y=1.02,
         fontsize=9,
-        handlelength=1.8,
-        columnspacing=1.2,
     )
-    fig.subplots_adjust(left=0.32, top=0.8)
+    fig.subplots_adjust(left=0.25, right=0.98, top=0.82, bottom=0.12)
     salvar_figura(fig, path)
 
 
@@ -634,14 +647,15 @@ def grafico_empilhado(
         for i, valor in enumerate(valores):
             if valor >= 6:
                 ax.text(esquerda[i] + valor / 2, i, f"{valor:.1f}%".replace(".", ","),
-                        ha="center", va="center", fontsize=8, color="white" if categoria == "Discorda" else "#1F1F1F")
+                        ha="center", va="center", fontsize=8,
+                        color=cor_texto_contraste(CORES[categoria]))
         esquerda += valores
     for i, total in enumerate(totais):
         ax.text(101, i, f"n={total}", va="center", fontsize=8)
     ax.set_xlim(0, 108)
     ax.set_xlabel(acentuar_rotulo("Percentual das manifestacoes"))
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=2, frameon=False)
-    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    legenda_superior(ax, ncol=2, y=1.02, fontsize=9)
+    ax.grid(axis="x", color=CORES_BASE["neutro_claro"], linewidth=0.8)
     salvar_figura(fig, path)
 
 
@@ -651,13 +665,13 @@ def grafico_reavaliacao(path: Path, cobertura: list[dict[str, Any]]) -> None:
         por_base[item["questao_base"]]["elegiveis"] += 1
         por_base[item["questao_base"]]["submissoes"] += int(item["submeteu_reavaliacao"])
     ranking = sorted(por_base.items(), key=lambda par: (-par[1]["submissoes"], par[0]))[:15][::-1]
-    labels = [base.upper() for base, _ in ranking]
+    labels = [re.sub(r"^[qQ](?=\d)", "", str(base)).upper() for base, _ in ranking]
     valores = [c["submissoes"] for _, c in ranking]
     totais = [c["elegiveis"] for _, c in ranking]
     fig, ax = plt.subplots(figsize=(9, 6))
-    bars = ax.barh(labels, valores, color="#5B9BD5", height=0.62)
+    bars = ax.barh(labels, valores, color=CORES_BASE["azul_claro"], height=0.62)
     ax.set_xlabel(acentuar_rotulo("Quantidade de organizacoes que solicitaram reavaliacao"))
-    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    ax.grid(axis="x", color=CORES_BASE["neutro_claro"], linewidth=0.8)
     for bar, valor, total in zip(bars, valores, totais):
         ax.text(valor + 0.3, bar.get_y() + bar.get_height() / 2,
                 f"{valor} de {total} elegiveis", va="center", fontsize=8)
@@ -701,7 +715,7 @@ def grafico_resultados_avaliacao(
                     ha="center",
                     va="center",
                     fontsize=8,
-                    color="white" if categoria == "Não acolhida" else "#202020",
+                    color=cor_texto_contraste(CORES_DECISOES[categoria]),
                 )
             elif valor > 0:
                 ax.text(
@@ -711,15 +725,15 @@ def grafico_resultados_avaliacao(
                     ha="center",
                     va="center",
                     fontsize=6.5,
-                    color="#202020",
+                    color=cor_texto_contraste(CORES_DECISOES[categoria]),
                     rotation=90,
                 )
         esquerda += valores
     ax.set_xlim(0, 105)
     ax.set_xlabel("Percentual dos casos avaliados")
-    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    ax.grid(axis="x", color=CORES_BASE["neutro_claro"], linewidth=0.8)
     ax.set_axisbelow(True)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=3, frameon=False)
+    legenda_superior(ax, ncol=3, y=1.02, fontsize=9)
     salvar_figura(fig, path)
 
 
@@ -735,10 +749,19 @@ def grafico_impactos_organizacoes(
     labels = [item[0] for item in linhas]
     valores = [item[1] for item in linhas]
     fig, ax = plt.subplots(figsize=(9.5, 4.2))
-    bars = ax.barh(labels, valores, color=["#A5A5A5", "#5B9BD5", "#70AD47", "#4472C4"])
+    bars = ax.barh(
+        labels,
+        valores,
+        color=[
+            CORES_BASE["neutro"],
+            CORES_BASE["azul_claro"],
+            CORES_BASE["positivo"],
+            CORES_BASE["azul_medio"],
+        ],
+    )
     ax.set_xlim(0, max(valores) * 1.35)
     ax.set_xlabel("Quantidade de organizações")
-    ax.grid(axis="x", color="#E7E6E6", linewidth=0.8)
+    ax.grid(axis="x", color=CORES_BASE["neutro_claro"], linewidth=0.8)
     ax.set_axisbelow(True)
     for bar, valor in zip(bars, valores):
         ax.text(
@@ -768,10 +791,15 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
         ),
     ]
     for ax, titulo, valores, reducao in paineis:
-        bars = ax.bar(["Antes", "Após comentários"], valores, color=["#A5A5A5", "#4472C4"], width=0.55)
+        bars = ax.bar(
+            ["Antes", "Após comentários"],
+            valores,
+            color=[CORES_BASE["neutro"], CORES_BASE["azul_medio"]],
+            width=0.55,
+        )
         ax.set_ylim(0, max(valores) * 1.18)
         ax.set_xlabel(titulo)
-        ax.grid(axis="y", color="#E7E6E6", linewidth=0.8)
+        ax.grid(axis="y", color=CORES_BASE["neutro_claro"], linewidth=0.8)
         ax.set_axisbelow(True)
         for bar, valor in zip(bars, valores):
             ax.text(
@@ -787,7 +815,7 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
             f"Redução líquida: {reducao}",
             ha="center",
             fontsize=8.5,
-            color="#404040",
+            color=CORES_BASE["texto_secundario"],
         )
     fig.tight_layout()
     salvar_figura(fig, path)
@@ -796,10 +824,15 @@ def grafico_estoques_antes_depois(path: Path, resumo: dict[str, Any]) -> None:
 def grafico_evolucao_igovti(path: Path, resumo: dict[str, Any]) -> None:
     valores = [100 * resumo["igovti_medio_anterior"], 100 * resumo["igovti_medio_atual"]]
     fig, ax = plt.subplots(figsize=(7.5, 4.5))
-    bars = ax.bar(["Antes", "Após comentários"], valores, color=["#A5A5A5", "#70AD47"], width=0.5)
+    bars = ax.bar(
+        ["Antes", "Após comentários"],
+        valores,
+        color=[CORES_BASE["neutro"], CORES_BASE["azul_medio"]],
+        width=0.5,
+    )
     ax.set_ylim(0, max(valores) * 1.35)
     ax.set_ylabel("iGovTI médio (%)")
-    ax.grid(axis="y", color="#E7E6E6", linewidth=0.8)
+    ax.grid(axis="y", color=CORES_BASE["neutro_claro"], linewidth=0.8)
     ax.set_axisbelow(True)
     for bar, valor in zip(bars, valores):
         ax.text(
@@ -816,7 +849,7 @@ def grafico_evolucao_igovti(path: Path, resumo: dict[str, Any]) -> None:
         f"Variação média: +{str(f'{variacao:.2f}').replace('.', ',')} ponto percentual",
         ha="center",
         fontsize=9,
-        color="#404040",
+        color=CORES_BASE["texto_secundario"],
     )
     salvar_figura(fig, path)
 

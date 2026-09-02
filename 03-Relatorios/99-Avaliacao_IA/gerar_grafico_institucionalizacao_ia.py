@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib-igovti-ia")
@@ -17,6 +18,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.ticker import PercentFormatter
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "resources"))
+from identidade_visual_graficos import (  # noqa: E402
+    CORES,
+    CORES_IA,
+    aplicar_estilo,
+    cor_texto_contraste,
+    legenda_superior,
+    salvar_figura,
+)
 
 RELATORIOS_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DADOS = RELATORIOS_ROOT / "99-Avaliacao_IA" / "dados_avaliacao_ia.xlsx"
@@ -41,14 +51,6 @@ CATEGORIAS = (
     "Adoção parcial ou superior",
     "Não se aplica",
 )
-
-CORES = {
-    "Não adota": "#A6A6A6",
-    "Planejamento ou adoção incipiente": "#F4B183",
-    "Adoção parcial ou superior": "#70AD47",
-    "Não se aplica": "#D9E1F2",
-}
-
 
 def classificar_resposta(resposta: str) -> str:
     resposta = str(resposta).strip().rstrip(".")
@@ -103,7 +105,7 @@ def carregar_distribuicoes(path: Path, resultado_auditoria: Path) -> pd.DataFram
 
 
 def gerar_grafico(distribuicoes: pd.DataFrame, output: Path) -> None:
-    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10})
+    aplicar_estilo(tamanho_fonte=10)
     fig, ax = plt.subplots(figsize=(11, 4.8))
     esquerda = pd.Series(0.0, index=distribuicoes.index)
 
@@ -113,7 +115,7 @@ def gerar_grafico(distribuicoes: pd.DataFrame, output: Path) -> None:
             [QUESTOES[q] for q in distribuicoes.index],
             valores,
             left=esquerda,
-            color=CORES[categoria],
+            color=CORES_IA[categoria],
             edgecolor="white",
             linewidth=0.8,
             height=0.58,
@@ -128,7 +130,7 @@ def gerar_grafico(distribuicoes: pd.DataFrame, output: Path) -> None:
                     ha="center",
                     va="center",
                     fontsize=9,
-                    color="#222222",
+                    color=cor_texto_contraste(CORES_IA[categoria]),
                     fontweight="bold",
                 )
         esquerda = esquerda + valores
@@ -136,21 +138,15 @@ def gerar_grafico(distribuicoes: pd.DataFrame, output: Path) -> None:
     ax.set_xlim(0, 100)
     ax.xaxis.set_major_formatter(PercentFormatter(100, decimals=0))
     ax.set_xlabel("Percentual das organizações avaliadas (n=113)")
-    ax.grid(axis="x", color="#D9D9D9", linewidth=0.7, alpha=0.8)
+    ax.grid(axis="x", color=CORES["neutro_claro"], linewidth=0.7, alpha=0.8)
     ax.set_axisbelow(True)
     ax.invert_yaxis()
     for spine in ax.spines.values():
         spine.set_visible(False)
-    ax.legend(
-        loc="upper center",
-        bbox_to_anchor=(0.5, 1.22),
-        ncol=2,
-        frameon=False,
-    )
+    legenda_superior(ax, ncol=2, y=1.02)
     fig.tight_layout()
     output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output, dpi=220, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
+    salvar_figura(fig, output)
 
 
 def main() -> int:

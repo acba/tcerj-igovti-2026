@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import os
 import tempfile
+import sys
 import unicodedata
 from collections import Counter
 from pathlib import Path
@@ -19,6 +20,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import openpyxl
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "resources"))
+from identidade_visual_graficos import (  # noqa: E402
+    CORES,
+    CORES_LONGITUDINAL,
+    aplicar_estilo,
+    salvar_figura,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,9 +56,9 @@ PRACTICES = {
     "ModeloTI": "Modelo de gestão",
     "MonitorAvaliaTI": "Monitoramento e avaliação",
     "ResultadoTI": "Resultados e simplificação",
-    "PlanejamentoTI": "Planejamento de TI",
+    "PlanejamentoTI": "Planejamento de TIC",
     "PessoasTI": "Pessoas",
-    "iGestServicosTI": "Gestão de Serviços",
+    "iGestServicosTI": "Gestão de serviços",
     "iGestNiveisServicoTI": "Níveis de serviço",
     "iGestRiscosTI": "Riscos de TI",
     "EstruturaSegInfo": "Estrutura de segurança",
@@ -58,11 +67,11 @@ PRACTICES = {
     "iGestProjetosTI": "Projetos de TI",
 }
 
-GREEN = "#2F7D5B"
-RED = "#B64B5A"
-TEAL = "#167D8D"
-GOLD = "#D59A2F"
-GRAY = "#6B7280"
+GREEN = CORES["positivo"]
+RED = CORES["negativo"]
+TEAL = CORES_LONGITUDINAL["2026_final"]
+GOLD = CORES_LONGITUDINAL["2023"]
+GRAY = CORES["texto_secundario"]
 
 
 def load_rows(path: Path) -> list[dict[str, object]]:
@@ -111,13 +120,12 @@ def paired_rows() -> list[tuple[dict[str, object], dict[str, object]]]:
 def style_axis(ax: plt.Axes) -> None:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.grid(axis="y", color="#D1D5DB", linewidth=0.7, alpha=0.7)
+    ax.grid(axis="y", color=CORES["neutro_claro"], linewidth=0.7, alpha=0.7)
     ax.set_axisbelow(True)
 
 
 def save(fig: plt.Figure, filename: str) -> None:
-    fig.savefig(OUTPUT_DIR / filename, dpi=300, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
+    salvar_figura(fig, OUTPUT_DIR / filename)
 
 
 def plot_distribution(pairs: list[tuple[dict[str, object], dict[str, object]]]) -> None:
@@ -135,12 +143,12 @@ def plot_distribution(pairs: list[tuple[dict[str, object], dict[str, object]]]) 
         widths=0.42,
         patch_artist=True,
         showfliers=False,
-        medianprops={"color": "#111827", "linewidth": 1.8},
+        medianprops={"color": CORES["texto"], "linewidth": 1.8},
         whiskerprops={"color": GRAY},
         capprops={"color": GRAY},
     )
-    box["boxes"][0].set(facecolor=GOLD, alpha=0.72, edgecolor="#8A641E")
-    box["boxes"][1].set(facecolor=TEAL, alpha=0.72, edgecolor="#0E5964")
+    box["boxes"][0].set(facecolor=GOLD, alpha=0.72, edgecolor=CORES["laranja"])
+    box["boxes"][1].set(facecolor=TEAL, alpha=0.72, edgecolor=CORES["azul_institucional"])
 
     rng = np.random.default_rng(2026)
     ax.scatter(1 + rng.normal(0, 0.035, len(values_2023)), values_2023, s=16, color=GOLD, alpha=0.65, zorder=3)
@@ -148,8 +156,8 @@ def plot_distribution(pairs: list[tuple[dict[str, object], dict[str, object]]]) 
     ax.set_xticks([1, 2], ["2023", "2026"])
     ax.set_ylabel("iGovTI comparável")
     ax.set_ylim(-0.03, 0.78)
-    ax.text(1, values_2023.mean() + 0.025, f"média {values_2023.mean():.3f}", ha="center", color="#6B4D17")
-    ax.text(2, values_2026.mean() + 0.025, f"média {values_2026.mean():.3f}", ha="center", color="#0E5964")
+    ax.text(1, values_2023.mean() + 0.025, f"média {values_2023.mean():.3f}", ha="center", color=CORES["laranja"])
+    ax.text(2, values_2026.mean() + 0.025, f"média {values_2026.mean():.3f}", ha="center", color=CORES["azul_institucional"])
     style_axis(ax)
     save(fig, "igovti_comparavel_distribuicao_2023_2026.png")
 
@@ -165,7 +173,7 @@ def plot_transition(pairs: list[tuple[dict[str, object], dict[str, object]]]) ->
     for row in range(4):
         for column in range(4):
             value = matrix[row, column]
-            color = "white" if value >= matrix.max() * 0.55 else "#111827"
+            color = "white" if value >= matrix.max() * 0.55 else CORES["texto"]
             ax.text(column, row, str(value), ha="center", va="center", fontsize=13, fontweight="bold", color=color)
     ax.set_xticks(range(4), LEVELS)
     ax.set_yticks(range(4), LEVELS)
@@ -188,11 +196,11 @@ def plot_aggregate_changes(pairs: list[tuple[dict[str, object], dict[str, object
 
     fig, ax = plt.subplots(figsize=(9.2, 6.6))
     bars = ax.barh(labels, values, color=colors, alpha=0.9)
-    ax.axvline(0, color="#111827", linewidth=0.9)
+    ax.axvline(0, color=CORES["texto"], linewidth=0.9)
     ax.bar_label(bars, labels=[f"{value:+.3f}" for value in values], padding=4, fontsize=9)
     ax.set_xlim(min(values) - 0.04, max(values) + 0.055)
-    ax.set_xlabel("Variação média (2026 - 2023)")
-    ax.grid(axis="x", color="#D1D5DB", linewidth=0.7, alpha=0.7)
+    ax.set_xlabel("Variação média (2026 – 2023)")
+    ax.grid(axis="x", color=CORES["neutro_claro"], linewidth=0.7, alpha=0.7)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     save(fig, "igovti_comparavel_variacao_agregados_2023_2026.png")
@@ -210,27 +218,18 @@ def plot_largest_changes(pairs: list[tuple[dict[str, object], dict[str, object]]
 
     fig, ax = plt.subplots(figsize=(9.5, 8.2))
     bars = ax.barh(labels, values, color=colors, alpha=0.9)
-    ax.axvline(0, color="#111827", linewidth=0.9)
+    ax.axvline(0, color=CORES["texto"], linewidth=0.9)
     ax.bar_label(bars, labels=[f"{value:+.3f}" for value in values], padding=4, fontsize=9)
     ax.set_xlim(min(values) - 0.06, max(values) + 0.09)
-    ax.set_xlabel("Variação do iGovTI comparável (2026 - 2023)")
-    ax.grid(axis="x", color="#D1D5DB", linewidth=0.7, alpha=0.7)
+    ax.set_xlabel("Variação do iGovTI comparável (2026 – 2023)")
+    ax.grid(axis="x", color=CORES["neutro_claro"], linewidth=0.7, alpha=0.7)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     save(fig, "igovti_comparavel_maiores_variacoes_2023_2026.png")
 
 
 def main() -> None:
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 10,
-            "axes.labelcolor": "#1F2937",
-            "axes.titlecolor": "#111827",
-            "xtick.color": "#374151",
-            "ytick.color": "#374151",
-        }
-    )
+    aplicar_estilo(tamanho_fonte=10)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     pairs = paired_rows()
     plot_distribution(pairs)

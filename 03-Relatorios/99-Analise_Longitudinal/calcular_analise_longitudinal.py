@@ -16,9 +16,13 @@ import argparse
 import hashlib
 import json
 import math
+import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib-igovti-longitudinal")
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,6 +33,14 @@ from openpyxl import load_workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from scipy.stats import PermutationMethod, rankdata, shapiro, ttest_rel, wilcoxon
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "resources"))
+from identidade_visual_graficos import (  # noqa: E402
+    CORES as CORES_BASE,
+    CORES_LONGITUDINAL,
+    aplicar_estilo,
+    legenda_superior,
+    salvar_figura,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -54,15 +66,14 @@ PERMUTACOES_PADRAO = 99_999
 BOOTSTRAPS_PADRAO = 50_000
 
 CORES = {
-    "aumento": "#2F7D32",
-    "reducao": "#B33A3A",
-    "sem_evidencia": "#68737D",
-    "estavel": "#C7CDD1",
-    "ano_2023": "#D59A2F",
-    "cenario_base": "#78B159",
-    "cenario_final": "#1B5E3C",
-    "grade": "#D9DEE2",
-    "texto": "#263238",
+    "aumento": CORES_BASE["positivo"],
+    "reducao": CORES_BASE["negativo"],
+    "sem_evidencia": CORES_BASE["texto_secundario"],
+    "estavel": CORES_BASE["neutro_claro"],
+    "ano_2023": CORES_LONGITUDINAL["2023"],
+    "cenario_base": CORES_LONGITUDINAL["2026_base"],
+    "cenario_final": CORES_LONGITUDINAL["2026_final"],
+    "texto": CORES_BASE["texto"],
 }
 
 
@@ -459,22 +470,11 @@ def analisar_por_grupo(
 
 
 def estilo_graficos() -> None:
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 9.5,
-            "axes.labelcolor": CORES["texto"],
-            "xtick.color": CORES["texto"],
-            "ytick.color": CORES["texto"],
-            "axes.edgecolor": CORES["grade"],
-            "figure.facecolor": "white",
-            "axes.facecolor": "white",
-        }
-    )
+    aplicar_estilo(tamanho_fonte=9.5)
 
 
 def limpar_eixo(ax: plt.Axes, eixo_grade: str = "x") -> None:
-    ax.grid(axis=eixo_grade, color=CORES["grade"], linewidth=0.7, alpha=0.75)
+    ax.grid(axis=eixo_grade, color=CORES_BASE["neutro_claro"], linewidth=0.7, alpha=0.75)
     ax.set_axisbelow(True)
     ax.spines[["top", "right", "left"]].set_visible(False)
     ax.tick_params(axis="y", length=0)
@@ -482,8 +482,7 @@ def limpar_eixo(ax: plt.Axes, eixo_grade: str = "x") -> None:
 
 def salvar(fig: plt.Figure, path: Path) -> None:
     fig.tight_layout()
-    fig.savefig(path, dpi=220, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
+    salvar_figura(fig, path)
 
 
 def grafico_medias_cenarios(comparacao: pd.DataFrame, path: Path) -> None:
@@ -494,7 +493,7 @@ def grafico_medias_cenarios(comparacao: pd.DataFrame, path: Path) -> None:
         ax.plot(
             [linha["media_2023_base"], linha["media_2026_base"], linha["media_2026_final"]],
             [posicao, posicao, posicao],
-            color="#AAB2B8", linewidth=1.8, zorder=1,
+            color=CORES_BASE["neutro"], linewidth=1.8, zorder=1,
         )
     ax.scatter(
         dados["media_2023_base"], y, color=CORES["ano_2023"], marker="o",
@@ -512,13 +511,7 @@ def grafico_medias_cenarios(comparacao: pd.DataFrame, path: Path) -> None:
     colunas = ["media_2023_base", "media_2026_base", "media_2026_final"]
     ax.set_xlim(0, max(0.52, float(dados[colunas].max().max()) + 0.06))
     ax.set_xlabel("Média do indicador (escala de 0 a 1)")
-    ax.legend(
-        frameon=False,
-        ncol=3,
-        loc="lower center",
-        bbox_to_anchor=(0.5, 1.01),
-        borderaxespad=0,
-    )
+    legenda_superior(ax, ncol=3, y=1.02)
     limpar_eixo(ax)
     salvar(fig, path)
 
@@ -538,7 +531,7 @@ def grafico_variacoes_ic(resultados: pd.DataFrame, path: Path, rotulo_cenario: s
         ]
     )
     fig, ax = plt.subplots(figsize=(10.8, 8.2))
-    ax.axvline(0, color="#20262B", linewidth=1.0)
+    ax.axvline(0, color=CORES_BASE["texto"], linewidth=1.0)
     for posicao in range(len(dados)):
         ax.errorbar(
             dados.loc[posicao, "diferenca_media"], posicao,

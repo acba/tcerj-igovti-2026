@@ -57,7 +57,7 @@ toc-title: SUMÁRIO
 
 #### O que o TCE-RJ fiscalizou?
 
-O TCE-RJ realizou auditoria de conformidade, com contornos operacionais, para avaliar a adoção de boas práticas de governança e gestão de TIC nas organizações públicas do Rio de Janeiro, traçar um panorama de maturidade e analisar a evolução em relação ao cenário mensurado em 2023.
+O TCE-RJ realizou auditoria de conformidade, com contornos operacionais, para avaliar a adoção de boas práticas de governança e gestão de TIC nas organizações públicas do Rio de Janeiro, traçar um panorama de maturidade e analisar a evolução em relação ao quadro mensurado em 2023.
 
 A fiscalização abrangeu 119 organizações, sendo 35 prefeituras e 84 organizações estaduais de diferentes poderes e naturezas jurídicas. Destas, 113 concluíram e submeteram resposta válida ao questionário e integraram o cálculo do iGovTI e os achados consolidados. As outras seis não apresentaram resposta válida e foram tratadas separadamente.
 
@@ -67,11 +67,11 @@ Os resultados apresentados neste relatório incorporam os ajustes decorrentes da
 
 #### O que o TCE-RJ encontrou?
 
-A fiscalização constatou cenário de baixa maturidade e fragilidades recorrentes na governança e gestão de TIC fluminense. A média do iGovTI 2026 foi de 0,189 (mediana de 0,136), com 87,6% (99 de 113 respondentes) das organizações nos níveis mais baixos (53,1% Inexpressivo e 34,5% Iniciando). Apenas 9 atingiram o nível Intermediário e 5 alcançaram o nível Aprimorado.
+A fiscalização constatou um estado de baixa maturidade e fragilidades recorrentes na governança e gestão de TIC fluminense. A média do iGovTI 2026 foi de 0,189 (mediana de 0,136), com 87,6% (99 de 113 respondentes) das organizações nos níveis mais baixos (53,1% Inexpressivo e 34,5% Iniciando). Apenas 9 atingiram o nível Intermediário e 5 alcançaram o nível Aprimorado.
 
 As organizações estaduais apresentaram média de 0,220 no iGovTI, enquanto os municípios registraram 0,120. Observou-se, ainda, que instrumentos formais, como política de segurança da informação e plano de TIC, estão relativamente mais disseminados do que práticas contínuas de monitoramento e controle.
 
-Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados não permitem afirmar que ocorreu melhora ou piora geral. A Estrutura de Segurança da Informação foi o único componente com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
+Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados considerando as avaliações não permitem afirmar que ocorreu melhora ou piora geral. A Estrutura de Segurança da Informação foi o único componente com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
 
 [^comparacao_longitudinal_cenarios]: Em 2026, foram solicitadas e avaliadas evidências para todas as práticas passíveis de comprovação. Em 2023, embora também tenha havido análise pela equipe, a exigência de anexos e o exame direto abrangeram conjunto menor de práticas. O cenário final de 2026 possui, portanto, maior grau de verificação. O cenário-base aproxima a comparação das respostas declaradas, mas não comprova, por si só, a efetiva adoção das práticas. A metodologia, os cálculos e as demais ressalvas constam do Anexo AN11.
 
@@ -96,7 +96,7 @@ Propõe-se comunicar os relatórios individuais às 113 organizações avaliadas
 * **Serviços e Ativos:** instituição de catálogo de serviços, inventário de ativos e gestão de incidentes.
 * **Contratações:** padronização do planejamento das contratações e análise técnica prévia pela área de TIC.
 
-Propõem-se, ainda, a abertura de processos apartados para apurar, de forma individualizada, as circunstâncias da ausência de resposta válida das seis organizações, inclusive a resposta parcial da EMOP e os esclarecimentos apresentados pela EMOP e pela SESP, a comunicação das unidades de controle interno para acompanhamento dos planos de ação e o arquivamento do processo após as comunicações.
+Propõem-se, ainda, a abertura de processos apartados para apurar, de forma individualizada, as circunstâncias da ausência de resposta válida das seis organizações, a comunicação das unidades de controle interno para acompanhamento dos planos de ação e o arquivamento do processo após as comunicações.
 
 Os benefícios esperados da adoção dessas medidas incluem o fortalecimento da governança e da gestão de TIC, o aprimoramento do planejamento, da capacidade institucional, da gestão de serviços e das contratações e a elevação gradual do nível de maturidade das organizações avaliadas.  A melhoria dessas capacidades contribuem para uma maior continuidade, confiabilidade e eficiência dos serviços públicos em âmbito geral.
 
@@ -143,7 +143,7 @@ A questão geral foi desdobrada em uma questão descritiva e seis questões norm
 
 Adicionalmente, foram realizadas duas análises complementares. A primeira examinou a evolução do grau de adoção das práticas de governança e gestão de TIC em relação à fiscalização de 2023, considerando as organizações e práticas comparáveis nos dois ciclos. A segunda apresentou um panorama descritivo da utilização institucional de inteligência artificial e dos controles relacionados ao seu uso pelas organizações avaliadas.
 
-A Seção 4.1 responde à questão descritiva, enquanto cada uma das seis questões normativas corresponde ao achado de mesmo número apresentado na Seção 4.3. As análises complementares sobre a evolução do iGovTI e o cenário de utilização de inteligência artificial são apresentadas, respectivamente, nas Seções 4.2 e 4.4.
+A Seção 4.1 responde à questão descritiva, enquanto cada uma das seis questões normativas corresponde ao achado de mesmo número apresentado na Seção 4.3. As análises complementares sobre a evolução do iGovTI e o panorama de utilização de inteligência artificial são apresentadas, respectivamente, nas Seções 4.2 e 4.4.
 
 O escopo abrangeu 119 organizações, sendo 84 organizações estaduais de diferentes poderes e naturezas jurídicas e 35 prefeituras municipais. Desse total, 113 (cento e treze) concluíram e submeteram resposta válida ao questionário e foram consideradas nos resultados do iGovTI e nos achados consolidados. As seis organizações sem resposta válida foram tratadas separadamente; a EMOP iniciou o preenchimento, mas não concluiu nem submeteu o questionário. O período de execução dos trabalhos de campo ocorreu entre fevereiro e julho de 2026.
 
@@ -738,7 +738,11 @@ Nos gráficos a seguir, a categoria "Situação encontrada inexistente" represen
 No Achado 1, foram recebidas 52 manifestações: quatro registraram atendimento concluído, 25 informaram providências em curso, 20 reconheceram a situação sem medida adotada e três discordaram dos apontamentos. A taxa de discordância foi de 5,8%, a menor entre os seis achados. As discordâncias se referiram ao posicionamento organizacional da área de TIC e à suficiência de suas atribuições formais.
 
 ![Manifestações sobre as situações encontradas do Achado 1](../99-Avaliacao_Comentarios_Gestor/img/achado-1-situacoes.png){#fig:comentarios_gestor_achado_1#}
+
+[^situacoes_figura_21]
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+[^situacoes_figura_21]: Descrições integrais: (1) Ausência de área, unidade, setor ou função de TIC formalmente instituída; (2) Posicionamento organizacional inadequado da área de TIC; e (3) Área de TIC sem atribuições formais suficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC.
 
 Os atos normativos, organogramas, regimentos, portarias e documentos equivalentes eventualmente apresentados devem demonstrar, de forma conjugada, a formalização da função de TIC, a suficiência de suas atribuições e a adequação de seu posicionamento. Providências futuras ou planos ainda não implementados evidenciam compromisso de aprimoramento, mas não afastam, por si só, as situações apuradas com base nas informações e nos documentos apresentados pelas organizações até 16/07/2026.
 
@@ -747,7 +751,11 @@ Os atos normativos, organogramas, regimentos, portarias e documentos equivalente
 No Achado 2, foram recebidas 148 manifestações, das quais 124 expressaram concordância e 24 discordância (16,2%). A situação relativa ao Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva apresentou a maior taxa de discordância do achado: seis de 15 manifestações (40,0%). A não instituição formal do comitê recebeu 11 discordâncias em 60 manifestações (18,3%).
 
 ![Manifestações sobre as situações encontradas do Achado 2](../99-Avaliacao_Comentarios_Gestor/img/achado-2-situacoes.png){#fig:comentarios_gestor_achado_2#}
+
+[^situacoes_figura_22]
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+[^situacoes_figura_22]: Descrições integrais: (1) Comitê de TIC ou instância equivalente não instituído formalmente; (2) Comitê de TIC ou instância equivalente sem evidências suficientes de atuação efetiva; e (3) Modelo básico de governança e gestão de TIC inexistente ou insuficiente quanto a papéis, responsabilidades, objetivos, indicadores, metas ou acompanhamento.
 
 A análise técnica distinguiu a existência formal dos mecanismos de governança de sua atuação documentalmente demonstrada. Atos de instituição ou designação, desacompanhados de registros de deliberações, priorização, acompanhamento e responsabilização, não comprovaram o funcionamento regular da governança de TIC.
 
@@ -756,7 +764,11 @@ A análise técnica distinguiu a existência formal dos mecanismos de governanç
 No Achado 3, foram recebidas 321 manifestações: oito informaram atendimento concluído, 131 providências em curso, 128 concordância sem medida adotada e 54 discordância (16,8%). As maiores taxas de discordância se referiram ao plano de TIC sem vínculo demonstrado com o orçamento e as contratações, com 17 discordâncias em 75 manifestações (22,7%), e à ausência de aprovação formal do plano, com 12 discordâncias em 63 manifestações (19,0%).
 
 ![Manifestações sobre as situações encontradas do Achado 3](../99-Avaliacao_Comentarios_Gestor/img/achado-3-situacoes.png){#fig:comentarios_gestor_achado_3#}
+
+[^situacoes_figura_23]
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+[^situacoes_figura_23]: Descrições integrais: (1) Ausência de acompanhamento, revisão ou atualização periódica do plano de TIC; (2) Ausência de aprovação formal do plano de TIC; (3) Inexistência ou fragilidade do processo formal de planejamento de TIC; (4) Plano de TIC sem alinhamento adequado ao planejamento institucional; e (5) Plano de TIC sem vínculo demonstrado com orçamento e contratações de TIC.
 
 A existência isolada de documento de planejamento não comprova que o processo esteja formalizado, aprovado, alinhado ao planejamento institucional, integrado ao orçamento e às contratações e periodicamente acompanhado. Planos elaborados ou aprovados após 16/07/2026 podem demonstrar providência corretiva, mas não alteram as situações apuradas com base nas informações e nos documentos apresentados até essa data.
 
@@ -765,7 +777,11 @@ A existência isolada de documento de planejamento não comprova que o processo 
 No Achado 4, foram recebidas 339 manifestações, das quais 305 expressaram concordância e 34 discordância (10,0%). Em 174 manifestações, equivalentes a 51,3% do total do achado, o gestor reconheceu a situação sem indicar medida adotada. A maior taxa de discordância incidiu sobre a situação preliminar relativa à operação terceirizada sem capacidade interna suficiente para coordenar e fiscalizar a TIC, com duas discordâncias em dez manifestações (20,0%). Os quantitativos desta seção retratam as situações constantes dos relatórios preliminares submetidos aos gestores, antes da revisão final dos procedimentos descrita na Seção 5.7.
 
 ![Manifestações sobre as situações encontradas do Achado 4](../99-Avaliacao_Comentarios_Gestor/img/achado-4-situacoes.png){#fig:comentarios_gestor_achado_4#}
+
+[^situacoes_figura_24]
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+[^situacoes_figura_24]: Descrições integrais: (1) A organização não definiu o quantitativo necessário de pessoal de TIC e segurança da informação; (2) Ausência de cargos, funções, perfis ou ocupações específicas de TIC e segurança da informação; (3) Ausência de força de trabalho dedicada à TIC ou à segurança da informação; (4) Dependência externa relevante sem capacidade interna suficiente para coordenar e fiscalizar a TIC; (5) Lacunas de competências dos colaboradores e gestores de TIC e segurança da informação não são identificadas ou tratadas; e (6) Perfis profissionais de TIC e segurança da informação inexistentes, insuficientes ou não utilizados na escolha de gestores.
 
 Os estudos de dimensionamento e os atos de atribuição de cargos ou funções à TIC e à segurança da informação foram examinados quanto à vigência, à abrangência e à aplicação. As alegações de escassez de pessoal, ausência de cargos especializados ou restrição orçamentária contextualizaram as dificuldades enfrentadas, mas não afastaram automaticamente a insuficiência de capacidade institucional.
 
@@ -774,7 +790,11 @@ Os estudos de dimensionamento e os atos de atribuição de cargos ou funções �
 No Achado 5, foram recebidas 375 manifestações: uma informou atendimento concluído, 156 providências em curso, 158 concordância sem medida adotada e 60 discordância (16,0%). A situação relativa à inexistência ou fragilidade do inventário de ativos de TIC concentrou 17 discordâncias em 73 manifestações (23,3%). Nas demais situações do achado, as taxas de discordância variaram de 13,3% a 14,9%.
 
 ![Manifestações sobre as situações encontradas do Achado 5](../99-Avaliacao_Comentarios_Gestor/img/achado-5-situacoes.png){#fig:comentarios_gestor_achado_5#}
+
+[^situacoes_figura_25]
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+[^situacoes_figura_25]: Descrições integrais: (1) Ausência ou fragilidade do processo de gestão de configuração; (2) Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC; (3) Inexistência ou fragilidade do inventário de ativos de TIC; (4) Inexistência ou fragilidade do processo de gestão de incidentes de TIC; e (5) Inexistência ou insuficiência do catálogo de serviços de TIC.
 
 Os catálogos de serviços, inventários, registros de configuração, definições de níveis de serviço e registros de incidentes foram examinados quanto à formalização, à atualização, à abrangência e ao uso regularmente demonstrado. Relações incompletas de ativos, controles informais ou documentos sem data e responsabilidade definida foram avaliados com cautela, pois podem demonstrar atividade parcial sem comprovar o processo requerido.
 
@@ -783,7 +803,11 @@ Os catálogos de serviços, inventários, registros de configuração, definiç�
 No Achado 6, foram recebidas 236 manifestações: cinco informaram atendimento concluído, 79 providências em curso, 91 concordância sem medida adotada e 61 discordância (25,8%). Foi a maior proporção de discordâncias entre os seis achados. As situações mais contestadas foram as contratações sem análise prévia e aprovação técnica obrigatória da área de TIC, com 19 discordâncias em 59 manifestações (32,2%); as contratações sem alinhamento demonstrado ao planejamento de TIC e ao Plano de Contratações Anual, com 20 em 75 (26,7%); e a inexistência ou fragilidade de processo formal e padronizado para contratações de TIC, com 18 em 70 (25,7%).
 
 ![Manifestações sobre as situações encontradas do Achado 6](../99-Avaliacao_Comentarios_Gestor/img/achado-6-situacoes.png){#fig:comentarios_gestor_achado_6#}
+
+[^situacoes_figura_26]
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+[^situacoes_figura_26]: Descrições integrais: (1) Contratações de TIC sem alinhamento demonstrado ao planejamento de TIC, ao plano de contratações ou à proposta orçamentária; (2) Contratações de TIC sem análise prévia e aprovação técnica obrigatória da área de TIC; (3) Contratações de TIC sem equipe de planejamento formalmente designada e com participação técnica de TIC; e (4) Inexistência ou fragilidade de processo formal e padronizado para contratações de TIC.
 
 A análise das discordâncias verificou se as contratações de TIC foram submetidas a processo padronizado e proporcional ao risco, à complexidade e ao valor, com participação da área técnica e vínculo demonstrado com o planejamento de TIC e o Plano de Contratações Anual. A regularidade formal do procedimento licitatório, isoladamente, não comprovou a suficiência da governança técnica da contratação de TIC.
 
@@ -935,9 +959,9 @@ Os resultados indicam a necessidade de atuação indutora deste Tribunal para pr
 Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes propostas:
 
 1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e do respectivo relatório individual (AN12 a AN124) a cada uma das 113 organizações que apresentaram resposta válida e foram avaliadas, de forma a garantir a ciência efetiva acerca da decisão proferida por esta Corte, **tendo em vista o caráter sigiloso dos anexos individuais, em que cada organização destinatária só deve ter acesso ao seu próprio relatório individual**;
-2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias dos relatórios individuais anexos (AN12 a AN124), nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**. Quanto às recomendações, nos termos do art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, a decisão de não as implementar deverá ser formalmente motivada, com indicação das razões consideradas e, quando cabível, das medidas alternativas destinadas a tratar a situação identificada. **ALERTÁ-LAS** de que o descumprimento injustificado desta determinação, inclusive a ausência de avaliação das recomendações ou de motivação para sua não adoção, poderá sujeitar os responsáveis às sanções previstas no art. 63 da Lei Complementar Estadual nº 63/1990. É desnecessário encaminhar comprovação ou esclarecimentos nos autos deste processo, pois o atendimento poderá ser verificado em auditoria futura desta Corte de Contas.
+2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias dos relatórios individuais anexos (AN12 a AN124), nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-os de que o descumprimento injustificado poderá sujeitar os responsáveis às sanções previstas no art. 63 da Lei Complementar Estadual nº 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, pois o atendimento poderá ser verificado em fiscalizações futuras desta Corte de Contas.
 
-Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao]. Cada uma das 113 organizações avaliadas deverá adaptá-lo às determinações e recomendações constantes de seu próprio relatório individual, indicando medidas, responsáveis e prazos compatíveis com sua realidade institucional.
+Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao].
 
 : Modelo referencial de plano de ação {#tbl:modelo_plano_acao#}
 
@@ -947,7 +971,7 @@ Para orientar a elaboração do plano de ação, apresenta-se o modelo referenci
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-3. **ABERTURA DE PROCESSOS APARTADOS PARA APURAÇÃO INDIVIDUALIZADA DAS CIRCUNSTÂNCIAS DA AUSÊNCIA DE RESPOSTA VÁLIDA E DE EVENTUAL OBSTRUÇÃO OU SONEGAÇÃO DE INFORMAÇÕES**, para cada uma das organizações fiscalizadas que não apresentaram submissão válida ao questionário eletrônico, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa. Na instrução, deverão ser considerados os registros do Anexo AN10, a resposta parcial e o pedido de reabertura apresentados pela EMOP, os esclarecimentos e o Ofício SESP-GABSEC nº 1.067 encaminhados pela SESP e os demais elementos individualizados, avaliando-se, somente se comprovada a conduta correspondente, a incidência do art. 63, incisos V ou VI, da Lei Complementar Estadual nº 63/1990;
+3. **ABERTURA DE PROCESSOS APARTADOS PARA APURAÇÃO DE POSSÍVEL OBSTRUÇÃO À AUDITORIA E DE EVENTUAL OBSTRUÇÃO OU SONEGAÇÃO DE INFORMAÇÕES**, para cada uma das organizações fiscalizadas que não apresentaram submissão válida ao questionário eletrônico, apesar das comunicações e reiterações registradas no Anexo AN10, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa acerca da ausência de resposta válida às solicitações da fiscalização, conduta passível de aplicação de multa, nos termos do art. 63, incisos V e VI, da Lei Complementar Estadual nº 63/1990;
 4. **COMUNICAÇÃO às Unidades de Controle Interno das 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do Relatório Individual da correspondente organização (AN12 a AN124), e acompanhem a elaboração e a execução do respectivo plano de ação, a fim de assegurar seu efetivo cumprimento;
 5. **ARQUIVAMENTO** do presente processo.
 

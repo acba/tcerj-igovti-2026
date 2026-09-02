@@ -379,6 +379,119 @@ def _validar_estilos_notas_rodape(docx_path: Path) -> int:
     return notas_encontradas
 
 
+def _mover_notas_isoladas_para_legendas_figuras(docx_path: Path) -> int:
+    """Move notas declaradas após figuras para suas legendas no DOCX.
+
+    O escritor DOCX do Pandoc omite a legenda quando uma nota de rodapé é
+    inserida diretamente no texto alternativo da imagem. No Markdown, a nota é
+    portanto declarada em um parágrafo isolado logo após a figura. Esta etapa
+    incorpora a referência na legenda, depois de "situações encontradas", e
+    remove o parágrafo intermediário vazio.
+    """
+    with zipfile.ZipFile(docx_path, "r") as entrada:
+        documento = etree.fromstring(entrada.read("word/document.xml"))
+        itens_docx = [(item, entrada.read(item.filename)) for item in entrada.infolist()]
+
+    marcador_legenda = "Manifestações sobre as situações encontradas"
+    ponto_insercao = "situações encontradas"
+    notas_movidas = 0
+
+    for paragrafo_nota in list(documento.findall(f".//{W}p")):
+        referencias = paragrafo_nota.findall(f".//{W}footnoteReference")
+        texto_nota = "".join(
+            no.text or "" for no in paragrafo_nota.findall(f".//{W}t")
+        ).strip()
+        if texto_nota or len(referencias) != 1:
+            continue
+
+        paragrafo_imagem = paragrafo_nota.getprevious()
+        paragrafo_legenda = (
+            paragrafo_imagem.getprevious() if paragrafo_imagem is not None else None
+        )
+        if (
+            paragrafo_imagem is None
+            or paragrafo_legenda is None
+            or paragrafo_imagem.find(f".//{W}drawing") is None
+        ):
+            continue
+
+        texto_legenda = "".join(
+            no.text or "" for no in paragrafo_legenda.findall(f".//{W}t")
+        )
+        if marcador_legenda not in texto_legenda:
+            continue
+
+        no_texto = next(
+            (
+                no
+                for no in paragrafo_legenda.findall(f".//{W}t")
+                if ponto_insercao in (no.text or "")
+            ),
+            None,
+        )
+        if no_texto is None:
+            continue
+
+        texto_original = no_texto.text or ""
+        posicao = texto_original.index(ponto_insercao) + len(ponto_insercao)
+        prefixo, sufixo = texto_original[:posicao], texto_original[posicao:]
+        no_texto.text = prefixo
+
+        run_legenda = no_texto.getparent()
+        run_referencia = referencias[0].getparent()
+        paragrafo_nota.remove(run_referencia)
+
+        indice_run = paragrafo_legenda.index(run_legenda)
+        paragrafo_legenda.insert(indice_run + 1, run_referencia)
+        if sufixo:
+            run_sufixo = etree.Element(f"{W}r")
+            propriedades = run_legenda.find(f"{W}rPr")
+            if propriedades is not None:
+                run_sufixo.append(deepcopy(propriedades))
+            texto_sufixo = etree.SubElement(run_sufixo, f"{W}t")
+            texto_sufixo.set(
+                "{http://www.w3.org/XML/1998/namespace}space",
+                "preserve",
+            )
+            texto_sufixo.text = sufixo
+            paragrafo_legenda.insert(indice_run + 2, run_sufixo)
+
+        paragrafo_nota.getparent().remove(paragrafo_nota)
+        notas_movidas += 1
+
+    if not notas_movidas:
+        return 0
+
+    with tempfile.NamedTemporaryFile(
+        suffix=".docx",
+        dir=docx_path.parent,
+        delete=False,
+    ) as arquivo_temporario:
+        caminho_temporario = Path(arquivo_temporario.name)
+
+    try:
+        with zipfile.ZipFile(
+            caminho_temporario,
+            "w",
+            compression=zipfile.ZIP_DEFLATED,
+        ) as saida:
+            for item, dados in itens_docx:
+                if item.filename == "word/document.xml":
+                    dados = etree.tostring(
+                        documento,
+                        xml_declaration=True,
+                        encoding="UTF-8",
+                        standalone=True,
+                    )
+                saida.writestr(item, dados)
+        os.replace(caminho_temporario, docx_path)
+    finally:
+        if caminho_temporario.exists():
+            caminho_temporario.unlink()
+
+    return notas_movidas
+
+
 def _configurar_faixas_horizontais_tabelas(documento) -> int:
     """Mantém faixas horizontais e desativa faixas verticais nas tabelas."""
     from docx.oxml import OxmlElement
@@ -860,6 +973,13 @@ def main() -> int:
                 outputfile=str(output_path),
                 extra_args=extra_args
             )
+
+            notas_em_legendas = _mover_notas_isoladas_para_legendas_figuras(output_path)
+            if notas_em_legendas:
+                logger.info(
+                    "%d notas de rodapé vinculadas às legendas das figuras.",
+                    notas_em_legendas,
+                )
 
             logger.info("Aplicando estilos de tabela pós-conversão no DOCX...")
             aplicar_estilo_tabelas(str(output_path))

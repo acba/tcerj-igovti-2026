@@ -40,6 +40,18 @@ from igovti_dados_utils import (
     carregar_resultados_2026,
     consolidar_pareamentos,
 )
+from identidade_visual_graficos import (
+    CORES,
+    CORES_MATURIDADE,
+    CORES_LONGITUDINAL,
+    CORES_ESFERAS,
+    DPI_PADRAO,
+    PALETA_CATEGORICA,
+    aplicar_estilo,
+    cor_texto_contraste,
+    legenda_superior,
+    salvar_figura,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -54,18 +66,13 @@ DEFAULT_OUTPUT_ROOT = Path(tempfile.gettempdir()) / "tcerj-igovti-2026"
 CONSOLIDATED_IMG = DEFAULT_OUTPUT_ROOT / "relatorio-consolidado/img"
 INDIVIDUAL_IMG = DEFAULT_OUTPUT_ROOT / "relatorios-individuais/img"
 
-DPI = 300
+DPI = DPI_PADRAO
 SKIP_EXISTING = False
 WORKER_RESULTS: pd.DataFrame | None = None
 WORKER_RAW_BY_KEY: pd.DataFrame | None = None
 WORKER_PAIRS_BY_KEY: dict[str, dict[str, object]] | None = None
 LEVELS = ["Inexpressivo", "Iniciando", "Intermediário", "Aprimorado"]
-LEVEL_COLORS = {
-    "Inexpressivo": "#B22222",  # firebrick
-    "Iniciando": "#FFA500",     # orange
-    "Intermediário": "#9ACD32", # yellowgreen
-    "Aprimorado": "#228B22",    # forestgreen
-}
+LEVEL_COLORS = CORES_MATURIDADE
 LEVEL_BOUNDS = [0.0, 0.15, 0.40, 0.70, 1.0]
 
 COMPONENTS = {
@@ -74,8 +81,8 @@ COMPONENTS = {
     "iGestTI": "Gestão de TIC",
 }
 DIMENSIONS = {
-    "PlanejamentoTI": "Planejamento de TI",
-    "ServicosTI": "Gestão de Serviços",
+    "PlanejamentoTI": "Planejamento de TIC",
+    "ServicosTI": "Gestão de serviços",
     "RiscosTISegInfo": "Riscos e segurança",
     "EstruturaSegInfo": "Estrutura de segurança",
     "ProcessoSegInfo": "Processos de segurança",
@@ -108,7 +115,7 @@ QUESTION_GROUPS = {
 }
 WORKFORCE_LINKS = ["efetivos", "comissionados", "terceirizados", "cedidos", "temporarios", "estagiarios"]
 WORKFORCE_LABELS = ["Efetivos", "Comissionados", "Terceirizados", "Cedidos", "Temporários", "Estagiários"]
-WORKFORCE_COLORS = ["#3B6EA8", "#7556A5", "#D59A2F", "#167D8D", "#B64B5A", "#6B7280"]
+WORKFORCE_COLORS = list(PALETA_CATEGORICA)
 
 RESPONSE_ORDER = [
     "Não adota",
@@ -120,27 +127,14 @@ RESPONSE_ORDER = [
 ]
 RESPONSE_COLORS = {
     "Não adota": LEVEL_COLORS["Inexpressivo"],
-    "Há decisão formal": "#D2691E",
+    "Há decisão formal": CORES["laranja"],
     "Adota em menor parte": LEVEL_COLORS["Iniciando"],
     "Adota parcialmente": LEVEL_COLORS["Intermediário"],
     "Adota em maior parte ou totalmente": LEVEL_COLORS["Aprimorado"],
-    "Não se aplica": "#9CA3AF",
+    "Não se aplica": CORES["neutro"],
 }
 def configure_style() -> None:
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 10,
-            "axes.labelcolor": "#1F2937",
-            "axes.titlecolor": "#111827",
-            "axes.edgecolor": "#9CA3AF",
-            "xtick.color": "#374151",
-            "ytick.color": "#374151",
-            "figure.facecolor": "white",
-            "axes.facecolor": "white",
-            "savefig.dpi": DPI,
-        }
-    )
+    aplicar_estilo(tamanho_fonte=10)
 
 
 def normalize_id(value: object) -> str:
@@ -315,7 +309,7 @@ def load_pairs(
 def clean_axis(ax: plt.Axes, grid_axis: str = "y") -> None:
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    ax.grid(axis=grid_axis, color="#D1D5DB", linewidth=0.7, alpha=0.7)
+    ax.grid(axis=grid_axis, color=CORES["neutro_claro"], linewidth=0.7, alpha=0.7)
     ax.set_axisbelow(True)
 
 
@@ -333,8 +327,7 @@ def save(fig: plt.Figure, path: Path) -> None:
     if SKIP_EXISTING and path.exists():
         plt.close(fig)
         return
-    fig.savefig(path, dpi=DPI, bbox_inches="tight", facecolor="white", metadata={"Software": "TCE-RJ iGovTI 2026"})
-    plt.close(fig)
+    salvar_figura(fig, path, dpi=DPI)
 
 
 def save_shared(fig: plt.Figure, filename: str) -> None:
@@ -350,11 +343,23 @@ def individual_output(sigla: object, filename: str) -> Path:
     return INDIVIDUAL_IMG / str(sigla) / filename
 
 
-def maturity_legend(ax: plt.Axes, location: str = "upper center", extra_handles: list | None = None) -> None:
-    handles = [Patch(facecolor=LEVEL_COLORS[level], label=level) for level in LEVELS]
+def maturity_legend(
+    ax: plt.Axes,
+    location: str = "upper center",
+    extra_handles: list | None = None,
+    *,
+    representa_fundo: bool = False,
+) -> None:
+    handles = [
+        Patch(
+            facecolor=LEVEL_COLORS[level],
+            label=f"Faixa {level}" if representa_fundo else level,
+        )
+        for level in LEVELS
+    ]
     if extra_handles:
         handles.extend(extra_handles)
-    ax.legend(handles=handles, ncol=min(len(handles), 4), loc=location, bbox_to_anchor=(0.5, 1.12), frameon=False)
+    legenda_superior(ax, handles=handles, ncol=min(len(handles), 4), y=1.02)
 
 
 def plot_maturity_distribution(results: pd.DataFrame) -> None:
@@ -380,8 +385,8 @@ def plot_continuous_distribution(results: pd.DataFrame) -> None:
         ax.bar(center, count, width=(right - left) * 0.92, color=color, edgecolor="white")
         if count:
             ax.text(center, count + 0.35, f"{count}", ha="center", va="bottom", fontsize=8)
-    ax.axvline(values.mean(), color="#111827", linestyle="--", linewidth=1.2, label=f"Média: {values.mean():.3f}")
-    ax.axvline(np.median(values), color="#3B6EA8", linestyle=":", linewidth=1.5, label=f"Mediana: {np.median(values):.3f}")
+    ax.axvline(values.mean(), color=CORES["texto"], linestyle="--", linewidth=1.2, label=f"Média: {values.mean():.3f}")
+    ax.axvline(np.median(values), color=CORES["azul_medio"], linestyle=":", linewidth=1.5, label=f"Mediana: {np.median(values):.3f}")
     ax.set_xlim(0, 1)
     ax.set_xlabel("iGovTI 2026")
     ax.set_ylabel("Número de organizações")
@@ -394,21 +399,21 @@ def plot_continuous_distribution(results: pd.DataFrame) -> None:
 def plot_component_distribution(results: pd.DataFrame) -> None:
     series = [results[key].astype(float).to_numpy() for key in COMPONENTS]
     positions = np.arange(1, len(series) + 1)
-    colors = ["#3B6EA8", "#D59A2F", "#167D8D"]
+    colors = ["#7556A5", CORES["laranja"], CORES["azul_institucional"]]
     fig, ax = plt.subplots(figsize=(9.2, 5))
     box = ax.boxplot(series, positions=positions, widths=0.48, patch_artist=True, showfliers=False,
-                     medianprops={"color": "#111827", "linewidth": 1.8})
+                     medianprops={"color": CORES["texto"], "linewidth": 1.8})
     for patch, color in zip(box["boxes"], colors):
         patch.set_facecolor(color); patch.set_alpha(0.75)
     rng = np.random.default_rng(2026)
     for position, values, color in zip(positions, series, colors):
         ax.scatter(position + rng.normal(0, 0.055, len(values)), values, s=15, color=color, alpha=0.33, linewidth=0)
-        ax.scatter(position, np.mean(values), marker="D", s=46, color="white", edgecolor="#111827", zorder=5)
-    add_maturity_background(ax, orientation="horizontal", alpha=0.055)
+        ax.scatter(position, np.mean(values), marker="D", s=46, color="white", edgecolor=CORES["texto"], zorder=5)
+    add_maturity_background(ax, orientation="horizontal", alpha=0.12)
     ax.set_xticks(positions, COMPONENTS.values())
     ax.set_ylim(0, 1)
     ax.set_ylabel("Resultado")
-    maturity_legend(ax)
+    maturity_legend(ax, representa_fundo=True)
     clean_axis(ax)
     save_shared(fig, "igovti_2026_distribuicao_componentes.png")
 
@@ -419,7 +424,7 @@ def plot_governance_management(results: pd.DataFrame) -> None:
     colors = [LEVEL_COLORS[maturity(value)] for value in results["iGovTI"].astype(float)]
     fig, ax = plt.subplots(figsize=(8.2, 7.2))
     ax.scatter(x, y, c=colors, s=42, alpha=0.72, edgecolor="white", linewidth=0.45)
-    ax.plot([0, 1], [0, 1], color="#4B5563", linestyle="--", linewidth=1, label="Governança = gestão")
+    ax.plot([0, 1], [0, 1], color=CORES["texto_secundario"], linestyle="--", linewidth=1, label="Governança = gestão")
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("Governança de TIC"); ax.set_ylabel("Gestão de TIC")
     comparison_handles, _ = ax.get_legend_handles_labels()
@@ -434,18 +439,27 @@ def plot_dimension_distribution(results: pd.DataFrame) -> None:
     positions = np.arange(1, len(values) + 1)
     fig, ax = plt.subplots(figsize=(10.5, 5))
     box = ax.boxplot(values, positions=positions, orientation="horizontal", widths=0.55, patch_artist=True, showfliers=False,
-                     medianprops={"color": "#111827", "linewidth": 1.7})
-    for patch, key in zip(box["boxes"], keys):
-        color = LEVEL_COLORS[maturity(float(results[key].mean()))]
-        patch.set_facecolor(color); patch.set_alpha(0.72)
+                     medianprops={"color": CORES["texto"], "linewidth": 1.7})
+    for patch in box["boxes"]:
+        patch.set_facecolor(CORES["azul_medio"]); patch.set_alpha(0.72)
+    rng = np.random.default_rng(2026)
     for position, key, series in zip(positions, keys, values):
         mean = float(np.mean(series))
-        ax.scatter(mean, position, marker="D", s=45, color="white", edgecolor="#111827", zorder=5)
-        ax.text(mean + 0.018, position + 0.19, f"média {mean:.3f}", fontsize=8)
-    add_maturity_background(ax, alpha=0.055)
+        ax.scatter(
+            series,
+            position + rng.normal(0, 0.055, len(series)),
+            s=14,
+            color=CORES["azul_medio"],
+            alpha=0.28,
+            linewidth=0,
+            zorder=3,
+        )
+        ax.scatter(mean, position, marker="D", s=45, color="white", edgecolor=CORES["texto"], zorder=5)
+        ax.text(mean + 0.018, position + 0.34, f"média {mean:.3f}", fontsize=8, zorder=6)
+    add_maturity_background(ax, alpha=0.12)
     ax.set_yticks(positions, DIMENSIONS.values()); ax.set_xlim(0, 1)
     ax.set_xlabel("Resultado")
-    maturity_legend(ax)
+    maturity_legend(ax, representa_fundo=True)
     clean_axis(ax, grid_axis="x")
     save_shared(fig, "igovti_2026_distribuicao_dimensoes_gestao.png")
 
@@ -464,7 +478,8 @@ def plot_dimension_maturity(results: pd.DataFrame) -> None:
         for bar, value in zip(bars, values):
             if value >= 5:
                 ax.text(bar.get_x() + bar.get_width() / 2, bar.get_y() + bar.get_height() / 2,
-                        f"{value:.1f}%", ha="center", va="center", fontsize=8)
+                        f"{value:.1f}%", ha="center", va="center", fontsize=8,
+                        color=cor_texto_contraste(LEVEL_COLORS[level]))
         left += values
     ax.set_yticks(y, DIMENSIONS.values()); ax.set_xlim(0, 100)
     ax.set_xlabel("Percentual de organizações")
@@ -483,7 +498,7 @@ def plot_dimension_success(results: pd.DataFrame) -> None:
     y = np.arange(len(values))
     percentages = [item[0] for item in values]
     colors = [LEVEL_COLORS[maturity(value / 100)] for value in percentages]
-    ax.hlines(y, 0, percentages, color="#9CA3AF", linewidth=1.4)
+    ax.hlines(y, 0, percentages, color=CORES["neutro"], linewidth=1.4)
     ax.scatter(percentages, y, s=120, color=colors, zorder=3)
     for pos, value in zip(y, percentages):
         ax.text(value + 1.5, pos, f"{value:.1f}%", va="center", fontweight="bold")
@@ -562,10 +577,17 @@ def plot_comparable_distribution(pairs: list[dict[str, object]]) -> None:
     new = np.array([safe_float(pair["new"]["iGovTI"]) for pair in pairs])
     fig, ax = plt.subplots(figsize=(8.8, 5.8))
     for before, after in zip(old, new):
-        ax.plot([1, 2], [before, after], color="#228B22" if after >= before else "#B22222", alpha=0.18, linewidth=0.9)
+        ax.plot(
+            [1, 2],
+            [before, after],
+            color=CORES["positivo"] if after >= before else CORES["negativo"],
+            alpha=0.18,
+            linewidth=0.9,
+        )
     box = ax.boxplot([old, new], positions=[1, 2], widths=0.42, patch_artist=True, showfliers=False,
-                     medianprops={"color": "#111827", "linewidth": 1.8})
-    box["boxes"][0].set(facecolor="#D59A2F", alpha=0.75); box["boxes"][1].set(facecolor="#167D8D", alpha=0.75)
+                     medianprops={"color": CORES["texto"], "linewidth": 1.8})
+    box["boxes"][0].set(facecolor=CORES_LONGITUDINAL["2023"], alpha=0.75)
+    box["boxes"][1].set(facecolor=CORES_LONGITUDINAL["2026_final"], alpha=0.75)
     ax.set_xticks([1, 2], ["2023", "2026"]); ax.set_ylim(0, 1); ax.set_ylabel("iGovTI comparável")
     clean_axis(ax)
     save_shared(fig, "igovti_comparavel_distribuicao_2023_2026.png")
@@ -605,10 +627,10 @@ def plot_aggregate_changes(pairs: list[dict[str, object]]) -> None:
     changes.sort()
     fig, ax = plt.subplots(figsize=(10.2, 6.8))
     bars = ax.barh([label for _, label in changes], [value for value, _ in changes],
-                   color=["#228B22" if value >= 0 else "#B22222" for value, _ in changes])
-    ax.axvline(0, color="#111827", linewidth=0.9)
+                   color=[CORES["positivo"] if value >= 0 else CORES["negativo"] for value, _ in changes])
+    ax.axvline(0, color=CORES["texto"], linewidth=0.9)
     ax.bar_label(bars, labels=[f"{value:+.3f}" for value, _ in changes], padding=4)
-    ax.set_xlabel("Variação média (2026 - 2023)")
+    ax.set_xlabel("Variação média (2026 – 2023)")
     clean_axis(ax, grid_axis="x")
     save_shared(fig, "igovti_comparavel_variacao_agregados_2023_2026.png")
 
@@ -618,8 +640,8 @@ def plot_largest_changes(pairs: list[dict[str, object]]) -> None:
     selected = changes[:10] + changes[-10:]
     fig, ax = plt.subplots(figsize=(10.2, 8.6))
     bars = ax.barh([label for _, label in selected], [value for value, _ in selected],
-                   color=["#228B22" if value >= 0 else "#B22222" for value, _ in selected])
-    ax.axvline(0, color="#111827", linewidth=0.9)
+                   color=[CORES["positivo"] if value >= 0 else CORES["negativo"] for value, _ in selected])
+    ax.axvline(0, color=CORES["texto"], linewidth=0.9)
     ax.bar_label(bars, labels=[f"{value:+.3f}" for value, _ in selected], padding=4)
     ax.set_xlabel("Variação do iGovTI comparável")
     clean_axis(ax, grid_axis="x")
@@ -631,9 +653,25 @@ def plot_all_evolution(pairs: list[dict[str, object]]) -> None:
     fig, ax = plt.subplots(figsize=(10.8, 7.4))
     for pair in ordered:
         old = safe_float(pair["old"]["iGovTI"]); new = safe_float(pair["new"]["iGovTI"])
-        ax.plot([0, 1], [old, new], color="#228B22" if new >= old else "#B22222", alpha=0.38, linewidth=1.1)
-    ax.scatter(np.zeros(len(ordered)), [safe_float(pair["old"]["iGovTI"]) for pair in ordered], color="#D59A2F", s=20)
-    ax.scatter(np.ones(len(ordered)), [safe_float(pair["new"]["iGovTI"]) for pair in ordered], color="#167D8D", s=20)
+        ax.plot(
+            [0, 1],
+            [old, new],
+            color=CORES["positivo"] if new >= old else CORES["negativo"],
+            alpha=0.38,
+            linewidth=1.1,
+        )
+    ax.scatter(
+        np.zeros(len(ordered)),
+        [safe_float(pair["old"]["iGovTI"]) for pair in ordered],
+        color=CORES_LONGITUDINAL["2023"],
+        s=20,
+    )
+    ax.scatter(
+        np.ones(len(ordered)),
+        [safe_float(pair["new"]["iGovTI"]) for pair in ordered],
+        color=CORES_LONGITUDINAL["2026_final"],
+        s=20,
+    )
     ax.set_xticks([0, 1], ["2023", "2026"]); ax.set_xlim(-0.15, 1.15); ax.set_ylim(0, 1)
     ax.set_ylabel("iGovTI comparável")
     clean_axis(ax)
@@ -646,17 +684,18 @@ def plot_group_comparison(pairs: list[dict[str, object]]) -> None:
     fig, ax = plt.subplots(figsize=(8.8, 5.8))
     try:
         box = ax.boxplot(deltas, tick_labels=[f"{group}\n(n={len(values)})" for group, values in zip(groups, deltas)],
-                         patch_artist=True, showfliers=False, medianprops={"color": "#111827", "linewidth": 1.7})
+                         patch_artist=True, showfliers=False, medianprops={"color": CORES["texto"], "linewidth": 1.7})
     except TypeError:
         box = ax.boxplot(deltas, labels=[f"{group}\n(n={len(values)})" for group, values in zip(groups, deltas)],
-                         patch_artist=True, showfliers=False, medianprops={"color": "#111827", "linewidth": 1.7})
-    for patch, color in zip(box["boxes"], ["#167D8D", "#D59A2F"]):
+                         patch_artist=True, showfliers=False, medianprops={"color": CORES["texto"], "linewidth": 1.7})
+    cores_grupos = [CORES_ESFERAS["Estadual"], CORES_ESFERAS["Municipal"]]
+    for patch, color in zip(box["boxes"], cores_grupos):
         patch.set_facecolor(color); patch.set_alpha(0.72)
     rng = np.random.default_rng(2026)
-    for position, values, color in zip([1, 2], deltas, ["#167D8D", "#D59A2F"]):
+    for position, values, color in zip([1, 2], deltas, cores_grupos):
         ax.scatter(position + rng.normal(0, 0.035, len(values)), values, color=color, alpha=0.68, s=28)
         ax.text(position, max(values) + 0.025, f"média {np.mean(values):+.3f}", ha="center", fontweight="bold")
-    ax.axhline(0, color="#111827", linewidth=0.9)
+    ax.axhline(0, color=CORES["texto"], linewidth=0.9)
     ax.set_ylabel("Variação do iGovTI comparável")
     clean_axis(ax)
     save_shared(fig, "igovti_comparavel_estaduais_municipios_2023_2026.png")
@@ -671,7 +710,7 @@ def plot_position_histogram(results: pd.DataFrame, record: pd.Series, key: str, 
         ax.bar(center, count, width=(right - left) * 0.92, color=LEVEL_COLORS[maturity(center)], edgecolor="white")
     value = safe_float(record[key]); index = min(max(np.digitize(max(value - 1e-9, 0), bins) - 1, 0), len(counts) - 1)
     center = (edges[index] + edges[index + 1]) / 2
-    ax.scatter(center, counts[index] + 0.5, color="#C1121F", marker="X", s=125, zorder=5, label=f"{record['sigla']}: {value:.3f}")
+    ax.scatter(center, counts[index] + 0.5, color=CORES["negativo"], marker="X", s=125, zorder=5, label=f"{record['sigla']}: {value:.3f}")
     ax.set_xlim(0, 1); ax.set_xlabel(label); ax.set_ylabel("Número de organizações")
     auditado_handles, _ = ax.get_legend_handles_labels()
     maturity_legend(ax, extra_handles=auditado_handles)
@@ -698,9 +737,10 @@ def plot_individual_radar(results: pd.DataFrame, record: pd.Series) -> None:
     medians = [float(results[key].median()) for key in keys]; medians += medians[:1]
     means = [float(results[key].mean()) for key in keys]; means += means[:1]
     fig, ax = plt.subplots(figsize=(8.4, 7.4), subplot_kw={"polar": True})
-    ax.plot(angles, values, color="#167D8D", linewidth=2.2, label=str(record["sigla"])); ax.fill(angles, values, color="#167D8D", alpha=0.16)
-    ax.plot(angles, medians, color="#B64B5A", linewidth=1.4, linestyle="--", label="Mediana geral")
-    ax.plot(angles, means, color="#D59A2F", linewidth=1.4, linestyle=":", label="Média geral")
+    ax.plot(angles, values, color=CORES["azul_institucional"], linewidth=2.2, label=str(record["sigla"]))
+    ax.fill(angles, values, color=CORES["azul_institucional"], alpha=0.16)
+    ax.plot(angles, medians, color=CORES["negativo"], linewidth=1.4, linestyle="--", label="Mediana geral")
+    ax.plot(angles, means, color=CORES["laranja"], linewidth=1.4, linestyle=":", label="Média geral")
     ax.set_xticks(angles[:-1], labels); ax.set_ylim(0, 1); ax.set_yticks([0.15, 0.40, 0.70, 1.0])
     ax.set_yticklabels(["0,15", "0,40", "0,70", "1,00"], fontsize=8)
     ax.legend(loc="upper right", bbox_to_anchor=(1.28, 1.14), frameon=False)
@@ -712,9 +752,9 @@ def plot_individual_bullets(results: pd.DataFrame, record: pd.Series) -> None:
     medians = [float(results[key].median()) for key in keys]
     fig, ax = plt.subplots(figsize=(10.2, 6.2))
     add_maturity_background(ax, alpha=0.10)
-    ax.hlines(y, 0, values, color="#6B7280", linewidth=2)
+    ax.hlines(y, 0, values, color=CORES["texto_secundario"], linewidth=2)
     ax.scatter(values, y, color=[LEVEL_COLORS[maturity(value)] for value in values], s=115, label=str(record["sigla"]), zorder=4)
-    ax.scatter(medians, y, color="#111827", marker="|", s=260, linewidths=2.2, label="Mediana geral", zorder=5)
+    ax.scatter(medians, y, color=CORES["texto"], marker="|", s=260, linewidths=2.2, label="Mediana geral", zorder=5)
     for position, value in zip(y, values): ax.text(value + 0.018, position, f"{value:.3f}", va="center", fontsize=9)
     ax.set_yticks(y, DIMENSIONS.values()); ax.set_xlim(0, 1); ax.set_xlabel("Resultado")
     ax.legend(ncol=2, loc="upper center", bbox_to_anchor=(0.5, 1.10), frameon=False)

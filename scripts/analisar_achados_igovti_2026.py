@@ -31,8 +31,20 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 try:
     from scripts.resources.xlsx_utils import escrever_xlsx_se_diferente
+    from scripts.resources.identidade_visual_graficos import (
+        CORES,
+        aplicar_estilo,
+        legenda_superior,
+        salvar_figura,
+    )
 except ImportError:  # execução direta do arquivo em scripts/
     from resources.xlsx_utils import escrever_xlsx_se_diferente
+    from resources.identidade_visual_graficos import (
+        CORES,
+        aplicar_estilo,
+        legenda_superior,
+        salvar_figura,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -399,9 +411,9 @@ def gerar_graficos(analises: dict[str, object], img_dir: Path) -> None:
     situacoes: pd.DataFrame = analises["situacoes"]  # type: ignore[assignment]
     indicadores: list[str] = analises["indicadores"]  # type: ignore[assignment]
 
-    plt.style.use("seaborn-v0_8-whitegrid")
+    aplicar_estilo(tamanho_fonte=10)
 
-    fig, ax = plt.subplots(figsize=(8, 5), dpi=180)
+    fig, ax = plt.subplots(figsize=(8, 5))
     scatter = ax.scatter(
         base["iGovTI"],
         base["qtd_situacoes"],
@@ -414,16 +426,14 @@ def gerar_graficos(analises: dict[str, object], img_dir: Path) -> None:
     )
     ax.set_xlabel("iGovTI 2026")
     ax.set_ylabel("Quantidade de situações inconformes")
-    ax.set_title("Relação entre iGovTI, situações inconformes e achados")
     colorbar = fig.colorbar(scatter, ax=ax)
     colorbar.set_label("Achados distintos")
     fig.tight_layout()
-    fig.savefig(img_dir / "achados_vs_igovti_2026.png")
-    plt.close(fig)
+    salvar_figura(fig, img_dir / "achados_vs_igovti_2026.png")
 
     cols = ["qtd_achados", "qtd_situacoes", *indicadores]
     corr = base[cols].corr(method="spearman")
-    fig, ax = plt.subplots(figsize=(9, 7), dpi=180)
+    fig, ax = plt.subplots(figsize=(9, 7))
     image = ax.imshow(corr, cmap="RdBu_r", vmin=-1, vmax=1)
     ax.set_xticks(range(len(cols)))
     ax.set_yticks(range(len(cols)))
@@ -432,34 +442,44 @@ def gerar_graficos(analises: dict[str, object], img_dir: Path) -> None:
     for i in range(len(cols)):
         for j in range(len(cols)):
             ax.text(j, i, f"{corr.iloc[i, j]:.2f}", ha="center", va="center", fontsize=6)
-    ax.set_title("Matriz de correlação Spearman")
     fig.colorbar(image, ax=ax, fraction=0.046, pad=0.04)
     fig.tight_layout()
-    fig.savefig(img_dir / "correlacao_achados_notas_igovti_2026.png")
-    plt.close(fig)
+    salvar_figura(fig, img_dir / "correlacao_achados_notas_igovti_2026.png")
 
-    fig, ax = plt.subplots(figsize=(8, 5), dpi=180)
+    fig, ax = plt.subplots(figsize=(8, 5))
     x = np.arange(len(quartis))
     width = 0.35
-    ax.bar(x - width / 2, quartis["media_achados"], width, label="Achados distintos médios", color="#4C78A8")
-    ax.bar(x + width / 2, quartis["media_situacoes"], width, label="Situações inconformes médias", color="#F58518")
+    ax.bar(
+        x - width / 2,
+        quartis["media_achados"],
+        width,
+        label="Achados distintos médios",
+        color=CORES["azul_medio"],
+    )
+    ax.bar(
+        x + width / 2,
+        quartis["media_situacoes"],
+        width,
+        label="Situações inconformes médias",
+        color=CORES["laranja"],
+    )
     ax.set_xticks(x)
     ax.set_xticklabels(quartis["quartil"], rotation=15, ha="right")
     ax.set_ylabel("Média")
-    ax.set_title("Achados e situações inconformes por quartil de iGovTI")
-    ax.legend()
+    legenda_superior(ax, ncol=2, y=1.02)
     fig.tight_layout()
-    fig.savefig(img_dir / "achados_por_quartil_igovti_2026.png")
-    plt.close(fig)
+    salvar_figura(fig, img_dir / "achados_por_quartil_igovti_2026.png")
 
     top = situacoes.head(12).iloc[::-1]
-    fig, ax = plt.subplots(figsize=(8.5, 6.5), dpi=180)
-    ax.barh(top["situacao"].map(lambda texto: "\n".join(re.findall(r".{1,62}(?:\s+|$)", texto))), top["n"], color="#54A24B")
+    fig, ax = plt.subplots(figsize=(8.5, 6.5))
+    ax.barh(
+        top["situacao"].map(lambda texto: "\n".join(re.findall(r".{1,62}(?:\s+|$)", texto))),
+        top["n"],
+        color=CORES["azul_institucional"],
+    )
     ax.set_xlabel("Organizações com a situação")
-    ax.set_title("Situações inconformes mais frequentes")
     fig.tight_layout()
-    fig.savefig(img_dir / "situacoes_mais_frequentes_igovti_2026.png")
-    plt.close(fig)
+    salvar_figura(fig, img_dir / "situacoes_mais_frequentes_igovti_2026.png")
 
 
 def tabela_correlacoes(correlacoes: pd.DataFrame, alvo: str, top: int = 6) -> str:
