@@ -82,18 +82,35 @@ COMPONENTS = {
 }
 DIMENSIONS = {
     "PlanejamentoTI": "Planejamento de TIC",
-    "ServicosTI": "Gestão de serviços",
-    "RiscosTISegInfo": "Riscos e segurança",
-    "EstruturaSegInfo": "Estrutura de segurança",
-    "ProcessoSegInfo": "Processos de segurança",
-    "GerirSoluçõesTI": "Gestão de soluções",
+    "ServicosTI": "Gestão de serviços de TIC",
+    "RiscosTISegInfo": "Riscos de TI e de segurança da informação",
+    "EstruturaSegInfo": "Estrutura de segurança da informação",
+    "ProcessoSegInfo": "Processos de segurança da informação",
+    "GerirSoluçõesTI": "Gestão de soluções de TIC",
+}
+
+# Os gráficos preservam integralmente a nomenclatura metodológica. As quebras de
+# linha têm finalidade apenas tipográfica e não criam rótulos abreviados.
+DIMENSION_PLOT_LABELS = {
+    "PlanejamentoTI": "Planejamento\nde TIC",
+    "ServicosTI": "Gestão de serviços\nde TIC",
+    "RiscosTISegInfo": "Riscos de TI e de\nsegurança da informação",
+    "EstruturaSegInfo": "Estrutura de segurança\nda informação",
+    "ProcessoSegInfo": "Processos de segurança\nda informação",
+    "GerirSoluçõesTI": "Gestão de soluções\nde TIC",
+}
+GOVERNANCE_PRACTICES = {
+    "q1001": "Modelo de gestão",
+    "q1002": "Monitoramento do desempenho",
+    "q1003": "Auditoria interna",
+    "q1004": "Simplificação de serviços",
 }
 QUESTION_LABELS = {
     "PA01": "Q1 - Estrutura de TIC",
     "PA02": "Q2 - Governança e comitê",
     "PA03": "Q3 - Planejamento de TIC",
     "PA04": "Q4 - Capacidade institucional",
-    "PA05": "Q5 - Gestão de serviços",
+    "PA05": "Q5 - Gestão de serviços de TIC",
     "PA06": "Q6 - Contratações de TIC",
 }
 BASE_QUESTIONS = [
@@ -187,6 +204,12 @@ def safe_float(value: object, default: float = 0.0) -> float:
 
 def load_data(results_file: Path = RESULTS_FILE, raw_file: Path = RAW_FILE) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, float]]:
     results = carregar_resultados_2026(results_file)
+    faltantes_governanca = set(GOVERNANCE_PRACTICES) - set(results.columns)
+    if faltantes_governanca:
+        raise ValueError(
+            "A planilha de resultados não contém as práticas de Governança necessárias aos relatórios: "
+            f"{sorted(faltantes_governanca)}. Regenere os artefatos do iGovTI 2026."
+        )
     raw = pd.read_excel(raw_file)
     if "firstname" not in raw.columns:
         raise ValueError(f"A planilha de respostas nao possui a coluna firstname: {raw_file}")
@@ -320,6 +343,20 @@ def add_maturity_background(ax: plt.Axes, orientation: str = "vertical", alpha: 
             ax.axvspan(start, end, color=LEVEL_COLORS[level], alpha=alpha, linewidth=0)
         else:
             ax.axhspan(start, end, color=LEVEL_COLORS[level], alpha=alpha, linewidth=0)
+
+
+def add_maturity_rings(ax: plt.Axes, alpha: float = 0.10) -> None:
+    angles = np.linspace(0, 2 * np.pi, 361)
+    for index, level in enumerate(LEVELS):
+        ax.fill_between(
+            angles,
+            LEVEL_BOUNDS[index],
+            LEVEL_BOUNDS[index + 1],
+            color=LEVEL_COLORS[level],
+            alpha=alpha,
+            linewidth=0,
+            zorder=0,
+        )
 
 
 def save(fig: plt.Figure, path: Path) -> None:
@@ -457,11 +494,51 @@ def plot_dimension_distribution(results: pd.DataFrame) -> None:
         ax.scatter(mean, position, marker="D", s=45, color="white", edgecolor=CORES["texto"], zorder=5)
         ax.text(mean + 0.018, position + 0.34, f"média {mean:.3f}", fontsize=8, zorder=6)
     add_maturity_background(ax, alpha=0.12)
-    ax.set_yticks(positions, DIMENSIONS.values()); ax.set_xlim(0, 1)
+    ax.set_yticks(positions, DIMENSION_PLOT_LABELS.values()); ax.set_xlim(0, 1)
     ax.set_xlabel("Resultado")
     maturity_legend(ax, representa_fundo=True)
     clean_axis(ax, grid_axis="x")
     save_shared(fig, "igovti_2026_distribuicao_dimensoes_gestao.png")
+
+
+def plot_governance_practice_distribution(results: pd.DataFrame) -> None:
+    keys = list(GOVERNANCE_PRACTICES)
+    values = [results[key].astype(float).to_numpy() for key in keys]
+    positions = np.arange(1, len(values) + 1)
+    fig, ax = plt.subplots(figsize=(10.5, 4.8))
+    box = ax.boxplot(
+        values,
+        positions=positions,
+        orientation="horizontal",
+        widths=0.55,
+        patch_artist=True,
+        showfliers=False,
+        medianprops={"color": CORES["texto"], "linewidth": 1.7},
+    )
+    for patch in box["boxes"]:
+        patch.set_facecolor(CORES["laranja"])
+        patch.set_alpha(0.72)
+    rng = np.random.default_rng(2026)
+    for position, series in zip(positions, values):
+        mean = float(np.mean(series))
+        ax.scatter(
+            series,
+            position + rng.normal(0, 0.055, len(series)),
+            s=14,
+            color=CORES["laranja"],
+            alpha=0.28,
+            linewidth=0,
+            zorder=3,
+        )
+        ax.scatter(mean, position, marker="D", s=45, color="white", edgecolor=CORES["texto"], zorder=5)
+        ax.text(mean + 0.018, position + 0.30, f"média {mean:.3f}", fontsize=8, zorder=6)
+    add_maturity_background(ax, alpha=0.12)
+    ax.set_yticks(positions, GOVERNANCE_PRACTICES.values())
+    ax.set_xlim(0, 1)
+    ax.set_xlabel("Resultado")
+    maturity_legend(ax, representa_fundo=True)
+    clean_axis(ax, grid_axis="x")
+    save_shared(fig, "igovti_2026_distribuicao_praticas_governanca.png")
 
 
 def plot_dimension_maturity(results: pd.DataFrame) -> None:
@@ -481,7 +558,7 @@ def plot_dimension_maturity(results: pd.DataFrame) -> None:
                         f"{value:.1f}%", ha="center", va="center", fontsize=8,
                         color=cor_texto_contraste(LEVEL_COLORS[level]))
         left += values
-    ax.set_yticks(y, DIMENSIONS.values()); ax.set_xlim(0, 100)
+    ax.set_yticks(y, DIMENSION_PLOT_LABELS.values()); ax.set_xlim(0, 100)
     ax.set_xlabel("Percentual de organizações")
     ax.legend(ncol=4, loc="upper center", bbox_to_anchor=(0.5, 1.12), frameon=False)
     clean_axis(ax, grid_axis="x")
@@ -490,9 +567,9 @@ def plot_dimension_maturity(results: pd.DataFrame) -> None:
 
 def plot_dimension_success(results: pd.DataFrame) -> None:
     values = []
-    for key, label in DIMENSIONS.items():
+    for key in DIMENSIONS:
         percentage = 100 * (results[key].astype(float) >= 0.40).mean()
-        values.append((percentage, label))
+        values.append((percentage, DIMENSIONS[key], key))
     values.sort()
     fig, ax = plt.subplots(figsize=(9.6, 5.8))
     y = np.arange(len(values))
@@ -502,7 +579,7 @@ def plot_dimension_success(results: pd.DataFrame) -> None:
     ax.scatter(percentages, y, s=120, color=colors, zorder=3)
     for pos, value in zip(y, percentages):
         ax.text(value + 1.5, pos, f"{value:.1f}%", va="center", fontweight="bold")
-    ax.set_yticks(y, [item[1] for item in values]); ax.set_xlim(0, 100)
+    ax.set_yticks(y, [DIMENSION_PLOT_LABELS[key] for _, _, key in values]); ax.set_xlim(0, 100)
     ax.set_xlabel("Organizações nos níveis Intermediário ou Aprimorado")
     clean_axis(ax, grid_axis="x")
     save_shared(fig, "igovti_2026_dimensoes_intermediario_aprimorado.png")
@@ -515,7 +592,7 @@ def plot_dimension_heatmap(results: pd.DataFrame) -> None:
     cmap = LinearSegmentedColormap.from_list("maturity", [LEVEL_COLORS[level] for level in LEVELS], N=256)
     fig, ax = plt.subplots(figsize=(10.5, 8.2))
     image = ax.imshow(matrix, aspect="auto", cmap=cmap, vmin=0, vmax=1, interpolation="nearest")
-    ax.set_xticks(range(len(keys)), [DIMENSIONS[key] for key in keys], rotation=30, ha="right")
+    ax.set_xticks(range(len(keys)), [DIMENSION_PLOT_LABELS[key] for key in keys], rotation=30, ha="right")
     ax.set_yticks([]); ax.set_ylabel("Organizações ordenadas pelo iGovTI")
     colorbar = fig.colorbar(image, ax=ax, shrink=0.84)
     colorbar.set_ticks([0.075, 0.275, 0.55, 0.85], labels=LEVELS)
@@ -533,7 +610,7 @@ def plot_correlation(results: pd.DataFrame) -> None:
             value = matrix[row, column]
             ax.text(column, row, f"{value:.2f}", ha="center", va="center",
                     color="white" if value >= 0.78 else "#111827", fontweight="bold")
-    labels = list(DIMENSIONS.values())
+    labels = list(DIMENSION_PLOT_LABELS.values())
     ax.set_xticks(range(len(keys)), labels, rotation=35, ha="right"); ax.set_yticks(range(len(keys)), labels)
     fig.colorbar(image, ax=ax, label="Correlação de Pearson", shrink=0.82)
     save_shared(fig, "igovti_2026_correlacao_dimensoes_gestao.png")
@@ -701,19 +778,57 @@ def plot_group_comparison(pairs: list[dict[str, object]]) -> None:
     save_shared(fig, "igovti_comparavel_estaduais_municipios_2023_2026.png")
 
 
-def plot_position_histogram(results: pd.DataFrame, record: pd.Series, key: str, filename: str, label: str) -> None:
+def plot_position_histogram(
+    results: pd.DataFrame,
+    record: pd.Series,
+    key: str,
+    filename: str,
+    label: str,
+    *,
+    incluir_estatisticas: bool = False,
+) -> None:
     values = results[key].astype(float).to_numpy(); bins = np.arange(0, 1.0001, 0.05)
     counts, edges = np.histogram(values, bins=bins)
-    fig, ax = plt.subplots(figsize=(9.6, 4.8))
+    fig, ax = plt.subplots(figsize=(9.6, 5.2 if incluir_estatisticas else 4.8))
     for count, left, right in zip(counts, edges[:-1], edges[1:]):
         center = (left + right) / 2
         ax.bar(center, count, width=(right - left) * 0.92, color=LEVEL_COLORS[maturity(center)], edgecolor="white")
+        if incluir_estatisticas and count:
+            ax.text(center, count + 0.35, f"{count}", ha="center", va="bottom", fontsize=8)
+
+    if incluir_estatisticas:
+        media = float(values.mean())
+        mediana = float(np.median(values))
+        ax.axvline(
+            media,
+            color=CORES["texto"],
+            linestyle="--",
+            linewidth=1.2,
+            label=f"Média: {media:.3f}".replace(".", ","),
+        )
+        ax.axvline(
+            mediana,
+            color=CORES["azul_medio"],
+            linestyle=":",
+            linewidth=1.5,
+            label=f"Mediana: {mediana:.3f}".replace(".", ","),
+        )
+
     value = safe_float(record[key]); index = min(max(np.digitize(max(value - 1e-9, 0), bins) - 1, 0), len(counts) - 1)
-    center = (edges[index] + edges[index + 1]) / 2
-    ax.scatter(center, counts[index] + 0.5, color=CORES["negativo"], marker="X", s=125, zorder=5, label=f"{record['sigla']}: {value:.3f}")
+    marker_x = (edges[index] + edges[index + 1]) / 2
+    marker_y = counts[index] + (1.6 if incluir_estatisticas else 0.5)
+    ax.scatter(
+        marker_x,
+        marker_y,
+        color=CORES["negativo"],
+        marker="X",
+        s=125,
+        zorder=5,
+        label=f"{record['sigla']}: {value:.4f}".replace(".", ","),
+    )
     ax.set_xlim(0, 1); ax.set_xlabel(label); ax.set_ylabel("Número de organizações")
-    auditado_handles, _ = ax.get_legend_handles_labels()
-    maturity_legend(ax, extra_handles=auditado_handles)
+    comparison_handles, _ = ax.get_legend_handles_labels()
+    maturity_legend(ax, extra_handles=comparison_handles)
     clean_axis(ax)
     save(fig, individual_output(record["sigla"], filename))
 
@@ -731,12 +846,13 @@ def plot_individual_components(record: pd.Series) -> None:
 
 
 def plot_individual_radar(results: pd.DataFrame, record: pd.Series) -> None:
-    keys = list(DIMENSIONS); labels = list(DIMENSIONS.values()); n = len(keys)
+    keys = list(DIMENSIONS); labels = list(DIMENSION_PLOT_LABELS.values()); n = len(keys)
     angles = np.linspace(0, 2 * np.pi, n, endpoint=False).tolist(); angles += angles[:1]
     values = [safe_float(record[key]) for key in keys]; values += values[:1]
     medians = [float(results[key].median()) for key in keys]; medians += medians[:1]
     means = [float(results[key].mean()) for key in keys]; means += means[:1]
     fig, ax = plt.subplots(figsize=(8.4, 7.4), subplot_kw={"polar": True})
+    add_maturity_rings(ax)
     ax.plot(angles, values, color=CORES["azul_institucional"], linewidth=2.2, label=str(record["sigla"]))
     ax.fill(angles, values, color=CORES["azul_institucional"], alpha=0.16)
     ax.plot(angles, medians, color=CORES["negativo"], linewidth=1.4, linestyle="--", label="Mediana geral")
@@ -745,6 +861,37 @@ def plot_individual_radar(results: pd.DataFrame, record: pd.Series) -> None:
     ax.set_yticklabels(["0,15", "0,40", "0,70", "1,00"], fontsize=8)
     ax.legend(loc="upper right", bbox_to_anchor=(1.28, 1.14), frameon=False)
     save(fig, individual_output(record["sigla"], f"{record['sigla']}_perfil_dimensoes_iGestTI.png"))
+
+
+def plot_individual_governance_radar(results: pd.DataFrame, record: pd.Series) -> None:
+    keys = list(GOVERNANCE_PRACTICES)
+    labels = [
+        "Modelo de\ngestão",
+        "Monitoramento\ndo desempenho",
+        "Auditoria\ninterna",
+        "Simplificação\nde serviços",
+    ]
+    n = len(keys)
+    angles = np.linspace(0, 2 * np.pi, n, endpoint=False).tolist()
+    angles += angles[:1]
+    values = [safe_float(record[key]) for key in keys]
+    values += values[:1]
+    medians = [float(results[key].median()) for key in keys]
+    medians += medians[:1]
+    means = [float(results[key].mean()) for key in keys]
+    means += means[:1]
+    fig, ax = plt.subplots(figsize=(8.4, 7.4), subplot_kw={"polar": True})
+    add_maturity_rings(ax)
+    ax.plot(angles, values, color=CORES["azul_institucional"], linewidth=2.2, label=str(record["sigla"]))
+    ax.fill(angles, values, color=CORES["azul_institucional"], alpha=0.16)
+    ax.plot(angles, medians, color=CORES["negativo"], linewidth=1.4, linestyle="--", label="Mediana geral")
+    ax.plot(angles, means, color=CORES["laranja"], linewidth=1.4, linestyle=":", label="Média geral")
+    ax.set_xticks(angles[:-1], labels)
+    ax.set_ylim(0, 1)
+    ax.set_yticks([0.15, 0.40, 0.70, 1.0])
+    ax.set_yticklabels(["0,15", "0,40", "0,70", "1,00"], fontsize=8)
+    ax.legend(loc="upper right", bbox_to_anchor=(1.28, 1.14), frameon=False)
+    save(fig, individual_output(record["sigla"], f"{record['sigla']}_perfil_praticas_GovernancaTI.png"))
 
 
 def plot_individual_bullets(results: pd.DataFrame, record: pd.Series) -> None:
@@ -756,14 +903,14 @@ def plot_individual_bullets(results: pd.DataFrame, record: pd.Series) -> None:
     ax.scatter(values, y, color=[LEVEL_COLORS[maturity(value)] for value in values], s=115, label=str(record["sigla"]), zorder=4)
     ax.scatter(medians, y, color=CORES["texto"], marker="|", s=260, linewidths=2.2, label="Mediana geral", zorder=5)
     for position, value in zip(y, values): ax.text(value + 0.018, position, f"{value:.3f}", va="center", fontsize=9)
-    ax.set_yticks(y, DIMENSIONS.values()); ax.set_xlim(0, 1); ax.set_xlabel("Resultado")
+    ax.set_yticks(y, DIMENSION_PLOT_LABELS.values()); ax.set_xlim(0, 1); ax.set_xlabel("Resultado")
     ax.legend(ncol=2, loc="upper center", bbox_to_anchor=(0.5, 1.10), frameon=False)
     clean_axis(ax, grid_axis="x")
     save(fig, individual_output(record["sigla"], f"{record['sigla']}_comparacao_dimensoes_iGestTI.png"))
 
 
 def plot_individual_percentiles(results: pd.DataFrame, record: pd.Series) -> None:
-    keys = list(COMPONENTS) + list(DIMENSIONS); labels = list(COMPONENTS.values()) + list(DIMENSIONS.values())
+    keys = list(COMPONENTS) + list(DIMENSIONS); labels = list(COMPONENTS.values()) + list(DIMENSION_PLOT_LABELS.values())
     percentiles = [100 * (results[key].astype(float) <= safe_float(record[key])).mean() for key in keys]
     fig, ax = plt.subplots(figsize=(10.5, 6.8))
     bars = ax.barh(labels, percentiles, color=[LEVEL_COLORS[maturity(value / 100)] for value in percentiles])
@@ -816,6 +963,7 @@ def generate_consolidated(results: pd.DataFrame, raw: pd.DataFrame, profiles: pd
     plot_continuous_distribution(results)
     plot_component_distribution(results)
     plot_governance_management(results)
+    plot_governance_practice_distribution(results)
     plot_dimension_distribution(results)
     plot_dimension_maturity(results)
     plot_dimension_success(results)
@@ -851,17 +999,39 @@ def _generate_one_individual(results: pd.DataFrame, raw_by_key: pd.DataFrame,
     sigla = str(record["sigla"])
     key = str(record["_key"])
     raw_record = raw_by_key.loc[key]
-    plot_position_histogram(results, record, "iGovTI", f"{sigla}_comparativo_distribuicao_iGovTI.png", "iGovTI 2026")
-    plot_position_histogram(results, record, "GovernancaTI", f"{sigla}_comparativo_distribuicao_GovernancaTI.png", "Governança de TIC")
-    plot_position_histogram(results, record, "iGestTI", f"{sigla}_comparativo_distribuicao_iGestTI.png", "Gestão de TIC")
+    plot_position_histogram(
+        results,
+        record,
+        "iGovTI",
+        f"{sigla}_comparativo_distribuicao_iGovTI.png",
+        "iGovTI 2026",
+        incluir_estatisticas=True,
+    )
+    plot_position_histogram(
+        results,
+        record,
+        "GovernancaTI",
+        f"{sigla}_comparativo_distribuicao_GovernancaTI.png",
+        "Governança de TIC",
+        incluir_estatisticas=True,
+    )
+    plot_position_histogram(
+        results,
+        record,
+        "iGestTI",
+        f"{sigla}_comparativo_distribuicao_iGestTI.png",
+        "Gestão de TIC",
+        incluir_estatisticas=True,
+    )
     plot_individual_components(record)
+    plot_individual_governance_radar(results, record)
     plot_individual_radar(results, record)
     plot_individual_bullets(results, record)
     plot_individual_percentiles(results, record)
     pair = pairs_by_key.get(key)
     plot_individual_evolution(record, pair)
     plot_workforce(raw_record, sigla)
-    quantidade = 9 if pair else 8
+    quantidade = 10 if pair else 9
     return sigla, quantidade
 
 

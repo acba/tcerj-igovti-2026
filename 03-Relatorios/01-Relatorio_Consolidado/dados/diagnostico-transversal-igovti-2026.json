@@ -48,6 +48,60 @@
       "GerirSoluçõesTI_mediana": 0.0736082159485815
     }
   ],
+  "diagnostico_praticas_governanca": [
+    {
+      "id": "q1001",
+      "descricao": "Modelo de gestão de TIC",
+      "peso": 0.327403834851957,
+      "media": 0.20594886922320552,
+      "mediana": 0.05,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "zeros_n": 42,
+      "zeros_pct": 37.16814159292036,
+      "abaixo_040_n": 91,
+      "abaixo_040_pct": 80.53097345132744
+    },
+    {
+      "id": "q1002",
+      "descricao": "Monitoramento do desempenho da gestão de TIC",
+      "peso": 0.275682914168293,
+      "media": 0.12688053097345134,
+      "mediana": 0.0,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "zeros_n": 69,
+      "zeros_pct": 61.06194690265486,
+      "abaixo_040_n": 100,
+      "abaixo_040_pct": 88.49557522123894
+    },
+    {
+      "id": "q1003",
+      "descricao": "Atuação da auditoria interna em apoio à governança de TIC",
+      "peso": 0.153597864756459,
+      "media": 0.11924778761061947,
+      "mediana": 0.0,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "zeros_n": 66,
+      "zeros_pct": 58.4070796460177,
+      "abaixo_040_n": 104,
+      "abaixo_040_pct": 92.03539823008849
+    },
+    {
+      "id": "q1004",
+      "descricao": "Simplificação dos serviços públicos",
+      "peso": 0.243315386223291,
+      "media": 0.18628318584070794,
+      "mediana": 0.05,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "zeros_n": 51,
+      "zeros_pct": 45.13274336283185,
+      "abaixo_040_n": 89,
+      "abaixo_040_pct": 78.76106194690266
+    }
+  ],
   "diagnostico_praticas_menor_adocao": [
     {
       "id": "q2201",

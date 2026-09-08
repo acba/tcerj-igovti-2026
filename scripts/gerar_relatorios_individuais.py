@@ -579,14 +579,35 @@ def main():
                         for w in warnings:
                             logger.warning(f"[{sigla}] {w}")
 
-                    template_content_local = cross_ref_figuras(template_content)
-                    template_content_local = cross_ref_tabelas(template_content_local)
-                    template_content_local = inserir_campo_sumario_docx(template_content_local)
-                    template_content_local = processar_quebras_pagina(template_content_local)
-                    template_content_local = substituir_underline_pandoc(template_content_local)
+                    # A sintaxe das declarações de referência do Argos
+                    # ({#fig:...#} e {#tbl:...#}) coincide com a de comentários
+                    # do Jinja. Proteja essas declarações durante a renderização
+                    # para que somente as presentes nos ramos efetivamente
+                    # renderizados sejam restauradas e numeradas.
+                    declaracoes_crossref = {}
 
-                    template_md = env.from_string(template_content_local)
+                    def proteger_declaracao_crossref(match):
+                        marcador = f"@@ARGOS_CROSSREF_{len(declaracoes_crossref)}@@"
+                        declaracoes_crossref[marcador] = match.group(0)
+                        return marcador
+
+                    template_content_jinja = re.sub(
+                        r"\{#(?:fig|tbl):[^#]+#\}",
+                        proteger_declaracao_crossref,
+                        template_content,
+                    )
+                    template_md = env.from_string(template_content_jinja)
                     conteudo_final_md = template_md.render(contexto)
+                    for marcador, declaracao in declaracoes_crossref.items():
+                        conteudo_final_md = conteudo_final_md.replace(marcador, declaracao)
+                    # Numere apenas as figuras e tabelas que permaneceram após
+                    # a avaliação dos blocos condicionais do template. Isso
+                    # evita lacunas em relatórios sem seções opcionais.
+                    conteudo_final_md = cross_ref_figuras(conteudo_final_md)
+                    conteudo_final_md = cross_ref_tabelas(conteudo_final_md)
+                    conteudo_final_md = inserir_campo_sumario_docx(conteudo_final_md)
+                    conteudo_final_md = processar_quebras_pagina(conteudo_final_md)
+                    conteudo_final_md = substituir_underline_pandoc(conteudo_final_md)
 
                     # Save intermediate MD report (useful for debugging)
                     nome_relatorio = f'{args.nome_base_docx} - {sigla}'

@@ -31,6 +31,12 @@ PRATICAS = [
     "q1001", "q1002", "q1003", "q1004", "q2101", "q2102", "q2201", "q2202", "q2203", "q2204",
     "q2301", "q2302", "q2303", "q2401", "q2402", "q2403", "_q4251(TCU)", "q2503", "q2504", "q2601", "q2602",
 ]
+ROTULOS_PRATICAS_GOVERNANCA = {
+    "q1001": "Modelo de gestão de TIC",
+    "q1002": "Monitoramento do desempenho da gestão de TIC",
+    "q1003": "Atuação da auditoria interna em apoio à governança de TIC",
+    "q1004": "Simplificação dos serviços públicos",
+}
 
 
 def extrair_rotulos_questionario(path: Path) -> dict[str, str]:
@@ -116,6 +122,27 @@ def main() -> None:
     menores = ranking[:5]
     maiores = list(reversed(ranking[-5:]))
 
+    pesos_governanca = {
+        item["id"]: float(item["peso"])
+        for item in config["agregados"]["GovernancaTI"]["componentes"]
+    }
+    praticas_governanca = []
+    for pratica, rotulo in ROTULOS_PRATICAS_GOVERNANCA.items():
+        serie = pd.to_numeric(valores_por_sigla[pratica], errors="coerce")
+        praticas_governanca.append({
+            "id": pratica,
+            "descricao": rotulo,
+            "peso": pesos_governanca[pratica],
+            "media": float(serie.mean()),
+            "mediana": float(serie.median()),
+            "minimo": float(serie.min()),
+            "maximo": float(serie.max()),
+            "zeros_n": int(serie.eq(0).sum()),
+            "zeros_pct": float(serie.eq(0).mean() * 100),
+            "abaixo_040_n": int(serie.lt(0.40).sum()),
+            "abaixo_040_pct": float(serie.lt(0.40).mean() * 100),
+        })
+
     maturidade = (
         base["nivel_maturidade"].value_counts().rename_axis("nivel").reset_index(name="quantidade")
     )
@@ -125,6 +152,7 @@ def main() -> None:
         "diagnostico_igovti_media": float(base["iGovTI"].mean()),
         "diagnostico_igovti_mediana": float(base["iGovTI"].median()),
         "diagnostico_segmentos": segmentos,
+        "diagnostico_praticas_governanca": praticas_governanca,
         "diagnostico_praticas_menor_adocao": menores,
         "diagnostico_praticas_maior_adocao": maiores,
         "diagnostico_nao_aplicavel_tratamento": "As respostas 'Não se aplica' recebem pontuação parcial (0,5), conforme a metodologia oficial.",
@@ -141,6 +169,7 @@ def main() -> None:
         base[["sigla", "esfera", *INDICADORES]].to_excel(writer, sheet_name="Universo e índices", index=False)
         maturidade.to_excel(writer, sheet_name="Faixas de maturidade", index=False)
         pd.DataFrame(linhas_segmentos).to_excel(writer, sheet_name="Segmentos", index=False)
+        pd.DataFrame(praticas_governanca).to_excel(writer, sheet_name="Governança de TIC", index=False)
         pd.DataFrame(ranking).to_excel(writer, sheet_name="Práticas", index=False)
         pd.DataFrame([
             {"verificacao": "Universo", "resultado": f"{len(base)} respostas válidas e índices calculados"},

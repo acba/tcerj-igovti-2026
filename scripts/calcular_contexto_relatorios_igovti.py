@@ -9,6 +9,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import yaml
 
 import os
 import sys
@@ -55,13 +56,64 @@ INDICADORES = {
 
 SAIDA_CONTEXTO = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-contexto-relatorios-igovti-2026.xlsx"
 SAIDA_JSON = ROOT / "02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-estatisticas-relatorios-igovti-2026.json"
+METODOLOGIA_2026 = ROOT / "01-Planejamento/02-Metodologia_iGovTI/estrutura-igovti-2026.yaml"
 
 
 def percentual(quantidade: int, total: int) -> float:
     return 100.0 * quantidade / total if total else 0.0
 
 
-def calcular_estatisticas_globais(resultados: pd.DataFrame) -> dict[str, object]:
+def carregar_praticas_governanca(metodologia_path: Path = METODOLOGIA_2026) -> dict[str, dict[str, object]]:
+    """Carrega rótulos, prefixos e pesos das práticas que formam Governança de TIC."""
+    config = yaml.safe_load(metodologia_path.read_text(encoding="utf-8"))
+    contexto = config.get("contexto_relatorios", {}).get("praticas_governanca", {})
+    componentes = {
+        item["id"]: float(item["peso"])
+        for item in config["agregados"]["GovernancaTI"]["componentes"]
+    }
+    if set(contexto) != set(componentes):
+        raise ValueError(
+            "As práticas de Governança do contexto não coincidem com os componentes de GovernancaTI."
+        )
+    return {
+        pratica_id: {
+            "prefixo": str(dados["prefixo"]),
+            "rotulo": str(dados["rotulo"]),
+            "peso": componentes[pratica_id],
+        }
+        for pratica_id, dados in contexto.items()
+    }
+
+
+def carregar_dimensoes_gestao(metodologia_path: Path = METODOLOGIA_2026) -> dict[str, dict[str, object]]:
+    """Carrega rótulos, prefixos e pesos das dimensões que formam Gestão de TIC."""
+    config = yaml.safe_load(metodologia_path.read_text(encoding="utf-8"))
+    contexto = config.get("contexto_relatorios", {}).get("dimensoes", {})
+    componentes = {
+        item["id"]: float(item["peso"])
+        for item in config["agregados"]["iGestTI"]["componentes"]
+    }
+    if set(contexto) != set(componentes):
+        raise ValueError(
+            "As dimensões de Gestão de TIC do contexto não coincidem com os componentes de iGestTI."
+        )
+    return {
+        dimensao_id: {
+            "prefixo": str(dados["prefixo"]),
+            "rotulo": str(dados["rotulo"]),
+            "peso": componentes[dimensao_id],
+        }
+        for dimensao_id, dados in contexto.items()
+    }
+
+
+def calcular_estatisticas_globais(
+    resultados: pd.DataFrame,
+    praticas_governanca: dict[str, dict[str, object]] | None = None,
+    dimensoes_gestao: dict[str, dict[str, object]] | None = None,
+) -> dict[str, object]:
+    praticas_governanca = praticas_governanca or carregar_praticas_governanca()
+    dimensoes_gestao = dimensoes_gestao or carregar_dimensoes_gestao()
     total = len(resultados)
     estatisticas: dict[str, object] = {"universo_2026_n": total}
 
@@ -89,6 +141,26 @@ def calcular_estatisticas_globais(resultados: pd.DataFrame) -> dict[str, object]
         estatisticas[f"{prefixo}_abaixo_040_pct"] = percentual(int(resumo["abaixo_040_n"]), total)
         estatisticas[f"{prefixo}_a_partir_040_pct"] = percentual(int(resumo["a_partir_040_n"]), total)
 
+    for coluna, dados in praticas_governanca.items():
+        if coluna not in resultados:
+            raise ValueError(f"Prática de Governança ausente dos resultados: {coluna}")
+        prefixo = f"governanca_{dados['prefixo']}"
+        resumo = estatisticas_serie(resultados[coluna])
+        estatisticas[f"{prefixo}_rotulo"] = dados["rotulo"]
+        estatisticas[f"{prefixo}_peso"] = dados["peso"]
+        for nome, valor in resumo.items():
+            estatisticas[f"{prefixo}_geral_{nome}"] = valor
+        estatisticas[f"{prefixo}_geral_zeros_pct"] = percentual(int(resumo["zeros_n"]), total)
+        estatisticas[f"{prefixo}_geral_abaixo_040_pct"] = percentual(int(resumo["abaixo_040_n"]), total)
+
+    medias_governanca = resultados[list(praticas_governanca)].mean().sort_values(ascending=False)
+    maior_pratica = medias_governanca.index[0]
+    menor_pratica = medias_governanca.index[-1]
+    estatisticas["governanca_pratica_maior_media_nome"] = praticas_governanca[maior_pratica]["rotulo"]
+    estatisticas["governanca_pratica_maior_media_valor"] = float(medias_governanca.iloc[0])
+    estatisticas["governanca_pratica_menor_media_nome"] = praticas_governanca[menor_pratica]["rotulo"]
+    estatisticas["governanca_pratica_menor_media_valor"] = float(medias_governanca.iloc[-1])
+
     diferenca_componentes = resultados["iGestTI"] - resultados["GovernancaTI"]
     maior_gestao = int((diferenca_componentes > 1e-12).sum())
     maior_governanca = int((diferenca_componentes < -1e-12).sum())
@@ -105,6 +177,7 @@ def calcular_estatisticas_globais(resultados: pd.DataFrame) -> dict[str, object]
     maximos = resultados[colunas_dimensoes].max(axis=1)
     minimos = resultados[colunas_dimensoes].min(axis=1)
     for coluna, prefixo in DIMENSOES.items():
+        estatisticas[f"{prefixo}_peso"] = dimensoes_gestao[coluna]["peso"]
         resumo = estatisticas_serie(resultados[coluna])
         for nome, valor in resumo.items():
             estatisticas[f"{prefixo}_geral_{nome}"] = valor
@@ -182,9 +255,14 @@ def gerar_contexto(
     comparavel_2026: Path,
     setic_2023: Path,
     municipios_2023: Path,
+    metodologia: Path = METODOLOGIA_2026,
 ) -> tuple[pd.DataFrame, dict[str, object], pd.DataFrame]:
     resultados = carregar_resultados_2026(resultados_path)
-    estatisticas = calcular_estatisticas_globais(resultados)
+    estatisticas = calcular_estatisticas_globais(
+        resultados,
+        carregar_praticas_governanca(metodologia),
+        carregar_dimensoes_gestao(metodologia),
+    )
     _, pareados, _ = consolidar_pareamentos(comparavel_2026, setic_2023, municipios_2023)
     estatisticas["comparacao_pareados_n"] = len(pareados)
     estatisticas["comparacao_cobertura_2026_pct"] = percentual(len(pareados), len(resultados))
@@ -208,6 +286,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--comparavel-2026", type=Path, default=COMPARAVEL_2026)
     parser.add_argument("--setic-2023", type=Path, default=COMPARAVEL_2023_SETIC)
     parser.add_argument("--municipios-2023", type=Path, default=COMPARAVEL_2023_MUNICIPIOS)
+    parser.add_argument("--metodologia", type=Path, default=METODOLOGIA_2026)
     parser.add_argument("--saida-contexto", type=Path, default=SAIDA_CONTEXTO)
     parser.add_argument("--saida-estatisticas", type=Path, default=SAIDA_JSON)
     return parser.parse_args()
@@ -216,7 +295,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     contexto, estatisticas, pareados = gerar_contexto(
-        args.resultados_2026, args.comparavel_2026, args.setic_2023, args.municipios_2023
+        args.resultados_2026, args.comparavel_2026, args.setic_2023, args.municipios_2023, args.metodologia
     )
     dataframe_to_xlsx_se_diferente(contexto, args.saida_contexto, index=False)
     payload = {

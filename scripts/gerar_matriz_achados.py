@@ -366,6 +366,7 @@ def encaminhamentos_do_achado(achado, ocorrencias, display_mapping):
                 "geral": variante.geral,
                 "publico": publico,
                 "tipo": variante.tipo_encaminhamento,
+                "fundamentacao": variante.fundamentacao_encaminhamento,
                 "encaminhamento": variante.encaminhamento,
                 "criterios": [_id_local_criterio(value) for value in variante.criterios],
                 "auditados": set(item["auditados"]),
@@ -377,16 +378,22 @@ def encaminhamentos_do_achado(achado, ocorrencias, display_mapping):
             key = (
                 membro["tipo"].strip().casefold(),
                 membro["encaminhamento"].strip().rstrip(".").casefold(),
+                membro["fundamentacao"].strip().rstrip(".").casefold(),
             )
             if key not in por_conteudo:
                 por_conteudo[key] = len(grupos)
-                grupos.append({"membros": [], "tipo": membro["tipo"],
-                               "encaminhamento": membro["encaminhamento"]})
+                grupos.append({
+                    "membros": [],
+                    "tipo": membro["tipo"],
+                    "fundamentacao": membro["fundamentacao"],
+                    "encaminhamento": membro["encaminhamento"],
+                })
             grupos[por_conteudo[key]]["membros"].append(membro)
 
         total_membros = len(membros)
         for grupo in grupos:
             membros_grupo = grupo["membros"]
+            fundamentacao = membros_grupo[0]["fundamentacao"]
             contem_geral = any(membro["geral"] for membro in membros_grupo)
             auditados = set().union(*(membro["auditados"] for membro in membros_grupo))
             if len(membros_grupo) == total_membros and contem_geral and tem_especifica:
@@ -406,6 +413,7 @@ def encaminhamentos_do_achado(achado, ocorrencias, display_mapping):
             grupo["destinatarios"] = _rotulo_destinatarios(publico, auditados)
             grupo["quantidade"] = len(auditados)
             grupo["criterios"] = criterios
+            grupo["fundamentacao"] = fundamentacao
             del grupo["membros"]
 
         resultado.append({
@@ -643,10 +651,12 @@ def atualizar_documento(document_xml: bytes, dados):
                 ]))
                 codigo_situacao = situacao["situacao"].split(" - ", 1)[0]
                 referencias = ", ".join([codigo_situacao, *grupo["criterios"]])
+                fundamentacao = grupo["fundamentacao"].strip().rstrip(".")
                 paragraphs.append(make_paragraph(templates["referral"], [
                     ("• ", props["referral_normal"]),
                     (f'Comunicação com {grupo["tipo"]}', props["referral_label"]),
-                    (f' para que {grupo["encaminhamento"].rstrip(".")} [{referencias}].',
+                    (f' para que, {fundamentacao}, '
+                     f'{grupo["encaminhamento"].rstrip(".")} [{referencias}].',
                      props["referral_normal"]),
                 ], left_indent=360, hanging=180))
         replace_cell(cells[5], paragraphs)

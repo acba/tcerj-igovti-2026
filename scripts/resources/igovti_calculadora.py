@@ -436,7 +436,10 @@ def exportar_resultados_xlsx(
     """Exporta os resultados no mesmo formato do ``calcula-igovti.html``."""
     raiz = config["metadata"]["raiz"]
     ids_agregados = [a for a in config["agregados"] if a != raiz]
-    colunas = ["id", raiz, "nivel_maturidade", *ids_agregados]
+    ids_expostos = list(
+        config.get("contexto_relatorios", {}).get("praticas_governanca", {})
+    )
+    colunas = ["id", raiz, "nivel_maturidade", *ids_agregados, *ids_expostos]
 
     linhas = []
     for resultado in resultados:

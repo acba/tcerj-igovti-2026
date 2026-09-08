@@ -41,6 +41,7 @@ from calcular_contexto_relatorios_igovti import (
     INDICADORES,
     ROTULOS_DIMENSOES,
     calcular_estatisticas_globais,
+    carregar_praticas_governanca,
     percentual,
 )
 from consolidar_dados_comparativos_igovti import (
@@ -212,10 +213,14 @@ def gerar_contexto(
     caminho_municipios_2023: Path,
     caminho_contexto: Path,
     caminho_estatisticas: Path,
+    caminho_metodologia: Path,
 ) -> None:
     """Gera o contexto e a memória de cálculo dos relatórios."""
     resultados = carregar_resultados_2026(caminho_resultados_2026)
-    estatisticas = calcular_estatisticas_globais(resultados)
+    estatisticas = calcular_estatisticas_globais(
+        resultados,
+        carregar_praticas_governanca(caminho_metodologia),
+    )
     _, pareados, _ = consolidar_pareamentos(caminho_comparavel_2026, caminho_setic_2023, caminho_municipios_2023)
     estatisticas["comparacao_pareados_n"] = len(pareados)
     estatisticas["comparacao_cobertura_2026_pct"] = percentual(len(pareados), len(resultados))
@@ -318,6 +323,7 @@ def main() -> None:
         args.municipios_2023,
         saida_contexto,
         saida_estatisticas,
+        args.yaml_oficial,
     )
 
     logger.info("Conjunto iGovTI atualizado com sucesso.")

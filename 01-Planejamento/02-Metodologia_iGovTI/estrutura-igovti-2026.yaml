@@ -164,6 +164,19 @@ contexto_relatorios:
     iGovTI: igovti_geral
     GovernancaTI: governanca_geral
     iGestTI: igest_geral
+  praticas_governanca:
+    q1001:
+      prefixo: modelo_gestao
+      rotulo: "Modelo de gestão de TIC"
+    q1002:
+      prefixo: monitoramento_desempenho
+      rotulo: "Monitoramento do desempenho da gestão de TIC"
+    q1003:
+      prefixo: auditoria_interna
+      rotulo: "Atuação da auditoria interna em apoio à governança de TIC"
+    q1004:
+      prefixo: simplificacao_servicos
+      rotulo: "Simplificação dos serviços públicos"
   dimensoes:
     PlanejamentoTI:
       prefixo: planejamento

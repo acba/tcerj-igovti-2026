@@ -71,7 +71,7 @@ A fiscalização constatou um estado de baixa maturidade e fragilidades recorren
 
 As organizações estaduais apresentaram média de 0,220 no iGovTI, enquanto os municípios registraram 0,120. Observou-se, ainda, que instrumentos formais, como política de segurança da informação e plano de TIC, estão relativamente mais disseminados do que práticas contínuas de monitoramento e controle.
 
-Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados considerando as avaliações não permitem afirmar que ocorreu melhora ou piora geral. A Estrutura de Segurança da Informação foi o único componente com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
+Na comparação das 68 organizações presentes nos dois ciclos, as respostas declaradas indicam evolução: a média comparável passou de 0,180, em 2023, para 0,248, em 2026, com aumento em 43 organizações e redução em 25. Após a avaliação das evidências e dos comentários dos gestores, a média de 2026 ficou em 0,189, com aumento em 32 organizações e redução em 36. Assim, houve melhora no cenário autodeclarado, mas os resultados considerando as avaliações não permitem afirmar que ocorreu melhora ou piora geral. A dimensão Estrutura de segurança da informação foi a única com melhora confirmada nos dois cenários.[^comparacao_longitudinal_cenarios]
 
 [^comparacao_longitudinal_cenarios]: Em 2026, foram solicitadas e avaliadas evidências para todas as práticas passíveis de comprovação. Em 2023, embora também tenha havido análise pela equipe, a exigência de anexos e o exame direto abrangeram conjunto menor de práticas. O cenário final de 2026 possui, portanto, maior grau de verificação. O cenário-base aproxima a comparação das respostas declaradas, mas não comprova, por si só, a efetiva adoção das práticas. A metodologia, os cálculos e as demais ressalvas constam do Anexo AN11.
 
@@ -98,7 +98,7 @@ Propõe-se comunicar os relatórios individuais às 113 organizações avaliadas
 
 Propõem-se, ainda, a abertura de processos apartados para apurar, de forma individualizada, as circunstâncias da ausência de resposta válida das seis organizações, a comunicação das unidades de controle interno para acompanhamento dos planos de ação e o arquivamento do processo após as comunicações.
 
-Os benefícios esperados da adoção dessas medidas incluem o fortalecimento da governança e da gestão de TIC, o aprimoramento do planejamento, da capacidade institucional, da gestão de serviços e das contratações e a elevação gradual do nível de maturidade das organizações avaliadas.  A melhoria dessas capacidades contribuem para uma maior continuidade, confiabilidade e eficiência dos serviços públicos em âmbito geral.
+Os benefícios esperados da adoção dessas medidas incluem o fortalecimento da governança e da gestão de TIC, o aprimoramento do planejamento, da capacidade institucional, da gestão de serviços e das contratações e a elevação gradual do nível de maturidade das organizações avaliadas. A melhoria dessas capacidades contribui para uma maior continuidade, confiabilidade e eficiência dos serviços públicos em âmbito geral.
 
 
 #### Quais os próximos passos?
@@ -138,7 +138,7 @@ A questão geral foi desdobrada em uma questão descritiva e seis questões norm
 * **Q2 – Governança e Comitê de TIC:** A organização possui mecanismos básicos de governança de TIC, incluindo objetivos, indicadores e metas, bem como Comitê de TIC ou instância equivalente formalmente instituída e atuante?
 * **Q3 – Planejamento de TIC:** A organização utiliza o planejamento de TIC como instrumento efetivo de gestão, com processo formal, plano vigente, aprovação competente, alinhamento institucional, integração com orçamento e contratações e acompanhamento periódico?
 * **Q4 – Capacidade institucional de TIC e segurança da informação:** A organização dispõe de mecanismos mínimos para estruturar e dimensionar sua força de trabalho de TIC e segurança da informação, formalizar funções e preservar capacidade interna nos modelos de operação predominantemente terceirizados?
-* **Q5 – Gestão de Serviços de TIC:** A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, rastreabilidade e qualidade dos serviços prestados?
+* **Q5 – Gestão de serviços de TIC:** A organização adota práticas mínimas de gestão de serviços de TIC, incluindo catálogo de serviços, níveis de serviço, inventário de ativos, gestão de configuração e tratamento de incidentes, de modo a assegurar eficiência, rastreabilidade e qualidade dos serviços prestados?
 * **Q6 – Contratações de TIC:** A organização adota processo formal e padronizado para a fase preparatória das contratações de TIC, com responsabilidades definidas, análise técnica pela área de TIC e alinhamento aos instrumentos de planejamento?
 
 Adicionalmente, foram realizadas duas análises complementares. A primeira examinou a evolução do grau de adoção das práticas de governança e gestão de TIC em relação à fiscalização de 2023, considerando as organizações e práticas comparáveis nos dois ciclos. A segunda apresentou um panorama descritivo da utilização institucional de inteligência artificial e dos controles relacionados ao seu uso pelas organizações avaliadas.
@@ -195,7 +195,7 @@ Com a base ajustada pós-avaliação dos comentários do gestor, foi calculado o
 ![Composição do iGovTI 2026](igovti_2026_composicao_infografico.png){#fig:composicao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-O índice final é composto por dois blocos principais, conforme sintetizado na [@fig:composicao_igovti_2026]: Governança de TIC, com peso de 47,8%, formado por quatro questões de agregação direta; e Gestão de TIC (iGestTI), com peso de 52,2%, estruturado em seis dimensões operacionais que consolidam vinte questões principais ponderadas.
+O índice final é composto por dois blocos principais, conforme sintetizado na [@fig:composicao_igovti_2026]: Governança de TIC, com peso de 47,8%, formado por quatro práticas de agregação direta — modelo de gestão de TIC, monitoramento do desempenho, atuação da auditoria interna e simplificação dos serviços públicos —; e Gestão de TIC (iGestTI), com peso de 52,2%, estruturado em seis dimensões operacionais que consolidam vinte questões principais ponderadas. Os itens de detalhamento vinculados a determinadas questões podem reduzir o valor da respectiva prática quando não atendidos.
 
 Com base na pontuação consolidada, cada organização com resposta válida foi classificada em um de quatro níveis de maturidade: Inexpressivo (0,00 ≤ iGovTI < 0,15), Iniciando (0,15 ≤ iGovTI < 0,40), Intermediário (0,40 ≤ iGovTI < 0,70) e Aprimorado (0,70 ≤ iGovTI ≤ 1,00).
 
@@ -376,20 +376,38 @@ A [@fig:governanca_vs_gestao_igovti_2026] mostra a posição simultânea das org
 ![Relação entre os resultados de governança e gestão de TIC](igovti_2026_governanca_vs_gestao.png){#fig:governanca_vs_gestao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-### 4.1.3. Desempenho por dimensões da Gestão de TIC
+### 4.1.3. Desempenho nas práticas de Governança de TIC
 
-A decomposição da Gestão de TIC revela diferenças relevantes entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], Planejamento de TIC apresentou a maior média (0,305) e a maior mediana (0,163). Essa dimensão também figurou como a de maior resultado em 52 organizações (46,0%), considerados os empates. Esse resultado indica que as organizações possuem alguma capacidade de planejar e elaborar planos de TIC (como PDTIs), mas frequentemente encontram dificuldades para converter essas diretrizes em processos operacionais e de segurança.
+A decomposição da Governança de TIC permite identificar quanto cada uma das quatro práticas contribui para o resultado agregado. Os valores da [@tbl:estatisticas_praticas_governanca] já incorporam as deduções previstas para itens de detalhamento, quando aplicáveis. Como as práticas têm pesos distintos, o valor do componente Governança de TIC corresponde à soma ponderada dessas pontuações, e não à média aritmética simples.
+
+: Estatísticas descritivas das práticas de Governança de TIC {#tbl:estatisticas_praticas_governanca#}
+
+| Prática | Peso no componente | Média | Mediana | Mínimo | Máximo | Resultados iguais a zero | Organizações com valor inferior a 0,40 |
+|:---|---:|---:|---:|---:|---:|---:|---:|
+{%- for item in diagnostico_praticas_governanca %}
+| **{{ item.descricao }}** | {{ ('%0.4f' | format(item.peso)) | replace('.', ',') }} | {{ ('%0.3f' | format(item.media)) | replace('.', ',') }} | {{ ('%0.3f' | format(item.mediana)) | replace('.', ',') }} | {{ ('%0.3f' | format(item.minimo)) | replace('.', ',') }} | {{ ('%0.3f' | format(item.maximo)) | replace('.', ',') }} | {{ item.zeros_n }} ({{ ('%0.1f' | format(item.zeros_pct)) | replace('.', ',') }}%) | {{ item.abaixo_040_n }} ({{ ('%0.1f' | format(item.abaixo_040_pct)) | replace('.', ',') }}%) |{% endfor %}
+
+<div custom-style="FonteImagem">(Fonte: elaboração própria, com base nos resultados finais ajustados e na estrutura oficial do iGovTI 2026)</div>
+
+A [@fig:distribuicao_praticas_governanca_2026] apresenta a distribuição completa dos resultados. Sua leitura permite distinguir fragilidades específicas que ficariam ocultas no valor agregado de Governança de TIC e mantém a análise consolidada alinhada à discriminação adotada nos relatórios individuais.
+
+![Distribuição dos resultados das quatro práticas de Governança de TIC](igovti_2026_distribuicao_praticas_governanca.png){#fig:distribuicao_praticas_governanca_2026#}
+<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+
+### 4.1.4. Desempenho por dimensões da Gestão de TIC
+
+A decomposição da Gestão de TIC revela diferenças entre as seis dimensões avaliadas. Conforme a [@tbl:estatisticas_dimensoes_gestao], Planejamento de TIC apresentou a maior média (0,305) e a maior mediana (0,163). Essa dimensão também figurou entre as de maior resultado em 52 organizações (46,0%), considerados os empates. Esses dados descrevem a distribuição dos resultados e não demonstram, isoladamente, relação causal entre as dimensões.
 
 : Estatísticas descritivas das dimensões de Gestão de TIC {#tbl:estatisticas_dimensoes_gestao#}
 
 | Dimensão | Média | Mediana | Mínimo | Máximo | Resultados iguais a zero | Organizações com valor inferior a 0,40 |
 |:---|---:|---:|---:|---:|---:|---:|
 | **Planejamento de TIC** | 0,305 | 0,163 | 0,000 | 1,000 | 20 (17,7%) | 78 (69,0%) |
-| **Gestão de Serviços de TIC** | 0,150 | 0,077 | 0,000 | 0,724 | 20 (17,7%) | 100 (88,5%) |
-| **Gestão de Riscos de TI e Segurança da Informação** | 0,165 | 0,097 | 0,000 | 1,000 | 32 (28,3%) | 97 (85,8%) |
-| **Estrutura de Segurança da Informação** | 0,258 | 0,130 | 0,000 | 1,000 | 25 (22,1%) | 83 (73,5%) |
-| **Processos de Segurança da Informação** | 0,205 | 0,147 | 0,000 | 0,822 | 10 (8,8%) | 95 (84,1%) |
-| **Gestão de Soluções de TIC** | 0,193 | 0,150 | 0,000 | 1,000 | 26 (23,0%) | 101 (89,4%) |
+| **Gestão de serviços de TIC** | 0,150 | 0,077 | 0,000 | 0,724 | 20 (17,7%) | 100 (88,5%) |
+| **Riscos de TI e de segurança da informação** | 0,165 | 0,097 | 0,000 | 1,000 | 32 (28,3%) | 97 (85,8%) |
+| **Estrutura de segurança da informação** | 0,258 | 0,130 | 0,000 | 1,000 | 25 (22,1%) | 83 (73,5%) |
+| **Processos de segurança da informação** | 0,205 | 0,147 | 0,000 | 0,822 | 10 (8,8%) | 95 (84,1%) |
+| **Gestão de soluções de TIC** | 0,193 | 0,150 | 0,000 | 1,000 | 26 (23,0%) | 101 (89,4%) |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
@@ -398,18 +416,18 @@ A distribuição completa das seis dimensões é apresentada na [@fig:distribuic
 ![Distribuição dos resultados das seis dimensões de Gestão de TIC](igovti_2026_distribuicao_dimensoes_gestao.png){#fig:distribuicao_dimensoes_gestao_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-As menores médias foram observadas em Gestão de Serviços de TIC (0,150) e Gestão de Riscos de TI e Segurança da Informação (0,165). A primeira registrou valor inferior a 0,40 em 100 organizações (88,5%) e apareceu entre as dimensões de menor resultado de 33 organizações (29,2%), considerados os empates.
+As menores médias foram observadas em Gestão de serviços de TIC (0,150) e Riscos de TI e de segurança da informação (0,165). A primeira registrou valor inferior a 0,40 em 100 organizações (88,5%) e apareceu entre as dimensões de menor resultado de 33 organizações (29,2%), considerados os empates.
 
-Para a segunda, esses quantitativos foram, respectivamente, 97 organizações (85,8%) e 42 organizações (37,2%). O quadro indica que a formalização do planejamento, quando existente, frequentemente não é acompanhada, na mesma intensidade, pelas demais capacidades operacionais, de serviços e de segurança.
+Para a segunda, esses quantitativos foram, respectivamente, 97 organizações (85,8%) e 42 organizações (37,2%). As diferenças observadas devem ser interpretadas em conjunto com os resultados individuais e os achados de auditoria, sem pressupor relação causal entre as dimensões.
 
-A dimensão Estrutura de Segurança da Informação apresentou média de 0,258 e mediana de 0,130. Essa diferença, associada à ampla dispersão observada na [@fig:distribuicao_dimensoes_gestao_2026], evidencia heterogeneidade: um grupo de organizações possui estruturas de segurança mais consolidadas, enquanto parcela expressiva permanece próxima dos níveis inferiores. A dimensão Processos de Segurança da Informação mostrou mediana superior à de Estrutura de Segurança da Informação, mas 84,1% das organizações ainda permaneceram abaixo de 0,40, o que recomenda examinar separadamente a existência da estrutura formal e a execução contínua dos processos de segurança.
+A dimensão Estrutura de segurança da informação apresentou média de 0,258 e mediana de 0,130. A dispersão observada na [@fig:distribuicao_dimensoes_gestao_2026] demonstra a heterogeneidade dos resultados nessa dimensão. A dimensão Processos de segurança da informação apresentou mediana superior à de Estrutura de segurança da informação, mas 84,1% das organizações permaneceram abaixo de 0,40. A leitura conjunta desses indicadores permite distinguir a existência de estrutura formal da execução contínua dos processos de segurança.
 
 A [@fig:maturidade_dimensoes_igovti_2026] explicita a composição de cada dimensão por nível de maturidade e permite verificar em quais capacidades se concentram as organizações nos estágios iniciais. Essa leitura é útil para orientar ações de indução e monitoramento, pois evidencia que a melhoria do iGovTI depende de avanços simultâneos em planejamento, serviços, riscos, segurança e soluções de TIC, e não apenas da existência formal de planos.
 
 ![Distribuição dos níveis de maturidade das organizações nas dimensões de Gestão de TIC](igovti_2026_maturidade_dimensoes.png){#fig:maturidade_dimensoes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-### 4.1.4. Resultados por esfera
+### 4.1.5. Resultados por esfera
 
 Os resultados apresentam diferença relevante entre as organizações estaduais e os municípios. Conforme a [@tbl:diagnostico_segmentos], as organizações estaduais alcançaram média de 0,220 no iGovTI, enquanto os municípios registraram 0,120. As medianas foram, respectivamente, 0,152 e 0,077. Embora os dois segmentos permaneçam concentrados nos níveis iniciais de maturidade, os valores mostram que as fragilidades são mais acentuadas no conjunto municipal.
 
@@ -424,11 +442,11 @@ Os resultados apresentam diferença relevante entre as organizações estaduais 
 
 A diferença entre os segmentos foi mais intensa em Gestão de TIC do que em Governança de TIC. Na gestão, a média das organizações estaduais foi 0,251, mais que o dobro da média municipal, de 0,119. Na governança, os resultados foram 0,187 e 0,120. Assim, entre as organizações estaduais, a capacidade operacional apresentou resultado superior ao dos mecanismos de direção e monitoramento. Nos municípios, os dois componentes permaneceram praticamente no mesmo patamar e com baixa adoção.
 
-O exame das dimensões da Gestão de TIC reforça essa diferença. As maiores distâncias foram observadas em Planejamento de TIC, com médias de 0,396 no segmento estadual e 0,102 no municipal, e em Gestão de Soluções de TIC, com médias de 0,243 e 0,082. O resultado indica maior dificuldade dos municípios para estruturar o planejamento e organizar a gestão das soluções tecnológicas, sem afastar as fragilidades também presentes nas organizações estaduais.
+O exame das dimensões da Gestão de TIC reforça essa diferença. As maiores distâncias foram observadas em Planejamento de TIC, com médias de 0,396 no segmento estadual e 0,102 no municipal, e em Gestão de soluções de TIC, com médias de 0,243 e 0,082. Os valores indicam resultados médios inferiores no segmento municipal nessas duas dimensões, sem afastar as fragilidades também presentes nas organizações estaduais.
 
 Essa comparação possui caráter descritivo. O cadastro permite separar o universo apenas entre organizações estaduais e municípios e não contém informações suficientes para controlar diferenças de porte, atribuições, estrutura administrativa, capacidade financeira ou dependência tecnológica. Por essa razão, os resultados não permitem atribuir a diferença observada à esfera governamental, mas indicam a conveniência de considerar as limitações institucionais dos municípios na formulação de ações de orientação, apoio e acompanhamento.
 
-### 4.1.5. Práticas com maior e menor grau de adoção
+### 4.1.6. Práticas com maior e menor grau de adoção
 
 A análise das práticas permite identificar os aspectos relativamente mais disseminados e aqueles que apresentam maior deficiência no conjunto avaliado. A [@tbl:diagnostico_praticas] apresenta as cinco maiores e as cinco menores pontuações médias.
 
@@ -463,7 +481,7 @@ A estrutura de 2026 preservou a escala de 0 a 1, as categorias de resposta e as 
 | **Governança de TIC** | Agregação hierárquica dos componentes ModeloTI, MonitorAvaliaTI e ResultadoTI. | Agregação direta de quatro práticas relativas ao modelo de gestão, monitoramento, auditoria interna e simplificação de serviços públicos. | O componente tornou-se mais direto e incorporou práticas com escopo distinto da estrutura anterior. |
 | **Gestão de TIC** | Agregação de Planejamento de TIC, Pessoas e Processos de TIC; este último reunia serviços, níveis de serviço, riscos, segurança, software, projetos e contratos. | Agregação direta das seis dimensões de Gestão de TIC descritas neste relatório. | O índice passou a evidenciar separadamente seis capacidades operacionais e de segurança. |
 | **Pessoas e contratações** | Pessoas e contratações de TIC integravam o cálculo da Gestão de TIC. | Não integram a árvore de cálculo do iGovTI 2026, embora continuem relevantes para o diagnóstico e para a auditoria. | Mudanças nessas matérias não explicam diretamente a variação do índice oficial de 2026. |
-| **Serviços, software e projetos** | Serviços e níveis de serviço eram agregados distintos; software e projetos integravam Processos de TIC. | Serviços foram consolidados na dimensão Gestão de Serviços de TIC; software e projetos foram reunidos na dimensão Gestão de Soluções de TIC. | A leitura deve considerar a nova delimitação conceitual dos componentes. |
+| **Serviços, software e projetos** | Serviços e níveis de serviço eram agregados distintos; software e projetos integravam Processos de TIC. | Serviços foram consolidados na dimensão Gestão de serviços de TIC; software e projetos foram reunidos na dimensão Gestão de soluções de TIC. | A leitura deve considerar a nova delimitação conceitual dos componentes. |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
@@ -485,7 +503,7 @@ A comparação foi realizada sob duas perspectivas. O cenário-base representa a
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:comparacao_longitudinal_cenarios] apresenta as médias dos indicadores comparáveis nas três referências analisadas. A distância entre os resultados do cenário-base e do cenário final evidencia o efeito da avaliação documental e dos ajustes decorrentes dos comentários dos gestores sobre as práticas autodeclaradas. Embora o cenário-base indique evolução em diversos componentes, no cenário final a melhora permaneceu confirmada apenas para a Estrutura de Segurança da Informação.
+A [@fig:comparacao_longitudinal_cenarios] apresenta as médias dos indicadores comparáveis nas três referências analisadas. A distância entre os resultados do cenário-base e do cenário final evidencia o efeito da avaliação documental e dos ajustes decorrentes dos comentários dos gestores sobre as práticas autodeclaradas. Embora o cenário-base indique evolução em diversos componentes, no cenário final a melhora permaneceu confirmada apenas na dimensão Estrutura de segurança da informação.
 
 ![Médias dos indicadores comparáveis em 2023 e nos cenários base e final de 2026](01-medias-tres-cenarios.png){ width=92% }{#fig:comparacao_longitudinal_cenarios#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nas 68 organizações presentes nos dois ciclos e nas estruturas ajustadas comparáveis)</div>
@@ -494,7 +512,7 @@ No cenário-base, o aumento médio de 0,068 foi acompanhado de elevação do ín
 
 No cenário final, o aumento médio foi de apenas 0,009, com quantidades próximas de organizações com elevação e redução do índice. Os resultados, portanto, não permitem afirmar que houve melhora ou piora geral após a verificação documental. Nesse cenário, 14 organizações avançaram de nível de maturidade, 15 regrediram e 39 permaneceram no mesmo nível. Ao final, 58 das 68 organizações (85,3%) continuavam abaixo do nível Intermediário.
 
-A leitura dos componentes reforça essa diferença. No cenário-base, foram identificadas melhoras no iGovTI geral, na Gestão de TIC e nas capacidades de planejamento, serviços, estrutura e processos de segurança da informação e gestão de projetos. No cenário final, apenas a melhora da Estrutura de Segurança da Informação permaneceu confirmada. Esse é o resultado positivo mais seguro da comparação, pois aparece tanto nas respostas declaradas quanto após a avaliação das evidências.
+A leitura dos componentes reforça essa diferença. No cenário-base, foram identificadas melhoras no iGovTI geral, na Gestão de TIC e nas capacidades de planejamento, serviços, estrutura e processos de segurança da informação e gestão de projetos. No cenário final, apenas a melhora da dimensão Estrutura de segurança da informação permaneceu confirmada. Esse é o resultado positivo mais seguro da comparação, pois aparece tanto nas respostas declaradas quanto após a avaliação das evidências.
 
 As reduções observadas em Gestão de Pessoas de TIC e Processos de Contratação de TIC foram confirmadas apenas no cenário final. Como não apareceram com a mesma clareza no cenário-base, não é possível atribuí-las exclusivamente à piora das práticas das organizações. Parte da diferença pode decorrer da maior abrangência da avaliação documental realizada em 2026. Para Governança de TIC, modelo de gestão, monitoramento, resultados, níveis de serviço, riscos e processo de software, nenhum dos dois cenários forneceu elementos suficientes para afirmar que houve mudança geral.
 
@@ -924,7 +942,7 @@ A presente fiscalização avaliou a maturidade da governança e da gestão de te
 
 Os resultados demonstram que a governança e a gestão de TIC ainda se encontram, de forma predominante, em estágio inicial de maturidade. Das 113 organizações avaliadas, 99 obtiveram resultado inferior a 0,40 no iGovTI 2026, concentrando-se nos níveis Inexpressivo e Iniciando. A baixa mediana do índice e a concentração dos resultados nos quartis inferiores indicam que as fragilidades observadas não se restringem a casos isolados, mas compõem quadro abrangente de insuficiência de formalização, coordenação, planejamento, capacidade institucional e controle operacional da TIC.
 
-A comparação longitudinal entre os ciclos de 2023 e 2026, realizada sobre bases ajustadas e comparáveis, apresenta duas leituras complementares. O cenário-base indica evolução das respostas declaradas: a média passou de 0,180 para 0,248. No cenário final, após a avaliação das evidências e dos comentários dos gestores, a média ficou em 0,189, e os resultados não permitem afirmar que houve melhora ou piora geral. A melhora da Estrutura de Segurança da Informação foi confirmada nos dois cenários. Esse quadro recomenda cautela na leitura da evolução, sem desconsiderar os avanços declarados nem atribuir automaticamente à piora institucional as reduções decorrentes de uma verificação documental mais abrangente.
+A comparação longitudinal entre os ciclos de 2023 e 2026, realizada sobre bases ajustadas e comparáveis, apresenta duas leituras complementares. O cenário-base indica evolução das respostas declaradas: a média passou de 0,180 para 0,248. No cenário final, após a avaliação das evidências e dos comentários dos gestores, a média ficou em 0,189, e os resultados não permitem afirmar que houve melhora ou piora geral. A melhora da dimensão Estrutura de segurança da informação foi confirmada nos dois cenários. Esse quadro recomenda cautela na leitura da evolução, sem desconsiderar os avanços declarados nem atribuir automaticamente à piora institucional as reduções decorrentes de uma verificação documental mais abrangente.
 
 Os procedimentos de auditoria detalharam e individualizaram as fragilidades indicadas pelo índice. Foram consolidados seis achados, relacionados à estrutura de TIC, governança de TIC, planejamento de TIC, capacidade institucional, gestão de serviços de TIC e contratações de TIC. Em todos esses temas, verificou-se incidência expressiva de situações inconformes, com destaque para fragilidades na definição de papéis e responsabilidades, na atuação da alta administração, na integração entre planejamento, orçamento e contratações, no dimensionamento da força de trabalho, na atribuição formal de funções e na preservação de capacidade interna, no controle de serviços, ativos e incidentes e na governança técnica das aquisições de tecnologia.
 
