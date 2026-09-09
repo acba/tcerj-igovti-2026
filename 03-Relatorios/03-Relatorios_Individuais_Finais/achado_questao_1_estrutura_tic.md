@@ -1,6 +1,34 @@
 {% set nome_achado = 'Estrutura de TIC insuficientemente formalizada, definida ou posicionada para gerir a tecnologia da informação.' %}
 {% set achado = auditado.get_achado_por_nome(nome_achado) %}
 {% if achado %}
+{% set narrativa_criterios = {
+    'Q1.C1':
+        'O COBIT 2019, na prática APO01.04, orienta a definição e a implementação das estruturas organizacionais necessárias para apoiar os objetivos de governança e gestão de TIC.',
+
+    'Q1.C2':
+        'A prática APO01.05 do COBIT 2019 orienta a definição, comunicação e manutenção de papéis e responsabilidades relacionados à governança e gestão de TIC.',
+
+    'Q1.C3':
+        'O COBIT 2019, na prática APO01.06, orienta o posicionamento da função de tecnologia de modo compatível com sua relevância estratégica e com a necessidade de interação com a alta administração.',
+
+    'Q1.C6':
+        'Como referência de posicionamento organizacional, o art. 4º, § 1º, da Portaria SGD/ME nº 778/2019 prevê que a área de TIC deve, preferencialmente, estar vinculada à alta administração para apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.',
+
+    'Q1.C7':
+        'A formalização da estrutura e a definição clara de competências também se relacionam ao princípio da eficiência previsto no art. 37, caput, da Constituição Federal.',
+
+    'Q1.C8':
+        'Para os órgãos e entidades do Poder Executivo Estadual, o art. 4º do Decreto Estadual nº 48.997/2024 determina que o nível setorial do SETIC seja representado por assessoria de informática ou setor equivalente e exerça as competências de TIC previstas no dispositivo.',
+
+    'Q1.C9':
+        'Para os órgãos do Poder Judiciário Estadual, o art. 21 da Resolução CNJ nº 370/2021 determina que cada órgão constitua e mantenha estruturas organizacionais adequadas e compatíveis com a demanda de TIC, contemplando os macroprocessos mínimos definidos no dispositivo.',
+
+    'Q1.C10':
+        'Para o Ministério Público Estadual, o art. 16 da Resolução CNMP nº 171/2017 estabelece que a gestão de TI compete à área de TI da unidade ou do ramo, à qual são atribuídas as atividades previstas no dispositivo.',
+
+    'Q1.C11':
+        'No âmbito do Ministério Público Estadual, o art. 1º da Resolução GPGJ nº 2.675/2025 dispõe que a Secretaria-Geral de Modernização Tecnológica e Inovação do MPRJ é diretamente subordinada ao Procurador-Geral de Justiça.'
+} %}
 {% set situacao_formalizacao = 'Ausência de área, unidade, setor ou função de TIC formalmente instituída.' %}
 {% set situacao_atribuicoes = 'Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.' %}
 {% set situacao_posicionamento = 'Posicionamento organizacional inadequado da área de TIC.' %}
@@ -24,18 +52,18 @@
 
 A existência de estrutura formal de TIC é requisito básico para que a organização disponha de unidade, setor ou função institucionalmente reconhecida para planejar, coordenar, gerir, executar, monitorar e controlar o uso da tecnologia da informação. Sob a perspectiva de governança de TIC, essa estruturação envolve três dimensões complementares: formalização da área ou função de TIC, definição de atribuições e competências essenciais e posicionamento organizacional adequado para participar das decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
 
-Os critérios aplicáveis indicam que a organização deve estabelecer estrutura de TIC apropriada, definir e comunicar papéis e responsabilidades e posicionar a função de tecnologia de modo compatível com sua relevância estratégica. Esses requisitos decorrem dos objetivos APO01.04, APO01.05 e APO01.06 do COBIT 2019, conforme a situação examinada. Para o posicionamento organizacional, considera-se ainda a referência de vinculação preferencial da área de TIC à alta administração prevista no art. 4º, § 1º, da Portaria SGD/ME nº 778/2019. A formalização da estrutura e das atribuições também se relaciona ao princípio da eficiência previsto no art. 37, caput, da Constituição Federal.
+Para que a governança de TIC opere com eficácia, é indispensável que a organização estabeleça formalmente suas estruturas de tecnologia, defina com clareza as competências e responsabilidades de gestão e assegure posicionamento organizacional compatível com sua relevância institucional. A observância desses parâmetros confere legitimidade às decisões, viabiliza a integração da tecnologia aos objetivos estratégicos e mitiga riscos de atuação desarticulada ou reativa.
 
 Com base na análise das respostas aos itens 0101, 0102 e 0103 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de governança. A Equipe de Auditoria identificou as seguintes deficiências na estrutura de TIC da organização:
 
 {% if tem_formalizacao %}
-* **Formalização da área de TIC**: a ausência da formalização da área, unidade, setor ou função de TIC não demonstra aderência ao critério de definição de estruturas organizacionais do COBIT 2019, APO01.04, nem ao princípio da eficiência previsto no art. 37, caput, da Constituição Federal, o que pode prejudicar a responsabilização e o alinhamento da TIC aos objetivos institucionais.
+* **Formalização da área de TIC**: ausência de ato formal de criação ou instituição da área ou função de TIC na estrutura organizacional, em desacordo com os critérios de governança aplicáveis, o que prejudica a responsabilização e o alinhamento da tecnologia aos objetivos institucionais.
 {% endif %}
 {% if tem_atribuicoes %}
-* **Atribuições da área de TIC**: a insuficiência das atribuições formais da área de TIC não demonstra aderência ao critério de definição de papéis e responsabilidades do COBIT 2019, APO01.05, nem ao princípio da eficiência previsto no art. 37, caput, da Constituição Federal, o que pode favorecer atuação reativa e fragmentada por falta de clareza sobre responsabilidades de planejamento, coordenação, gestão e controle da TIC.
+* **Atribuições da área de TIC**: ausência ou insuficiência de competências formais para planejamento, coordenação, gestão e controle da TIC, divergindo das diretrizes de governança aplicáveis, o que favorece atuação reativa e fragmentada da tecnologia.
 {% endif %}
 {% if tem_posicionamento %}
-* **Posicionamento organizacional**: o posicionamento informado não demonstrou compatibilidade suficiente com a relevância e as responsabilidades da função de TIC, conforme o critério do COBIT 2019, APO01.06, e a referência preferencial da Portaria SGD/ME nº 778/2019, art. 4º, § 1º, o que pode reduzir a capacidade de influência institucional da TIC e comprometer sua participação em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
+* **Posicionamento organizacional**: posicionamento hierárquico da área de TIC em nível incompatível com sua relevância estratégica, em descompasso com os parâmetros de governança aplicáveis, o que reduz sua capacidade de influência institucional e compromete sua participação nas decisões estratégicas e orçamentárias.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -46,11 +74,14 @@ Essas situações ensejaram o presente achado e serão detalhadas nas subseçõe
 
 {% set situacao = situacao_formalizacao %}
 {% if tem_formalizacao %}
+{% set criterios_formalizacao = auditado.get_criterios_situacao(nome_achado, 'S1.1') %}
 #### Formalização da área, unidade, setor ou função de TIC
 
 A formalização da área, unidade, setor ou função de TIC é necessária para conferir reconhecimento institucional à atividade de tecnologia da informação, definir sua vinculação na estrutura organizacional e permitir a atribuição clara de responsabilidades.
 
-O COBIT 2019, no objetivo APO01.04, orienta que a organização defina e implemente estruturas organizacionais necessárias para apoiar os objetivos de governança e gestão de TI. A formalização também contribui para a eficiência administrativa prevista no art. 37, caput, da Constituição Federal, ao explicitar a unidade ou função responsável pela TIC.
+{% for criterio in criterios_formalizacao %}
+{{ narrativa_criterios[criterio.id] }}
+{% endfor %}
 
 No contexto da fiscalização, essa formalização deve ser demonstrada por regimento, decreto, portaria, resolução, organograma, ato administrativo ou instrumento equivalente. A ausência de evidência suficiente de formalização fragiliza a identificação da unidade responsável pela coordenação da TIC e compromete a responsabilização por decisões, controles, serviços e investimentos de tecnologia.
 
@@ -64,17 +95,20 @@ Da análise da resposta ao item 0101 e da documentação apresentada, não foi d
 {% endfor %}
 {% endif %}
 
-A não demonstração dessa formalização materializa o risco de inexistência de unidade ou função institucionalmente reconhecida para coordenar o uso da tecnologia da informação, prejudicando o alinhamento da TIC aos objetivos da organização.
+A ausência de ato formal de instituição da área ou função de TIC contraria os critérios aplicáveis, materializando o risco de inexistência de unidade ou função institucionalmente reconhecida para coordenar o uso da tecnologia da informação e prejudicando o alinhamento da TIC aos objetivos da organização.
 
 {% endif %}
 
 {% set situacao = situacao_atribuicoes %}
 {% if tem_atribuicoes %}
+{% set criterios_atribuicoes = auditado.get_criterios_situacao(nome_achado, 'S1.2') %}
 #### Atribuições formais da área de TIC
 
 A definição formal de atribuições da área de TIC é indispensável para delimitar responsabilidades, reduzir sobreposição ou lacunas de atuação e permitir que a gestão de tecnologia seja exercida de forma planejada e controlada.
 
-O COBIT 2019, no objetivo APO01.05, orienta a definição, comunicação e manutenção de papéis e responsabilidades relacionados à governança e gestão de TI. Essa orientação abrange atribuições essenciais como governança, planejamento, gestão, sustentação tecnológica, sistemas, segurança da informação, contratos, dados e atividades correlatas.
+{% for criterio in criterios_atribuicoes %}
+{{ narrativa_criterios[criterio.id] }}
+{% endfor %}
 
 A ausência de atribuições formalmente definidas ou a especificação de competências insuficientes para planejamento, coordenação, gestão, execução, monitoramento e controle da TIC expõe a organização a uma atuação reativa e fragmentada, com baixa clareza sobre os responsáveis por processos, serviços, riscos, contratações e controles de tecnologia.
 
@@ -88,19 +122,20 @@ Da análise das respostas aos itens 0101 e 0103 e da documentação apresentada,
 {% endfor %}
 {% endif %}
 
-A não demonstração de atribuições formais suficientes compromete a capacidade de gestão da TIC e reduz a efetividade dos demais processos de governança e gestão, uma vez que a estrutura organizacional não explicita, de forma suficiente, quem deve decidir, executar, acompanhar e responder pelos resultados de tecnologia da informação.
+O cenário identificado diverge dos critérios aplicáveis ao não demonstrar atribuições formais suficientes para a gestão da tecnologia da informação, o que compromete a capacidade de coordenação da área e reduz a efetividade dos processos de governança institucional.
 
 {% endif %}
 
 {% set situacao = situacao_posicionamento %}
 {% if tem_posicionamento %}
+{% set criterios_posicionamento = auditado.get_criterios_situacao(nome_achado, 'S1.3') %}
 #### Posicionamento organizacional da área de TIC
 
 O posicionamento organizacional da área de TIC deve ser compatível com suas responsabilidades institucionais e com a dependência da organização em relação à tecnologia da informação. Não se trata de impor modelo único de estrutura, mas de assegurar que a função de TIC tenha capacidade de interação adequada com as instâncias decisórias responsáveis por estratégia, orçamento, contratações, riscos e prestação de serviços.
 
-O COBIT 2019, no objetivo APO01.06, orienta o aprimoramento do posicionamento da função de TI para que a tecnologia seja tratada de modo compatível com sua relevância estratégica e com a necessidade de interação com a alta administração. Como referência complementar, o art. 4º, § 1º, da Portaria SGD/ME nº 778/2019 estabelece que a área de TIC deve, preferencialmente, estar vinculada à alta administração, com o intuito de apoiá-la na tomada de decisões e no alcance dos objetivos estratégicos.
-
-Um posicionamento organizacional incompatível com a relevância e as responsabilidades da TIC acarreta o risco de baixa capacidade de influência institucional. Essa fragilidade compromete a participação da área em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos, além de dificultar a priorização de iniciativas e a articulação com as áreas de negócio.
+{% for criterio in criterios_posicionamento %}
+{{ narrativa_criterios[criterio.id] }}
+{% endfor %}
 
 No âmbito da fiscalização, o posicionamento adequado deve ser demonstrado por organograma institucional, regimento interno ou documento equivalente, de modo que seja possível verificar a vinculação da área de TIC e sua compatibilidade com as responsabilidades que lhe foram atribuídas.
 
@@ -113,6 +148,8 @@ Da análise das respostas aos itens 0101 e 0102 e da documentação apresentada,
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
+
+A subordinação da área de TIC em nível hierárquico distante da alta administração contraria as diretrizes de governança aplicáveis, reduz sua capacidade de interlocução institucional e prejudica sua participação direta em decisões estratégicas, orçamentárias e de gestão de riscos.
 
 {% endif %}
 

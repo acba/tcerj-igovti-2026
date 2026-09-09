@@ -9,6 +9,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from argos_utils import avalia_expressao, avalia_logica
 
 
+
 MOTIVO_TEMPLATE_ENV = Environment(undefined=StrictUndefined, autoescape=False)
 
 
@@ -1150,7 +1151,7 @@ class Auditado:
             for criterio in situacao.get("criterios", []):
                 item = por_id.get(criterio.get("id"))
                 if item is None:
-                    item = dict(criterio)
+                    item = dict(criterio) if isinstance(criterio, dict) else criterio
                     item["situacoes"] = []
                     por_id[criterio.get("id")] = item
                     criterios.append(item)
@@ -1164,8 +1165,11 @@ class Auditado:
         if not achado:
             return []
         for situacao in getattr(achado, "situacoes_detalhadas", []) or []:
-            if situacao.get("id_situacao") == id_situacao:
-                return list(situacao.get("criterios", []))
+            if (
+                situacao.get("id_situacao") == id_situacao
+                or str(situacao.get("descricao") or "").strip() == str(id_situacao or "").strip()
+            ):
+                return [dict(c) if isinstance(c, dict) else c for c in situacao.get("criterios", [])]
         return []
 
     def get_enquadramentos_especificos_achado(self, nome_achado):

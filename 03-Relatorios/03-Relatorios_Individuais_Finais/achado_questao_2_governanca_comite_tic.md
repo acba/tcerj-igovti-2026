@@ -1,6 +1,37 @@
 {% set nome_achado = 'Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação.' %}
 {% set achado = auditado.get_achado_por_nome(nome_achado) %}
 {% if achado %}
+{% set narrativa_criterios = {
+    'Q2.C1':
+        'O COBIT 2019, na prática EDM01.02, orienta a direção do sistema de governança por estruturas, princípios, processos e práticas que assegurem que a tecnologia da informação apoie os objetivos organizacionais.',
+
+    'Q2.C2':
+        'O COBIT 2019, na prática MEA01.04, orienta monitorar e avaliar periodicamente o desempenho e a conformidade da TIC em relação a objetivos, indicadores, metas e expectativas das partes interessadas.',
+
+    'Q2.C3':
+        'O Decreto federal nº 12.198/2024, art. 6º, § 2º, é adotado como referência de governança digital quanto à deliberação sobre ações de governo digital e uso de recursos de TIC por comitê ou colegiado equivalente.',
+
+    'Q2.C4':
+        'O Acórdão TCE-RJ nº 44.490/2024-PLEN, item II.1, registra precedente pela instituição e atuação efetiva de instância colegiada de governança de TIC, responsável pelo alinhamento das ações aos objetivos institucionais, pela priorização dos investimentos e pelo monitoramento do desempenho da tecnologia.',
+
+    'Q2.C5':
+        'Para os órgãos e entidades do Poder Executivo Estadual, a Portaria PRODERJ/PRE nº 825/2021, Anexo C, art. 5º, determina a instituição de Comitê Permanente do PEDTIC com composição multidisciplinar.',
+
+    'Q2.C6':
+        'Para os órgãos do Poder Judiciário Estadual, o art. 7º da Resolução CNJ nº 370/2021 determina que cada órgão constitua ou mantenha Comitê de Governança de TIC multidisciplinar, com a composição e as atribuições definidas no dispositivo.',
+
+    'Q2.C7':
+        'Para o Ministério Público Estadual, o art. 13 da Resolução CNMP nº 171/2017 determina que cada unidade ou ramo disponha de Comitê Estratégico de TI com a composição mínima definida no dispositivo.',
+
+    'Q2.C8':
+        'Para os órgãos do Poder Judiciário Estadual, o art. 7º, inciso I, da Resolução CNJ nº 370/2021 determina que o Comitê de Governança de TIC apoie o desenvolvimento e o estabelecimento de estratégias, indicadores e metas institucionais.',
+
+    'Q2.C9':
+        'Para o Ministério Público Estadual, o art. 11, § 1º, da Resolução CNMP nº 171/2017 determina que o PETI contenha contribuições da TI para os objetivos estratégicos, indicadores de resultado e, pelo menos, uma meta para cada indicador.',
+
+    'Q2.C10':
+        'Para o Ministério Público Estadual, o art. 14 da Resolução CNMP nº 171/2017 determina que o Comitê Estratégico de TI exerça as competências de deliberação, acompanhamento e prestação de contas previstas no dispositivo.'
+} %}
 {% set situacao_modelo = 'Ausência de objetivos, indicadores ou metas para a gestão de TIC.' %}
 {% set situacao_comite_formal = 'Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.' %}
 {% set situacao_comite_atuacao = 'Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.' %}
@@ -24,20 +55,18 @@
 
 A governança de TIC compreende o conjunto de estruturas, papéis, responsabilidades, diretrizes e mecanismos de acompanhamento por meio dos quais a alta administração avalia, dirige e monitora o uso da tecnologia da informação. Sua finalidade é assegurar que os recursos de TIC apoiem os objetivos institucionais, sejam priorizados de forma transparente e tenham desempenho acompanhado com base em critérios objetivos.
 
-Para que a governança de TIC esteja estruturada, a alta administração deve estabelecer objetivos, indicadores e metas para a gestão de TIC, além de assegurar a existência e o funcionamento regular de um Comitê de TIC ou instância colegiada equivalente.
-
-Os critérios aplicáveis orientam o monitoramento do desempenho da TIC em relação a objetivos, indicadores e metas e a instituição de instância colegiada capaz de alinhar ações de TIC aos objetivos institucionais, priorizar investimentos e acompanhar o desempenho[^explica_governanca_tic_cobit]. A estruturação e a atuação do colegiado também encontram referência no Decreto nº 12.198/2024[^explica_decreto_cgd] e nas deliberações do Acórdão TCE-RJ nº 44.490/2024-PLEN[^explica_acordao_tcerj_governanca].
+Para que a governança de TIC opere de forma estruturada, a administração deve estabelecer objetivos, indicadores e metas que orientem a atuação da tecnologia e assegurar o funcionamento regular de instâncias colegiadas com representação multidisciplinar. Tais mecanismos conferem legitimidade à priorização de investimentos, viabilizam a prestação de contas e asseguram que a TIC atue alinhada às necessidades estratégicas da organização.
 
 Com base na análise das respostas ao item 1001 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de governança. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
 {% if tem_modelo %}
-* **Objetivos, indicadores e metas para a gestão de TIC**: a ausência desses elementos não demonstra aderência ao COBIT 2019, MEA01.04, e dificulta o direcionamento das prioridades, a medição dos resultados e o acompanhamento do desempenho da TIC pela alta administração.
+* **Objetivos, indicadores e metas para a gestão de TIC**: ausência de definição e acompanhamento de metas e indicadores para a tecnologia da informação, em desacordo com as práticas de governança aplicáveis, prejudicando o direcionamento das prioridades e a medição do desempenho da TIC.
 {% endif %}
 {% if tem_comite_formal %}
-* **Instituição do Comitê de TIC**: a não instituição formal não se alinha ao COBIT 2019, EDM01.02, à diretriz de referência do Decreto nº 12.198/2024 e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, dificultando a existência de instância colegiada para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+* **Instituição do Comitê de TIC**: ausência de ato formal de instituição da instância colegiada ou de representação multidisciplinar das áreas de negócio, contrariando os critérios aplicáveis, o que inviabiliza a tomada de decisão colegiada sobre prioridades e investimentos de tecnologia.
 {% endif %}
 {% if tem_comite_atuacao %}
-* **Atuação do Comitê de TIC**: a ausência de atuação efetiva não se alinha ao COBIT 2019, EDM01.02, à diretriz de referência do Decreto nº 12.198/2024 e ao Acórdão TCE-RJ nº 44.490/2024-PLEN, o que pode comprometer a deliberação regular sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+* **Atuação do Comitê de TIC**: ausência de comprovação de funcionamento regular e deliberação efetiva da instância colegiada, divergindo das orientações de governança aplicáveis, o que compromete o monitoramento contínuo das ações, contratações e riscos de TIC.
 {% endif %}
 
 {% if qtd_situacoes_exibidas == 1 %}
@@ -46,19 +75,16 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-[^explica_governanca_tic_cobit]: O COBIT 2019, MEA01.04, orienta o monitoramento e a avaliação periódica do desempenho da TIC em relação a objetivos, indicadores e metas. O EDM01.02 orienta a direção do sistema de governança por estruturas, princípios, processos e práticas que assegurem que a TIC apoie os objetivos organizacionais.
-
-[^explica_decreto_cgd]: O Decreto nº 12.198/2024 disciplina, no âmbito federal, o Comitê de Governança Digital como colegiado responsável por diretrizes e estratégias sobre o uso de recursos digitais, servindo como referência normativa para a estruturação de instâncias colegiadas de governança digital.
-
-[^explica_acordao_tcerj_governanca]: O Acórdão TCE-RJ 44.490/2024-PLEN, item II.1, registra a necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes e atribuições de alinhamento, priorização e monitoramento.
-
 {% set situacao = situacao_modelo %}
 {% if tem_modelo %}
+{% set criterios_modelo = auditado.get_criterios_situacao(nome_achado, 'S2.1') %}
 #### Objetivos, indicadores e metas para a gestão de TIC
 
 A alta administração deve estabelecer objetivos, indicadores e metas para orientar a gestão de TIC e acompanhar sua contribuição para os objetivos institucionais. Esses elementos permitem definir resultados esperados e avaliar periodicamente o desempenho da TIC.
 
-O COBIT 2019, no objetivo MEA01.04, orienta o monitoramento e a avaliação periódica do desempenho e da conformidade da TIC em relação a objetivos, indicadores, metas e expectativas das partes interessadas.
+{% for criterio in criterios_modelo %}
+{{ narrativa_criterios[criterio.id] }}
+{% endfor %}
 
 A existência desses elementos deve ser demonstrada por instrumentos que formalizem objetivos, indicadores e metas para a gestão de TIC, acompanhados, quando cabível, de relatórios ou medições de desempenho.
 
@@ -72,19 +98,20 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de objetivos, indicadores ou metas dificulta o direcionamento das prioridades, a medição dos resultados e o acompanhamento da contribuição da TIC para os objetivos institucionais.
+A inexistência de objetivos, indicadores e metas formalizados contraria as diretrizes aplicáveis, dificultando o direcionamento das prioridades, a medição dos resultados e o acompanhamento da contribuição da tecnologia da informação para os objetivos institucionais.
 
 {% endif %}
 
 {% set situacao = situacao_comite_formal %}
 {% if tem_comite_formal %}
+{% set criterios_comite_formal = auditado.get_criterios_situacao(nome_achado, 'S2.2') %}
 #### Instituição formal do Comitê de TIC ou instância equivalente
 
 O Comitê de TIC ou instância equivalente é mecanismo relevante para estruturar a participação da alta administração e das áreas interessadas nas decisões de tecnologia da informação. Sua formalização permite definir composição, competências, periodicidade mínima, forma de deliberação e responsabilidades pelo acompanhamento das decisões.
 
-O Decreto nº 12.198/2024, art. 5º, adotado como critério de referência, prevê colegiado responsável por definir diretrizes e estratégias sobre uso de recursos digitais no âmbito federal. O Acórdão TCE-RJ 44.490/2024-PLEN, item II.1, reforça a necessidade de estrutura de governança de TI, especialmente Comitê de Tecnologia da Informação ou instância equivalente, com participação de áreas relevantes.
-
-Em alinhamento, o COBIT 2019, no objetivo EDM01.02, orienta a direção do sistema de governança por estruturas, princípios, processos e práticas que assegurem que a TIC apoie os objetivos organizacionais.
+{% for criterio in criterios_comite_formal %}
+{{ narrativa_criterios[criterio.id] }}
+{% endfor %}
 
 A instituição formal do Comitê deve ser demonstrada por ato, norma, regimento, portaria ou documento equivalente que estabeleça a instância, sua composição, competências, periodicidade ou forma de deliberação.
 
@@ -98,17 +125,20 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-A ausência de instituição formal do Comitê de TIC ou instância equivalente fragiliza a governança, uma vez que a organização deixa de contar com foro institucional normatizado para deliberação sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
+A não instituição formal do Comitê de TIC ou a ausência de representação das áreas de negócio diverge dos critérios aplicáveis, privando a organização de foro institucional legitimado para deliberação colegiada sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC.
 
 {% endif %}
 
 {% set situacao = situacao_comite_atuacao %}
 {% if tem_comite_atuacao %}
+{% set criterios_comite_atuacao = auditado.get_criterios_situacao(nome_achado, 'S2.3') %}
 #### Atuação efetiva do Comitê de TIC ou instância equivalente
 
 A instituição formal isolada do Comitê de TIC ou instância equivalente não é suficiente para assegurar governança efetiva. É necessário que a instância funcione de modo regular, com reuniões, pautas, atas, registros de deliberação, encaminhamentos e acompanhamento das decisões tomadas.
 
-O COBIT 2019, no objetivo EDM01.02, orienta o funcionamento das estruturas de governança de modo que a TIC apoie os objetivos organizacionais. O Decreto nº 12.198/2024 e o Acórdão TCE-RJ nº 44.490/2024-PLEN também fundamentam a atuação efetiva da instância colegiada para alinhar as ações de TIC, priorizar investimentos e monitorar seu desempenho.
+{% for criterio in criterios_comite_atuacao %}
+{{ narrativa_criterios[criterio.id] }}
+{% endfor %}
 
 A atuação efetiva do Comitê deve ser demonstrada por atas, pautas, listas de presença, registros de deliberação, decisões, encaminhamentos ou acompanhamento de pendências. A ausência desses registros dificulta verificar se a instância colegiada exerce, de fato, seu papel de avaliação, direção e monitoramento da TIC.
 
@@ -122,7 +152,7 @@ Da análise das respostas ao item 1001 e da documentação apresentada, verifico
 {% endfor %}
 {% endif %}
 
-Essa fragilidade operacional reduz a segurança de que decisões relevantes sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC sejam submetidas ao crivo colegiado ou monitoradas formalmente.
+A falta de comprovação de funcionamento regular e de deliberações documentadas contraria os critérios de governança aplicáveis, reduzindo a segurança de que decisões relevantes sobre prioridades, projetos, riscos, serviços, orçamento e contratações de TIC sejam avaliadas e acompanhadas pelo colegiado.
 
 {% endif %}
 
