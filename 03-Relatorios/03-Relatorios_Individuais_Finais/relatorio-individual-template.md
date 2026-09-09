@@ -117,7 +117,7 @@ A [@fig:distribuicao_componentes_igovti_2026] permite comparar a distribuição 
 ![Distribuição do iGovTI 2026 e dos componentes Governança de TIC e Gestão de TIC](igovti_2026_distribuicao_componentes.png){#fig:distribuicao_componentes_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:governanca_vs_gestao_igovti_2026] apresenta a posição simultânea das organizações nos componentes Governança de TIC e Gestão de TIC. Pontos acima da diagonal indicam resultado de Gestão superior ao de Governança; pontos abaixo indicam a situação inversa; e pontos próximos à diagonal representam valores semelhantes nos dois componentes.
+A [@fig:governanca_vs_gestao_igovti_2026] apresenta a posição simultânea das organizações nos componentes Governança de TIC e Gestão de TIC. Pontos acima da diagonal indicam resultado de Gestão superior ao de Governança; pontos abaixo indicam a situação inversa; e pontos próximos à diagonal representam valores semelhantes nos dois componentes. As cores dos pontos representam o nível de maturidade da organização segundo o iGovTI global.
 
 ![Relação entre os componentes Governança de TIC e Gestão de TIC no conjunto avaliado](igovti_2026_governanca_vs_gestao.png){#fig:governanca_vs_gestao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -128,7 +128,7 @@ Em conjunto, os resultados evidenciam predominância de níveis iniciais de matu
 
 ## 2.2. Cenário atual - {{ auditado.sigla }}
 
-Apresentado o panorama geral do universo fiscalizado, esta subseção detalha o desempenho específico da organização jurisdicionada. A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGovTI|float)) | replace('.', ',') }} para o iGovTI 2026**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade.
+Apresentado o panorama geral do universo fiscalizado, esta subseção detalha o resultado individual da organização jurisdicionada. A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGovTI|float)) | replace('.', ',') }} para o iGovTI 2026**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade.
 
 A [@fig:comparativo_distribuicao_iGovTI] apresenta a distribuição contínua dos resultados do iGovTI 2026 e a posição da organização **{{ auditado.sigla }}** nesse conjunto. As linhas verticais indicam a média e a mediana das organizações avaliadas, e o marcador “X” identifica o resultado individual. Diferenças marginais de pontuação entre organizações adjacentes devem ser interpretadas com cautela, pois o modelo matemático de composição do índice não pressupõe estimativa de erro amostral e os resultados estão sujeitos à qualidade e à fidedignidade das informações declaradas.
 
@@ -152,7 +152,7 @@ A [@fig:componentes_igovti] apresenta a composição do resultado da organizaç�
 
 ### 2.2.1. Governança de TIC
 
-A governança de TIC avalia a capacidade da alta administração de orientar, dirigir, monitorar e controlar o uso da tecnologia da informação, de modo alinhado aos objetivos institucionais, aos riscos relevantes e às necessidades das áreas finalísticas e administrativas.
+O componente Governança de TIC avalia o grau de adoção de práticas relacionadas à capacidade da alta administração de orientar, dirigir, monitorar e controlar o uso da tecnologia da informação, de modo alinhado aos objetivos institucionais, aos riscos relevantes e às necessidades das áreas finalísticas e administrativas.
 
 No iGovTI 2026, o componente Governança de TIC agrega diretamente quatro práticas: estabelecimento do modelo de gestão de TIC, monitoramento do desempenho da gestão de TIC pela alta administração, atuação da auditoria interna em apoio à governança de TIC e definição de metas para simplificar os serviços públicos.
 
@@ -200,7 +200,7 @@ Com o resultado obtido ({{ ('%0.4f' | format(governanca_val)) | replace('.', ','
 
 ### 2.2.2. Gestão de TIC
 
-A gestão de TIC avalia a capacidade da organização de planejar, executar, monitorar e aperfeiçoar os processos, serviços, controles e soluções de tecnologia da informação abrangidos pelo índice, de forma compatível com suas necessidades institucionais.
+O componente Gestão de TIC avalia o grau de adoção de práticas relacionadas ao planejamento, à execução, ao monitoramento e ao aperfeiçoamento dos processos, serviços, controles e soluções de tecnologia da informação, de forma compatível com suas necessidades institucionais.
 
 No iGovTI 2026, o componente **Gestão de TIC (iGestTI)** consolida seis dimensões operacionais: Planejamento de TIC, Gestão de serviços de TIC, Riscos de TI e de segurança da informação, Estrutura de segurança da informação, Processos de segurança da informação e Gestão de soluções de TIC.
 

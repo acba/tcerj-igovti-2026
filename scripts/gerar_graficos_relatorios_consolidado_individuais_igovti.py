@@ -459,13 +459,32 @@ def plot_governance_management(results: pd.DataFrame) -> None:
     x = results["GovernancaTI"].astype(float).to_numpy()
     y = results["iGestTI"].astype(float).to_numpy()
     colors = [LEVEL_COLORS[maturity(value)] for value in results["iGovTI"].astype(float)]
-    fig, ax = plt.subplots(figsize=(8.2, 7.2))
+    fig, ax = plt.subplots(figsize=(8.2, 7.4))
     ax.scatter(x, y, c=colors, s=42, alpha=0.72, edgecolor="white", linewidth=0.45)
     ax.plot([0, 1], [0, 1], color=CORES["texto_secundario"], linestyle="--", linewidth=1, label="Governança = gestão")
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("Governança de TIC"); ax.set_ylabel("Gestão de TIC")
+
+    mat_handles = [Patch(facecolor=LEVEL_COLORS[level], label=level) for level in LEVELS]
+    leg1 = ax.legend(
+        handles=mat_handles,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.05),
+        ncol=4,
+        frameon=False,
+        borderaxespad=0,
+    )
+    ax.add_artist(leg1)
+    fig.legends.append(leg1)
+
     comparison_handles, _ = ax.get_legend_handles_labels()
-    maturity_legend(ax, extra_handles=comparison_handles)
+    ax.legend(
+        handles=comparison_handles,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.005),
+        frameon=False,
+        borderaxespad=0,
+    )
     clean_axis(ax, grid_axis="both")
     save_shared(fig, "igovti_2026_governanca_vs_gestao.png")
 
