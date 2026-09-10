@@ -1,5 +1,5 @@
-{% set nome_achado = 'Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes' %}
-{% set achado = auditado.get_achado_por_nome(nome_achado) %}
+{% set id_achado = 'Q5' %}{# Q5 — Gestão de serviços de TIC #}
+{% set achado = auditado.get_achado_por_id(id_achado) %}
 {% if achado %}
 {% set narrativa_criterios = {
     'Q5.C2':
@@ -56,22 +56,13 @@
     'Q5.C23':
         'Para o Ministério Público Estadual, o art. 26, inciso II, da Resolução CNMP nº 171/2017 determina que a regulamentação da infraestrutura de TI contemple o controle e a gestão dos itens de configuração e dos ativos de TI.'
 } %}
-{% set situacao_catalogo = 'Inexistência ou insuficiência do catálogo de serviços de TIC.' %}
-{% set situacao_ans = 'Ausência ou fragilidade na definição e no monitoramento de níveis mínimos de serviço de TIC.' %}
-{% set situacao_inventario = 'Inventário e controle de dispositivos e softwares de TIC inexistente ou insuficiente.' %}
-{% set situacao_configuracao = 'Ausência ou fragilidade do processo de gestão de configuração.' %}
-{% set situacao_incidentes = 'Inexistência ou fragilidade do processo de gestão de incidentes de TIC.' %}
-{% set motivos_catalogo = auditado.get_motivos_situacao(nome_achado, situacao_catalogo) %}
-{% set motivos_ans = auditado.get_motivos_situacao(nome_achado, situacao_ans) %}
-{% set motivos_inventario = auditado.get_motivos_situacao(nome_achado, situacao_inventario) %}
-{% set motivos_configuracao = auditado.get_motivos_situacao(nome_achado, situacao_configuracao) %}
-{% set motivos_incidentes = auditado.get_motivos_situacao(nome_achado, situacao_incidentes) %}
-{% set tem_catalogo = situacao_catalogo in achado.situacoes_encontradas and motivos_catalogo %}
-{% set tem_ans = situacao_ans in achado.situacoes_encontradas and motivos_ans %}
-{% set tem_inventario = situacao_inventario in achado.situacoes_encontradas and motivos_inventario %}
-{% set tem_configuracao = situacao_configuracao in achado.situacoes_encontradas and motivos_configuracao %}
-{% set tem_incidentes = situacao_incidentes in achado.situacoes_encontradas and motivos_incidentes %}
-{% set qtd_situacoes_exibidas = (1 if tem_catalogo else 0) + (1 if tem_ans else 0) + (1 if tem_inventario else 0) + (1 if tem_configuracao else 0) + (1 if tem_incidentes else 0) %}
+{% set s_catalogo = auditado.get_situacao(id_achado, 'S5.1') %}{# S5.1 — Catálogo de serviços de TIC #}
+{% set s_niveis_servico = auditado.get_situacao(id_achado, 'S5.2') %}{# S5.2 — Níveis mínimos de serviço e metas de atendimento #}
+{% set s_inventario = auditado.get_situacao(id_achado, 'S5.3') %}{# S5.3 — Inventário de ativos de TIC #}
+{% set s_configuracao = auditado.get_situacao(id_achado, 'S5.4') %}{# S5.4 — Processo de gestão de configuração #}
+{% set s_incidentes = auditado.get_situacao(id_achado, 'S5.5') %}{# S5.5 — Processo de gestão de incidentes de TIC #}
+{% set situacoes_achado = [s_catalogo, s_niveis_servico, s_inventario, s_configuracao, s_incidentes] %}
+{% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
 \newpage
 
@@ -89,19 +80,19 @@ A adoção de processos estruturados para entrega e suporte de serviços tecnol�
 
 Com base na análise das respostas aos itens 2201, 2203, 2204 e 2504 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrada adoção suficiente dessas práticas mínimas. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
-{% if tem_catalogo %}
+{% if s_catalogo.ativa %}
 * **Catálogo de serviços de TIC**: ausência ou desatualização de catálogo estruturado e divulgado aos usuários com as características e canais dos serviços prestados, divergindo das boas práticas aplicáveis, favorecendo a prestação reativa de suporte.
 {% endif %}
-{% if tem_ans %}
+{% if s_niveis_servico.ativa %}
 * **Níveis mínimos de serviço**: ausência de definição formal ou monitoramento de metas e parâmetros mínimos de desempenho para os serviços essenciais de TIC, em desacordo com as diretrizes aplicáveis, dificultando a aferição objetiva da tempestividade do suporte.
 {% endif %}
-{% if tem_inventario %}
+{% if s_inventario.ativa %}
 * **Inventário de ativos de TIC**: inexistência ou deficiência de inventário atualizado e abrangente de dispositivos e *softwares*, contrariando os critérios aplicáveis, reduzindo o controle sobre ativos computacionais, licenciamentos e custos decorrentes.
 {% endif %}
-{% if tem_configuracao %}
+{% if s_configuracao.ativa %}
 * **Gestão de configuração**: ausência de processo formalizado e de base de itens de configuração com seus atributos e relacionamentos, divergindo dos critérios de governança aplicáveis, podendo reduzir a confiabilidade das informações sobre o ambiente tecnológico.
 {% endif %}
-{% if tem_incidentes %}
+{% if s_incidentes.ativa %}
 * **Gestão de incidentes de TIC**: ausência ou fragilidade no fluxo padronizado de registro, classificação e tratamento de incidentes operacionais e de segurança, em descompasso com os parâmetros aplicáveis, dificultando o restabelecimento tempestivo das operações.
 {% endif %}
 
@@ -111,23 +102,20 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-{% set situacao = situacao_catalogo %}
-{% if tem_catalogo %}
-{% set criterios_catalogo = auditado.get_criterios_situacao(nome_achado, 'S5.1') %}
+{% if s_catalogo.ativa %}
 #### Catálogo de serviços de TIC
 
 O catálogo de serviços de TIC deve constituir fonte única de informações consistentes sobre os serviços prestados, acessível aos usuários e às áreas demandantes. Deve conter informações mínimas sobre os serviços efetivamente prestados, suas características, requisitos, canais de atendimento e níveis esperados de serviço.
 
-{% for criterio in criterios_catalogo %}
+{% for criterio in s_catalogo.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2201 e da documentação apresentada, verificou-se que a existência de catálogo de serviços de TIC atualizado, acessível aos usuários e com informações mínimas sobre os serviços prestados não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_catalogo.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_catalogo.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -136,23 +124,20 @@ A ausência ou insuficiência de catálogo de serviços estruturado e divulgado 
 
 {% endif %}
 
-{% set situacao = situacao_ans %}
-{% if tem_ans %}
-{% set criterios_ans = auditado.get_criterios_situacao(nome_achado, 'S5.2') %}
+{% if s_niveis_servico.ativa %}
 #### Níveis de serviço e metas de atendimento
 
 A definição de Acordos de Níveis de Serviço, metas mínimas ou parâmetros equivalentes permite pactuar expectativas, medir desempenho e avaliar a qualidade dos principais serviços de TIC.
 
-{% for criterio in criterios_ans %}
+{% for criterio in s_niveis_servico.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2201 e da documentação apresentada, verificou-se que a definição ou o monitoramento de níveis mínimos de serviço, metas ou parâmetros equivalentes para os serviços de TIC relevantes não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_niveis_servico.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_niveis_servico.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -161,23 +146,20 @@ A não pactuação e o não monitoramento de metas de atendimento divergem dos p
 
 {% endif %}
 
-{% set situacao = situacao_inventario %}
-{% if tem_inventario %}
-{% set criterios_inventario = auditado.get_criterios_situacao(nome_achado, 'S5.3') %}
+{% if s_inventario.ativa %}
 #### Inventário de ativos de TIC
 
 O inventário de ativos de TIC deve permitir conhecer e controlar os dispositivos conectados à rede e os *softwares* instalados.
 
-{% for criterio in criterios_inventario %}
+{% for criterio in s_inventario.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2504 e da documentação apresentada, verificou-se que a existência de inventário de dispositivos e softwares de TIC atualizado e abrangente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_inventario.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_inventario.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -186,23 +168,20 @@ A ausência de inventário consolidado e atualizado de ativos contraria os crit�
 
 {% endif %}
 
-{% set situacao = situacao_configuracao %}
-{% if tem_configuracao %}
-{% set criterios_configuracao = auditado.get_criterios_situacao(nome_achado, 'S5.4') %}
+{% if s_configuracao.ativa %}
 #### Gestão de configuração
 
 A gestão de configuração deve manter informações precisas e confiáveis sobre itens de configuração relevantes, seus atributos, responsáveis e relacionamentos com ativos, sistemas, infraestrutura e serviços.
 
-{% for criterio in criterios_configuracao %}
+{% for criterio in s_configuracao.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2203 e da documentação apresentada, verificou-se que a existência de processo mínimo de gestão de configuração com registro de itens relevantes, atributos, responsáveis e relacionamentos entre ativos, sistemas, infraestrutura e serviços não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_configuracao.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_configuracao.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -211,23 +190,20 @@ A ausência de processo formal e de registros de configuração diverge dos crit
 
 {% endif %}
 
-{% set situacao = situacao_incidentes %}
-{% if tem_incidentes %}
-{% set criterios_incidentes = auditado.get_criterios_situacao(nome_achado, 'S5.5') %}
+{% if s_incidentes.ativa %}
 #### Gestão de incidentes de TIC
 
 A gestão de incidentes de TIC deve definir papéis, critérios de priorização e escalamento, procedimentos para incidentes de serviços e de segurança da informação e registros sistemáticos e rastreáveis das ocorrências.
 
-{% for criterio in criterios_incidentes %}
+{% for criterio in s_incidentes.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2204 e da documentação apresentada, verificou-se que a existência de processo formal de gestão de incidentes de TIC, com critérios de priorização e escalamento, procedimentos para incidentes de segurança da informação e registros rastreáveis, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_incidentes.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_incidentes.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}

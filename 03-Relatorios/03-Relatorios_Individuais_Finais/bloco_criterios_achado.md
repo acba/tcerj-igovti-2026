@@ -1,11 +1,11 @@
 ### Critérios
-{% set criterios_achado = auditado.get_criterios_achado(nome_achado) %}
-{% for criterio in criterios_achado if not criterio.especifico %}
+{% set criterios_achado = auditado.get_criterios_achado(id_achado) %}
+{% set criterios_gerais = criterios_achado | rejectattr('especifico') | list %}
+{% set criterios_especificos = criterios_achado | selectattr('especifico') | list %}
+{% for criterio in criterios_gerais %}
 * {{ criterio.descricao.rstrip('.') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
-{% set enquadramentos_especificos = auditado.get_enquadramentos_especificos_achado(nome_achado) %}
-{% if enquadramentos_especificos %}
-{% set criterios_especificos = criterios_achado | selectattr('especifico') | list %}
+{% if criterios_especificos %}
 
 {% for criterio in criterios_especificos %}
 * {{ criterio.descricao.rstrip('.') }}{{ '.' if loop.last else ';' }}

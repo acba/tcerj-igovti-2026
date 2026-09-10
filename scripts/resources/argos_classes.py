@@ -275,15 +275,85 @@ class Achado:
         self.encaminhamentos = encaminhamentos if encaminhamentos is not None else []
         self.evidencias = evidencias if evidencias is not None else []
         self.evidencias_detalhadas = evidencias_detalhadas if evidencias_detalhadas is not None else []
-        self.motivos_situacoes = motivos_situacoes if motivos_situacoes is not None else {}
+        self.motivos_situacoes = dict(motivos_situacoes) if motivos_situacoes is not None else {}
         self.situacoes_detalhadas = situacoes_detalhadas if situacoes_detalhadas is not None else []
+        self._normalizar_motivos_legados_por_id()
+
+    def _normalizar_motivos_legados_por_id(self):
+        """Normaliza chaves de motivos_situacoes de formatos legados para id_situacao exclusivo."""
+        if not self.situacoes_detalhadas or not self.motivos_situacoes:
+            return
+
+        desc_para_sid = {}
+        for sd in self.situacoes_detalhadas:
+            sid = sd.get("id_situacao")
+            desc = normalizar_texto_relatorio(sd.get("descricao") or "")
+            if sid and desc:
+                desc_para_sid[desc] = sid
+
+        novos = {}
+        # 1. Preserva chaves que já são id_situacao reconhecido
+        sids_conhecidos = {sd.get("id_situacao") for sd in self.situacoes_detalhadas if sd.get("id_situacao")}
+        for sid_candidato, lista_motivos in self.motivos_situacoes.items():
+            if sid_candidato in sids_conhecidos:
+                novos[sid_candidato] = list(lista_motivos)
+
+        # 2. Converte chaves que são descrições textuais legadas
+        for chave, lista_motivos in self.motivos_situacoes.items():
+            chave_norm = normalizar_texto_relatorio(chave)
+            if chave_norm in desc_para_sid:
+                sid = desc_para_sid[chave_norm]
+                if sid not in novos:
+                    novos[sid] = list(lista_motivos)
+                else:
+                    # Se já existia a chave sid, deduplica os motivos
+                    existentes = novos[sid]
+                    seen_chaves = {
+                        (
+                            m.get("id", ""),
+                            m.get("id_acao", ""),
+                            normalizar_texto_relatorio(m.get("descricao", "")),
+                            normalizar_texto_relatorio(m.get("complemento", "")),
+                        )
+                        for m in existentes if isinstance(m, dict)
+                    }
+                    for m in lista_motivos:
+                        if isinstance(m, dict):
+                            m_chave = (
+                                m.get("id", ""),
+                                m.get("id_acao", ""),
+                                normalizar_texto_relatorio(m.get("descricao", "")),
+                                normalizar_texto_relatorio(m.get("complemento", "")),
+                            )
+                            if m_chave not in seen_chaves:
+                                seen_chaves.add(m_chave)
+                                existentes.append(m)
+                        elif m not in existentes:
+                            existentes.append(m)
+
+        # 3. Preserva eventuais chaves não mapeadas para diagnóstico
+        for chave, lista_motivos in self.motivos_situacoes.items():
+            chave_norm = normalizar_texto_relatorio(chave)
+            if chave not in novos and chave_norm not in desc_para_sid:
+                novos[chave] = lista_motivos
+
+        self.motivos_situacoes = novos
+
+    def _sincronizar_chaves_motivos(self):
+        """Alias de compatibilidade histórica. Utilizar _normalizar_motivos_legados_por_id."""
+        self._normalizar_motivos_legados_por_id()
+
+    @property
+    def id_achado(self):
+        return f"Q{self.numero}" if self.numero is not None else None
 
     def __repr__(self):
-        return  f"Achado(numero='{self.numero}', nome='{self.nome}')"
+        return f"Achado(id_achado='{self.id_achado}', numero='{self.numero}', nome='{self.nome}')"
 
     def to_dict(self):
         return {
             'numero': self.numero,
+            'id_achado': self.id_achado,
             'nome': self.nome,
             'situacoes_encontradas': [safe_serialize(s) for s in self.situacoes_encontradas],
             'evidencias': [safe_serialize(e) for e in self.evidencias],
@@ -305,6 +375,44 @@ class Achado:
             motivos_situacoes=data.get('motivos_situacoes'),
             situacoes_detalhadas=data.get('situacoes_detalhadas'),
         )
+
+
+class SituacaoAchado:
+    def __init__(
+        self,
+        id_situacao: str,
+        descricao: str = "",
+        ativa: bool = False,
+        motivos: list = None,
+        criterios: list = None,
+        tipo_encaminhamento: str = "",
+        publico: str = "",
+        id_variante: str = "",
+        fundamentacao_encaminhamento: str = "",
+        encaminhamento: str = "",
+    ):
+        self.id_situacao = id_situacao
+        self.descricao = descricao
+        self.ativa = ativa
+        self.motivos = motivos if motivos is not None else []
+        self.criterios = criterios if criterios is not None else []
+        self.tipo_encaminhamento = tipo_encaminhamento
+        self.publico = publico
+        self.id_variante = id_variante
+        self.fundamentacao_encaminhamento = fundamentacao_encaminhamento
+        self.encaminhamento = encaminhamento
+
+    def __bool__(self):
+        return self.ativa
+
+    def __getitem__(self, item):
+        return getattr(self, item)
+
+    def get(self, item, default=None):
+        return getattr(self, item, default)
+
+    def __repr__(self):
+        return f"SituacaoAchado(id_situacao='{self.id_situacao}', ativa={self.ativa})"
 
 
 class ResultadoAcao:
@@ -576,14 +684,17 @@ class ProcedimentoAuditoria:
     def _acoes_resultantes_por_id(self, acoes_verificadas):
         return {acao.id: acao for acao in acoes_verificadas}
 
-    def _refs_padrao_situacao(self, acoes_verificadas, situacao):
+    def _refs_padrao_situacao(self, acoes_verificadas, sid_ou_situacao):
         return [
             acao.id
             for acao in acoes_verificadas
-            if acao.resultado and getattr(acao, "descricao_situacao_inconforme", None) == situacao
+            if acao.resultado and (
+                getattr(acao, "id_situacao", None) == sid_ou_situacao
+                or getattr(acao, "descricao_situacao_inconforme", None) == sid_ou_situacao
+            )
         ]
 
-    def _construir_motivos_relatorio(self, auditado, acoes_verificadas, resultados, situacoes_encontradas):
+    def _construir_motivos_relatorio(self, auditado, acoes_verificadas, resultados, situacoes):
         motivos_por_situacao = {}
         if not self.motivos_relatorio:
             return motivos_por_situacao
@@ -594,7 +705,30 @@ class ProcedimentoAuditoria:
             except (TypeError, ValueError):
                 return 0
 
-        situacoes_validas = set(situacoes_encontradas)
+        # Mapeia situacoes para busca por sid e por descricao
+        if isinstance(situacoes, dict):
+            situacoes_por_id = situacoes
+        else:
+            situacoes_por_id = {
+                normalizar_texto_relatorio(s): {
+                    "id_situacao": normalizar_texto_relatorio(s),
+                    "descricao": normalizar_texto_relatorio(s),
+                }
+                for s in situacoes
+            }
+
+        desc_para_sid = {}
+        for sid, dados in situacoes_por_id.items():
+            desc = normalizar_texto_relatorio(dados.get("descricao") or "")
+            if desc:
+                desc_para_sid[desc] = sid
+
+        for acao in getattr(self, "acoes_verificacao", []):
+            sid_acao = normalizar_texto_relatorio(getattr(acao, "id_situacao", None))
+            desc_acao = normalizar_texto_relatorio(getattr(acao, "descricao_situacao_inconforme", None))
+            if sid_acao and desc_acao and desc_acao not in desc_para_sid:
+                desc_para_sid[desc_acao] = sid_acao
+
         for regra in sorted(
             self.motivos_relatorio,
             key=lambda item: (ordem_motivo(item), str(item.get("id", ""))),
@@ -606,8 +740,9 @@ class ProcedimentoAuditoria:
             if not ativo:
                 continue
 
-            situacao = normalizar_texto_relatorio(regra.get("descricao_situacao_inconforme"))
-            if situacao not in situacoes_validas:
+            desc_regra = normalizar_texto_relatorio(regra.get("descricao_situacao_inconforme"))
+            sid = regra.get("id_situacao") or desc_para_sid.get(desc_regra)
+            if not sid or sid not in situacoes_por_id:
                 continue
 
             condicao = normalizar_texto_relatorio(regra.get("condicao_exibicao"))
@@ -620,7 +755,7 @@ class ProcedimentoAuditoria:
 
             refs_acoes = parse_lista_ids_acoes(regra.get("acoes_referencia"))
             if not refs_acoes:
-                refs_acoes = self._refs_padrao_situacao(acoes_verificadas, situacao)
+                refs_acoes = self._refs_padrao_situacao(acoes_verificadas, sid) or self._refs_padrao_situacao(acoes_verificadas, desc_regra)
 
             motivo = {
                 "id": normalizar_texto_relatorio(regra.get("id")),
@@ -629,9 +764,10 @@ class ProcedimentoAuditoria:
                 "refs_acoes": refs_acoes,
                 "condicao_exibicao": condicao,
                 "acoes_referencia": refs_acoes,
-                "descricao_situacao_inconforme": situacao,
+                "descricao_situacao_inconforme": desc_regra,
+                "id_situacao": sid,
             }
-            motivos_por_situacao.setdefault(situacao, []).append(motivo)
+            motivos_por_situacao.setdefault(sid, []).append(motivo)
 
         return motivos_por_situacao
 
@@ -648,9 +784,38 @@ class ProcedimentoAuditoria:
                     situacoes.add(situacao)
         return situacoes
 
+    def _sids_com_motivos_relatorio(self, situacoes_por_id=None):
+        sids = set()
+        desc_para_sid = {}
+        if situacoes_por_id and isinstance(situacoes_por_id, dict):
+            for sid, dados in situacoes_por_id.items():
+                desc = normalizar_texto_relatorio(dados.get("descricao") or "")
+                if desc:
+                    desc_para_sid[desc] = sid
+
+        for acao in getattr(self, "acoes_verificacao", []):
+            sid_acao = normalizar_texto_relatorio(getattr(acao, "id_situacao", None))
+            desc_acao = normalizar_texto_relatorio(getattr(acao, "descricao_situacao_inconforme", None))
+            if sid_acao and desc_acao and desc_acao not in desc_para_sid:
+                desc_para_sid[desc_acao] = sid_acao
+
+        for regra in self.motivos_relatorio:
+            try:
+                ativo = parse_bool_planilha(regra.get("ativo"), default=True, field_name=f"ativo do motivo {regra.get('id')}")
+            except ValueError:
+                ativo = True
+            if ativo:
+                sid = regra.get("id_situacao")
+                if not sid:
+                    desc = normalizar_texto_relatorio(regra.get("descricao_situacao_inconforme"))
+                    sid = desc_para_sid.get(desc)
+                if sid:
+                    sids.add(sid)
+        return sids
+
     def _refs_acoes_por_situacao_motivo(self, motivos_declarativos):
         refs_por_situacao = {}
-        for situacao, motivos in (motivos_declarativos or {}).items():
+        for sid_ou_situacao, motivos in (motivos_declarativos or {}).items():
             refs = []
             for motivo in motivos:
                 refs.extend(
@@ -659,16 +824,16 @@ class ProcedimentoAuditoria:
                     )
                 )
             if refs:
-                refs_por_situacao[situacao] = set(refs)
+                refs_por_situacao[sid_ou_situacao] = set(refs)
         return refs_por_situacao
 
     def _construir_encaminhamentos_e_evidencias(
         self,
         acoes_verificadas,
-        situacoes_encontradas,
+        ordem_situacoes,
         motivos_declarativos=None,
     ):
-        situacoes_validas = set(situacoes_encontradas)
+        sids_validos = set(ordem_situacoes)
         refs_por_situacao_motivo = self._refs_acoes_por_situacao_motivo(motivos_declarativos)
         encaminhamentos = []
         seen_encaminhamentos = set()
@@ -680,10 +845,11 @@ class ProcedimentoAuditoria:
         for acao in acoes_verificadas:
             if not acao.resultado:
                 continue
+            sid = getattr(acao, "id_situacao", None)
             situacao = getattr(acao, "descricao_situacao_inconforme", None)
-            if pd.isna(situacao) or situacao not in situacoes_validas:
+            if (sid not in sids_validos) and (situacao not in sids_validos):
                 continue
-            refs_motivo = refs_por_situacao_motivo.get(situacao)
+            refs_motivo = refs_por_situacao_motivo.get(sid) or refs_por_situacao_motivo.get(situacao)
             if refs_motivo is not None and acao.id not in refs_motivo:
                 continue
 
@@ -737,8 +903,8 @@ class ProcedimentoAuditoria:
             seen_evidencias = set()
             evidencias_por_descricao = {}
             
-            situacoes_encontradas = []
-            seen_situacoes = set()
+            situacoes_por_id = {}
+            ordem_situacoes = []
             motivos_situacoes = {}
             seen_motivos_situacoes = set()
 
@@ -767,49 +933,77 @@ class ProcedimentoAuditoria:
                             detalhe["id_acoes"].append(acao.id)
 
                     # Situações Encontradas
-                    if not pd.isna(acao.descricao_situacao_inconforme):
-                        situacao = acao.descricao_situacao_inconforme
-                        if situacao not in seen_situacoes:
-                            seen_situacoes.add(situacao)
-                            situacoes_encontradas.append(situacao)
+                    sid = normalizar_texto_relatorio(getattr(acao, "id_situacao", None))
+                    descricao = normalizar_texto_relatorio(getattr(acao, "descricao_situacao_inconforme", None))
+                    if sid:
+                        if sid not in situacoes_por_id:
+                            situacoes_por_id[sid] = {
+                                "id_situacao": sid,
+                                "descricao": descricao,
+                                "acoes": [],
+                            }
+                            ordem_situacoes.append(sid)
+                        else:
+                            desc_existente = situacoes_por_id[sid]["descricao"]
+                            if descricao and desc_existente and desc_existente != descricao:
+                                import logging
+                                logging.warning(
+                                    f"Descrições divergentes para {sid} no procedimento {self.id}: "
+                                    f"'{desc_existente}' vs '{descricao}'"
+                                )
+                        situacoes_por_id[sid]["acoes"].append(acao)
+
                         motivo = construir_motivo_situacao(acao)
                         if motivo:
                             chave_motivo = (
-                                situacao,
+                                sid,
                                 motivo.get("id_acao", ""),
                                 motivo.get("descricao", ""),
                                 motivo.get("complemento", ""),
                             )
                             if chave_motivo not in seen_motivos_situacoes:
                                 seen_motivos_situacoes.add(chave_motivo)
-                                motivos_situacoes.setdefault(situacao, []).append(motivo)
+                                motivos_situacoes.setdefault(sid, []).append(motivo)
+                    elif descricao:
+                        raise ValueError(
+                            f"Ação {acao.id} materializou inconformidade sem id_situacao."
+                        )
 
             motivos_declarativos = self._construir_motivos_relatorio(
                 auditado,
                 acoes_verificadas,
                 resultados,
-                situacoes_encontradas,
+                situacoes_por_id,
             )
-            for situacao, motivos in motivos_declarativos.items():
+            for sid, motivos in motivos_declarativos.items():
                 if motivos:
-                    motivos_situacoes[situacao] = motivos
+                    motivos_situacoes[sid] = motivos
 
-            situacoes_com_regras = self._situacoes_com_motivos_relatorio()
-            if situacoes_com_regras:
-                situacoes_encontradas = [
-                    situacao for situacao in situacoes_encontradas
-                    if situacao not in situacoes_com_regras or motivos_declarativos.get(situacao)
+            sids_com_regras = self._sids_com_motivos_relatorio(situacoes_por_id)
+            if sids_com_regras:
+                ordem_situacoes = [
+                    sid for sid in ordem_situacoes
+                    if sid not in sids_com_regras or motivos_declarativos.get(sid)
                 ]
+                situacoes_por_id = {
+                    sid: situacoes_por_id[sid]
+                    for sid in ordem_situacoes
+                }
                 motivos_situacoes = {
-                    situacao: motivos
-                    for situacao, motivos in motivos_situacoes.items()
-                    if situacao in situacoes_encontradas
+                    sid: motivos
+                    for sid, motivos in motivos_situacoes.items()
+                    if sid in ordem_situacoes
                 }
                 encaminhamentos, evidencias, evidencias_detalhadas = self._construir_encaminhamentos_e_evidencias(
                     acoes_verificadas,
-                    situacoes_encontradas,
+                    ordem_situacoes,
                     motivos_declarativos,
                 )
+
+            situacoes_encontradas = [
+                situacoes_por_id[sid]["descricao"]
+                for sid in ordem_situacoes
+            ]
 
             achado.encaminhamentos = encaminhamentos
             achado.evidencias = evidencias
@@ -820,18 +1014,9 @@ class ProcedimentoAuditoria:
             if resolvedor_aplicabilidade is not None:
                 detalhes = []
                 encaminhamentos_resolvidos = []
-                for situacao in situacoes_encontradas:
-                    ids = {
-                        acao.id_situacao for acao in acoes_verificadas
-                        if acao.resultado
-                        and acao.descricao_situacao_inconforme == situacao
-                        and getattr(acao, "id_situacao", "")
-                    }
-                    if len(ids) != 1:
-                        raise ValueError(
-                            f"{self.id}/{situacao}: esperava um id_situacao e encontrou {sorted(ids)}."
-                        )
-                    id_situacao = next(iter(ids))
+                for id_situacao in ordem_situacoes:
+                    dados_situacao = situacoes_por_id[id_situacao]
+                    descricao = dados_situacao["descricao"]
                     resolvida = resolvedor_aplicabilidade.resolver(perfil_auditado, id_situacao)
                     criterios = [
                         {
@@ -847,7 +1032,8 @@ class ProcedimentoAuditoria:
                     ]
                     detalhe = {
                         "id_situacao": id_situacao,
-                        "descricao": situacao,
+                        "descricao": descricao,
+                        "ativa": True,
                         "id_variante": resolvida.variante.id,
                         "publico": resolvida.variante.rotulo_publico,
                         "criterios": criterios,
@@ -875,6 +1061,9 @@ class ProcedimentoAuditoria:
                             acao.encaminhamento = resolvida.variante.encaminhamento
                 achado.situacoes_detalhadas = detalhes
                 achado.encaminhamentos = encaminhamentos_resolvidos
+                achado._normalizar_motivos_legados_por_id()
+            else:
+                achado._normalizar_motivos_legados_por_id()
 
         return ResultadoProcedimento(
             self,
@@ -1032,12 +1221,74 @@ class Auditado:
         """Retorna uma lista dos nomes dos achados identificados para o auditado."""
         return {f"achado{p.achado.numero}": p.achado for p in self.procedimentos_executados if p.achado is not None}
 
+    def get_achado_por_id(self, id_achado):
+        """Retorna o objeto Achado correspondente ao identificador fornecido (ex: 'Q1', 1, '1')."""
+        if id_achado is None:
+            return None
+        target = str(id_achado).strip().upper()
+        target_num = None
+        if target.startswith("Q") and target[1:].isdigit():
+            target_num = int(target[1:])
+        elif target.isdigit():
+            target_num = int(target)
+
+        for p in self.procedimentos_executados:
+            if not p.achado:
+                continue
+            if p.achado.id_achado == target:
+                return p.achado
+            if target_num is not None and p.achado.numero == target_num:
+                return p.achado
+        return None
+
     def get_achado_por_nome(self, nome_achado):
-        """Retorna o objeto Achado correspondente ao nome fornecido."""
+        """Compatibilidade legada. Não utilizar em código novo."""
         for p in self.procedimentos_executados:
             if p.achado and p.achado.nome == nome_achado:
                 return p.achado
         return None
+
+    def _resolve_achado(self, id_ou_nome):
+        """Resolve um Achado por ID estrutural (ex: 'Q1') ou por nome textual."""
+        if not id_ou_nome:
+            return None
+        achado = self.get_achado_por_id(id_ou_nome)
+        if achado:
+            return achado
+        return self.get_achado_por_nome(id_ou_nome)
+
+    def get_situacao(self, id_achado, id_situacao):
+        """Retorna objeto SituacaoAchado estruturado com critérios, motivos e metadados."""
+        target_sid = str(id_situacao).strip()
+        achado = self.get_achado_por_id(id_achado) or self._resolve_achado(id_achado)
+        if not achado:
+            return SituacaoAchado(id_situacao=target_sid, ativa=False)
+
+        sd = None
+        for item in getattr(achado, "situacoes_detalhadas", []) or []:
+            if item.get("id_situacao") == target_sid:
+                sd = item
+                break
+
+        if sd is None:
+            return SituacaoAchado(id_situacao=target_sid, ativa=False)
+
+        motivos = self.get_motivos_situacao(achado.id_achado, target_sid)
+        criterios = [dict(c) if isinstance(c, dict) else c for c in sd.get("criterios", [])]
+        ativa = bool(sd.get("ativa", True))
+
+        return SituacaoAchado(
+            id_situacao=target_sid,
+            descricao=sd.get("descricao", ""),
+            ativa=ativa,
+            motivos=motivos,
+            criterios=criterios,
+            tipo_encaminhamento=sd.get("tipo_encaminhamento", ""),
+            publico=sd.get("publico", ""),
+            id_variante=sd.get("id_variante", ""),
+            fundamentacao_encaminhamento=sd.get("fundamentacao_encaminhamento", ""),
+            encaminhamento=sd.get("encaminhamento", ""),
+        )
 
     def _normalizar_motivo_relatorio(self, motivo):
         if isinstance(motivo, dict):
@@ -1066,43 +1317,76 @@ class Auditado:
         normalizado["texto"] = normalizado.get("descricao", "")
         return normalizado
 
-    def get_motivos_situacao(self, nome_achado, situacao):
+    def get_motivos_situacao(self, id_ou_nome_achado, situacao):
         """Retorna os elementos que caracterizaram uma situação encontrada."""
+        achado = self._resolve_achado(id_ou_nome_achado)
+        if not achado:
+            return []
+
+        target = str(situacao).strip()
+        sid = target
+        desc = None
+        for s in getattr(achado, "situacoes_detalhadas", []) or []:
+            if s.get("id_situacao") == target:
+                sid = s.get("id_situacao")
+                desc = s.get("descricao")
+                break
+            elif str(s.get("descricao") or "").strip() == target:
+                sid = s.get("id_situacao")
+                desc = s.get("descricao")
+                break
+
+        motivos_brutos = []
+        if sid and sid in achado.motivos_situacoes:
+            motivos_brutos = achado.motivos_situacoes[sid]
+        elif desc and desc in achado.motivos_situacoes:
+            motivos_brutos = achado.motivos_situacoes[desc]
+        elif target in achado.motivos_situacoes:
+            motivos_brutos = achado.motivos_situacoes[target]
+
         motivos = []
         seen = set()
 
-        for p in self.procedimentos_executados:
-            if not p.achado or p.achado.nome != nome_achado:
+        for motivo in motivos_brutos:
+            item = self._normalizar_motivo_relatorio(motivo)
+            if not item:
                 continue
+            item["refs"] = item.get("refs") or self._refs_evidencias_para_motivo(achado.id_achado, item)
+            chave = (
+                item.get("id", ""),
+                item.get("id_acao", ""),
+                item.get("descricao", ""),
+                item.get("complemento", ""),
+                tuple(item.get("refs", [])),
+            )
+            if item.get("descricao") and chave not in seen:
+                seen.add(chave)
+                motivos.append(item)
 
-            for motivo in p.achado.motivos_situacoes.get(situacao, []):
-                item = self._normalizar_motivo_relatorio(motivo)
-                if not item:
-                    continue
-                item["refs"] = item.get("refs") or self._refs_evidencias_para_motivo(nome_achado, item)
-                chave = (
-                    item.get("id", ""),
-                    item.get("id_acao", ""),
-                    item.get("descricao", ""),
-                    item.get("complemento", ""),
-                    tuple(item.get("refs", [])),
-                )
-                if item.get("descricao") and chave not in seen:
-                    seen.add(chave)
-                    motivos.append(item)
+        if motivos:
+            return motivos
 
-            if p.achado.motivos_situacoes.get(situacao):
+        for p in self.procedimentos_executados:
+            if not p.achado or p.achado.id_achado != achado.id_achado:
                 continue
 
             for acao in getattr(p, "acoes_verificacao", []):
                 if not getattr(acao, "resultado", False):
                     continue
-                if getattr(acao, "descricao_situacao_inconforme", None) != situacao:
+                acao_sit = getattr(acao, "descricao_situacao_inconforme", None)
+                if desc and acao_sit == desc:
+                    pass
+                elif acao_sit == target:
+                    pass
+                elif getattr(acao, "id_situacao", None) == target:
+                    pass
+                else:
                     continue
+
                 motivo = construir_motivo_situacao(acao)
                 if not motivo:
                     continue
-                motivo["refs"] = self._refs_evidencias_para_motivo(nome_achado, motivo)
+                motivo["refs"] = self._refs_evidencias_para_motivo(achado.id_achado, motivo)
                 chave = (
                     motivo.get("id_acao", ""),
                     motivo.get("descricao", ""),
@@ -1115,9 +1399,9 @@ class Auditado:
 
         return motivos
 
-    def get_evidencias_numeradas(self, nome_achado):
+    def get_evidencias_numeradas(self, id_ou_nome_achado):
         """Retorna as evidências do achado com referências estáveis E1, E2, ..."""
-        achado = self.get_achado_por_nome(nome_achado)
+        achado = self._resolve_achado(id_ou_nome_achado)
         if not achado:
             return []
 
@@ -1140,9 +1424,9 @@ class Auditado:
             evidencias.append(item)
         return evidencias
 
-    def get_criterios_achado(self, nome_achado):
+    def get_criterios_achado(self, id_ou_nome_achado):
         """Critérios efetivamente resolvidos para as situações deste auditado."""
-        achado = self.get_achado_por_nome(nome_achado)
+        achado = self._resolve_achado(id_ou_nome_achado)
         if not achado:
             return []
         criterios = []
@@ -1159,22 +1443,20 @@ class Auditado:
                     item["situacoes"].append(situacao.get("id_situacao"))
         return criterios
 
-    def get_criterios_situacao(self, nome_achado, id_situacao):
+    def get_criterios_situacao(self, id_ou_nome_achado, id_situacao):
         """Critérios da variante efetivamente selecionada para uma situação."""
-        achado = self.get_achado_por_nome(nome_achado)
+        achado = self.get_achado_por_id(id_ou_nome_achado) or self._resolve_achado(id_ou_nome_achado)
         if not achado:
             return []
+        target_sid = str(id_situacao).strip()
         for situacao in getattr(achado, "situacoes_detalhadas", []) or []:
-            if (
-                situacao.get("id_situacao") == id_situacao
-                or str(situacao.get("descricao") or "").strip() == str(id_situacao or "").strip()
-            ):
+            if situacao.get("id_situacao") == target_sid:
                 return [dict(c) if isinstance(c, dict) else c for c in situacao.get("criterios", [])]
         return []
 
-    def get_enquadramentos_especificos_achado(self, nome_achado):
+    def get_enquadramentos_especificos_achado(self, id_ou_nome_achado):
         """Enquadramentos normativos específicos efetivamente aplicados ao auditado."""
-        achado = self.get_achado_por_nome(nome_achado)
+        achado = self._resolve_achado(id_ou_nome_achado)
         if not achado:
             return []
 
@@ -1210,7 +1492,7 @@ class Auditado:
             return int(match.group(0)) if match else 0
         return sorted(set(refs), key=chave)
 
-    def _refs_evidencias_para_motivo(self, nome_achado, motivo):
+    def _refs_evidencias_para_motivo(self, id_ou_nome_achado, motivo):
         motivo = self._normalizar_motivo_relatorio(motivo)
         if not motivo:
             return []
@@ -1221,15 +1503,16 @@ class Auditado:
         refs_acoes = parse_lista_ids_acoes(motivo.get("refs_acoes") or motivo.get("acoes_referencia"))
         refs = []
 
+        evidencias = self.get_evidencias_numeradas(id_ou_nome_achado)
         if refs_acoes:
             refs_acoes_set = set(refs_acoes)
-            for evidencia in self.get_evidencias_numeradas(nome_achado):
+            for evidencia in evidencias:
                 if refs_acoes_set.intersection(set(evidencia.get("id_acoes", []))):
                     refs.append(evidencia["ref"])
             if refs:
                 return self._ordenar_refs(refs)
 
-        for evidencia in self.get_evidencias_numeradas(nome_achado):
+        for evidencia in evidencias:
             desc_ev = normalizar_texto_relatorio(evidencia.get("descricao", ""))
             comp_ev = normalizar_texto_relatorio(evidencia.get("complemento", ""))
             descricao_compativel = descricao and (
@@ -1246,7 +1529,7 @@ class Auditado:
 
         if not refs and item:
             padrao_item = re.compile(rf"\b(item|q)?{re.escape(item)}\b", flags=re.IGNORECASE)
-            for evidencia in self.get_evidencias_numeradas(nome_achado):
+            for evidencia in evidencias:
                 texto = " ".join(
                     filter(None, [evidencia.get("descricao", ""), evidencia.get("complemento", "")])
                 )
@@ -1255,9 +1538,9 @@ class Auditado:
 
         return self._ordenar_refs(refs)
 
-    def get_motivos_situacao_traduzidos(self, nome_achado, situacao):
+    def get_motivos_situacao_traduzidos(self, id_ou_nome_achado, situacao):
         """Alias compatível: os motivos agora vêm de regras declarativas do mapa."""
-        return self.get_motivos_situacao(nome_achado, situacao)
+        return self.get_motivos_situacao(id_ou_nome_achado, situacao)
 
     def get_situacoes_inconformes(self):
         situacoes = []

@@ -1,5 +1,5 @@
-{% set nome_achado = 'Estrutura de TIC insuficientemente formalizada, definida ou posicionada para gerir a tecnologia da informação.' %}
-{% set achado = auditado.get_achado_por_nome(nome_achado) %}
+{% set id_achado = 'Q1' %}{# Q1 — Estrutura de TIC #}
+{% set achado = auditado.get_achado_por_id(id_achado) %}
 {% if achado %}
 {% set narrativa_criterios = {
     'Q1.C1':
@@ -29,16 +29,11 @@
     'Q1.C11':
         'No âmbito do Ministério Público Estadual, o art. 1º da Resolução GPGJ nº 2.675/2025 dispõe que a Secretaria-Geral de Modernização Tecnológica e Inovação do MPRJ é diretamente subordinada ao Procurador-Geral de Justiça.'
 } %}
-{% set situacao_formalizacao = 'Ausência de área, unidade, setor ou função de TIC formalmente instituída.' %}
-{% set situacao_atribuicoes = 'Área de TIC sem atribuições formalmente definidas ou sem atribuições formais de gestão de TIC.' %}
-{% set situacao_posicionamento = 'Posicionamento organizacional inadequado da área de TIC.' %}
-{% set motivos_formalizacao = auditado.get_motivos_situacao(nome_achado, situacao_formalizacao) %}
-{% set motivos_atribuicoes = auditado.get_motivos_situacao(nome_achado, situacao_atribuicoes) %}
-{% set motivos_posicionamento = auditado.get_motivos_situacao(nome_achado, situacao_posicionamento) %}
-{% set tem_formalizacao = situacao_formalizacao in achado.situacoes_encontradas and motivos_formalizacao %}
-{% set tem_atribuicoes = situacao_atribuicoes in achado.situacoes_encontradas and motivos_atribuicoes %}
-{% set tem_posicionamento = situacao_posicionamento in achado.situacoes_encontradas and motivos_posicionamento %}
-{% set qtd_situacoes_exibidas = (1 if tem_formalizacao else 0) + (1 if tem_atribuicoes else 0) + (1 if tem_posicionamento else 0) %}
+{% set s_formalizacao = auditado.get_situacao(id_achado, 'S1.1') %}{# S1.1 — Formalização da área ou função de TIC #}
+{% set s_atribuicoes = auditado.get_situacao(id_achado, 'S1.2') %}{# S1.2 — Atribuições formais da área de TIC #}
+{% set s_posicionamento = auditado.get_situacao(id_achado, 'S1.3') %}{# S1.3 — Posicionamento organizacional da área de TIC #}
+{% set situacoes_achado = [s_formalizacao, s_atribuicoes, s_posicionamento] %}
+{% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
 \newpage
 
@@ -56,13 +51,13 @@ Para que a governança de TIC opere com eficácia, é indispensável que a organ
 
 Com base na análise das respostas aos itens 0101, 0102 e 0103 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de governança. A Equipe de Auditoria identificou as seguintes deficiências na estrutura de TIC da organização:
 
-{% if tem_formalizacao %}
+{% if s_formalizacao.ativa %}
 * **Formalização da área de TIC**: ausência de ato formal de criação ou instituição da área ou função de TIC na estrutura organizacional, em desacordo com os critérios de governança aplicáveis, o que prejudica a responsabilização e o alinhamento da tecnologia aos objetivos institucionais.
 {% endif %}
-{% if tem_atribuicoes %}
+{% if s_atribuicoes.ativa %}
 * **Atribuições da área de TIC**: ausência ou insuficiência de competências formais para planejamento, coordenação, gestão e controle da TIC, divergindo das diretrizes de governança aplicáveis, o que favorece atuação reativa e fragmentada da tecnologia.
 {% endif %}
-{% if tem_posicionamento %}
+{% if s_posicionamento.ativa %}
 * **Posicionamento organizacional**: posicionamento hierárquico da área de TIC em nível incompatível com sua relevância estratégica, em descompasso com os parâmetros de governança aplicáveis, o que reduz sua capacidade de influência institucional e compromete sua participação nas decisões estratégicas e orçamentárias.
 {% endif %}
 
@@ -72,14 +67,12 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-{% set situacao = situacao_formalizacao %}
-{% if tem_formalizacao %}
-{% set criterios_formalizacao = auditado.get_criterios_situacao(nome_achado, 'S1.1') %}
+{% if s_formalizacao.ativa %}
 #### Formalização da área, unidade, setor ou função de TIC
 
 A formalização da área, unidade, setor ou função de TIC é necessária para conferir reconhecimento institucional à atividade de tecnologia da informação, definir sua vinculação na estrutura organizacional e permitir a atribuição clara de responsabilidades.
 
-{% for criterio in criterios_formalizacao %}
+{% for criterio in s_formalizacao.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -87,10 +80,9 @@ No contexto da fiscalização, essa formalização deve ser demonstrada por regi
 
 Da análise da resposta ao item 0101 e da documentação apresentada, não foi demonstrada, com base nos elementos encaminhados, a formalização de área, unidade, setor ou função de TIC na estrutura organizacional, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = motivos_formalizacao -%}
-{% if motivos %}
+{% if s_formalizacao.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_formalizacao.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -99,14 +91,12 @@ A ausência de ato formal de instituição da área ou função de TIC contraria
 
 {% endif %}
 
-{% set situacao = situacao_atribuicoes %}
-{% if tem_atribuicoes %}
-{% set criterios_atribuicoes = auditado.get_criterios_situacao(nome_achado, 'S1.2') %}
+{% if s_atribuicoes.ativa %}
 #### Atribuições formais da área de TIC
 
 A definição formal de atribuições da área de TIC é indispensável para delimitar responsabilidades, reduzir sobreposição ou lacunas de atuação e permitir que a gestão de tecnologia seja exercida de forma planejada e controlada.
 
-{% for criterio in criterios_atribuicoes %}
+{% for criterio in s_atribuicoes.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -114,10 +104,9 @@ A ausência de atribuições formalmente definidas ou a especificação de compe
 
 Da análise das respostas aos itens 0101 e 0103 e da documentação apresentada, não foi demonstrada, com base nos elementos encaminhados, a formalização suficiente das atribuições da área de TIC abrangendo planejamento, coordenação, gestão, execução, monitoramento e controle da tecnologia da informação, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = motivos_atribuicoes -%}
-{% if motivos %}
+{% if s_atribuicoes.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_atribuicoes.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -126,14 +115,12 @@ O cenário identificado diverge dos critérios aplicáveis ao não demonstrar at
 
 {% endif %}
 
-{% set situacao = situacao_posicionamento %}
-{% if tem_posicionamento %}
-{% set criterios_posicionamento = auditado.get_criterios_situacao(nome_achado, 'S1.3') %}
+{% if s_posicionamento.ativa %}
 #### Posicionamento organizacional da área de TIC
 
 O posicionamento organizacional da área de TIC deve ser compatível com suas responsabilidades institucionais e com a dependência da organização em relação à tecnologia da informação. Não se trata de impor modelo único de estrutura, mas de assegurar que a função de TIC tenha capacidade de interação adequada com as instâncias decisórias responsáveis por estratégia, orçamento, contratações, riscos e prestação de serviços.
 
-{% for criterio in criterios_posicionamento %}
+{% for criterio in s_posicionamento.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -141,10 +128,9 @@ No âmbito da fiscalização, o posicionamento adequado deve ser demonstrado por
 
 Da análise das respostas aos itens 0101 e 0102 e da documentação apresentada, o posicionamento organizacional da área de TIC não se mostrou suficientemente compatível com a relevância e as responsabilidades da função de tecnologia da informação, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = motivos_posicionamento -%}
-{% if motivos %}
+{% if s_posicionamento.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_posicionamento.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}

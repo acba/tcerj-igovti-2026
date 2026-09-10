@@ -1,5 +1,5 @@
-{% set nome_achado = 'Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação.' %}
-{% set achado = auditado.get_achado_por_nome(nome_achado) %}
+{% set id_achado = 'Q2' %}{# Q2 — Governança e Comitê de TIC #}
+{% set achado = auditado.get_achado_por_id(id_achado) %}
 {% if achado %}
 {% set narrativa_criterios = {
     'Q2.C1':
@@ -32,16 +32,11 @@
     'Q2.C10':
         'Para o Ministério Público Estadual, o art. 14 da Resolução CNMP nº 171/2017 determina que o Comitê Estratégico de TI exerça as competências de deliberação, acompanhamento e prestação de contas previstas no dispositivo.'
 } %}
-{% set situacao_modelo = 'Ausência de objetivos, indicadores ou metas para a gestão de TIC.' %}
-{% set situacao_comite_formal = 'Comitê de TIC ou instância equivalente não instituído formalmente ou sem representação de áreas relevantes da organização.' %}
-{% set situacao_comite_atuacao = 'Comitê de TIC ou instância equivalente sem atuação efetiva comprovada.' %}
-{% set motivos_modelo = auditado.get_motivos_situacao(nome_achado, situacao_modelo) %}
-{% set motivos_comite_formal = auditado.get_motivos_situacao(nome_achado, situacao_comite_formal) %}
-{% set motivos_comite_atuacao = auditado.get_motivos_situacao(nome_achado, situacao_comite_atuacao) %}
-{% set tem_modelo = situacao_modelo in achado.situacoes_encontradas and motivos_modelo %}
-{% set tem_comite_formal = situacao_comite_formal in achado.situacoes_encontradas and motivos_comite_formal %}
-{% set tem_comite_atuacao = situacao_comite_atuacao in achado.situacoes_encontradas and motivos_comite_atuacao %}
-{% set qtd_situacoes_exibidas = (1 if tem_modelo else 0) + (1 if tem_comite_formal else 0) + (1 if tem_comite_atuacao else 0) %}
+{% set s_modelo_governanca = auditado.get_situacao(id_achado, 'S2.1') %}{# S2.1 — Objetivos, indicadores e metas para a gestão de TIC #}
+{% set s_instituicao_comite = auditado.get_situacao(id_achado, 'S2.2') %}{# S2.2 — Instituição formal do Comitê de TIC #}
+{% set s_atuacao_comite = auditado.get_situacao(id_achado, 'S2.3') %}{# S2.3 — Atuação efetiva do Comitê de TIC #}
+{% set situacoes_achado = [s_modelo_governanca, s_instituicao_comite, s_atuacao_comite] %}
+{% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
 \newpage
 
@@ -59,13 +54,13 @@ Para que a governança de TIC opere de forma estruturada, a administração deve
 
 Com base na análise das respostas ao item 1001 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de governança. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
-{% if tem_modelo %}
+{% if s_modelo_governanca.ativa %}
 * **Objetivos, indicadores e metas para a gestão de TIC**: ausência de definição e acompanhamento de metas e indicadores para a tecnologia da informação, em desacordo com as práticas de governança aplicáveis, prejudicando o direcionamento das prioridades e a medição do desempenho da TIC.
 {% endif %}
-{% if tem_comite_formal %}
+{% if s_instituicao_comite.ativa %}
 * **Instituição do Comitê de TIC**: ausência de ato formal de instituição da instância colegiada ou de representação multidisciplinar das áreas de negócio, contrariando os critérios aplicáveis, o que inviabiliza a tomada de decisão colegiada sobre prioridades e investimentos de tecnologia.
 {% endif %}
-{% if tem_comite_atuacao %}
+{% if s_atuacao_comite.ativa %}
 * **Atuação do Comitê de TIC**: ausência de comprovação de funcionamento regular e deliberação efetiva da instância colegiada, divergindo das orientações de governança aplicáveis, o que compromete o monitoramento contínuo das ações, contratações e riscos de TIC.
 {% endif %}
 
@@ -75,14 +70,12 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-{% set situacao = situacao_modelo %}
-{% if tem_modelo %}
-{% set criterios_modelo = auditado.get_criterios_situacao(nome_achado, 'S2.1') %}
+{% if s_modelo_governanca.ativa %}
 #### Objetivos, indicadores e metas para a gestão de TIC
 
 A alta administração deve estabelecer objetivos, indicadores e metas para orientar a gestão de TIC e acompanhar sua contribuição para os objetivos institucionais. Esses elementos permitem definir resultados esperados e avaliar periodicamente o desempenho da TIC.
 
-{% for criterio in criterios_modelo %}
+{% for criterio in s_modelo_governanca.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -90,10 +83,9 @@ A existência desses elementos deve ser demonstrada por instrumentos que formali
 
 Da análise das respostas ao item 1001 e da documentação apresentada, verificou-se que o estabelecimento de objetivos, indicadores ou metas para a gestão de TIC não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_modelo_governanca.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_modelo_governanca.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -102,14 +94,12 @@ A inexistência de objetivos, indicadores e metas formalizados contraria as dire
 
 {% endif %}
 
-{% set situacao = situacao_comite_formal %}
-{% if tem_comite_formal %}
-{% set criterios_comite_formal = auditado.get_criterios_situacao(nome_achado, 'S2.2') %}
+{% if s_instituicao_comite.ativa %}
 #### Instituição formal do Comitê de TIC ou instância equivalente
 
 O Comitê de TIC ou instância equivalente é mecanismo relevante para estruturar a participação da alta administração e das áreas interessadas nas decisões de tecnologia da informação. Sua formalização permite definir composição, competências, periodicidade mínima, forma de deliberação e responsabilidades pelo acompanhamento das decisões.
 
-{% for criterio in criterios_comite_formal %}
+{% for criterio in s_instituicao_comite.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -117,10 +107,9 @@ A instituição formal do Comitê deve ser demonstrada por ato, norma, regimento
 
 Da análise das respostas ao item 1001 e da documentação apresentada, verificou-se que a instituição formal de Comitê de TIC ou instância equivalente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_instituicao_comite.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_instituicao_comite.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -129,14 +118,12 @@ A não instituição formal do Comitê de TIC ou a ausência de representação 
 
 {% endif %}
 
-{% set situacao = situacao_comite_atuacao %}
-{% if tem_comite_atuacao %}
-{% set criterios_comite_atuacao = auditado.get_criterios_situacao(nome_achado, 'S2.3') %}
+{% if s_atuacao_comite.ativa %}
 #### Atuação efetiva do Comitê de TIC ou instância equivalente
 
 A instituição formal isolada do Comitê de TIC ou instância equivalente não é suficiente para assegurar governança efetiva. É necessário que a instância funcione de modo regular, com reuniões, pautas, atas, registros de deliberação, encaminhamentos e acompanhamento das decisões tomadas.
 
-{% for criterio in criterios_comite_atuacao %}
+{% for criterio in s_atuacao_comite.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -144,10 +131,9 @@ A atuação efetiva do Comitê deve ser demonstrada por atas, pautas, listas de 
 
 Da análise das respostas ao item 1001 e da documentação apresentada, verificou-se que a atuação efetiva do Comitê de TIC ou instância equivalente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_atuacao_comite.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_atuacao_comite.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}

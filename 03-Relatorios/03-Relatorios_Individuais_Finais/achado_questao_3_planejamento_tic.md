@@ -1,5 +1,5 @@
-{% set nome_achado = 'Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC' %}
-{% set achado = auditado.get_achado_por_nome(nome_achado) %}
+{% set id_achado = 'Q3' %}{# Q3 — Planejamento de TIC #}
+{% set achado = auditado.get_achado_por_id(id_achado) %}
 {% if achado %}
 {% set narrativa_criterios = {
     'Q3.C1':
@@ -44,22 +44,13 @@
     'Q3.C14':
         'Para o Ministério Público Estadual, o art. 5º da Resolução CNMP nº 283/2024 determina que as contratações de TI devam constar do plano de contratações anual, observado o respectivo PDTI.'
 } %}
-{% set situacao_processo = 'Inexistência ou insuficiência do processo de planejamento de TIC para produzir e manter plano de TIC adequado.' %}
-{% set situacao_plano = 'Ausência de aprovação formal do plano de TIC.' %}
-{% set situacao_alinhamento = 'Plano de TIC sem alinhamento adequado ao planejamento institucional.' %}
-{% set situacao_integracao = 'Plano de TIC não utilizado como referência para a elaboração da proposta orçamentária e do plano de contratações.' %}
-{% set situacao_acompanhamento = 'Ausência de acompanhamento da execução do plano de TIC.' %}
-{% set motivos_processo = auditado.get_motivos_situacao(nome_achado, situacao_processo) %}
-{% set motivos_plano = auditado.get_motivos_situacao(nome_achado, situacao_plano) %}
-{% set motivos_alinhamento = auditado.get_motivos_situacao(nome_achado, situacao_alinhamento) %}
-{% set motivos_integracao = auditado.get_motivos_situacao(nome_achado, situacao_integracao) %}
-{% set motivos_acompanhamento = auditado.get_motivos_situacao(nome_achado, situacao_acompanhamento) %}
-{% set tem_processo = situacao_processo in achado.situacoes_encontradas and motivos_processo %}
-{% set tem_plano = situacao_plano in achado.situacoes_encontradas and motivos_plano %}
-{% set tem_alinhamento = situacao_alinhamento in achado.situacoes_encontradas and motivos_alinhamento %}
-{% set tem_integracao = situacao_integracao in achado.situacoes_encontradas and motivos_integracao %}
-{% set tem_acompanhamento = situacao_acompanhamento in achado.situacoes_encontradas and motivos_acompanhamento %}
-{% set qtd_situacoes_exibidas = (1 if tem_processo else 0) + (1 if tem_plano else 0) + (1 if tem_alinhamento else 0) + (1 if tem_integracao else 0) + (1 if tem_acompanhamento else 0) %}
+{% set s_processo = auditado.get_situacao(id_achado, 'S3.1') %}{# S3.1 — Processo formal de planejamento de TIC #}
+{% set s_aprovacao = auditado.get_situacao(id_achado, 'S3.2') %}{# S3.2 — Aprovação formal do plano de TIC #}
+{% set s_alinhamento = auditado.get_situacao(id_achado, 'S3.4') %}{# S3.4 — Alinhamento ao planejamento institucional #}
+{% set s_integracao = auditado.get_situacao(id_achado, 'S3.5') %}{# S3.5 — Integração com orçamento e contratações #}
+{% set s_acompanhamento = auditado.get_situacao(id_achado, 'S3.6') %}{# S3.6 — Acompanhamento e revisão do plano de TIC #}
+{% set situacoes_achado = [s_processo, s_aprovacao, s_alinhamento, s_integracao, s_acompanhamento] %}
+{% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
 \newpage
 
@@ -77,19 +68,19 @@ O planejamento estruturado de TIC permite à organização antecipar demandas te
 
 Com base na análise das respostas aos itens 2101 e 2102 do questionário aplicado e da avaliação das evidências documentais anexadas, não foi demonstrado atendimento integral a esses requisitos de planejamento. A Equipe de Auditoria identificou fragilidades nos seguintes aspectos:
 
-{% if tem_processo %}
+{% if s_processo.ativa %}
 * **Processo formal de planejamento**: inexistência ou insuficiência de processo institucionalizado para elaboração e manutenção do plano de TIC com participação das áreas demandantes, divergindo das diretrizes de governança aplicáveis, o que favorece atuação reativa e desarticulada.
 {% endif %}
-{% if tem_plano %}
+{% if s_aprovacao.ativa %}
 * **Aprovação formal do plano**: ausência de ato formal de aprovação do plano de TIC pela autoridade ou instância colegiada competente, em descompasso com os critérios aplicáveis, reduzindo a legitimidade institucional do instrumento.
 {% endif %}
-{% if tem_alinhamento %}
+{% if s_alinhamento.ativa %}
 * **Alinhamento estratégico**: ausência de demonstração de alinhamento entre as iniciativas de tecnologia e o planejamento institucional, contrariando os parâmetros aplicáveis, o que eleva o risco de dispersão de esforços e investimentos de baixo valor público.
 {% endif %}
-{% if tem_integracao %}
+{% if s_integracao.ativa %}
 * **Integração com orçamento e contratações**: ausência de utilização do plano de TIC como base para a proposta orçamentária e o plano de contratações, divergindo dos critérios de governança aplicáveis, favorecendo a desconexão entre as metas planejadas e os recursos orçamentários alocados.
 {% endif %}
-{% if tem_acompanhamento %}
+{% if s_acompanhamento.ativa %}
 * **Acompanhamento e revisão**: ausência de monitoramento periódico e de rotinas de revisão da execução do plano de TIC, em desacordo com as diretrizes aplicáveis, dificultando o ajuste tempestivo de metas e cronogramas frente a mudanças operacionais.
 {% endif %}
 
@@ -99,14 +90,12 @@ Essa situação ensejou o presente achado e será detalhada na subseção seguin
 Essas situações ensejaram o presente achado e serão detalhadas nas subseções seguintes.
 {% endif %}
 
-{% set situacao = situacao_processo %}
-{% if tem_processo %}
-{% set criterios_processo = auditado.get_criterios_situacao(nome_achado, 'S3.1') %}
+{% if s_processo.ativa %}
 #### Processo formal de planejamento de TIC
 
 O processo formal de planejamento de TIC deve definir etapas, responsáveis e participação das áreas demandantes. Esse processo é necessário para que o planejamento deixe de ser uma atividade eventual e passe a constituir rotina institucional de elaboração e manutenção do plano de TIC.
 
-{% for criterio in criterios_processo %}
+{% for criterio in s_processo.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -114,10 +103,9 @@ O processo deve ser demonstrado por norma, procedimento, guia ou instrumento equ
 
 Da análise das respostas ao item 2101 e da documentação apresentada, verificou-se que o processo formal de planejamento de TIC não se mostrou suficientemente estruturado quanto a etapas, responsáveis e participação das áreas demandantes, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_processo.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_processo.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -126,14 +114,12 @@ A fragilidade ou inexistência de processo institucionalizado de planejamento de
 
 {% endif %}
 
-{% set situacao = situacao_plano %}
-{% if tem_plano %}
-{% set criterios_plano = auditado.get_criterios_situacao(nome_achado, 'S3.2') %}
+{% if s_aprovacao.ativa %}
 #### Aprovação formal do plano de TIC
 
 O plano de TIC deve ser formalmente aprovado pelo dirigente máximo da organização ou por dirigente ou colegiado integrante da alta administração, de modo a conferir legitimidade institucional ao instrumento.
 
-{% for criterio in criterios_plano %}
+{% for criterio in s_aprovacao.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
@@ -141,10 +127,9 @@ A aprovação deve ser demonstrada por ato formal da instância competente ou po
 
 Da análise das respostas ao item 2102 e da documentação apresentada, verificou-se que a aprovação formal do plano de TIC por autoridade ou instância competente não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_aprovacao.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_aprovacao.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -153,23 +138,20 @@ A ausência de ato formal de aprovação do plano de TIC pela autoridade compete
 
 {% endif %}
 
-{% set situacao = situacao_alinhamento %}
-{% if tem_alinhamento %}
-{% set criterios_alinhamento = auditado.get_criterios_situacao(nome_achado, 'S3.4') %}
+{% if s_alinhamento.ativa %}
 #### Alinhamento ao planejamento institucional
 
 O plano de TIC deve demonstrar como suas iniciativas apoiam os objetivos institucionais, as diretrizes superiores e as necessidades das áreas finalísticas e administrativas.
 
-{% for criterio in criterios_alinhamento %}
+{% for criterio in s_alinhamento.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2102 e da documentação apresentada, verificou-se que o alinhamento do plano de TIC ao planejamento institucional, às diretrizes superiores ou às necessidades das áreas finalísticas e administrativas não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_alinhamento.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_alinhamento.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -178,23 +160,20 @@ A falta de desdobramento e alinhamento explícito das metas de TIC com os objeti
 
 {% endif %}
 
-{% set situacao = situacao_integracao %}
-{% if tem_integracao %}
-{% set criterios_integracao = auditado.get_criterios_situacao(nome_achado, 'S3.5') %}
+{% if s_integracao.ativa %}
 #### Vínculo com orçamento e contratações de TIC
 
 O plano de TIC deve ser utilizado como referência para a elaboração da proposta orçamentária da área de TIC e do plano de contratações. Essa integração contribui para que as iniciativas planejadas sejam consideradas na alocação de recursos e na programação das contratações.
 
-{% for criterio in criterios_integracao %}
+{% for criterio in s_integracao.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2102 e da documentação apresentada, verificou-se que a utilização do plano de TIC como referência para a elaboração da proposta orçamentária e do plano de contratações não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_integracao.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_integracao.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}
@@ -203,23 +182,20 @@ A não utilização do plano de TIC como balizador da proposta orçamentária e 
 
 {% endif %}
 
-{% set situacao = situacao_acompanhamento %}
-{% if tem_acompanhamento %}
-{% set criterios_acompanhamento = auditado.get_criterios_situacao(nome_achado, 'S3.6') %}
+{% if s_acompanhamento.ativa %}
 #### Acompanhamento, revisão e atualização do plano de TIC
 
 O plano de TIC deve ser acompanhado, revisto e atualizado periodicamente ou diante de mudanças relevantes, com registro de execução, pendências, reprogramações e deliberações. Essa rotina permite verificar o andamento das iniciativas, ajustar prioridades e manter o plano compatível com mudanças institucionais, orçamentárias ou tecnológicas.
 
-{% for criterio in criterios_acompanhamento %}
+{% for criterio in s_acompanhamento.criterios %}
 {{ narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2102 e da documentação apresentada, verificou-se que a rotina de acompanhamento, revisão ou atualização periódica do plano de TIC não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
 
-{% set motivos = auditado.get_motivos_situacao(nome_achado, situacao) -%}
-{% if motivos %}
+{% if s_acompanhamento.motivos %}
 
-{% for motivo in motivos -%}
+{% for motivo in s_acompanhamento.motivos -%}
 * {{ motivo.texto.rstrip('.;') }}{{ '.' if loop.last else ';' }}
 {% endfor %}
 {% endif %}

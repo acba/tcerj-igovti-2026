@@ -1,5 +1,5 @@
 ### Evidências
-{% set evidencias = auditado.get_evidencias_numeradas(nome_achado) %}
+{% set evidencias = auditado.get_evidencias_numeradas(id_achado) %}
 {% for evidencia in evidencias %}
 {% set complemento_evidencia = evidencia.get('complemento') %}
 {% set descricao_evidencia = evidencia.descricao.rstrip('.;') %}
