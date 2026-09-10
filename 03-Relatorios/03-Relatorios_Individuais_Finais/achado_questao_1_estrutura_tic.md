@@ -35,8 +35,6 @@
 {% set situacoes_achado = [s_formalizacao, s_atribuicoes, s_posicionamento] %}
 {% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
-\newpage
-
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 {% include 'bloco_criterios_achado.md' %}

@@ -36,8 +36,6 @@
 {% set situacoes_achado = [s_forca_trabalho, s_dimensionamento, s_cargos_funcoes, s_terceiros] %}
 {% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
-\newpage
-
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 {% include 'bloco_criterios_achado.md' %}

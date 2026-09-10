@@ -52,8 +52,6 @@
 {% set situacoes_achado = [s_processo, s_aprovacao, s_alinhamento, s_integracao, s_acompanhamento] %}
 {% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
-\newpage
-
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 {% include 'bloco_criterios_achado.md' %}

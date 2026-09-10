@@ -64,8 +64,6 @@
 {% set situacoes_achado = [s_catalogo, s_niveis_servico, s_inventario, s_configuracao, s_incidentes] %}
 {% set qtd_situacoes_exibidas = situacoes_achado | selectattr('ativa') | list | length %}
 
-\newpage
-
 ## Achado {{ achado.numero }} – {{ achado.nome }}
 
 {% include 'bloco_criterios_achado.md' %}

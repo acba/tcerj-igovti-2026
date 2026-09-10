@@ -31,6 +31,7 @@ from argos_utils import (
     aplicar_estilo_tabelas,
     aplicar_fonte_justificativas_avaliacao,
     evitar_quebra_elementos,
+    otimizar_paginacao_relatorio,
     inserir_campo_sumario_docx,
     marcar_atualizacao_campos_docx,
     processar_quebras_pagina,
@@ -635,7 +636,7 @@ def main():
                     # Apply styles to tables in Docx
                     aplicar_estilo_tabelas(docx_filename)
                     aplicar_fonte_justificativas_avaliacao(docx_filename)
-                    evitar_quebra_elementos(docx_filename)
+                    otimizar_paginacao_relatorio(docx_filename)
                     marcar_atualizacao_campos_docx(docx_filename)
                     logger.info(f"[{sigla}] Relatório Word gerado em: {docx_filename}")
 
@@ -659,7 +660,7 @@ def main():
                     # Apply styling to tables
                     aplicar_estilo_tabelas(docx_filename)
                     aplicar_fonte_justificativas_avaliacao(docx_filename)
-                    evitar_quebra_elementos(docx_filename)
+                    otimizar_paginacao_relatorio(docx_filename)
                     marcar_atualizacao_campos_docx(docx_filename)
                     logger.info(f"[{sigla}] Relatório Word (.docx) gerado em: {docx_filename}")
                 except Exception as e:

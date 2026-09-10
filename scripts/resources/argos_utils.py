@@ -775,19 +775,93 @@ def data_hoje_abnt():
 def data_hoje():
     return date.today().strftime("%d/%m/%Y")
 
+def is_tabela_plano_acao(table) -> bool:
+    """Verifica estruturalmente se a tabela é a tabela do Plano de Ação pelo cabeçalho."""
+    if len(table.rows) == 0:
+        return False
+    row0_texts = [cell.text.strip().lower() for cell in table.rows[0].cells]
+    return any("medida proposta" in t for t in row0_texts) or (
+        any("achado" in t for t in row0_texts) and any("tipo" in t for t in row0_texts) and any("quem" in t for t in row0_texts)
+    )
+
+
+def configurar_tabela_plano_acao(table, total_width_dxa=9072):
+    """
+    Aplica layout fixo e larguras otimizadas por coluna para a tabela do Plano de Ação.
+    Proporções calibradas (total 16,00 cm = 9072 dxa):
+    - Achado: 10% (1,60 cm / 907 dxa)
+    - Tipo: 15% (2,40 cm / 1361 dxa)
+    - Medida proposta: 38% (6,08 cm / 3448 dxa)
+    - Avaliação de viabilidade: 15% (2,40 cm / 1361 dxa)
+    - Quem?: 11% (1,76 cm / 998 dxa)
+    - Quando?: 11% (1,76 cm / 997 dxa)
+    """
+    from docx.shared import Cm
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+
+    col_dxas = [907, 1361, 3448, 1361, 998, 997]
+    col_widths = [Cm(1.60), Cm(2.40), Cm(6.08), Cm(2.40), Cm(1.76), Cm(1.76)]
+
+    table.autofit = False
+
+    tblPr = table._element.xpath('w:tblPr')
+    if tblPr:
+        for l in tblPr[0].xpath('w:tblLayout'):
+            tblPr[0].remove(l)
+        layout = OxmlElement('w:tblLayout')
+        layout.set(qn('w:type'), 'fixed')
+        tblPr[0].append(layout)
+
+        for w in tblPr[0].xpath('w:tblW'):
+            tblPr[0].remove(w)
+        tblW = OxmlElement('w:tblW')
+        tblW.set(qn('w:type'), 'dxa')
+        tblW.set(qn('w:w'), str(total_width_dxa))
+        tblPr[0].append(tblW)
+
+    tblGrid = table._element.xpath('w:tblGrid')
+    if tblGrid:
+        table._element.remove(tblGrid[0])
+    new_grid = OxmlElement('w:tblGrid')
+    for dxa in col_dxas:
+        gc = OxmlElement('w:gridCol')
+        gc.set(qn('w:w'), str(dxa))
+        new_grid.append(gc)
+    if tblPr:
+        table._element.insert(table._element.index(tblPr[0]) + 1, new_grid)
+
+    for row in table.rows:
+        for i, cell in enumerate(row.cells):
+            if i < len(col_widths):
+                cell.width = col_widths[i]
+                tcPr = cell._element.get_or_add_tcPr()
+                for w in tcPr.xpath('w:tcW'):
+                    tcPr.remove(w)
+                tcW = OxmlElement('w:tcW')
+                tcW.set(qn('w:type'), 'dxa')
+                tcW.set(qn('w:w'), str(col_dxas[i]))
+                tcPr.append(tcW)
+
+
 def aplicar_estilo_tabelas(docx_path, font_name='Calibri', header_size=10, body_size=9):
     """
     Aplica estilos específicos às tabelas de um arquivo DOCX:
     - Cabeçalho: Fonte parametrizada (padrão Calibri), tamanho parametrizado (padrão 10)
     - Corpo: Fonte parametrizada (padrão Calibri), tamanho parametrizado (padrão 9)
     - Alinhamento: Justificado para todo o conteúdo
+    - Plano de Ação: Layout fixo com larguras otimizadas (não submete a autofit)
+    - Demais tabelas: autofit = True
     """
     from docx.enum.table import WD_TABLE_ALIGNMENT
     doc = Document(docx_path)
     for table in doc.tables:
         table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        # Aplicar "ajustar-se automaticamente ao conteúdo"
-        table.autofit = True
+
+        if is_tabela_plano_acao(table):
+            configurar_tabela_plano_acao(table)
+        else:
+            table.autofit = True
 
         for i, row in enumerate(table.rows):
             is_header = (i == 0)
@@ -842,46 +916,81 @@ def aplicar_fonte_justificativas_avaliacao(docx_path, tamanho=8):
 
     documento.save(docx_path)
 
-def evitar_quebra_elementos(docx_path):
+
+def configurar_paginacao_headings(doc):
+    """Configura keep_with_next nos títulos e widowControl no texto regular."""
+    for p in doc.paragraphs:
+        style_name = p.style.name or ''
+        is_heading = (
+            style_name.startswith(('Heading', 'heading', 'Título', 'Title', 'Subtitle')) or
+            bool(p._element.xpath('./w:pPr/w:outlineLvl'))
+        )
+        if is_heading:
+            p.paragraph_format.keep_with_next = True
+        else:
+            p.paragraph_format.widow_control = True
+
+
+def configurar_figuras_e_fontes(doc):
     """
-    Pós-processa o arquivo Word (.docx) para evitar que elementos visuais
-    se separem de suas legendas, títulos ou fontes nas quebras de página:
-    - Mantém a legenda (acima da imagem) junto com a imagem.
-    - Mantém a imagem junto com a fonte (abaixo da imagem).
-    - Mantém o título da tabela (acima da tabela) junto com a tabela.
-    - Mantém a tabela junto com a fonte (abaixo da tabela).
-    - Impede que linhas individuais de tabelas sejam cortadas no meio.
+    Garante o agrupamento estrutural Legenda + Imagem + Fonte:
+    - Legenda (parágrafo anterior à imagem): keep_with_next = True
+    - Imagem: keep_with_next = True quando seguida de Fonte
+    - Fonte: keep_with_next = False (não prende o parágrafo seguinte)
+    - Limite genérico de altura de imagem (~21 cm = 7.560.000 EMUs) para caber na página útil.
+    """
+    paragraphs = doc.paragraphs
+    for idx, p in enumerate(paragraphs):
+        has_drawing = bool(p._element.xpath('.//w:drawing') or p._element.xpath('.//w:graphic'))
+        if not has_drawing:
+            continue
+
+        # Legenda acima da imagem
+        if idx > 0:
+            prev_p = paragraphs[idx - 1]
+            prev_style = prev_p.style.name or ''
+            prev_text = prev_p.text.strip()
+            if 'Caption' in prev_style or 'Legenda' in prev_style or prev_text.startswith('Figura '):
+                prev_p.paragraph_format.keep_with_next = True
+
+        # Fonte abaixo da imagem
+        if idx < len(paragraphs) - 1:
+            next_p = paragraphs[idx + 1]
+            next_style = next_p.style.name or ''
+            next_text = next_p.text.strip()
+            if 'FonteImagem' in next_style or next_text.startswith('(Fonte:'):
+                p.paragraph_format.keep_with_next = True
+                next_p.paragraph_format.keep_with_next = False
+
+        # Altura máxima da imagem para caber na página útil
+        extents = p._element.xpath('.//wp:extent')
+        for ext in extents:
+            cy = int(ext.get('cy', 0))
+            max_cy = 7560000  # 21 cm em EMUs
+            if cy > max_cy:
+                cx = int(ext.get('cx', 0))
+                ratio = max_cy / cy
+                ext.set('cy', str(max_cy))
+                ext.set('cx', str(int(cx * ratio)))
+
+
+def configurar_tabelas_e_quebras(doc):
+    """
+    Configura paginação de tabelas:
+    - Legenda imediatamente anterior vinculada à tabela (keepNext)
+    - Cabeçalho repetido na primeira linha (tblHeader) e indivisível (cantSplit)
+    - Política inteligente de quebra: linhas curtas mantidas inteiras (cantSplit);
+      linhas longas (manifestações, justificativas) podem dividir entre páginas.
+    - Tabela e fonte: fonte não prende parágrafo posterior; última linha curta vinculada à fonte.
     """
     from docx.oxml import OxmlElement
     from docx.oxml.ns import qn
 
-    doc = Document(docx_path)
-
-    # 1. Agrupar Legenda + Imagem + FonteImagem
-    paragraphs = doc.paragraphs
-    for idx, p in enumerate(paragraphs):
-        # Verifica se o parágrafo atual contém uma imagem
-        if p._element.xpath('.//w:drawing') or p._element.xpath('.//w:graphic'):
-            # Mantém a legenda (se posicionada acima) com a imagem
-            if idx > 0:
-                paragraphs[idx - 1].paragraph_format.keep_with_next = True
-            
-            # Se o próximo parágrafo for a indicação de Fonte, mantém a imagem com ele
-            if idx < len(paragraphs) - 1:
-                next_p = paragraphs[idx + 1]
-                style_name = next_p.style.name or ""
-                if "FonteImagem" in style_name or next_p.text.strip().startswith("(Fonte:"):
-                    p.paragraph_format.keep_with_next = True
-
-    # 2. Agrupar Título + Tabela + FonteImagem
     for tbl in doc.tables:
-        # Evita divisão de linhas no meio de uma quebra de página
-        for row in tbl.rows:
-            trPr = row._element.get_or_add_trPr()
-            if not trPr.xpath('w:cantSplit'):
-                trPr.append(OxmlElement('w:cantSplit'))
-        
-        # Mantém o título/legenda da tabela (parágrafo imediatamente anterior) junto a ela
+        if len(tbl.rows) == 0:
+            continue
+
+        # Legenda anterior vinculada à tabela
         tbl_el = tbl._element
         prev_el = tbl_el.getprevious()
         if prev_el is not None and prev_el.tag.endswith('p'):
@@ -889,32 +998,109 @@ def evitar_quebra_elementos(docx_path):
             if not pPr.xpath('w:keepNext'):
                 pPr.append(OxmlElement('w:keepNext'))
 
-        # Mantém a tabela junto com a fonte (parágrafo posterior, se for FonteImagem)
+        # Cabeçalho repetido na linha 0
+        trPr0 = tbl.rows[0]._element.get_or_add_trPr()
+        if not trPr0.xpath('w:tblHeader'):
+            trPr0.append(OxmlElement('w:tblHeader'))
+        if not trPr0.xpath('w:cantSplit'):
+            trPr0.append(OxmlElement('w:cantSplit'))
+
+        # Política de quebra de linhas do corpo da tabela
+        for r_idx, row in enumerate(tbl.rows):
+            if r_idx == 0:
+                continue
+            trPr = row._element.get_or_add_trPr()
+            total_chars = sum(len(c.text.strip()) for c in row.cells)
+            total_paras = sum(len(c.paragraphs) for c in row.cells)
+            is_long = (total_chars > 250 or total_paras > 3)
+
+            cant_splits = trPr.xpath('w:cantSplit')
+            if is_long:
+                for cs in cant_splits:
+                    trPr.remove(cs)
+            else:
+                if not cant_splits:
+                    trPr.append(OxmlElement('w:cantSplit'))
+
+        # Fonte posterior vinculada à tabela
         next_el = tbl_el.getnext()
         if next_el is not None and next_el.tag.endswith('p'):
-            is_source = False
-            
-            # Verifica o estilo no XML
             style_els = next_el.xpath('.//w:pStyle')
-            if style_els:
-                style_val = style_els[0].get(qn('w:val'))
-                if style_val and "FonteImagem" in style_val:
-                    is_source = True
-            
-            # Verifica o texto no XML
+            style_val = style_els[0].get(qn('w:val')) if style_els else ''
             text_nodes = next_el.xpath('.//w:t')
-            text_content = "".join(node.text for node in text_nodes).strip()
-            if text_content.startswith("(Fonte:"):
-                is_source = True
-
+            text_content = ''.join(node.text for node in text_nodes).strip()
+            is_source = ('FonteImagem' in style_val or text_content.startswith('(Fonte:'))
             if is_source:
-                # Mantém os parágrafos da última linha da tabela com o parágrafo da fonte
+                pPr_next = next_el.get_or_add_pPr()
+                for kn in pPr_next.xpath('w:keepNext'):
+                    pPr_next.remove(kn)
+
                 last_row = tbl.rows[-1]
-                for cell in last_row.cells:
-                    for p in cell.paragraphs:
-                        p.paragraph_format.keep_with_next = True
+                last_row_chars = sum(len(c.text.strip()) for c in last_row.cells)
+                if last_row_chars <= 200:
+                    for cell in last_row.cells:
+                        for p_cell in cell.paragraphs:
+                            p_cell.paragraph_format.keep_with_next = True
+
+
+def remover_paragrafos_vazios_residuais(doc):
+    """
+    Remove parágrafos vazios ou quebras residuais que criam páginas em branco ou espaçamento inútil:
+    - Converte parágrafos vazios contendo apenas <w:br w:type="page"/> em page_break_before no parágrafo seguinte.
+    - Remove parágrafos vazios residuais entre legenda e figura/tabela, ou entre figura/tabela e fonte.
+    """
+    paras = list(doc.paragraphs)
+    for i, p in enumerate(paras):
+        brs = p._element.xpath('.//w:br[@w:type="page"]')
+        if brs and not p.text.strip():
+            if i + 1 < len(paras):
+                next_p = paras[i + 1]
+                next_p.paragraph_format.page_break_before = True
+                p._element.getparent().remove(p._element)
+
+    i = 0
+    while i < len(doc.paragraphs) - 1:
+        p_curr = doc.paragraphs[i]
+        if not p_curr.text.strip() and not p_curr._element.xpath('.//w:drawing'):
+            prev_p = doc.paragraphs[i - 1] if i > 0 else None
+            if prev_p and ('Caption' in (prev_p.style.name or '') or prev_p.text.strip().startswith(('Figura ', 'Tabela '))):
+                p_curr._element.getparent().remove(p_curr._element)
+                continue
+        i += 1
+
+
+def otimizar_paginacao_relatorio(docx_path):
+    """
+    Coordenador genérico de otimização editorial e de paginação do relatório DOCX:
+    1. Configura keep_with_next em títulos e widowControl no texto regular.
+    2. Agrupa e dimensiona Figuras, Legendas e Fontes.
+    3. Configura paginação de tabelas (repetição de cabeçalhos, quebra inteligente de linhas).
+    4. Aplica layout fixo e larguras proporcionais à tabela do Plano de Ação.
+    5. Remove parágrafos vazios seguros e quebras de página vazias que geram páginas em branco.
+    Função totalmente idempotente.
+    """
+    doc = Document(docx_path)
+
+    configurar_paginacao_headings(doc)
+    configurar_figuras_e_fontes(doc)
+    configurar_tabelas_e_quebras(doc)
+
+    for tbl in doc.tables:
+        if is_tabela_plano_acao(tbl):
+            configurar_tabela_plano_acao(tbl)
+
+    remover_paragrafos_vazios_residuais(doc)
 
     doc.save(docx_path)
+
+
+def evitar_quebra_elementos(docx_path):
+    """
+    Pós-processa o arquivo Word (.docx) para evitar que elementos visuais
+    se separem de suas legendas, títulos ou fontes nas quebras de página.
+    Delega para a rotina completa e idempotente otimizar_paginacao_relatorio.
+    """
+    otimizar_paginacao_relatorio(docx_path)
 
 def apply_custom_style():
     """
