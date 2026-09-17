@@ -33,9 +33,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--docx-only", action="store_true", help="Converte apenas arquivos .docx.")
     parser.add_argument(
         "--converter",
-        choices=["auto", "word", "libreoffice"],
+        choices=["auto", "libreoffice", "word", "onlyoffice"],
         default="auto",
-        help="Conversor a usar. 'auto' tenta LibreOffice/soffice e usa Microsoft Word como fallback no Windows.",
+        help="Conversor a usar. 'auto' utiliza LibreOffice no Linux e Microsoft Word no Windows.",
     )
     parser.add_argument("--dry-run", action="store_true", help="Lista as conversoes sem gerar PDFs.")
     return parser.parse_args()
@@ -68,6 +68,8 @@ def converter_com_libreoffice(source: Path, target: Path) -> tuple[bool, str]:
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_path = Path(tmp_dir)
+        safe_source = tmp_path / f"document{source.suffix.lower()}"
+        shutil.copyfile(source, safe_source)
         try:
             result = subprocess.run(
                 [
@@ -77,7 +79,7 @@ def converter_com_libreoffice(source: Path, target: Path) -> tuple[bool, str]:
                     "pdf",
                     "--outdir",
                     str(tmp_path),
-                    str(source),
+                    str(safe_source),
                 ],
                 check=False,
                 capture_output=True,
@@ -93,7 +95,7 @@ def converter_com_libreoffice(source: Path, target: Path) -> tuple[bool, str]:
             detail = (result.stderr or result.stdout or "").strip()
             return False, f"LibreOffice/soffice retornou erro: {detail or result.returncode}"
 
-        converted = tmp_path / f"{source.stem}.pdf"
+        converted = tmp_path / f"{safe_source.stem}.pdf"
         if not converted.is_file():
             candidates = sorted(tmp_path.glob("*.pdf"))
             if not candidates:
@@ -185,11 +187,110 @@ try {
         return True, ""
 
 
+def converter_com_onlyoffice(source: Path, target: Path) -> tuple[bool, str]:
+    x2t_system = Path("/opt/onlyoffice/desktopeditors/converter/x2t")
+    if not x2t_system.is_file():
+        return False, "x2t do ONLYOFFICE nao encontrado em /opt/onlyoffice/desktopeditors/converter/x2t"
+
+    user_fonts = Path.home() / ".local/share/onlyoffice/desktopeditors/data/fonts/AllFonts.js"
+    if not user_fonts.is_file():
+        return False, (
+            "Cache de fontes do ONLYOFFICE nao encontrado em "
+            f"{user_fonts}. "
+            "Abra o ONLYOFFICE DesktopEditors ao menos uma vez no ambiente grafico "
+            "para inicializar o cache de fontes, ou use '--converter libreoffice'."
+        )
+
+    oo_runtime = Path(tempfile.gettempdir()) / "onlyoffice_converter_runtime"
+    converter_dir = oo_runtime / "converter"
+    editors_dir = oo_runtime / "editors"
+    common_dir = editors_dir / "sdkjs/common"
+
+    if not (converter_dir / "x2t").exists() or not (common_dir / "AllFonts.js").exists():
+        converter_dir.mkdir(parents=True, exist_ok=True)
+        common_dir.mkdir(parents=True, exist_ok=True)
+        (oo_runtime / "dictionaries").mkdir(parents=True, exist_ok=True)
+
+        for item in Path("/opt/onlyoffice/desktopeditors/converter").glob("*"):
+            link = converter_dir / item.name
+            if not link.exists():
+                link.symlink_to(item)
+
+        for item in Path("/opt/onlyoffice/desktopeditors/editors").glob("*"):
+            link = editors_dir / item.name
+            if item.name != "sdkjs" and not link.exists():
+                link.symlink_to(item)
+
+        for item in Path("/opt/onlyoffice/desktopeditors/editors/sdkjs").glob("*"):
+            link = editors_dir / "sdkjs" / item.name
+            if item.name != "common" and not link.exists():
+                link.symlink_to(item)
+
+        for item in Path("/opt/onlyoffice/desktopeditors/editors/sdkjs/common").glob("*"):
+            link = common_dir / item.name
+            if not link.exists():
+                link.symlink_to(item)
+
+        for item in Path("/opt/onlyoffice/desktopeditors/dictionaries").glob("*"):
+            link = oo_runtime / "dictionaries" / item.name
+            if not link.exists():
+                link.symlink_to(item)
+
+        shutil.copyfile(user_fonts, common_dir / "AllFonts.js")
+    elif user_fonts.stat().st_mtime > (common_dir / "AllFonts.js").stat().st_mtime:
+        shutil.copyfile(user_fonts, common_dir / "AllFonts.js")
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    env = os.environ.copy()
+    curr_ld = env.get("LD_LIBRARY_PATH", "")
+    env["LD_LIBRARY_PATH"] = f"{converter_dir}:{curr_ld}"
+
+    try:
+        result = subprocess.run(
+            [str(converter_dir / "x2t"), str(source.resolve()), str(target.resolve())],
+            cwd=str(converter_dir),
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=180,
+        )
+    except subprocess.TimeoutExpired:
+        return False, "timeout ao converter com ONLYOFFICE x2t"
+    except OSError as exc:
+        return False, f"erro ao executar ONLYOFFICE x2t: {exc}"
+
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or "").strip()
+        return False, f"ONLYOFFICE x2t retornou codigo {result.returncode}: {detail}"
+
+    if not target.is_file() or target.stat().st_size == 0:
+        return False, "ONLYOFFICE x2t nao gerou arquivo PDF valido"
+
+    return True, ""
+
+
 def converter_documento(source: Path, target: Path, converter: str) -> tuple[bool, str]:
     if converter == "libreoffice":
         return converter_com_libreoffice(source, target)
     if converter == "word":
         return converter_com_word(source, target)
+    if converter == "onlyoffice":
+        print(
+            "[AVISO] O motor headless do ONLYOFFICE (x2t) no Linux pode apresentar inconsistências "
+            "de codificação de fontes TrueType em alguns visualizadores. Recomenda-se LibreOffice.",
+            file=sys.stderr,
+        )
+        return converter_com_onlyoffice(source, target)
+
+    # Modo "auto": no Windows prioriza Word COM; no Linux prioriza LibreOffice (estável e com fontes do sistema)
+    if os.name == "nt":
+        ok, error = converter_com_word(source, target)
+        if ok:
+            return True, ""
+        lo_ok, lo_error = converter_com_libreoffice(source, target)
+        if lo_ok:
+            return True, ""
+        return False, f"Word: {error}; LibreOffice: {lo_error}"
 
     ok, error = converter_com_libreoffice(source, target)
     if ok:

@@ -286,6 +286,12 @@ ROUTINES: list[Routine] = [
             Param("output", "--output", p(OUTPUT_ROOT / "validacao/Relatório_altaresolucao_novo.docx"), "DOCX de saida."),
             Param("reference", "--reference-docx", "scripts/resources/template-base-estilos.docx", "DOCX de referencia."),
             Param(
+                "modelo_institucional",
+                "--modelo-institucional",
+                "scripts/resources/template-relatorio-consolidado-institucional.docx",
+                "Modelo do frontispício, cabeçalho, sumário e encerramento.",
+            ),
+            Param(
                 "resources",
                 "--resource-files",
                 "03-Relatorios/01-Relatorio_Consolidado/img "

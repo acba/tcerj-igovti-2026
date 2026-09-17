@@ -19,6 +19,7 @@ Work from repository evidence, not filename inference. Read the relevant source 
 - `03-Relatorios/01-Relatorio_Consolidado/`: consolidated report Markdown/DOCX sources.
 - `03-Relatorios/02-Relatorios_Individuais_Preliminares/`: individual preliminary report templates and finding fragments.
 - `04-Portal_iGovTI/`: portal requirements, currently `PRD.md`.
+- `05-Deploy/`: deployment generator and final package of consolidated and individual annexes for submission to TCE-RJ systems.
 - `scripts/`: local automation.
 
 ## Methodology Sequence
@@ -192,8 +193,66 @@ scripts/.venv/bin/python scripts/gerar_relatorios_individuais.py \
 Generate the consolidated report DOCX:
 
 ```bash
-scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py
+scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py \
+  --input 03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md \
+  --output 03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx \
+  --reference-docx scripts/resources/template-base-estilos.docx \
+  --context-json 03-Relatorios/01-Relatorio_Consolidado/dados/diagnostico-transversal-igovti-2026.json \
+  --resource-files 03-Relatorios/01-Relatorio_Consolidado/img \
+                   02-Execucao/05-Comentarios_Gestor/04-Graficos_Pos_Comentarios/relatorio-consolidado/img \
+                   03-Relatorios/99-Avaliacao_IgovTi_Achados/img \
+  --resultados-2026 02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx \
+  --respostas-2026 02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx \
+  --comparavel-2026 02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx \
+  --auditados-xlsx 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
+  --resultado-auditoria-json 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json \
+  --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx
 ```
+
+Convert DOCX to PDF using LibreOffice (Linux CLI):
+
+```bash
+scripts/.venv/bin/python scripts/converter_word_para_pdf.py \
+  03-Relatorios/01-Relatorio_Consolidado/gerados \
+  --output-dir 03-Relatorios/01-Relatorio_Consolidado/gerados \
+  --overwrite
+```
+
+Update Word Table of Contents (TOC) and export to PDF via Word COM (Windows):
+
+```bash
+scripts/.venv/bin/python scripts/atualizar_sumario_word.py \
+  03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx
+```
+
+Run consolidated report invariants tests:
+
+```bash
+scripts/.venv/bin/python -m unittest scripts/tests/test_invariantes_consolidado.py
+```
+
+### Fiscalization Deploy
+
+When the original communication archives are present at the repository root, organize them before generating the deploy package:
+
+```bash
+scripts/.venv/bin/python 05-Deploy/organizar_comunicacoes.py
+```
+
+This expands presentation letters under `99-Gestao/01-Oficios_Apresentacao`, materializes recipient-specific TSID01/02/03 sets under `99-Gestao/02-TSIDs/<SIGLA>/`, applies shared attachments to every applicable recipient, and archives the original ZIPs plus import manifests under `99-Gestao/03-Fontes_Originais_Comunicacoes/`.
+
+Generate the final deployment folder with the consolidated report, AN01–AN11, and the 113 restricted individual packages AN12–AN124:
+
+```bash
+scripts/.venv/bin/python 05-Deploy/gerar_deploy.py \
+  --output-dir 05-Deploy/gerados
+```
+
+Before running, place each organization's TSID01, TSID02, and TSID03 under `99-Gestao/02-TSIDs/<SIGLA>/TSID0N/`, or use `--tsids-root` for an alternate source. The output directory must be empty or absent. The generator does not silently omit missing inputs: it writes markers inside the affected ZIPs and records every absence in `FALTANTES.md`, `manifesto-deploy.csv`, and `manifesto-deploy.json`.
+
+Each restricted package must contain only that organization's TSIDs, iGovTI questionnaire response and submitted evidence, manager comments and submitted evidence when present, and final individual report. Review `FALTANTES.md`, confirm the AN01–AN124 sequence, and verify the manifest hashes before submission. Do not send one organization's restricted package to another organization.
+
+No deployment ZIP may exceed 100,000,000 bytes. The generator automatically partitions a larger logical annex into valid ZIP files suffixed `-parte1.zip`, `-parte2.zip`, and so forth. Treat all parts as one annex, upload every part, and confirm each physical file and hash in the deployment manifest.
 
 ## Evidence Evaluation
 

@@ -543,9 +543,9 @@ def plot_governance_practice_distribution(results: pd.DataFrame) -> None:
         ax.scatter(
             series,
             position + rng.normal(0, 0.055, len(series)),
-            s=14,
-            color=CORES["laranja"],
-            alpha=0.28,
+            s=18,
+            color=CORES["texto"],
+            alpha=0.48,
             linewidth=0,
             zorder=3,
         )

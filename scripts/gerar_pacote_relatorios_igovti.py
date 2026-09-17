@@ -43,6 +43,9 @@ DEFAULT_TEMPLATE_FINAL = ROOT / "03-Relatorios/03-Relatorios_Individuais_Finais/
 DEFAULT_RELATORIO_CONSOLIDADO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md"
 DEFAULT_REFERENCE = ROOT / "scripts/resources/template-base-estilos-sigiloso.docx"
 DEFAULT_REFERENCE_CONSOLIDADO = ROOT / "scripts/resources/template-base-estilos.docx"
+DEFAULT_MODELO_INSTITUCIONAL_CONSOLIDADO = (
+    ROOT / "scripts/resources/template-relatorio-consolidado-institucional.docx"
+)
 DEFAULT_INFOGRAFICO = ROOT / "03-Relatorios/01-Relatorio_Consolidado/img/igovti_2026_composicao_infografico.png"
 DEFAULT_WORKERS = max(1, min(8, os.cpu_count() or 1))
 
@@ -128,6 +131,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--relatorio-consolidado-md", type=Path, default=DEFAULT_RELATORIO_CONSOLIDADO)
     parser.add_argument("--reference-docx", type=Path, default=DEFAULT_REFERENCE)
     parser.add_argument("--reference-docx-consolidado", type=Path, default=DEFAULT_REFERENCE_CONSOLIDADO)
+    parser.add_argument(
+        "--modelo-institucional-consolidado",
+        type=Path,
+        default=DEFAULT_MODELO_INSTITUCIONAL_CONSOLIDADO,
+    )
     parser.add_argument("--auditados-select", nargs="*", default=[])
     parser.add_argument("--graficos-jobs", type=int, default=4)
     parser.add_argument("--graficos-dpi", type=int, default=300)
@@ -476,6 +484,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
             "25-relatorio-consolidado", "Gerando relatório consolidado final", cmd(
                 SCRIPTS / "gerar_relatorio_consolidado.py", "--input", args.relatorio_consolidado_md,
                 "--output", consolidado_docx, "--reference-docx", args.reference_docx_consolidado,
+                "--modelo-institucional", args.modelo_institucional_consolidado,
                 "--context-json", diagnostico_json,
                 "--resource-files", root / "03-Relatorios/01-Relatorio_Consolidado/img",
                 graficos_03 / "relatorio-consolidado/img", root / "03-Relatorios/99-Avaliacao_IgovTi_Achados/img",
@@ -484,7 +493,7 @@ def build_stages(args: argparse.Namespace) -> list[Stage]:
                 "--resultado-auditoria-json", a3 / "resultado_auditoria.json", "--mapa", args.mapa,
             ), inputs=(args.relatorio_consolidado_md, diagnostico_json, igovti_outputs(i3, prefixo_atual)[0], r3,
                        igovti_outputs(i3, prefixo_atual)[1], args.auditados, a3 / "resultado_auditoria.json",
-                       args.mapa),
+                       args.mapa, args.modelo_institucional_consolidado),
             outputs=(consolidado_docx,), scenario="03-pos-comentarios-gestor",
         ))
     required_final = [

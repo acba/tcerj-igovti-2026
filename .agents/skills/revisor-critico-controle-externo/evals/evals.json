@@ -1,0 +1,40 @@
+{
+  "skill_name": "revisor-critico-controle-externo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Faça a revisão final deste trecho de relatório antes da assinatura. Aponte apenas problemas essenciais e verifique os dados e as conclusões.",
+      "expected_output": "Parecer que identifique o percentual incorreto (50/80 = 62,5%) e a extrapolação indevida dos respondentes para todos os jurisdicionados, sem acrescentar correções cosméticas.",
+      "files": ["evals/files/relatorio-dados-inconsistentes.md"],
+      "expectations": [
+        "Demonstra que 50 de 80 correspondem a 62,5%, e não 70%.",
+        "Aponta que dados dos 80 respondentes não comprovam situação da totalidade dos 100 jurisdicionados.",
+        "Relaciona as falhas à conclusão de arquivamento.",
+        "Não inclui sugestões meramente estilísticas nem reescreve todo o trecho."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Revise criticamente esta instrução processual para verificar se está pronta para assinatura. Seja rigoroso, mas relate somente o que precisa ser corrigido.",
+      "expected_output": "Parecer que reconheça o suporte para a conclusão de não comprovação, mas aponte a proposta vaga, sem destinatário, ação definida e prazo verificável.",
+      "files": ["evals/files/instrucao-ambigua.md"],
+      "expectations": [
+        "Não questiona sem base a conclusão de que a minuta sem aprovação não comprova o cumprimento.",
+        "Aponta que o encaminhamento não identifica claramente destinatário e providência exigida.",
+        "Recomenda somente a especificação mínima necessária do comando e de sua verificação.",
+        "Não inventa fundamento legal, prazo ou fato processual."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Este texto já passou por revisão da equipe. Faça o controle final antes da assinatura e não proponha mudanças opcionais.",
+      "expected_output": "Conclusão APTO PARA ASSINATURA, sem criar defeitos ou sugestões de estilo, reconhecendo que os números e as limitações estão coerentes.",
+      "files": ["evals/files/texto-adequado.md"],
+      "expectations": [
+        "Conclui que o texto está apto para assinatura no escopo apresentado.",
+        "Não apresenta correções essenciais inexistentes.",
+        "Não acrescenta elogios, resumo extenso ou sugestões opcionais."
+      ]
+    }
+  ]
+}

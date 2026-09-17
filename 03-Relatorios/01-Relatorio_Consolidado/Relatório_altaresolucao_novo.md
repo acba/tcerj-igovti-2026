@@ -16,13 +16,17 @@ toc-title: SUMÁRIO
 | Modalidade: | AUDITORIA DE CONFORMIDADE |
 | Forma de autorização: | ORDINÁRIA |
 | Ato originário: | PROCESSO TCE-RJ nº 303.389-0/2025 |
-| Jurisdicionados: | 84 organizações estaduais (AGENERSA, AGERIO, AGETRANSP, ALERJ, CEASA, CECIERJ, CEDAE, CEHAB, CENTRAL, CEPERJ, CGE, CODERTE, CODIN, DEGASE, DERRJ, DETRAN, DETRO, DPGE, DRM, EMATER, EMOP, FAETEC, FAPERJ, FIA, FIPERJ, FLXIII, FMIS, FS, FSC, FTM, FUNARJ, GSI, IEEA, INEA, IOERJ, IPEM, IRM, ISP, ITERJ, IVB, JUCERJA, LOTERJ, MPERJ, PESAGRO, PGE, PROCON, PRODERJ, RIOPREVIDENCIA, RIOTRILHOS, RJPREV, SEAP, SEAPPA, SECC, SECEC, SECID, SECTI, SEDCON, SEDEC, SEDEICS, SEDSDH, SEEDUC, SEEL, SEENEMAR, SEFAZ, SEGOV, SEHAB, SEIJES, SEINFRA, SEPLAG, SEPM, SEPOL, SERGB, SES, SESP, SETD, SETRAB, SETRANS, SETUR, SUDERJ, TCE-RJ, TJRJ, TURISRIO, UENF e UERJ) e 35 prefeituras municipais (Angra dos Reis, Araruama, Armação dos Búzios, Arraial do Cabo, Barra do Piraí, Belford Roxo, Cabo Frio, Campos dos Goytacazes, Casimiro de Abreu, Duque de Caxias, Guapimirim, Itaguaí, Japeri, Macaé, Magé, Maricá, Mesquita, Niterói, Nova Friburgo, Nova Iguaçu, Paraty, Petrópolis, Porto Real, Quatis, Queimados, Quissamã, Rio das Ostras, São Gonçalo, São João da Barra, São João de Meriti, São Pedro da Aldeia, Saquarema, Seropédica, Teresópolis e Volta Redonda). |
+| Jurisdicionados: | 84 organizações estaduais[^jurisdicionados_estaduais] e 35 prefeituras municipais[^jurisdicionados_municipais] |
 | Objetivo da fiscalização: | Avaliar o grau de adoção dos jurisdicionados às boas práticas de governança e gestão de TI. |
 | Ofícios de apresentação: | AUD/SGE/GAP 3232/25 a 3241/25, 3243/25 a 3268/25 todos de 06/08/2025. |
 | Período abrangido: | janeiro/24 a julho/26 |
 | Período de execução: | 02/02/26 a 16/07/26 |
 | Equipe: | Augusto César Benvenuto de Almeida, mat. 02/4823;  João Paulo de Freitas Ramirez, mat. 02/4820 |
 | Supervisão: | Bruno Mattos Souza de Souza Melo, mat. 02/4258 |
+
+[^jurisdicionados_estaduais]: AGENERSA, AGERIO, AGETRANSP, ALERJ, CEASA, CECIERJ, CEDAE, CEHAB, CENTRAL, CEPERJ, CGE, CODERTE, CODIN, DEGASE, DERRJ, DETRAN, DETRO, DPGE, DRM, EMATER, EMOP, FAETEC, FAPERJ, FIA, FIPERJ, FLXIII, FMIS, FS, FSC, FTM, FUNARJ, GSI, IEEA, INEA, IOERJ, IPEM, IRM, ISP, ITERJ, IVB, JUCERJA, LOTERJ, MPERJ, PESAGRO, PGE, PROCON, PRODERJ, RIOPREVIDENCIA, RIOTRILHOS, RJPREV, SEAP, SEAPPA, SECC, SECEC, SECID, SECTI, SEDCON, SEDEC, SEDEICS, SEDSDH, SEEDUC, SEEL, SEENEMAR, SEFAZ, SEGOV, SEHAB, SEIJES, SEINFRA, SEPLAG, SEPM, SEPOL, SERGB, SES, SESP, SETD, SETRAB, SETRANS, SETUR, SUDERJ, TCE-RJ, TJRJ, TURISRIO, UENF e UERJ.
+
+[^jurisdicionados_municipais]: Angra dos Reis, Araruama, Armação dos Búzios, Arraial do Cabo, Barra do Piraí, Belford Roxo, Cabo Frio, Campos dos Goytacazes, Casimiro de Abreu, Duque de Caxias, Guapimirim, Itaguaí, Japeri, Macaé, Magé, Maricá, Mesquita, Niterói, Nova Friburgo, Nova Iguaçu, Paraty, Petrópolis, Porto Real, Quatis, Queimados, Quissamã, Rio das Ostras, São Gonçalo, São João da Barra, São João de Meriti, São Pedro da Aldeia, Saquarema, Seropédica, Teresópolis e Volta Redonda.
 
 \newpage
 
@@ -33,9 +37,8 @@ toc-title: SUMÁRIO
 
 # LISTA DE ANEXOS
 
-| **ANEXOS** | |
-| --- | --- |
 | **Documento nº** | **Descrição** |
+| --- | --- |
 | **AN01** | **Ofícios de apresentação** (arquivo digital “AN01 – Ofícios de apresentação.zip”) |
 | **AN02** | **Matriz de planejamento** (arquivo digital “AN02 – Matriz de planejamento.docx”) |
 | **AN03** | **Questionário iGovTI 2026, metodologia e resultados** (arquivo digital “AN03 – Questionário iGovTI 2026, metodologia e resultados.zip”) |
@@ -117,11 +120,11 @@ Os trabalhos foram conduzidos em conformidade com as Normas Brasileiras de Audit
 
 A presente fiscalização insere-se no conjunto de ações de controle externo planejadas por esta Corte de Contas para avaliar e induzir a maturidade da governança e da gestão de Tecnologia da Informação e Comunicação (TIC) sob sua jurisdição.
 
-Um importante marco nesse tema foi o levantamento realizado no âmbito do Processo nº 105.096-3/2020, que avaliou aspectos-chave da governança de TI das principais organizações da esfera estadual que utilizam soluções de tecnologia da informação, mensurando suas práticas pelo Índice de Governança e Gestão de TI (iGovTI).
+Um importante marco nesse tema foi o levantamento realizado no âmbito do Processo TCE-RJ nº 105.096-3/2020, que avaliou aspectos-chave da governança de TI das principais organizações da esfera estadual que utilizam soluções de tecnologia da informação, mensurando suas práticas pelo Índice de Governança e Gestão de TI (iGovTI).
 
-Posteriormente, no ano de 2023, o Tribunal realizou duas auditorias de conformidade com o escopo de verificar as políticas de governança e gestão de TI como norteadoras das contratações de TIC. A primeira delas, autuada no Processo nº 205.089-9/2023, avaliou a maturidade dessas práticas em nível municipal, alcançando as prefeituras de Maricá, Rio das Ostras, Saquarema e Volta Redonda. A segunda, processada sob o nº 109.009-4/2023, concentrou-se nas organizações que compõem o Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC) do Executivo Estadual.
+Posteriormente, no ano de 2023, o Tribunal realizou duas auditorias de conformidade com o escopo de verificar as políticas de governança e gestão de TI como norteadoras das contratações de TIC. A primeira delas, autuada no Processo TCE-RJ nº 205.089-9/2023, avaliou a maturidade dessas práticas em nível municipal, alcançando as prefeituras de Maricá, Rio das Ostras, Saquarema e Volta Redonda. A segunda, autuada no Processo TCE-RJ nº 109.009-4/2023, concentrou-se nas organizações que compõem o Sistema Estadual de Tecnologia da Informação e Comunicação (SETIC) do Executivo Estadual.
 
-Paralelamente às avaliações gerais de governança, este Tribunal realizou fiscalizações dedicadas a aspectos específicos de segurança. Nesse sentido, as auditorias de conformidade dos Processos nº 105.895-5/2024, 107.097-5/2025 e 224.058-1/2025 verificaram a adoção de controles e a aderência de prefeituras e organizações públicas estaduais às boas práticas de segurança da informação, como a ABNT NBR ISO/IEC 27001:2022 e os Controles CIS v8. Em razão de a segurança da informação e a segurança cibernética terem sido objeto dessas fiscalizações específicas recentes, a presente auditoria não formulou questão de auditoria nem achado autônomo destinado a avaliar a implementação ou a efetividade dos controles e processos específicos desses temas. Permaneceram no escopo, contudo, aspectos relacionados à capacidade institucional de segurança da informação e à gestão de incidentes.
+Paralelamente às avaliações gerais de governança, este Tribunal realizou fiscalizações dedicadas a aspectos específicos de segurança. Nesse sentido, as auditorias de conformidade dos Processos TCE-RJ nº 105.895-5/2024, 107.097-5/2025 e 224.058-1/2025 verificaram a adoção de controles e a aderência de prefeituras e organizações públicas estaduais às boas práticas de segurança da informação, como a ABNT NBR ISO/IEC 27001:2022 e os Controles CIS v8. Em razão de a segurança da informação e a segurança cibernética terem sido objeto dessas fiscalizações específicas recentes, a presente auditoria não formulou questão de auditoria nem achado autônomo destinado a avaliar a implementação ou a efetividade dos controles e processos específicos desses temas. Permaneceram no escopo, contudo, aspectos relacionados à capacidade institucional de segurança da informação e à gestão de incidentes.
 
 ## 2.2 Objetivo e escopo
 
@@ -195,7 +198,7 @@ Com a base ajustada pós-avaliação dos comentários do gestor, foi calculado o
 ![Composição do iGovTI 2026](igovti_2026_composicao_infografico.png){#fig:composicao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-O índice final é composto por dois blocos principais, conforme sintetizado na [@fig:composicao_igovti_2026]: Governança de TIC, com peso de 47,8%, formado por quatro práticas de agregação direta — modelo de gestão de TIC, monitoramento do desempenho, atuação da auditoria interna e simplificação dos serviços públicos —; e Gestão de TIC (iGestTI), com peso de 52,2%, estruturado em seis dimensões operacionais que consolidam vinte questões principais ponderadas. Os itens de detalhamento vinculados a determinadas questões podem reduzir o valor da respectiva prática quando não atendidos.
+O índice final é composto por dois blocos principais, conforme sintetizado na [@fig:composicao_igovti_2026]: Governança de TIC, com peso de 47,8%, formado por quatro práticas de agregação direta — modelo de gestão de TIC, monitoramento do desempenho, atuação da auditoria interna e simplificação dos serviços públicos —; e Gestão de TIC (iGestTI), com peso de 52,2%, estruturado em seis dimensões operacionais que consolidam dezoito questões principais ponderadas. Os itens de detalhamento vinculados a determinadas questões podem reduzir o valor da respectiva prática quando não atendidos.
 
 Com base na pontuação consolidada, cada organização com resposta válida foi classificada em um de quatro níveis de maturidade: Inexpressivo (0,00 ≤ iGovTI < 0,15), Iniciando (0,15 ≤ iGovTI < 0,40), Intermediário (0,40 ≤ iGovTI < 0,70) e Aprimorado (0,70 ≤ iGovTI ≤ 1,00).
 
@@ -209,7 +212,7 @@ Depois da apreciação dos comentários e das evidências complementares, a Equi
 
 ## 2.6 Benefícios estimados
 
-Espera-se que a implementação dos encaminhamentos decorrentes desta fiscalização contribua para o aprimoramento da governança e da gestão de TIC nas organizações avaliadas, especialmente quanto à estrutura, ao planejamento, à capacidade institucional, à gestão de serviços e às contratações de tecnologia.
+Espera-se que a implementação dos encaminhamentos decorrentes desta fiscalização contribua para o aprimoramento da governança e da gestão de TIC nas organizações avaliadas, especialmente quanto à estrutura, ao planejamento, à capacidade institucional, à gestão de serviços e às contratações de tecnologia da informação.
 
 Para a sociedade fluminense, o fortalecimento dessas capacidades pode contribuir para maior continuidade, confiabilidade e eficiência dos serviços públicos apoiados por tecnologia, para a redução de falhas e interrupções e para a utilização mais racional dos recursos públicos destinados à TIC.
 
@@ -296,7 +299,7 @@ O Tribunal de Contas do Estado do Rio Grande do Sul realizou, em 2025, levantame
 
 [^referencia_iegm_igovti]: O Índice de Efetividade da Gestão Municipal (IEGM) consolida sete dimensões da gestão municipal, entre elas o i-GovTI. O portal nacional apresenta resultados dos municípios participantes e classifica os índices em faixas que vão de baixo nível de adequação a altamente efetiva. INSTITUTO RUI BARBOSA. *IEGM Brasil*. Disponível em: <https://iegm.irbcontas.org.br/>. Acesso em: 12 ago. 2026.
 
-No TCE-RJ, as mensurações do iGovTI anteriores a esta fiscalização ocorreram nas auditorias dos Processos nº 205.089-9/2023, relativa a quatro prefeituras municipais, e nº 109.009-4/2023, relativa a organizações do SETIC. Em ambas, utilizou-se questionário baseado no modelo do TCU de 2021, com adaptações. O núcleo de práticas de governança e gestão de TIC foi preservado como base de comparabilidade; itens adicionais de cada fiscalização foram tratados como módulos complementares, sem integrar o cômputo do índice.
+No TCE-RJ, as mensurações do iGovTI anteriores a esta fiscalização ocorreram nas auditorias dos Processos TCE-RJ nº 205.089-9/2023, relativa a quatro prefeituras municipais, e nº 109.009-4/2023, relativa a organizações do SETIC. Em ambas, utilizou-se questionário baseado no modelo do TCU de 2021, com adaptações. O núcleo de práticas de governança e gestão de TIC foi preservado como base de comparabilidade; itens adicionais de cada fiscalização foram tratados como módulos complementares, sem integrar o cômputo do índice.
 
 O iGovTI 2026 do TCE-RJ preserva a lógica de mensuração de maturidade em governança e gestão de TIC, com adaptações destinadas a reforçar o foco na área de TIC, a qualidade das respostas e a vinculação com evidências documentais, mantendo base comparável com o ciclo de 2023 na estrutura ajustada de itens. A composição do índice, os níveis de maturidade e a forma de cálculo constam da Introdução; os resultados constam do capítulo seguinte.
 
@@ -327,7 +330,7 @@ A divergência positiva entre a média e a mediana, combinada com o valor máxim
 
 ### 4.1.1. Comparação dos cenários
 
-A [@tbl:cenarios_igovti] apresenta o iGovTI nos três estados preservados pelo fluxo de processamento. O cenário-base retrata a autodeclaração dos gestores após as retificações e os ajustes iniciais de saneamento, mas antes dos juízos da Equipe de Auditoria sobre as evidências. O cenário pós-evidências incorpora a validação documental, e o cenário pós-comentários incorpora, adicionalmente, as manifestações e evidências complementares acolhidas no contraditório.
+A [@tbl:cenarios_igovti] apresenta o iGovTI nos três cenários preservados pelo fluxo de processamento. O cenário-base retrata a autodeclaração dos gestores após as retificações e os ajustes iniciais de saneamento, mas antes dos juízos da Equipe de Auditoria sobre as evidências. O cenário pós-evidências incorpora a validação documental, e o cenário pós-comentários incorpora, adicionalmente, as manifestações e evidências complementares acolhidas no contraditório.
 
 : Evolução do iGovTI nos três cenários de processamento {#tbl:cenarios_igovti#}
 
@@ -389,7 +392,7 @@ A decomposição da Governança de TIC permite identificar quanto cada uma das q
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria, com base nos resultados finais ajustados e na estrutura oficial do iGovTI 2026)</div>
 
-A [@fig:distribuicao_praticas_governanca_2026] apresenta a distribuição completa dos resultados. Sua leitura permite distinguir fragilidades específicas que ficariam ocultas no valor agregado de Governança de TIC e mantém a análise consolidada alinhada à discriminação adotada nos relatórios individuais.
+A [@fig:distribuicao_praticas_governanca_2026] apresenta a distribuição completa dos resultados. Os pontos representam os resultados individuais das organizações, e o losango branco indica a média de cada prática. Sua leitura permite distinguir fragilidades específicas que ficariam ocultas no valor agregado de Governança de TIC e mantém a análise consolidada alinhada à discriminação adotada nos relatórios individuais.
 
 ![Distribuição dos resultados das quatro práticas de Governança de TIC](igovti_2026_distribuicao_praticas_governanca.png){#fig:distribuicao_praticas_governanca_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -449,6 +452,8 @@ Essa comparação possui caráter descritivo. O cadastro permite separar o unive
 ### 4.1.6. Práticas com maior e menor grau de adoção
 
 A análise das práticas permite identificar os aspectos relativamente mais disseminados e aqueles que apresentam maior deficiência no conjunto avaliado. A [@tbl:diagnostico_praticas] apresenta as cinco maiores e as cinco menores pontuações médias.
+
+Na tabela, a coluna "Não se aplica" informa quantas organizações selecionaram essa alternativa em cada prática. Conforme a metodologia do iGovTI 2026, essas respostas recebem pontuação parcial de 0,5 e integram o cálculo da média apresentada.
 
 : Práticas com maior e menor grau de adoção no iGovTI 2026 {#tbl:diagnostico_praticas#}
 
@@ -578,7 +583,7 @@ Essas situações reduzem a segurança de que a organização disponha de condi�
 
 A ausência de formalização dificulta a responsabilização, a insuficiência de atribuições favorece atuação reativa e fragmentada e o posicionamento incompatível com a relevância da função de TIC reduz sua capacidade de interlocução com a alta administração e de participação em decisões estratégicas, orçamentárias, contratuais e de gestão de riscos.
 
-Diante disso, para o público geral, são propostas recomendações para formalização da área de TIC, definição de suas atribuições e adequação de seu posicionamento organizacional. Para os grupos alcançados por normas vinculantes específicas, essas medidas assumem natureza de determinação somente nos casos efetivamente identificados e para os destinatários indicados na nota de critérios específicos.
+Diante disso, para as organizações auditadas em geral, são propostas recomendações para formalização da área de TIC, definição de suas atribuições e adequação de seu posicionamento organizacional. Para os grupos alcançados por normas vinculantes específicas, essas medidas assumem natureza de determinação somente nos casos efetivamente identificados e para os destinatários indicados na nota de rodapé dos critérios específicos deste achado.
 
 ### 4.3.2. Achado 2 - Governança de TIC insuficiente para avaliar, dirigir e monitorar a tecnologia da informação
 
@@ -593,7 +598,7 @@ Com base na análise das respostas e evidências dos subitens E, F e H do item 1
 
 O achado demonstra que a governança de TIC ainda é frequentemente tratada de forma documental ou episódica, sem mecanismos regulares de direção, acompanhamento e responsabilização. A ausência de objetivos, indicadores ou metas dificulta o direcionamento das prioridades e a avaliação do desempenho da TIC; a ausência de instância colegiada formalmente instituída ou adequadamente composta reduz a participação das áreas relevantes nas decisões de tecnologia; e a falta de atuação efetiva do comitê compromete o acompanhamento das deliberações e de seus encaminhamentos.
 
-Diante disso, propõe-se recomendação para o estabelecimento de objetivos, indicadores e metas de TIC. Para as situações relativas ao comitê, são propostas determinações para sua instituição formal e atuação efetiva. Os critérios específicos que incidiram sobre situações efetivamente identificadas e os respectivos destinatários estão indicados na nota de critérios específicos.
+Diante disso, propõe-se recomendação para o estabelecimento de objetivos, indicadores e metas de TIC. Para as situações relativas ao comitê, são propostas determinações para sua instituição formal e atuação efetiva. Os critérios específicos que incidiram sobre situações efetivamente identificadas e os respectivos destinatários estão indicados na nota de rodapé dos critérios específicos deste achado.
 
 ### 4.3.3. Achado 3 - Planejamento de TIC insuficiente para orientar a gestão, o orçamento e as contratações de TIC
 
@@ -621,7 +626,7 @@ Com base na análise das respostas e evidências relacionadas à força de traba
 
 O achado evidencia gargalo transversal. A ausência de dimensionamento documentado e de cargos ou funções formalmente atribuídos à TIC ou à segurança da informação limita a capacidade de planejar, contratar, fiscalizar, operar e proteger serviços de TIC. Em organizações com operação predominantemente terceirizada, a ausência de profissionais internos tende a agravar riscos de perda de conhecimento, baixa supervisão contratual e descontinuidade de serviços.
 
-Diante disso, para o público geral, são propostas recomendações voltadas ao dimensionamento, à formalização de cargos ou funções e à preservação de capacidade interna.
+Diante disso, para as organizações auditadas em geral, são propostas recomendações voltadas ao dimensionamento, à formalização de cargos ou funções e à preservação de capacidade interna.
 
 ### 4.3.5. Achado 5 - Gestão de serviços de TIC insuficiente para assegurar controle sobre serviços, ativos e incidentes
 
@@ -636,7 +641,7 @@ Com base na análise das respostas e evidências relacionadas à gestão de serv
 
 O conjunto de fragilidades aumenta o risco de atuação predominantemente reativa na gestão dos serviços de TIC. Sem catálogo de serviços, usuários e áreas demandantes não dispõem de visão clara dos serviços, responsáveis, condições de acesso e canais de atendimento. A ausência de níveis mínimos de serviço reduz a capacidade de controlar sistematicamente a qualidade, o desempenho e as expectativas relacionadas aos serviços. Sem inventário e gestão de configuração, há baixa rastreabilidade dos ativos, sistemas, dependências e impactos de mudanças. Sem processo de incidentes, falhas de serviços e de segurança tendem a ser tratadas de forma inconsistente e pouco aprendida.
 
-Diante disso, para o público geral, são propostas recomendações para a adequação das práticas de gestão de serviços de TIC. Para os grupos alcançados por normas vinculantes específicas, determinadas medidas assumem natureza de determinação somente nos casos efetivamente identificados e para os destinatários indicados na nota de critérios específicos.
+Diante disso, para as organizações auditadas em geral, são propostas recomendações para a adequação das práticas de gestão de serviços de TIC. Para os grupos alcançados por normas vinculantes específicas, determinadas medidas assumem natureza de determinação somente nos casos efetivamente identificados e para os destinatários indicados na nota de rodapé dos critérios específicos deste achado.
 
 ### 4.3.6. Achado 6 - Fragilidades na governança técnica da fase preparatória das contratações de TIC
 
@@ -651,7 +656,7 @@ Com base na análise das respostas e evidências relacionadas às contratações
 
 O achado demonstra que a fase preparatória das aquisições de tecnologia ainda é frequentemente conduzida sem governança técnica suficiente. A ausência de fluxo padronizado aumenta a dependência de iniciativas isoladas; a falta de análise técnica da área de TIC eleva riscos de incompatibilidade, vulnerabilidade e duplicidade de soluções; o desalinhamento ao planejamento de TIC e ao Plano de Contratações Anual favorece contratações reativas; e a ausência de equipe formal de planejamento compromete a qualidade dos estudos preliminares, dos requisitos, da análise de riscos e da fiscalização futura.
 
-Diante disso, para o público geral, são propostas recomendações para formalizar e padronizar o processo de planejamento das contratações, submeter as contratações à análise prévia da área de TIC e designar equipe de planejamento com participação técnica. A situação de desalinhamento ao planejamento enseja determinação para todos os destinatários. Nos grupos submetidos a normas vinculantes específicas, o processo formal também enseja determinação somente nos casos efetivamente identificados e para os destinatários indicados na nota de critérios específicos.
+Diante disso, para as organizações auditadas em geral, são propostas recomendações para formalizar e padronizar o processo de planejamento das contratações, submeter as contratações à análise prévia da área de TIC e designar equipe de planejamento com participação técnica. A situação de desalinhamento ao planejamento enseja determinação para todos os destinatários. Nos grupos submetidos a normas vinculantes específicas, o processo formal também enseja determinação somente nos casos efetivamente identificados e para os destinatários indicados na nota de rodapé dos critérios específicos deste achado.
 
 ## 4.4. Cenário de utilização de inteligência artificial
 
@@ -954,6 +959,8 @@ Conclui-se que o trabalho alcançou seu objetivo ao produzir diagnóstico consol
 
 Os resultados indicam a necessidade de atuação indutora deste Tribunal para promover a formalização de estruturas e processos, fortalecer a governança e a capacidade institucional de TIC e aprimorar o controle das contratações, dos serviços e dos riscos tecnológicos no âmbito das organizações fiscalizadas.
 
+A implementação proporcional das ações contidas nas propostas de encaminhamento tende a fortalecer a continuidade, a confiabilidade e a eficiência dos serviços públicos apoiados por tecnologia, bem como a racionalidade no uso dos recursos destinados à TIC. A concretização desses benefícios deverá ser avaliada em ações posteriores de controle.
+
 \newpage
 
 # 7. PROPOSTA DE ENCAMINHAMENTO
@@ -976,46 +983,18 @@ Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes p
 
 1. **COMUNICAÇÃO COM DETERMINAÇÃO** à Secretaria Geral da Presidência, por meio da sua coordenadoria competente, para que encaminhe, em anexo aos ofícios de comunicação da decisão, cópia do Acórdão proferido e do respectivo relatório individual (AN12 a AN124) a cada uma das 113 organizações que apresentaram resposta válida e foram avaliadas, de forma a garantir a ciência efetiva acerca da decisão proferida por esta Corte, **tendo em vista o caráter reservado dos anexos individuais, em que cada organização destinatária só deve ter acesso ao seu próprio relatório individual**;
 
-2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias dos relatórios individuais anexos (AN12 a AN124), nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-os de que o descumprimento injustificado da determinação ora expedida quanto à elaboração e ao registro do plano de ação poderá sujeitar os responsáveis às sanções previstas no art. 63 da Lei Complementar Estadual nº 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, pois o atendimento poderá ser verificado em fiscalizações futuras desta Corte de Contas.
+2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias dos relatórios individuais anexos (AN12 a AN124), nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que **elaborem, no prazo máximo de 60 (sessenta) dias a contar da ciência da decisão plenária, plano de ação estruturado**, formalmente registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-os de que o descumprimento injustificado dos encaminhamentos poderá sujeitar os responsáveis às sanções previstas no art. 63 da Lei Complementar Estadual nº 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, pois o atendimento poderá ser verificado em fiscalizações futuras desta Corte de Contas.
 
-Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao].
+    Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao].
 
-: Modelo referencial de plano de ação {#tbl:modelo_plano_acao#}
+    : Modelo referencial de plano de ação {#tbl:modelo_plano_acao#}
 
-| Determinação ou recomendação | Medida a adotar | Etapas ou providências | Unidade e responsável | Prazo | Indicador ou evidência de conclusão |
-|---|---|---|---|---|---|
-| [Indicar o item do relatório individual] | [Descrever a medida] | [Informar as principais etapas] | [Indicar a unidade e o responsável] | [Indicar a data ou o período] | [Indicar o documento, ato, registro ou resultado esperado] |
+    | Determinação ou recomendação | Medida a adotar | Etapas ou providências | Unidade e responsável | Prazo | Indicador ou evidência de conclusão |
+    |---|---|---|---|---|---|
+    | [Indicar o item do relatório individual] | [Descrever a medida] | [Informar as principais etapas] | [Indicar a unidade e o responsável] | [Indicar a data ou o período] | [Indicar o documento, ato, registro ou resultado esperado] |
 
-<div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
+    <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 3. **ABERTURA DE PROCESSOS APARTADOS PARA APURAÇÃO INDIVIDUALIZADA DA AUSÊNCIA DE RESPOSTA VÁLIDA E DE EVENTUAL OBSTRUÇÃO À AUDITORIA OU SONEGAÇÃO DE INFORMAÇÕES**, para cada uma das organizações fiscalizadas que não apresentaram submissão válida ao questionário eletrônico, apesar das comunicações e reiterações registradas no Anexo AN10, a saber: **Companhia Estadual de Habitação do Rio de Janeiro (CEHAB)**, **Empresa de Obras Públicas do Estado do Rio de Janeiro (EMOP)**, **Empresa de Pesquisa Agropecuária do Estado do Rio de Janeiro (PESAGRO)**, **Secretaria de Estado de Defesa do Consumidor (SEDCON)**, **Secretaria de Estado de Polícia Civil (SEPOL)** e **Secretaria de Estado de Segurança Pública (SESP)**, com expedição de **NOTIFICAÇÃO**, nos termos regimentais, para que os respectivos responsáveis apresentem razões de defesa acerca da ausência de resposta válida às solicitações da fiscalização e das circunstâncias de cada caso, esclarecendo que a constatação da ausência de resposta não caracteriza, isoladamente, obstrução ou sonegação, devendo a responsabilidade ser individualmente apurada com garantia de contraditório e ampla defesa, sem antecipação de sanção, observadas as hipóteses do art. 63, incisos V e VI, da Lei Complementar Estadual nº 63/1990;
 4. **COMUNICAÇÃO às Unidades de Controle Interno das 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do Relatório Individual da correspondente organização (AN12 a AN124), e acompanhem a elaboração e a execução do respectivo plano de ação, a fim de assegurar seu efetivo cumprimento;
 5. **ARQUIVAMENTO** do presente processo.
-
-
-\newpage
-
-
-O presente relatório foi supervisionado de acordo com a Portaria SGE nº 05/2019, o Manual de Auditoria Governamental do TCE-RJ, aprovado pela Resolução TCE-RJ nº 373, de 16/06/2021, e os materiais de orientação mantidos nos assentamentos internos desta Coordenadoria. Dessa forma, encontra-se **APROVADO** pela supervisão e é encaminhado à apreciação superior para adoção das medidas cabíveis.
-
-**CAD-TI, {{ data_hoje }}**
-
-|  |  |  |
-| --- | --- | --- |
-| **AUGUSTO CÉSAR BENVENUTO DE ALMEIDA**  **Matrícula 02/4823** | Auditor de Controle Externo | Equipe de Auditoria |
-| **JOÃO PAULO DE FREITAS RAMIREZ**  **Matrícula 02/4820** | Auditor de Controle Externo | Equipe de Auditoria |
-| **BRUNO MATTOS SOUZA DE SOUZA MELO**  **Matrícula 02/4258** | Auditor de Controle Externo | Supervisor |
-
-\newpage
-
-**DE ACORDO**.
-
-À **SUB-CIDADANIA**, em prosseguimento.
-
-**CAD-TI, {{ data_hoje }}**
-
-**ALBERTO DE FONTES TAVARES NETO**
-
-**Coordenador-Geral**
-
-**Matrícula 02/4260**

@@ -763,16 +763,84 @@ Geração do DOCX:
 ```bash
 scripts/.venv/bin/python scripts/gerar_relatorio_consolidado.py \
   --input 03-Relatorios/01-Relatorio_Consolidado/Relatório_altaresolucao_novo.md \
-  --output C:/tmp/tcerj-igovti-2026/relatorio-consolidado/Relatório_altaresolucao_novo.docx \
-  --resource-files "C:/tmp/tcerj-igovti-2026/relatorio-consolidado/img/**/*" "C:/tmp/tcerj-igovti-2026/relatorios-individuais/img/**/*" \
-  --resultados-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026.xlsx \
-  --respostas-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/03-Respostas_Processadas/20260621-respostas-questionario-02-pos-avaliacao-evidencias.xlsx \
-  --comparavel-2026 C:/tmp/tcerj-igovti-2026/02-Execucao/01-Questionario/04-Resultados_iGovTI/20260621-iGovTI-2026-Ajustado-Comparavel.xlsx \
+  --output 03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx \
+  --reference-docx scripts/resources/template-base-estilos.docx \
+  --modelo-institucional scripts/resources/template-relatorio-consolidado-institucional.docx \
+  --context-json 03-Relatorios/01-Relatorio_Consolidado/dados/diagnostico-transversal-igovti-2026.json \
+  --resource-files 03-Relatorios/01-Relatorio_Consolidado/img \
+                   02-Execucao/05-Comentarios_Gestor/04-Graficos_Pos_Comentarios/relatorio-consolidado/img \
+                   03-Relatorios/99-Avaliacao_IgovTi_Achados/img \
+  --resultados-2026 02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026.xlsx \
+  --respostas-2026 02-Execucao/01-Questionario/03-Respostas_Processadas/20260716-respostas-questionario-pos-comentarios-gestor.xlsx \
+  --comparavel-2026 02-Execucao/01-Questionario/04-Resultados_iGovTI/03-pos-comentarios-gestor/20260716-iGovTI-2026-Ajustado-Comparavel.xlsx \
   --auditados-xlsx 02-Execucao/03-Execucao_Procedimentos/01-Insumos/bd_auditados.xlsx \
-  --resultado-auditoria-json C:/tmp/tcerj-igovti-2026/02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/resultado_auditoria.json
+  --resultado-auditoria-json 02-Execucao/03-Execucao_Procedimentos/02-Resultados_Auditoria/03-pos-comentarios-gestor/resultado_auditoria.json \
+  --mapa 02-Execucao/03-Execucao_Procedimentos/01-Insumos/mapa-verificacao-achados-pos-comentarios-gestor.xlsx
 ```
 
 O gerador do consolidado também recria, em diretório temporário interno, os gráficos gerais e os gráficos de achados usados pelo DOCX. Quando os argumentos acima são informados, esses gráficos são produzidos a partir dos artefatos recém-gerados, e não dos arquivos padrão do repositório.
+
+O modelo institucional é aplicado por padrão mesmo quando `--modelo-institucional` é omitido. Ele fornece o frontispício, o cabeçalho com processo e rubrica, o sumário e a página de supervisão; a lista de anexos e as seções 1 a 7 continuam provenientes do Markdown processado. A data do encerramento é fixada no dia da geração. Ao final, o gerador materializa automaticamente as entradas e a paginação do sumário com LibreOffice/UNO no Linux ou Word COM no Windows.
+
+Conversão para PDF no Linux (CLI via LibreOffice com fontes MS):
+
+```bash
+scripts/.venv/bin/python scripts/converter_word_para_pdf.py \
+  03-Relatorios/01-Relatorio_Consolidado/gerados \
+  --output-dir 03-Relatorios/01-Relatorio_Consolidado/gerados \
+  --overwrite
+```
+
+Atualização manual de sumário (TOC) e exportação via Word COM (Windows), caso seja necessário recalcular o documento após uma edição manual:
+
+```bash
+scripts/.venv/bin/python scripts/atualizar_sumario_word.py \
+  03-Relatorios/01-Relatorio_Consolidado/gerados/Relatório_altaresolucao_novo.docx
+```
+
+Validação de invariantes da auditoria e do consolidado:
+
+```bash
+scripts/.venv/bin/python -m unittest scripts/tests/test_invariantes_consolidado.py
+```
+
+#### 14.1. Pré-requisitos e Reproducibilidade da Conversão PDF no Linux
+
+Para executar a conversão direta de DOCX para PDF em uma máquina Linux com máxima fidelidade visual, utilize o conversor padrão baseado no LibreOffice (`--converter libreoffice` ou modo automático):
+
+1. **Instalação do LibreOffice**:
+   - É o motor oficial e recomendado para conversão headless em ambiente Linux.
+   - No Arch Linux / Manjaro:
+     ```bash
+     sudo pacman -S libreoffice-fresh
+     ```
+   - No Debian / Ubuntu:
+     ```bash
+     sudo apt install libreoffice-writer
+     ```
+
+2. **Instalação das Fontes da Microsoft (famílias Arial, Calibri, Cambria e Aptos)**:
+   - Os templates DOCX utilizam tipografia Microsoft (como `Arial` e a família `Aptos`/`Calibri` padrão do Office 365). Distribuições Linux padrão não incluem essas fontes proprietárias.
+   - Para instalá-las no Linux:
+     - **Arch Linux (AUR)**:
+       ```bash
+       yay -S ttf-ms-fonts ttf-vista-fonts ttf-aptos
+       ```
+     - **Debian / Ubuntu / Outras distribuições**:
+       Instale `msttcorefonts` (`ttf-mscorefonts-installer`) e copie os arquivos `.ttf`/`.ttc` das famílias Calibri, Cambria e Aptos (obtidos de uma máquina Windows em `C:\Windows\Fonts`) para o diretório de fontes do usuário:
+       ```bash
+       mkdir -p ~/.local/share/fonts/microsoft
+       # copiar arquivos de fontes .ttf para ~/.local/share/fonts/microsoft/
+       fc-cache -fv
+       ```
+   - O LibreOffice lê diretamente o `fontconfig` do sistema operacional e embute fielmente os subsets TrueType (`ArialMT`, `Calibri`, `Cambria-Bold`, `AptosDisplay-Bold`) no PDF gerado.
+
+3. **Inadequação do motor headless do ONLYOFFICE (`x2t`)**:
+   - O binário `x2t` do ONLYOFFICE DesktopEditors em modo headless no Linux não é um conversor autônomo suportado e apresenta falha grave de mapeamento de caracteres (offset de 32 caracteres na codificação TrueType), o que corrompe visualmente os textos (gerando caracteres desconexos/mojibake). Portanto, a conversão deve sempre utilizar o LibreOffice.
+
+4. **Distinção entre Preview no Linux e Publicação Oficial (Windows)**:
+   - **Linux (LibreOffice com fontes MS)**: O gerador usa `scripts/atualizar_sumario_libreoffice.py` para atualizar o índice via UNO antes da conversão. O DOCX e o PDF de conferência já apresentam as entradas e páginas do sumário.
+   - **Windows (Word COM Nativo)**: O gerador atualiza o sumário pelo Word COM. Para recalcular campos e exportar novamente depois de uma edição manual, execute `scripts/atualizar_sumario_word.py`.
 
 ### 15. Publicação e portal iGovTI
 

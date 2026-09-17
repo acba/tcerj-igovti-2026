@@ -1396,7 +1396,7 @@ possiveis_achados:
 
 natureza: levantamento
 gera_achado: false
-questao: QTD. Qual é o grau de adoção das práticas de governança e gestão de TIC pelas organizações avaliadas no iGovTI 2026, globalmente e por componente e dimensão?
+questao: QT1. Qual é o grau de adoção das práticas de governança e gestão de TIC pelas organizações avaliadas no iGovTI 2026, globalmente e por componente e dimensão?
 
 subquestoes:
 - Como se distribuem os resultados do iGovTI 2026 entre as faixas de maturidade definidas na metodologia?
@@ -1405,10 +1405,10 @@ subquestoes:
 - Quais práticas avaliadas apresentam os maiores e os menores graus de adoção?
 
 fontes_de_informacao:
-- F1: Respostas válidas e processadas do questionário eletrônico iGovTI 2026.
-- F2: Metodologia de cálculo e estrutura do índice iGovTI 2026.
-- F3: Resultados individuais e agregados calculados para o iGovTI 2026, seus componentes e suas dimensões.
-- F4: Cadastro das organizações avaliadas, com os atributos institucionais necessários aos recortes analíticos.
+- F1: Base institucional de respostas válidas e processadas do questionário eletrônico iGovTI 2026.
+- F2: Equipe de Auditoria.
+- F3: Rotinas de cálculo e base institucional de resultados do iGovTI 2026, de seus componentes e de suas dimensões.
+- F4: Base cadastral institucional das organizações avaliadas e de seus atributos necessários aos recortes analíticos.
 
 informacoes_requeridas:
 - IR1: Universo de organizações avaliadas, respondentes válidos e respectivos atributos institucionais; [F1, F4]
@@ -1454,7 +1454,7 @@ limitacoes_e_cautelas:
 
 natureza: levantamento
 gera_achado: false
-questao: QT. As organizações anteriormente avaliadas apresentaram evolução mensurável, em termos agregados, em governança e gestão de TIC e no atendimento aos encaminhamentos da fiscalização anterior?
+questao: QT2. As organizações anteriormente avaliadas apresentaram evolução mensurável, em termos agregados, em governança e gestão de TIC e no atendimento aos encaminhamentos da fiscalização anterior?
 
 subquestoes:
 - Houve variação agregada positiva, negativa ou estável nos indicadores comparáveis de governança e gestão de TIC?
@@ -1465,11 +1465,11 @@ subquestoes:
 - As diferenças metodológicas entre os ciclos limitam a comparabilidade dos resultados?
 
 fontes_de_informacao:
-- F1: Resultados, respostas e indicadores calculados no iGovTI 2026 para as organizações também avaliadas na fiscalização anterior.
-- F2: Resultados, respostas, indicadores, achados e encaminhamentos da fiscalização anterior de 2023 relativa ao iGovTI em municípios.
-- F3: Resultados, respostas, indicadores, achados e encaminhamentos da fiscalização anterior de 2023 relativa ao iGovTI nas organizações do Poder Executivo estadual.
-- F4: Metodologias de cálculo, dicionários de variáveis, questionários, planilhas de correspondência e demais registros necessários para compatibilizar os ciclos de avaliação.
-- F5: Informações, evidências e registros produzidos no iGovTI 2026 que permitam inferir, em termos agregados, atendimento, não atendimento ou atendimento parcial dos encaminhamentos anteriores.
+- F1: Base institucional de respostas e resultados do iGovTI 2026 para as organizações também avaliadas na fiscalização anterior.
+- F2: Processos da fiscalização de 2023 relativa ao iGovTI em municípios e repositórios institucionais que custodiam suas respostas, memórias de cálculo, achados e encaminhamentos.
+- F3: Processos da fiscalização de 2023 relativa ao iGovTI nas organizações do Poder Executivo estadual e repositórios institucionais que custodiam suas respostas, memórias de cálculo, achados e encaminhamentos.
+- F4: Equipe de Auditoria.
+- F5: Processos, bases e repositórios institucionais do iGovTI 2026 que custodiam as respostas, evidências e registros utilizados para avaliar os encaminhamentos anteriores.
 
 informacoes_requeridas:
 - IR1: Relação das organizações avaliadas na fiscalização anterior que também integram o iGovTI 2026, segregadas, quando aplicável, entre municípios e organizações do Poder Executivo estadual; [F1, F2, F3]
@@ -1519,4 +1519,4 @@ limitacoes_e_cautelas:
 - A comparação não deve ser feita questão a questão quando não houver equivalência metodológica suficiente entre os instrumentos de avaliação.
 - A evolução agregada não autoriza, isoladamente, concluir que todas as organizações evoluíram individualmente.
 - A regressão agregada não autoriza, isoladamente, concluir descumprimento individual de encaminhamento anterior.
-- O atendimento dos encaminhamentos anteriores deve ser analisado conforme o conteúdo de cada encaminhamento, as evidências disponíveis e a compatibilidade com os dados coletados no iGovTI 2026.\n
+- O atendimento dos encaminhamentos anteriores deve ser analisado conforme o conteúdo de cada encaminhamento, as evidências disponíveis e a compatibilidade com os dados coletados no iGovTI 2026.

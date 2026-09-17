@@ -545,6 +545,14 @@ def inserir_campo_sumario_docx(template_str: str, titulo: str = "SUMÁRIO", prof
     <w:pStyle w:val="TOCHeading"/>
   </w:pPr>
   <w:r>
+    <w:rPr>
+      <w:rFonts w:ascii="Cambria" w:hAnsi="Cambria" w:eastAsia="Cambria" w:cs="Cambria"/>
+      <w:b/>
+      <w:bCs/>
+      <w:color w:val="2F5496"/>
+      <w:sz w:val="32"/>
+      <w:szCs w:val="32"/>
+    </w:rPr>
     <w:t>{titulo}</w:t>
   </w:r>
 </w:p>
@@ -692,16 +700,17 @@ def cross_ref_tabelas(template_str: str) -> str:
     # 2. Modificar legendas de Tabela
     # Padrão esperado: ": Legenda da Tabela {#tbl:ID#}" OU "Table: Legenda..."
     # (?m) habilita multiline para ^ coincidir com início da linha
-    regex_legenda = r"(?m)^(:|Table:)\s*(.*?)\s*\{#tbl:([^#]+)#\}"
+    regex_legenda = r"(?m)^([ \t]*)(:|Table:)\s*(.*?)\s*\{#tbl:([^#]+)#\}"
 
     def modificar_legenda_tabela(match):
-        prefix = match.group(1) # ":" ou "Table:"
-        caption = match.group(2)
-        tbl_id = match.group(3)
+        indentacao = match.group(1)
+        prefix = match.group(2) # ":" ou "Table:"
+        caption = match.group(3)
+        tbl_id = match.group(4)
 
         if tbl_id in tabela_map:
             numero = tabela_map[tbl_id]
-            return f"{prefix} Tabela {numero} - {caption}"
+            return f"{indentacao}{prefix} Tabela {numero} - {caption}"
 
         return match.group(0)
 

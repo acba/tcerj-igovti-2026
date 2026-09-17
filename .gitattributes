@@ -1,3 +1,4 @@
 *.xlsx diff=xlsx
 *.xlsm diff=xlsx
 *.docx diff=docx
+99-Gestao/03-Fontes_Originais_Comunicacoes/TSID2[[:space:]]e[[:space:]]3.zip filter=lfs diff=lfs merge=lfs -text
