@@ -1,0 +1,132 @@
+﻿anexo;tipo;auditado;arquivo;status;faltantes;tamanho_bytes;sha256
+RELATORIO;relatorio_consolidado;;Relatório consolidado - iGovTI 2026.docx;ok;;5895967;dbfb51e41795d9b3cba3623b1605cae9bdf0539956856eb7eee700be6beef284
+RELATORIO;relatorio_consolidado;;Relatório consolidado - iGovTI 2026.pdf;ok;;5271589;df46a8177b6dffc314d6ac17ecb63fca67344af139dc3bec55bea67ebadf9c88
+AN01;anexo_geral;;AN01 – Ofícios de apresentação.zip;ok;;23012304;fc9df9a20ab446553140a349caf4927e809096c2b57f3a5f6ec0973aff711b24
+AN02;anexo_geral;;AN02 – Matriz de planejamento.docx;ok;;93329;9028b431d9cf60bb8117108d80f61cb284c8f009d6e2fdcc027f1c9de34755d9
+AN03;anexo_geral;;AN03 – Questionário iGovTI 2026, metodologia e resultados.zip;ok;;748773;6cb00c0ec0a59de5446401eae8a25518b667c462094a787893eb9ede9d786c01
+AN04;anexo_geral;;AN04 – Evidências dos achados.docx;ok;;301668;e6fac4fc81c23587de363120a2e327f2a9e930471e2664688b1ac72dd415b0f7
+AN05;anexo_geral;;AN05 – Respostas aos questionários e ajustes.zip;ok;;2867221;7dbbddd02a558d45b08a176610cf6cf2db77ac67ea3430ccebd7710a4519dd14
+AN06;anexo_geral;;AN06 – Matriz de achados.docx;ok;;101814;e31f2c7c33b660a71a7134838312eeff16c91d12a2c071e6aff0bba0532689e6
+AN07;anexo_geral;;AN07 – Impacto da avaliação das evidências.docx;ok;;30952;c6819e51e05478b48683c4bea99d7d5b8a73e778490429436f6ad6a180c6b684
+AN08;anexo_geral;;AN08 – Avaliação dos comentários do gestor.docx;ok;;1358904;eb7823c3f716811dadb23597238337934d80f70b2e478234d765c2e2e9d783f5
+AN09;anexo_geral;;AN09 – Cenário de utilização de IA no ERJ.docx;ok;;112668;b69fc6f231823143edb6018109678b931b612770b24f4bb5aa3409d305f2a1d3
+AN10;anexo_geral;;AN10 – Comunicações da fiscalização e registros de ciência dos não respondentes.zip;ok;;14429525;f66ff9280d378f09a87f8f18f80df67b5def2f953b975a1af20b530e977f7d5c
+AN11;anexo_geral;;AN11 – Análise longitudinal do iGovTI 2023–2026.docx;ok;;641562;904f3fca92c4e4fa962ac1f9d6aadc63639e613faf751bac79031ec698ef5273
+AN12;anexo_individual_reservado;AGENERSA;AN12 – AGENERSA.zip;ok;;32897681;7b79f2b3e13bccbda740d99b44546713d9d0eaa042ae1edda6f074419b1408fd
+AN13;anexo_individual_reservado;AGERIO;AN13 – AGERIO.zip;ok;;52448247;52c423c5e5c8f947003ae80f5e3d8af466d04b1fd4f18abc793a63de53ebcfca
+AN14;anexo_individual_reservado;AGETRANSP;AN14 – AGETRANSP.zip;ok;;20574984;cf0a30bf5a75e36e6dd778cc2e699604157768bcd0f7cc8359f64db339c02122
+AN15;anexo_individual_reservado;ALERJ;AN15 – ALERJ.zip;ok;;13250356;3c3dd51e59cb49c83d78a97cc508b0390956f51286d51911e25be1456130783c
+AN16;anexo_individual_reservado;CEASA;AN16 – CEASA.zip;ok;;8350604;d580225cbea3f786ec0c3f5ca8c08783e0a082e98c853043ebe4a6925f83fc26
+AN17;anexo_individual_reservado;CECIERJ;AN17 – CECIERJ.zip;incompleto;PDF de respostas aos comentários do gestor;38888154;80313fd14676236b33330e900d2d762f383310b8ec1df0a4e3582d6e9d751816
+AN18;anexo_individual_reservado;CEDAE;AN18 – CEDAE.zip;ok;;91337588;bb5c88eb3971878db256249cd4db55368181b59ef15b59edf43c0726a18c8693
+AN19;anexo_individual_reservado;CENTRAL;AN19 – CENTRAL.zip;ok;;11624032;8ed5754857c6f8e6e7c4ed4b50c3a89207027cd924ad922b273e91b7556604af
+AN20;anexo_individual_reservado;CEPERJ;AN20 – CEPERJ.zip;incompleto;PDF de respostas aos comentários do gestor;32878136;9444e7d4126c777633bf2d7a7c7b21ca1c242660a33b1c981d710ce5842ff062
+AN21;anexo_individual_reservado;CGE;AN21 – CGE.zip;ok;;83620000;77ef30a56dc95a3c9fe16c890d178715d35a3cb752780687d44810afe5aeb667
+AN22;anexo_individual_reservado;CODERTE;AN22 – CODERTE.zip;ok;;15590195;af91b0854f33731868a940363a24ea1ba7af5f7b22e2b3592be25f748239f3bc
+AN23;anexo_individual_reservado;CODIN;AN23 – CODIN.zip;ok;;18242786;301ab385ce34d8d3acf5d13109d36a822c0b4d9f8fcbbd14040300153fc4a807
+AN24;anexo_individual_reservado;DEGASE;AN24 – DEGASE.zip;ok;;20971165;0d905461883b90e86a767e4f220404beb11251a7da16f9566f9feabc188be6ea
+AN25;anexo_individual_reservado;DERRJ;AN25 – DERRJ.zip;ok;;10588469;918f91a0817cd6406487304a0b7068aaebde5ad216c828cb7b22e1f9f43b8617
+AN26;anexo_individual_reservado;DETRAN;AN26 – DETRAN.zip;ok;;18867328;fde53e36576f91ab6f9853b38caa449b9b43a3bc8a6fafeeb320ea569c340134
+AN27;anexo_individual_reservado;DETRO;AN27 – DETRO.zip;ok;;46512222;98aa0b0eb2076c58d9a2a13566c3b1738337bde32eabfd7e405ad0ee7be9a1e0
+AN28;anexo_individual_reservado;DPGE;AN28 – DPGE.zip;ok;;49024647;f9321e2ec032a14a9fc70dd810231defaab08434005eb6a8e50896ec0f26707b
+AN29;anexo_individual_reservado;DRM;AN29 – DRM.zip;ok;;21744363;01393086178abaccbb7502ade030bbd5a6cf64d4de8c09c510292bbb170df26a
+AN30;anexo_individual_reservado;EMATER;AN30 – EMATER.zip;ok;;10605439;5355a6f29b0dc3702eda52f7e58320a3443b6479c31d9d676331f7d956118813
+AN31;anexo_individual_reservado;FAETEC;AN31 – FAETEC.zip;ok;;12903958;01ccb361d8afa4435c3bb87c3234542ee6c3c26a5ef27aaf9fdb1eb160fbc2fd
+AN32;anexo_individual_reservado;FAPERJ;AN32 – FAPERJ.zip;ok;;19405272;3a7eea64bbbb11a6e0d92722abebc1e5af2f3cf32e1ff1b1508d8278cbb68abf
+AN33;anexo_individual_reservado;FIA;AN33 – FIA.zip;ok;;6573907;e601122aa4b3de698cf9e5bfe7e645652357f8c15868d25e560e77ed205e5441
+AN34;anexo_individual_reservado;FIPERJ;AN34 – FIPERJ.zip;ok;;13412197;4d625b37b7a25d42b562f854f69b03186fb0e2af7b93654326492a9e13e7781b
+AN35;anexo_individual_reservado;FLXIII;AN35 – FLXIII.zip;ok;;12795376;13b531c6a27cff3c675143013300d460ce827d1bf5451cb5455a5c7d6810d6d7
+AN36;anexo_individual_reservado;FMIS;AN36 – FMIS.zip;ok;;62944664;42ce27d51caeef9d6fdef3412d45db3fc75d708f061db47712709589466e514e
+AN37;anexo_individual_reservado;FS;AN37 – FS.zip;ok;;94504361;672297a51bfb0bd7fb7259f2da5e8c0b9581842c088c395d3473c76f6525ba71
+AN38;anexo_individual_reservado;FSC;AN38 – FSC.zip;ok;;19249145;cdc3212c2f2a3b2cdf4d18e190f78d8ab233467d1331a0df5c507c1c7ec81bc8
+AN39;anexo_individual_reservado;FTM;AN39 – FTM.zip;ok;;6045069;e0befe1a1a2e8df14c9eecd8b54ccd3b852688596221b7c9b28d934936eeebf9
+AN40;anexo_individual_reservado;FUNARJ;AN40 – FUNARJ.zip;ok;;27129433;e96039f6e94668da3fcc9872d2dcbb50c7ce6c414e36fd18bd0dfdc28e7dc08c
+AN41;anexo_individual_reservado;GSI;AN41 – GSI.zip;ok;;59183343;bd1c744b06a6b5a4acee7f68fa6b201f222aebd5d0da92f7e7ffb96fb8ee8579
+AN42;anexo_individual_reservado;IEEA;AN42 – IEEA.zip;ok;;17067158;353e4acd488fe4a216555f031273eae8bfc03fa2a13fd44b6c50bbcb87adb5be
+AN43;anexo_individual_reservado;INEA;AN43 – INEA.zip;ok;;15856193;db487b0230f39ecc52983404ba4bd80e705e6fda9a2825b38f50c7c61bc39a84
+AN44;anexo_individual_reservado;IOERJ;AN44 – IOERJ.zip;ok;;72827182;8246107d7e89caadc4fe8990783b0814eacd8a09d36736128c746acfabd9e3f8
+AN45;anexo_individual_reservado;IPEM;AN45 – IPEM.zip;ok;;30963642;b47af7b7b7793c0b91106b08abd349b9030f8c9f7682b3aa09bc57804dbe61dd
+AN46;anexo_individual_reservado;IRM;AN46 – IRM.zip;incompleto;PDF de respostas aos comentários do gestor;11416805;0bf0d720aaf9d87640d653692b1801b713df59dfe2e12b10d55483dab82c40c1
+AN47;anexo_individual_reservado;ISP;AN47 – ISP.zip;ok;;36621361;8da04c5ee7bef61293fe1402c1203403faf2dad787e39e7436e057ccfb9e4578
+AN48;anexo_individual_reservado;ITERJ;AN48 – ITERJ.zip;incompleto;PDF de respostas aos comentários do gestor;45579067;28829bb98e86d675d40d7ce7234a2717624ea2eccc637c20cadd617ade8d2d17
+AN49;anexo_individual_reservado;IVB;AN49 – IVB.zip;ok;;57812247;daa90f28b148e04401ae56f40bc8d4ebb04d28d26ca27c7ca6976d9e666cc02b
+AN50;anexo_individual_reservado;JUCERJA;AN50 – JUCERJA.zip;ok;;96302874;99c42fcea84f71391ca9f2021ccf6ddf43da63e73ce8b6a2bb8d64f3bf333d61
+AN51;anexo_individual_reservado;LOTERJ;AN51 – LOTERJ.zip;ok;;13945461;92df842b8216083ba6fb6b59bf7fb5c454e0a836ca785c6b7bbb69b0e3970afd
+AN52;anexo_individual_reservado;MPERJ;AN52 – MPERJ-parte1.zip;ok;;82321217;aef0ef94f0bbe168478ed37a7339320b503ed78221fe6507ecaef2bec9236ad7
+AN52;anexo_individual_reservado;MPERJ;AN52 – MPERJ-parte2.zip;ok;;71740558;ee6b1215ebabc7279b7a807b2b09168acf85ef05c7d3e316597da1a17ec1994c
+AN53;anexo_individual_reservado;PGE;AN53 – PGE-parte1.zip;ok;;86647685;114beedcd9dc0c6c0b823d585d3f59f363ed215e456dc3bc693fdc8118282142
+AN53;anexo_individual_reservado;PGE;AN53 – PGE-parte2.zip;ok;;20619006;9be451fae6b8216b882d8918847bcb0b26b7cf3475ffc8e7e1a37c270bb672c0
+AN54;anexo_individual_reservado;PROCON;AN54 – PROCON.zip;ok;;6650787;36451c27f24a453267790ded5645b926aac0e8dc36352251170df9891f0430ec
+AN55;anexo_individual_reservado;PRODERJ;AN55 – PRODERJ-parte1.zip;ok;;83349211;f2ac90ddc9491b36c245c2e6801587f63033831ed19a75d2315066dfc33dfb12
+AN55;anexo_individual_reservado;PRODERJ;AN55 – PRODERJ-parte2.zip;ok;;36601854;6a12bf4784fab0c6af2d9f19bdfeda053274fe4b00335a4166e0f249a4914331
+AN56;anexo_individual_reservado;RIOPREVIDENCIA;AN56 – RIOPREVIDENCIA.zip;ok;;56659249;ac67d3e9497d2b684dd43673717262a0db587d42053440a7b8a52154e9161749
+AN57;anexo_individual_reservado;RIOTRILHOS;AN57 – RIOTRILHOS.zip;ok;;9671786;da435cb0ed1f4ea30a4d6f925133be3d86554c57db050cee195149475e2c8459
+AN58;anexo_individual_reservado;RJPREV;AN58 – RJPREV.zip;ok;;23523822;e307e97e54b176affb5dbdbfb7eb13c36e81f5b2cdde0edeeff5d3721a28fbe8
+AN59;anexo_individual_reservado;SEAP;AN59 – SEAP.zip;ok;;9323942;54b59b88c908c500e669effd9fd69a7d2047757fd3bc4fb505fd656e6c0b98b6
+AN60;anexo_individual_reservado;SEAPPA;AN60 – SEAPPA.zip;ok;;17035944;220ffbe4a0ec97474bc4f26c916c8063cab27a2b96f64a58925bb124a208b302
+AN61;anexo_individual_reservado;SECC;AN61 – SECC.zip;ok;;9365046;52d91455c9c976ea764a6c41089860124f6ffd1e91e64b005078525dec657364
+AN62;anexo_individual_reservado;SECEC;AN62 – SECEC.zip;ok;;14871634;ee56d028db75987b65cafc39ca814ab790916ee9a3e4fa1678a2a76d5b298714
+AN63;anexo_individual_reservado;SECID;AN63 – SECID.zip;ok;;6257619;942d12269bda58f0a9ce71964f429e6eb8388840d5bc377c7782c6afd5ad47a1
+AN64;anexo_individual_reservado;SECTI;AN64 – SECTI.zip;ok;;21613225;d1a800df649addecc309df4b885277505ebba58b09d775714ec3ed767705c8e9
+AN65;anexo_individual_reservado;SEDEC;AN65 – SEDEC.zip;ok;;24470737;0faf34424b017cd2bfea046b1b9c2dcefa4720312c92337df6386d67668facdf
+AN66;anexo_individual_reservado;SEDEICS;AN66 – SEDEICS.zip;ok;;16777744;a85e7a651ca87af512f571b467a4455201a08240b521f4e23075f157c4ceba29
+AN67;anexo_individual_reservado;SEDSDH;AN67 – SEDSDH.zip;ok;;20126525;404dfc6d3879fd94e94c0fe92a68a54e4f0dc7a70534fdc4266e670071f3fb59
+AN68;anexo_individual_reservado;SEEDUC;AN68 – SEEDUC.zip;ok;;25473284;18d559ddd4acac06673686ba6e9401c4fe64051358d25d6194bbbb157ac97e29
+AN69;anexo_individual_reservado;SEEL;AN69 – SEEL.zip;ok;;10457049;5f3288aebbaf648d83b2aa72d22b180b9ea84d15c037b7b442f88a9237d262d0
+AN70;anexo_individual_reservado;SEENEMAR;AN70 – SEENEMAR.zip;ok;;11694669;04484be500d51fde7646e4504860370ff0d69c98435a1cbf86a7640d93d73f2b
+AN71;anexo_individual_reservado;SEFAZ;AN71 – SEFAZ.zip;ok;;20269371;4f50d1b82dfbbb7c63b11bdd148d276a2242b6f8779d1aab7a0f629e79d731e8
+AN72;anexo_individual_reservado;SEGOV;AN72 – SEGOV.zip;ok;;34172284;8cee1674cf0bf402da22bed7b404c5e6655e2a5c82768aa123319b6a7917de42
+AN73;anexo_individual_reservado;SEHAB;AN73 – SEHAB.zip;ok;;40382908;16345417c598944bea370b76826cf2524a93d81865f16f2f673e467b8edf7239
+AN74;anexo_individual_reservado;SEIJES;AN74 – SEIJES.zip;ok;;5508895;0c8dd6078d430c8d9d0efe324918ffcd0b0accd103591bb7dc0e7dab2599bf9c
+AN75;anexo_individual_reservado;SEINFRA;AN75 – SEINFRA.zip;ok;;23197018;e3405f6605a5150cc8a37324cc4a8a6cf81052e41f88ae63ef588baf9fa8aa9b
+AN76;anexo_individual_reservado;SEPLAG;AN76 – SEPLAG.zip;ok;;53362332;e763bc53c12a2fccd39571a42749a25c3463fa5624a0b80900c5742cece7bffe
+AN77;anexo_individual_reservado;SEPM;AN77 – SEPM.zip;ok;;40078004;a9b04d368f56ef226a7324ff8ecd657d6c118a42d897bc5525f35cfaedd25300
+AN78;anexo_individual_reservado;SERGB;AN78 – SERGB.zip;ok;;20780448;7a28458789e0282970b5364068f06d812f86a332babf0071ba4ba3e3d872ed50
+AN79;anexo_individual_reservado;SES;AN79 – SES.zip;ok;;30193646;bb9f9efe9642911c640c017393f367bda439ce78d1161a27b46da6f34d91c7d0
+AN80;anexo_individual_reservado;SETD;AN80 – SETD-parte1.zip;incompleto;PDF de respostas aos comentários do gestor;89549027;aa3726cdbd4ed541b197b50a8c59cf76678c636fff8d9b3dcf1d41635902b3b2
+AN80;anexo_individual_reservado;SETD;AN80 – SETD-parte2.zip;incompleto;;47141768;805bc964a0f152427ac45adbb143407f2dba90896cd0d11e72d884d29c9bb0f3
+AN81;anexo_individual_reservado;SETRAB;AN81 – SETRAB.zip;ok;;12570999;77481fa40619fe8e967c383c9589d5be260ced67d8b33fc05447d9fa1f9b3d25
+AN82;anexo_individual_reservado;SETRANS;AN82 – SETRANS.zip;ok;;26245150;46018790aeeb038e5041d41a858ecc55a2ff5a4c8a7f5b928ca5f1d29058e4df
+AN83;anexo_individual_reservado;SETUR;AN83 – SETUR.zip;ok;;11977288;dc80fc58946957c23d0acd31789a9037853377f614148485a987e605a21b693d
+AN84;anexo_individual_reservado;SUDERJ;AN84 – SUDERJ.zip;ok;;20402462;30a0cd5e6ce4c91b252af18e8f659b2eb06cfe837971ae99864fd4874efcbe13
+AN85;anexo_individual_reservado;TCE-RJ;AN85 – TCE-RJ-parte1.zip;ok;;89246858;71fa7c9faaac4c0512f4a46e0f8a3b65e5929eade26a6f95de1ba3d0db283dc0
+AN85;anexo_individual_reservado;TCE-RJ;AN85 – TCE-RJ-parte2.zip;ok;;47285575;3fd5f4c8157668a20c55ae14c69c19f4520c8cd83d20ebe4b94f9e5bab93be63
+AN86;anexo_individual_reservado;TJRJ;AN86 – TJRJ.zip;ok;;90641981;82b5e7ca9f5abfbaf9be5171edb46a6c30ea17054998ab31ca33a1a0666c6374
+AN87;anexo_individual_reservado;TURISRIO;AN87 – TURISRIO.zip;ok;;6326512;5b87699c5cc37b455596c2a762127c9b41b76d115b9a3324db88239c7da25c2c
+AN88;anexo_individual_reservado;UENF;AN88 – UENF.zip;ok;;11738689;1db4976ca40e3670f6d0a2ad9b02c64728ab0db7a2c3bb2cd4d9c476eda27b9b
+AN89;anexo_individual_reservado;UERJ;AN89 – UERJ.zip;incompleto;PDF de respostas aos comentários do gestor;53349327;e04dacd696a31c2ed08153ee95817ee72235713794f59fd405ab8042c6076cef
+AN90;anexo_individual_reservado;ANGRA DOS REIS;AN90 – ANGRA DOS REIS.zip;ok;;11283840;b56687026613804bf541a077ad24a85bbb21d9e0658e1573df7583709917ee6d
+AN91;anexo_individual_reservado;ARARUAMA;AN91 – ARARUAMA.zip;ok;;16088694;87f68e13848ba803730e74d1bb7e33d31aae0de55674ff0cc45fbe2470a1051f
+AN92;anexo_individual_reservado;ARMAÇÃO DOS BÚZIOS;AN92 – ARMAÇÃO DOS BÚZIOS.zip;ok;;35274927;9f5f593ecf13e4c1aec1536d578f32ee79686ff2196c4c44bee90cdd0eb64189
+AN93;anexo_individual_reservado;ARRAIAL DO CABO;AN93 – ARRAIAL DO CABO.zip;ok;;36868366;cd4604d5f6905a4b063f3ee3735e853cf469ae0c8f265258ec1962db32efcefd
+AN94;anexo_individual_reservado;BARRA DO PIRAÍ;AN94 – BARRA DO PIRAÍ.zip;ok;;25686230;22d00873e83ee26b021f97aff522010db840ac8a128432784c566f7dc9e863ed
+AN95;anexo_individual_reservado;BELFORD ROXO;AN95 – BELFORD ROXO.zip;ok;;44816018;4db5cf615906d9ed577f99f339b91752deff0849a95f47538ee13d9777cfbec3
+AN96;anexo_individual_reservado;CABO FRIO;AN96 – CABO FRIO.zip;ok;;7933104;d08aa2c09fa570a854b501b756bff800f9cf77e17b4bbbb6f3315ac4d243c70d
+AN97;anexo_individual_reservado;CAMPOS DOS GOYTACAZES;AN97 – CAMPOS DOS GOYTACAZES.zip;ok;;53112975;0edfeabb7a9dc28ce8faa3a83e94dc073d2461e56d7c76b4fd270ea425979a02
+AN98;anexo_individual_reservado;CASIMIRO DE ABREU;AN98 – CASIMIRO DE ABREU.zip;ok;;13286747;300ab3812ff1a802ec35aa8b9415ac03d597877fb42e22a30a7d725d79e8fb0a
+AN99;anexo_individual_reservado;DUQUE DE CAXIAS;AN99 – DUQUE DE CAXIAS.zip;ok;;55370571;0015446f3971de5b045fd3434a486c84474c43eab71789386ea9f56e7f7b4d2e
+AN100;anexo_individual_reservado;GUAPIMIRIM;AN100 – GUAPIMIRIM.zip;ok;;50447517;14b515fbf9092095b6c9fc10783bb3f6368bcc8ebb9e37ce9add9d2f2958b671
+AN101;anexo_individual_reservado;ITAGUAÍ;AN101 – ITAGUAÍ.zip;ok;;20060250;04b06059ed4eb6411e2404dc70c0a58e1a331a79b517e292e9fc012ce8bcdbb9
+AN102;anexo_individual_reservado;JAPERI;AN102 – JAPERI.zip;ok;;18472857;e76cf0780c6fed9494298d6f8cb5808953b2eaf2ed75e4a9ca48bbe94b378235
+AN103;anexo_individual_reservado;MACAÉ;AN103 – MACAÉ.zip;ok;;88971568;9d2b76e49d336042e17588653a4aeeef563fd076ae2966e7f0a0da3f1c50e2b3
+AN104;anexo_individual_reservado;MAGÉ;AN104 – MAGÉ.zip;ok;;6634033;5c6a99eb8ce5461438c0ddaeffb15039e56e79198eb20562cb14b48c15df639e
+AN105;anexo_individual_reservado;MARICÁ;AN105 – MARICÁ.zip;ok;;61822734;c57ca5e48384d9b6bf2f187c0b4a54da9097b9dd23196dbe29fd2e448e5fa7be
+AN106;anexo_individual_reservado;MESQUITA;AN106 – MESQUITA.zip;incompleto;PDF de respostas aos comentários do gestor;61461906;efb4ef9aba73af8b8081768ca4557170faa318077083f75c682c01894c749cf0
+AN107;anexo_individual_reservado;NITERÓI;AN107 – NITERÓI.zip;incompleto;PDF de respostas aos comentários do gestor;67036551;4f0a0e263715861277de7b70beff223285f2a5ce02d28a1ce73a9c4a5ed31d12
+AN108;anexo_individual_reservado;NOVA FRIBURGO;AN108 – NOVA FRIBURGO.zip;ok;;9944831;fb6cf425278fbb91defbab82f883e42808e2ddc522cf79af17bf12b62b59850c
+AN109;anexo_individual_reservado;NOVA IGUAÇU;AN109 – NOVA IGUAÇU.zip;ok;;39798252;c77fee03eb9cca01d55a9d1a0c5e4f78393f8df6f67cd420dbfc6cdf7040341a
+AN110;anexo_individual_reservado;PARATY;AN110 – PARATY.zip;ok;;16488819;87608b8430766b183ce6b1dd84ef3c8929dfadf812ab22cd2695829c8f008fb1
+AN111;anexo_individual_reservado;PETRÓPOLIS;AN111 – PETRÓPOLIS.zip;ok;;8617545;f477b62f1a20dccf0ba2ef4316d74f0163ebcfb2e52ea9f73ba6c7fab5d03b04
+AN112;anexo_individual_reservado;PORTO REAL;AN112 – PORTO REAL.zip;ok;;9991880;33d6b025808bb51f86d889e1a5ce940bd277048b3659f3993296aa1f6ee2e6c0
+AN113;anexo_individual_reservado;QUATIS;AN113 – QUATIS.zip;ok;;29114595;448e4de5b5e3f81ff653359ab99bf1784284969b6ee2e8b923373af371a9dcd7
+AN114;anexo_individual_reservado;QUEIMADOS;AN114 – QUEIMADOS.zip;ok;;40983449;9829ee3ea5f06ab9870493c087018a46426dc21a764e15771aabdb212f27de65
+AN115;anexo_individual_reservado;QUISSAMÃ;AN115 – QUISSAMÃ.zip;ok;;59292921;5ff4ab369f0bbb952510d01ddfedabd75bbc7121fb4b4ed3b3c7221144a4240d
+AN116;anexo_individual_reservado;RIO DAS OSTRAS;AN116 – RIO DAS OSTRAS.zip;ok;;68626394;8fa9af341e1e002d2b36ef6d36bd6ab91dd9caa17c880869066ba79ea9c31a0e
+AN117;anexo_individual_reservado;SÃO GONÇALO;AN117 – SÃO GONÇALO.zip;ok;;12396050;2d35306d9f882c4ea5afedc2943625b9af8cec61ef0758adb96d767b702690dd
+AN118;anexo_individual_reservado;SÃO JOÃO DA BARRA;AN118 – SÃO JOÃO DA BARRA.zip;ok;;5348372;4ea4d403f7e6f52e0838dc983728981459848820a26dd90473b6a18d4239e52a
+AN119;anexo_individual_reservado;SÃO JOÃO DE MERITI;AN119 – SÃO JOÃO DE MERITI.zip;ok;;46803570;40d35479ed5ea7f04414073a223fafcf87828ed5cea87fd44a20a993ae61f6da
+AN120;anexo_individual_reservado;SÃO PEDRO DA ALDEIA;AN120 – SÃO PEDRO DA ALDEIA.zip;ok;;39821722;42917e9b313e8e4a3e8fd88589969b1bcde7a34d886d7692ec36d4fc101f3433
+AN121;anexo_individual_reservado;SAQUAREMA;AN121 – SAQUAREMA.zip;ok;;24601211;302f3d9ab86a4dba32afa5f9726bfb608e6d76c89ef7d1aaac80e0cd6941a973
+AN122;anexo_individual_reservado;SEROPÉDICA;AN122 – SEROPÉDICA.zip;ok;;43019596;b142444fa81ed792a4ff0d8545146198d3ee8c546e68eedb84d8881e4cf392fe
+AN123;anexo_individual_reservado;TERESÓPOLIS;AN123 – TERESÓPOLIS.zip;ok;;21903009;9b18c8ea359171c56c0d384799eb59c9379147d3f4b215876031cc6b17c04dea
+AN124;anexo_individual_reservado;VOLTA REDONDA;AN124 – VOLTA REDONDA.zip;ok;;37998108;ee3ee1570686842e4d82b971aca8600d88ea3c5a6f8d3da029271c6b3fbf131f

@@ -1,0 +1,1335 @@
+{
+  "fiscalizacao": "18/2026",
+  "nome": "iGovTI 2026",
+  "gerado_em_utc": "2026-09-17T10:14:11.544519+00:00",
+  "quantidade_anexos": 131,
+  "quantidade_faltantes": 8,
+  "registros": [
+    {
+      "anexo": "RELATORIO",
+      "tipo": "relatorio_consolidado",
+      "auditado": "",
+      "caminho": "Relatório consolidado - iGovTI 2026.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "dbfb51e41795d9b3cba3623b1605cae9bdf0539956856eb7eee700be6beef284",
+      "tamanho_bytes": 5895967
+    },
+    {
+      "anexo": "RELATORIO",
+      "tipo": "relatorio_consolidado",
+      "auditado": "",
+      "caminho": "Relatório consolidado - iGovTI 2026.pdf",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "df46a8177b6dffc314d6ac17ecb63fca67344af139dc3bec55bea67ebadf9c88",
+      "tamanho_bytes": 5271589
+    },
+    {
+      "anexo": "AN01",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN01 – Ofícios de apresentação.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "fc9df9a20ab446553140a349caf4927e809096c2b57f3a5f6ec0973aff711b24",
+      "tamanho_bytes": 23012304
+    },
+    {
+      "anexo": "AN02",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN02 – Matriz de planejamento.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "9028b431d9cf60bb8117108d80f61cb284c8f009d6e2fdcc027f1c9de34755d9",
+      "tamanho_bytes": 93329
+    },
+    {
+      "anexo": "AN03",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN03 – Questionário iGovTI 2026, metodologia e resultados.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "6cb00c0ec0a59de5446401eae8a25518b667c462094a787893eb9ede9d786c01",
+      "tamanho_bytes": 748773
+    },
+    {
+      "anexo": "AN04",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN04 – Evidências dos achados.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e6fac4fc81c23587de363120a2e327f2a9e930471e2664688b1ac72dd415b0f7",
+      "tamanho_bytes": 301668
+    },
+    {
+      "anexo": "AN05",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN05 – Respostas aos questionários e ajustes.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "7dbbddd02a558d45b08a176610cf6cf2db77ac67ea3430ccebd7710a4519dd14",
+      "tamanho_bytes": 2867221
+    },
+    {
+      "anexo": "AN06",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN06 – Matriz de achados.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e31f2c7c33b660a71a7134838312eeff16c91d12a2c071e6aff0bba0532689e6",
+      "tamanho_bytes": 101814
+    },
+    {
+      "anexo": "AN07",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN07 – Impacto da avaliação das evidências.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "c6819e51e05478b48683c4bea99d7d5b8a73e778490429436f6ad6a180c6b684",
+      "tamanho_bytes": 30952
+    },
+    {
+      "anexo": "AN08",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN08 – Avaliação dos comentários do gestor.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "eb7823c3f716811dadb23597238337934d80f70b2e478234d765c2e2e9d783f5",
+      "tamanho_bytes": 1358904
+    },
+    {
+      "anexo": "AN09",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN09 – Cenário de utilização de IA no ERJ.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "b69fc6f231823143edb6018109678b931b612770b24f4bb5aa3409d305f2a1d3",
+      "tamanho_bytes": 112668
+    },
+    {
+      "anexo": "AN10",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN10 – Comunicações da fiscalização e registros de ciência dos não respondentes.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "f66ff9280d378f09a87f8f18f80df67b5def2f953b975a1af20b530e977f7d5c",
+      "tamanho_bytes": 14429525
+    },
+    {
+      "anexo": "AN11",
+      "tipo": "anexo_geral",
+      "auditado": "",
+      "caminho": "AN11 – Análise longitudinal do iGovTI 2023–2026.docx",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "904f3fca92c4e4fa962ac1f9d6aadc63639e613faf751bac79031ec698ef5273",
+      "tamanho_bytes": 641562
+    },
+    {
+      "anexo": "AN12",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "AGENERSA",
+      "caminho": "AN12 – AGENERSA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "7b79f2b3e13bccbda740d99b44546713d9d0eaa042ae1edda6f074419b1408fd",
+      "tamanho_bytes": 32897681
+    },
+    {
+      "anexo": "AN13",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "AGERIO",
+      "caminho": "AN13 – AGERIO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "52c423c5e5c8f947003ae80f5e3d8af466d04b1fd4f18abc793a63de53ebcfca",
+      "tamanho_bytes": 52448247
+    },
+    {
+      "anexo": "AN14",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "AGETRANSP",
+      "caminho": "AN14 – AGETRANSP.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "cf0a30bf5a75e36e6dd778cc2e699604157768bcd0f7cc8359f64db339c02122",
+      "tamanho_bytes": 20574984
+    },
+    {
+      "anexo": "AN15",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ALERJ",
+      "caminho": "AN15 – ALERJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "3c3dd51e59cb49c83d78a97cc508b0390956f51286d51911e25be1456130783c",
+      "tamanho_bytes": 13250356
+    },
+    {
+      "anexo": "AN16",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CEASA",
+      "caminho": "AN16 – CEASA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "d580225cbea3f786ec0c3f5ca8c08783e0a082e98c853043ebe4a6925f83fc26",
+      "tamanho_bytes": 8350604
+    },
+    {
+      "anexo": "AN17",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CECIERJ",
+      "caminho": "AN17 – CECIERJ.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "80313fd14676236b33330e900d2d762f383310b8ec1df0a4e3582d6e9d751816",
+      "tamanho_bytes": 38888154
+    },
+    {
+      "anexo": "AN18",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CEDAE",
+      "caminho": "AN18 – CEDAE.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "bb5c88eb3971878db256249cd4db55368181b59ef15b59edf43c0726a18c8693",
+      "tamanho_bytes": 91337588
+    },
+    {
+      "anexo": "AN19",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CENTRAL",
+      "caminho": "AN19 – CENTRAL.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "8ed5754857c6f8e6e7c4ed4b50c3a89207027cd924ad922b273e91b7556604af",
+      "tamanho_bytes": 11624032
+    },
+    {
+      "anexo": "AN20",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CEPERJ",
+      "caminho": "AN20 – CEPERJ.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "9444e7d4126c777633bf2d7a7c7b21ca1c242660a33b1c981d710ce5842ff062",
+      "tamanho_bytes": 32878136
+    },
+    {
+      "anexo": "AN21",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CGE",
+      "caminho": "AN21 – CGE.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "77ef30a56dc95a3c9fe16c890d178715d35a3cb752780687d44810afe5aeb667",
+      "tamanho_bytes": 83620000
+    },
+    {
+      "anexo": "AN22",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CODERTE",
+      "caminho": "AN22 – CODERTE.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "af91b0854f33731868a940363a24ea1ba7af5f7b22e2b3592be25f748239f3bc",
+      "tamanho_bytes": 15590195
+    },
+    {
+      "anexo": "AN23",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CODIN",
+      "caminho": "AN23 – CODIN.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "301ab385ce34d8d3acf5d13109d36a822c0b4d9f8fcbbd14040300153fc4a807",
+      "tamanho_bytes": 18242786
+    },
+    {
+      "anexo": "AN24",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DEGASE",
+      "caminho": "AN24 – DEGASE.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "0d905461883b90e86a767e4f220404beb11251a7da16f9566f9feabc188be6ea",
+      "tamanho_bytes": 20971165
+    },
+    {
+      "anexo": "AN25",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DERRJ",
+      "caminho": "AN25 – DERRJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "918f91a0817cd6406487304a0b7068aaebde5ad216c828cb7b22e1f9f43b8617",
+      "tamanho_bytes": 10588469
+    },
+    {
+      "anexo": "AN26",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DETRAN",
+      "caminho": "AN26 – DETRAN.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "fde53e36576f91ab6f9853b38caa449b9b43a3bc8a6fafeeb320ea569c340134",
+      "tamanho_bytes": 18867328
+    },
+    {
+      "anexo": "AN27",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DETRO",
+      "caminho": "AN27 – DETRO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "98aa0b0eb2076c58d9a2a13566c3b1738337bde32eabfd7e405ad0ee7be9a1e0",
+      "tamanho_bytes": 46512222
+    },
+    {
+      "anexo": "AN28",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DPGE",
+      "caminho": "AN28 – DPGE.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "f9321e2ec032a14a9fc70dd810231defaab08434005eb6a8e50896ec0f26707b",
+      "tamanho_bytes": 49024647
+    },
+    {
+      "anexo": "AN29",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DRM",
+      "caminho": "AN29 – DRM.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "01393086178abaccbb7502ade030bbd5a6cf64d4de8c09c510292bbb170df26a",
+      "tamanho_bytes": 21744363
+    },
+    {
+      "anexo": "AN30",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "EMATER",
+      "caminho": "AN30 – EMATER.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "5355a6f29b0dc3702eda52f7e58320a3443b6479c31d9d676331f7d956118813",
+      "tamanho_bytes": 10605439
+    },
+    {
+      "anexo": "AN31",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FAETEC",
+      "caminho": "AN31 – FAETEC.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "01ccb361d8afa4435c3bb87c3234542ee6c3c26a5ef27aaf9fdb1eb160fbc2fd",
+      "tamanho_bytes": 12903958
+    },
+    {
+      "anexo": "AN32",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FAPERJ",
+      "caminho": "AN32 – FAPERJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "3a7eea64bbbb11a6e0d92722abebc1e5af2f3cf32e1ff1b1508d8278cbb68abf",
+      "tamanho_bytes": 19405272
+    },
+    {
+      "anexo": "AN33",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FIA",
+      "caminho": "AN33 – FIA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e601122aa4b3de698cf9e5bfe7e645652357f8c15868d25e560e77ed205e5441",
+      "tamanho_bytes": 6573907
+    },
+    {
+      "anexo": "AN34",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FIPERJ",
+      "caminho": "AN34 – FIPERJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "4d625b37b7a25d42b562f854f69b03186fb0e2af7b93654326492a9e13e7781b",
+      "tamanho_bytes": 13412197
+    },
+    {
+      "anexo": "AN35",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FLXIII",
+      "caminho": "AN35 – FLXIII.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "13b531c6a27cff3c675143013300d460ce827d1bf5451cb5455a5c7d6810d6d7",
+      "tamanho_bytes": 12795376
+    },
+    {
+      "anexo": "AN36",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FMIS",
+      "caminho": "AN36 – FMIS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "42ce27d51caeef9d6fdef3412d45db3fc75d708f061db47712709589466e514e",
+      "tamanho_bytes": 62944664
+    },
+    {
+      "anexo": "AN37",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FS",
+      "caminho": "AN37 – FS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "672297a51bfb0bd7fb7259f2da5e8c0b9581842c088c395d3473c76f6525ba71",
+      "tamanho_bytes": 94504361
+    },
+    {
+      "anexo": "AN38",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FSC",
+      "caminho": "AN38 – FSC.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "cdc3212c2f2a3b2cdf4d18e190f78d8ab233467d1331a0df5c507c1c7ec81bc8",
+      "tamanho_bytes": 19249145
+    },
+    {
+      "anexo": "AN39",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FTM",
+      "caminho": "AN39 – FTM.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e0befe1a1a2e8df14c9eecd8b54ccd3b852688596221b7c9b28d934936eeebf9",
+      "tamanho_bytes": 6045069
+    },
+    {
+      "anexo": "AN40",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "FUNARJ",
+      "caminho": "AN40 – FUNARJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e96039f6e94668da3fcc9872d2dcbb50c7ce6c414e36fd18bd0dfdc28e7dc08c",
+      "tamanho_bytes": 27129433
+    },
+    {
+      "anexo": "AN41",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "GSI",
+      "caminho": "AN41 – GSI.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "bd1c744b06a6b5a4acee7f68fa6b201f222aebd5d0da92f7e7ffb96fb8ee8579",
+      "tamanho_bytes": 59183343
+    },
+    {
+      "anexo": "AN42",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "IEEA",
+      "caminho": "AN42 – IEEA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "353e4acd488fe4a216555f031273eae8bfc03fa2a13fd44b6c50bbcb87adb5be",
+      "tamanho_bytes": 17067158
+    },
+    {
+      "anexo": "AN43",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "INEA",
+      "caminho": "AN43 – INEA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "db487b0230f39ecc52983404ba4bd80e705e6fda9a2825b38f50c7c61bc39a84",
+      "tamanho_bytes": 15856193
+    },
+    {
+      "anexo": "AN44",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "IOERJ",
+      "caminho": "AN44 – IOERJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "8246107d7e89caadc4fe8990783b0814eacd8a09d36736128c746acfabd9e3f8",
+      "tamanho_bytes": 72827182
+    },
+    {
+      "anexo": "AN45",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "IPEM",
+      "caminho": "AN45 – IPEM.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "b47af7b7b7793c0b91106b08abd349b9030f8c9f7682b3aa09bc57804dbe61dd",
+      "tamanho_bytes": 30963642
+    },
+    {
+      "anexo": "AN46",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "IRM",
+      "caminho": "AN46 – IRM.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "0bf0d720aaf9d87640d653692b1801b713df59dfe2e12b10d55483dab82c40c1",
+      "tamanho_bytes": 11416805
+    },
+    {
+      "anexo": "AN47",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ISP",
+      "caminho": "AN47 – ISP.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "8da04c5ee7bef61293fe1402c1203403faf2dad787e39e7436e057ccfb9e4578",
+      "tamanho_bytes": 36621361
+    },
+    {
+      "anexo": "AN48",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ITERJ",
+      "caminho": "AN48 – ITERJ.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "28829bb98e86d675d40d7ce7234a2717624ea2eccc637c20cadd617ade8d2d17",
+      "tamanho_bytes": 45579067
+    },
+    {
+      "anexo": "AN49",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "IVB",
+      "caminho": "AN49 – IVB.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "daa90f28b148e04401ae56f40bc8d4ebb04d28d26ca27c7ca6976d9e666cc02b",
+      "tamanho_bytes": 57812247
+    },
+    {
+      "anexo": "AN50",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "JUCERJA",
+      "caminho": "AN50 – JUCERJA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "99c42fcea84f71391ca9f2021ccf6ddf43da63e73ce8b6a2bb8d64f3bf333d61",
+      "tamanho_bytes": 96302874
+    },
+    {
+      "anexo": "AN51",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "LOTERJ",
+      "caminho": "AN51 – LOTERJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "92df842b8216083ba6fb6b59bf7fb5c454e0a836ca785c6b7bbb69b0e3970afd",
+      "tamanho_bytes": 13945461
+    },
+    {
+      "anexo": "AN52",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "MPERJ",
+      "caminho": "AN52 – MPERJ-parte1.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "aef0ef94f0bbe168478ed37a7339320b503ed78221fe6507ecaef2bec9236ad7",
+      "tamanho_bytes": 82321217
+    },
+    {
+      "anexo": "AN52",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "MPERJ",
+      "caminho": "AN52 – MPERJ-parte2.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "ee6b1215ebabc7279b7a807b2b09168acf85ef05c7d3e316597da1a17ec1994c",
+      "tamanho_bytes": 71740558
+    },
+    {
+      "anexo": "AN53",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PGE",
+      "caminho": "AN53 – PGE-parte1.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "114beedcd9dc0c6c0b823d585d3f59f363ed215e456dc3bc693fdc8118282142",
+      "tamanho_bytes": 86647685
+    },
+    {
+      "anexo": "AN53",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PGE",
+      "caminho": "AN53 – PGE-parte2.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "9be451fae6b8216b882d8918847bcb0b26b7cf3475ffc8e7e1a37c270bb672c0",
+      "tamanho_bytes": 20619006
+    },
+    {
+      "anexo": "AN54",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PROCON",
+      "caminho": "AN54 – PROCON.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "36451c27f24a453267790ded5645b926aac0e8dc36352251170df9891f0430ec",
+      "tamanho_bytes": 6650787
+    },
+    {
+      "anexo": "AN55",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PRODERJ",
+      "caminho": "AN55 – PRODERJ-parte1.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "f2ac90ddc9491b36c245c2e6801587f63033831ed19a75d2315066dfc33dfb12",
+      "tamanho_bytes": 83349211
+    },
+    {
+      "anexo": "AN55",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PRODERJ",
+      "caminho": "AN55 – PRODERJ-parte2.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "6a12bf4784fab0c6af2d9f19bdfeda053274fe4b00335a4166e0f249a4914331",
+      "tamanho_bytes": 36601854
+    },
+    {
+      "anexo": "AN56",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "RIOPREVIDENCIA",
+      "caminho": "AN56 – RIOPREVIDENCIA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "ac67d3e9497d2b684dd43673717262a0db587d42053440a7b8a52154e9161749",
+      "tamanho_bytes": 56659249
+    },
+    {
+      "anexo": "AN57",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "RIOTRILHOS",
+      "caminho": "AN57 – RIOTRILHOS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "da435cb0ed1f4ea30a4d6f925133be3d86554c57db050cee195149475e2c8459",
+      "tamanho_bytes": 9671786
+    },
+    {
+      "anexo": "AN58",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "RJPREV",
+      "caminho": "AN58 – RJPREV.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e307e97e54b176affb5dbdbfb7eb13c36e81f5b2cdde0edeeff5d3721a28fbe8",
+      "tamanho_bytes": 23523822
+    },
+    {
+      "anexo": "AN59",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEAP",
+      "caminho": "AN59 – SEAP.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "54b59b88c908c500e669effd9fd69a7d2047757fd3bc4fb505fd656e6c0b98b6",
+      "tamanho_bytes": 9323942
+    },
+    {
+      "anexo": "AN60",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEAPPA",
+      "caminho": "AN60 – SEAPPA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "220ffbe4a0ec97474bc4f26c916c8063cab27a2b96f64a58925bb124a208b302",
+      "tamanho_bytes": 17035944
+    },
+    {
+      "anexo": "AN61",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SECC",
+      "caminho": "AN61 – SECC.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "52d91455c9c976ea764a6c41089860124f6ffd1e91e64b005078525dec657364",
+      "tamanho_bytes": 9365046
+    },
+    {
+      "anexo": "AN62",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SECEC",
+      "caminho": "AN62 – SECEC.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "ee56d028db75987b65cafc39ca814ab790916ee9a3e4fa1678a2a76d5b298714",
+      "tamanho_bytes": 14871634
+    },
+    {
+      "anexo": "AN63",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SECID",
+      "caminho": "AN63 – SECID.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "942d12269bda58f0a9ce71964f429e6eb8388840d5bc377c7782c6afd5ad47a1",
+      "tamanho_bytes": 6257619
+    },
+    {
+      "anexo": "AN64",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SECTI",
+      "caminho": "AN64 – SECTI.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "d1a800df649addecc309df4b885277505ebba58b09d775714ec3ed767705c8e9",
+      "tamanho_bytes": 21613225
+    },
+    {
+      "anexo": "AN65",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEDEC",
+      "caminho": "AN65 – SEDEC.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "0faf34424b017cd2bfea046b1b9c2dcefa4720312c92337df6386d67668facdf",
+      "tamanho_bytes": 24470737
+    },
+    {
+      "anexo": "AN66",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEDEICS",
+      "caminho": "AN66 – SEDEICS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "a85e7a651ca87af512f571b467a4455201a08240b521f4e23075f157c4ceba29",
+      "tamanho_bytes": 16777744
+    },
+    {
+      "anexo": "AN67",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEDSDH",
+      "caminho": "AN67 – SEDSDH.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "404dfc6d3879fd94e94c0fe92a68a54e4f0dc7a70534fdc4266e670071f3fb59",
+      "tamanho_bytes": 20126525
+    },
+    {
+      "anexo": "AN68",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEEDUC",
+      "caminho": "AN68 – SEEDUC.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "18d559ddd4acac06673686ba6e9401c4fe64051358d25d6194bbbb157ac97e29",
+      "tamanho_bytes": 25473284
+    },
+    {
+      "anexo": "AN69",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEEL",
+      "caminho": "AN69 – SEEL.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "5f3288aebbaf648d83b2aa72d22b180b9ea84d15c037b7b442f88a9237d262d0",
+      "tamanho_bytes": 10457049
+    },
+    {
+      "anexo": "AN70",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEENEMAR",
+      "caminho": "AN70 – SEENEMAR.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "04484be500d51fde7646e4504860370ff0d69c98435a1cbf86a7640d93d73f2b",
+      "tamanho_bytes": 11694669
+    },
+    {
+      "anexo": "AN71",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEFAZ",
+      "caminho": "AN71 – SEFAZ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "4f50d1b82dfbbb7c63b11bdd148d276a2242b6f8779d1aab7a0f629e79d731e8",
+      "tamanho_bytes": 20269371
+    },
+    {
+      "anexo": "AN72",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEGOV",
+      "caminho": "AN72 – SEGOV.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "8cee1674cf0bf402da22bed7b404c5e6655e2a5c82768aa123319b6a7917de42",
+      "tamanho_bytes": 34172284
+    },
+    {
+      "anexo": "AN73",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEHAB",
+      "caminho": "AN73 – SEHAB.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "16345417c598944bea370b76826cf2524a93d81865f16f2f673e467b8edf7239",
+      "tamanho_bytes": 40382908
+    },
+    {
+      "anexo": "AN74",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEIJES",
+      "caminho": "AN74 – SEIJES.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "0c8dd6078d430c8d9d0efe324918ffcd0b0accd103591bb7dc0e7dab2599bf9c",
+      "tamanho_bytes": 5508895
+    },
+    {
+      "anexo": "AN75",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEINFRA",
+      "caminho": "AN75 – SEINFRA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e3405f6605a5150cc8a37324cc4a8a6cf81052e41f88ae63ef588baf9fa8aa9b",
+      "tamanho_bytes": 23197018
+    },
+    {
+      "anexo": "AN76",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEPLAG",
+      "caminho": "AN76 – SEPLAG.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e763bc53c12a2fccd39571a42749a25c3463fa5624a0b80900c5742cece7bffe",
+      "tamanho_bytes": 53362332
+    },
+    {
+      "anexo": "AN77",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEPM",
+      "caminho": "AN77 – SEPM.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "a9b04d368f56ef226a7324ff8ecd657d6c118a42d897bc5525f35cfaedd25300",
+      "tamanho_bytes": 40078004
+    },
+    {
+      "anexo": "AN78",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SERGB",
+      "caminho": "AN78 – SERGB.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "7a28458789e0282970b5364068f06d812f86a332babf0071ba4ba3e3d872ed50",
+      "tamanho_bytes": 20780448
+    },
+    {
+      "anexo": "AN79",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SES",
+      "caminho": "AN79 – SES.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "bb9f9efe9642911c640c017393f367bda439ce78d1161a27b46da6f34d91c7d0",
+      "tamanho_bytes": 30193646
+    },
+    {
+      "anexo": "AN80",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SETD",
+      "caminho": "AN80 – SETD-parte1.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "aa3726cdbd4ed541b197b50a8c59cf76678c636fff8d9b3dcf1d41635902b3b2",
+      "tamanho_bytes": 89549027
+    },
+    {
+      "anexo": "AN80",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SETD",
+      "caminho": "AN80 – SETD-parte2.zip",
+      "status": "incompleto",
+      "faltantes": [],
+      "sha256": "805bc964a0f152427ac45adbb143407f2dba90896cd0d11e72d884d29c9bb0f3",
+      "tamanho_bytes": 47141768
+    },
+    {
+      "anexo": "AN81",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SETRAB",
+      "caminho": "AN81 – SETRAB.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "77481fa40619fe8e967c383c9589d5be260ced67d8b33fc05447d9fa1f9b3d25",
+      "tamanho_bytes": 12570999
+    },
+    {
+      "anexo": "AN82",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SETRANS",
+      "caminho": "AN82 – SETRANS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "46018790aeeb038e5041d41a858ecc55a2ff5a4c8a7f5b928ca5f1d29058e4df",
+      "tamanho_bytes": 26245150
+    },
+    {
+      "anexo": "AN83",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SETUR",
+      "caminho": "AN83 – SETUR.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "dc80fc58946957c23d0acd31789a9037853377f614148485a987e605a21b693d",
+      "tamanho_bytes": 11977288
+    },
+    {
+      "anexo": "AN84",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SUDERJ",
+      "caminho": "AN84 – SUDERJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "30a0cd5e6ce4c91b252af18e8f659b2eb06cfe837971ae99864fd4874efcbe13",
+      "tamanho_bytes": 20402462
+    },
+    {
+      "anexo": "AN85",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "TCE-RJ",
+      "caminho": "AN85 – TCE-RJ-parte1.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "71fa7c9faaac4c0512f4a46e0f8a3b65e5929eade26a6f95de1ba3d0db283dc0",
+      "tamanho_bytes": 89246858
+    },
+    {
+      "anexo": "AN85",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "TCE-RJ",
+      "caminho": "AN85 – TCE-RJ-parte2.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "3fd5f4c8157668a20c55ae14c69c19f4520c8cd83d20ebe4b94f9e5bab93be63",
+      "tamanho_bytes": 47285575
+    },
+    {
+      "anexo": "AN86",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "TJRJ",
+      "caminho": "AN86 – TJRJ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "82b5e7ca9f5abfbaf9be5171edb46a6c30ea17054998ab31ca33a1a0666c6374",
+      "tamanho_bytes": 90641981
+    },
+    {
+      "anexo": "AN87",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "TURISRIO",
+      "caminho": "AN87 – TURISRIO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "5b87699c5cc37b455596c2a762127c9b41b76d115b9a3324db88239c7da25c2c",
+      "tamanho_bytes": 6326512
+    },
+    {
+      "anexo": "AN88",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "UENF",
+      "caminho": "AN88 – UENF.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "1db4976ca40e3670f6d0a2ad9b02c64728ab0db7a2c3bb2cd4d9c476eda27b9b",
+      "tamanho_bytes": 11738689
+    },
+    {
+      "anexo": "AN89",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "UERJ",
+      "caminho": "AN89 – UERJ.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "e04dacd696a31c2ed08153ee95817ee72235713794f59fd405ab8042c6076cef",
+      "tamanho_bytes": 53349327
+    },
+    {
+      "anexo": "AN90",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ANGRA DOS REIS",
+      "caminho": "AN90 – ANGRA DOS REIS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "b56687026613804bf541a077ad24a85bbb21d9e0658e1573df7583709917ee6d",
+      "tamanho_bytes": 11283840
+    },
+    {
+      "anexo": "AN91",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ARARUAMA",
+      "caminho": "AN91 – ARARUAMA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "87f68e13848ba803730e74d1bb7e33d31aae0de55674ff0cc45fbe2470a1051f",
+      "tamanho_bytes": 16088694
+    },
+    {
+      "anexo": "AN92",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ARMAÇÃO DOS BÚZIOS",
+      "caminho": "AN92 – ARMAÇÃO DOS BÚZIOS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "9f5f593ecf13e4c1aec1536d578f32ee79686ff2196c4c44bee90cdd0eb64189",
+      "tamanho_bytes": 35274927
+    },
+    {
+      "anexo": "AN93",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ARRAIAL DO CABO",
+      "caminho": "AN93 – ARRAIAL DO CABO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "cd4604d5f6905a4b063f3ee3735e853cf469ae0c8f265258ec1962db32efcefd",
+      "tamanho_bytes": 36868366
+    },
+    {
+      "anexo": "AN94",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "BARRA DO PIRAÍ",
+      "caminho": "AN94 – BARRA DO PIRAÍ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "22d00873e83ee26b021f97aff522010db840ac8a128432784c566f7dc9e863ed",
+      "tamanho_bytes": 25686230
+    },
+    {
+      "anexo": "AN95",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "BELFORD ROXO",
+      "caminho": "AN95 – BELFORD ROXO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "4db5cf615906d9ed577f99f339b91752deff0849a95f47538ee13d9777cfbec3",
+      "tamanho_bytes": 44816018
+    },
+    {
+      "anexo": "AN96",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CABO FRIO",
+      "caminho": "AN96 – CABO FRIO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "d08aa2c09fa570a854b501b756bff800f9cf77e17b4bbbb6f3315ac4d243c70d",
+      "tamanho_bytes": 7933104
+    },
+    {
+      "anexo": "AN97",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CAMPOS DOS GOYTACAZES",
+      "caminho": "AN97 – CAMPOS DOS GOYTACAZES.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "0edfeabb7a9dc28ce8faa3a83e94dc073d2461e56d7c76b4fd270ea425979a02",
+      "tamanho_bytes": 53112975
+    },
+    {
+      "anexo": "AN98",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "CASIMIRO DE ABREU",
+      "caminho": "AN98 – CASIMIRO DE ABREU.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "300ab3812ff1a802ec35aa8b9415ac03d597877fb42e22a30a7d725d79e8fb0a",
+      "tamanho_bytes": 13286747
+    },
+    {
+      "anexo": "AN99",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "DUQUE DE CAXIAS",
+      "caminho": "AN99 – DUQUE DE CAXIAS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "0015446f3971de5b045fd3434a486c84474c43eab71789386ea9f56e7f7b4d2e",
+      "tamanho_bytes": 55370571
+    },
+    {
+      "anexo": "AN100",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "GUAPIMIRIM",
+      "caminho": "AN100 – GUAPIMIRIM.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "14b515fbf9092095b6c9fc10783bb3f6368bcc8ebb9e37ce9add9d2f2958b671",
+      "tamanho_bytes": 50447517
+    },
+    {
+      "anexo": "AN101",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "ITAGUAÍ",
+      "caminho": "AN101 – ITAGUAÍ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "04b06059ed4eb6411e2404dc70c0a58e1a331a79b517e292e9fc012ce8bcdbb9",
+      "tamanho_bytes": 20060250
+    },
+    {
+      "anexo": "AN102",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "JAPERI",
+      "caminho": "AN102 – JAPERI.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "e76cf0780c6fed9494298d6f8cb5808953b2eaf2ed75e4a9ca48bbe94b378235",
+      "tamanho_bytes": 18472857
+    },
+    {
+      "anexo": "AN103",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "MACAÉ",
+      "caminho": "AN103 – MACAÉ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "9d2b76e49d336042e17588653a4aeeef563fd076ae2966e7f0a0da3f1c50e2b3",
+      "tamanho_bytes": 88971568
+    },
+    {
+      "anexo": "AN104",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "MAGÉ",
+      "caminho": "AN104 – MAGÉ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "5c6a99eb8ce5461438c0ddaeffb15039e56e79198eb20562cb14b48c15df639e",
+      "tamanho_bytes": 6634033
+    },
+    {
+      "anexo": "AN105",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "MARICÁ",
+      "caminho": "AN105 – MARICÁ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "c57ca5e48384d9b6bf2f187c0b4a54da9097b9dd23196dbe29fd2e448e5fa7be",
+      "tamanho_bytes": 61822734
+    },
+    {
+      "anexo": "AN106",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "MESQUITA",
+      "caminho": "AN106 – MESQUITA.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "efb4ef9aba73af8b8081768ca4557170faa318077083f75c682c01894c749cf0",
+      "tamanho_bytes": 61461906
+    },
+    {
+      "anexo": "AN107",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "NITERÓI",
+      "caminho": "AN107 – NITERÓI.zip",
+      "status": "incompleto",
+      "faltantes": [
+        "PDF de respostas aos comentários do gestor"
+      ],
+      "sha256": "4f0a0e263715861277de7b70beff223285f2a5ce02d28a1ce73a9c4a5ed31d12",
+      "tamanho_bytes": 67036551
+    },
+    {
+      "anexo": "AN108",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "NOVA FRIBURGO",
+      "caminho": "AN108 – NOVA FRIBURGO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "fb6cf425278fbb91defbab82f883e42808e2ddc522cf79af17bf12b62b59850c",
+      "tamanho_bytes": 9944831
+    },
+    {
+      "anexo": "AN109",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "NOVA IGUAÇU",
+      "caminho": "AN109 – NOVA IGUAÇU.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "c77fee03eb9cca01d55a9d1a0c5e4f78393f8df6f67cd420dbfc6cdf7040341a",
+      "tamanho_bytes": 39798252
+    },
+    {
+      "anexo": "AN110",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PARATY",
+      "caminho": "AN110 – PARATY.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "87608b8430766b183ce6b1dd84ef3c8929dfadf812ab22cd2695829c8f008fb1",
+      "tamanho_bytes": 16488819
+    },
+    {
+      "anexo": "AN111",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PETRÓPOLIS",
+      "caminho": "AN111 – PETRÓPOLIS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "f477b62f1a20dccf0ba2ef4316d74f0163ebcfb2e52ea9f73ba6c7fab5d03b04",
+      "tamanho_bytes": 8617545
+    },
+    {
+      "anexo": "AN112",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "PORTO REAL",
+      "caminho": "AN112 – PORTO REAL.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "33d6b025808bb51f86d889e1a5ce940bd277048b3659f3993296aa1f6ee2e6c0",
+      "tamanho_bytes": 9991880
+    },
+    {
+      "anexo": "AN113",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "QUATIS",
+      "caminho": "AN113 – QUATIS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "448e4de5b5e3f81ff653359ab99bf1784284969b6ee2e8b923373af371a9dcd7",
+      "tamanho_bytes": 29114595
+    },
+    {
+      "anexo": "AN114",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "QUEIMADOS",
+      "caminho": "AN114 – QUEIMADOS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "9829ee3ea5f06ab9870493c087018a46426dc21a764e15771aabdb212f27de65",
+      "tamanho_bytes": 40983449
+    },
+    {
+      "anexo": "AN115",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "QUISSAMÃ",
+      "caminho": "AN115 – QUISSAMÃ.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "5ff4ab369f0bbb952510d01ddfedabd75bbc7121fb4b4ed3b3c7221144a4240d",
+      "tamanho_bytes": 59292921
+    },
+    {
+      "anexo": "AN116",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "RIO DAS OSTRAS",
+      "caminho": "AN116 – RIO DAS OSTRAS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "8fa9af341e1e002d2b36ef6d36bd6ab91dd9caa17c880869066ba79ea9c31a0e",
+      "tamanho_bytes": 68626394
+    },
+    {
+      "anexo": "AN117",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SÃO GONÇALO",
+      "caminho": "AN117 – SÃO GONÇALO.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "2d35306d9f882c4ea5afedc2943625b9af8cec61ef0758adb96d767b702690dd",
+      "tamanho_bytes": 12396050
+    },
+    {
+      "anexo": "AN118",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SÃO JOÃO DA BARRA",
+      "caminho": "AN118 – SÃO JOÃO DA BARRA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "4ea4d403f7e6f52e0838dc983728981459848820a26dd90473b6a18d4239e52a",
+      "tamanho_bytes": 5348372
+    },
+    {
+      "anexo": "AN119",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SÃO JOÃO DE MERITI",
+      "caminho": "AN119 – SÃO JOÃO DE MERITI.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "40d35479ed5ea7f04414073a223fafcf87828ed5cea87fd44a20a993ae61f6da",
+      "tamanho_bytes": 46803570
+    },
+    {
+      "anexo": "AN120",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SÃO PEDRO DA ALDEIA",
+      "caminho": "AN120 – SÃO PEDRO DA ALDEIA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "42917e9b313e8e4a3e8fd88589969b1bcde7a34d886d7692ec36d4fc101f3433",
+      "tamanho_bytes": 39821722
+    },
+    {
+      "anexo": "AN121",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SAQUAREMA",
+      "caminho": "AN121 – SAQUAREMA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "302f3d9ab86a4dba32afa5f9726bfb608e6d76c89ef7d1aaac80e0cd6941a973",
+      "tamanho_bytes": 24601211
+    },
+    {
+      "anexo": "AN122",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "SEROPÉDICA",
+      "caminho": "AN122 – SEROPÉDICA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "b142444fa81ed792a4ff0d8545146198d3ee8c546e68eedb84d8881e4cf392fe",
+      "tamanho_bytes": 43019596
+    },
+    {
+      "anexo": "AN123",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "TERESÓPOLIS",
+      "caminho": "AN123 – TERESÓPOLIS.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "9b18c8ea359171c56c0d384799eb59c9379147d3f4b215876031cc6b17c04dea",
+      "tamanho_bytes": 21903009
+    },
+    {
+      "anexo": "AN124",
+      "tipo": "anexo_individual_reservado",
+      "auditado": "VOLTA REDONDA",
+      "caminho": "AN124 – VOLTA REDONDA.zip",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "ee3ee1570686842e4d82b971aca8600d88ea3c5a6f8d3da029271c6b3fbf131f",
+      "tamanho_bytes": 37998108
+    }
+  ]
+}
