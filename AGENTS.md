@@ -339,6 +339,8 @@ The active current-state catalog is `scripts/avaliacao_evidencias/prompt_catalog
 
 Before reassessment, capture the dynamic LimeSurvey response PDF for each audited organization with `scripts/exportar_respostas_comentarios_gestor_pdf.py`. The exporter reads the group `grelevance` expressions from the comments survey LSS, matches them to the organization stored in `TOKEN:FIRSTNAME`, and requests a PDF containing only the groups applicable to that organization. Use the LimeSurvey XLSX response export as `--participantes`; it must contain the columns `id`, `orgao`, `datestamp`, and `completed`.
 
+The local comments-survey LSS is a model with `SID=0` and local group/question IDs. For a real download, pass `--survey-id 796352`; after authentication, the exporter fetches the published survey structure and uses its actual IDs. `--dry-run` remains offline and checks group selection only, not the published IDs. The PDF is validated for readability and for at least one applicable group before it is written.
+
 Validate the organization-to-group selection without accessing LimeSurvey:
 
 ```bash
@@ -354,6 +356,7 @@ Then run the download while authenticated in the LimeSurvey administration inter
 scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
   --lss C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss \
   --participantes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --survey-id 796352 \
   --output-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/PDF_Respostas
 ```
 

@@ -489,6 +489,7 @@ ROUTINES: list[Routine] = [
         params=[
             Param("lss", "--lss", "02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss", "Survey LSS."),
             Param("participantes", "--participantes", "02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/20260716-respostas-bruto.xlsx", "Exportação de participantes."),
+            Param("survey_id", "--survey-id", "796352", "ID do survey publicado; usa a estrutura e os IDs reais."),
             Param("output_dir", "--output-dir", "02-Execucao/05-Comentarios_Gestor/01-Coleta_LimeSurvey/PDF_Respostas", "Diretório dos PDFs."),
             Param("dry_run", "--dry-run", False, "Valida seleção sem acessar o LimeSurvey.", is_bool=True),
         ],

@@ -17,6 +17,7 @@ import argparse
 import datetime
 import getpass
 import html
+import io
 import os
 import re
 import sys
@@ -101,10 +102,10 @@ def row_xml(row: ET.Element) -> dict[str, str]:
     return {child.tag: child.text or "" for child in row}
 
 
-def carregar_survey(path: Path) -> Survey:
-    root = ET.parse(path).getroot()
+def carregar_survey_xml(conteudo: bytes | str) -> Survey:
+    root = ET.fromstring(conteudo)
     if (root.findtext("LimeSurveyDocType") or "").strip() != "Survey":
-        raise ValueError(f"O arquivo não é um survey LimeSurvey válido: {path}")
+        raise ValueError("A resposta não contém um survey LimeSurvey válido.")
 
     grupos_node = root.find("groups/rows")
     questoes_node = root.find("questions/rows")
@@ -149,6 +150,47 @@ def carregar_survey(path: Path) -> Survey:
         grupos=tuple(sorted(grupos, key=lambda item: item.ordem)),
         questoes=tuple(sorted(questoes, key=lambda item: (item.gid, item.ordem))),
     )
+
+
+def carregar_survey(path: Path) -> Survey:
+    try:
+        return carregar_survey_xml(path.read_bytes())
+    except ET.ParseError as exc:
+        raise ValueError(f"Não foi possível ler o LSS: {path}") from exc
+
+
+def carregar_survey_publicado(
+    session: requests.Session,
+    base_url: str,
+    survey_id: str,
+    timeout: int,
+) -> Survey:
+    url = (
+        f"{base_url.rstrip('/')}/index.php/admin/export/sa/survey/"
+        f"surveyid/{survey_id}/action/exportstructurexml"
+    )
+    response = session.get(
+        url,
+        headers={"Accept": "text/xml,application/xml,*/*"},
+        timeout=timeout,
+        allow_redirects=True,
+    )
+    if response.history and any("login" in item.url.casefold() for item in response.history):
+        raise RuntimeError("Sessão expirada: o LimeSurvey redirecionou para a página de login.")
+    response.raise_for_status()
+    try:
+        survey = carregar_survey_xml(response.content)
+    except (ET.ParseError, ValueError) as exc:
+        content_type = response.headers.get("Content-Type", "")
+        raise RuntimeError(
+            "O LimeSurvey não retornou a estrutura XML do survey publicado "
+            f"(Content-Type {content_type!r})."
+        ) from exc
+    if survey.sid != survey_id:
+        raise RuntimeError(
+            f"A estrutura retornada tem survey id {survey.sid}, mas foi solicitado {survey_id}."
+        )
+    return survey
 
 
 def nomes_da_relevancia(expressao: str) -> set[str] | None:
@@ -316,7 +358,7 @@ def payload_exportacao(
     return dados
 
 
-def validar_pdf(response: requests.Response) -> None:
+def validar_pdf(response: requests.Response, grupos_esperados: list[Grupo] | None = None) -> None:
     content_type = response.headers.get("Content-Type", "").casefold()
     inicio = response.content[:512].lstrip()
     if response.history and any("login" in item.url.casefold() for item in response.history):
@@ -326,6 +368,25 @@ def validar_pdf(response: requests.Response) -> None:
         raise RuntimeError(
             f"O LimeSurvey não retornou um PDF (HTTP {response.status_code}, "
             f"Content-Type {content_type!r}). Início da resposta: {trecho!r}"
+        )
+    if not grupos_esperados:
+        return
+    try:
+        from pypdf import PdfReader
+
+        documento = PdfReader(io.BytesIO(response.content))
+        texto_pdf = texto_normalizado(" ".join(pagina.extract_text() or "" for pagina in documento.pages)).casefold()
+    except Exception as exc:
+        raise RuntimeError("O LimeSurvey retornou um PDF ilegível ou corrompido.") from exc
+    grupos_encontrados = {
+        texto_normalizado(grupo.nome).casefold()
+        for grupo in grupos_esperados
+        if texto_normalizado(grupo.nome).casefold() in texto_pdf
+    }
+    if not grupos_encontrados:
+        raise RuntimeError(
+            "O PDF não contém nenhum dos grupos aplicáveis selecionados. "
+            "A estrutura de campos enviada pode não corresponder ao survey publicado."
         )
 
 
@@ -341,7 +402,10 @@ def criar_parser() -> argparse.ArgumentParser:
         default="https://www.tcerj.tc.br/limesurvey-novo",
         help="URL base da instalação LimeSurvey.",
     )
-    parser.add_argument("--survey-id", help="Sobrescreve/valida o survey id extraído do LSS.")
+    parser.add_argument(
+        "--survey-id",
+        help="ID do survey; para LSS modelo com SID 0, busca os IDs reais na estrutura publicada.",
+    )
     parser.add_argument("--cookie-file", type=Path, help="Arquivo fora do repositório contendo o cabeçalho Cookie.")
     parser.add_argument("--csrf-token", help="CSRF explícito; normalmente é extraído do cookie.")
     parser.add_argument("--orgao", action="append", help="Processa somente este órgão; pode ser repetido.")
@@ -368,27 +432,24 @@ def criar_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = criar_parser().parse_args(argv)
     survey = carregar_survey(args.lss)
-    if args.survey_id and args.survey_id != survey.sid:
-        raise ValueError(f"--survey-id {args.survey_id} diverge do id {survey.sid} contido no LSS.")
+    lss_modelo = survey.sid == "0"
+    if args.survey_id:
+        if not args.survey_id.isdigit():
+            raise ValueError(f"ID de survey inválido: {args.survey_id!r}.")
+        if survey.sid == "0":
+            survey = Survey(
+                sid=args.survey_id,
+                grupos=survey.grupos,
+                questoes=survey.questoes,
+            )
+        elif args.survey_id != survey.sid:
+            raise ValueError(f"--survey-id {args.survey_id} diverge do id {survey.sid} contido no LSS.")
+    elif lss_modelo and not args.dry_run:
+        raise ValueError("--survey-id é obrigatório para exportar usando um LSS modelo com SID 0.")
 
     respostas = filtrar_respostas(carregar_respostas(args.participantes), args)
-    sem_grupo = [
-        resposta
-        for resposta in respostas
-        if not any(nomes_da_relevancia(grupo.relevancia) is not None for grupo in grupos_do_orgao(survey, resposta.orgao))
-    ]
-    if sem_grupo and not args.include_unmatched:
-        for resposta in sem_grupo:
-            print(
-                f"AVISO: ignorando {resposta.orgao!r} (id {resposta.response_id}): "
-                "nenhum grupo condicional do LSS corresponde ao órgão.",
-                file=sys.stderr,
-            )
-        ids_sem_grupo = {id(resposta) for resposta in sem_grupo}
-        respostas = [resposta for resposta in respostas if id(resposta) not in ids_sem_grupo]
     if not respostas:
         raise ValueError("Nenhuma resposta corresponde aos filtros informados.")
-    maior_response_id = max((inteiro_seguro(item.response_id, 1) for item in respostas), default=1)
 
     cookie = ler_cookie(args)
     csrf_token = obter_csrf_token(cookie, args)
@@ -406,6 +467,31 @@ def main(argv: list[str] | None = None) -> int:
             "Cookie": cookie,
         }
     )
+    if not args.dry_run and lss_modelo:
+        survey = carregar_survey_publicado(session, args.base_url, args.survey_id, args.timeout)
+        print(
+            f"Estrutura publicada carregada: survey {survey.sid}, "
+            f"{len(survey.grupos)} grupos, {len(survey.questoes)} questões."
+        )
+
+    sem_grupo = [
+        resposta
+        for resposta in respostas
+        if not any(nomes_da_relevancia(grupo.relevancia) is not None for grupo in grupos_do_orgao(survey, resposta.orgao))
+    ]
+    if sem_grupo and not args.include_unmatched:
+        for resposta in sem_grupo:
+            print(
+                f"AVISO: ignorando {resposta.orgao!r} (id {resposta.response_id}): "
+                "nenhum grupo condicional do survey corresponde ao órgão.",
+                file=sys.stderr,
+            )
+        ids_sem_grupo = {id(resposta) for resposta in sem_grupo}
+        respostas = [resposta for resposta in respostas if id(resposta) not in ids_sem_grupo]
+    if not respostas:
+        raise ValueError("Nenhuma resposta possui grupo condicional correspondente no survey publicado.")
+    maior_response_id = max((inteiro_seguro(item.response_id, 1) for item in respostas), default=1)
+
     endpoint = f"{args.base_url.rstrip('/')}/index.php/admin/export/sa/exportresults/surveyid/{survey.sid}"
     referer = f"{endpoint}/id/1"
     partes_url = urlsplit(args.base_url)
@@ -440,7 +526,7 @@ def main(argv: list[str] | None = None) -> int:
                 allow_redirects=True,
             )
             response.raise_for_status()
-            validar_pdf(response)
+            validar_pdf(response, grupos_condicionais)
             temporario = destino.with_suffix(destino.suffix + ".part")
             temporario.write_bytes(response.content)
             temporario.replace(destino)

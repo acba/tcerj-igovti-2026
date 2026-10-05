@@ -537,7 +537,7 @@ Para revisar a redação sem repetir avaliações dos modelos, edite `Decisão r
 
 #### Captura das respostas dinâmicas em PDF
 
-O LimeSurvey pode gerar um PDF por auditado contendo somente os grupos que lhe são aplicáveis no questionário de comentários do gestor. Essa seleção não é feita por uma lista fixa: `scripts/exportar_respostas_comentarios_gestor_pdf.py` lê do LSS as expressões `grelevance` dos grupos, identifica as condições baseadas em `TOKEN:FIRSTNAME` e monta dinamicamente a relação de campos enviada ao exportador do LimeSurvey.
+O LimeSurvey pode gerar um PDF por auditado contendo somente os grupos que lhe são aplicáveis no questionário de comentários do gestor. Essa seleção não é feita por uma lista fixa: `scripts/exportar_respostas_comentarios_gestor_pdf.py` lê as expressões `grelevance`, identifica as condições baseadas em `TOKEN:FIRSTNAME` e monta dinamicamente a relação de campos enviada ao exportador. Quando o LSS local é um modelo com `SID=0`, informe `--survey-id`: após autenticar, o script obtém do LimeSurvey a estrutura publicada e usa os IDs reais de grupos e questões. Substituir somente o `SID` do modelo não é suficiente, pois esses IDs também diferem.
 
 Primeiro, exporte pela interface administrativa do LimeSurvey a planilha XLSX das respostas do questionário de comentários do gestor. A planilha informada em `--participantes` deve conter, no mínimo, as colunas `id`, `orgao`, `datestamp` e `completed`. Use o mesmo LSS que originou o survey publicado.
 
@@ -550,7 +550,7 @@ scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
   --dry-run
 ```
 
-O modo `--dry-run` não faz acesso de rede. Ele mostra, para cada resposta, os grupos condicionais e a quantidade de campos que seriam incluídos. Verifique especialmente avisos de órgão sem grupo correspondente, pois a comparação usa o nome do órgão registrado na coluna `orgao` e os valores previstos nas condições `TOKEN:FIRSTNAME` do LSS.
+O modo `--dry-run` não faz acesso de rede. Ele valida a seleção de grupos e mostra a quantidade de campos prevista a partir do LSS local; como não consulta a estrutura publicada, não valida os IDs reais do survey. Verifique especialmente avisos de órgão sem grupo correspondente, pois a comparação usa o nome do órgão registrado na coluna `orgao` e os valores previstos nas condições `TOKEN:FIRSTNAME`.
 
 Para baixar os PDFs, mantenha uma sessão válida aberta na administração do LimeSurvey e execute:
 
@@ -558,12 +558,13 @@ Para baixar os PDFs, mantenha uma sessão válida aberta na administração do L
 scripts/.venv/bin/python scripts/exportar_respostas_comentarios_gestor_pdf.py \
   --lss C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/questionario_comentarios_gestor.lss \
   --participantes C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/respostas-comentarios-gestor.xlsx \
+  --survey-id 796352 \
   --output-dir C:/tmp/tcerj-igovti-2026/02-Execucao/05-Comentarios_Gestor/PDF_Respostas
 ```
 
 Se a autenticação não for fornecida por `LIMESURVEY_COOKIE` nem por `--cookie-file`, o script solicita no terminal, sem eco, o cabeçalho `Cookie` da sessão administrativa. Esse cabeçalho pode ser copiado de uma requisição autenticada nas ferramentas de desenvolvimento do navegador. O `YII_CSRF_TOKEN` é extraído do Cookie quando presente; caso contrário, também é solicitado sem eco. Não grave Cookie, token CSRF ou arquivo de cookie no repositório. Se usar `--cookie-file`, mantenha o arquivo fora do repositório e com acesso restrito.
 
-Por padrão, são processadas somente respostas concluídas e apenas a resposta mais recente de cada órgão. As opções principais são:
+Por padrão, são processadas somente respostas concluídas e apenas a resposta mais recente de cada órgão. O script também valida se o PDF é legível e contém pelo menos um grupo aplicável; respostas que retornem um PDF vazio ou incompatível são rejeitadas e não gravadas. As opções principais são:
 
 - `--orgao SIGLA`: restringe a um órgão e pode ser repetida;
 - `--response-id ID`: restringe a um identificador de resposta e pode ser repetida;
