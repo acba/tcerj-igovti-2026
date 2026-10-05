@@ -1,9 +1,9 @@
 {
   "fiscalizacao": "18/2026",
   "nome": "iGovTI 2026",
-  "gerado_em_utc": "2026-09-17T10:14:11.544519+00:00",
+  "gerado_em_utc": "2026-10-05T15:40:22.026256+00:00",
   "quantidade_anexos": 131,
-  "quantidade_faltantes": 8,
+  "quantidade_faltantes": 0,
   "registros": [
     {
       "anexo": "RELATORIO",
@@ -190,12 +190,10 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "CECIERJ",
       "caminho": "AN17 – CECIERJ.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "80313fd14676236b33330e900d2d762f383310b8ec1df0a4e3582d6e9d751816",
-      "tamanho_bytes": 38888154
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "f30ca1a9eeff8f9e786bf9e44b8b6d8c998889abf15a780b4d40bade1854518a",
+      "tamanho_bytes": 38990209
     },
     {
       "anexo": "AN18",
@@ -222,12 +220,10 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "CEPERJ",
       "caminho": "AN20 – CEPERJ.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "9444e7d4126c777633bf2d7a7c7b21ca1c242660a33b1c981d710ce5842ff062",
-      "tamanho_bytes": 32878136
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "079334062b9cea7caa0e98ebab14fffc083b604d3af4f7117be4840f38044508",
+      "tamanho_bytes": 33011373
     },
     {
       "anexo": "AN21",
@@ -484,12 +480,10 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "IRM",
       "caminho": "AN46 – IRM.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "0bf0d720aaf9d87640d653692b1801b713df59dfe2e12b10d55483dab82c40c1",
-      "tamanho_bytes": 11416805
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "0b13a31fd18280973650bb6496ddff379a2fea6256d74a9bd7f653d782424769",
+      "tamanho_bytes": 11516115
     },
     {
       "anexo": "AN47",
@@ -506,12 +500,10 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "ITERJ",
       "caminho": "AN48 – ITERJ.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "28829bb98e86d675d40d7ce7234a2717624ea2eccc637c20cadd617ade8d2d17",
-      "tamanho_bytes": 45579067
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "d09db45a5766edd73ac336c7c6bbaacb284bcbf51727435acc215b33fdcff5bf",
+      "tamanho_bytes": 45684888
     },
     {
       "anexo": "AN49",
@@ -858,11 +850,9 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "SETD",
       "caminho": "AN80 – SETD-parte1.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "aa3726cdbd4ed541b197b50a8c59cf76678c636fff8d9b3dcf1d41635902b3b2",
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "140394d5cdc5bfc7b52f66f2845475734a1af6b41bf3858df86c50ef36d3aecb",
       "tamanho_bytes": 89549027
     },
     {
@@ -870,10 +860,10 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "SETD",
       "caminho": "AN80 – SETD-parte2.zip",
-      "status": "incompleto",
+      "status": "ok",
       "faltantes": [],
-      "sha256": "805bc964a0f152427ac45adbb143407f2dba90896cd0d11e72d884d29c9bb0f3",
-      "tamanho_bytes": 47141768
+      "sha256": "f981c52a1ce0a7a8c1d241c4509050e37983f83ece2121905420f52e3d12cc34",
+      "tamanho_bytes": 47249871
     },
     {
       "anexo": "AN81",
@@ -970,12 +960,10 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "UERJ",
       "caminho": "AN89 – UERJ.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "e04dacd696a31c2ed08153ee95817ee72235713794f59fd405ab8042c6076cef",
-      "tamanho_bytes": 53349327
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "8d595013e9b9955df8c0cdbc19a5a2c4204ad58b0a17ed57e885b257065f0e10",
+      "tamanho_bytes": 53453554
     },
     {
       "anexo": "AN90",
@@ -1142,24 +1130,20 @@
       "tipo": "anexo_individual_reservado",
       "auditado": "MESQUITA",
       "caminho": "AN106 – MESQUITA.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "efb4ef9aba73af8b8081768ca4557170faa318077083f75c682c01894c749cf0",
-      "tamanho_bytes": 61461906
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "ceed149e01e954aef6d8eac9d70f944a9535fd014640808dc785eb21cda5eec9",
+      "tamanho_bytes": 61568384
     },
     {
       "anexo": "AN107",
       "tipo": "anexo_individual_reservado",
       "auditado": "NITERÓI",
       "caminho": "AN107 – NITERÓI.zip",
-      "status": "incompleto",
-      "faltantes": [
-        "PDF de respostas aos comentários do gestor"
-      ],
-      "sha256": "4f0a0e263715861277de7b70beff223285f2a5ce02d28a1ce73a9c4a5ed31d12",
-      "tamanho_bytes": 67036551
+      "status": "ok",
+      "faltantes": [],
+      "sha256": "1ea75e4125596dfd91d2b54008135127c4232ecc9c700928ee719a04ae41d97a",
+      "tamanho_bytes": 67135019
     },
     {
       "anexo": "AN108",
