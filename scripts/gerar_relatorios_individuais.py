@@ -136,13 +136,22 @@ def carregar_ajustes_respostas(path):
                 justificativa = justificativa_pos_comentarios_exibicao(justificativa)
 
         resposta_afirmada = row.get("Resposta afirmada")
+        if "Resposta anterior" in df.columns and "Resposta ajustada" in df.columns:
+            resposta_anterior = valor_texto(row.get("Resposta anterior"))
+            resposta_final = valor_texto(resposta_ajustada_planilha)
+            if resposta_anterior.lower() == "vazio":
+                resposta_anterior = ""
+            if resposta_final.lower() == "vazio":
+                resposta_final = ""
+            if resposta_anterior == resposta_final:
+                continue
+        else:
+            resposta_anterior = valor_texto(resposta_afirmada)
+            resposta_final = resposta_ajustada_exibicao(item_codigo, resposta_afirmada, resposta_ajustada_planilha)
         ajuste = {
             "codigo_questao": str(item_codigo).strip(),
-            "de": valor_texto(resposta_afirmada, vazio="Vazio"),
-            "para": valor_texto(
-                resposta_ajustada_exibicao(item_codigo, resposta_afirmada, resposta_ajustada_planilha),
-                vazio="Vazio",
-            ),
+            "de": valor_texto(resposta_anterior, vazio="Vazio"),
+            "para": valor_texto(resposta_final, vazio="Vazio"),
             "justificativa": valor_texto(justificativa, vazio="Sem justificativa registrada"),
         }
         ajustes_por_auditado.setdefault(str(auditado).strip().upper(), []).append(ajuste)

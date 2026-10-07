@@ -26,14 +26,14 @@ A exportação integral da coleta registra que a EMOP iniciou o preenchimento, r
 {% elif auditado.sigla == "PESAGRO" %}
 Na etapa de comentários do gestor, a PESAGRO confirmou a ausência de resposta válida, sem apresentar justificativa textual ou arquivo comprobatório naquele instrumento.
 {% elif auditado.sigla == "SESP" %}
-A SESP não concluiu o questionário eletrônico de comentários, mas apresentou esclarecimentos por e-mail e pelo Ofício SESP-GABSEC nº 1.067, recebido em 21/7/2026. Informou que a servidora anteriormente indicada como ponto focal havia se desvinculado da Secretaria, que a demanda somente fora encaminhada internamente em 17/7/2026 e que, quando a pendência foi identificada, o link estava expirado; indicou novo ponto focal e solicitou novo prazo e acesso. Em 24/7/2026, a Equipe informou que os prazos da fiscalização haviam se encerrado, mas que a manifestação seria considerada no relatório final.
+A SESP não concluiu o questionário eletrônico de comentários, mas apresentou esclarecimentos por e-mail e pelo Ofício SESP-GABSEC nº 1.067, recebido em 21/7/2026. Informou que a servidora anteriormente indicada como ponto focal havia se desvinculado da Secretaria, que a demanda somente fora encaminhada internamente em 17/7/2026 e que, quando a pendência foi identificada, o link estava expirado. Indicou novo ponto focal e solicitou novo prazo e acesso. Em 24/7/2026, a Equipe informou que os prazos da fiscalização haviam se encerrado, mas que a manifestação seria considerada no relatório final.
 {% else %}
 Não foi identificada manifestação da organização na etapa de comentários do gestor. Permanece, portanto, a ausência de esclarecimentos nessa etapa.
 {% endif %}
 
-Os registros acima não equivalem a resposta válida nem permitem incorporar dados ao cálculo do iGovTI. Constituem, contudo, elementos relevantes para a análise das circunstâncias e do grau de cooperação da organização. As comunicações da fiscalização e os respectivos registros de ciência integram o Anexo AN10 do relatório consolidado.
+Os registros acima não equivalem a resposta válida nem permitem incorporar dados ao cálculo do iGovTI. Constituem, contudo, elementos relevantes para a análise das circunstâncias e do grau de cooperação da organização. As comunicações da fiscalização e os respectivos registros de ciência integram o Anexo AN10 do relatório de auditoria.
 
-O relatório consolidado propõe a abertura de processo apartado para apuração individualizada das circunstâncias da ausência de resposta válida, com oportunidade para apresentação de razões de defesa. A ausência de submissão válida, isoladamente, não caracteriza obstrução à auditoria ou sonegação de informações, nem pressupõe reconhecimento antecipado de responsabilidade ou aplicação automática de sanção.
+As circunstâncias da ausência de resposta válida serão examinadas em processo apartado já autuado, conforme informado na Seção 4.5 do relatório de auditoria, com oportunidade para apresentação de razões de defesa. A ausência de resposta válida, por si só, não caracteriza obstrução à auditoria ou sonegação de informações, nem implica responsabilização ou aplicação automática de sanção.
 
 {% else %}
 
@@ -48,14 +48,14 @@ O relatório consolidado propõe a abertura de processo apartado para apuração
   'GerirSoluçõesTI': 'Gestão de soluções de TIC'
 } %}
 
-A avaliação das organizações jurisdicionadas baseia-se no método de autoavaliação de controles (*Control Self-Assessment* – CSA), operacionalizado mediante questionário eletrônico. A ferramenta permitiu aos gestores declarar o nível de adoção das práticas de tecnologia da informação com a documentação probatória correspondente. As evidências anexadas e as justificativas apresentadas foram submetidas à análise de consistência, servindo de subsídio para eventuais ajustes na pontuação declarada e para a identificação de inconformidades ou achados de auditoria.
+A avaliação das organizações jurisdicionadas baseia-se no método de autoavaliação de controles (*Control Self-Assessment* – CSA), operacionalizado mediante questionário eletrônico. A ferramenta permitiu aos gestores informarem o nível de adoção das práticas de governança e gestão de TIC com envio da documentação probatória correspondente. A Equipe de Auditoria examinou esses elementos para verificar as práticas declaradas e identificar inconformidades.
 
 O questionário do iGovTI 2026 foi estruturado com o objetivo de diagnosticar aspectos essenciais de governança e gestão de TIC, abrangendo[^observacao_conteudo_igovti26] segurança da informação, gestão de riscos, continuidade de negócios, serviços de tecnologia, contratações de TIC, estrutura e força de trabalho, desenvolvimento de soluções, gestão de projetos e uso de inteligência artificial. Para além do diagnóstico situacional de cada organização, o instrumento serve como referencial para futuras ações de fiscalização.
 
 
 [^observacao_conteudo_igovti26]: Nem todos esses temas integram o cálculo do índice: a composição do iGovTI considera apenas as práticas e dimensões descritas nesta seção
 
-O iGovTI 2026 constitui um índice composto, mensurado em uma escala de 0 a 1. A quantificação do índice inicia-se com a conversão das respostas categóricas declaradas em coeficientes numéricos, conforme os critérios de valoração estabelecidos na [@tbl:conversao_categorias].
+O iGovTI 2026 reúne os resultados de diferentes práticas em um índice que varia de zero a um. Para calculá-lo, as respostas do questionário são convertidas em valores numéricos, conforme a [@tbl:conversao_categorias].
 
 : Critérios de valoração das respostas qualitativas do questionário iGovTI 2026 {#tbl:conversao_categorias#}
 
@@ -69,7 +69,7 @@ O iGovTI 2026 constitui um índice composto, mensurado em uma escala de 0 a 1. A
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Nas questões que admitem itens de detalhamento, a pontuação da questão principal sofre deduções proporcionais à quantidade de itens não atendidos pela organização. Subsequentemente, os valores são consolidados por meio de agregação ponderada em uma estrutura hierárquica. O índice final é composto por dois blocos principais, conforme detalhado na [@fig:composicao_igovti_2026]: **Governança de TIC (peso de 47,8%)**, formado por 4 questões de agregação direta; **Gestão de TIC (iGestTI) (peso de 52,2%)**, estruturado em 6 dimensões operacionais que consolidam 20 questões principais ponderadas.
+Nas questões com itens de detalhamento, a pontuação da questão principal é reduzida proporcionalmente à quantidade de itens não atendidos. Em seguida, as pontuações são combinadas conforme os pesos definidos para cada prática e dimensão. O índice final reúne dois componentes: **Governança de TIC, com peso de 47,8%**, e **Gestão de TIC, com peso de 52,2%**. Governança reúne quatro questões, enquanto Gestão reúne seis dimensões e 18 questões principais, conforme a [@fig:composicao_igovti_2026].
 
 ![Composição do iGovTI 2026](igovti_2026_composicao_infografico.png){#fig:composicao_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -98,7 +98,9 @@ A distribuição por nível de maturidade, apresentada na [@fig:distribuicao_mat
 ![Distribuição das organizações por nível de maturidade do iGovTI 2026](igovti_2026_distribuicao_maturidade.png){#fig:distribuicao_maturidade_igovti_2026#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-O iGovTI apresentou média de {{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}. O primeiro quartil foi {{ ('%0.3f' | format(igovti_geral_q1|float)) | replace('.', ',') }} e o terceiro quartil, {{ ('%0.3f' | format(igovti_geral_q3|float)) | replace('.', ',') }}, o que evidencia a concentração de 50% das organizações avaliadas nesse intervalo, bem como a permanência de pelo menos 75% das entidades abaixo do nível Intermediário. A divergência positiva entre a média e a mediana, combinada com o valor máximo de {{ ('%0.3f' | format(igovti_geral_maximo|float)) | replace('.', ',') }} e com apenas {{ maturidade_aprimorado_n|int }} organizações no nível Aprimorado, caracteriza uma distribuição com assimetria à direita (positiva): um grupo reduzido de resultados elevados desloca a média para cima, sem alterar o quadro predominante de baixa maturidade. {{ igovti_geral_zeros_n|int }} organizações apresentaram valor igual a zero no índice calculado.
+O iGovTI apresentou média de {{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}. O primeiro quartil foi {{ ('%0.3f' | format(igovti_geral_q1|float)) | replace('.', ',') }} e o terceiro quartil, {{ ('%0.3f' | format(igovti_geral_q3|float)) | replace('.', ',') }}, o que evidencia a concentração de 50% das organizações avaliadas nesse intervalo, bem como a permanência de pelo menos 75% das entidades abaixo do nível Intermediário.
+
+A média superior à mediana indica que um grupo reduzido de organizações com pontuações elevadas aumenta a média do conjunto. O valor máximo foi {{ ('%0.3f' | format(igovti_geral_maximo|float)) | replace('.', ',') }}, e apenas {{ maturidade_aprimorado_n|int }} organizações atingiram o nível Aprimorado. Ainda assim, predominam resultados nos níveis iniciais de maturidade. {{ igovti_geral_zeros_n|int }} organizações apresentaram valor igual a zero no índice calculado.
 
 : Estatísticas descritivas do iGovTI 2026 e de seus componentes principais {#tbl:estatisticas_componentes_igovti#}
 
@@ -130,7 +132,7 @@ Em conjunto, os resultados evidenciam predominância de níveis iniciais de matu
 
 Apresentado o panorama geral do universo fiscalizado, esta subseção detalha o resultado individual da organização jurisdicionada. A organização **{{ auditado.sigla }}** obteve o **valor {{ ('%0.4f' | format(iGovTI|float)) | replace('.', ',') }} para o iGovTI 2026**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade.
 
-A [@fig:comparativo_distribuicao_iGovTI] apresenta a distribuição contínua dos resultados do iGovTI 2026 e a posição da organização **{{ auditado.sigla }}** nesse conjunto. As linhas verticais indicam a média e a mediana das organizações avaliadas, e o marcador “X” identifica o resultado individual. Diferenças marginais de pontuação entre organizações adjacentes devem ser interpretadas com cautela, pois o modelo matemático de composição do índice não pressupõe estimativa de erro amostral e os resultados estão sujeitos à qualidade e à fidedignidade das informações declaradas.
+A [@fig:comparativo_distribuicao_iGovTI] apresenta os resultados das organizações avaliadas e a posição de **{{ auditado.sigla }}** nesse conjunto. As linhas verticais indicam a média e a mediana, e o marcador “X” identifica o resultado individual. Pequenas diferenças de pontuação devem ser interpretadas com cautela. O índice não fornece uma margem de erro estatística, e seus resultados dependem da qualidade das respostas e dos documentos apresentados.
 
 ![Distribuição contínua dos resultados do iGovTI 2026 e posição da organização {{ auditado.sigla }}]({{ auditado.sigla }}_comparativo_distribuicao_iGovTI.png){#fig:comparativo_distribuicao_iGovTI#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -196,7 +198,13 @@ A [@fig:perfil_praticas_governanca_auditado] compara o perfil da organização c
 {%- set praticas_gov = [q1001|float, q1002|float, q1003|float, q1004|float] %}
 {%- set gov_qtd_baixas = (praticas_gov | select('<', 0.40) | list)|length %}
 {%- set gov_qtd_altas = (praticas_gov | select('>=', 0.70) | list)|length %}
-Com o resultado obtido ({{ ('%0.4f' | format(governanca_val)) | replace('.', ',') }}), o componente Governança de TIC da organização **{{ auditado.sigla }}** situa-se no nível **{{ governanca_nivel }}** de maturidade, posicionando-se {% if governanca_val > governanca_geral_media and governanca_val > governanca_geral_mediana %}acima da média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif governanca_val < governanca_geral_media and governanca_val < governanca_geral_mediana %}abaixo da média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif governanca_val >= governanca_geral_mediana and governanca_val < governanca_geral_media %}em patamar intermediário entre a mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) e a média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) do conjunto avaliado{% elif governanca_val >= governanca_geral_media and governanca_val < governanca_geral_mediana %}em patamar intermediário entre a média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) e a mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% else %}alinhado aos parâmetros centrais do conjunto avaliado (média de {{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}){% endif %}. Em relação às práticas componentes, {% if gov_qtd_baixas == 4 %}as quatro práticas avaliadas situaram-se nos níveis iniciais de maturidade, evidenciando baixa pontuação distribuída entre todas as práticas consideradas no componente{% elif gov_qtd_altas == 4 %}as quatro práticas avaliadas situaram-se no nível Aprimorado{% elif gov_qtd_baixas >= 3 %}predominaram resultados nos níveis iniciais de maturidade, embora haja variação entre as práticas avaliadas{% elif gov_qtd_altas >= 3 %}predominaram resultados no nível Aprimorado, embora haja variação entre as práticas avaliadas{% else %}o perfil apresentou heterogeneidade entre as práticas avaliadas, com resultados distribuídos entre diferentes níveis de maturidade{% endif %}. A confirmação da efetividade e da regularidade desses mecanismos, contudo, decorre do confronto com as evidências documentais examinadas pela auditoria e apresentadas na Seção 3.
+Com o resultado obtido ({{ ('%0.4f' | format(governanca_val)) | replace('.', ',') }}), o componente Governança de TIC da organização **{{ auditado.sigla }}** situa-se no nível **{{ governanca_nivel }}** de maturidade.
+
+Em relação ao conjunto avaliado, o resultado ficou {% if governanca_val > governanca_geral_media and governanca_val > governanca_geral_mediana %}acima da média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif governanca_val < governanca_geral_media and governanca_val < governanca_geral_mediana %}abaixo da média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif governanca_val >= governanca_geral_mediana and governanca_val < governanca_geral_media %}entre a mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) e a média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) do conjunto avaliado{% elif governanca_val >= governanca_geral_media and governanca_val < governanca_geral_mediana %}entre a média ({{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }}) e a mediana ({{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% else %}próximo da média e da mediana do conjunto avaliado (média de {{ ('%0.3f' | format(governanca_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(governanca_geral_mediana|float)) | replace('.', ',') }}){% endif %}.
+
+Em relação às práticas componentes, {% if gov_qtd_baixas == 4 %}as quatro práticas avaliadas situaram-se nos níveis iniciais de maturidade, evidenciando pontuações baixas nas quatro práticas{% elif gov_qtd_altas == 4 %}as quatro práticas avaliadas situaram-se no nível Aprimorado{% elif gov_qtd_baixas >= 3 %}predominaram resultados nos níveis iniciais de maturidade, embora haja variação entre as práticas avaliadas{% elif gov_qtd_altas >= 3 %}predominaram resultados no nível Aprimorado, embora haja variação entre as práticas avaliadas{% else %}os resultados variaram entre as práticas avaliadas, com resultados distribuídos entre diferentes níveis de maturidade{% endif %}. 
+
+A Seção 3 apresenta as situações identificadas pela auditoria, os critérios aplicáveis e as evidências examinadas, nos limites dos procedimentos executados.
 
 ### 2.2.2. Gestão de TIC
 
@@ -267,31 +275,35 @@ A [@fig:perfil_dimensoes_gestao_auditado] apresenta o perfil da organização **
 ] %}
 {%- set gest_qtd_baixas = (dimensoes_valores | select('<', 0.40) | list)|length %}
 {%- set gest_qtd_altas = (dimensoes_valores | select('>=', 0.70) | list)|length %}
-Com o resultado obtido ({{ ('%0.4f' | format(gestao_val)) | replace('.', ',') }}), o componente Gestão de TIC da organização **{{ auditado.sigla }}** situa-se no nível **{{ gestao_nivel }}** de maturidade, posicionando-se {% if gestao_val > igest_geral_media and gestao_val > igest_geral_mediana %}acima da média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif gestao_val < igest_geral_media and gestao_val < igest_geral_mediana %}abaixo da média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif gestao_val >= igest_geral_mediana and gestao_val < igest_geral_media %}em patamar intermediário entre a mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) e a média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) do conjunto avaliado{% elif gestao_val >= igest_geral_media and gestao_val < igest_geral_mediana %}em patamar intermediário entre a média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) e a mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% else %}alinhado aos parâmetros centrais do conjunto avaliado (média de {{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}){% endif %}. Quanto ao perfil operacional, {% if gest_qtd_baixas == 6 %}as seis dimensões situaram-se nos níveis iniciais de maturidade, de modo que o baixo resultado de Gestão de TIC não se concentrou em uma única dimensão avaliada{% elif gest_qtd_altas == 6 %}as seis dimensões situaram-se no nível Aprimorado{% elif gest_qtd_baixas >= 4 %}predominaram resultados nos níveis iniciais de maturidade, embora haja variação entre as dimensões avaliadas{% elif gest_qtd_altas >= 4 %}predominaram resultados no nível Aprimorado, embora haja variação entre as dimensões avaliadas{% else %}o perfil apresentou heterogeneidade entre as dimensões avaliadas, com resultados distribuídos entre diferentes níveis de maturidade{% endif %}.
+Com o resultado obtido ({{ ('%0.4f' | format(gestao_val)) | replace('.', ',') }}), o componente Gestão de TIC da organização **{{ auditado.sigla }}** situa-se no nível **{{ gestao_nivel }}** de maturidade.
+
+Em relação ao conjunto avaliado, o resultado ficou {% if gestao_val > igest_geral_media and gestao_val > igest_geral_mediana %}acima da média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif gestao_val < igest_geral_media and gestao_val < igest_geral_mediana %}abaixo da média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% elif gestao_val >= igest_geral_mediana and gestao_val < igest_geral_media %}entre a mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) e a média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) do conjunto avaliado{% elif gestao_val >= igest_geral_media and gestao_val < igest_geral_mediana %}entre a média ({{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }}) e a mediana ({{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}) do conjunto avaliado{% else %}próximo da média e da mediana do conjunto avaliado (média de {{ ('%0.3f' | format(igest_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(igest_geral_mediana|float)) | replace('.', ',') }}){% endif %}.
+
+Quanto ao perfil operacional, {% if gest_qtd_baixas == 6 %}as seis dimensões situaram-se nos níveis iniciais de maturidade, de modo que o baixo resultado de Gestão de TIC não se concentrou em uma única dimensão avaliada{% elif gest_qtd_altas == 6 %}as seis dimensões situaram-se no nível Aprimorado{% elif gest_qtd_baixas >= 4 %}predominaram resultados nos níveis iniciais de maturidade, embora haja variação entre as dimensões avaliadas{% elif gest_qtd_altas >= 4 %}predominaram resultados no nível Aprimorado, embora haja variação entre as dimensões avaliadas{% else %}os resultados variaram entre as dimensões avaliadas, com resultados distribuídos entre diferentes níveis de maturidade{% endif %}.
 {% if tem_comparacao_2023 %}
 ## 2.3. Comparação longitudinal entre 2023 e 2026
 
-A comparação longitudinal foi realizada com base em estruturas ajustadas formadas apenas por práticas e agregados comparáveis entre os ciclos de 2023 e 2026. Esses valores possuem finalidade analítica e não substituem os índices oficiais divulgados em cada ciclo. A metodologia e as limitações da comparação são detalhadas no Apêndice A.
+Para comparar os resultados de 2023 e 2026, foram calculados índices específicos, considerando apenas as práticas comparáveis entre os questionários. Esses índices não substituem os valores oficiais de cada ano. O Apêndice A apresenta a metodologia e as limitações da comparação.
 
 No caso da organização **{{ auditado.sigla }}**, o iGovTI ajustado comparável passou de {{ ('%0.4f' | format(comparacao_igovti_2023|float)) | replace('.', ',') }}, em 2023, para {{ ('%0.4f' | format(comparacao_igovti_2026|float)) | replace('.', ',') }}, em 2026, com variação absoluta de {{ ('%+0.4f' | format(comparacao_delta_igovti|float)) | replace('.', ',') }}.
 
 {% if comparacao_direcao_igovti == 'avanço' %}
 {% if comparacao_nivel_2023 == comparacao_nivel_2026 %}
-O resultado indica avanço no conjunto harmonizado de práticas avaliadas, embora a organização tenha permanecido no nível **{{ comparacao_nivel_2026 }}** de maturidade.
+O índice comparável aumentou, embora a organização tenha permanecido no nível **{{ comparacao_nivel_2026 }}** de maturidade.
 {% else %}
-O resultado indica avanço no conjunto harmonizado de práticas avaliadas, acompanhado da passagem do nível **{{ comparacao_nivel_2023 }}** para o nível **{{ comparacao_nivel_2026 }}** de maturidade.
+O índice comparável aumentou, acompanhado da passagem do nível **{{ comparacao_nivel_2023 }}** para o nível **{{ comparacao_nivel_2026 }}** de maturidade.
 {% endif %}
 {% elif comparacao_direcao_igovti == 'regressão' %}
 {% if comparacao_nivel_2023 == comparacao_nivel_2026 %}
-O resultado indica regressão no conjunto harmonizado de práticas avaliadas, embora a organização tenha permanecido no nível **{{ comparacao_nivel_2026 }}** de maturidade.
+O índice comparável diminuiu, embora a organização tenha permanecido no nível **{{ comparacao_nivel_2026 }}** de maturidade.
 {% else %}
-O resultado indica regressão no conjunto harmonizado de práticas avaliadas, acompanhada da passagem do nível **{{ comparacao_nivel_2023 }}** para o nível **{{ comparacao_nivel_2026 }}** de maturidade.
+O índice comparável diminuiu, acompanhado da passagem do nível **{{ comparacao_nivel_2023 }}** para o nível **{{ comparacao_nivel_2026 }}** de maturidade.
 {% endif %}
 {% else %}
 {% if comparacao_nivel_2023 == comparacao_nivel_2026 %}
-Não foi observada variação material no conjunto harmonizado de práticas avaliadas, e a organização permaneceu no nível **{{ comparacao_nivel_2026 }}** de maturidade.
+Não foi observada variação relevante no índice comparável, e a organização permaneceu no nível **{{ comparacao_nivel_2026 }}** de maturidade.
 {% else %}
-Não foi observada variação material no conjunto harmonizado de práticas avaliadas, embora o resultado tenha ultrapassado o limite entre os níveis **{{ comparacao_nivel_2023 }}** e **{{ comparacao_nivel_2026 }}** de maturidade.
+Não foi observada variação relevante no índice comparável, embora o resultado tenha ultrapassado o limite entre os níveis **{{ comparacao_nivel_2023 }}** e **{{ comparacao_nivel_2026 }}** de maturidade.
 {% endif %}
 {% endif %}
 
@@ -312,7 +324,7 @@ Os principais avanços foram observados em {{ comparacao_principais_avancos }}.
 As principais regressões foram observadas em {{ comparacao_principais_regressoes }}.
 {% endif %}
 
-A [@fig:evolucao_individual_igovti_comparavel] apresenta a trajetória dos três indicadores. A variação deve ser interpretada como mudança nas respostas às práticas harmonizadas, e não como comprovação isolada de melhora ou piora da efetividade da TIC. A leitura deve considerar eventuais alterações institucionais, a qualidade das informações declaradas e os achados de auditoria apresentados neste relatório.
+A [@fig:evolucao_individual_igovti_comparavel] apresenta os resultados dos três indicadores nos dois anos. As diferenças representam mudanças nas pontuações das práticas comparáveis, mas não comprovam, por si só, melhora ou piora do funcionamento da TIC. A interpretação deve considerar mudanças na organização, a qualidade das respostas, as diferenças de verificação documental entre os anos e os achados apresentados neste relatório.
 
 ![Evolução comparável da organização {{ auditado.sigla }} entre 2023 e 2026]({{ auditado.sigla }}_evolucao_igovti_2023_2026.png){#fig:evolucao_individual_igovti_comparavel#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -347,7 +359,9 @@ A [@fig:evolucao_individual_igovti_comparavel] apresenta a trajetória dos três
 {%- else %}
 {%- set gest_sintese_nivel = "Aprimorado" %}
 {%- endif %}
-Em síntese, a organização **{{ auditado.sigla }}** obteve o índice global iGovTI 2026 de **{{ ('%0.4f' | format(igovti_val)) | replace('.', ',') }}**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade, com Governança de TIC em **{{ ('%0.4f' | format(gov_sintese_val)) | replace('.', ',') }}** (nível {{ gov_sintese_nivel }}) e Gestão de TIC em **{{ ('%0.4f' | format(gest_sintese_val)) | replace('.', ',') }}** (nível {{ gest_sintese_nivel }}). Em termos comparativos com o universo de {{ universo_2026_n|int }} organizações avaliadas, o índice global situou-se {% if igovti_val > igovti_geral_media and igovti_val > igovti_geral_mediana %}acima da média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) apuradas{% elif igovti_val < igovti_geral_media and igovti_val < igovti_geral_mediana %}abaixo da média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) apuradas{% elif igovti_val >= igovti_geral_mediana and igovti_val < igovti_geral_media %}em patamar intermediário entre a mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) e a média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) apuradas{% elif igovti_val >= igovti_geral_media and igovti_val < igovti_geral_mediana %}em patamar intermediário entre a média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) e a mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) apuradas{% else %}alinhado aos valores centrais do conjunto (média de {{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}){% endif %}.
+Em síntese, a organização **{{ auditado.sigla }}** obteve o índice global iGovTI 2026 de **{{ ('%0.4f' | format(igovti_val)) | replace('.', ',') }}**, correspondente ao nível **{{ iGovTI_maturidade }}** de maturidade, com Governança de TIC em **{{ ('%0.4f' | format(gov_sintese_val)) | replace('.', ',') }}** (nível {{ gov_sintese_nivel }}) e Gestão de TIC em **{{ ('%0.4f' | format(gest_sintese_val)) | replace('.', ',') }}** (nível {{ gest_sintese_nivel }}).
+
+Em comparação com o conjunto de {{ universo_2026_n|int }} organizações avaliadas, o índice global situou-se {% if igovti_val > igovti_geral_media and igovti_val > igovti_geral_mediana %}acima da média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) apuradas{% elif igovti_val < igovti_geral_media and igovti_val < igovti_geral_mediana %}abaixo da média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) e da mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) apuradas{% elif igovti_val >= igovti_geral_mediana and igovti_val < igovti_geral_media %}entre a mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) e a média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) apuradas{% elif igovti_val >= igovti_geral_media and igovti_val < igovti_geral_mediana %}entre a média ({{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }}) e a mediana ({{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}) apuradas{% else %}próximo da média e da mediana do conjunto (média de {{ ('%0.3f' | format(igovti_geral_media|float)) | replace('.', ',') }} e mediana de {{ ('%0.3f' | format(igovti_geral_mediana|float)) | replace('.', ',') }}){% endif %}.
 
 {% set itens_sintese = [
   q1001|float, q1002|float, q1003|float, q1004|float,
@@ -361,11 +375,11 @@ Em síntese, a organização **{{ auditado.sigla }}** obteve o índice global iG
 
 {% if tem_comparacao_2023 %}
 {% if comparacao_direcao_igovti == 'avanço' %}
-A análise longitudinal das práticas harmonizadas apontou avanço entre 2023 e 2026. Essa variação possui finalidade analítica e não equivale à comparação direta dos índices oficiais dos dois ciclos.
+Na comparação entre 2023 e 2026, o índice comparável da organização aumentou. Esse resultado foi calculado a partir dos itens comparáveis entre os questionários e não corresponde à comparação direta dos índices oficiais.
 {% elif comparacao_direcao_igovti == 'regressão' %}
-A análise longitudinal das práticas harmonizadas apontou regressão entre 2023 e 2026. Essa variação possui finalidade analítica e não equivale à comparação direta dos índices oficiais dos dois ciclos.
+Na comparação entre 2023 e 2026, o índice comparável da organização diminuiu. Esse resultado foi calculado a partir dos itens comparáveis entre os questionários e não corresponde à comparação direta dos índices oficiais.
 {% else %}
-A análise longitudinal das práticas harmonizadas não indicou variação material entre 2023 e 2026. A comparação possui finalidade analítica e não equivale à comparação direta dos índices oficiais dos dois ciclos.
+Na comparação entre 2023 e 2026, o índice comparável da organização não apresentou variação relevante. Esse resultado foi calculado a partir dos itens comparáveis entre os questionários e não corresponde à comparação direta dos índices oficiais.
 {% endif %}
 {% endif %}
 
@@ -405,7 +419,7 @@ No âmbito desta fiscalização, foram definidas questões de auditoria para ori
 __Não foram identificados achados individuais relacionados {% if questoes_sem_achado|length == 1 %}à Questão{% else %}às Questões{% endif %} {% for questao in questoes_sem_achado %}{% if loop.first %}{{ questao }}{% elif loop.last %} e {{ questao }}{% else %}, {{ questao }}{% endif %}{% endfor %} para esta organização__. Por essa razão, os achados apresentados a seguir preservam a numeração vinculada às questões de auditoria que lhes deram origem.
 {% endif %}
 
-Os achados de auditoria decorrem da avaliação das respostas da organização **{{ auditado.sigla }}** ao questionário iGovTI 2026 e da correspondente análise de consistência documental realizada por esta Equipe de Auditoria. O trabalho consistiu no confronto sistemático entre as práticas de governança e gestão autodeclaradas pela organização e as evidências comprobatórias efetivamente encaminhadas, à luz da legislação aplicável e de padrões técnicos de referência internacional.
+Os achados resultam da avaliação das respostas de **{{ auditado.sigla }}** ao questionário iGovTI 2026 e dos documentos apresentados. A Equipe de Auditoria comparou as práticas declaradas com as evidências disponíveis, considerando a legislação aplicável e os critérios técnicos adotados na fiscalização.
 
 {% if teve_comentarios_gestor %}
 As constatações apresentadas já consideram as manifestações e os documentos encaminhados na etapa de comentários do gestor, conforme detalhado na Seção 4.
@@ -444,9 +458,9 @@ Na etapa de comentários do gestor, não foi identificada resposta válida da or
 
 Esta seção apresenta a manifestação da Equipe de Auditoria sobre os comentários e documentos encaminhados pela organização. As conclusões refletem a situação verificada em **{{ comentarios_gestor.data_referencia }}**.
 
-O acolhimento de uma manifestação pode afastar situação inconforme, remover achado dela decorrente ou restaurar resposta do questionário até o limite do valor originalmente declarado.
+A análise dos comentários e dos documentos pode afastar situações inconformes, retirar os achados correspondentes ou atualizar respostas do questionário. Na reavaliação de respostas anteriormente reduzidas, a restauração fica limitada ao valor originalmente declarado.
 
-As manifestações reproduzidas nas Seções 4.1 e 4.2 referem-se às situações e aos itens constantes do relatório individual preliminar. Após essa etapa, a Equipe de Auditoria calibrou e simplificou os procedimentos e reexecutou os três cenários com o mapa revisado. Por isso, a posição corrente e a síntese de impactos da Seção 4.3 foram recalculadas com as regras revisadas e podem diferir, em quantidade ou redação, das situações sobre as quais o gestor se manifestou.
+As manifestações apresentadas nas Seções 4.1 e 4.2 tratam das situações e dos itens do relatório preliminar. Depois dessa etapa, a Equipe de Auditoria revisou e simplificou os procedimentos e recalculou os resultados dos três cenários com as mesmas regras. Por isso, os resultados finais e os impactos apresentados na Seção 4.3 podem diferir das quantidades ou das descrições constantes do relatório preliminar.
 
 ## 4.1. Manifestações sobre situações e achados
 
@@ -486,7 +500,7 @@ A organização não apresentou manifestação avaliável sobre itens do questio
 
 {% endif %}
 
-## 4.3. Impacto das manifestações na posição corrente
+## 4.3. Efeitos dos comentários do gestor nos resultados finais
 
 {% set impacto = comentarios_gestor.resumo_impacto %}
 {% set variacao_situacoes = (impacto.situacoes_atuais|int) - (impacto.situacoes_antes|int) %}
@@ -518,7 +532,7 @@ A organização não apresentou manifestação avaliável sobre itens do questio
 
 Para facilitar o atendimento das propostas constantes da Seção 3, a Equipe de Auditoria apresenta modelo de plano de ação contendo os encaminhamentos mantidos após a etapa de comentários do gestor.
 
-Para fins de elaboração do plano de ação, as medidas associadas a determinações deverão ser tratadas como providências de cumprimento, caso sejam acolhidas na decisão plenária. Quanto às recomendações, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementá-las. A eventual decisão pela não adoção deverá ser motivada, com indicação das razões consideradas e, quando cabível, das medidas alternativas destinadas a tratar a situação que ensejou a recomendação.
+Para fins de elaboração do plano de ação, as medidas associadas a determinações deverão ser tratadas como providências de cumprimento, caso sejam acolhidas na decisão plenária. Quanto às recomendações, em conformidade com o art. 4º, incisos I e II, da Deliberação TCE-RJ nº 346/2024, cabe à unidade jurisdicionada avaliar a conveniência e a oportunidade de implementá-las. A eventual decisão pela não adoção deverá ser motivada, com indicação das razões consideradas e das medidas alternativas destinadas a tratar a situação que ensejou a recomendação.
 
 : Plano de ação contendo os encaminhamentos propostos {#tbl:plano_acao#}
 
@@ -549,9 +563,9 @@ A estrutura de 2026 preservou a escala de 0 a 1, as categorias de resposta e as 
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Em razão dessas alterações, a diferença entre os valores nominais de 2023 e 2026 não deve ser interpretada automaticamente como evolução ou retrocesso institucional. Uma análise temporal válida exige a harmonização das questões e dos agregados comparáveis, além da consideração de mudanças de escopo, pesos, respondentes e qualidade das evidências.
+Como a composição e os pesos do índice mudaram, a diferença entre os valores oficiais de 2023 e 2026 não indica, por si só, evolução ou retrocesso das organizações. A comparação exige considerar os itens comparáveis entre os questionários e as diferenças de escopo, respondentes e qualidade das evidências.
 
-Para viabilizar a análise longitudinal, foram elaboradas estruturas ajustadas comparáveis para 2023 e 2026, com a manutenção apenas das práticas passíveis de correspondência entre os instrumentos e a aplicação de uma estrutura comum de agregação. Após a normalização das siglas e a validação das correspondências institucionais, foram identificadas {{ comparacao_pareados_n|int }} organizações presentes nos dois ciclos, equivalentes a {{ ('%0.1f' | format(comparacao_cobertura_2026_pct|float)) | replace('.', ',') }}% das organizações com respostas completas em 2026. A comparação individual foi apresentada somente para esse conjunto pareado.
+Para comparar os dois anos, foram calculados índices específicos, utilizando apenas as práticas comparáveis entre os questionários e uma estrutura comum de cálculo. Foram identificadas {{ comparacao_pareados_n|int }} organizações com respostas nos dois anos, equivalentes a {{ ('%0.1f' | format(comparacao_cobertura_2026_pct|float)) | replace('.', ',') }}% das organizações com respostas completas em 2026. A comparação individual foi apresentada somente para essas organizações.
 
 Os resultados ajustados comparáveis têm finalidade exclusivamente analítica. Eles não substituem os índices oficiais de cada ciclo, não eliminam integralmente os efeitos de alterações de respondentes ou de contexto institucional e não constituem, isoladamente, evidência de conformidade ou de inconformidade.
 
@@ -561,15 +575,16 @@ Os resultados ajustados comparáveis têm finalidade exclusivamente analítica. 
 
 # Apêndice B. Ajustes nas respostas declaradas
 
-A Equipe de Auditoria, em busca da melhor representação do cenário atual de governança e gestão de TIC, ajustou resposta(s) declarada(s) pela organização **{{ auditado.sigla }}** ao questionário iGovTI 2026.
+A Equipe de Auditoria, em busca da melhor representação do cenário atual de governança e gestão de TIC, ajustou respostas de **{{ auditado.sigla }}** ao questionário iGovTI 2026 com base na análise dos documentos apresentados.
 
-Para tanto, foram utilizadas as justificativas e evidências fornecidas pelo jurisdicionado no questionário original e na etapa de comentários do gestor. A resposta restaurada não supera o valor originalmente declarado pela organização.
+Foram considerados os elementos enviados com o questionário e, quando apresentados, os comentários do gestor. Na reavaliação de respostas anteriormente reduzidas, a restauração ficou limitada ao valor originalmente declarado.
 
-Seguem as alterações mantidas na base corrente após a avaliação das respostas, das evidências e dos comentários do gestor, bem como as justificativas apresentadas pela Equipe:
 
-: Relação de respostas ajustadas pela Equipe após validação {#tbl:ajuste_respostas#}
+A tabela a seguir apresenta as respostas efetivamente alteradas nessa etapa e suas justificativas.
 
-| Questão | Resposta original | Resposta ajustada | Justificativa |
+: Relação de respostas ajustadas {#tbl:ajuste_respostas#}
+
+| Questão | Resposta anterior | Resposta ajustada | Justificativa |
 |---|---|---|---|
 {%- for ajuste in ajustes_respostas %}
 | **{{ ajuste.codigo_questao }}** | {{ ajuste.de }} | {{ ajuste.para }} | {{ ajuste.justificativa }} |{% endfor %}
