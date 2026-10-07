@@ -56,127 +56,6 @@ toc-title: SUMÁRIO
 
 \newpage
 
-# LISTA DE ORGANIZAÇÕES AUDITADAS
-
-| Sigla | Organização | Segmento | Nº anexo |
-|---|---|---|---|
-| AGENERSA | Agência Reguladora de Energia e Saneamento Básico do Estado do Rio de Janeiro | Executivo estadual | AN12 |
-| AGERIO | Agência de Fomento do Estado do Rio de Janeiro S.A. | Executivo estadual | AN13 |
-| AGETRANSP | Agência Reguladora de Serviços Públicos Concedidos de Transportes Aquaviários, Ferroviários e Metroviários e de Rodovias do Estado do Rio de Janeiro | Executivo estadual | AN14 |
-| ALERJ | Assembleia Legislativa do Estado do Rio de Janeiro | Legislativo estadual | AN15 |
-| CEASA | Centrais de Abastecimento do Estado do Rio de Janeiro S.A. | Executivo estadual | AN16 |
-| CECIERJ | Fundação Centro de Ciências e Educação Superior a Distância do Estado do Rio de Janeiro | Executivo estadual | AN17 |
-| CEDAE | Companhia Estadual de Águas e Esgotos do Rio de Janeiro | Executivo estadual | AN18 |
-| CENTRAL | Companhia Estadual de Engenharia de Transportes e Logística | Executivo estadual | AN19 |
-| CEPERJ | Fundação Centro Estadual de Estatísticas, Pesquisas e Formação de Servidores Públicos do Rio de Janeiro | Executivo estadual | AN20 |
-| CGE | Controladoria Geral do Estado do Rio de Janeiro | Executivo estadual | AN21 |
-| CODERTE | Companhia de Desenvolvimento Rodoviário e de Terminais do Estado do Rio de Janeiro | Executivo estadual | AN22 |
-| CODIN | Companhia de Desenvolvimento Industrial do Estado do Rio de Janeiro | Executivo estadual | AN23 |
-| DEGASE | Departamento Geral de Ações Socioeducativas | Executivo estadual | AN24 |
-| DERRJ | Departamento de Estradas de Rodagem do Estado do Rio de Janeiro | Executivo estadual | AN25 |
-| DETRAN | Departamento de Trânsito do Estado do Rio de Janeiro | Executivo estadual | AN26 |
-| DETRO | Departamento de Transportes Rodoviários do Estado do Rio de Janeiro | Executivo estadual | AN27 |
-| DPGE | Defensoria Pública Geral do Estado do Rio de Janeiro | Defensoria Pública estadual | AN28 |
-| DRM | Departamento de Recursos Minerais do Estado do Rio de Janeiro | Executivo estadual | AN29 |
-| EMATER | Empresa de Assistência Técnica e Extensão Rural do Estado do Rio de Janeiro | Executivo estadual | AN30 |
-| FAETEC | Fundação de Apoio à Escola Técnica do Estado do Rio de Janeiro | Executivo estadual | AN31 |
-| FAPERJ | Fundação Carlos Chagas Filho de Amparo à Pesquisa do Estado do Rio de Janeiro | Executivo estadual | AN32 |
-| FIA | Fundação para a Infância e Adolescência | Executivo estadual | AN33 |
-| FIPERJ | Fundação Instituto de Pesca do Estado do Rio de Janeiro | Executivo estadual | AN34 |
-| FLXIII | Fundação Leão XIII | Executivo estadual | AN35 |
-| FMIS | Fundação Museu da Imagem e do Som | Executivo estadual | AN36 |
-| FS | Fundação Saúde do Estado do Rio de Janeiro | Executivo estadual | AN37 |
-| FSC | Fundação Santa Cabrini | Executivo estadual | AN38 |
-| FTM | Fundação Teatro Municipal do Rio de Janeiro | Executivo estadual | AN39 |
-| FUNARJ | Fundação de Artes do Estado do Rio de Janeiro | Executivo estadual | AN40 |
-| GSI | Gabinete de Segurança Institucional do Estado do Rio de Janeiro | Executivo estadual | AN41 |
-| IEEA | Instituto Estadual de Engenharia e Arquitetura | Executivo estadual | AN42 |
-| INEA | Instituto Estadual do Ambiente | Executivo estadual | AN43 |
-| IOERJ | Imprensa Oficial do Estado do Rio de Janeiro | Executivo estadual | AN44 |
-| IPEM | Instituto de Pesos e Medidas do Estado do Rio de Janeiro | Executivo estadual | AN45 |
-| IRM | Instituto Rio Metrópole | Executivo estadual | AN46 |
-| ISP | Instituto de Segurança Pública | Executivo estadual | AN47 |
-| ITERJ | Instituto de Terras e Cartografia do Estado do Rio de Janeiro | Executivo estadual | AN48 |
-| IVB | Instituto Vital Brazil | Executivo estadual | AN49 |
-| JUCERJA | Junta Comercial do Estado do Rio de Janeiro | Executivo estadual | AN50 |
-| LOTERJ | Loteria do Estado do Rio de Janeiro | Executivo estadual | AN51 |
-| MPERJ | Ministério Público do Estado do Rio de Janeiro | Ministério Público estadual | AN52 |
-| PGE | Procuradoria Geral do Estado do Rio de Janeiro | Executivo estadual | AN53 |
-| PROCON | Autarquia de Proteção e Defesa do Consumidor do Estado do Rio de Janeiro - PROCON-RJ | Executivo estadual | AN54 |
-| PRODERJ | Centro de Tecnologia de Informação e Comunicação do Estado do Rio de Janeiro - PRODERJ | Executivo estadual | AN55 |
-| RIOPREVIDENCIA | Fundo Único de Previdência Social do Estado do Rio de Janeiro - RIOPREVIDENCIA | Executivo estadual | AN56 |
-| RIOTRILHOS | Companhia de Transportes Sobre Trilhos do Estado do Rio de Janeiro - RIOTRILHOS | Executivo estadual | AN57 |
-| RJPREV | Fundação de Previdência Complementar do Estado do Rio de Janeiro - RJPREV | Executivo estadual | AN58 |
-| SEAP | Secretaria de Estado de Administração Penitenciária | Executivo estadual | AN59 |
-| SEAPPA | Secretaria de Estado de Agricultura, Pecuária, Pesca e Abastecimento | Executivo estadual | AN60 |
-| SECC | Secretaria de Estado da Casa Civil | Executivo estadual | AN61 |
-| SECEC | Secretaria de Estado de Cultura e Economia Criativa | Executivo estadual | AN62 |
-| SECID | Secretaria de Estado das Cidades | Executivo estadual | AN63 |
-| SECTI | Secretaria de Estado de Ciência, Tecnologia e Inovação | Executivo estadual | AN64 |
-| SEDEC | Secretaria de Estado de Defesa Civil | Executivo estadual | AN65 |
-| SEDEICS | Secretaria de Estado de Desenvolvimento Econômico, Indústria, Comércio e Serviços | Executivo estadual | AN66 |
-| SEDSDH | Secretaria de Estado de Desenvolvimento Social e Direitos Humanos | Executivo estadual | AN67 |
-| SEEDUC | Secretaria de Estado de Educação | Executivo estadual | AN68 |
-| SEEL | Secretaria de Estado de Esporte e Lazer | Executivo estadual | AN69 |
-| SEENEMAR | Secretaria de Estado de Energia e Economia do Mar | Executivo estadual | AN70 |
-| SEFAZ | Secretaria de Estado de Fazenda | Executivo estadual | AN71 |
-| SEGOV | Secretaria de Estado de Governo | Executivo estadual | AN72 |
-| SEHAB | Secretaria de Estado de Habitação | Executivo estadual | AN73 |
-| SEIJES | Secretaria de Estado Intergeracional de Juventude e Envelhecimento Saudável | Executivo estadual | AN74 |
-| SEINFRA | Secretaria de Estado de Infraestrutura e Obras | Executivo estadual | AN75 |
-| SEPLAG | Secretaria de Estado de Planejamento e Gestão | Executivo estadual | AN76 |
-| SEPM | Secretaria de Estado de Polícia Militar | Executivo estadual | AN77 |
-| SERGB | Secretaria Extraordinária de Representação do Governo do Estado do Rio de Janeiro em Brasília | Executivo estadual | AN78 |
-| SES | Secretaria de Estado de Saúde | Executivo estadual | AN79 |
-| SETD | Secretaria de Estado de Transformação Digital | Executivo estadual | AN80 |
-| SETRAB | Secretaria de Estado de Trabalho e Renda | Executivo estadual | AN81 |
-| SETRANS | Secretaria de Estado de Transportes | Executivo estadual | AN82 |
-| SETUR | Secretaria de Estado de Turismo | Executivo estadual | AN83 |
-| SUDERJ | Superintendência de Desportos do Estado do Rio de Janeiro | Executivo estadual | AN84 |
-| TCE-RJ | Tribunal de Contas do Estado do Rio de Janeiro | Controle externo estadual | AN85 |
-| TJRJ | Tribunal de Justiça do Estado do Rio de Janeiro | Judiciário estadual | AN86 |
-| TURISRIO | Companhia de Turismo do Estado do Rio de Janeiro | Executivo estadual | AN87 |
-| UENF | Universidade Estadual do Norte Fluminense Darcy Ribeiro | Executivo estadual | AN88 |
-| UERJ | Universidade do Estado do Rio de Janeiro | Executivo estadual | AN89 |
-| ANGRA DOS REIS | Prefeitura Municipal de Angra dos Reis | Executivo municipal | AN90 |
-| ARARUAMA | Prefeitura Municipal de Araruama | Executivo municipal | AN91 |
-| ARMAÇÃO DOS BÚZIOS | Prefeitura Municipal de Armação dos Búzios | Executivo municipal | AN92 |
-| ARRAIAL DO CABO | Prefeitura Municipal de Arraial do Cabo | Executivo municipal | AN93 |
-| BARRA DO PIRAÍ | Prefeitura Municipal de Barra do Piraí | Executivo municipal | AN94 |
-| BELFORD ROXO | Prefeitura Municipal de Belford Roxo | Executivo municipal | AN95 |
-| CABO FRIO | Prefeitura Municipal de Cabo Frio | Executivo municipal | AN96 |
-| CAMPOS DOS GOYTACAZES | Prefeitura Municipal de Campos dos Goytacazes | Executivo municipal | AN97 |
-| CASIMIRO DE ABREU | Prefeitura Municipal de Casimiro de Abreu | Executivo municipal | AN98 |
-| DUQUE DE CAXIAS | Prefeitura Municipal de Duque de Caxias | Executivo municipal | AN99 |
-| GUAPIMIRIM | Prefeitura Municipal de Guapimirim | Executivo municipal | AN100 |
-| ITAGUAÍ | Prefeitura Municipal de Itaguaí | Executivo municipal | AN101 |
-| JAPERI | Prefeitura Municipal de Japeri | Executivo municipal | AN102 |
-| MACAÉ | Prefeitura Municipal de Macaé | Executivo municipal | AN103 |
-| MAGÉ | Prefeitura Municipal de Magé | Executivo municipal | AN104 |
-| MARICÁ | Prefeitura Municipal de Maricá | Executivo municipal | AN105 |
-| MESQUITA | Prefeitura Municipal de Mesquita | Executivo municipal | AN106 |
-| NITERÓI | Prefeitura Municipal de Niterói | Executivo municipal | AN107 |
-| NOVA FRIBURGO | Prefeitura Municipal de Nova Friburgo | Executivo municipal | AN108 |
-| NOVA IGUAÇU | Prefeitura Municipal de Nova Iguaçu | Executivo municipal | AN109 |
-| PARATY | Prefeitura Municipal de Paraty | Executivo municipal | AN110 |
-| PETRÓPOLIS | Prefeitura Municipal de Petrópolis | Executivo municipal | AN111 |
-| PORTO REAL | Prefeitura Municipal de Porto Real | Executivo municipal | AN112 |
-| QUATIS | Prefeitura Municipal de Quatis | Executivo municipal | AN113 |
-| QUEIMADOS | Prefeitura Municipal de Queimados | Executivo municipal | AN114 |
-| QUISSAMÃ | Prefeitura Municipal de Quissamã | Executivo municipal | AN115 |
-| RIO DAS OSTRAS | Prefeitura Municipal de Rio das Ostras | Executivo municipal | AN116 |
-| SÃO GONÇALO | Prefeitura Municipal de São Gonçalo | Executivo municipal | AN117 |
-| SÃO JOÃO DA BARRA | Prefeitura Municipal de São João da Barra | Executivo municipal | AN118 |
-| SÃO JOÃO DE MERITI | Prefeitura Municipal de São João de Meriti | Executivo municipal | AN119 |
-| SÃO PEDRO DA ALDEIA | Prefeitura Municipal de São Pedro da Aldeia | Executivo municipal | AN120 |
-| SAQUAREMA | Prefeitura Municipal de Saquarema | Executivo municipal | AN121 |
-| SEROPÉDICA | Prefeitura Municipal de Seropédica | Executivo municipal | AN122 |
-| TERESÓPOLIS | Prefeitura Municipal de Teresópolis | Executivo municipal | AN123 |
-| VOLTA REDONDA | Prefeitura Municipal de Volta Redonda | Executivo municipal | AN124 |
-
-
-\newpage
-
 # 1. RESUMO
 
 #### O que o TCE-RJ fiscalizou?
@@ -653,7 +532,7 @@ A leitura dos componentes reforça essa diferença. No cenário-base, foram iden
 
 As reduções observadas em Gestão de Pessoas de TIC e Processos de Contratação de TIC foram confirmadas apenas no cenário final. Como não apareceram com a mesma clareza no cenário-base, não é possível atribuí-las exclusivamente à piora das práticas das organizações. Parte da diferença pode decorrer da maior abrangência da avaliação documental realizada em 2026. Para Governança de TIC, modelo de gestão, monitoramento, resultados, níveis de serviço, riscos e processo de software, nenhum dos dois cenários forneceu elementos suficientes para afirmar que houve mudança geral.
 
-Conclui-se que as respostas declaradas indicam evolução entre 2023 e 2026, mas essa melhora geral não foi confirmada após a avaliação das evidências. Os dois cenários devem ser considerados em conjunto. O cenário-base retrata a percepção declarada pelas organizações. O cenário final apresenta o que a fiscalização conseguiu assegurar com base na documentação examinada. Em ambos, permanece elevada a concentração de organizações nos níveis iniciais de maturidade.
+Conclui-se que as respostas declaradas indicam evolução entre 2023 e 2026, mas essa melhora geral não foi confirmada após a avaliação das evidências. Os dois cenários devem ser considerados em conjunto. O cenário-base retrata a percepção declarada pelas organizações. O cenário final incorpora os ajustes decorrentes da avaliação documental e dos comentários dos gestores, nos itens examinados, sem atestar a comprovação de todas as práticas declaradas. Em ambos, permanece elevada a concentração de organizações nos níveis iniciais de maturidade.
 
 ## 4.3. Achados de Auditoria
 
@@ -1136,7 +1015,7 @@ A implementação proporcional das ações contidas nas propostas de encaminhame
 
 **CONSIDERANDO** o caráter orientador e dialógico do presente trabalho, assim como o alinhamento à diretriz de incremento de eficiência e efetividade na gestão administrativa;
 
-**CONSIDERANDO** que as informações individualizadas dos anexos AN12 a AN124 incluem evidências técnicas, logs, informações restritas e detalhes de controles cuja divulgação irrestrita pode expor sistemas e instituições a riscos, e a necessidade de preservar o conteúdo sensível segundo a proposta de classificação abaixo, nos termos dos arts. 8º, § 3º, inciso I, 9º, incisos VI e VII, 12 e 14 da Resolução TCE-RJ nº 433/2023.
+**CONSIDERANDO** que as informações individualizadas dos anexos AN12 a AN124 incluem evidências técnicas, *logs*, informações restritas e detalhes de controles cuja divulgação irrestrita pode expor sistemas e instituições a riscos, e a necessidade de preservar o conteúdo sensível, nos termos dos arts. 8º, § 3º, inciso I, 9º, incisos VI e VII, 12 e 14 da Resolução TCE-RJ nº 433/2023.
 
 **CONSIDERANDO** que os resultados decorrentes das ações previstas no Plano de Ação poderão ser objeto de avaliação futura por meio de Monitoramento, considerando os preceitos definidos na Resolução TCE-RJ nº 422/2023;
 
@@ -1146,7 +1025,7 @@ Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes p
 
 1. **ENCAMINHAMENTO** à Secretaria-Geral da Presidência, por meio da Subsecretaria de Sessões e da Coordenadoria de Comunicações Processuais, para que encaminhe, com os ofícios de comunicação da decisão, cópia do Acórdão e do relatório individual correspondente a cada uma das 113 organizações que apresentaram resposta válida e foram avaliadas, de forma a garantir a ciência efetiva acerca da decisão proferida por esta Corte, **tendo em vista o caráter reservado dos anexos individuais, em que cada organização destinatária só deve ter acesso ao seu próprio relatório individual**;
 
-2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida e estão relacionadas na lista de organizações auditadas, destinatárias dos relatórios individuais AN12 a AN124, nos termos do art. 15, inciso I, do Regimento Interno, para que elaborem, no prazo de 60 (sessenta) dias contado da ciência da decisão plenária, plano de ação estruturado, registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-os de que o descumprimento injustificado dos encaminhamentos poderá sujeitar os responsáveis às sanções previstas no art. 63 da Lei Complementar Estadual nº 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, pois o atendimento poderá ser verificado em fiscalizações futuras desta Corte de Contas.
+2. **COMUNICAÇÃO COM DETERMINAÇÃO** às 113 organizações que apresentaram resposta válida, destinatárias dos relatórios individuais AN12 a AN124, nos termos do art. 15, inciso I, do Regimento Interno, para que elaborem, no prazo de 60 (sessenta) dias contado da ciência da decisão plenária, plano de ação estruturado, registrado em processo administrativo eletrônico próprio, destinado ao registro e ao acompanhamento de sua execução, contemplando as medidas necessárias ao cumprimento das **DETERMINAÇÕES** e à avaliação da adoção das **RECOMENDAÇÕES** dispostas no respectivo **RELATÓRIO INDIVIDUAL**, alertando-os de que o descumprimento injustificado dos encaminhamentos poderá sujeitar os responsáveis às sanções previstas no art. 63 da Lei Complementar Estadual nº 63/1990, sendo desnecessário o encaminhamento de comprovação ou esclarecimentos nos autos deste processo, pois o atendimento poderá ser verificado em fiscalizações futuras desta Corte de Contas.
 
     Para orientar a elaboração do plano de ação, apresenta-se o modelo referencial da [@tbl:modelo_plano_acao].
 
@@ -1159,8 +1038,8 @@ Sugere-se ao Egrégio Plenário desta Corte de Contas a adoção das seguintes p
     <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
 3. **COMUNICAÇÃO às Unidades de Controle Interno das 113 organizações que apresentaram resposta válida, foram avaliadas e são destinatárias de relatório individual,** nos termos do artigo 15, inciso I, do Regimento Interno deste Tribunal, para que tomem **CIÊNCIA** do inteiro teor do presente Relatório de Auditoria Governamental, bem como do Relatório Individual da correspondente organização (AN12 a AN124), e acompanhem a elaboração e a execução do respectivo plano de ação, a fim de assegurar seu efetivo cumprimento;
-4
-. **ARQUIVAMENTO** do presente processo.
+
+4. **ARQUIVAMENTO** do presente processo.
 
 \newpage
 
@@ -1184,12 +1063,12 @@ A comparação longitudinal emprega estrutura harmonizada de itens e registros p
 
 | Questão e tema | Critério de avaliação: prática esperada | Referências gerais utilizadas | Natureza do uso no trabalho |
 |---|---|---|---|
-| **Q1 — Estrutura de TIC** | Função de TIC formalmente instituída, com atribuições, responsabilidades e posicionamento compatíveis com o papel institucional. | COBIT 2019, APO01.04, APO01.05 e APO01.06, Constituição Federal, art. 37, Portaria SGD/ME nº 778/2019, art. 4º, § 1º. | COBIT e portaria federal orientam a avaliação técnica. O princípio da eficiência contextualiza o dever de boa gestão, não impõe, sozinho, modelo organizacional único. Deveres setoriais específicos constam de B.3. |
+| **Q1 — Estrutura de TIC** | Função de TIC formalmente instituída, com atribuições, responsabilidades e posicionamento compatíveis com o papel institucional. | COBIT 2019, APO01.04, APO01.05 e APO01.06, Constituição Federal, art. 37, Portaria SGD/ME nº 778/2019, art. 4º, § 1º. | COBIT e portaria federal orientam a avaliação técnica. O princípio da eficiência contextualiza o dever de boa gestão, não impõe, sozinho, modelo organizacional único. Deveres setoriais específicos constam de A.3. |
 | **Q2 — Governança e comitê de TIC** | Objetivos, indicadores e metas, instância colegiada formal e representativa, atuação, deliberações e acompanhamento demonstrados. | COBIT 2019, EDM01.02 e MEA01.04, Decreto Federal nº 12.198/2024, art. 6º, § 2º, Acórdão TCE-RJ nº 44.490/2024, item II.1. | Referenciais técnicos e federal orientativos. O precedente estadual apoia a motivação das propostas desta auditoria, não torna seus antigos comandos automaticamente vinculantes a todos os destinatários atuais. |
-| **Q3 — Planejamento de TIC** | Processo e plano de TIC, aprovação, alinhamento institucional, integração a orçamento/contratações, acompanhamento da execução. | COBIT 2019, APO02.05 e APO06.03, Acórdão TCU nº 1.411/2014, item 9.1.6, Acórdão TCE-RJ nº 44.490/2024, item II.3. | Padrões e precedentes definem práticas esperadas e subsidiam encaminhamentos. A incidência de dever específico depende do público e da norma indicada em B.3. |
+| **Q3 — Planejamento de TIC** | Processo e plano de TIC, aprovação, alinhamento institucional, integração a orçamento/contratações, acompanhamento da execução. | COBIT 2019, APO02.05 e APO06.03, Acórdão TCU nº 1.411/2014, item 9.1.6, Acórdão TCE-RJ nº 44.490/2024, item II.3. | Padrões e precedentes definem práticas esperadas e subsidiam encaminhamentos. A incidência de dever específico depende do público e da norma indicada em A.3. |
 | **Q4 — Capacidade institucional** | Quantitativo de pessoal documentado, funções de TIC/segurança atribuídas, capacidade interna para dirigir e supervisionar a operação. | COBIT 2019, APO01.05, APO07.01, APO07.05 e APO07.06, Acórdão TCU nº 1.411/2014, itens 9.1.6.5 e 9.1.7, Acórdão TCE-RJ nº 44.490/2024, item I.10.11. | Referenciais para avaliação da capacidade e recomendações proporcionais, não estabelecem número universal de cargos, servidores ou percentual máximo de terceirização. |
-| **Q5 — Gestão de serviços de TIC** | Catálogo, níveis de serviço, inventário/ativos, configuração, registros e tratamento de incidentes. | COBIT 2019, APO09.02, BAI10.01 e DSS02.02, ITIL 4, práticas de nível de serviço e ativos, ABNT NBR ISO/IEC 20000-2:2021, itens 8.2.4, 8.2.6 e 8.6.1, Acórdão TCE-RJ nº 44.490/2024, itens II.7.4 a II.7.7. | Padrões de gestão e precedentes utilizados como parâmetros técnicos. Determinações dependem de dever aplicável e situação individualizada, normas setoriais constam de B.3. |
-| **Q6 — Governança técnica das contratações** | Planejamento formal e padronizado, análise prévia da área de TIC, alinhamento aos instrumentos de planejamento, equipe formalmente designada com participação técnica. | Lei nº 14.133/2021, arts. 7º, 11, 12, VII e § 1º, 18 e 19, IV, COBIT 2019, BAI02.04, IN SGD/ME nº 94/2022, art. 12, § 6º, Acórdão TCU nº 2.342/2016, item 9.1.7, Acórdão TCE-RJ nº 44.490/2024, item III.7. | A lei é vinculante nos destinatários abrangidos por seu regime e referência orientativa nas empresas estatais. COBIT, IN federal e precedente do TCU subsidiam boas práticas. A aplicação do PCA e das normas setoriais observa as condições de B.3/B.4. |
+| **Q5 — Gestão de serviços de TIC** | Catálogo, níveis de serviço, inventário/ativos, configuração, registros e tratamento de incidentes. | COBIT 2019, APO09.02, BAI10.01 e DSS02.02, ITIL 4, práticas de nível de serviço e ativos, ABNT NBR ISO/IEC 20000-2:2021, itens 8.2.4, 8.2.6 e 8.6.1, Acórdão TCE-RJ nº 44.490/2024, itens II.7.4 a II.7.7. | Padrões de gestão e precedentes utilizados como parâmetros técnicos. Determinações dependem de dever aplicável e situação individualizada, normas setoriais constam de A.3. |
+| **Q6 — Governança técnica das contratações** | Planejamento formal e padronizado, análise prévia da área de TIC, alinhamento aos instrumentos de planejamento, equipe formalmente designada com participação técnica. | Lei nº 14.133/2021, arts. 7º, 11, 12, VII e § 1º, 18 e 19, IV, COBIT 2019, BAI02.04, IN SGD/ME nº 94/2022, art. 12, § 6º, Acórdão TCU nº 2.342/2016, item 9.1.7, Acórdão TCE-RJ nº 44.490/2024, item III.7. | A lei é vinculante nos destinatários abrangidos por seu regime e referência orientativa nas empresas estatais. COBIT, IN federal e precedente do TCU subsidiam boas práticas. A aplicação do PCA e das normas setoriais observa as condições de A.3/A.4. |
 
 <div custom-style="FonteImagem">(Fonte: matriz de planejamento pós-comentários do gestor, Anexo AN02)</div>
 
@@ -1208,7 +1087,7 @@ As referências acima sintetizam os critérios da matriz. A situação identific
 | **Judiciário estadual — TJRJ** | Resolução CNJ nº 468/2022, arts. 4º, 7º, 8º, § 1º, e 10. | Plano de contratações, equipe, supervisão de assessoria terceirizada e fase de planejamento de contratações de TIC. |
 | **Ministério Público estadual — MPERJ** | Resolução CNMP nº 171/2017, arts. 11 a 14, 16, 23 e 26, II. | Planejamento, comitê, competências da área de TI, catálogo, níveis de serviço, incidentes, configuração e ativos. |
 | **Ministério Público estadual — MPERJ** | Resolução CNMP nº 283/2024, arts. 5º, 8º e 9º, Resolução GPGJ nº 2.675/2025, art. 1º. | Plano e planejamento das contratações/equipe, posicionamento da unidade de modernização tecnológica e inovação no MPRJ. |
-| **Prefeituras e demais segmentos institucionais** | Referenciais gerais de B.2 e normas legais que efetivamente os abrangem. | Não foram equiparados ao Executivo estadual, TJRJ ou MPERJ para aplicação automática de normas setoriais. Cada encaminhamento observa o regime aplicável e a situação individual. |
+| **Prefeituras e demais segmentos institucionais** | Referenciais gerais de A.2 e normas legais que efetivamente os abrangem. | Não foram equiparados ao Executivo estadual, TJRJ ou MPERJ para aplicação automática de normas setoriais. Cada encaminhamento observa o regime aplicável e a situação individual. |
 
 <div custom-style="FonteImagem">(Fonte: critérios e variantes de aplicabilidade da matriz de planejamento, Anexo AN02)</div>
 
@@ -1216,7 +1095,7 @@ A tabela descreve o campo de aplicação dos critérios. As notas das seções d
 
 ## A.4. Regras de aplicação e natureza dos encaminhamentos
 
-**Empresas estatais.** Os dispositivos gerais da Lei nº 14.133/2021 indicados em B.2 não foram tratados como obrigações legais das empresas públicas e sociedades de economia mista excluídas de seu regime, observado seu art. 1º, § 1º. As práticas correspondentes foram utilizadas como referências orientativas, compatíveis com o regime próprio. As medidas do Achado 6 dirigidas às estatais foram propostas como recomendações de melhoria de governança, sem afastar obrigações legais ou setoriais aplicáveis.
+**Empresas estatais.** Os dispositivos gerais da Lei nº 14.133/2021 indicados em A.2 não foram tratados como obrigações legais das empresas públicas e sociedades de economia mista excluídas de seu regime, observado seu art. 1º, § 1º. As práticas correspondentes foram utilizadas como referências orientativas, compatíveis com o regime próprio. As medidas do Achado 6 dirigidas às estatais foram propostas como recomendações de melhoria de governança, sem afastar obrigações legais ou setoriais aplicáveis.
 
 **Planejamento anual das contratações.** A avaliação distingue a previsão de elaboração do PCA, a obrigação específica eventualmente aplicável e a compatibilização com o plano quando elaborado. A ausência de PCA facultativo não constitui, por si só, fundamento para identificar infração universal. O alinhamento aos instrumentos de planejamento deve ser interpretado segundo o regime e a condição individual do destinatário.
 
