@@ -1174,22 +1174,22 @@ criterios:
 - id: C1
   descricao: >-
     Lei nº 14.133/2021, art. 11, parágrafo único: responsabilidade da alta administração pela governança das contratações, com processos, estruturas, gestão de riscos e controles internos.
-  natureza_fundamento: norma_legal_vinculante
+  natureza_fundamento: norma_legal_com_aplicacao_condicionada
   apto_a_fundamentar_determinacao: true
 - id: C2
   descricao: >-
-    Lei nº 14.133/2021, art. 12, inciso VII — as contratações devem observar o plano de contratações anual, quando elaborado, nos termos do dispositivo.
-  natureza_fundamento: norma_legal_vinculante
+    Lei nº 14.133/2021, art. 12, inciso VII e § 1º, e art. 18, caput: previsão de elaboração do Plano de Contratações Anual e compatibilização das contratações com esse plano, quando elaborado, e com as leis orçamentárias.
+  natureza_fundamento: norma_legal_com_aplicacao_condicionada
   apto_a_fundamentar_determinacao: true
 - id: C3
   descricao: >-
     Lei nº 14.133/2021, art. 19, inciso IV: instituição de modelos de minutas de editais, termos de referência, contratos padronizados e demais documentos.
-  natureza_fundamento: norma_legal_vinculante
+  natureza_fundamento: norma_legal_com_aplicacao_condicionada
   apto_a_fundamentar_determinacao: true
 - id: C4
   descricao: >-
     Lei nº 14.133/2021, art. 7º, caput — a autoridade máxima deve promover a gestão por competências e designar agentes públicos para o desempenho das funções essenciais à execução da Lei.
-  natureza_fundamento: norma_legal_vinculante
+  natureza_fundamento: norma_legal_com_aplicacao_condicionada
   apto_a_fundamentar_determinacao: true
 - id: C5
   descricao: >-
@@ -1306,9 +1306,16 @@ possiveis_achados:
       fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e ao item 9.1.7 do Acórdão nº 2.342/2016-TCU-Plenário
       encaminhamento: formalize e padronize o processo de planejamento das contratações de TIC, definindo etapas, responsabilidades e artefatos aplicáveis, podendo adotar modelos institucionais ou centralizados já existentes e prevendo fluxos proporcionais à natureza, complexidade e risco da contratação
       variantes:
+      - publico: Empresas estatais
+        aplica_se:
+          naturezas: [EMPRESA_ESTATAL]
+        criterios: [C1, C3, C11]
+        tipo_encaminhamento: Recomendação
+        fundamentacao_encaminhamento: alinhando-se aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e em observância ao art. 4º da IN PRODERJ/PRE nº 5/2024
       - publico: Poder Executivo Estadual
         aplica_se:
           segmentos: [EXECUTIVO_ESTADUAL]
+          naturezas: [ADMINISTRACAO_DIRETA, AUTARQUIA, FUNDACAO]
         criterios: [C1, C3, C11]
         tipo_encaminhamento: Determinação
         fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 19, inciso IV, da Lei nº 14.133/2021 e em observância ao art. 4º da IN PRODERJ/PRE nº 5/2024
@@ -1335,6 +1342,13 @@ possiveis_achados:
       tipo_encaminhamento: Recomendação
       fundamentacao_encaminhamento: em observância ao art. 11, parágrafo único, da Lei nº 14.133/2021 e alinhando-se à prática BAI02.04 (Obter aprovação dos requisitos da solução) do COBIT 2019 e à referência do art. 12, § 6º, da Instrução Normativa SGD/ME nº 94/2022
       encaminhamento: estabeleça a submissão das contratações de TIC à análise prévia da área de TIC, de modo a verificar a compatibilidade da solução com os padrões tecnológicos, os requisitos institucionais e a arquitetura existente, admitindo procedimentos simplificados e proporcionais à natureza, ao risco e ao valor da contratação, preservada análise técnica compatível
+      variantes:
+      - publico: Empresas estatais
+        aplica_se:
+          naturezas: [EMPRESA_ESTATAL]
+        criterios: [C1, C5, C8]
+        tipo_encaminhamento: Recomendação
+        fundamentacao_encaminhamento: alinhando-se ao art. 11, parágrafo único, da Lei nº 14.133/2021 e à prática BAI02.04 (Obter aprovação dos requisitos da solução) do COBIT 2019 e à referência do art. 12, § 6º, da Instrução Normativa SGD/ME nº 94/2022
   - S6.3:
       descricao: Contratações de TIC sem alinhamento ao planejamento de TIC e ao Plano de Contratações Anual.
       severidade: alta
@@ -1347,9 +1361,16 @@ possiveis_achados:
       fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em consonância com o item III.7 do Acórdão TCE-RJ nº 44.490/2024-PLEN
       encaminhamento: assegure que as contratações de TIC sejam compatíveis com os instrumentos de planejamento de TIC e, quando elaborado, com o Plano de Contratações Anual, promovendo os ajustes ou justificativas cabíveis nos casos excepcionais
       variantes:
+      - publico: Empresas estatais
+        aplica_se:
+          naturezas: [EMPRESA_ESTATAL]
+        criterios: [C1, C2, C12]
+        tipo_encaminhamento: Recomendação
+        fundamentacao_encaminhamento: alinhando-se aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em observância ao art. 5º da IN PRODERJ/PRE nº 5/2024
       - publico: Poder Executivo Estadual
         aplica_se:
           segmentos: [EXECUTIVO_ESTADUAL]
+          naturezas: [ADMINISTRACAO_DIRETA, AUTARQUIA, FUNDACAO]
         criterios: [C1, C2, C12]
         tipo_encaminhamento: Determinação
         fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 12, inciso VII, da Lei nº 14.133/2021 e em observância ao art. 5º da IN PRODERJ/PRE nº 5/2024
@@ -1377,6 +1398,12 @@ possiveis_achados:
       fundamentacao_encaminhamento: em observância aos arts. 11, parágrafo único, e 7º, caput, da Lei nº 14.133/2021 e alinhando-se à referência do art. 12, § 6º, da Instrução Normativa SGD/ME nº 94/2022
       encaminhamento: designe formalmente equipe de planejamento para as contratações de TIC, atentando-se, minimamente, em assegurar a participação de integrante da área requisitante e da área técnica de TIC, com definição das responsabilidades de seus integrantes
       variantes:
+      - publico: Empresas estatais
+        aplica_se:
+          naturezas: [EMPRESA_ESTATAL]
+        criterios: [C1, C4, C8]
+        tipo_encaminhamento: Recomendação
+        fundamentacao_encaminhamento: alinhando-se aos arts. 11, parágrafo único, e 7º, caput, da Lei nº 14.133/2021 e à referência do art. 12, § 6º, da Instrução Normativa SGD/ME nº 94/2022
       - publico: Poder Judiciário Estadual
         aplica_se:
           segmentos: [JUDICIARIO_ESTADUAL]

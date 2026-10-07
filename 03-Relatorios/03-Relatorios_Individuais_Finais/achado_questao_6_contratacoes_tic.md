@@ -50,6 +50,12 @@
     'Q6.C18':
         'Para o Ministério Público Estadual, o art. 9º da Resolução CNMP nº 283/2024 determina que a Equipe de Planejamento da Solução seja formalmente designada e conte com representantes das áreas requisitante, de TI e administrativa.'
 } %}
+{% set narrativa_criterios_estatais = {
+    'Q6.C1': 'Como referência de governança, o art. 11, parágrafo único, da Lei nº 14.133/2021 prevê a responsabilidade da alta administração pelas contratações, com processos, estruturas, gestão de riscos e controles internos.',
+    'Q6.C2': 'Como referência de planejamento, os arts. 12, inciso VII e § 1º, e 18, caput, da Lei nº 14.133/2021 preveem a elaboração do Plano de Contratações Anual e a compatibilização das contratações com esse plano, quando elaborado, e com as leis orçamentárias.',
+    'Q6.C3': 'Como referência de padronização, o art. 19, inciso IV, da Lei nº 14.133/2021 prevê a instituição de modelos de editais, termos de referência, contratos e demais documentos da fase preparatória.',
+    'Q6.C4': 'Como referência para a definição de responsabilidades, o art. 7º, caput, da Lei nº 14.133/2021 prevê a gestão por competências e a designação de agentes responsáveis pelas contratações.'
+} %}
 {% set s_processo_contratacao = auditado.get_situacao(id_achado, 'S6.1') %}{# S6.1 — Processo formal e padronizado de contratações de TIC #}
 {% set s_aprovacao_tecnica = auditado.get_situacao(id_achado, 'S6.2') %}{# S6.2 — Análise prévia e aprovação técnica da TIC #}
 {% set s_alinhamento_pca = auditado.get_situacao(id_achado, 'S6.3') %}{# S6.3 — Alinhamento ao planejamento de TIC e ao PCA #}
@@ -96,7 +102,7 @@ Essas situações ensejaram o presente achado e serão detalhadas nas subseçõe
 O processo de contratação de TIC deve estabelecer fluxo, etapas, papéis, responsabilidades, modelos mínimos de artefatos, manuais, checklists ou orientações internas. Esses elementos reduzem improvisação, aumentam padronização e permitem controle sobre a qualidade da instrução processual.
 
 {% for criterio in s_processo_contratacao.criterios %}
-{{ narrativa_criterios[criterio.id] }}
+{{ narrativa_criterios_estatais[criterio.id] if auditado.natureza_administrativa == 'EMPRESA_ESTATAL' and criterio.id in narrativa_criterios_estatais else narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2801 e da documentação apresentada, verificou-se que a existência de processo formal e padronizado para contratações de TIC, com etapas, responsabilidades e artefatos aplicáveis, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
@@ -118,7 +124,7 @@ A ausência de fluxo regulamentado e de modelos padronizados de documentos contr
 As contratações de TIC devem ser submetidas à análise prévia e aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas da organização. Essa análise é necessária para verificar compatibilidade técnica, integração com o ambiente existente e aderência a padrões institucionais.
 
 {% for criterio in s_aprovacao_tecnica.criterios %}
-{{ narrativa_criterios[criterio.id] }}
+{{ narrativa_criterios_estatais[criterio.id] if auditado.natureza_administrativa == 'EMPRESA_ESTATAL' and criterio.id in narrativa_criterios_estatais else narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a submissão das contratações de TIC à análise prévia ou aprovação técnica da área de TIC, inclusive quando demandadas por outras áreas, não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
@@ -140,7 +146,7 @@ A falta de manifestação formal prévia da área técnica diverge dos parâmetr
 As contratações de TIC devem estar alinhadas ao planejamento de TIC e, quando elaborado, ao Plano de Contratações Anual. Essa vinculação demonstra que a contratação decorre de necessidade planejada e contribui para os objetivos institucionais.
 
 {% for criterio in s_alinhamento_pca.criterios %}
-{{ narrativa_criterios[criterio.id] }}
+{{ narrativa_criterios_estatais[criterio.id] if auditado.natureza_administrativa == 'EMPRESA_ESTATAL' and criterio.id in narrativa_criterios_estatais else narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que o alinhamento das contratações de TIC ao planejamento de TIC e ao Plano de Contratações Anual não se mostrou suficientemente demonstrado, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
@@ -162,7 +168,7 @@ A ausência de demonstração do vínculo entre as contratações realizadas e o
 As contratações de TIC devem contar com equipe de planejamento formalmente designada e com participação de integrante técnico da área de TIC. A designação formal favorece a responsabilização e a qualidade técnica da instrução.
 
 {% for criterio in s_equipe_planejamento.criterios %}
-{{ narrativa_criterios[criterio.id] }}
+{{ narrativa_criterios_estatais[criterio.id] if auditado.natureza_administrativa == 'EMPRESA_ESTATAL' and criterio.id in narrativa_criterios_estatais else narrativa_criterios[criterio.id] }}
 {% endfor %}
 
 Da análise das respostas ao item 2804 e da documentação apresentada, verificou-se que a designação formal de equipe de planejamento da contratação de TIC com integrante técnico da área de TIC não se mostrou suficientemente demonstrada, em razão dos seguintes elementos identificados pela Equipe de Auditoria:
