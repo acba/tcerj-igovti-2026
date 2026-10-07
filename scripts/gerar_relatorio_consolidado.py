@@ -999,6 +999,32 @@ def materializar_sumario(docx_path: Path) -> None:
     )
 
 
+def ajustar_tabelas_apendices(docx_path: Path) -> None:
+    """Mantém cada registro dos apêndices inteiro na página."""
+    from docx.oxml import OxmlElement
+
+    documento = docx.Document(str(docx_path))
+    cabecalhos_apendices = {
+        "anexo",
+        "questão e tema",
+        "público no escopo",
+    }
+    alterado = False
+    for tabela in documento.tables:
+        if not tabela.rows:
+            continue
+        cabecalho = tabela.rows[0].cells[0].text.strip().casefold()
+        if cabecalho not in cabecalhos_apendices:
+            continue
+        for linha in tabela.rows:
+            propriedades = linha._tr.get_or_add_trPr()
+            if not propriedades.xpath("w:cantSplit"):
+                propriedades.append(OxmlElement("w:cantSplit"))
+                alterado = True
+    if alterado:
+        documento.save(str(docx_path))
+
+
 def ajustar_tabela_modelo_plano_acao(docx_path: Path) -> None:
     """Alinha o quadro referencial ao início do texto do encaminhamento 2."""
     from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -1484,6 +1510,7 @@ def main() -> int:
 
             logger.info("Ajustando layout para evitar quebras órfãs de figuras, tabelas e fontes...")
             evitar_quebra_elementos(str(output_path))
+            ajustar_tabelas_apendices(output_path)
 
             logger.info("Marcando campos do DOCX para atualização ao abrir no Word...")
             marcar_atualizacao_campos_docx(str(output_path))
