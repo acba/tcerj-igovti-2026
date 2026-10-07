@@ -1,0 +1,47 @@
+{
+  "motor": "resvg_py",
+  "versao": "0.5.0",
+  "origem": "https://pypi.org/project/resvg_py/0.5.0/",
+  "wheels": [
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-macosx_10_12_x86_64.whl",
+      "sha256": "9d3f5c2544d6b5f74847513e07e6ab6a70f9e7f0d8a141bc16bd4b0c555f4234",
+      "origem": "https://files.pythonhosted.org/packages/ed/36/3408156e9cba54d1ef5793377f39be4096660933cc6df155ba425315bf09/resvg_py-0.5.0-cp310-abi3-macosx_10_12_x86_64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-macosx_11_0_arm64.whl",
+      "sha256": "7b43f942157f5d16126e108dab8ab37e4bc2b198099e5f6274b753a3b1ac7b6e",
+      "origem": "https://files.pythonhosted.org/packages/74/bf/4083b177388125e5ce2ab9fa4cd9efd881fa133dd97e5b2d4ca68e543256/resvg_py-0.5.0-cp310-abi3-macosx_11_0_arm64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "sha256": "1e66216f78c84a27d34ce75f4535d8e26565771be4f1848ddc71e8a7ce78973a",
+      "origem": "https://files.pythonhosted.org/packages/52/92/1dfd0d7b5f8dbb16f9c889bba0d7477ab514d1f2a81a5f904662215103bc/resvg_py-0.5.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "sha256": "84f2378ecc7a8e38b03429efaefc816daec1b1970114909a6f973393b297c91b",
+      "origem": "https://files.pythonhosted.org/packages/9e/08/217f2289ceb16a4eafd9c9c6f69aa3221ef047a6abe4ff1ce5c8d6be87d8/resvg_py-0.5.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-musllinux_1_2_aarch64.whl",
+      "sha256": "7c3e8c2324fc2bcf03c1010b7987adf5ff4ce43e8fc1a7c9b8271cbbcca6ba37",
+      "origem": "https://files.pythonhosted.org/packages/d8/e6/5d8e0fac79e19ec95db6902ab03f3e681a69183a0a959fb081a7385c9e7e/resvg_py-0.5.0-cp310-abi3-musllinux_1_2_aarch64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-musllinux_1_2_x86_64.whl",
+      "sha256": "feee1ee6c2c0b64018c046a7604240c233c6cf14496e475238370c7d9a9db455",
+      "origem": "https://files.pythonhosted.org/packages/65/01/91794e3dedcfaf93b780ecd4cf0061262fd2665034756773f7e768812389/resvg_py-0.5.0-cp310-abi3-musllinux_1_2_x86_64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-win_amd64.whl",
+      "sha256": "1f6b8956c4143dbfe107bcd35799d0dfd778a40a8cd537893c0bf489898a6c3c",
+      "origem": "https://files.pythonhosted.org/packages/fe/53/aa8f92ce6eb2f97095d8b6359a1613c5a5ee0aa9b1a33434df9294362979/resvg_py-0.5.0-cp310-abi3-win_amd64.whl"
+    },
+    {
+      "arquivo": "resvg_py-0.5.0-cp310-abi3-win_arm64.whl",
+      "sha256": "8016e2006c09953570af466e7674c398c1f255cb00022152b15e18f9e8ca3af8",
+      "origem": "https://files.pythonhosted.org/packages/56/64/e63614663df1404999802e82d462ffa534999c126067257bfba7d1de590c/resvg_py-0.5.0-cp310-abi3-win_arm64.whl"
+    }
+  ]
+}

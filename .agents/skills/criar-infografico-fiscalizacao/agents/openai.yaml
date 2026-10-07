@@ -1,0 +1,4 @@
+interface:
+  display_name: "Infográfico de fiscalização"
+  short_description: "Síntese visual de fiscalizações em até duas folhas A4"
+  default_prompt: "Use $criar-infografico-fiscalizacao para sintetizar esta fiscalização em até duas páginas A4, com SVG editável e PNG a 600 dpi."

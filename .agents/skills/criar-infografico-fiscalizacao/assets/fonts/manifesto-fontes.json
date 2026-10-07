@@ -1,0 +1,205 @@
+{
+  "cooper_hewitt": {
+    "origem": "https://www.cooperhewitt.org/wp-content/uploads/fonts/CooperHewitt-OTF-public.zip",
+    "licenca": "SIL OFL 1.1"
+  },
+  "open_sans": {
+    "origem": "/usr/share/fonts/TTF, pacote ttf-opensans, versão 3.003",
+    "repositorio": "https://github.com/googlefonts/opensans",
+    "licenca": "SIL OFL 1.1"
+  },
+  "fontes": [
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Bold.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Bold",
+      "peso": 711,
+      "versao": "1.000",
+      "sha256": "b1bb717723468bd9e42471eabd3ad4db839aaf6caa59b1aef2450b805cc825f6"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-BoldItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Bold Italic",
+      "peso": 712,
+      "versao": "1.000",
+      "sha256": "52f8820ede8f601e65426dc9d2e2bd9df296de0cfad41fc8398783b7b25147a1"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Book.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Book",
+      "peso": 705,
+      "versao": "1.000",
+      "sha256": "f4c2f4ed259a3a6ed8b88350b43a1a65b4619a31e68fc2b4569b2faeb735a34f"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-BookItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Book Italic",
+      "peso": 706,
+      "versao": "1.000",
+      "sha256": "54033f47585fa4c33bed67a9fb0752ca5e273769ce9ff65a69c42144964bb855"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Heavy.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Heavy",
+      "peso": 713,
+      "versao": "1.000",
+      "sha256": "e28648d8da4685a4010babf080c5e905ab22f39bce5f359419a36d324595c2e4"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-HeavyItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Heavy Italic",
+      "peso": 714,
+      "versao": "1.000",
+      "sha256": "d09f1625b5621dcfd15b223a9356ef8c1c4bb7860f37dad6dcf4e77d4a35de43"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Light.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Light",
+      "peso": 703,
+      "versao": "1.000",
+      "sha256": "526bdb62b3a852ec52953eaf921541ea5fdd2b372f07308dc906aca12873005c"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-LightItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Light Italic",
+      "peso": 704,
+      "versao": "1.000",
+      "sha256": "1ebdcd15fce2b61cac4f639c00bd3eeb7068dbbe2802b5d86715b86f3a36ea20"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Medium.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Medium",
+      "peso": 707,
+      "versao": "1.000",
+      "sha256": "e32bf29a3f7f3bcd085538ea5997bc649aa2f938bf07ebd0b1dfe3f2a1b74426"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-MediumItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Medium Italic",
+      "peso": 708,
+      "versao": "1.000",
+      "sha256": "cacf1a9af4e769fe51215c02e12d773937877c1645c1adb08b85ee39efbc4289"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Semibold.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Semibold",
+      "peso": 709,
+      "versao": "1.000",
+      "sha256": "5002aff35fb370c936f10279e3e8506d572567a3650b65d39206ceb703adf322"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-SemiboldItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Semibold Italic",
+      "peso": 710,
+      "versao": "1.000",
+      "sha256": "d8ab09c6d0cc436c1503b6c44945a117581456e2dbfbbad779d471a4e3aa7cba"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-Thin.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Thin",
+      "peso": 701,
+      "versao": "1.000",
+      "sha256": "fcee5964e894ed6074388de1311d276592d9d478ef9800c0df8448f181414cf6"
+    },
+    {
+      "arquivo": "cooper-hewitt/CooperHewitt-ThinItalic.otf",
+      "familia": "Cooper Hewitt",
+      "estilo": "Thin Italic",
+      "peso": 702,
+      "versao": "1.000",
+      "sha256": "bf72b7e49d224d9ff4fe605ce467fafa1ee1ece0c29e4670794c805f6b867dda"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-Bold.ttf",
+      "familia": "Open Sans",
+      "estilo": "Bold",
+      "peso": 700,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "27da758f4dcac9a65abe914c13b463b42982b9909bc65713424099f4810bd1e6"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-BoldItalic.ttf",
+      "familia": "Open Sans",
+      "estilo": "Bold Italic",
+      "peso": 700,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "d672a770037104b6af45e1336b3d3c1729c8aea940f81e010f5a8a7319c29a21"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-ExtraBold.ttf",
+      "familia": "Open Sans ExtraBold",
+      "estilo": "Regular",
+      "peso": 800,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "22c3e66c8a0ae60bf10ee636bb8a54d61ff77c956f5c4ebe3058b793e56ee727"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-ExtraBoldItalic.ttf",
+      "familia": "Open Sans ExtraBold",
+      "estilo": "Italic",
+      "peso": 800,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "63f46cd436c572334203c297062acc012c117bf1413f0e40f6b5215637c05236"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-Italic.ttf",
+      "familia": "Open Sans",
+      "estilo": "Italic",
+      "peso": 400,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "93bc1bb6abf4e6b7c75d7131714061d5b57cc478abcabe4cb3519bb38fb917aa"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-Light.ttf",
+      "familia": "Open Sans Light",
+      "estilo": "Regular",
+      "peso": 300,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "3472097ec4d9e57228cbfad3c9911e53923664d3df86568d0b05d674399e034e"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-LightItalic.ttf",
+      "familia": "Open Sans Light",
+      "estilo": "Italic",
+      "peso": 300,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "548dc557bcef26267d16f1afaf0770814a329c9f04a0168d396ca9d1ceafb16f"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-Regular.ttf",
+      "familia": "Open Sans",
+      "estilo": "Regular",
+      "peso": 400,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "c53aceea2dcf5b4098099c0c4d0a061d17e178a049317b42a422b1a9f7f8eb59"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-SemiBold.ttf",
+      "familia": "Open Sans SemiBold",
+      "estilo": "Regular",
+      "peso": 600,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "4a413711684a9dd564ef0f1c10cb62b5d9f7eb6df2cff962f5341a6ecd5f64ae"
+    },
+    {
+      "arquivo": "open-sans/OpenSans-SemiBoldItalic.ttf",
+      "familia": "Open Sans SemiBold",
+      "estilo": "Italic",
+      "peso": 600,
+      "versao": "Version 3.003; ttfautohint (v1.8.4)",
+      "sha256": "c646a9aefc0e964f66487260639e375685328a6280856faea3e012c43fe9c56d"
+    }
+  ]
+}
