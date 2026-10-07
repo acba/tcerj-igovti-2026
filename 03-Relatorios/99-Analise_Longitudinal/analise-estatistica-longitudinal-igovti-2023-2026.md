@@ -24,7 +24,7 @@ O cenário base reduz essa diferença de verificação entre os anos, mas pode a
 
 Foram comparados os resultados das mesmas organizações nos dois anos. Em 61 casos, a correspondência foi identificada pelo nome ou pela sigla, considerando as diferenças de escrita. Nos outros sete, a equipe confirmou a correspondência entre as organizações.
 
-O relatório estadual de 2023 apresentou resultados de 68 organizações, incluindo o PRODERJ, cujo resultado veio da fiscalização de 2022. Para a comparação atual, foram utilizadas as respostas disponíveis de 2023 de 74 organizações estaduais e quatro municípios. Dessas 78 organizações, 68 também responderam ao questionário de 2026, sendo 64 estaduais e quatro municípios. Esse é o grupo considerado na análise longitudinal.
+Para a comparação atual, estavam disponíveis respostas de 2023 de 78 organizações, sendo 74 estaduais e quatro municípios. Dessas, 68 também responderam ao questionário de 2026, sendo 64 estaduais e quatro municípios. Esse é o grupo considerado na análise longitudinal.
 
 A comparação inclui organizações que não participaram da análise estatística publicada em 2023. É o caso da SETD, excluída naquele trabalho pelo elevado percentual de respostas “Não se aplica”. Nesta análise, suas respostas foram incluídas, e seu índice foi calculado novamente, considerando os itens comparáveis entre os questionários de 2023 e 2026. Nesse cálculo, a resposta “Não se aplica” recebe o valor 0,5. Essa inclusão deve ser considerada na interpretação dos resultados e não altera as conclusões do relatório anterior.
 

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="420" viewBox="0 0 1440 420" role="img" aria-labelledby="titulo descricao">
+  <title id="titulo">Três cenários da fiscalização iGovTI 2026</title>
+  <desc id="descricao">Da esquerda para a direita: cenário-base, com respostas declaradas após correções iniciais e retificações. Cenário pós-avaliação de evidências, com respostas revistas após a análise documental. Cenário pós-comentários do gestor, com respostas atualizadas conforme os esclarecimentos e documentos acolhidos. Em cada cenário, são calculados os índices e executados os procedimentos de auditoria. O último cenário fundamenta as conclusões e os encaminhamentos finais.</desc>
+  <defs>
+    <marker id="seta" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 9 5 L 0 10 Z" fill="#1F4E79"/>
+    </marker>
+  </defs>
+  <rect width="1440" height="420" fill="#FFFFFF"/>
+  <g font-family="DejaVu Sans, Arial, sans-serif" text-anchor="middle">
+    <g fill="#1F4E79" font-size="24" font-weight="700">
+      <text x="240" y="65">Cenário-base</text>
+      <text x="720" y="49"><tspan x="720">Pós-avaliação</tspan><tspan x="720" dy="31">de evidências</tspan></text>
+      <text x="1200" y="49"><tspan x="1200">Pós-comentários</tspan><tspan x="1200" dy="31">do gestor</tspan></text>
+    </g>
+
+    <rect x="40" y="108" width="400" height="262" rx="10" fill="#F2F6FA" stroke="#7FA9CF" stroke-width="2"/>
+    <rect x="520" y="108" width="400" height="262" rx="10" fill="#F2F6FA" stroke="#3B6EA8" stroke-width="2"/>
+    <rect x="1000" y="108" width="400" height="262" rx="10" fill="#1F4E79"/>
+
+    <g fill="none" stroke="#1F4E79" stroke-width="3" marker-end="url(#seta)">
+      <path d="M 457 239 H 502"/>
+      <path d="M 937 239 H 982"/>
+    </g>
+
+    <g font-size="23" font-weight="700">
+      <text x="240" y="157" fill="#263238">Respostas declaradas</text>
+      <text x="720" y="157" fill="#263238">Respostas revistas</text>
+      <text x="1200" y="157" fill="#FFFFFF">Respostas atualizadas</text>
+    </g>
+    <g font-size="21" fill="#52606D">
+      <text x="240" y="198"><tspan x="240">Após correções iniciais</tspan><tspan x="240" dy="29">e retificações solicitadas</tspan><tspan x="240" dy="29">pelos gestores</tspan></text>
+      <text x="720" y="198"><tspan x="720">Após a análise das respostas</tspan><tspan x="720" dy="29">e dos documentos enviados</tspan><tspan x="720" dy="29">para comprovar as práticas</tspan></text>
+    </g>
+    <text x="1200" y="198" font-size="21" fill="#FFFFFF"><tspan x="1200">Conforme os esclarecimentos</tspan><tspan x="1200" dy="29">e documentos acolhidos</tspan><tspan x="1200" dy="29">na análise dos comentários</tspan></text>
+
+    <g stroke-width="1">
+      <path d="M 68 281 H 412 M 548 281 H 892" stroke="#D2D7DB"/>
+      <path d="M 1028 281 H 1372" stroke="#7FA9CF"/>
+    </g>
+    <g font-size="19" fill="#1F4E79">
+      <text x="240" y="314"><tspan x="240">Cálculo do iGovTI</tspan><tspan x="240" dy="27">e execução dos procedimentos</tspan></text>
+      <text x="720" y="314"><tspan x="720">Recálculo do iGovTI</tspan><tspan x="720" dy="27">e reexecução dos procedimentos</tspan></text>
+    </g>
+    <text x="1200" y="314" font-size="19" fill="#FFFFFF"><tspan x="1200">Recálculo do iGovTI</tspan><tspan x="1200" dy="27">e reexecução dos procedimentos</tspan></text>
+    <text x="1200" y="405" font-size="18" font-weight="700" fill="#1F4E79">Conclusões e encaminhamentos finais</text>
+  </g>
+</svg>
