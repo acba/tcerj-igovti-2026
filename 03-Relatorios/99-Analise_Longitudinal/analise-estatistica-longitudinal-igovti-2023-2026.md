@@ -10,31 +10,37 @@ figure-caption-position: above
 
 Este anexo examina se os resultados das organizações presentes nas avaliações de 2023 e 2026 permitem afirmar que houve mudança estatisticamente significativa no iGovTI ajustado comparável e em seus componentes.
 
-A análise considera dois cenários de 2026. O **cenário base** utiliza as respostas autodeclaradas após ajustes iniciais de saneamento e solicitações de retificação por parte dos gestores. O **cenário final** incorpora os ajustes decorrentes da avaliação das evidências e dos comentários dos gestores. A apresentação conjunta é necessária porque os ciclos de 2023 e 2026 tiveram níveis de asseguração distintos.
+A análise considera dois cenários de 2026. O **cenário base** utiliza as respostas declaradas pelas organizações, após as correções iniciais de preenchimento e as retificações solicitadas pelos gestores. O **cenário final** incorpora também os ajustes decorrentes da avaliação das evidências e dos comentários do gestor.
 
-Em 2026, foram solicitadas evidências para todas as práticas passíveis de comprovação e essas evidências foram avaliadas de forma abrangente. Em 2023, embora o questionário também contivesse campos de evidência e a equipe tenha realizado análises críticas, a exigência de anexos e o exame direto concentraram-se em subconjunto menor de práticas. A comparação exclusiva com o cenário final de 2026 pode, portanto, produzir um viés negativo nas pontuações de 2026 em relação a 2023, por combinar eventual mudança das práticas com o efeito de verificação mais rigorosa.
+Em 2026, a solicitação e a avaliação de evidências abrangeram um conjunto maior de práticas que em 2023. O cenário final considera os ajustes realizados pela equipe após examinar os documentos enviados com o questionário e os comentários do gestor.
 
-O cenário base reduz essa assimetria, mas está sujeito ao viés oposto: práticas declaradas podem não estar suficientemente comprovadas. Por esse motivo, os dois cenários são tratados como análise de sensibilidade. Nenhum deles, isoladamente, constitui estimativa isenta de limitações.
+Em 2023, também houve solicitação de documentos e análise pela equipe, mas o exame direto abrangeu menos práticas. Por isso, uma pontuação menor no cenário final de 2026 pode refletir tanto mudanças nas práticas quanto uma verificação documental mais rigorosa.
 
-# 2. Base analisada e diferença de asseguração
+O cenário base reduz essa diferença de verificação entre os anos, mas pode apresentar pontuações maiores quando as práticas declaradas não estão suficientemente comprovadas. Os dois cenários são apresentados para verificar quanto essa diferença de tratamento das respostas afeta as conclusões.
+
+# 2. Base analisada e diferença de verificação documental
 
 ## 2.1. Amostra pareada
 
-A unidade de análise foi a organização com resultado comparável nos dois anos. Dos 78 registros de 2023, 68 puderam ser associados a uma organização avaliada em 2026. A amostra compreende 64 organizações estaduais e quatro municípios. Sessenta e um pares foram formados por identificador normalizado e sete por correspondências institucionais previamente validadas.
+Foram comparados os resultados das mesmas organizações nos dois anos. Em 61 casos, a correspondência foi identificada pelo nome ou pela sigla, considerando as diferenças de escrita. Nos outros sete, a equipe confirmou a correspondência entre as organizações.
 
-Não foram incluídas dez organizações avaliadas em 2023 sem correspondência em 2026 nem 45 organizações de 2026 sem histórico em 2023.
+O relatório estadual de 2023 apresentou resultados de 68 organizações, incluindo o PRODERJ, cujo resultado veio da fiscalização de 2022. Para a comparação atual, foram utilizadas as respostas disponíveis de 2023 de 74 organizações estaduais e quatro municípios. Dessas 78 organizações, 68 também responderam ao questionário de 2026, sendo 64 estaduais e quatro municípios. Esse é o grupo considerado na análise longitudinal.
+
+A comparação inclui organizações que não participaram da análise estatística publicada em 2023. É o caso da SETD, excluída naquele trabalho pelo elevado percentual de respostas “Não se aplica”. Nesta análise, suas respostas foram incluídas, e seu índice foi calculado novamente, considerando os itens comparáveis entre os questionários de 2023 e 2026. Nesse cálculo, a resposta “Não se aplica” recebe o valor 0,5. Essa inclusão deve ser considerada na interpretação dos resultados e não altera as conclusões do relatório anterior.
+
+Ficaram fora da comparação dez organizações com respostas disponíveis de 2023 que não responderam em 2026 e 45 organizações que responderam em 2026, mas não possuíam respostas disponíveis de 2023.
 
 : Síntese da base longitudinal {#tbl:longitudinal_base#}
 
 | Elemento | Resultado |
 |---|---:|
-| Organizações pareadas | 68 |
+| Organizações comparadas nos dois anos | 68 |
 | Organizações estaduais | 64 |
 | Municípios | 4 |
-| Pareamentos por identificador normalizado | 61 |
-| Pareamentos por correspondência institucional validada | 7 |
-| Organizações de 2023 sem par em 2026 | 10 |
-| Organizações de 2026 sem histórico em 2023 | 45 |
+| Correspondências identificadas pelo nome ou pela sigla | 61 |
+| Correspondências confirmadas pela equipe | 7 |
+| Organizações com respostas de 2023 sem resposta em 2026 | 10 |
+| Organizações com resposta em 2026 sem respostas disponíveis de 2023 | 45 |
 | Indicadores submetidos a teste em cada cenário | 16 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -43,9 +49,9 @@ Foram testados o iGovTI, os agregados Governança de TIC e Gestão de TIC e 13 c
 
 ## 2.2. Cenários de 2026
 
-O questionário de 2026 contém solicitação de evidência em 43 das 48 questões-raiz. As cinco restantes correspondem principalmente a informações quantitativas, de perfil ou de contexto, e não a práticas convencionais de adoção. Assim, todas as práticas avaliativas passíveis de comprovação documental foram alcançadas pela solicitação de evidências.[^cobertura_evidencias_2026]
+O questionário de 2026 solicita evidências em 43 das 48 questões principais. Há também solicitação específica para o subitem A da questão 2804, relativo à análise prévia e à aprovação técnica das contratações pela área de TIC.[^cobertura_evidencias_2026] A base final incorpora os ajustes decorrentes da avaliação das evidências e dos comentários do gestor, conforme os acolhimentos da equipe. A solicitação de documentos não equivale à comprovação de todas as práticas declaradas.
 
-No trabalho de 2023, foram identificados controles de envio de anexos em 13 questões do questionário do SETIC e em 15 questões do questionário municipal. Outros campos permitiam registrar informações ou justificativas, e houve análise crítica pela equipe, mas o procedimento não teve a mesma abrangência documental aplicada em 2026. Os estudos preliminares do trabalho atual também registram que, em 2023, as notas ajustadas decorreram da análise das evidências e de subconjunto de práticas examinadas diretamente.[^cobertura_evidencias_2023]
+Os questionários de 2023 permitiam anexar documentos em 13 questões do SETIC e em 15 questões dos municípios. Outros campos permitiam apresentar informações ou justificativas. A equipe analisou as respostas e examinou diretamente um conjunto de práticas, mas a verificação documental foi menos abrangente que em 2026.[^cobertura_evidencias_2023]
 
 [^cobertura_evidencias_2026]: Contagem realizada no questionário da fiscalização corrente.
 
@@ -55,9 +61,9 @@ No trabalho de 2023, foram identificados controles de envio de anexos em 13 ques
 
 | Referência | Tratamento das respostas | Principal vantagem | Principal limitação |
 |---|---|---|---|
-| **2023 ajustado comparável** | Resultado harmonizado para a estrutura comum de itens, com o nível de análise documental realizado no ciclo de 2023 | Preserva a referência histórica disponível | Não recebeu asseguração documental com a mesma abrangência de 2026 |
-| **2026 — Cenário base** | Respostas autodeclaradas com ajustes de pedidos de retificação do gestor, correção de erros e saneamento do survey | Aproxima o nível autodeclaratório predominante na referência de 2023 | Pode superestimar práticas declaradas, mas não comprovadas |
-| **2026 — Cenário final** | Respostas após avaliação das evidências e apreciação dos comentários dos gestores | Representa o resultado com maior asseguração documental | Pode apresentar viés negativo na comparação com 2023, devido à assimetria de verificação |
+| **2023 ajustado comparável** | Índices calculados novamente a partir das respostas de 2023, considerando os itens comparáveis entre os questionários | Permite utilizar as respostas disponíveis de 2023 | A verificação documental foi menos abrangente que em 2026 |
+| **2026 — Cenário base** | Respostas declaradas, após correções iniciais e retificações solicitadas pelos gestores | Reduz a diferença de verificação documental entre os anos | Pode apresentar pontuações maiores para práticas declaradas, mas não comprovadas |
+| **2026 — Cenário final** | Respostas ajustadas após a avaliação das evidências e dos comentários do gestor | Incorpora os resultados da verificação documental de 2026 | A verificação mais rigorosa pode reduzir as pontuações em relação a 2023 |
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
@@ -67,11 +73,11 @@ No trabalho de 2023, foram identificados controles de envio de anexos em 13 ques
 
 Para cada indicador e cenário, calculou-se a diferença entre a pontuação de 2026 e a de 2023 para a mesma organização. Valores positivos representam avanço; valores negativos, regressão; e valores iguais a zero, estabilidade.
 
-O teste principal foi o Wilcoxon dos postos sinalizados para amostras pareadas, bilateral. O teste avalia se a distribuição das diferenças pareadas é simétrica em torno de zero e não exige normalidade das diferenças.[^wilcoxon_scipy] A escolha considerou a escala limitada entre zero e um e a presença de empates e diferenças nulas[^dif_nula].
+Foi utilizado o teste de Wilcoxon dos postos sinalizados para comparar os resultados das mesmas organizações nos dois anos. O teste considera tanto aumentos quanto reduções e verifica se as diferenças se distribuem de forma simétrica em torno de zero. Não exige que as diferenças sigam uma distribuição normal.[^wilcoxon_scipy] A escolha considerou a escala dos índices, de zero a um, e a existência de diferenças iguais ou nulas.[^dif_nula]
 
 [^dif_nula]: As diferenças nulas foram tratadas pelo método de Pratt: os zeros participam do ranqueamento, mas seus postos não integram as somas positiva ou negativa.[^pratt_zeros]
 
-Como 16 hipóteses (16 variáveis diferentes, como iGovTI, iGestTI etc) foram testadas em cada cenário, os p-valores foram ajustados separadamente pelo método sequencial de Holm, que controla a probabilidade de ao menos uma rejeição indevida no conjunto de testes.[^holm_multiplos] Adotou-se nível de significância de 5% após o ajuste.
+Foram testados 16 indicadores em cada cenário. Os p-valores foram ajustados pelo método de Holm para controlar o risco de concluir que houve mudança apenas porque vários testes foram realizados.[^holm_multiplos] Considerou-se estatisticamente significativo o resultado com p-valor ajustado inferior a 0,05.
 
 [^wilcoxon_scipy]: SCIPY. *wilcoxon — SciPy Manual*. Disponível em: <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html>. Acesso em: 11 ago. 2026.
 
@@ -87,7 +93,7 @@ Para qualificar a relevância dos resultados, foram calculados: a diferença mé
 
 [^ttest_scipy]: SCIPY. *ttest_rel — SciPy Manual*. Disponível em: <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html>. Acesso em: 11 ago. 2026.
 
-No cenário final, o teste t identificou o mesmo conjunto de três componentes significativos do teste principal. No cenário base, houve divergências em resultados próximos ao limiar: o teste t incluiu Modelo de gestão de TIC e Gestão de pessoas de TIC, mas não Gestão de projetos de TIC. O iGovTI global e os demais resultados centrais do cenário base permaneceram significativos nos dois métodos. A divergência reforça a necessidade de cautela com componentes limítrofes e preserva o Wilcoxon como critério principal previamente definido.
+No cenário final, o teste t e o Wilcoxon identificaram os mesmos três componentes com mudança significativa. No cenário base, houve diferenças: o teste t apontou mudança significativa em Modelo de gestão de TIC e Gestão de pessoas de TIC, mas não em Gestão de projetos de TIC. Os dois métodos confirmaram o aumento do iGovTI global. Essas diferenças recomendam cautela na interpretação dos componentes cujo resultado depende do método utilizado. O Wilcoxon foi mantido como teste principal.
 
 ## 3.3. Regra de interpretação
 
@@ -116,11 +122,11 @@ No cenário final[^definicao_cenario_final] de 2026, a média foi 0,1895, apenas
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-Entre o cenário base e o cenário final de 2026, a média do iGovTI diminui 0,0582 ponto entre as 68 organizações pareadas. Essa diferença quantifica o efeito líquido dos ajustes posteriores à autodeclaração, inclusive as revisões acolhidas após os comentários dos gestores. Ela não deve ser interpretada automaticamente como erro do auditado: a redução pode decorrer de evidência ausente, insuficiente, incompatível ou incapaz de assegurar o nível de adoção declarado.
+Entre os cenários base e final, a média do iGovTI das 68 organizações diminuiu 0,0582 ponto. Essa diferença resulta dos ajustes feitos após a avaliação das evidências e dos comentários do gestor. A redução não significa, por si só, que o auditado respondeu incorretamente. Ela pode decorrer da ausência de documentos ou da apresentação de evidências insuficientes para comprovar o nível de adoção declarado.
 
-Assim, a formulação mais precisa é: **as respostas autodeclaradas indicam evolução do iGovTI global, mas essa evolução não permanece estatisticamente demonstrada após a avaliação abrangente das evidências**.
+Assim, a formulação mais precisa é: **as respostas autodeclaradas indicam evolução do iGovTI global, mas essa evolução não permanece estatisticamente demonstrada após a avaliação das evidências e dos comentários do gestor**.
 
-A [@fig:longitudinal_medias_cenarios] apresenta as médias de 2023 e dos dois cenários de 2026. A distância entre os pontos do cenário base e do cenário final evidencia quais componentes foram mais afetados pelo maior nível de asseguração.
+A [@fig:longitudinal_medias_cenarios] apresenta as médias de 2023 e dos dois cenários de 2026. A distância entre os pontos dos cenários base e final mostra quais componentes tiveram maior alteração após os ajustes das respostas.
 
 ![Médias dos indicadores comparáveis em 2023 e nos cenários base e final de 2026](img/01-medias-tres-cenarios.png){#fig:longitudinal_medias_cenarios#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -164,7 +170,7 @@ No cenário final, três componentes apresentaram mudança significativa. Houve 
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A redução média entre os cenários base e final foi de 0,0711 ponto em Gestão de pessoas de TIC e de 0,2170 ponto em Processos de contratação de TIC. No cenário base, nenhum desses componentes apresentava redução significativa. Consequentemente, não é possível atribuir as reduções do cenário final exclusivamente à deterioração das práticas. Elas são inseparáveis, nesta comparação, do efeito da avaliação documental mais abrangente aplicada em 2026.
+Entre os cenários base e final, a média diminuiu 0,0711 ponto em Gestão de pessoas de TIC e 0,2170 ponto em Processos de contratação de TIC. No cenário base, nenhum desses componentes apresentou redução estatisticamente significativa. Por isso, as reduções do cenário final não podem ser atribuídas apenas à piora das práticas. A comparação também reflete os ajustes decorrentes da verificação documental de 2026.
 
 A [@fig:longitudinal_variacoes_final] apresenta as variações e os intervalos do cenário final.
 
@@ -173,7 +179,7 @@ A [@fig:longitudinal_variacoes_final] apresenta as variações e os intervalos d
 
 ## 4.4. Comparação das conclusões
 
-Apenas um resultado foi significativo e manteve a mesma direção nos dois cenários: o aumento em Estrutura de segurança da informação. Esse é o resultado longitudinal mais robusto da análise, pois aparece tanto na autodeclaração saneada quanto no cenário de maior asseguração.
+O aumento em Estrutura de segurança da informação foi o único resultado estatisticamente significativo nos dois cenários. Por isso, é a conclusão menos dependente do tratamento das respostas de 2026.
 
 O aumento do iGovTI global e os aumentos em Gestão de TIC, Planejamento de TIC, Gestão de serviços de TIC, Processos de segurança da informação e Gestão de projetos de TIC aparecem apenas no cenário base. As reduções em Gestão de pessoas de TIC e Processos de contratação de TIC aparecem apenas no cenário final.
 
@@ -202,7 +208,7 @@ Os demais sete indicadores não apresentaram evidência de mudança em nenhum do
 
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
 
-A [@fig:longitudinal_conclusoes_cenarios] sintetiza essas conclusões. As células cinzas não significam igualdade; indicam ausência de evidência suficiente segundo o critério adotado.
+A [@fig:longitudinal_conclusoes_cenarios] sintetiza essas conclusões. As células cinzas não significam igualdade, mas indicam ausência de evidência suficiente segundo o critério adotado.
 
 ![Significância estatística nos cenários base e final de 2026](img/04-conclusoes-cenarios.png){#fig:longitudinal_conclusoes_cenarios#}
 <div custom-style="FonteImagem">(Fonte: elaboração própria)</div>
@@ -234,16 +240,16 @@ Em síntese, a análise preliminar indica que os avanços do conjunto foram prin
 
 Os resultados devem ser interpretados com as seguintes ressalvas:
 
-* **Assimetria de asseguração:** a avaliação documental de 2026 alcançou todas as práticas passíveis de comprovação e foi mais abrangente que a realizada em 2023. O cenário final pode, por isso, apresentar viés negativo na comparação longitudinal.
-* **Viés autodeclaratório:** o cenário base mitiga a assimetria de asseguração, mas pode conter viés positivo quando a prática declarada não está suficientemente implementada ou comprovada.
-* **Análise por cenários, não intervalo estatístico:** os cenários base e final não constituem limites probabilísticos de um intervalo de confiança. Eles representam duas formas substantivamente distintas de mensurar 2026.
+* **Diferença de verificação documental:** a avaliação documental de 2026 abrangeu um conjunto maior de práticas que a realizada em 2023. O cenário final incorpora os ajustes acolhidos pela equipe, mas não atesta a comprovação de todas as práticas declaradas. O cenário final pode, por isso, apresentar viés negativo na comparação longitudinal.
+* **Limitação das respostas declaradas:** o cenário base reduz a diferença de verificação entre os anos, mas pode apresentar pontuações maiores quando a prática declarada não está suficientemente implementada ou comprovada.
+* **Comparação entre cenários:** os cenários base e final mostram os resultados antes e depois dos ajustes das respostas de 2026. Eles não constituem um intervalo de confiança.
 * **Amostra pareada:** a análise descreve as 68 organizações presentes nos dois anos. Ela não representa as dez organizações de 2023 sem par, as 45 organizações de 2026 sem histórico nem, necessariamente, todo o universo jurisdicionado. A presença de apenas quatro municípios limita a análise por esfera à descrição dos casos observados e impede sua generalização para os demais municípios.
-* **Ausência de amostragem probabilística:** as organizações não constituem amostra aleatória. Os testes medem a consistência das diferenças na amostra sob a hipótese nula e não fundamentam extrapolação irrestrita a outras organizações.
-* **Comparabilidade de mensuração:** o cálculo ajustado comparável reduz diferenças de estrutura entre os questionários, mas não assegura identidade completa de redação, contexto, respondente, documentação disponível ou processo de coleta.
-* **Ausência de inferência causal:** o desenho com duas observações temporais não isola efeitos de mudanças normativas, reorganizações administrativas, alterações do instrumento, disponibilidade de evidências ou outras condições externas. Os resultados demonstram associação temporal, não causalidade.
+* **Seleção das organizações:** as organizações comparadas não foram escolhidas por sorteio. Foram incluídas aquelas com resultados disponíveis e comparáveis nos dois anos. Os testes não permitem estender automaticamente as conclusões às demais organizações.
+* **Diferenças entre os questionários:** o cálculo ajustado comparável reduz diferenças de estrutura entre os questionários, mas não assegura identidade completa de redação, contexto, respondente, documentação disponível ou processo de coleta.
+* **Limites para explicar as causas das mudanças:** a comparação entre dois anos não permite separar os efeitos de mudanças normativas, reorganizações administrativas, alterações do questionário ou diferenças na documentação disponível. Assim, os resultados mostram mudanças nas pontuações, mas não identificam, por si só, suas causas.
 * **Significância e materialidade:** um resultado significativo pode ter importância prática distinta conforme o componente. Um resultado não significativo pode conter variações relevantes em organizações específicas. A leitura deve combinar p-valores, magnitude, intervalos e distribuição dos pares.
-* **Sensibilidade ao método:** algumas conclusões do cenário base próximas ao limiar variaram entre Wilcoxon e teste t. Essas diferenças não alteraram a conclusão do iGovTI global, mas desaconselham interpretação categórica de componentes limítrofes.
-* **Permutações e bootstrap:** os p-valores por permutação e os intervalos por bootstrap são estimativas numéricas. A semente fixa torna a execução reproduzível.
+* **Influência do método estatístico:** algumas conclusões do cenário base próximas ao limiar variaram entre Wilcoxon e teste t. Essas diferenças não alteraram a conclusão do iGovTI global, mas desaconselham interpretação categórica de componentes limítrofes.
+* **Permutações e bootstrap:** os p-valores e os intervalos foram estimados por procedimentos computacionais. Foi utilizada uma configuração fixa de geração dos números aleatórios para permitir a reprodução dos resultados.
 
 Em razão dessas limitações, as expressões “aumento” e “redução” estatisticamente significativos referem-se ao comportamento das pontuações comparáveis na amostra e no cenário indicado. Elas não devem ser convertidas, sem análise adicional, em afirmação causal de melhora ou deterioração das práticas de todas as organizações.
 
@@ -253,12 +259,12 @@ A resposta à questão sobre evolução do iGovTI depende do cenário de 2026 ut
 
 No **cenário base**, formado pelas respostas autodeclaradas após os ajustes iniciais, houve aumento estatisticamente significativo do iGovTI global: a média passou de 0,180 para 0,248, com avanço em 43 das 68 organizações. Esse resultado indica evolução da maturidade **declarada** entre os ciclos.
 
-No **cenário final**, posterior à avaliação abrangente das evidências e dos comentários dos gestores, a média foi 0,189 e não houve evidência estatística de mudança do iGovTI global. Esse resultado possui maior asseguração para 2026, mas sua comparação com 2023 está sujeita a viés negativo, porque o ciclo anterior não recebeu verificação documental de igual abrangência.
+No **cenário final**, que incorpora os ajustes acolhidos após a avaliação das evidências e dos comentários dos gestores, a média foi 0,189 e não houve evidência estatística de mudança do iGovTI global. Esse resultado incorpora uma verificação documental mais abrangente em 2026. Por isso, a comparação com 2023 deve considerar que parte da diferença nas pontuações pode decorrer do maior rigor dessa verificação.
 
 Consequentemente, não é adequado concluir, de forma isolada, que “não houve evolução” nem que “houve evolução comprovada” do iGovTI global. A conclusão sustentada pelos dois cenários é que **houve evolução nas respostas autodeclaradas, mas essa evolução não permaneceu demonstrada no índice global após a avaliação documental mais abrangente de 2026**.
 
-No nível dos componentes, o aumento em Estrutura de segurança da informação foi o único resultado significativo nos dois cenários e constitui a evidência longitudinal mais robusta. Os aumentos em Gestão de TIC, Planejamento, Serviços, Processos de segurança da informação e Projetos dependem do cenário base. As reduções em Pessoas e Contratações aparecem apenas no cenário final e não devem ser atribuídas exclusivamente a deterioração institucional, pois são fortemente influenciadas pela diferença de asseguração.
+No nível dos componentes, o aumento em Estrutura de segurança da informação foi o único resultado significativo nos dois cenários e constitui a evidência longitudinal mais robusta. Os aumentos em Gestão de TIC, Planejamento, Serviços, Processos de segurança da informação e Projetos dependem do cenário base. As reduções em Pessoas e Contratações aparecem apenas no cenário final e não devem ser atribuídas exclusivamente a deterioração institucional, pois são fortemente influenciadas pela diferença de verificação documental.
 
 A leitura preliminar por esfera indica que os avanços se concentraram principalmente nas organizações estaduais. Entre os quatro municípios pareados, dois avançaram e dois regrediram no iGovTI em ambos os cenários, resultado que não permite afirmar uma tendência municipal comum.
 
-A interpretação institucional deve, portanto, apresentar simultaneamente os dois cenários e reservar afirmações categóricas de evolução ou regressão às conclusões que se mantenham após o exame da comparabilidade dos critérios e do nível de comprovação aplicado em cada ciclo.
+Os dois cenários devem ser apresentados em conjunto. As conclusões sobre evolução ou regressão devem considerar tanto as diferenças entre os questionários quanto a abrangência da verificação documental em cada ano.
